@@ -1,0 +1,4 @@
+﻿* 07.05.2018: Added class BuiltInWindowsAccountsLocalize to localize Windows built in account names.
+* 03.06.2018: Added WM_MOUSEMOVE to the HumanActivity class.
+* 23.07.2018: Added NetSH class to help give a permission to a web service for to host in a specific URL and specific port
+* 23.07.2018: Added ObjectSerialization containing helper methods to for object serialization and deserialization

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="msgAddDB" xml:space="preserve">
+    <value>Adding songs: {0} / {1}...|A conditional database add is in progress.</value>
+  </data>
+  <data name="msgAddDBAlbum" xml:space="preserve">
+    <value>Adding songs to album: {0} / {1}...|A conditional database album add is in progress.</value>
+  </data>
+  <data name="msgDefault" xml:space="preserve">
+    <value>Default|Default as in default album</value>
+  </data>
+  <data name="msgIDSong" xml:space="preserve">
+    <value>Identifying songs: {0} / {1}...|Songs are identified based on the database song data.</value>
+  </data>
+  <data name="msgInQueue" xml:space="preserve">
+    <value>In queue: {0}|How many songs ar in the queue</value>
+  </data>
+  <data name="msgLoadingAlbum" xml:space="preserve">
+    <value>Loading album '{0}'...|Text for loading an album (enumerating files and their tags)</value>
+  </data>
+  <data name="msgLoadMeta" xml:space="preserve">
+    <value>Metadata loading: {0} / {1}...|Song metadata(tags) is being loaded.</value>
+  </data>
+  <data name="msgPause" xml:space="preserve">
+    <value>Pause|Pause playback</value>
+  </data>
+  <data name="msgPlay" xml:space="preserve">
+    <value>Play|Play a song or resume paused</value>
+  </data>
+  <data name="msgReadingTags" xml:space="preserve">
+    <value>Reading tags {0}...|The program is reading tag information from music files</value>
+  </data>
+  <data name="msgUnsupportedExt" xml:space="preserve">
+    <value>Unsupported file extension.|The file extension is not in the list of supported file types.</value>
+  </data>
+  <data name="msgUpdateDB" xml:space="preserve">
+    <value>Updating song list: {0} / {1}...|A conditional database update is in progress.</value>
+  </data>
+  <data name="msgWorking" xml:space="preserve">
+    <value>Working...|The program is loading something</value>
+  </data>
+  <data name="msgAboutTitle" xml:space="preserve">
+    <value>About - {0}|About as in about</value>
+  </data>
+  <data name="msgVersionText" xml:space="preserve">
+    <value>Version {0}|As in version</value>
+  </data>
+  <data name="msgQueue" xml:space="preserve">
+    <value>Queue|As in a queue snapshot</value>
+  </data>
+  <data name="msgError" xml:space="preserve">
+    <value>Error|A common error that should be defined in another message</value>
+  </data>
+  <data name="msgInformation" xml:space="preserve">
+    <value>Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'...</value>
+  </data>
+  <data name="msgQueueSomething" xml:space="preserve">
+    <value>Please add some songs to the queue.|Ask in nicely ask the user to queue some songs.</value>
+  </data>
+  <data name="msgTmpAlbumError" xml:space="preserve">
+    <value>The current album is temporary album.{0}Please create an album with a name before continuing.|Album is a temporary one i.e. you clicked a music file and the program started. Can't save a anything against a temporary album.</value>
+  </data>
+  <data name="msgConfirmation" xml:space="preserve">
+    <value>Confirm|Used in a dialog title to ask for a confirmation to do something</value>
+  </data>
+  <data name="msgModifyQueueCaption" xml:space="preserve">
+    <value>Modify saved queue [{0}]|A text to display in the window title where a saved queue is being modified</value>
+  </data>
+  <data name="msgRemoveQueueSnapshot" xml:space="preserve">
+    <value>Are you sure you want to remove queue snapshot {0}?|A confirmation question if a queue snapshot can be removed when asked from the user</value>
+  </data>
+  <data name="msgQuietHours" xml:space="preserve">
+    <value>[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(</value>
+  </data>
+  <data name="msgRemoteWCFFailed" xml:space="preserve">
+    <value>Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.</value>
+  </data>
+  <data name="msgExportQueueTo" xml:space="preserve">
+    <value>Export queue to file|As in export a queue snapshot to a file</value>
+  </data>
+  <data name="msgFileExt_amp_qex" xml:space="preserve">
+    <value>amp# queue export files (*.amp#_qex)|*.amp#_qex|as in the combo box to select file type from a dialog</value>
+  </data>
+  <data name="msgFileExt_m3u" xml:space="preserve">
+    <value>M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog</value>
+  </data>
+  <data name="msgImportQueueFrom" xml:space="preserve">
+    <value>Import queue from file|As in import a queue snapshot from a file</value>
+  </data>
+  <data name="msgOpenPlaylistFile" xml:space="preserve">
+    <value>Open playlist file|As in open a play list file (m3u)</value>
+  </data>
+  <data name="msgSavePlaylistFile" xml:space="preserve">
+    <value>Save playlist file|As in export an album to a playlist file (m3u)</value>
+  </data>
+</root>

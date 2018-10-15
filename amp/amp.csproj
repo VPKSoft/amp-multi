@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{744E53A2-A406-4412-B8A4-D50CCB0501E6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>amp</RootNamespace>
+    <AssemblyName>amp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;AMP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NAudio.Flac, Version=1.0.5702.29018, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Flac.1.0.5702.29018\lib\net45\NAudio.Flac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NAudio.Vorbis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.Wma.1.0.1\lib\net35\NAudio.WindowsMediaFormat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NVorbis.0.8.5.0\lib\NVorbis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="policy.2.0.taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.109.1\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.About">
+      <HintPath>..\VPKSoft.About_release\VPKSoft.About.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.LangLib, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.LangLib.1.0.1.2\lib\net461\VPKSoft.LangLib.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.PosLib, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.PosLib.1.0.1.1\lib\net45\VPKSoft.PosLib.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.Utils, Version=1.0.3.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.Utils.1.0.3.7\lib\net45\VPKSoft.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormTagInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTagInfo.Designer.cs">
+      <DependentUpon>FormTagInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IampRemote.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="FormAddAlbum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddAlbum.Designer.cs">
+      <DependentUpon>FormAddAlbum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAlbumImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAlbumImage.Designer.cs">
+      <DependentUpon>FormAlbumImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormModifySavedQueue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModifySavedQueue.Designer.cs">
+      <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPsycho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPsycho.Designer.cs">
+      <DependentUpon>FormPsycho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormQueueSnapshotName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQueueSnapshotName.Designer.cs">
+      <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormRename.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRename.designer.cs">
+      <DependentUpon>FormRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSavedQueues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSavedQueues.Designer.cs">
+      <DependentUpon>FormSavedQueues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeySendList.cs" />
+    <Compile Include="M3U.cs" />
+    <Compile Include="MainWindow.Additional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AmpRemote.cs" />
+    <Compile Include="Mainwindow.FindAndKeyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.WCF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MusicFile.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RefreshListbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RefreshListbox.Designer.cs">
+      <DependentUpon>RefreshListbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptRunner.cs" />
+    <EmbeddedResource Include="FormAddAlbum.resx">
+      <DependentUpon>FormAddAlbum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAlbumImage.resx">
+      <DependentUpon>FormAlbumImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormModifySavedQueue.resx">
+      <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPsycho.resx">
+      <DependentUpon>FormPsycho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormQueueSnapshotName.resx">
+      <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRename.resx">
+      <DependentUpon>FormRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSavedQueues.resx">
+      <DependentUpon>FormSavedQueues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTagInfo.resx">
+      <DependentUpon>FormTagInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Messages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Script.sql_script">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DBLocalization.exe" />
+    <Content Include="history.txt" />
+    <Content Include="icon.ico" />
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VPKSoft.ico" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\Go forward.png" />
+    <None Include="Resources\Go back.png" />
+    <None Include="Resources\Upload.png" />
+    <None Include="Resources\Download.png" />
+    <None Include="Resources\settings %281%29.png" />
+    <None Include="Resources\Down.png" />
+    <None Include="Resources\Up.png" />
+    <None Include="Resources\Refresh.png" />
+    <None Include="Resources\Modify.png" />
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\Delete.png" />
+    <None Include="Resources\open.png" />
+    <None Include="Resources\Save-as32.png" />
+    <None Include="Resources\music-note.png" />
+    <None Include="Resources\OK.png" />
+    <None Include="Resources\VPKSoftLogo_App.png" />
+    <None Include="Resources\volume_slider.png" />
+    <None Include="Resources\volume_over.png" />
+    <None Include="Resources\album_teal.png" />
+    <None Include="Resources\album_red.png" />
+    <None Include="Resources\album_orange.png" />
+    <None Include="Resources\album_green.png" />
+    <None Include="Resources\album_byellow.png" />
+    <None Include="Resources\album_blue.png" />
+    <None Include="Resources\m3u2.png" />
+    <None Include="Resources\select all.png" />
+    <None Include="Resources\amp_dequeue.png" />
+    <None Include="Resources\media-optical-data-new.png" />
+    <None Include="Resources\album_yellow.png" />
+    <None Include="Resources\album.png" />
+    <None Include="Resources\amp_repeat.png" />
+    <None Include="Resources\amp_shuffle.png" />
+    <None Include="Resources\amp_queue.png" />
+    <None Include="Resources\amp_play.png" />
+    <None Include="Resources\amp_pause.png" />
+    <None Include="Resources\amp_forward.png" />
+    <None Include="Resources\amp_back.png" />
+    <None Include="Resources\queue.png" />
+    <None Include="Resources\stars.png" />
+    <None Include="Resources\loading.png" />
+    <None Include="Resources\volume.png" />
+    <None Include="Resources\stop.png" />
+    <None Include="Resources\speed_forward.png" />
+    <None Include="Resources\speed_backward.png" />
+    <None Include="Resources\shuffle.png" />
+    <None Include="Resources\play.png" />
+    <None Include="Resources\pause.png" />
+    <None Include="Resources\forward.png" />
+    <None Include="Resources\backward.png" />
+    <None Include="Resources\random.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
