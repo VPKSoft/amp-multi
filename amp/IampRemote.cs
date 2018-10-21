@@ -145,6 +145,13 @@ namespace amp
         bool Paused();
 
         /// <summary>
+        /// Scrambles the queue to have new random indices.
+        /// </summary>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        [OperationContract]
+        bool ScrambleQueue();
+
+        /// <summary>
         /// Pauses the playback if not already paused.
         /// </summary>
         [OperationContract]
@@ -238,12 +245,31 @@ namespace amp
         bool SetVolume(float volume);
 
         /// <summary>
+        /// Sets the volume for multiple songs with a given list of ID numbers.
+        /// </summary>
+        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="volume">The volume to set for the given songs. This value must be between 0 and 2 where 1 means original volume.</param>
+        /// <returns>True if the given list was valid and the and the given volume was within acceptable range, otherwise false.</returns>
+        [OperationContract]
+        bool SetVolumeMultiple(List<int> songIDList, float volume);
+
+        /// <summary>
         /// Sets the rating (stars) of the currently playing song. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
         /// </summary>
         /// <param name="rating">A rating for the song. This value must be between 0 and 1000 where 500 means a normal rating.</param>
         /// <returns>True if a song was playing which rating to set and the given rating was within acceptable range, otherwise false.</returns>
         [OperationContract]
         bool SetRating(int rating);
+
+        /// <summary>
+        /// Sets the rating (stars) for the songs matching the given song ID list. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
+        /// </summary>
+        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="rating">A rating for the songs. This value must be between 0 and 1000 where 500 means a normal rating.</param>
+        /// <returns>True if a songs which rating to set was a valid list and the given rating was within acceptable range, otherwise false.</returns>
+        [OperationContract]
+        bool SetRatingMultiple(List<int> songIDList, int rating);
+
 
         /// <summary>
         /// Gets a list of saved queues for a given album ID.

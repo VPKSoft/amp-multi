@@ -34,6 +34,7 @@ namespace amp
         private string tTitle;
         private int id;
         private int queueIndex = -1;
+        private int alternateQueueIndex = -1;
         private int lastQueueIndex = 0;
         private int visualIndex = 0;
         private bool picLoaded = false;
@@ -354,6 +355,17 @@ namespace amp
             }
         }
 
+        public int AlternateQueueIndex
+        {
+            get
+            {
+                return alternateQueueIndex;
+            }
+            set
+            {
+                alternateQueueIndex = value;
+            }
+        }
         public int LastQueueIndex
         {
             get
@@ -512,28 +524,141 @@ namespace amp
             //::QUEUE
         }
 
-
-        public string ToString(bool queue)
+        #region AlternateQueue
+        internal int GetFirstAlternateQueueIndex(ref List<MusicFile> files)
         {
-            if (overrideName != string.Empty)
+            int qIdx = int.MaxValue;
+            foreach (MusicFile mf in files)
             {
-                return overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "");
+                if (mf.AlternateQueueIndex > 0 && mf.AlternateQueueIndex < qIdx)
+                {
+                    qIdx = mf.AlternateQueueIndex;
+                }
+            }
+            return qIdx == int.MaxValue ? 1 : qIdx;
+        }
+
+        public void QueueInsertAlternate(ref List<MusicFile> files, bool filtered, int mfIndex = -1) // 14.10.17
+        {
+            if (AlternateQueueIndex > 0)
+            {
+                QueueAlternate(ref files);
+            }
+
+            if ((filtered || mfIndex != -1) && QueueIndex == 0)
+            {
+                foreach (MusicFile mf in files)
+                {
+                    if (mf.AlternateQueueIndex > 0)
+                    {
+                        mf.AlternateQueueIndex++; //::QUEUE
+                    }
+                }
+                AlternateQueueIndex = 1; //::QUEUE
+                return;
+            }
+
+
+            int iQueue = 0;
+
+            int idx = files.IndexOf(this); // hope nobody does sort the list !!
+            int idFirst = -1, idLast = -1;
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                if (i == idx)
+                {
+                    continue;
+                }
+
+                if (files[i].AlternateQueueIndex > iQueue && i < idx)
+                {
+                    iQueue = files[i].AlternateQueueIndex;
+                    idFirst = i;
+                }
+                else if (files[i].AlternateQueueIndex > iQueue && i > idx)
+                {
+                    iQueue = files[i].AlternateQueueIndex;
+                    idLast = i;
+                }
+            }
+
+            if (idLast < idx && idFirst > idx)
+            {
+                AlternateQueueIndex = files[idFirst].AlternateQueueIndex; //::QUEUE
+            }
+            else if (idFirst >= 0 && idFirst < idx)
+            {
+                AlternateQueueIndex = files[idFirst].AlternateQueueIndex + 1; //::QUEUE
             }
             else
             {
-                return (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "");
+                AlternateQueueIndex = AlternateQueueIndex == 0 ? 1 : iQueue; //::QUEUE
+            }
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                if (files[i].AlternateQueueIndex >= AlternateQueueIndex && idx != i)
+                {
+                    files[i].AlternateQueueIndex++; //::QUEUE
+                }
+            }
+        }
+
+        public void QueueAlternate(ref List<MusicFile> files)
+        {
+            int iQueue = 0;
+            foreach (MusicFile mf in files)
+            {
+                if (mf.AlternateQueueIndex > iQueue)
+                {
+                    iQueue = mf.AlternateQueueIndex;
+                }
+            }
+            if (AlternateQueueIndex >= 1)
+            {
+                int tmp = AlternateQueueIndex;
+                AlternateQueueIndex = 0;
+                foreach (MusicFile mf in files)
+                {
+                    if (mf.AlternateQueueIndex > tmp)
+                    {
+                        mf.AlternateQueueIndex--; //::QUEUE
+                    }
+                }
+                return;
+            }
+            AlternateQueueIndex = iQueue + 1;
+            //::QUEUE
+        }
+
+        #endregion
+
+        string leftTextMargin = "    ";
+
+        public string ToString(bool queue)
+        {
+            string alternateQueue = AlternateQueueIndex > 0 ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
+            if (overrideName != string.Empty)
+            {
+                return leftTextMargin + overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
+            }
+            else
+            {
+                return leftTextMargin + (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
         }
 
         public override string ToString()
         {
+            string alternateQueue = AlternateQueueIndex > 0 ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
             if (overrideName != string.Empty)
             {
-                return overrideName + (queueIndex >= 1 ? " [" + queueIndex + "]" : "");
+                return leftTextMargin + overrideName + (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
             else
             {
-                return (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + (queueIndex >= 1 ? " [" + queueIndex + "]" : "");
+                return leftTextMargin + (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
         }
 

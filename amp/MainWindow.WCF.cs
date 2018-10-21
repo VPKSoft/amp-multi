@@ -166,9 +166,17 @@ namespace amp
                     mf.Queue(ref PlayList);
                 }
             }
+
+            if (QueueShowing) // refresh the queue list if it's showing..
+            {
+                ShowQueue();
+            }
+
             lbMusic.RefreshItems();
             GetQueueCount();
         }
+
+
 
         /// <summary>
         /// For the remote interface..
@@ -207,6 +215,12 @@ namespace amp
                     mf.Queue(ref PlayList);
                 }
             }
+
+            if (QueueShowing) // refresh the queue list if it's showing..
+            {
+                ShowQueue();
+            }
+
             lbMusic.RefreshItems();
             GetQueueCount();
         }
@@ -333,6 +347,63 @@ namespace amp
                 return false;
             }
             return false;
+        }
+
+        public bool SetVolume(List<int> songIDList, float volume)
+        {
+            if (volume >= 0F && volume <= 2.0F && songIDList != null && songIDList.Count > 0)
+            {
+                for (int i = 0; i < PlayList.Count; i++)
+                {                    
+                    if (songIDList.Exists(f => f == PlayList[i].ID))
+                    {
+                        PlayList[i].Volume = volume;
+                        Database.SaveVolume(PlayList[i], conn);
+                        int lbIdx = GetListBoxIndexByID(PlayList[i].ID);
+                        if (lbIdx >= 0)
+                        {
+                            lbMusic.Items[lbIdx] = PlayList[i];
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool SetRating(List<int> songIDList, int rating)
+        {
+            if (rating >= 0 && rating <= 1000 && songIDList != null && songIDList.Count > 0)
+            {
+                for (int i = 0; i < PlayList.Count; i++)
+                {
+                    if (songIDList.Exists(f => f == PlayList[i].ID))
+                    {
+                        PlayList[i].Rating = rating;
+                        PlayList[i].RatingChanged = true;
+                        Database.SaveRating(PlayList[i], conn);
+                        int lbIdx = GetListBoxIndexByID(PlayList[i].ID);
+                        if (lbIdx >= 0)
+                        {
+                            lbMusic.Items[lbIdx] = PlayList[i];
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private int GetListBoxIndexByID(int ID)
+        {
+            for (int i = 0; i < lbMusic.Items.Count; i++)
+            {
+                if (((MusicFile)lbMusic.Items[i]).ID == ID)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         public List<AlbumWCF> GetAlbums()

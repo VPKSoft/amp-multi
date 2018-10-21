@@ -213,6 +213,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap amp_scramble_queue {
+            get {
+                object obj = ResourceManager.GetObject("amp_scramble_queue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap amp_shuffle {
             get {
                 object obj = ResourceManager.GetObject("amp_shuffle", resourceCulture);

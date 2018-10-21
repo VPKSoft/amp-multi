@@ -700,8 +700,7 @@ namespace amp
         void Database_DatabaseProgress(DatabaseEventArgs e)
         {
             if (e.EventType == DatabaseEventType.UpdateSongDB)
-            {
-                
+            {                
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgUpdateDB", "Updating song list: {0} / {1}...|A conditional database update is in progress.", e.Progress, e.ProgressEnd));
             }
             else if (e.EventType == DatabaseEventType.InsertSongDB)
@@ -810,7 +809,7 @@ namespace amp
             {
                 FormPsycho.UnExecute();
             }
-            filtered = false;
+            Filtered = false;
             albumLoading = false;
             albumChanged = true;
         }
@@ -861,6 +860,7 @@ namespace amp
                         lbMusic.SelectedIndex = iIndex;
                     }
                     e.Handled = true;
+                    e.SuppressKeyPress = true;
                     lbMusic.Focus();
                 }
                 else if (e.KeyCode == Keys.Up)
@@ -877,6 +877,7 @@ namespace amp
                         lbMusic.SelectedIndex = iIndex;
                     }
                     e.Handled = true;
+                    e.SuppressKeyPress = true;
                     lbMusic.Focus();
                 }
             }
@@ -909,15 +910,29 @@ namespace amp
 
         private int GetQueueCountNum()
         {
-            int queueCount = 0;
-            foreach (MusicFile mf in PlayList)
+            return PlayList.Count(f => f.QueueIndex > 0);
+        }
+
+        private int queueCount = 0;
+        /// <summary>
+        /// Saves the current queue count.
+        /// </summary>
+        private void PushQueueCount()
+        {
+            queueCount = GetQueueCountNum();
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the queue count has been changed after last call to PushQueueCount method.
+        /// </summary>
+        private bool QueueChanged
+        {
+            get
             {
-                if (mf.QueueIndex > 0)
-                {
-                    queueCount++;
-                }
+                bool result = queueCount != GetQueueCountNum();
+                queueCount = 0; // do auto-reset..
+                return result;
             }
-            return queueCount;
         }
 
         private void GetQueueCount()
@@ -1042,7 +1057,7 @@ namespace amp
 
         private void pnStars0_MouseClick(object sender, MouseEventArgs e)
         {
-            if (mFile != null)
+            if (mFile != null || lbMusic.SelectedIndices.Count > 0)
             {
                 int stars = 0;
                 if (sender == pnStars0)
@@ -1055,23 +1070,73 @@ namespace amp
                     pnStars1.Left += e.X;
                     stars = (int)(500 * ((double)pnStars1.Left / 88.0));
                 }
-                mFile.Rating = stars;
-                mFile.RatingChanged = true;
-                Database.SaveRating(mFile, conn);
+
+                if (mFile != null)
+                {
+                    mFile.Rating = stars;
+                    mFile.RatingChanged = true;
+                    Database.SaveRating(mFile, conn);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
+                    mf.Rating = stars;
+                    mf.RatingChanged = true;
+                    Database.SaveRating(mf, conn);
+                    lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
+                }
             }
         }
 
         private void tbShowQueue_Click(object sender, EventArgs e)
         {
-            lbMusic.Items.Clear();
-            foreach (MusicFile mf in PlayList)
+            ShowQueue();
+        }
+
+        internal void ShowQueue()
+        {
+            lbMusic.Invoke(new MethodInvoker(() =>
             {
-                if (mf.QueueIndex > 0)
+                if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
+                {
+                    return;
+                }
+                lbMusic.Items.Clear();
+                List<MusicFile> queuedSongs = new List<MusicFile>();
+                foreach (MusicFile mf in PlayList)
+                {
+                    if (mf.QueueIndex > 0)
+                    {
+                        queuedSongs.Add(mf);
+                    }
+                }
+                queuedSongs = queuedSongs.OrderBy(f => f.QueueIndex).ToList();
+
+                foreach (MusicFile mf in queuedSongs)
                 {
                     lbMusic.Items.Add(mf);
                 }
+            }));
+
+            Filtered = true;
+            queueShowing = true;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the queue is being displayed on the form.
+        /// </summary>
+        internal bool QueueShowing
+        {
+            get
+            {
+                if (PlayList.Count(f => f.QueueIndex > 0) == 0)
+                {
+                    queueShowing = false;
+                    Filtered = false;
+                }
+                return queueShowing;
             }
-            filtered = true;
         }
 
         private void mnuDeQueue_Click(object sender, EventArgs e)
@@ -1088,8 +1153,73 @@ namespace amp
             if (affected)
             {
                 lbMusic.RefreshItems();
-                GetQueueCount();
+                GetQueueCount();                
+                if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
+                {
+                    ShowPlayingSong();
+                }
             }
+        }
+
+        private void mnuScrambleQueue_Click(object sender, EventArgs e)
+        {
+            ScrambleQueue(); // scramble the queue to have new random indices..
+        }
+
+        /// <summary>
+        /// Scrambles the queue to have new random indices.
+        /// </summary>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool ScrambleQueue()
+        {
+            humanActivity.Enabled = false;
+            bool affected = false; // if any songs in the play list was affected..
+            List<int> queueIndices = new List<int>(); // the list of current queue indices..
+            List<int> newQueueIndices = new List<int>(); // the list of new current queue indices..
+
+            // get the current queue indices..
+            foreach (MusicFile mf in PlayList)
+            {
+                if (mf.QueueIndex > 0)
+                {
+                    queueIndices.Add(mf.QueueIndex);
+                }
+            }
+
+            // if there is nothing queued do not continue the method execution..
+            if (queueIndices.Count == 0)
+            {
+                humanActivity.Enabled = true;
+                return affected;
+            }
+
+            // randomize the new indices..
+            for (int i = 0; i < queueIndices.Count; i++)
+            {
+                int newQueueIndex = random.Next(queueIndices.Count) + 1;
+                while ((queueIndices[i] == newQueueIndex && i != queueIndices.Count - 1) || newQueueIndices.Exists(f => f == newQueueIndex))
+                {
+                    newQueueIndex = random.Next(queueIndices.Count) + 1;
+                }
+                newQueueIndices.Add(newQueueIndex);
+                affected = true;
+            }
+
+            int nextIndex = 0;
+            foreach (MusicFile mf in PlayList)
+            {
+                if (mf.QueueIndex > 0)
+                {
+                    mf.QueueIndex = newQueueIndices[nextIndex++];
+                }
+            }
+
+            if (affected)
+            {
+                ShowQueue();
+            }
+            humanActivity.Enabled = true;
+            return affected;
         }
 
         private void mnuSelectAll_Click(object sender, EventArgs e)
@@ -1127,6 +1257,8 @@ namespace amp
             }
         }
 
+        private bool queueEmpty = false;
+
         private void ShowPlayingSong()
         {
             for (int i = 0; i < lbMusic.Items.Count; i++ )
@@ -1137,12 +1269,24 @@ namespace amp
                     return;
                 }
             }
-            lbMusic.Items.Clear();
-            foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+
+            if (QueueShowing) // avoid the queue to go
             {
-                lbMusic.Items.Add(mf);
+                return;
             }
-            filtered = false;
+
+            if (Filtered || queueEmpty != QueueShowing) // only do this "jump" if the list is filtered..
+            {
+                lbMusic.Items.Clear();
+                foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+                {
+                    lbMusic.Items.Add(mf);
+                }
+            }
+
+            queueEmpty = QueueShowing;
+
+            Filtered = false;
             for (int i = 0; i < lbMusic.Items.Count; i++)
             {
                 if (mFile == (lbMusic.Items[i] as MusicFile))
@@ -1305,23 +1449,41 @@ namespace amp
 
         private void pnVol1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (volumeStream != null)
+            if ((mFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
             {
+                float volume = 1;
                 if (sender == pnVol1)
                 {
-                    volumeStream.Volume = 1.0F * ((float)e.X / 50F);
+                    volume = 1.0F * ((float)e.X / 50F);
                     pnVol2.Left = e.X;
                 }
                 else if (sender == pnVol2)
                 {
-                    pnVol2.Left += e.X;
-                    volumeStream.Volume = 1.0F * ((float)pnVol2.Left / 50F);
+                    volume = 1.0F * ((float)pnVol2.Left / 50F);
+                    pnVol2.Left += e.X;                    
+                }
+
+                if (volumeStream != null)
+                {
+                    volumeStream.Volume = volume;
                 }
 
                 if (mFile != null)
                 {
                     mFile.Volume = volumeStream.Volume;
                     Database.SaveVolume(mFile, conn);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    int idx = lbMusic.SelectedIndices[i];
+                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile)lbMusic.Items[idx]).ID);
+                    if (index >= 0)
+                    {
+                        PlayList[index].Volume = volume;
+                        lbMusic.Items[idx] = PlayList[index];
+                        Database.SaveVolume(PlayList[index], conn);
+                    }
                 }
             }
         }
@@ -1359,6 +1521,16 @@ namespace amp
             if (queueName != string.Empty)
             {
                 Database.SaveQueueSnapshot(PlayList, conn, CurrentAlbum, queueName);
+            }
+
+            // the alternate queue must go away..
+            if (PlayList.Exists(f => f.AlternateQueueIndex >= 0))
+            {
+                for (int i = 0; i < PlayList.Count; i++)
+                {
+                    PlayList[i].AlternateQueueIndex = 0;
+                }
+                lbMusic.RefreshItems();
             }
         }
 

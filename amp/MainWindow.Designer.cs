@@ -47,6 +47,7 @@
             this.mnuLoadQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShowQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDeQueue = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuScrambleQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTool = new System.Windows.Forms.ToolStrip();
             this.tbRand = new System.Windows.Forms.ToolStripButton();
@@ -192,7 +193,8 @@
             this.mnuSaveQueue,
             this.mnuLoadQueue,
             this.mnuShowQueue,
-            this.mnuDeQueue});
+            this.mnuDeQueue,
+            this.mnuScrambleQueue});
             this.mnuQueue.Name = "mnuQueue";
             this.mnuQueue.Size = new System.Drawing.Size(54, 20);
             this.mnuQueue.Text = "Queue";
@@ -217,6 +219,7 @@
             // 
             this.mnuShowQueue.Image = global::amp.Properties.Resources.amp_queue;
             this.mnuShowQueue.Name = "mnuShowQueue";
+            this.mnuShowQueue.ShortcutKeys = System.Windows.Forms.Keys.F6;
             this.mnuShowQueue.Size = new System.Drawing.Size(179, 22);
             this.mnuShowQueue.Text = "Show queue";
             this.mnuShowQueue.Click += new System.EventHandler(this.tbShowQueue_Click);
@@ -229,6 +232,15 @@
             this.mnuDeQueue.Size = new System.Drawing.Size(179, 22);
             this.mnuDeQueue.Text = "Clear queue";
             this.mnuDeQueue.Click += new System.EventHandler(this.mnuDeQueue_Click);
+            // 
+            // mnuScrambleQueue
+            // 
+            this.mnuScrambleQueue.Image = global::amp.Properties.Resources.amp_scramble_queue;
+            this.mnuScrambleQueue.Name = "mnuScrambleQueue";
+            this.mnuScrambleQueue.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.mnuScrambleQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuScrambleQueue.Text = "Scramble queue";
+            this.mnuScrambleQueue.Click += new System.EventHandler(this.mnuScrambleQueue_Click);
             // 
             // mnuAbout
             // 
@@ -399,8 +411,7 @@
             // 
             // scProgress
             // 
-            this.scProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scProgress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scProgress.Location = new System.Drawing.Point(0, 78);
             this.scProgress.Name = "scProgress";
             this.scProgress.Size = new System.Drawing.Size(549, 13);
@@ -480,7 +491,7 @@
             this.lbSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSong.Location = new System.Drawing.Point(0, 0);
             this.lbSong.Name = "lbSong";
-            this.lbSong.Size = new System.Drawing.Size(503, 13);
+            this.lbSong.Size = new System.Drawing.Size(454, 13);
             this.lbSong.TabIndex = 11;
             this.lbSong.Text = "-";
             // 
@@ -578,6 +589,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuShowQueue;
         private System.Windows.Forms.ToolStripMenuItem mnuDeQueue;
         private System.Windows.Forms.ToolStripMenuItem mnuSongInfo;
+        private System.Windows.Forms.ToolStripMenuItem mnuScrambleQueue;
     }
 }
 

@@ -16,6 +16,7 @@ using System.ServiceModel; // for remote control..
 using System.ServiceModel.Description; // for remote control..
 using System.Data.SQLite; // for the database access..
 using System.Globalization;
+using System.Linq;
 
 namespace amp
 {
@@ -257,7 +258,21 @@ namespace amp
         public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
         {
             MainWindow.Queue(insert, queueList);
+            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            {
+                MainWindow.ShowQueue();
+            }
+
             return GetQueuedSongs();
+        }
+
+        /// <summary>
+        /// Scrambles the queue to have new random indices.
+        /// </summary>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool ScrambleQueue()
+        {
+            return MainWindow.ScrambleQueue();
         }
 
         /// <summary>
@@ -307,6 +322,12 @@ namespace amp
         public List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs)
         {
             MainWindow.Queue(insert, songIDs);
+
+            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            {
+                MainWindow.ShowQueue();
+            }
+
             return GetQueuedSongs();
         }
 
@@ -448,6 +469,18 @@ namespace amp
         }
 
         /// <summary>
+        /// Sets the volume for multiple songs with a given list of ID numbers.
+        /// </summary>
+        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="volume">The volume to set for the given songs. This value must be between 0 and 2 where 1 means original volume.</param>
+        /// <returns>True if the given list was valid and the and the given volume was within acceptable range, otherwise false.</returns>
+        public bool SetVolumeMultiple(List<int> songIDList, float volume) // 0.0-2.0
+        {
+            return MainWindow.SetVolume(songIDList, volume);
+        }
+
+
+        /// <summary>
         /// Sets the rating (stars) of the currently playing song. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
         /// </summary>
         /// <param name="rating">A rating for the song. This value must be between 0 and 1000 where 500 means a normal rating.</param>
@@ -455,6 +488,17 @@ namespace amp
         public bool SetRating(int rating) // 0-1000
         {
             return MainWindow.SetRating(rating);
+        }
+
+        /// <summary>
+        /// Sets the rating (stars) for the songs matching the given song ID list. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
+        /// </summary>
+        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="rating">A rating for the songs. This value must be between 0 and 1000 where 500 means a normal rating.</param>
+        /// <returns>True if a songs which rating to set was a valid list and the given rating was within acceptable range, otherwise false.</returns>
+        public bool SetRatingMultiple(List<int> songIDList, int rating)
+        {
+            return MainWindow.SetRating(songIDList, rating);
         }
 
         /// <summary>

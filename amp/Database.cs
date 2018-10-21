@@ -487,33 +487,59 @@ namespace amp
                 id = Convert.ToInt32(command.ExecuteScalar());
             }
 
-            foreach (MusicFile mf in files)
+            if (files.Exists(f => f.AlternateQueueIndex > 0)) // the alternate queue will be saved if an alternate queue does exist..
             {
-                using (SQLiteCommand command = new SQLiteCommand(conn))
+                foreach (MusicFile mf in files)
                 {
-                    if (mf.QueueIndex > 0)
+                    using (SQLiteCommand command = new SQLiteCommand(conn))
                     {
+                        if (mf.AlternateQueueIndex > 0)
+                        {
 
-                        sql =
-                            "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES( " + Environment.NewLine +
-                            id + ", " + Environment.NewLine +
-                            "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
-                            mf.ID + ", " + Environment.NewLine +
-                            mf.QueueIndex + ", " + Environment.NewLine +
-                            "'" + snapshotName.Replace("'", "''") + "') " + Environment.NewLine;
+                            sql =
+                                "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES( " + Environment.NewLine +
+                                id + ", " + Environment.NewLine +
+                                "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
+                                mf.ID + ", " + Environment.NewLine +
+                                mf.AlternateQueueIndex + ", " + Environment.NewLine +
+                                "'" + snapshotName.Replace("'", "''") + "') " + Environment.NewLine;
 
-                        command.CommandText = sql;
-                        command.ExecuteNonQuery();
+                            command.CommandText = sql;
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (MusicFile mf in files)
+                {
+                    using (SQLiteCommand command = new SQLiteCommand(conn))
+                    {
+                        if (mf.QueueIndex > 0)
+                        {
+
+                            sql =
+                                "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES( " + Environment.NewLine +
+                                id + ", " + Environment.NewLine +
+                                "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
+                                mf.ID + ", " + Environment.NewLine +
+                                mf.QueueIndex + ", " + Environment.NewLine +
+                                "'" + snapshotName.Replace("'", "''") + "') " + Environment.NewLine;
+
+                            command.CommandText = sql;
+                            command.ExecuteNonQuery();
 
 
-                        /*
-                          ID INTEGER NOT NULL,
-                          ALBUM_ID INTEGER NOT NULL, 
-                          SONG_ID INTEGER NOT NULL, 
-                          QUEUEINDEX INTEGER NOT NULL,
-                          SNAPSHOTNAME TEXT NOT NULL,
-                          SNAPSHOT_DATE DATE DEFAULT (datetime('now','localtime'))                  
-                         */
+                            /*
+                              ID INTEGER NOT NULL,
+                              ALBUM_ID INTEGER NOT NULL, 
+                              SONG_ID INTEGER NOT NULL, 
+                              QUEUEINDEX INTEGER NOT NULL,
+                              SNAPSHOTNAME TEXT NOT NULL,
+                              SNAPSHOT_DATE DATE DEFAULT (datetime('now','localtime'))                  
+                             */
+                        }
                     }
                 }
             }

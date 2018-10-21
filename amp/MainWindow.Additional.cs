@@ -105,6 +105,11 @@ namespace amp
                 if (iSongIndex != -1)
                 {
                     PlayList[iSongIndex].Queue(ref PlayList);
+                    if (QueueShowing) // refresh the queue list if it's showing..
+                    {
+                        ShowQueue();
+                    }
+
                     latestSongIndex = iSongIndex;
                     PlaySong(iSongIndex, false);
                 }
@@ -145,6 +150,11 @@ namespace amp
                 else
                 {
                     GetQueueCount();
+                }
+
+                if (!QueueShowing)
+                {
+                    ShowQueue();
                 }
             }
         }

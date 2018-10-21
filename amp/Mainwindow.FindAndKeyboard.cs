@@ -20,7 +20,26 @@ namespace amp
 {
     public partial class MainWindow : DBLangEngineWinforms
     {
-        private bool filtered = false; // if the list of files is somehow filtered
+        private bool _Filtered = false;
+        private bool Filtered // if the list of files is somehow filtered
+        {
+            get
+            {
+                return _Filtered;
+            }
+
+            set
+            {
+                _Filtered = value;
+
+                if (!value)
+                {
+                    queueShowing = false; // the queue is not showing either if not filtered..
+                }
+            }
+        }
+
+        private bool queueShowing = false; // if the list is filtered with queued songs..
 
         private void Find(bool onlyIfText = false)
         {
@@ -39,10 +58,10 @@ namespace amp
                     lbMusic.Items.Add(mf);
                 }
             }
-            filtered = tbFind.Text != string.Empty;
+            Filtered = tbFind.Text != string.Empty;
         }
 
-        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
+        private bool HandleKeyDown(ref KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -55,6 +74,7 @@ namespace amp
                     newsong = true;
                     e.Handled = true;
                 }
+                return true;
             }
             else if (e.KeyCode == Keys.Delete)
             {
@@ -71,6 +91,7 @@ namespace amp
                 Database.RemoveSongFromAlbum(CurrentAlbum, removeList, conn);
                 humanActivity.Enabled = true;
                 lbMusic.ResumeLayout();
+                return true;
             }
             else if (e.KeyCode == Keys.F2)
             {
@@ -85,6 +106,7 @@ namespace amp
                     e.Handled = true;
                     humanActivity.Enabled = true;
                 }
+                return true;
             }
             else if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
             {
@@ -92,13 +114,13 @@ namespace amp
                 {
                     if (e.Control)
                     {
-                        if (playing || filtered)
+                        if (playing || Filtered)
                         {
-                            mf.QueueInsert(ref PlayList, filtered, PlayList.IndexOf(mFile));
+                            mf.QueueInsert(ref PlayList, Filtered, PlayList.IndexOf(mFile));
                         }
                         else
                         {
-                            mf.QueueInsert(ref PlayList, filtered);
+                            mf.QueueInsert(ref PlayList, Filtered);
                         }
                     }
                     else
@@ -108,8 +130,54 @@ namespace amp
                 }
                 lbMusic.RefreshItems();
                 GetQueueCount();
+
+                if (QueueShowing) // refresh the queue list if it's showing..
+                {
+                    ShowQueue();
+                }
+
+                if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
+                {
+                    ShowPlayingSong();
+                }
                 e.Handled = true;
-                return;
+                e.SuppressKeyPress = true;
+                return true;
+            }
+            else if (e.KeyCode == Keys.Multiply)
+            {
+                foreach (MusicFile mf in lbMusic.SelectedItems)
+                {
+                    if (e.Control)
+                    {
+                        if (playing || Filtered)
+                        {
+                            mf.QueueInsertAlternate(ref PlayList, Filtered, PlayList.IndexOf(mFile));
+                        }
+                        else
+                        {
+                            mf.QueueInsertAlternate(ref PlayList, Filtered);
+                        }
+                    }
+                    else
+                    {
+                        mf.QueueAlternate(ref PlayList);
+                    }
+                }
+                lbMusic.RefreshItems();
+
+                if (QueueShowing) // refresh the queue list if it's showing..
+                {
+                    ShowQueue();
+                }
+
+                if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
+                {
+                    ShowPlayingSong();
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return true;
             }
 
             if (e.KeyCode == Keys.Up ||
@@ -120,9 +188,11 @@ namespace amp
                 e.KeyCode == Keys.Control ||
                 e.KeyCode == Keys.Return ||
                 e.KeyCode == Keys.F2 ||
-                e.KeyCode == Keys.F4)
+                e.KeyCode == Keys.F4 ||
+                e.KeyCode == Keys.F6 ||
+                e.KeyCode == Keys.F7)
             {
-                return;
+                return true;
             }
 
             if (char.IsLetterOrDigit((char)e.KeyValue) || KeySendList.HasKey(e.KeyCode))
@@ -141,7 +211,15 @@ namespace amp
                 }
                 e.SuppressKeyPress = true;
                 e.Handled = true;
+                return false;
             }
+
+            return false;
+        }
+
+        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
+        {
+            HandleKeyDown(ref e); // I had an intention, but I forgot it..
         }
     }
 }
