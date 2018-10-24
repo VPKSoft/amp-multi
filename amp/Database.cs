@@ -17,6 +17,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace amp
 {
@@ -304,7 +305,42 @@ namespace amp
             }
         }
 
+        public static string QS(string value)
+        {
+            return "'" + value.Replace("'", "''") + "'";
+        }
 
+        public static string GetAlbumSQL(string name)
+        {
+            string result =
+                string.Join(Environment.NewLine,
+                        "SELECT S.FILENAME, S.ID, S.VOLUME, S.RATING, A.QUEUEINDEX, IFNULL(S.OVERRIDE_NAME, '') AS OVERRIDE_NAME, ",
+                        "NULLIF(S.TAGFINDSTR, '') AS TAGFINDSTR, IFNULL(S.TAGREAD, 0) AS TAGREAD, ",
+                        "LENGTH(TAGFINDSTR) AS LEN, ", // 08
+                        "IFNULL(S.ARTIST, '') AS ARTIST, ", // 09
+                        "IFNULL(S.ALBUM, '') AS ALBUM, ", // 10
+                        "IFNULL(S.TRACK, '') AS TRACK, ", // 11
+                        "IFNULL(S.YEAR, '') AS YEAR, ", // 12
+                        "IFNULL(S.TITLE, '') AS TITLE ", // 13
+                        "FROM ",
+                        "SONG S, ALBUMSONGS A ",
+                        "WHERE ",
+                        "S.ID = A.SONG_ID");
+
+            if (name != string.Empty)
+            {
+                result += " AND " + 
+                    string.Join(Environment.NewLine,
+                        $"A.SONG_ID IN(SELECT SONG_ID FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})) AND ",
+                        $"A.ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)}) GROUP BY S.ID");
+            }
+            else
+            {
+                result += " GROUP BY S.ID ";
+            }
+
+            return result;
+        }
 
         public static void GetAlbum(string name, ref List<MusicFile> PlayList, SQLiteConnection conn)
         {
@@ -317,43 +353,39 @@ namespace amp
                 command.CommandText = "SELECT COUNT(*) FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "') ";
                 totalCnt = Convert.ToInt32(command.ExecuteScalar());
 
-
-
-                command.CommandText = "SELECT S.FILENAME, S.ID, S.VOLUME, S.RATING, A.QUEUEINDEX, IFNULL(S.OVERRIDE_NAME, '') AS OVERRIDE_NAME, NULLIF(S.TAGFINDSTR, '') AS TAGFINDSTR, IFNULL(S.TAGREAD, 0) AS TAGREAD, LENGTH(TAGFINDSTR) AS LEN FROM SONG S, ALBUMSONGS A WHERE S.ID = A.SONG_ID AND " +
-                                      "A.SONG_ID IN (SELECT SONG_ID FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "')) " +
-                                      "AND A.ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "') " +
-                                      "GROUP BY S.ID ";
+                command.CommandText = GetAlbumSQL(name);
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     int counter = 0, counter2 = 1;
                     while (reader.Read())
                     {
                         counter2++;
-                            if (!File.Exists(reader.GetString(0)))
-                            {
-                                continue;
-                            }
+                        if (!File.Exists(reader.GetString(0)))
+                        {
+                            continue;
+                        }
 
-                            MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1));
-                            mf.Volume = reader.GetFloat(2);
-                            mf.Rating = reader.GetInt32(3);
-                            mf.QueueIndex = reader.GetInt32(4);
-                            mf.OverrideName = reader.GetString(5);
-                            if (reader.GetInt32(8) != 0)
-                            {
-                                mf.TagString = reader.GetString(6);
-                            }
-                            else
-                            {
-                                mf.TagString = string.Empty;
-                            }
-                            mf.VisualIndex = counter++;
-                            if (reader.GetInt32(7) == 0)
-                            {
-                                indices.Add(mf.VisualIndex);
-                            }
-                            PlayList.Add(mf);
-                            DatabaseProgressThreadSafe(new DatabaseEventArgs(counter2, totalCnt, DatabaseEventType.QueryDB));
+                        MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1));
+                        mf.Volume = reader.GetFloat(2);
+                        mf.Rating = reader.GetInt32(3);
+                        mf.QueueIndex = reader.GetInt32(4);
+                        mf.OverrideName = reader.GetString(5);
+                        mf.GetTagFromDataReader(reader);
+                        if (reader.GetInt32(8) != 0)
+                        {
+                            mf.TagString = reader.GetString(6);
+                        }
+                        else
+                        {
+                            mf.TagString = string.Empty;
+                        }
+                        mf.VisualIndex = counter++;
+                        if (reader.GetInt32(7) == 0)
+                        {
+                            indices.Add(mf.VisualIndex);
+                        }
+                        PlayList.Add(mf);
+                        DatabaseProgressThreadSafe(new DatabaseEventArgs(counter2, totalCnt, DatabaseEventType.QueryDB));
                     }
                 }
 
@@ -365,7 +397,7 @@ namespace amp
                         if (mf.VisualIndex == indices[i])
                         {
                             mf.LoadTag();
-                            sSql += "UPDATE SONG SET TAGFINDSTR = '" + mf.TagString.Replace("'", "''") + "', TAGREAD = 1 WHERE ID = " + mf.ID + "; ";
+                            sSql += $"UPDATE SONG SET TAGFINDSTR = {QS(mf.TagString)}, TAGREAD = 1 WHERE ID = {mf.ID}; ";
                         }
                     }
                 }
@@ -380,7 +412,7 @@ namespace amp
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "UPDATE SONG SET VOLUME = " + mf.Volume.ToString().Replace(',', '.') + " WHERE ID = " + mf.ID + " ";
+                command.CommandText = $"UPDATE SONG SET VOLUME = {mf.Volume.ToString().Replace(',', '.')} WHERE ID = {mf.ID} ";
                 command.ExecuteNonQuery();
             }
         }
@@ -393,7 +425,7 @@ namespace amp
             }
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = string.Format("UPDATE SONG SET OVERRIDE_NAME = '{0}'  WHERE ID = " + mf.ID + " ", newName.Replace(',', '.'));
+                command.CommandText = $"UPDATE SONG SET OVERRIDE_NAME = {QS(newName)} WHERE ID = {mf.ID} ";
                 mf.OverrideName = newName;
                 command.ExecuteNonQuery();
             }
@@ -406,7 +438,7 @@ namespace amp
             {
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
-                    command.CommandText = "UPDATE SONG SET RATING = " + mf.Rating.ToString() + " WHERE ID = " + mf.ID + " ";
+                    command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
                     command.ExecuteNonQuery();
                     mf.RatingChanged = false;
                 }
@@ -768,7 +800,8 @@ namespace amp
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + " + (skipped ? "1" : "0") + " WHERE ID = " + mf.ID + " ";
+                command.CommandText = 
+                    $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
                 command.ExecuteNonQuery();
             }
         }
@@ -869,18 +902,25 @@ namespace amp
 
         private static string UpdateSongSQL(MusicFile mf)
         {
-            return "UPDATE SONG SET FILENAME = '" + mf.FullFileName.Replace("'", "''") + "' WHERE FILENAME <> '" + mf.FullFileName.Replace("'", "''") + "' AND " +
-                   "FILENAME_NOPATH = '" + mf.FileNameNoPath.Replace("'", "''") + "' AND FILESIZE = " + mf.FileSize + "; ";
+            return $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
+                   $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
         }
 
+        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private static string InsertSongSQL(MusicFile mf)
         {
-            return "INSERT INTO SONG(FILENAME, ARTIST, ALBUM, TRACK, YEAR, RATING, NPLAYED_RAND, NPLAYED_USER, FILESIZE, VOLUME, OVERRIDE_NAME, TAGFINDSTR, TAGREAD, FILENAME_NOPATH) " +
-                   "SELECT '" + mf.FullFileName.Replace("'", "''") + "', '" + mf.Artist.Replace("'", "''") + "', '" +
-                   mf.Album.Replace("'", "''") + "', '" + mf.Track.Replace("'", "''") + "', '" + mf.Year + "', 500, 0, 0, " + mf.FileSize + ", 1.0, '" + mf.OverrideName.Replace("'", "''") + "', '" + mf.TagString.Replace("'", "''") + "', 1, " +
-                   "'" + mf.FileNameNoPath.Replace("'", "''") + "'" +
-                   "WHERE NOT EXISTS(SELECT 1 FROM SONG WHERE FILENAME = '" + mf.FullFileName.Replace("'", "''") + "'); ";
+            return
+                string.Join(Environment.NewLine,
+                    "INSERT INTO SONG(FILENAME, ARTIST, ALBUM, TRACK, YEAR, RATING, NPLAYED_RAND, ",
+                    "NPLAYED_USER, FILESIZE, VOLUME, OVERRIDE_NAME, TAGFINDSTR, TAGREAD, FILENAME_NOPATH, TITLE) ",
+                    $"SELECT {QS(mf.FullFileName)}, {QS(mf.Artist)}, ",
+                    $"{QS(mf.Album)}, {QS(mf.Track)}, {QS(mf.Year)}, 500, 0, 0, {mf.FileSize}, 1.0, {QS(mf.OverrideName)}, ",
+                    $"{QS(mf.TagString)}, 1, {QS(mf.FileNameNoPath)}, {QS(mf.Title)} ",
+                    $"WHERE NOT EXISTS(SELECT 1 FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
         }
 
         public static void UpdateSongTags(SQLiteConnection conn)
@@ -894,7 +934,8 @@ namespace amp
                     while (reader.Read())
                     {
                         MusicFile mf = new MusicFile(reader.GetString(1), reader.GetInt32(0));
-                        sSql += "UPDATE SONG SET TAGFINDSTR = '" + mf.TagString.Replace("'", "''") + "', TAGREAD = 1 WHERE ID = " + mf.ID + "; ";
+                        sSql += 
+                            $"UPDATE SONG SET TAGFINDSTR = {QS(mf.TagString)}, TAGREAD = 1 WHERE ID = {mf.ID}; ";
                     }
 
                 }

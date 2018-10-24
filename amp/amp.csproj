@@ -97,6 +97,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormDatabaseUpdatingProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDatabaseUpdatingProgress.Designer.cs">
+      <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTagInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,11 +197,15 @@
       <DependentUpon>RefreshListbox.cs</DependentUpon>
     </Compile>
     <Compile Include="ScriptRunner.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="FormAddAlbum.resx">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAlbumImage.resx">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDatabaseUpdatingProgress.resx">
+      <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormModifySavedQueue.resx">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
@@ -258,6 +268,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\amp_scramble_queue.png" />
+    <None Include="Resources\view-refresh.png" />
     <Content Include="VPKSoft.ico" />
     <None Include="Resources\info.png" />
     <None Include="Resources\Go forward.png" />

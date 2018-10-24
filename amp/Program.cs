@@ -18,6 +18,7 @@ using VPKSoft.Utils;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.ErrorLogger; // (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
+using System.Diagnostics;
 
 namespace amp
 {
@@ -62,6 +63,22 @@ namespace amp
         static void Main(string[] args)
         {
             ExceptionLogger.Bind(); // bind before any visual objects are created
+
+
+            if (Settings.DBUpdateRequiredLevel < 1)
+            {
+                if (AppRunning.CheckIfRunning("VPKSoft.amp.DBUpdate.sharp#"))
+                {
+                    ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
+                    return;
+                }
+                Application.Run(new FormDatabaseUpdatingProgress());
+                ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
+                Settings.DBUpdateRequiredLevel = 1;
+                Process.Start(new ProcessStartInfo(Path.Combine(Paths.AppInstallDir, "amp.exe"))); // the database is updated..
+                return;
+            }
+
             foreach (string arg in args)
             {
                 Arguments.Add(arg);
@@ -116,7 +133,7 @@ namespace amp
             // End save languages
             Application.Run(new MainWindow());
             PositionCore.UnBind(); // release the event handlers used by the PosLib and save the default data
-            ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        }
+            ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Data.SQLite;
 
 namespace amp
 {
@@ -88,9 +89,9 @@ namespace amp
             picLoaded = true;
         }
 
-        public void LoadTag()
+        public void LoadTag(bool force = false)
         {
-            if (tagLoaded)
+            if (tagLoaded && !force)
             {
                 return;
             }
@@ -115,6 +116,24 @@ namespace amp
             {
             }
             tagLoaded = true;
+        }
+
+        public void GetTagFromDataReader(SQLiteDataReader dr)
+        {
+            tArtist = dr.GetString(9);
+            tAlbum = dr.GetString(10);
+
+            if (uint.TryParse(dr.GetString(11), out _))
+            {
+                tTrack = uint.Parse(dr.GetString(11));
+            }
+
+            if (uint.TryParse(dr.GetString(12), out _))
+            {
+                tYear = uint.Parse(dr.GetString(12));
+            }
+
+            tTitle = dr.GetString(13);
         }
 
         private string GetTagString(TagLib.Tag strTag, bool goDeep = false)

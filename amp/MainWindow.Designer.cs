@@ -118,14 +118,14 @@
             // 
             this.mnuAlbum.Image = global::amp.Properties.Resources.album_yellow;
             this.mnuAlbum.Name = "mnuAlbum";
-            this.mnuAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuAlbum.Size = new System.Drawing.Size(200, 36);
             this.mnuAlbum.Text = "Album";
             // 
             // mnuNewAlbum
             // 
             this.mnuNewAlbum.Image = global::amp.Properties.Resources.media_optical_data_new;
             this.mnuNewAlbum.Name = "mnuNewAlbum";
-            this.mnuNewAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuNewAlbum.Size = new System.Drawing.Size(200, 36);
             this.mnuNewAlbum.Text = "New album";
             this.mnuNewAlbum.Click += new System.EventHandler(this.mnuNewAlbum_Click);
             // 
@@ -134,7 +134,7 @@
             this.mnuSelectAll.Image = global::amp.Properties.Resources.select_all;
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(186, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(200, 36);
             this.mnuSelectAll.Text = "Select all";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -146,7 +146,7 @@
             this.mnuPlaylistM3UExport});
             this.mnuPlayListM3U.Image = global::amp.Properties.Resources.m3u2;
             this.mnuPlayListM3U.Name = "mnuPlayListM3U";
-            this.mnuPlayListM3U.Size = new System.Drawing.Size(186, 22);
+            this.mnuPlayListM3U.Size = new System.Drawing.Size(200, 36);
             this.mnuPlayListM3U.Text = "Playlist (m3u)";
             // 
             // mnuPlayListM3UNewAlbum
@@ -174,7 +174,7 @@
             // 
             this.mnuSettings.Image = global::amp.Properties.Resources.settings__1_;
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(186, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(200, 36);
             this.mnuSettings.Text = "Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
@@ -183,7 +183,7 @@
             this.mnuSongInfo.Image = global::amp.Properties.Resources.info;
             this.mnuSongInfo.Name = "mnuSongInfo";
             this.mnuSongInfo.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuSongInfo.Size = new System.Drawing.Size(186, 22);
+            this.mnuSongInfo.Size = new System.Drawing.Size(200, 36);
             this.mnuSongInfo.Text = "Song information";
             this.mnuSongInfo.Click += new System.EventHandler(this.mnuSongInfo_Click);
             // 
@@ -203,7 +203,7 @@
             // 
             this.mnuSaveQueue.Image = global::amp.Properties.Resources.Save_as32;
             this.mnuSaveQueue.Name = "mnuSaveQueue";
-            this.mnuSaveQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuSaveQueue.Size = new System.Drawing.Size(194, 36);
             this.mnuSaveQueue.Text = "Save queue";
             this.mnuSaveQueue.Click += new System.EventHandler(this.saveQueueToolStripMenuItem_Click);
             // 
@@ -211,7 +211,7 @@
             // 
             this.mnuLoadQueue.Image = global::amp.Properties.Resources.open;
             this.mnuLoadQueue.Name = "mnuLoadQueue";
-            this.mnuLoadQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuLoadQueue.Size = new System.Drawing.Size(194, 36);
             this.mnuLoadQueue.Text = "Load saved queue";
             this.mnuLoadQueue.Click += new System.EventHandler(this.mnuLoadQueue_Click);
             // 
@@ -220,7 +220,7 @@
             this.mnuShowQueue.Image = global::amp.Properties.Resources.amp_queue;
             this.mnuShowQueue.Name = "mnuShowQueue";
             this.mnuShowQueue.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.mnuShowQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuShowQueue.Size = new System.Drawing.Size(194, 36);
             this.mnuShowQueue.Text = "Show queue";
             this.mnuShowQueue.Click += new System.EventHandler(this.tbShowQueue_Click);
             // 
@@ -229,7 +229,7 @@
             this.mnuDeQueue.Image = global::amp.Properties.Resources.amp_dequeue;
             this.mnuDeQueue.Name = "mnuDeQueue";
             this.mnuDeQueue.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.mnuDeQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuDeQueue.Size = new System.Drawing.Size(194, 36);
             this.mnuDeQueue.Text = "Clear queue";
             this.mnuDeQueue.Click += new System.EventHandler(this.mnuDeQueue_Click);
             // 
@@ -238,7 +238,7 @@
             this.mnuScrambleQueue.Image = global::amp.Properties.Resources.amp_scramble_queue;
             this.mnuScrambleQueue.Name = "mnuScrambleQueue";
             this.mnuScrambleQueue.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.mnuScrambleQueue.Size = new System.Drawing.Size(179, 22);
+            this.mnuScrambleQueue.Size = new System.Drawing.Size(194, 36);
             this.mnuScrambleQueue.Text = "Scramble queue";
             this.mnuScrambleQueue.Click += new System.EventHandler(this.mnuScrambleQueue_Click);
             // 

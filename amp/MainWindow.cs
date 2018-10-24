@@ -477,6 +477,7 @@ namespace amp
                 Database.UpdateNPlayed(mFile, conn, false);
             }
             newsong = true;
+            DisplayPlayingSong();
         }
 
         public void GetPrevSong()
@@ -945,7 +946,6 @@ namespace amp
             pnVol2.Left = (int)(mFile.Volume * 50F);
         }
 
-
         private void MainWindow_Shown(object sender, EventArgs e)
         {
 
@@ -956,14 +956,13 @@ namespace amp
             {
                 MessageBox.Show(DBLangEngine.GetMessage("msgErrorInScript", "?"));
             }
-           
+
             CurrentAlbum = DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album");
             Database.AddDefaultAlbum(DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album"), conn);
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
-
 
             thread = new Thread(new ThreadStart(PlayerThread));
             thread.Start();
@@ -1263,7 +1262,7 @@ namespace amp
         {
             for (int i = 0; i < lbMusic.Items.Count; i++ )
             {
-                if (mFile == (lbMusic.Items[i] as MusicFile))
+                if (mFile != null && mFile.ID == (lbMusic.Items[i] as MusicFile).ID)
                 {
                     lbMusic.SetIndex(i);
                     return;
@@ -1289,7 +1288,7 @@ namespace amp
             Filtered = false;
             for (int i = 0; i < lbMusic.Items.Count; i++)
             {
-                if (mFile == (lbMusic.Items[i] as MusicFile))
+                if (mFile != null && mFile.ID == (lbMusic.Items[i] as MusicFile).ID)
                 {
                     lbMusic.SetIndex(i);
                     return;
