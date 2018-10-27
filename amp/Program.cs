@@ -127,6 +127,8 @@ namespace amp
                 new FormModifySavedQueue(); // 19.10.17
                 new FormSettings(); // 21.10.17
                 new FormTagInfo(); // 11.02.18
+                new FormAlbumNaming(); // 27.10.18
+                new FormDatabaseUpdatingProgress(); // 27.10.18
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
                 return;
             }

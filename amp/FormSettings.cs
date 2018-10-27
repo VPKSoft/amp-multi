@@ -70,12 +70,17 @@ namespace amp
 
         public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo)
         {
+            return CalculateQuietHour(hourFrom, hourTo, DateTime.Now);
+        }
+
+        public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo, DateTime fromDate)
+        {
             DateTime dt1 = DateTime.ParseExact(Convert.ToString(hourFrom), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
             DateTime dt2 = DateTime.ParseExact(Convert.ToString(hourTo), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
             dt1 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt1.Hour, dt1.Minute, 0);
             dt2 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt2.Hour, dt2.Minute, 0);
 
-            while (DateTime.Now > dt1 && DateTime.Now < dt2)
+            while (fromDate > dt1 && fromDate < dt2)
             {
                 nextQuietTime = nextQuietTime.AddDays(1);
                 dt1 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt1.Hour, dt1.Minute, 0);
@@ -178,6 +183,11 @@ namespace amp
                     lbRemoteControlURIVValue.Text, 
                     VU.BuiltInWindowsAccountsLocalize.GetUserNameBySID(VU.BuiltInWindowsAccountsLocalize.Everyone));
             }
+        }
+
+        private void btAlbumNaming_Click(object sender, EventArgs e)
+        {
+            new FormAlbumNaming().ShowDialog();
         }
     }
 }

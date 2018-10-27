@@ -143,6 +143,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap amp_alternate_queue {
+            get {
+                object obj = ResourceManager.GetObject("amp_alternate_queue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap amp_back {
             get {
                 object obj = ResourceManager.GetObject("amp_back", resourceCulture);
@@ -296,6 +306,16 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap Go_forward {
             get {
                 object obj = ResourceManager.GetObject("Go forward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Green_tag {
+            get {
+                object obj = ResourceManager.GetObject("Green tag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

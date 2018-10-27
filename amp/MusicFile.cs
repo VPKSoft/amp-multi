@@ -653,31 +653,230 @@ namespace amp
 
         #endregion
 
-        string leftTextMargin = "    ";
-
-        public string ToString(bool queue)
+        #region PlayListNaming
+        public static string FormulaReplace(string formula, string value, string formulaStr)
         {
-            string alternateQueue = AlternateQueueIndex > 0 ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
-            if (overrideName != string.Empty)
+            int formulaStart = formula.IndexOf(formulaStr);
+
+            
+            if (formulaStr + "#" == "#ARTIST#" ||
+                formulaStr + "#" == "#ALBUM#" ||
+                formulaStr + "#" == "#TITLE#" ||
+                formulaStr + "#" == "#QUEUE#" ||
+                formulaStr + "#" == "#ALTERNATE_QUEUE#" ||
+                formulaStr + "#" == "#RENAMED#" ||
+                formulaStr + "#" == "#TRACKNO#")
             {
-                return leftTextMargin + overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
+                formula = formula.Replace(formulaStr + "#", value);
+                return formula;
+            }
+            
+            int stringPos = -1;
+            int formulaEnd = -1;
+            string formulaPart = formula;
+            for (int i = formulaStart + 1;  i < formulaPart.Length && (stringPos == -1 || formulaEnd == -1); i++)
+            {
+                if (formulaPart[i] == '?' && stringPos == -1)
+                {
+                    stringPos = i;
+                }
+
+                if (formulaPart[i] == '#' && formulaEnd == -1)
+                {
+                    formulaEnd = i;
+                }
+            }
+
+            if (stringPos != -1 && formulaEnd != -1 && stringPos <= formulaEnd)
+            {
+                string stringPart = formulaPart.Substring(stringPos + 1, formulaEnd - stringPos - 1);
+                string startPart = formula.Substring(0, formulaStart);
+                string endPart = formula.Substring(formulaEnd + 1);
+
+                string[] tmpParts = stringPart.Split('^');
+
+                string stringPartStart = tmpParts != null && tmpParts.Length == 1 ? string.Empty :
+                    (tmpParts.Length > 1 ? tmpParts[0] : string.Empty);
+                string stringPartEnd = tmpParts != null && tmpParts.Length > 1 ? tmpParts[1] : stringPart;
+
+                formula = string.IsNullOrEmpty(value) ?
+                    startPart + endPart :
+                    startPart + stringPartStart + value + stringPartEnd + endPart;
+            }           
+            else
+            {
+                return string.Empty;
+            }
+            return formula;
+        }
+
+        public enum FormulaType
+        {
+            None,
+            Artist,
+            Album,
+            TrackNO,
+            Title,
+            QueueIndex,
+            AlternateQueueIndex,
+            Renamed
+        }
+
+
+        internal static string GetNextFormula(string formula, out FormulaType formulaType)
+        {
+            int startIndex = formula.IndexOf('#');
+            int endIndex = -1;
+            for (int i = startIndex + 1; i < formula.Length; i++)
+            {
+                if (formula[i] == '#')
+                {
+                    endIndex = i;
+                    break;
+                }
+            }
+
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex)
+            {
+                string result = formula.Substring(startIndex, endIndex - startIndex);
+                if (result.StartsWith("#ARTIST"))
+                {
+                    formulaType = FormulaType.Artist;
+                }
+                else if (result.StartsWith("#ALBUM"))
+                {
+                    formulaType = FormulaType.Album;
+                }
+                else if (result.StartsWith("#TRACKNO"))
+                {
+                    formulaType = FormulaType.TrackNO;
+                }
+                else if (result.StartsWith("#TITLE"))
+                {
+                    formulaType = FormulaType.Title;
+                }
+                else if (result.StartsWith("#QUEUE"))
+                {
+                    formulaType = FormulaType.QueueIndex;
+                }
+                else if (result.StartsWith("#ALTERNATE_QUEUE"))
+                {
+                    formulaType = FormulaType.AlternateQueueIndex;
+                }
+                else if (result.StartsWith("#RENAMED"))
+                {
+                    formulaType = FormulaType.Renamed;
+                }
+                else
+                {
+                    formulaType = FormulaType.None;
+                    return string.Empty;
+                }
+                return result;
             }
             else
             {
-                return leftTextMargin + (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
+                formulaType = FormulaType.None;
+                return string.Empty;
+            }
+        }
+
+        public static string GetString(string formula, string artist, string album, int trackNo, 
+            string title, string songName, int queueIndex, int alternateQueueIndex, string overrideName, string onError, out bool error)
+        {
+            try
+            {
+                FormulaType formulaType = FormulaType.None;
+                string formulaStr;
+                while ((formulaStr = GetNextFormula(formula, out formulaType)) != string.Empty)
+                {
+                    if (formulaType == FormulaType.Artist)
+                    {
+                        formula = FormulaReplace(formula, artist == string.Empty ? string.Empty : artist, formulaStr);
+                    }
+                    else if (formulaType == FormulaType.Album)
+                    {
+                        formula = FormulaReplace(formula, album == string.Empty ? string.Empty : album, formulaStr);
+                    }
+                    else if (formulaType == FormulaType.TrackNO)
+                    {
+                        formula = FormulaReplace(formula, trackNo <= 0 ? string.Empty : trackNo.ToString(), formulaStr);
+                    }
+                    else if (formulaType == FormulaType.Title)
+                    {
+                        formula = FormulaReplace(formula, title.Trim() == string.Empty ? songName : title, formulaStr);
+                    }
+                    else if (formulaType == FormulaType.QueueIndex)
+                    {
+                        formula = FormulaReplace(formula, queueIndex <= 0 ? string.Empty : queueIndex.ToString(), formulaStr);
+                    }
+                    else if (formulaType == FormulaType.AlternateQueueIndex)
+                    {
+                        formula = FormulaReplace(formula, alternateQueueIndex <= 0 ? string.Empty : alternateQueueIndex.ToString(), formulaStr);
+                    }
+                    else if (formulaType == FormulaType.Renamed)
+                    {
+                        formula = FormulaReplace(formula, overrideName == string.Empty ? songName : overrideName, formulaStr);
+                    }
+                }
+                error = false;
+                return formula;
+            }
+            catch
+            {
+                error = true;
+                return onError;
+            }
+        }
+
+        private int TrackInt
+        {
+            get
+            {
+                if (int.TryParse(Track, out _))
+                {
+                    return int.Parse(Track);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public string ToString(bool queue)
+        {
+            if (overrideName != string.Empty)
+            {
+                return GetString(Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
+                    songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
+            }
+            else
+            {
+                return GetString(Settings.AlbumNaming, Artist, Album, TrackInt, Title,
+                    songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
             }
         }
 
         public override string ToString()
         {
-            string alternateQueue = AlternateQueueIndex > 0 ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
+            return ToString(true);
+        }
+
+        private string ToStringOld(bool queue)
+        {
+            string alternateQueue = AlternateQueueIndex > 0 && queue ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
             if (overrideName != string.Empty)
             {
-                return leftTextMargin + overrideName + (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
+                return overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
             else
             {
-                return leftTextMargin + (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
+                return
+                    (Artist == string.Empty ? string.Empty : Artist + " - ") +
+                    (Album == string.Empty ? string.Empty : Album + " - ") +
+                    (Title.Length > 0 ? Title : songName) +
+                    (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
         }
 
@@ -685,14 +884,7 @@ namespace amp
         {
             get
             {
-                if (overrideName != string.Empty)
-                {
-                    return overrideName + (queueIndex >= 1 ? " [" + queueIndex + "]" : "");
-                }
-                else
-                {
-                    return (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName) + (queueIndex >= 1 ? " [" + queueIndex + "]" : "");
-                }
+                return ToString();
             }
         }
 
@@ -700,16 +892,10 @@ namespace amp
         {
             get
             {
-                if (overrideName != string.Empty)
-                {
-                    return overrideName;
-                }
-                else
-                {
-                    return (Artist == string.Empty ? string.Empty : Artist + " - ") + (Album == string.Empty ? string.Empty : Album + " - ") + (Title.Length > 0 ? Title : songName);
-                }
+                return ToString(false);
             }
         }
+        #endregion
 
         public string GetFileName()
         {

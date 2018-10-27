@@ -210,4 +210,28 @@
   <data name="msgSavePlaylistFile" xml:space="preserve">
     <value>Save playlist file|As in export an album to a playlist file (m3u)</value>
   </data>
+  <data name="msgAlbum" xml:space="preserve">
+    <value>Album|As in a name of an album of a music file</value>
+  </data>
+  <data name="msgAlternateQueue" xml:space="preserve">
+    <value>Alternate queue index|As an alternate queue index of a music file</value>
+  </data>
+  <data name="msgArtists" xml:space="preserve">
+    <value>"Artist|As in an artist(s) of a music file</value>
+  </data>
+  <data name="msgErrorInScript" xml:space="preserve">
+    <value>A script error occurred on the database update|Something failed during running the database update script</value>
+  </data>
+  <data name="msgMusicFileRenamed" xml:space="preserve">
+    <value>I named this song my self|The user has renamed the song him self</value>
+  </data>
+  <data name="msgQueueTag" xml:space="preserve">
+    <value>Queue index|As a queue index of a music file</value>
+  </data>
+  <data name="msgTitle" xml:space="preserve">
+    <value>Title|As in a title of a music file</value>
+  </data>
+  <data name="msgTrackNO" xml:space="preserve">
+    <value>Track number|As a track number of a song in a music album</value>
+  </data>
 </root>

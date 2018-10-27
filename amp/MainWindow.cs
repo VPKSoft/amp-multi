@@ -954,7 +954,15 @@ namespace amp
 
             if (!ScriptRunner.RunScript(DBLangEngine.DataDir + "amp.sqlite"))
             {
-                MessageBox.Show(DBLangEngine.GetMessage("msgErrorInScript", "?"));
+                MessageBox.Show(
+                    DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"),
+                    DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+
+                // at this point there is no reason to continue the program's execution as the database might be in an invalid state..
+                throw new Exception(DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"));
             }
 
             CurrentAlbum = DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album");
@@ -1120,6 +1128,32 @@ namespace amp
 
             Filtered = true;
             queueShowing = true;
+        }
+
+        internal void ShowAlternateQueue()
+        {
+            lbMusic.Invoke(new MethodInvoker(() =>
+            {
+                if (PlayList.Count(f => f.AlternateQueueIndex > 0) == 0) // don't show an empty queue..
+                {
+                    return;
+                }
+                lbMusic.Items.Clear();
+                List<MusicFile> queuedSongs = new List<MusicFile>();
+                foreach (MusicFile mf in PlayList)
+                {
+                    if (mf.AlternateQueueIndex > 0)
+                    {
+                        queuedSongs.Add(mf);
+                    }
+                }
+                queuedSongs = queuedSongs.OrderBy(f => f.AlternateQueueIndex).ToList();
+
+                foreach (MusicFile mf in queuedSongs)
+                {
+                    lbMusic.Items.Add(mf);
+                }
+            }));
         }
 
         /// <summary>
@@ -1558,6 +1592,11 @@ namespace amp
                 MusicFile mf = lbMusic.SelectedItem as MusicFile;
                 FormTagInfo.Execute(mf, this);
             }
+        }
+
+        private void mnuShowAlternateQueue_Click(object sender, EventArgs e)
+        {
+            ShowAlternateQueue();
         }
     }
 }

@@ -48,6 +48,7 @@
             this.gpRemoteControl = new System.Windows.Forms.GroupBox();
             this.lbRemoteControlURI = new System.Windows.Forms.Label();
             this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
+            this.btAlbumNaming = new System.Windows.Forms.Button();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -150,7 +151,7 @@
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 330);
+            this.bCancel.Location = new System.Drawing.Point(12, 367);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -160,7 +161,7 @@
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(181, 330);
+            this.bOK.Location = new System.Drawing.Point(181, 367);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -262,13 +263,26 @@
             this.tbRemoteControlURI.TabIndex = 10;
             this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControllURI_TextChanged);
             // 
+            // btAlbumNaming
+            // 
+            this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
+            this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btAlbumNaming.Location = new System.Drawing.Point(12, 338);
+            this.btAlbumNaming.Name = "btAlbumNaming";
+            this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
+            this.btAlbumNaming.TabIndex = 18;
+            this.btAlbumNaming.Text = "Album naming";
+            this.btAlbumNaming.UseVisualStyleBackColor = true;
+            this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(268, 363);
+            this.ClientSize = new System.Drawing.Size(268, 400);
+            this.Controls.Add(this.btAlbumNaming);
             this.Controls.Add(this.gpRemoteControl);
             this.Controls.Add(this.nudLatency);
             this.Controls.Add(this.lbLatency);
@@ -320,5 +334,6 @@
         private System.Windows.Forms.GroupBox gpRemoteControl;
         private System.Windows.Forms.Label lbRemoteControlURI;
         private System.Windows.Forms.TextBox tbRemoteControlURI;
+        private System.Windows.Forms.Button btAlbumNaming;
     }
 }

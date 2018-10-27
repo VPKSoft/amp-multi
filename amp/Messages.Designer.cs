@@ -88,6 +88,33 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album|As in a name of an album of a music file.
+        /// </summary>
+        public static string msgAlbum {
+            get {
+                return ResourceManager.GetString("msgAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alternate queue index|As an alternate queue index of a music file.
+        /// </summary>
+        public static string msgAlternateQueue {
+            get {
+                return ResourceManager.GetString("msgAlternateQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Artist|As in an artist(s) of a music file.
+        /// </summary>
+        public static string msgArtists {
+            get {
+                return ResourceManager.GetString("msgArtists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm|Used in a dialog title to ask for a confirmation to do something.
         /// </summary>
         public static string msgConfirmation {
@@ -111,6 +138,15 @@ namespace amp {
         public static string msgError {
             get {
                 return ResourceManager.GetString("msgError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A script error occurred on the database update|Something failed during running the database update script.
+        /// </summary>
+        public static string msgErrorInScript {
+            get {
+                return ResourceManager.GetString("msgErrorInScript", resourceCulture);
             }
         }
         
@@ -205,6 +241,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I named this song my self|The user has renamed the song him self.
+        /// </summary>
+        public static string msgMusicFileRenamed {
+            get {
+                return ResourceManager.GetString("msgMusicFileRenamed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open playlist file|As in open a play list file (m3u).
         /// </summary>
         public static string msgOpenPlaylistFile {
@@ -246,6 +291,15 @@ namespace amp {
         public static string msgQueueSomething {
             get {
                 return ResourceManager.GetString("msgQueueSomething", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue index|As a queue index of a music file.
+        /// </summary>
+        public static string msgQueueTag {
+            get {
+                return ResourceManager.GetString("msgQueueTag", resourceCulture);
             }
         }
         
@@ -295,11 +349,29 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title|As in a title of a music file.
+        /// </summary>
+        public static string msgTitle {
+            get {
+                return ResourceManager.GetString("msgTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current album is temporary album.{0}Please create an album with a name before continuing.|Album is a temporary one i.e. you clicked a music file and the program started. Can&apos;t save a anything against a temporary album..
         /// </summary>
         public static string msgTmpAlbumError {
             get {
                 return ResourceManager.GetString("msgTmpAlbumError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track number|As a track number of a song in a music album.
+        /// </summary>
+        public static string msgTrackNO {
+            get {
+                return ResourceManager.GetString("msgTrackNO", resourceCulture);
             }
         }
         

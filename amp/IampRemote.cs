@@ -122,6 +122,15 @@ namespace amp
         List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList);
 
         /// <summary>
+        /// Inserts or appends to the queue the given song ID list.
+        /// </summary>
+        /// <param name="insert">Whether to insert or append to the queue.</param>
+        /// <param name="queueList">A list of songs ID's to be appended or inserted into the queue.</param>
+        /// <returns>A list of queued songs in the current album.</returns>
+        [OperationContract]
+        List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs);
+
+        /// <summary>
         /// Gets a list of songs which properties were changed (name, volume, rating).
         /// </summary>
         /// <returns>A list of songs which properties have been changed in the current album.</returns>

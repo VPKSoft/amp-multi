@@ -19,6 +19,14 @@ namespace amp
         public FormDatabaseUpdatingProgress()
         {
             InitializeComponent();
+
+            DBLangEngine.DBName = "lang.sqlite";
+            if (Utils.ShouldLocalize() != null)
+            {
+                DBLangEngine.InitalizeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
+                return; // After localization don't do anything more.
+            }
+            DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
         public void SetProgress(int percentage, int maximum)
@@ -49,7 +57,15 @@ namespace amp
 
             if (!ScriptRunner.RunScript(DBLangEngine.DataDir + "amp.sqlite"))
             {
-                MessageBox.Show(DBLangEngine.GetMessage("msgErrorInScript", "?"));
+                MessageBox.Show(
+                    DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"),
+                    DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+
+                // at this point there is no reason to continue the program's execution as the database might be in an invalid state..
+                throw new Exception(DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"));
             }
             bwDatabaseUpdate.RunWorkerAsync();
         }

@@ -67,7 +67,7 @@ namespace amp
 
                 smb.HttpGetEnabled = true; // just enable HTTP
 
-                ampRemoteHost.Description.Behaviors.Add(smb); // Add the behaviour..
+                ampRemoteHost.Description.Behaviors.Add(smb); // Add the behavior..
 
                 ampRemoteHost.Open(); // open the self-hosted WCF HTTP binding..
                 return true; // if success..
@@ -258,6 +258,23 @@ namespace amp
         public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
         {
             MainWindow.Queue(insert, queueList);
+            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            {
+                MainWindow.ShowQueue();
+            }
+
+            return GetQueuedSongs();
+        }
+
+        /// <summary>
+        /// Inserts or appends to the queue the given song ID list.
+        /// </summary>
+        /// <param name="insert">Whether to insert or append to the queue.</param>
+        /// <param name="queueList">A list of songs ID's to be appended or inserted into the queue.</param>
+        /// <returns>A list of queued songs in the current album.</returns>
+        public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
+        {
+            MainWindow.Queue(insert, songIDs);
             if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();

@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.0.2.4
+!define VERSION 1.1.0.0
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -65,12 +65,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_0_2_4.exe
+OutFile setup_ampsharp_1_1_0_0.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.0.2.4
+VIProductVersion 1.1.0.0
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -109,6 +109,7 @@ Section -Main SEC0000
 	File ..\amp\bin\Release\NAudio.Vorbis.dll
 	File ..\amp\bin\Release\VPKSoft.About.dll
 	File ..\amp\bin\Release\VPKSoft.VersionCheck.dll
+	File ..\amp\bin\Release\DBLocalization.exe
 	
 	File ..\amp\bin\Release\VPKSoft.ErrorLogger.dll
 	
