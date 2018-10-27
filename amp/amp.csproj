@@ -80,8 +80,8 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.About, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.About.1.0.0\lib\net45\VPKSoft.About.dll</HintPath>
+    <Reference Include="VPKSoft.About, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.About.1.0.0.4\lib\net45\VPKSoft.About.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
@@ -94,6 +94,9 @@
     </Reference>
     <Reference Include="VPKSoft.Utils, Version=1.0.3.7, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.Utils.1.0.3.7\lib\net45\VPKSoft.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.VersionCheck, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.VersionCheck.1.0.0.1\lib\net45\VPKSoft.VersionCheck.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -278,11 +281,11 @@
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="VPKSoft.ico" />
     <None Include="Resources\amp_scramble_queue.png" />
     <None Include="Resources\view-refresh.png" />
     <None Include="Resources\Green tag.png" />
     <None Include="Resources\amp_alternate_queue.png" />
-    <Content Include="VPKSoft.ico" />
     <None Include="Resources\info.png" />
     <None Include="Resources\Go forward.png" />
     <None Include="Resources\Go back.png" />
