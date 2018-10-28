@@ -810,7 +810,7 @@ namespace amp
             {
                 FormPsycho.UnExecute();
             }
-            Filtered = false;
+            Filtered = FilterType.NoneFiltered;
             albumLoading = false;
             albumChanged = true;
         }
@@ -1126,8 +1126,7 @@ namespace amp
                 }
             }));
 
-            Filtered = true;
-            queueShowing = true;
+            Filtered = FilterType.QueueFiltered;
         }
 
         internal void ShowAlternateQueue()
@@ -1153,23 +1152,8 @@ namespace amp
                 {
                     lbMusic.Items.Add(mf);
                 }
+                Filtered = FilterType.AlternateFiltered;
             }));
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the queue is being displayed on the form.
-        /// </summary>
-        internal bool QueueShowing
-        {
-            get
-            {
-                if (PlayList.Count(f => f.QueueIndex > 0) == 0)
-                {
-                    queueShowing = false;
-                    Filtered = false;
-                }
-                return queueShowing;
-            }
         }
 
         private void mnuDeQueue_Click(object sender, EventArgs e)
@@ -1290,7 +1274,23 @@ namespace amp
             }
         }
 
-        private bool queueEmpty = false;
+        private int QueueCount
+        {
+            get
+            {
+                return PlayList.Count(f => f.QueueIndex > 0);
+            }
+        }
+
+        private bool ShouldRefreshList(MusicFile mf)
+        {
+            if (mf == null)
+            {
+                return false;
+            }
+            List<MusicFile> currentFiles = lbMusic.Items.Cast<MusicFile>().ToList();
+            return !currentFiles.Exists(f => f.ID == mf.ID);
+        }
 
         private void ShowPlayingSong()
         {
@@ -1303,23 +1303,23 @@ namespace amp
                 }
             }
 
-            if (QueueShowing) // avoid the queue to go
+            if (ShouldRefreshList(mFile)) // only do this "jump" if the list is filtered..
             {
-                return;
-            }
-
-            if (Filtered || queueEmpty != QueueShowing) // only do this "jump" if the list is filtered..
-            {
-                lbMusic.Items.Clear();
-                foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+                if (Filtered == FilterType.QueueFiltered && QueueCount > 0)
                 {
-                    lbMusic.Items.Add(mf);
+                    ShowQueue();
+                }
+                else
+                {
+                    lbMusic.Items.Clear();
+                    foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+                    {
+                        lbMusic.Items.Add(mf);
+                    }
+                    Filtered = FilterType.NoneFiltered;
                 }
             }
 
-            queueEmpty = QueueShowing;
-
-            Filtered = false;
             for (int i = 0; i < lbMusic.Items.Count; i++)
             {
                 if (mFile != null && mFile.ID == (lbMusic.Items[i] as MusicFile).ID)
@@ -1487,13 +1487,13 @@ namespace amp
                 float volume = 1;
                 if (sender == pnVol1)
                 {
-                    volume = 1.0F * ((float)e.X / 50F);
                     pnVol2.Left = e.X;
+                    volume = 1.0F * ((float)e.X / 50F);
                 }
                 else if (sender == pnVol2)
                 {
+                    pnVol2.Left += e.X;
                     volume = 1.0F * ((float)pnVol2.Left / 50F);
-                    pnVol2.Left += e.X;                    
                 }
 
                 if (volumeStream != null)
@@ -1597,6 +1597,11 @@ namespace amp
         private void mnuShowAlternateQueue_Click(object sender, EventArgs e)
         {
             ShowAlternateQueue();
+        }
+
+        private void mnuHelpItem_Click(object sender, EventArgs e)
+        {
+            FormHelp.ShowSingleton();
         }
     }
 }

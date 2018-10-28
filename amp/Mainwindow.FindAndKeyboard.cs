@@ -20,26 +20,15 @@ namespace amp
 {
     public partial class MainWindow : DBLangEngineWinforms
     {
-        private bool _Filtered = false;
-        private bool Filtered // if the list of files is somehow filtered
+        internal enum FilterType
         {
-            get
-            {
-                return _Filtered;
-            }
-
-            set
-            {
-                _Filtered = value;
-
-                if (!value)
-                {
-                    queueShowing = false; // the queue is not showing either if not filtered..
-                }
-            }
+            SearchFiltered,
+            QueueFiltered,
+            AlternateFiltered,
+            NoneFiltered
         }
 
-        private bool queueShowing = false; // if the list is filtered with queued songs..
+        internal FilterType Filtered { get; set; } = FilterType.NoneFiltered; // if the list of files is somehow filtered..
 
         private void Find(bool onlyIfText = false)
         {
@@ -58,7 +47,7 @@ namespace amp
                     lbMusic.Items.Add(mf);
                 }
             }
-            Filtered = tbFind.Text != string.Empty;
+            Filtered = tbFind.Text != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
         }
 
         private bool HandleKeyDown(ref KeyEventArgs e)
@@ -114,13 +103,13 @@ namespace amp
                 {
                     if (e.Control)
                     {
-                        if (playing || Filtered)
+                        if (playing || Filtered != FilterType.NoneFiltered)
                         {
-                            mf.QueueInsert(ref PlayList, Filtered, PlayList.IndexOf(mFile));
+                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(mFile));
                         }
                         else
                         {
-                            mf.QueueInsert(ref PlayList, Filtered);
+                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered);
                         }
                     }
                     else
@@ -131,7 +120,7 @@ namespace amp
                 lbMusic.RefreshItems();
                 GetQueueCount();
 
-                if (QueueShowing) // refresh the queue list if it's showing..
+                if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
                 {
                     ShowQueue();
                 }
@@ -150,13 +139,13 @@ namespace amp
                 {
                     if (e.Control)
                     {
-                        if (playing || Filtered)
+                        if (playing || Filtered != FilterType.NoneFiltered)
                         {
-                            mf.QueueInsertAlternate(ref PlayList, Filtered, PlayList.IndexOf(mFile));
+                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(mFile));
                         }
                         else
                         {
-                            mf.QueueInsertAlternate(ref PlayList, Filtered);
+                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered);
                         }
                     }
                     else
@@ -166,7 +155,7 @@ namespace amp
                 }
                 lbMusic.RefreshItems();
 
-                if (QueueShowing) // refresh the queue list if it's showing..
+                if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
                 {
                     ShowQueue();
                 }
@@ -187,6 +176,7 @@ namespace amp
                 e.KeyCode == Keys.Shift ||
                 e.KeyCode == Keys.Control ||
                 e.KeyCode == Keys.Return ||
+                e.KeyCode == Keys.F1 ||
                 e.KeyCode == Keys.F2 ||
                 e.KeyCode == Keys.F4 ||
                 e.KeyCode == Keys.F6 ||

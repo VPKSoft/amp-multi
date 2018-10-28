@@ -167,7 +167,7 @@ namespace amp
                 }
             }
 
-            if (QueueShowing) // refresh the queue list if it's showing..
+            if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 ShowQueue();
             }
@@ -216,7 +216,7 @@ namespace amp
                 }
             }
 
-            if (QueueShowing) // refresh the queue list if it's showing..
+            if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 ShowQueue();
             }

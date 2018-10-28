@@ -112,6 +112,12 @@
     <Compile Include="FormDatabaseUpdatingProgress.Designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHelp.Designer.cs">
+      <DependentUpon>FormHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTagInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,6 +225,9 @@
     <EmbeddedResource Include="FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormHelp.resx">
+      <DependentUpon>FormHelp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormModifySavedQueue.resx">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </EmbeddedResource>
@@ -281,6 +290,23 @@
     <Content Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\help.png" />
+    <None Include="Resources\info1.png" />
+    <None Include="Resources\Keyboard.png" />
+    <None Include="Resources\keyboard_lctrl.png" />
+    <None Include="Resources\addButton.png" />
+    <None Include="Resources\keyboard_alphabet_a.png" />
+    <None Include="Resources\keyboard_function_f4.png" />
+    <None Include="Resources\keyboard_function_f6.png" />
+    <None Include="Resources\keyboard_alphabet_d.png" />
+    <None Include="Resources\keyboard_function_f7.png" />
+    <None Include="Resources\keyboard_function_f8.png" />
+    <None Include="Resources\keyboard_function_f1.png" />
+    <None Include="Resources\keyboard_numpad_plus.png" />
+    <None Include="Resources\keyboard_modified_plus.png" />
+    <None Include="Resources\keyboard_modified_multiply.png" />
+    <None Include="Resources\keyboard_function_delete.png" />
+    <None Include="Resources\num_keypad.png" />
     <Content Include="VPKSoft.ico" />
     <None Include="Resources\amp_scramble_queue.png" />
     <None Include="Resources\view-refresh.png" />

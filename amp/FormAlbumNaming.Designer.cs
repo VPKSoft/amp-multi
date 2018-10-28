@@ -121,16 +121,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbAlbumNaming.BackColor = System.Drawing.SystemColors.Window;
             this.tlpMain.SetColumnSpan(this.tbAlbumNaming, 5);
+            this.tbAlbumNaming.HideSelection = false;
             this.tbAlbumNaming.Location = new System.Drawing.Point(3, 22);
             this.tbAlbumNaming.Name = "tbAlbumNaming";
             this.tbAlbumNaming.Size = new System.Drawing.Size(529, 20);
             this.tbAlbumNaming.TabIndex = 1;
-            this.tbAlbumNaming.Text = "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE?[^]##ALTERNATE_QUEUE?[*=^" +
-    "]#";
+            this.tbAlbumNaming.Text = "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[*=" +
+    "^]#";
             this.tbAlbumNaming.TextChanged += new System.EventHandler(this.tbCommonNaming_TextChanged);
-            this.tbAlbumNaming.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbAlbumNaming_DragDrop);
-            this.tbAlbumNaming.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbAlbumNaming_Dragging);
-            this.tbAlbumNaming.DragOver += new System.Windows.Forms.DragEventHandler(this.tbAlbumNaming_Dragging);
+            this.tbAlbumNaming.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbCommon_DragDrop);
+            this.tbAlbumNaming.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbCommon_Dragging);
+            this.tbAlbumNaming.DragOver += new System.Windows.Forms.DragEventHandler(this.tbCommon_Dragging);
             this.tbAlbumNaming.Enter += new System.EventHandler(this.tbCommon_Enter);
             // 
             // lbNamingSampleText
@@ -165,6 +166,7 @@
             this.lbDragItems.Name = "lbDragItems";
             this.lbDragItems.Size = new System.Drawing.Size(529, 111);
             this.lbDragItems.TabIndex = 4;
+            this.lbDragItems.SelectedIndexChanged += new System.EventHandler(this.lbDragItems_SelectedIndexChanged);
             this.lbDragItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbDragItems_MouseDown);
             // 
             // bOK
@@ -232,13 +234,18 @@
             // 
             // tbAlbumNamingRenamed
             // 
+            this.tbAlbumNamingRenamed.AllowDrop = true;
             this.tlpMain.SetColumnSpan(this.tbAlbumNamingRenamed, 5);
+            this.tbAlbumNamingRenamed.HideSelection = false;
             this.tbAlbumNamingRenamed.Location = new System.Drawing.Point(3, 134);
             this.tbAlbumNamingRenamed.Name = "tbAlbumNamingRenamed";
             this.tbAlbumNamingRenamed.Size = new System.Drawing.Size(529, 20);
             this.tbAlbumNamingRenamed.TabIndex = 16;
-            this.tbAlbumNamingRenamed.Text = "    #RENAMED? ##QUEUE?[^]##ALTERNATE_QUEUE?[*=^]#";
+            this.tbAlbumNamingRenamed.Text = "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
             this.tbAlbumNamingRenamed.TextChanged += new System.EventHandler(this.tbCommonNaming_TextChanged);
+            this.tbAlbumNamingRenamed.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbCommon_DragDrop);
+            this.tbAlbumNamingRenamed.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbCommon_Dragging);
+            this.tbAlbumNamingRenamed.DragOver += new System.Windows.Forms.DragEventHandler(this.tbCommon_Dragging);
             this.tbAlbumNamingRenamed.Enter += new System.EventHandler(this.tbCommon_Enter);
             // 
             // lbNamingSampleText2
@@ -277,6 +284,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAlbumNaming";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Album naming";
             this.Shown += new System.EventHandler(this.FormAlbumNaming_Shown);

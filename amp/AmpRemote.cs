@@ -258,7 +258,7 @@ namespace amp
         public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
         {
             MainWindow.Queue(insert, queueList);
-            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }
@@ -275,7 +275,7 @@ namespace amp
         public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
         {
             MainWindow.Queue(insert, songIDs);
-            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }
@@ -340,7 +340,7 @@ namespace amp
         {
             MainWindow.Queue(insert, songIDs);
 
-            if (MainWindow.QueueShowing) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }

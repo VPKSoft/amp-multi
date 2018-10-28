@@ -74,13 +74,13 @@ namespace amp
 
             lbDragItems.Items.Add(new TagDescriptionPair()
             {
-                Tag = "#TRACKNO?[^] #", // the title..
+                Tag = "#TRACKNO?(^) #", // the title..
                 Description = DBLangEngine.GetMessage("msgTrackNO", "Track number|As a track number of a song in a music album")
             });
 
             lbDragItems.Items.Add(new TagDescriptionPair()
             {
-                Tag = "#TITLE? - #", // the title..
+                Tag = "#TITLE?#", // the title..
                 Description = DBLangEngine.GetMessage("msgTitle", "Title|As in a title of a music file")
             });
 
@@ -92,13 +92,13 @@ namespace amp
 
             lbDragItems.Items.Add(new TagDescriptionPair()
             {
-                Tag = "#ALTERNATE_QUEUE?[*=^]#", // the alternate queue index..
+                Tag = "#ALTERNATE_QUEUE?[ *=^]#", // the alternate queue index..
                 Description = DBLangEngine.GetMessage("msgAlternateQueue", "Alternate queue index|As an alternate queue index of a music file")
             });
 
             lbDragItems.Items.Add(new TagDescriptionPair()
             {
-                Tag = "#RENAMED? #", // a renamed song name..
+                Tag = "#RENAMED?#", // a renamed song name..
                 Description = DBLangEngine.GetMessage("msgMusicFileRenamed", "I named this song my self|The user has renamed the song him self")
             });
         }
@@ -119,6 +119,12 @@ namespace amp
 
             // get an item's index at the current mouse coordinates..
             index = lb.IndexFromPoint(e.X, e.Y);
+
+            if (!e.Button.HasFlag(MouseButtons.Right))
+            {
+                item = null; // ..set the item to null and..
+                return false;
+            }
 
             // if the index is invalid..
             if (index < 0 || index >= lb.Items.Count)
@@ -145,7 +151,7 @@ namespace amp
             lb.DoDragDrop(dragDrop, DragDropEffects.Copy);
         }
 
-        private void tbAlbumNaming_Dragging(object sender, DragEventArgs e)
+        private void tbCommon_Dragging(object sender, DragEventArgs e)
         {
             // TagDescriptionPairs will be..
             if (e.Data.GetDataPresent(typeof(TagDescriptionPair)))
@@ -159,10 +165,14 @@ namespace amp
                 }
 
                 Point point = textBox.PointToClient(new Point(e.X, e.Y));
-                int idx = textBox.GetCharIndexFromPosition(point);
-                if (idx >= 0)
+                int idx1 = textBox.GetCharIndexFromPosition(point);
+
+                // pseudo detection of the last "character", i.e. the end position..
+                int idx2 = textBox.GetCharIndexFromPosition(new Point(point.X + 15, point.Y));
+
+                if (idx1 >= 0 && idx2 >= 0 && idx1 != idx2)
                 {
-                    textBox.SelectionStart = idx;
+                    textBox.SelectionStart = idx1;
                     textBox.SelectionLength = 0;
                 }
                 else
@@ -178,24 +188,17 @@ namespace amp
             }
         }
 
-        private void tbAlbumNaming_DragDrop(object sender, DragEventArgs e)
+        private void tbCommon_DragDrop(object sender, DragEventArgs e)
         {
             // if the data is of type of string set the effect to move..
             if (e.Data.GetDataPresent(typeof(TagDescriptionPair)) &&
-                sender.Equals(tbAlbumNaming)) // the sender must be the "trash bin"..
+                sender.Equals(activeTextbox)) // the sender must be one of the two formula text boxes..
             {
                 e.Effect = DragDropEffects.Move; // ensure a move effect..
                 TagDescriptionPair dropPair = (TagDescriptionPair)e.Data.GetData(typeof(TagDescriptionPair));
-/*                RemoveTag(ref currentPhotoTags, tagText); // remove the tag dragged to the trash bin..
 
-                // set the tag text of the current entry by joining the list into a comma delimited string..
-                List<string> tags = currentPhotoTags.Select(f => f.TAGTEXT).ToList();
-                currentPhotoAlbumEntry.TAGTEXT = string.Join(", ", tags); // ..so join the tags..
-
-                lbPhotoTagValues.Items.Remove(tagText);
-
-                // set the album changed value to true..
-                AlbumChanged = true;*/
+                // set the text of the dropped item..
+                activeTextbox.SelectedText = dropPair.Tag;
             }
         }
 
@@ -209,8 +212,8 @@ namespace amp
 
         private void btDefaultNaming_Click(object sender, EventArgs e)
         {
-            tbAlbumNaming.Text = "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE?[^]##ALTERNATE_QUEUE?[*=^]#";
-            tbAlbumNamingRenamed.Text = "    #RENAMED? ##QUEUE?[^]##ALTERNATE_QUEUE?[*=^]#";
+            tbAlbumNaming.Text = "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
+            tbAlbumNamingRenamed.Text = "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
         }
 
         private void tbCommonNaming_TextChanged(object sender, EventArgs e)
@@ -230,8 +233,20 @@ namespace amp
                 DBLangEngine.GetMessage("msgMusicFileRenamed", "I named this song my self|The user has renamed the song him self"),
                 DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), out error);
 
+            bool formulaInText = // check that the formula has been parsed properly..
+                label.Text.Contains("#ARTIST") ||
+                label.Text.Contains("#ALBUM") ||
+                label.Text.Contains("#TRACKNO") ||
+                label.Text.Contains("#QUEUE") ||
+                label.Text.Contains("#ALTERNATE_QUEUE") ||
+                label.Text.Contains("#RENAMED");
+
+            error |= formulaInText;
+
+
             // indicate invalid naming formula..
             textBox.ForeColor = (error || textBox.Text.Trim() == string.Empty) ? Color.Red : SystemColors.WindowText;
+               
 
             bOK.Enabled = !error && textBox.Text.Trim() != string.Empty;
         }
@@ -266,7 +281,23 @@ namespace amp
             tbAlbumNaming.Focus();
             tbAlbumNaming.Text = Settings.AlbumNaming;
             tbAlbumNamingRenamed.Text = Settings.AlbumNamingRenamed;
+        }
 
+        // select the corresponding text from the active formula text box if the selected item 
+        // is contained within the text in the text box..
+        private void lbDragItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox lb = (ListBox)sender; // the list box..
+            if (lb.SelectedItem != null) // check if an item is selected..
+            {
+                TagDescriptionPair pair = (TagDescriptionPair)lb.SelectedItem; // get the selected item..
+                if (activeTextbox.Text.Contains(pair.Tag)) // if the text is there..
+                {
+                    // ..select the text..
+                    activeTextbox.Select(activeTextbox.Text.IndexOf(pair.Tag), pair.Tag.Length);
+                    activeTextbox.Focus(); // set the focus to the text box..
+                }
+            }
         }
     }
 }

@@ -63,6 +63,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addButton {
+            get {
+                object obj = ResourceManager.GetObject("addButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap album {
             get {
                 object obj = ResourceManager.GetObject("album", resourceCulture);
@@ -295,7 +305,7 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Go_back {
             get {
-                object obj = ResourceManager.GetObject("Go back", resourceCulture);
+                object obj = ResourceManager.GetObject("Go_back", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -305,7 +315,7 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Go_forward {
             get {
-                object obj = ResourceManager.GetObject("Go forward", resourceCulture);
+                object obj = ResourceManager.GetObject("Go_forward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -315,7 +325,17 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Green_tag {
             get {
-                object obj = ResourceManager.GetObject("Green tag", resourceCulture);
+                object obj = ResourceManager.GetObject("Green_tag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap help {
+            get {
+                object obj = ResourceManager.GetObject("help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -326,6 +346,146 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info1 {
+            get {
+                object obj = ResourceManager.GetObject("info1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Keyboard {
+            get {
+                object obj = ResourceManager.GetObject("Keyboard", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_alphabet_a {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_alphabet_a", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_alphabet_d {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_alphabet_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_delete {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f1 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f4 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f6 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f7 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f8 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_lctrl {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_lctrl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_modified_multiply {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_modified_multiply", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_modified_plus {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_modified_plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keyboard_numpad_plus {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_numpad_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -355,7 +515,7 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap media_optical_data_new {
             get {
-                object obj = ResourceManager.GetObject("media-optical-data-new", resourceCulture);
+                object obj = ResourceManager.GetObject("media_optical_data_new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -375,7 +535,17 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap music_note {
             get {
-                object obj = ResourceManager.GetObject("music-note", resourceCulture);
+                object obj = ResourceManager.GetObject("music_note", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap num_keypad {
+            get {
+                object obj = ResourceManager.GetObject("num_keypad", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -465,7 +635,7 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Save_as32 {
             get {
-                object obj = ResourceManager.GetObject("Save-as32", resourceCulture);
+                object obj = ResourceManager.GetObject("Save_as32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -475,7 +645,7 @@ namespace amp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap select_all {
             get {
-                object obj = ResourceManager.GetObject("select all", resourceCulture);
+                object obj = ResourceManager.GetObject("select_all", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -483,9 +653,9 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings__1_ {
+        internal static System.Drawing.Bitmap settings {
             get {
-                object obj = ResourceManager.GetObject("settings (1)", resourceCulture);
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -556,16 +726,6 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap Upload {
             get {
                 object obj = ResourceManager.GetObject("Upload", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap view_refresh {
-            get {
-                object obj = ResourceManager.GetObject("view-refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

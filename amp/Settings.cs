@@ -67,7 +67,7 @@ namespace amp
                 VPKNml vnml = new VPKNml();
                 Paths.MakeAppSettingsFolder();
                 vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
-                string result = vnml["AlbumNaming", "value", "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE? - ##QUEUE?[^]##ALTERNATE_QUEUE?[*=^]#"].ToString();
+                string result = vnml["AlbumNaming", "value", "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
 
                 if (_AlbumNaming == string.Empty)
                 {
@@ -103,7 +103,7 @@ namespace amp
                 VPKNml vnml = new VPKNml();
                 Paths.MakeAppSettingsFolder();
                 vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
-                string result = vnml["AlbumNamingRenamed", "value", "    #RENAMED? ##QUEUE?[^]##ALTERNATE_QUEUE?[*=^]#"].ToString();
+                string result = vnml["AlbumNamingRenamed", "value", "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
 
                 if (_AlbumNamingRenamed == string.Empty)
                 {

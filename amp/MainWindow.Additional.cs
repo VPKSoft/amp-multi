@@ -105,7 +105,7 @@ namespace amp
                 if (iSongIndex != -1)
                 {
                     PlayList[iSongIndex].Queue(ref PlayList);
-                    if (QueueShowing) // refresh the queue list if it's showing..
+                    if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
                     {
                         ShowQueue();
                     }
@@ -152,7 +152,7 @@ namespace amp
                     GetQueueCount();
                 }
 
-                if (!QueueShowing)
+                if (Filtered == FilterType.QueueFiltered)
                 {
                     ShowQueue();
                 }

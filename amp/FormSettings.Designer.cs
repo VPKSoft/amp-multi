@@ -49,6 +49,8 @@
             this.lbRemoteControlURI = new System.Windows.Forms.Label();
             this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
             this.btAlbumNaming = new System.Windows.Forms.Button();
+            this.tbTestQuietHour = new System.Windows.Forms.TextBox();
+            this.btnTestQuietHour = new System.Windows.Forms.Button();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -104,7 +106,7 @@
             this.gpVolumeSetting.Controls.Add(this.rbPauseQuiet);
             this.gpVolumeSetting.Location = new System.Drawing.Point(12, 61);
             this.gpVolumeSetting.Name = "gpVolumeSetting";
-            this.gpVolumeSetting.Size = new System.Drawing.Size(244, 96);
+            this.gpVolumeSetting.Size = new System.Drawing.Size(245, 96);
             this.gpVolumeSetting.TabIndex = 6;
             this.gpVolumeSetting.TabStop = false;
             // 
@@ -161,7 +163,7 @@
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(181, 367);
+            this.bOK.Location = new System.Drawing.Point(182, 367);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -275,13 +277,33 @@
             this.btAlbumNaming.UseVisualStyleBackColor = true;
             this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
             // 
+            // tbTestQuietHour
+            // 
+            this.tbTestQuietHour.Location = new System.Drawing.Point(281, 200);
+            this.tbTestQuietHour.Multiline = true;
+            this.tbTestQuietHour.Name = "tbTestQuietHour";
+            this.tbTestQuietHour.Size = new System.Drawing.Size(269, 161);
+            this.tbTestQuietHour.TabIndex = 19;
+            // 
+            // btnTestQuietHour
+            // 
+            this.btnTestQuietHour.Location = new System.Drawing.Point(281, 171);
+            this.btnTestQuietHour.Name = "btnTestQuietHour";
+            this.btnTestQuietHour.Size = new System.Drawing.Size(269, 23);
+            this.btnTestQuietHour.TabIndex = 20;
+            this.btnTestQuietHour.Text = "Quiet hour test";
+            this.btnTestQuietHour.UseVisualStyleBackColor = true;
+            this.btnTestQuietHour.Click += new System.EventHandler(this.btnTestQuietHour_Click);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(268, 400);
+            this.ClientSize = new System.Drawing.Size(269, 400);
+            this.Controls.Add(this.btnTestQuietHour);
+            this.Controls.Add(this.tbTestQuietHour);
             this.Controls.Add(this.btAlbumNaming);
             this.Controls.Add(this.gpRemoteControl);
             this.Controls.Add(this.nudLatency);
@@ -335,5 +357,7 @@
         private System.Windows.Forms.Label lbRemoteControlURI;
         private System.Windows.Forms.TextBox tbRemoteControlURI;
         private System.Windows.Forms.Button btAlbumNaming;
+        private System.Windows.Forms.TextBox tbTestQuietHour;
+        private System.Windows.Forms.Button btnTestQuietHour;
     }
 }

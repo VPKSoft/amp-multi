@@ -73,33 +73,20 @@ namespace amp
             return CalculateQuietHour(hourFrom, hourTo, DateTime.Now);
         }
 
-        public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo, DateTime fromDate)
+        public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo, DateTime compareDate)
         {
             DateTime dt1 = DateTime.ParseExact(Convert.ToString(hourFrom), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
             DateTime dt2 = DateTime.ParseExact(Convert.ToString(hourTo), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
-            dt1 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt1.Hour, dt1.Minute, 0);
-            dt2 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt2.Hour, dt2.Minute, 0);
 
-            while (fromDate > dt1 && fromDate < dt2)
+            dt1 = new DateTime(compareDate.Year, compareDate.Month, compareDate.Day, dt1.Hour, dt1.Minute, 0);
+            dt2 = new DateTime(compareDate.Year, compareDate.Month, compareDate.Day, dt2.Hour, dt2.Minute, 0);
+
+            if (dt2 < dt1)
             {
-                nextQuietTime = nextQuietTime.AddDays(1);
-                dt1 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt1.Hour, dt1.Minute, 0);
-                dt2 = new DateTime(nextQuietTime.Year, nextQuietTime.Month, nextQuietTime.Day, dt2.Hour, dt2.Minute, 0);
-                if (dt1 > dt2) // 23:00 - 06:00: dt1 = 02.02.2018 23:00 --> dt2 = 03.02.2018 06:00
-                {
-                    dt2 = dt2.AddDays(1);
-                }
+                dt2 = dt2.AddDays(1);
             }
 
             return new KeyValuePair<DateTime, DateTime>(dt1, dt2);
-        }
-
-        private static DateTime NextDayTest
-        {
-            get
-            {
-                return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 0, 0, 1);
-            }
         }
 
         public static bool IsQuietHour()
@@ -110,10 +97,7 @@ namespace amp
             }
 
             KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(MainWindow.QuietHoursFrom, MainWindow.QuietHoursTo);
-            DateTime test = NextDayTest;
             bool retval = (DateTime.Now >= span.Key && DateTime.Now < span.Value);
-
-//            bool retval = (test >= span.Key && test < span.Value);
             return retval;
         }
 
@@ -121,6 +105,7 @@ namespace amp
         {
             VU.VPKNml vnml = new VU.VPKNml();
             VU.Paths.MakeAppSettingsFolder();
+            vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
             vnml["quietHour", "enabled"] = cbQuietHours.Checked;
             vnml["quietHour", "start"] = dtpFrom.Value.ToString("HH':'mm");
             vnml["quietHour", "end"] = dtpTo.Value.ToString("HH':'mm");
@@ -188,6 +173,23 @@ namespace amp
         private void btAlbumNaming_Click(object sender, EventArgs e)
         {
             new FormAlbumNaming().ShowDialog();
+        }
+
+        private void btnTestQuietHour_Click(object sender, EventArgs e)
+        {
+            DateTime dtCompare = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DateTime dt1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DateTime dt2 = dt1.AddDays(2);
+
+            tbTestQuietHour.Clear();
+
+            while (dt1 < dt2)
+            {
+                KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(MainWindow.QuietHoursFrom, MainWindow.QuietHoursTo, dtCompare);
+                dt1 = dt1.AddMinutes(1);
+                bool isQuietHour =(dt1 >= span.Key && dt1 < span.Value);
+                tbTestQuietHour.Text += isQuietHour + ": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;
+            }
         }
     }
 }
