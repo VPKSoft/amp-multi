@@ -31,101 +31,101 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHelp));
             this.pnMain = new System.Windows.Forms.Panel();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
-            this.label26 = new System.Windows.Forms.Label();
+            this.tlpRenameSong = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_13 = new System.Windows.Forms.Label();
+            this.lbRenameSong = new System.Windows.Forms.Label();
+            this.pnButton13_1 = new System.Windows.Forms.Panel();
+            this.pnButton13_2 = new System.Windows.Forms.Panel();
+            this.pnButton13_3 = new System.Windows.Forms.Panel();
+            this.lbNumericKeypadDesc = new System.Windows.Forms.Label();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.panel37 = new System.Windows.Forms.Panel();
-            this.panel38 = new System.Windows.Forms.Panel();
-            this.panel39 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.panel34 = new System.Windows.Forms.Panel();
-            this.panel35 = new System.Windows.Forms.Panel();
-            this.panel36 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.panel31 = new System.Windows.Forms.Panel();
-            this.panel32 = new System.Windows.Forms.Panel();
-            this.panel33 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.panel28 = new System.Windows.Forms.Panel();
-            this.panel29 = new System.Windows.Forms.Panel();
-            this.panel30 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.panel25 = new System.Windows.Forms.Panel();
-            this.panel26 = new System.Windows.Forms.Panel();
-            this.panel27 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.panel22 = new System.Windows.Forms.Panel();
-            this.panel23 = new System.Windows.Forms.Panel();
-            this.panel24 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.panel19 = new System.Windows.Forms.Panel();
-            this.panel20 = new System.Windows.Forms.Panel();
-            this.panel21 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.panel16 = new System.Windows.Forms.Panel();
-            this.panel17 = new System.Windows.Forms.Panel();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.panel12 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.tlpSelectAllDescription = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbKeyboardShortcutDesc_12 = new System.Windows.Forms.Label();
+            this.lbDeleteSongs = new System.Windows.Forms.Label();
+            this.pnButton12_1 = new System.Windows.Forms.Panel();
+            this.pnButton12_2 = new System.Windows.Forms.Panel();
+            this.pnButton12_3 = new System.Windows.Forms.Panel();
+            this.tlpAlternateQueueInsertSongs = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_11 = new System.Windows.Forms.Label();
+            this.lbAlternateQueueInsertSongs = new System.Windows.Forms.Label();
+            this.pnButton11_1 = new System.Windows.Forms.Panel();
+            this.pnButton11_2 = new System.Windows.Forms.Panel();
+            this.pnButton11_3 = new System.Windows.Forms.Panel();
+            this.tlpAlternateQueueSongs = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_10 = new System.Windows.Forms.Label();
+            this.lbAlternateQueueSongs = new System.Windows.Forms.Label();
+            this.pnButton10_1 = new System.Windows.Forms.Panel();
+            this.pnButton10_2 = new System.Windows.Forms.Panel();
+            this.pnButton10_3 = new System.Windows.Forms.Panel();
+            this.tlpQueueInsertSongs = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_09 = new System.Windows.Forms.Label();
+            this.lbQueueInsertSongs = new System.Windows.Forms.Label();
+            this.pnButton09_1 = new System.Windows.Forms.Panel();
+            this.pnButton09_2 = new System.Windows.Forms.Panel();
+            this.pnButton09_3 = new System.Windows.Forms.Panel();
+            this.tlpQueueSongs = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_08 = new System.Windows.Forms.Label();
+            this.lbQueueSongs = new System.Windows.Forms.Label();
+            this.pnButton08_1 = new System.Windows.Forms.Panel();
+            this.pnButton08_2 = new System.Windows.Forms.Panel();
+            this.pnButton08_3 = new System.Windows.Forms.Panel();
+            this.tlpShowThisHelp = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_07 = new System.Windows.Forms.Label();
+            this.lbShowThisHelp = new System.Windows.Forms.Label();
+            this.pnButton07_1 = new System.Windows.Forms.Panel();
+            this.pnButton07_2 = new System.Windows.Forms.Panel();
+            this.pnButton07_3 = new System.Windows.Forms.Panel();
+            this.tlpShowAlternateQueue = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_06 = new System.Windows.Forms.Label();
+            this.lbShowAlternateQueue = new System.Windows.Forms.Label();
+            this.pnButton06_1 = new System.Windows.Forms.Panel();
+            this.pnButton06_2 = new System.Windows.Forms.Panel();
+            this.pnButton06_3 = new System.Windows.Forms.Panel();
+            this.tlpScrambleQueue = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_05 = new System.Windows.Forms.Label();
+            this.lbScrambleQueue = new System.Windows.Forms.Label();
+            this.pnButton05_1 = new System.Windows.Forms.Panel();
+            this.pnButton05_2 = new System.Windows.Forms.Panel();
+            this.pnButton05_3 = new System.Windows.Forms.Panel();
+            this.tlpClearQueue = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_04 = new System.Windows.Forms.Label();
+            this.lbClearQueue = new System.Windows.Forms.Label();
+            this.pnButton4_1 = new System.Windows.Forms.Panel();
+            this.pnButton04_2 = new System.Windows.Forms.Panel();
+            this.pnButton04_3 = new System.Windows.Forms.Panel();
+            this.tlpShowQueue = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_03 = new System.Windows.Forms.Label();
+            this.lbShowQueue = new System.Windows.Forms.Label();
+            this.pnButton03_1 = new System.Windows.Forms.Panel();
+            this.pnButton03_2 = new System.Windows.Forms.Panel();
+            this.pnButton03_3 = new System.Windows.Forms.Panel();
+            this.tlpSongInformation = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_02 = new System.Windows.Forms.Label();
+            this.lbSongInformation = new System.Windows.Forms.Label();
+            this.pnButton02_1 = new System.Windows.Forms.Panel();
+            this.pnButton02_2 = new System.Windows.Forms.Panel();
+            this.pnButton02_3 = new System.Windows.Forms.Panel();
+            this.tlpSelectAll = new System.Windows.Forms.TableLayoutPanel();
+            this.lbKeyboardShortcutDesc_01 = new System.Windows.Forms.Label();
             this.lbSelectAll = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel40 = new System.Windows.Forms.Panel();
+            this.pnButton01_1 = new System.Windows.Forms.Panel();
+            this.pnButton01_2 = new System.Windows.Forms.Panel();
+            this.pnButton01_3 = new System.Windows.Forms.Panel();
+            this.pnNumericKeypadImage = new System.Windows.Forms.Panel();
             this.pnMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
+            this.tlpRenameSong.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
-            this.tableLayoutPanel11.SuspendLayout();
-            this.tableLayoutPanel10.SuspendLayout();
-            this.tableLayoutPanel9.SuspendLayout();
-            this.tableLayoutPanel8.SuspendLayout();
-            this.tableLayoutPanel7.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tlpSelectAllDescription.SuspendLayout();
+            this.tlpAlternateQueueInsertSongs.SuspendLayout();
+            this.tlpAlternateQueueSongs.SuspendLayout();
+            this.tlpQueueInsertSongs.SuspendLayout();
+            this.tlpQueueSongs.SuspendLayout();
+            this.tlpShowThisHelp.SuspendLayout();
+            this.tlpShowAlternateQueue.SuspendLayout();
+            this.tlpScrambleQueue.SuspendLayout();
+            this.tlpClearQueue.SuspendLayout();
+            this.tlpShowQueue.SuspendLayout();
+            this.tlpSongInformation.SuspendLayout();
+            this.tlpSelectAll.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnMain
@@ -155,22 +155,22 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpMain.Controls.Add(this.label26, 0, 13);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel12, 0, 12);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel11, 0, 11);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel10, 0, 10);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel9, 0, 9);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel8, 0, 8);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel7, 0, 7);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel6, 0, 6);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel5, 0, 5);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel4, 0, 4);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel3, 0, 3);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel1, 0, 1);
-            this.tlpMain.Controls.Add(this.tlpSelectAllDescription, 0, 0);
-            this.tlpMain.Controls.Add(this.panel40, 7, 13);
-            this.tlpMain.Location = new System.Drawing.Point(0, 4);
+            this.tlpMain.Controls.Add(this.tlpRenameSong, 0, 12);
+            this.tlpMain.Controls.Add(this.lbNumericKeypadDesc, 0, 13);
+            this.tlpMain.Controls.Add(this.tableLayoutPanel12, 0, 11);
+            this.tlpMain.Controls.Add(this.tlpAlternateQueueInsertSongs, 0, 10);
+            this.tlpMain.Controls.Add(this.tlpAlternateQueueSongs, 0, 9);
+            this.tlpMain.Controls.Add(this.tlpQueueInsertSongs, 0, 8);
+            this.tlpMain.Controls.Add(this.tlpQueueSongs, 0, 7);
+            this.tlpMain.Controls.Add(this.tlpShowThisHelp, 0, 6);
+            this.tlpMain.Controls.Add(this.tlpShowAlternateQueue, 0, 5);
+            this.tlpMain.Controls.Add(this.tlpScrambleQueue, 0, 4);
+            this.tlpMain.Controls.Add(this.tlpClearQueue, 0, 3);
+            this.tlpMain.Controls.Add(this.tlpShowQueue, 0, 2);
+            this.tlpMain.Controls.Add(this.tlpSongInformation, 0, 1);
+            this.tlpMain.Controls.Add(this.tlpSelectAll, 0, 0);
+            this.tlpMain.Controls.Add(this.pnNumericKeypadImage, 7, 13);
+            this.tlpMain.Location = new System.Drawing.Point(4, 4);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(4);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 14;
@@ -188,21 +188,106 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.142857F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.142857F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.142857F));
-            this.tlpMain.Size = new System.Drawing.Size(683, 1097);
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.Size = new System.Drawing.Size(662, 1080);
             this.tlpMain.TabIndex = 1;
             // 
-            // label26
+            // tlpRenameSong
             // 
-            this.tlpMain.SetColumnSpan(this.label26, 4);
-            this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label26.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label26.Location = new System.Drawing.Point(4, 1014);
-            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(264, 83);
-            this.label26.TabIndex = 13;
-            this.label26.Text = "* = numeric keypad";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tlpRenameSong.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpRenameSong, 10);
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpRenameSong.Controls.Add(this.lbKeyboardShortcutDesc_13, 4, 0);
+            this.tlpRenameSong.Controls.Add(this.lbRenameSong, 0, 0);
+            this.tlpRenameSong.Controls.Add(this.pnButton13_1, 7, 0);
+            this.tlpRenameSong.Controls.Add(this.pnButton13_2, 8, 0);
+            this.tlpRenameSong.Controls.Add(this.pnButton13_3, 9, 0);
+            this.tlpRenameSong.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpRenameSong.Location = new System.Drawing.Point(3, 927);
+            this.tlpRenameSong.Name = "tlpRenameSong";
+            this.tlpRenameSong.RowCount = 1;
+            this.tlpRenameSong.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpRenameSong.Size = new System.Drawing.Size(656, 71);
+            this.tlpRenameSong.TabIndex = 15;
+            // 
+            // lbKeyboardShortcutDesc_13
+            // 
+            this.tlpRenameSong.SetColumnSpan(this.lbKeyboardShortcutDesc_13, 3);
+            this.lbKeyboardShortcutDesc_13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_13.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_13.Name = "lbKeyboardShortcutDesc_13";
+            this.lbKeyboardShortcutDesc_13.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_13.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_13.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbRenameSong
+            // 
+            this.tlpRenameSong.SetColumnSpan(this.lbRenameSong, 4);
+            this.lbRenameSong.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbRenameSong.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbRenameSong.Location = new System.Drawing.Point(4, 0);
+            this.lbRenameSong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbRenameSong.Name = "lbRenameSong";
+            this.lbRenameSong.Size = new System.Drawing.Size(252, 71);
+            this.lbRenameSong.TabIndex = 2;
+            this.lbRenameSong.Text = "Rename selected song";
+            this.lbRenameSong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton13_1
+            // 
+            this.pnButton13_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f2;
+            this.pnButton13_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton13_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton13_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton13_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton13_1.Name = "pnButton13_1";
+            this.pnButton13_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton13_1.TabIndex = 4;
+            // 
+            // pnButton13_2
+            // 
+            this.pnButton13_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton13_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton13_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton13_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton13_2.Name = "pnButton13_2";
+            this.pnButton13_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton13_2.TabIndex = 5;
+            // 
+            // pnButton13_3
+            // 
+            this.pnButton13_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton13_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton13_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton13_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton13_3.Name = "pnButton13_3";
+            this.pnButton13_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton13_3.TabIndex = 6;
+            // 
+            // lbNumericKeypadDesc
+            // 
+            this.tlpMain.SetColumnSpan(this.lbNumericKeypadDesc, 4);
+            this.lbNumericKeypadDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbNumericKeypadDesc.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbNumericKeypadDesc.Location = new System.Drawing.Point(4, 1001);
+            this.lbNumericKeypadDesc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbNumericKeypadDesc.Name = "lbNumericKeypadDesc";
+            this.lbNumericKeypadDesc.Size = new System.Drawing.Size(256, 79);
+            this.lbNumericKeypadDesc.TabIndex = 13;
+            this.lbNumericKeypadDesc.Text = "* = numeric keypad";
+            this.lbNumericKeypadDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tableLayoutPanel12
             // 
@@ -218,1111 +303,1031 @@
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.Controls.Add(this.label24, 4, 0);
-            this.tableLayoutPanel12.Controls.Add(this.label25, 0, 0);
-            this.tableLayoutPanel12.Controls.Add(this.panel37, 7, 0);
-            this.tableLayoutPanel12.Controls.Add(this.panel38, 8, 0);
-            this.tableLayoutPanel12.Controls.Add(this.panel39, 9, 0);
+            this.tableLayoutPanel12.Controls.Add(this.lbKeyboardShortcutDesc_12, 4, 0);
+            this.tableLayoutPanel12.Controls.Add(this.lbDeleteSongs, 0, 0);
+            this.tableLayoutPanel12.Controls.Add(this.pnButton12_1, 7, 0);
+            this.tableLayoutPanel12.Controls.Add(this.pnButton12_2, 8, 0);
+            this.tableLayoutPanel12.Controls.Add(this.pnButton12_3, 9, 0);
             this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel12.Location = new System.Drawing.Point(3, 939);
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(3, 850);
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 1;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(677, 72);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(656, 71);
             this.tableLayoutPanel12.TabIndex = 12;
             // 
-            // label24
-            // 
-            this.tableLayoutPanel12.SetColumnSpan(this.label24, 3);
-            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label24.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label24.Location = new System.Drawing.Point(272, 0);
-            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(193, 72);
-            this.label24.TabIndex = 3;
-            this.label24.Text = "Keyboard shortcut:";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label25
-            // 
-            this.tableLayoutPanel12.SetColumnSpan(this.label25, 4);
-            this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label25.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label25.Location = new System.Drawing.Point(4, 0);
-            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(260, 72);
-            this.label25.TabIndex = 2;
-            this.label25.Text = "Delete song from album";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel37
-            // 
-            this.panel37.BackgroundImage = global::amp.Properties.Resources.keyboard_function_delete;
-            this.panel37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel37.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel37.Location = new System.Drawing.Point(469, 0);
-            this.panel37.Margin = new System.Windows.Forms.Padding(0);
-            this.panel37.Name = "panel37";
-            this.panel37.Size = new System.Drawing.Size(67, 72);
-            this.panel37.TabIndex = 4;
-            // 
-            // panel38
-            // 
-            this.panel38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel38.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel38.Location = new System.Drawing.Point(536, 0);
-            this.panel38.Margin = new System.Windows.Forms.Padding(0);
-            this.panel38.Name = "panel38";
-            this.panel38.Size = new System.Drawing.Size(67, 72);
-            this.panel38.TabIndex = 5;
-            // 
-            // panel39
-            // 
-            this.panel39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel39.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel39.Location = new System.Drawing.Point(603, 0);
-            this.panel39.Margin = new System.Windows.Forms.Padding(0);
-            this.panel39.Name = "panel39";
-            this.panel39.Size = new System.Drawing.Size(74, 72);
-            this.panel39.TabIndex = 6;
-            // 
-            // tableLayoutPanel11
-            // 
-            this.tableLayoutPanel11.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel11, 10);
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.Controls.Add(this.label22, 4, 0);
-            this.tableLayoutPanel11.Controls.Add(this.label23, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.panel34, 7, 0);
-            this.tableLayoutPanel11.Controls.Add(this.panel35, 8, 0);
-            this.tableLayoutPanel11.Controls.Add(this.panel36, 9, 0);
-            this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 861);
-            this.tableLayoutPanel11.Name = "tableLayoutPanel11";
-            this.tableLayoutPanel11.RowCount = 1;
-            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel11.TabIndex = 11;
-            // 
-            // label22
-            // 
-            this.tableLayoutPanel11.SetColumnSpan(this.label22, 3);
-            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label22.Location = new System.Drawing.Point(272, 0);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(193, 72);
-            this.label22.TabIndex = 3;
-            this.label22.Text = "Keyboard shortcut (*):";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label23
-            // 
-            this.tableLayoutPanel11.SetColumnSpan(this.label23, 4);
-            this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label23.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label23.Location = new System.Drawing.Point(4, 0);
-            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(260, 72);
-            this.label23.TabIndex = 2;
-            this.label23.Text = "Alternate queue insert";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel34
-            // 
-            this.panel34.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
-            this.panel34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel34.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel34.Location = new System.Drawing.Point(469, 0);
-            this.panel34.Margin = new System.Windows.Forms.Padding(0);
-            this.panel34.Name = "panel34";
-            this.panel34.Size = new System.Drawing.Size(67, 72);
-            this.panel34.TabIndex = 4;
-            // 
-            // panel35
-            // 
-            this.panel35.BackgroundImage = global::amp.Properties.Resources.addButton;
-            this.panel35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel35.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel35.Location = new System.Drawing.Point(536, 0);
-            this.panel35.Margin = new System.Windows.Forms.Padding(0);
-            this.panel35.Name = "panel35";
-            this.panel35.Size = new System.Drawing.Size(67, 72);
-            this.panel35.TabIndex = 5;
-            // 
-            // panel36
-            // 
-            this.panel36.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
-            this.panel36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel36.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel36.Location = new System.Drawing.Point(603, 0);
-            this.panel36.Margin = new System.Windows.Forms.Padding(0);
-            this.panel36.Name = "panel36";
-            this.panel36.Size = new System.Drawing.Size(74, 72);
-            this.panel36.TabIndex = 6;
-            // 
-            // tableLayoutPanel10
-            // 
-            this.tableLayoutPanel10.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel10, 10);
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel10.Controls.Add(this.label20, 4, 0);
-            this.tableLayoutPanel10.Controls.Add(this.label21, 0, 0);
-            this.tableLayoutPanel10.Controls.Add(this.panel31, 7, 0);
-            this.tableLayoutPanel10.Controls.Add(this.panel32, 8, 0);
-            this.tableLayoutPanel10.Controls.Add(this.panel33, 9, 0);
-            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 783);
-            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
-            this.tableLayoutPanel10.RowCount = 1;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel10.TabIndex = 10;
-            // 
-            // label20
-            // 
-            this.tableLayoutPanel10.SetColumnSpan(this.label20, 3);
-            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label20.Location = new System.Drawing.Point(272, 0);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(193, 72);
-            this.label20.TabIndex = 3;
-            this.label20.Text = "Keyboard shortcut (*):";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label21
-            // 
-            this.tableLayoutPanel10.SetColumnSpan(this.label21, 4);
-            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label21.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label21.Location = new System.Drawing.Point(4, 0);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(260, 72);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "Alternate queue add";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel31
-            // 
-            this.panel31.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
-            this.panel31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel31.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel31.Location = new System.Drawing.Point(469, 0);
-            this.panel31.Margin = new System.Windows.Forms.Padding(0);
-            this.panel31.Name = "panel31";
-            this.panel31.Size = new System.Drawing.Size(67, 72);
-            this.panel31.TabIndex = 4;
-            // 
-            // panel32
-            // 
-            this.panel32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel32.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel32.Location = new System.Drawing.Point(536, 0);
-            this.panel32.Margin = new System.Windows.Forms.Padding(0);
-            this.panel32.Name = "panel32";
-            this.panel32.Size = new System.Drawing.Size(67, 72);
-            this.panel32.TabIndex = 5;
-            // 
-            // panel33
-            // 
-            this.panel33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel33.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel33.Location = new System.Drawing.Point(603, 0);
-            this.panel33.Margin = new System.Windows.Forms.Padding(0);
-            this.panel33.Name = "panel33";
-            this.panel33.Size = new System.Drawing.Size(74, 72);
-            this.panel33.TabIndex = 6;
-            // 
-            // tableLayoutPanel9
-            // 
-            this.tableLayoutPanel9.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel9, 10);
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel9.Controls.Add(this.label18, 4, 0);
-            this.tableLayoutPanel9.Controls.Add(this.label19, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.panel28, 7, 0);
-            this.tableLayoutPanel9.Controls.Add(this.panel29, 8, 0);
-            this.tableLayoutPanel9.Controls.Add(this.panel30, 9, 0);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 705);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 1;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel9.TabIndex = 9;
-            // 
-            // label18
-            // 
-            this.tableLayoutPanel9.SetColumnSpan(this.label18, 3);
-            this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label18.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label18.Location = new System.Drawing.Point(272, 0);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(193, 72);
-            this.label18.TabIndex = 3;
-            this.label18.Text = "Keyboard shortcut:";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label19
-            // 
-            this.tableLayoutPanel9.SetColumnSpan(this.label19, 4);
-            this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label19.Image = global::amp.Properties.Resources.help;
-            this.label19.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label19.Location = new System.Drawing.Point(4, 0);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(260, 72);
-            this.label19.TabIndex = 2;
-            this.label19.Text = "Show this help";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel28
-            // 
-            this.panel28.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f1;
-            this.panel28.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel28.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel28.Location = new System.Drawing.Point(469, 0);
-            this.panel28.Margin = new System.Windows.Forms.Padding(0);
-            this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(67, 72);
-            this.panel28.TabIndex = 4;
-            // 
-            // panel29
-            // 
-            this.panel29.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel29.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel29.Location = new System.Drawing.Point(536, 0);
-            this.panel29.Margin = new System.Windows.Forms.Padding(0);
-            this.panel29.Name = "panel29";
-            this.panel29.Size = new System.Drawing.Size(67, 72);
-            this.panel29.TabIndex = 5;
-            // 
-            // panel30
-            // 
-            this.panel30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel30.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel30.Location = new System.Drawing.Point(603, 0);
-            this.panel30.Margin = new System.Windows.Forms.Padding(0);
-            this.panel30.Name = "panel30";
-            this.panel30.Size = new System.Drawing.Size(74, 72);
-            this.panel30.TabIndex = 6;
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel8, 10);
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel8.Controls.Add(this.label16, 4, 0);
-            this.tableLayoutPanel8.Controls.Add(this.label17, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.panel25, 7, 0);
-            this.tableLayoutPanel8.Controls.Add(this.panel26, 8, 0);
-            this.tableLayoutPanel8.Controls.Add(this.panel27, 9, 0);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 627);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 1;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel8.TabIndex = 8;
-            // 
-            // label16
-            // 
-            this.tableLayoutPanel8.SetColumnSpan(this.label16, 3);
-            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(272, 0);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(193, 72);
-            this.label16.TabIndex = 3;
-            this.label16.Text = "Keyboard shortcut (*):";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label17
-            // 
-            this.tableLayoutPanel8.SetColumnSpan(this.label17, 4);
-            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label17.Location = new System.Drawing.Point(4, 0);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(260, 72);
-            this.label17.TabIndex = 2;
-            this.label17.Text = "Insert to the queued song(s)";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel25
-            // 
-            this.panel25.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
-            this.panel25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel25.Location = new System.Drawing.Point(469, 0);
-            this.panel25.Margin = new System.Windows.Forms.Padding(0);
-            this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(67, 72);
-            this.panel25.TabIndex = 4;
-            // 
-            // panel26
-            // 
-            this.panel26.BackgroundImage = global::amp.Properties.Resources.addButton;
-            this.panel26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel26.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel26.Location = new System.Drawing.Point(536, 0);
-            this.panel26.Margin = new System.Windows.Forms.Padding(0);
-            this.panel26.Name = "panel26";
-            this.panel26.Size = new System.Drawing.Size(67, 72);
-            this.panel26.TabIndex = 5;
-            // 
-            // panel27
-            // 
-            this.panel27.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
-            this.panel27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel27.Location = new System.Drawing.Point(603, 0);
-            this.panel27.Margin = new System.Windows.Forms.Padding(0);
-            this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(74, 72);
-            this.panel27.TabIndex = 6;
-            // 
-            // tableLayoutPanel7
-            // 
-            this.tableLayoutPanel7.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel7, 10);
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel7.Controls.Add(this.label14, 4, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label15, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.panel22, 7, 0);
-            this.tableLayoutPanel7.Controls.Add(this.panel23, 8, 0);
-            this.tableLayoutPanel7.Controls.Add(this.panel24, 9, 0);
-            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 549);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 1;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel7.TabIndex = 7;
-            // 
-            // label14
-            // 
-            this.tableLayoutPanel7.SetColumnSpan(this.label14, 3);
-            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label14.Location = new System.Drawing.Point(272, 0);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(193, 72);
-            this.label14.TabIndex = 3;
-            this.label14.Text = "Keyboard shortcut (*):";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label15
-            // 
-            this.tableLayoutPanel7.SetColumnSpan(this.label15, 4);
-            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label15.Location = new System.Drawing.Point(4, 0);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(260, 72);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Queue selected song(s)";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel22
-            // 
-            this.panel22.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
-            this.panel22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel22.Location = new System.Drawing.Point(469, 0);
-            this.panel22.Margin = new System.Windows.Forms.Padding(0);
-            this.panel22.Name = "panel22";
-            this.panel22.Size = new System.Drawing.Size(67, 72);
-            this.panel22.TabIndex = 4;
-            // 
-            // panel23
-            // 
-            this.panel23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel23.Location = new System.Drawing.Point(536, 0);
-            this.panel23.Margin = new System.Windows.Forms.Padding(0);
-            this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(67, 72);
-            this.panel23.TabIndex = 5;
-            // 
-            // panel24
-            // 
-            this.panel24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel24.Location = new System.Drawing.Point(603, 0);
-            this.panel24.Margin = new System.Windows.Forms.Padding(0);
-            this.panel24.Name = "panel24";
-            this.panel24.Size = new System.Drawing.Size(74, 72);
-            this.panel24.TabIndex = 6;
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel6, 10);
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel6.Controls.Add(this.label12, 4, 0);
-            this.tableLayoutPanel6.Controls.Add(this.label13, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.panel19, 7, 0);
-            this.tableLayoutPanel6.Controls.Add(this.panel20, 8, 0);
-            this.tableLayoutPanel6.Controls.Add(this.panel21, 9, 0);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 471);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 1;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel6.TabIndex = 6;
-            // 
-            // label12
-            // 
-            this.tableLayoutPanel6.SetColumnSpan(this.label12, 3);
-            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label12.Location = new System.Drawing.Point(272, 0);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(193, 72);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "Keyboard shortcut:";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label13
-            // 
-            this.tableLayoutPanel6.SetColumnSpan(this.label13, 4);
-            this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Image = global::amp.Properties.Resources.help;
-            this.label13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label13.Location = new System.Drawing.Point(4, 0);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(260, 72);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "Show this help";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel19
-            // 
-            this.panel19.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f1;
-            this.panel19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel19.Location = new System.Drawing.Point(469, 0);
-            this.panel19.Margin = new System.Windows.Forms.Padding(0);
-            this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(67, 72);
-            this.panel19.TabIndex = 4;
-            // 
-            // panel20
-            // 
-            this.panel20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel20.Location = new System.Drawing.Point(536, 0);
-            this.panel20.Margin = new System.Windows.Forms.Padding(0);
-            this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(67, 72);
-            this.panel20.TabIndex = 5;
-            // 
-            // panel21
-            // 
-            this.panel21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel21.Location = new System.Drawing.Point(603, 0);
-            this.panel21.Margin = new System.Windows.Forms.Padding(0);
-            this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(74, 72);
-            this.panel21.TabIndex = 6;
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel5, 10);
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel5.Controls.Add(this.label10, 4, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label11, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.panel16, 7, 0);
-            this.tableLayoutPanel5.Controls.Add(this.panel17, 8, 0);
-            this.tableLayoutPanel5.Controls.Add(this.panel18, 9, 0);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 393);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel5.TabIndex = 5;
-            // 
-            // label10
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.label10, 3);
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label10.Location = new System.Drawing.Point(272, 0);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(193, 72);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Keyboard shortcut:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label11
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.label11, 4);
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Image = global::amp.Properties.Resources.amp_alternate_queue;
-            this.label11.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label11.Location = new System.Drawing.Point(4, 0);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(260, 72);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "Show alternate queue";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel16
-            // 
-            this.panel16.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f8;
-            this.panel16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel16.Location = new System.Drawing.Point(469, 0);
-            this.panel16.Margin = new System.Windows.Forms.Padding(0);
-            this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(67, 72);
-            this.panel16.TabIndex = 4;
-            // 
-            // panel17
-            // 
-            this.panel17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel17.Location = new System.Drawing.Point(536, 0);
-            this.panel17.Margin = new System.Windows.Forms.Padding(0);
-            this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(67, 72);
-            this.panel17.TabIndex = 5;
-            // 
-            // panel18
-            // 
-            this.panel18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel18.Location = new System.Drawing.Point(603, 0);
-            this.panel18.Margin = new System.Windows.Forms.Padding(0);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(74, 72);
-            this.panel18.TabIndex = 6;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel4, 10);
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.Controls.Add(this.label8, 4, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label9, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.panel13, 7, 0);
-            this.tableLayoutPanel4.Controls.Add(this.panel14, 8, 0);
-            this.tableLayoutPanel4.Controls.Add(this.panel15, 9, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 315);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel4.TabIndex = 4;
-            // 
-            // label8
-            // 
-            this.tableLayoutPanel4.SetColumnSpan(this.label8, 3);
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label8.Location = new System.Drawing.Point(272, 0);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(193, 72);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Keyboard shortcut:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label9
-            // 
-            this.tableLayoutPanel4.SetColumnSpan(this.label9, 4);
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Image = global::amp.Properties.Resources.amp_scramble_queue;
-            this.label9.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label9.Location = new System.Drawing.Point(4, 0);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(260, 72);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Scramble queue";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel13
-            // 
-            this.panel13.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f7;
-            this.panel13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel13.Location = new System.Drawing.Point(469, 0);
-            this.panel13.Margin = new System.Windows.Forms.Padding(0);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(67, 72);
-            this.panel13.TabIndex = 4;
-            // 
-            // panel14
-            // 
-            this.panel14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel14.Location = new System.Drawing.Point(536, 0);
-            this.panel14.Margin = new System.Windows.Forms.Padding(0);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(67, 72);
-            this.panel14.TabIndex = 5;
-            // 
-            // panel15
-            // 
-            this.panel15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel15.Location = new System.Drawing.Point(603, 0);
-            this.panel15.Margin = new System.Windows.Forms.Padding(0);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(74, 72);
-            this.panel15.TabIndex = 6;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel3, 10);
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.Controls.Add(this.label6, 4, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.panel10, 7, 0);
-            this.tableLayoutPanel3.Controls.Add(this.panel11, 8, 0);
-            this.tableLayoutPanel3.Controls.Add(this.panel12, 9, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 237);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel3.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.label6, 3);
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label6.Location = new System.Drawing.Point(272, 0);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(193, 72);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Keyboard shortcut:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label7
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.label7, 4);
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Image = global::amp.Properties.Resources.amp_dequeue;
-            this.label7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label7.Location = new System.Drawing.Point(4, 0);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(260, 72);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Clear queue";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel10
-            // 
-            this.panel10.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
-            this.panel10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel10.Location = new System.Drawing.Point(469, 0);
-            this.panel10.Margin = new System.Windows.Forms.Padding(0);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(67, 72);
-            this.panel10.TabIndex = 4;
-            // 
-            // panel11
-            // 
-            this.panel11.BackgroundImage = global::amp.Properties.Resources.addButton;
-            this.panel11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel11.Location = new System.Drawing.Point(536, 0);
-            this.panel11.Margin = new System.Windows.Forms.Padding(0);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(67, 72);
-            this.panel11.TabIndex = 5;
-            // 
-            // panel12
-            // 
-            this.panel12.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_d;
-            this.panel12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel12.Location = new System.Drawing.Point(603, 0);
-            this.panel12.Margin = new System.Windows.Forms.Padding(0);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(74, 72);
-            this.panel12.TabIndex = 6;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel2, 10);
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel2.Controls.Add(this.label4, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.panel7, 7, 0);
-            this.tableLayoutPanel2.Controls.Add(this.panel8, 8, 0);
-            this.tableLayoutPanel2.Controls.Add(this.panel9, 9, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 159);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel2.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.label4, 3);
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label4.Location = new System.Drawing.Point(272, 0);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(193, 72);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Keyboard shortcut:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label5
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.label5, 4);
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Image = global::amp.Properties.Resources.amp_queue;
-            this.label5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label5.Location = new System.Drawing.Point(4, 0);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(260, 72);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Show queue";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel7
-            // 
-            this.panel7.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f6;
-            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(469, 0);
-            this.panel7.Margin = new System.Windows.Forms.Padding(0);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(67, 72);
-            this.panel7.TabIndex = 4;
-            // 
-            // panel8
-            // 
-            this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(536, 0);
-            this.panel8.Margin = new System.Windows.Forms.Padding(0);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(67, 72);
-            this.panel8.TabIndex = 5;
-            // 
-            // panel9
-            // 
-            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel9.Location = new System.Drawing.Point(603, 0);
-            this.panel9.Margin = new System.Windows.Forms.Padding(0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(74, 72);
-            this.panel9.TabIndex = 6;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel1, 10);
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Controls.Add(this.label2, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel4, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel5, 8, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel6, 9, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 81);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(677, 72);
-            this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.label2, 3);
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label2.Location = new System.Drawing.Point(272, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(193, 72);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Keyboard shortcut:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label3
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.label3, 4);
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Image = global::amp.Properties.Resources.info;
-            this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label3.Location = new System.Drawing.Point(4, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(260, 72);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Song information (F4)";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel4
-            // 
-            this.panel4.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f4;
-            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(469, 0);
-            this.panel4.Margin = new System.Windows.Forms.Padding(0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(67, 72);
-            this.panel4.TabIndex = 4;
-            // 
-            // panel5
-            // 
-            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(536, 0);
-            this.panel5.Margin = new System.Windows.Forms.Padding(0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(67, 72);
-            this.panel5.TabIndex = 5;
-            // 
-            // panel6
-            // 
-            this.panel6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(603, 0);
-            this.panel6.Margin = new System.Windows.Forms.Padding(0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(74, 72);
-            this.panel6.TabIndex = 6;
-            // 
-            // tlpSelectAllDescription
-            // 
-            this.tlpSelectAllDescription.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tlpSelectAllDescription, 10);
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpSelectAllDescription.Controls.Add(this.label1, 4, 0);
-            this.tlpSelectAllDescription.Controls.Add(this.lbSelectAll, 0, 0);
-            this.tlpSelectAllDescription.Controls.Add(this.panel1, 7, 0);
-            this.tlpSelectAllDescription.Controls.Add(this.panel2, 8, 0);
-            this.tlpSelectAllDescription.Controls.Add(this.panel3, 9, 0);
-            this.tlpSelectAllDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpSelectAllDescription.Location = new System.Drawing.Point(3, 3);
-            this.tlpSelectAllDescription.Name = "tlpSelectAllDescription";
-            this.tlpSelectAllDescription.RowCount = 1;
-            this.tlpSelectAllDescription.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSelectAllDescription.Size = new System.Drawing.Size(677, 72);
-            this.tlpSelectAllDescription.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.tlpSelectAllDescription.SetColumnSpan(this.label1, 3);
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Location = new System.Drawing.Point(272, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(193, 72);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Keyboard shortcut:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // lbKeyboardShortcutDesc_12
+            // 
+            this.tableLayoutPanel12.SetColumnSpan(this.lbKeyboardShortcutDesc_12, 3);
+            this.lbKeyboardShortcutDesc_12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_12.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_12.Name = "lbKeyboardShortcutDesc_12";
+            this.lbKeyboardShortcutDesc_12.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_12.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_12.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbDeleteSongs
+            // 
+            this.tableLayoutPanel12.SetColumnSpan(this.lbDeleteSongs, 4);
+            this.lbDeleteSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbDeleteSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbDeleteSongs.Location = new System.Drawing.Point(4, 0);
+            this.lbDeleteSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbDeleteSongs.Name = "lbDeleteSongs";
+            this.lbDeleteSongs.Size = new System.Drawing.Size(252, 71);
+            this.lbDeleteSongs.TabIndex = 2;
+            this.lbDeleteSongs.Text = "Delete song from album";
+            this.lbDeleteSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton12_1
+            // 
+            this.pnButton12_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_delete;
+            this.pnButton12_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton12_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton12_1.Location = new System.Drawing.Point(463, 8);
+            this.pnButton12_1.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton12_1.Name = "pnButton12_1";
+            this.pnButton12_1.Size = new System.Drawing.Size(49, 55);
+            this.pnButton12_1.TabIndex = 4;
+            // 
+            // pnButton12_2
+            // 
+            this.pnButton12_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton12_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton12_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton12_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton12_2.Name = "pnButton12_2";
+            this.pnButton12_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton12_2.TabIndex = 5;
+            // 
+            // pnButton12_3
+            // 
+            this.pnButton12_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton12_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton12_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton12_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton12_3.Name = "pnButton12_3";
+            this.pnButton12_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton12_3.TabIndex = 6;
+            // 
+            // tlpAlternateQueueInsertSongs
+            // 
+            this.tlpAlternateQueueInsertSongs.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpAlternateQueueInsertSongs, 10);
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpAlternateQueueInsertSongs.Controls.Add(this.lbKeyboardShortcutDesc_11, 4, 0);
+            this.tlpAlternateQueueInsertSongs.Controls.Add(this.lbAlternateQueueInsertSongs, 0, 0);
+            this.tlpAlternateQueueInsertSongs.Controls.Add(this.pnButton11_1, 7, 0);
+            this.tlpAlternateQueueInsertSongs.Controls.Add(this.pnButton11_2, 8, 0);
+            this.tlpAlternateQueueInsertSongs.Controls.Add(this.pnButton11_3, 9, 0);
+            this.tlpAlternateQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpAlternateQueueInsertSongs.Location = new System.Drawing.Point(3, 773);
+            this.tlpAlternateQueueInsertSongs.Name = "tlpAlternateQueueInsertSongs";
+            this.tlpAlternateQueueInsertSongs.RowCount = 1;
+            this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tlpAlternateQueueInsertSongs.Size = new System.Drawing.Size(656, 71);
+            this.tlpAlternateQueueInsertSongs.TabIndex = 11;
+            // 
+            // lbKeyboardShortcutDesc_11
+            // 
+            this.tlpAlternateQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_11, 3);
+            this.lbKeyboardShortcutDesc_11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_11.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_11.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_11.Name = "lbKeyboardShortcutDesc_11";
+            this.lbKeyboardShortcutDesc_11.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_11.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_11.Text = "Keyboard shortcut (*):";
+            this.lbKeyboardShortcutDesc_11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbAlternateQueueInsertSongs
+            // 
+            this.tlpAlternateQueueInsertSongs.SetColumnSpan(this.lbAlternateQueueInsertSongs, 4);
+            this.lbAlternateQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbAlternateQueueInsertSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbAlternateQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
+            this.lbAlternateQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbAlternateQueueInsertSongs.Name = "lbAlternateQueueInsertSongs";
+            this.lbAlternateQueueInsertSongs.Size = new System.Drawing.Size(252, 71);
+            this.lbAlternateQueueInsertSongs.TabIndex = 2;
+            this.lbAlternateQueueInsertSongs.Text = "Alternate queue insert";
+            this.lbAlternateQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton11_1
+            // 
+            this.pnButton11_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
+            this.pnButton11_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton11_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton11_1.Location = new System.Drawing.Point(455, 0);
+            this.pnButton11_1.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton11_1.Name = "pnButton11_1";
+            this.pnButton11_1.Size = new System.Drawing.Size(65, 71);
+            this.pnButton11_1.TabIndex = 4;
+            // 
+            // pnButton11_2
+            // 
+            this.pnButton11_2.BackgroundImage = global::amp.Properties.Resources.list_add;
+            this.pnButton11_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton11_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton11_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton11_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton11_2.Name = "pnButton11_2";
+            this.pnButton11_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton11_2.TabIndex = 5;
+            // 
+            // pnButton11_3
+            // 
+            this.pnButton11_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
+            this.pnButton11_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton11_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton11_3.Location = new System.Drawing.Point(593, 8);
+            this.pnButton11_3.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton11_3.Name = "pnButton11_3";
+            this.pnButton11_3.Size = new System.Drawing.Size(55, 55);
+            this.pnButton11_3.TabIndex = 6;
+            // 
+            // tlpAlternateQueueSongs
+            // 
+            this.tlpAlternateQueueSongs.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpAlternateQueueSongs, 10);
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpAlternateQueueSongs.Controls.Add(this.lbKeyboardShortcutDesc_10, 4, 0);
+            this.tlpAlternateQueueSongs.Controls.Add(this.lbAlternateQueueSongs, 0, 0);
+            this.tlpAlternateQueueSongs.Controls.Add(this.pnButton10_1, 7, 0);
+            this.tlpAlternateQueueSongs.Controls.Add(this.pnButton10_2, 8, 0);
+            this.tlpAlternateQueueSongs.Controls.Add(this.pnButton10_3, 9, 0);
+            this.tlpAlternateQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpAlternateQueueSongs.Location = new System.Drawing.Point(3, 696);
+            this.tlpAlternateQueueSongs.Name = "tlpAlternateQueueSongs";
+            this.tlpAlternateQueueSongs.RowCount = 1;
+            this.tlpAlternateQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpAlternateQueueSongs.Size = new System.Drawing.Size(656, 71);
+            this.tlpAlternateQueueSongs.TabIndex = 10;
+            // 
+            // lbKeyboardShortcutDesc_10
+            // 
+            this.tlpAlternateQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_10, 3);
+            this.lbKeyboardShortcutDesc_10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_10.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_10.Name = "lbKeyboardShortcutDesc_10";
+            this.lbKeyboardShortcutDesc_10.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_10.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_10.Text = "Keyboard shortcut (*):";
+            this.lbKeyboardShortcutDesc_10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbAlternateQueueSongs
+            // 
+            this.tlpAlternateQueueSongs.SetColumnSpan(this.lbAlternateQueueSongs, 4);
+            this.lbAlternateQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbAlternateQueueSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbAlternateQueueSongs.Location = new System.Drawing.Point(4, 0);
+            this.lbAlternateQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbAlternateQueueSongs.Name = "lbAlternateQueueSongs";
+            this.lbAlternateQueueSongs.Size = new System.Drawing.Size(252, 71);
+            this.lbAlternateQueueSongs.TabIndex = 2;
+            this.lbAlternateQueueSongs.Text = "Alternate queue add";
+            this.lbAlternateQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton10_1
+            // 
+            this.pnButton10_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
+            this.pnButton10_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton10_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton10_1.Location = new System.Drawing.Point(463, 8);
+            this.pnButton10_1.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton10_1.Name = "pnButton10_1";
+            this.pnButton10_1.Size = new System.Drawing.Size(49, 55);
+            this.pnButton10_1.TabIndex = 4;
+            // 
+            // pnButton10_2
+            // 
+            this.pnButton10_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton10_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton10_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton10_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton10_2.Name = "pnButton10_2";
+            this.pnButton10_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton10_2.TabIndex = 5;
+            // 
+            // pnButton10_3
+            // 
+            this.pnButton10_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton10_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton10_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton10_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton10_3.Name = "pnButton10_3";
+            this.pnButton10_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton10_3.TabIndex = 6;
+            // 
+            // tlpQueueInsertSongs
+            // 
+            this.tlpQueueInsertSongs.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpQueueInsertSongs, 10);
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueInsertSongs.Controls.Add(this.lbKeyboardShortcutDesc_09, 4, 0);
+            this.tlpQueueInsertSongs.Controls.Add(this.lbQueueInsertSongs, 0, 0);
+            this.tlpQueueInsertSongs.Controls.Add(this.pnButton09_1, 7, 0);
+            this.tlpQueueInsertSongs.Controls.Add(this.pnButton09_2, 8, 0);
+            this.tlpQueueInsertSongs.Controls.Add(this.pnButton09_3, 9, 0);
+            this.tlpQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpQueueInsertSongs.Location = new System.Drawing.Point(3, 619);
+            this.tlpQueueInsertSongs.Name = "tlpQueueInsertSongs";
+            this.tlpQueueInsertSongs.RowCount = 1;
+            this.tlpQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpQueueInsertSongs.Size = new System.Drawing.Size(656, 71);
+            this.tlpQueueInsertSongs.TabIndex = 8;
+            // 
+            // lbKeyboardShortcutDesc_09
+            // 
+            this.tlpQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_09, 3);
+            this.lbKeyboardShortcutDesc_09.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_09.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_09.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_09.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_09.Name = "lbKeyboardShortcutDesc_09";
+            this.lbKeyboardShortcutDesc_09.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_09.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_09.Text = "Keyboard shortcut (*):";
+            this.lbKeyboardShortcutDesc_09.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbQueueInsertSongs
+            // 
+            this.tlpQueueInsertSongs.SetColumnSpan(this.lbQueueInsertSongs, 4);
+            this.lbQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbQueueInsertSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
+            this.lbQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbQueueInsertSongs.Name = "lbQueueInsertSongs";
+            this.lbQueueInsertSongs.Size = new System.Drawing.Size(252, 71);
+            this.lbQueueInsertSongs.TabIndex = 2;
+            this.lbQueueInsertSongs.Text = "Insert to the queued song(s)";
+            this.lbQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton09_1
+            // 
+            this.pnButton09_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
+            this.pnButton09_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton09_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton09_1.Location = new System.Drawing.Point(455, 0);
+            this.pnButton09_1.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton09_1.Name = "pnButton09_1";
+            this.pnButton09_1.Size = new System.Drawing.Size(65, 71);
+            this.pnButton09_1.TabIndex = 4;
+            // 
+            // pnButton09_2
+            // 
+            this.pnButton09_2.BackgroundImage = global::amp.Properties.Resources.list_add;
+            this.pnButton09_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton09_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton09_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton09_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton09_2.Name = "pnButton09_2";
+            this.pnButton09_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton09_2.TabIndex = 5;
+            // 
+            // pnButton09_3
+            // 
+            this.pnButton09_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
+            this.pnButton09_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton09_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton09_3.Location = new System.Drawing.Point(593, 8);
+            this.pnButton09_3.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton09_3.Name = "pnButton09_3";
+            this.pnButton09_3.Size = new System.Drawing.Size(55, 55);
+            this.pnButton09_3.TabIndex = 6;
+            // 
+            // tlpQueueSongs
+            // 
+            this.tlpQueueSongs.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpQueueSongs, 10);
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueueSongs.Controls.Add(this.lbKeyboardShortcutDesc_08, 4, 0);
+            this.tlpQueueSongs.Controls.Add(this.lbQueueSongs, 0, 0);
+            this.tlpQueueSongs.Controls.Add(this.pnButton08_1, 7, 0);
+            this.tlpQueueSongs.Controls.Add(this.pnButton08_2, 8, 0);
+            this.tlpQueueSongs.Controls.Add(this.pnButton08_3, 9, 0);
+            this.tlpQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpQueueSongs.Location = new System.Drawing.Point(3, 542);
+            this.tlpQueueSongs.Name = "tlpQueueSongs";
+            this.tlpQueueSongs.RowCount = 1;
+            this.tlpQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpQueueSongs.Size = new System.Drawing.Size(656, 71);
+            this.tlpQueueSongs.TabIndex = 7;
+            // 
+            // lbKeyboardShortcutDesc_08
+            // 
+            this.tlpQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_08, 3);
+            this.lbKeyboardShortcutDesc_08.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_08.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_08.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_08.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_08.Name = "lbKeyboardShortcutDesc_08";
+            this.lbKeyboardShortcutDesc_08.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_08.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_08.Text = "Keyboard shortcut (*):";
+            this.lbKeyboardShortcutDesc_08.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbQueueSongs
+            // 
+            this.tlpQueueSongs.SetColumnSpan(this.lbQueueSongs, 4);
+            this.lbQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbQueueSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbQueueSongs.Location = new System.Drawing.Point(4, 0);
+            this.lbQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbQueueSongs.Name = "lbQueueSongs";
+            this.lbQueueSongs.Size = new System.Drawing.Size(252, 71);
+            this.lbQueueSongs.TabIndex = 2;
+            this.lbQueueSongs.Text = "Queue selected song(s)";
+            this.lbQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton08_1
+            // 
+            this.pnButton08_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
+            this.pnButton08_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton08_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton08_1.Location = new System.Drawing.Point(463, 8);
+            this.pnButton08_1.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton08_1.Name = "pnButton08_1";
+            this.pnButton08_1.Size = new System.Drawing.Size(49, 55);
+            this.pnButton08_1.TabIndex = 4;
+            // 
+            // pnButton08_2
+            // 
+            this.pnButton08_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton08_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton08_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton08_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton08_2.Name = "pnButton08_2";
+            this.pnButton08_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton08_2.TabIndex = 5;
+            // 
+            // pnButton08_3
+            // 
+            this.pnButton08_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton08_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton08_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton08_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton08_3.Name = "pnButton08_3";
+            this.pnButton08_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton08_3.TabIndex = 6;
+            // 
+            // tlpShowThisHelp
+            // 
+            this.tlpShowThisHelp.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpShowThisHelp, 10);
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowThisHelp.Controls.Add(this.lbKeyboardShortcutDesc_07, 4, 0);
+            this.tlpShowThisHelp.Controls.Add(this.lbShowThisHelp, 0, 0);
+            this.tlpShowThisHelp.Controls.Add(this.pnButton07_1, 7, 0);
+            this.tlpShowThisHelp.Controls.Add(this.pnButton07_2, 8, 0);
+            this.tlpShowThisHelp.Controls.Add(this.pnButton07_3, 9, 0);
+            this.tlpShowThisHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpShowThisHelp.Location = new System.Drawing.Point(3, 465);
+            this.tlpShowThisHelp.Name = "tlpShowThisHelp";
+            this.tlpShowThisHelp.RowCount = 1;
+            this.tlpShowThisHelp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpShowThisHelp.Size = new System.Drawing.Size(656, 71);
+            this.tlpShowThisHelp.TabIndex = 6;
+            // 
+            // lbKeyboardShortcutDesc_07
+            // 
+            this.tlpShowThisHelp.SetColumnSpan(this.lbKeyboardShortcutDesc_07, 3);
+            this.lbKeyboardShortcutDesc_07.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_07.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_07.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_07.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_07.Name = "lbKeyboardShortcutDesc_07";
+            this.lbKeyboardShortcutDesc_07.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_07.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_07.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_07.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbShowThisHelp
+            // 
+            this.tlpShowThisHelp.SetColumnSpan(this.lbShowThisHelp, 4);
+            this.lbShowThisHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbShowThisHelp.Image = global::amp.Properties.Resources.help;
+            this.lbShowThisHelp.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbShowThisHelp.Location = new System.Drawing.Point(4, 0);
+            this.lbShowThisHelp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbShowThisHelp.Name = "lbShowThisHelp";
+            this.lbShowThisHelp.Size = new System.Drawing.Size(252, 71);
+            this.lbShowThisHelp.TabIndex = 2;
+            this.lbShowThisHelp.Text = "Show this help";
+            this.lbShowThisHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton07_1
+            // 
+            this.pnButton07_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f1;
+            this.pnButton07_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton07_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton07_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton07_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton07_1.Name = "pnButton07_1";
+            this.pnButton07_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton07_1.TabIndex = 4;
+            // 
+            // pnButton07_2
+            // 
+            this.pnButton07_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton07_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton07_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton07_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton07_2.Name = "pnButton07_2";
+            this.pnButton07_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton07_2.TabIndex = 5;
+            // 
+            // pnButton07_3
+            // 
+            this.pnButton07_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton07_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton07_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton07_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton07_3.Name = "pnButton07_3";
+            this.pnButton07_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton07_3.TabIndex = 6;
+            // 
+            // tlpShowAlternateQueue
+            // 
+            this.tlpShowAlternateQueue.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpShowAlternateQueue, 10);
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowAlternateQueue.Controls.Add(this.lbKeyboardShortcutDesc_06, 4, 0);
+            this.tlpShowAlternateQueue.Controls.Add(this.lbShowAlternateQueue, 0, 0);
+            this.tlpShowAlternateQueue.Controls.Add(this.pnButton06_1, 7, 0);
+            this.tlpShowAlternateQueue.Controls.Add(this.pnButton06_2, 8, 0);
+            this.tlpShowAlternateQueue.Controls.Add(this.pnButton06_3, 9, 0);
+            this.tlpShowAlternateQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpShowAlternateQueue.Location = new System.Drawing.Point(3, 388);
+            this.tlpShowAlternateQueue.Name = "tlpShowAlternateQueue";
+            this.tlpShowAlternateQueue.RowCount = 1;
+            this.tlpShowAlternateQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpShowAlternateQueue.Size = new System.Drawing.Size(656, 71);
+            this.tlpShowAlternateQueue.TabIndex = 5;
+            // 
+            // lbKeyboardShortcutDesc_06
+            // 
+            this.tlpShowAlternateQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_06, 3);
+            this.lbKeyboardShortcutDesc_06.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_06.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_06.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_06.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_06.Name = "lbKeyboardShortcutDesc_06";
+            this.lbKeyboardShortcutDesc_06.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_06.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_06.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_06.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbShowAlternateQueue
+            // 
+            this.tlpShowAlternateQueue.SetColumnSpan(this.lbShowAlternateQueue, 4);
+            this.lbShowAlternateQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbShowAlternateQueue.Image = global::amp.Properties.Resources.amp_alternate_queue;
+            this.lbShowAlternateQueue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbShowAlternateQueue.Location = new System.Drawing.Point(4, 0);
+            this.lbShowAlternateQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbShowAlternateQueue.Name = "lbShowAlternateQueue";
+            this.lbShowAlternateQueue.Size = new System.Drawing.Size(252, 71);
+            this.lbShowAlternateQueue.TabIndex = 2;
+            this.lbShowAlternateQueue.Text = "Show alternate queue";
+            this.lbShowAlternateQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton06_1
+            // 
+            this.pnButton06_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f8;
+            this.pnButton06_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton06_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton06_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton06_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton06_1.Name = "pnButton06_1";
+            this.pnButton06_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton06_1.TabIndex = 4;
+            // 
+            // pnButton06_2
+            // 
+            this.pnButton06_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton06_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton06_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton06_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton06_2.Name = "pnButton06_2";
+            this.pnButton06_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton06_2.TabIndex = 5;
+            // 
+            // pnButton06_3
+            // 
+            this.pnButton06_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton06_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton06_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton06_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton06_3.Name = "pnButton06_3";
+            this.pnButton06_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton06_3.TabIndex = 6;
+            // 
+            // tlpScrambleQueue
+            // 
+            this.tlpScrambleQueue.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpScrambleQueue, 10);
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpScrambleQueue.Controls.Add(this.lbKeyboardShortcutDesc_05, 4, 0);
+            this.tlpScrambleQueue.Controls.Add(this.lbScrambleQueue, 0, 0);
+            this.tlpScrambleQueue.Controls.Add(this.pnButton05_1, 7, 0);
+            this.tlpScrambleQueue.Controls.Add(this.pnButton05_2, 8, 0);
+            this.tlpScrambleQueue.Controls.Add(this.pnButton05_3, 9, 0);
+            this.tlpScrambleQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpScrambleQueue.Location = new System.Drawing.Point(3, 311);
+            this.tlpScrambleQueue.Name = "tlpScrambleQueue";
+            this.tlpScrambleQueue.RowCount = 1;
+            this.tlpScrambleQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpScrambleQueue.Size = new System.Drawing.Size(656, 71);
+            this.tlpScrambleQueue.TabIndex = 4;
+            // 
+            // lbKeyboardShortcutDesc_05
+            // 
+            this.tlpScrambleQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_05, 3);
+            this.lbKeyboardShortcutDesc_05.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_05.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_05.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_05.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_05.Name = "lbKeyboardShortcutDesc_05";
+            this.lbKeyboardShortcutDesc_05.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_05.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_05.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_05.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbScrambleQueue
+            // 
+            this.tlpScrambleQueue.SetColumnSpan(this.lbScrambleQueue, 4);
+            this.lbScrambleQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbScrambleQueue.Image = global::amp.Properties.Resources.amp_scramble_queue;
+            this.lbScrambleQueue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbScrambleQueue.Location = new System.Drawing.Point(4, 0);
+            this.lbScrambleQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbScrambleQueue.Name = "lbScrambleQueue";
+            this.lbScrambleQueue.Size = new System.Drawing.Size(252, 71);
+            this.lbScrambleQueue.TabIndex = 2;
+            this.lbScrambleQueue.Text = "Scramble queue";
+            this.lbScrambleQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton05_1
+            // 
+            this.pnButton05_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f7;
+            this.pnButton05_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton05_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton05_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton05_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton05_1.Name = "pnButton05_1";
+            this.pnButton05_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton05_1.TabIndex = 4;
+            // 
+            // pnButton05_2
+            // 
+            this.pnButton05_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton05_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton05_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton05_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton05_2.Name = "pnButton05_2";
+            this.pnButton05_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton05_2.TabIndex = 5;
+            // 
+            // pnButton05_3
+            // 
+            this.pnButton05_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton05_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton05_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton05_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton05_3.Name = "pnButton05_3";
+            this.pnButton05_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton05_3.TabIndex = 6;
+            // 
+            // tlpClearQueue
+            // 
+            this.tlpClearQueue.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpClearQueue, 10);
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpClearQueue.Controls.Add(this.lbKeyboardShortcutDesc_04, 4, 0);
+            this.tlpClearQueue.Controls.Add(this.lbClearQueue, 0, 0);
+            this.tlpClearQueue.Controls.Add(this.pnButton4_1, 7, 0);
+            this.tlpClearQueue.Controls.Add(this.pnButton04_2, 8, 0);
+            this.tlpClearQueue.Controls.Add(this.pnButton04_3, 9, 0);
+            this.tlpClearQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpClearQueue.Location = new System.Drawing.Point(3, 234);
+            this.tlpClearQueue.Name = "tlpClearQueue";
+            this.tlpClearQueue.RowCount = 1;
+            this.tlpClearQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpClearQueue.Size = new System.Drawing.Size(656, 71);
+            this.tlpClearQueue.TabIndex = 3;
+            // 
+            // lbKeyboardShortcutDesc_04
+            // 
+            this.tlpClearQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_04, 3);
+            this.lbKeyboardShortcutDesc_04.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_04.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_04.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_04.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_04.Name = "lbKeyboardShortcutDesc_04";
+            this.lbKeyboardShortcutDesc_04.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_04.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_04.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_04.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbClearQueue
+            // 
+            this.tlpClearQueue.SetColumnSpan(this.lbClearQueue, 4);
+            this.lbClearQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbClearQueue.Image = global::amp.Properties.Resources.amp_dequeue;
+            this.lbClearQueue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbClearQueue.Location = new System.Drawing.Point(4, 0);
+            this.lbClearQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbClearQueue.Name = "lbClearQueue";
+            this.lbClearQueue.Size = new System.Drawing.Size(252, 71);
+            this.lbClearQueue.TabIndex = 2;
+            this.lbClearQueue.Text = "Clear queue";
+            this.lbClearQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton4_1
+            // 
+            this.pnButton4_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
+            this.pnButton4_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton4_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton4_1.Location = new System.Drawing.Point(455, 0);
+            this.pnButton4_1.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton4_1.Name = "pnButton4_1";
+            this.pnButton4_1.Size = new System.Drawing.Size(65, 71);
+            this.pnButton4_1.TabIndex = 4;
+            // 
+            // pnButton04_2
+            // 
+            this.pnButton04_2.BackgroundImage = global::amp.Properties.Resources.list_add;
+            this.pnButton04_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton04_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton04_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton04_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton04_2.Name = "pnButton04_2";
+            this.pnButton04_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton04_2.TabIndex = 5;
+            // 
+            // pnButton04_3
+            // 
+            this.pnButton04_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_d;
+            this.pnButton04_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton04_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton04_3.Location = new System.Drawing.Point(593, 8);
+            this.pnButton04_3.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton04_3.Name = "pnButton04_3";
+            this.pnButton04_3.Size = new System.Drawing.Size(55, 55);
+            this.pnButton04_3.TabIndex = 6;
+            // 
+            // tlpShowQueue
+            // 
+            this.tlpShowQueue.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpShowQueue, 10);
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpShowQueue.Controls.Add(this.lbKeyboardShortcutDesc_03, 4, 0);
+            this.tlpShowQueue.Controls.Add(this.lbShowQueue, 0, 0);
+            this.tlpShowQueue.Controls.Add(this.pnButton03_1, 7, 0);
+            this.tlpShowQueue.Controls.Add(this.pnButton03_2, 8, 0);
+            this.tlpShowQueue.Controls.Add(this.pnButton03_3, 9, 0);
+            this.tlpShowQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpShowQueue.Location = new System.Drawing.Point(3, 157);
+            this.tlpShowQueue.Name = "tlpShowQueue";
+            this.tlpShowQueue.RowCount = 1;
+            this.tlpShowQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpShowQueue.Size = new System.Drawing.Size(656, 71);
+            this.tlpShowQueue.TabIndex = 2;
+            // 
+            // lbKeyboardShortcutDesc_03
+            // 
+            this.tlpShowQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_03, 3);
+            this.lbKeyboardShortcutDesc_03.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_03.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_03.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_03.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_03.Name = "lbKeyboardShortcutDesc_03";
+            this.lbKeyboardShortcutDesc_03.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_03.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_03.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_03.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbShowQueue
+            // 
+            this.tlpShowQueue.SetColumnSpan(this.lbShowQueue, 4);
+            this.lbShowQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbShowQueue.Image = global::amp.Properties.Resources.amp_queue;
+            this.lbShowQueue.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbShowQueue.Location = new System.Drawing.Point(4, 0);
+            this.lbShowQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbShowQueue.Name = "lbShowQueue";
+            this.lbShowQueue.Size = new System.Drawing.Size(252, 71);
+            this.lbShowQueue.TabIndex = 2;
+            this.lbShowQueue.Text = "Show queue";
+            this.lbShowQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton03_1
+            // 
+            this.pnButton03_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f6;
+            this.pnButton03_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton03_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton03_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton03_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton03_1.Name = "pnButton03_1";
+            this.pnButton03_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton03_1.TabIndex = 4;
+            // 
+            // pnButton03_2
+            // 
+            this.pnButton03_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton03_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton03_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton03_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton03_2.Name = "pnButton03_2";
+            this.pnButton03_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton03_2.TabIndex = 5;
+            // 
+            // pnButton03_3
+            // 
+            this.pnButton03_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton03_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton03_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton03_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton03_3.Name = "pnButton03_3";
+            this.pnButton03_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton03_3.TabIndex = 6;
+            // 
+            // tlpSongInformation
+            // 
+            this.tlpSongInformation.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpSongInformation, 10);
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSongInformation.Controls.Add(this.lbKeyboardShortcutDesc_02, 4, 0);
+            this.tlpSongInformation.Controls.Add(this.lbSongInformation, 0, 0);
+            this.tlpSongInformation.Controls.Add(this.pnButton02_1, 7, 0);
+            this.tlpSongInformation.Controls.Add(this.pnButton02_2, 8, 0);
+            this.tlpSongInformation.Controls.Add(this.pnButton02_3, 9, 0);
+            this.tlpSongInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSongInformation.Location = new System.Drawing.Point(3, 80);
+            this.tlpSongInformation.Name = "tlpSongInformation";
+            this.tlpSongInformation.RowCount = 1;
+            this.tlpSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpSongInformation.Size = new System.Drawing.Size(656, 71);
+            this.tlpSongInformation.TabIndex = 1;
+            // 
+            // lbKeyboardShortcutDesc_02
+            // 
+            this.tlpSongInformation.SetColumnSpan(this.lbKeyboardShortcutDesc_02, 3);
+            this.lbKeyboardShortcutDesc_02.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_02.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_02.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_02.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_02.Name = "lbKeyboardShortcutDesc_02";
+            this.lbKeyboardShortcutDesc_02.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_02.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_02.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_02.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbSongInformation
+            // 
+            this.tlpSongInformation.SetColumnSpan(this.lbSongInformation, 4);
+            this.lbSongInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbSongInformation.Image = global::amp.Properties.Resources.info;
+            this.lbSongInformation.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbSongInformation.Location = new System.Drawing.Point(4, 0);
+            this.lbSongInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbSongInformation.Name = "lbSongInformation";
+            this.lbSongInformation.Size = new System.Drawing.Size(252, 71);
+            this.lbSongInformation.TabIndex = 2;
+            this.lbSongInformation.Text = "Song information";
+            this.lbSongInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pnButton02_1
+            // 
+            this.pnButton02_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f4;
+            this.pnButton02_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton02_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton02_1.Location = new System.Drawing.Point(459, 4);
+            this.pnButton02_1.Margin = new System.Windows.Forms.Padding(4);
+            this.pnButton02_1.Name = "pnButton02_1";
+            this.pnButton02_1.Size = new System.Drawing.Size(57, 63);
+            this.pnButton02_1.TabIndex = 4;
+            // 
+            // pnButton02_2
+            // 
+            this.pnButton02_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton02_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton02_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton02_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton02_2.Name = "pnButton02_2";
+            this.pnButton02_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton02_2.TabIndex = 5;
+            // 
+            // pnButton02_3
+            // 
+            this.pnButton02_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton02_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton02_3.Location = new System.Drawing.Point(585, 0);
+            this.pnButton02_3.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton02_3.Name = "pnButton02_3";
+            this.pnButton02_3.Size = new System.Drawing.Size(71, 71);
+            this.pnButton02_3.TabIndex = 6;
+            // 
+            // tlpSelectAll
+            // 
+            this.tlpSelectAll.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpSelectAll, 10);
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpSelectAll.Controls.Add(this.lbKeyboardShortcutDesc_01, 4, 0);
+            this.tlpSelectAll.Controls.Add(this.lbSelectAll, 0, 0);
+            this.tlpSelectAll.Controls.Add(this.pnButton01_1, 7, 0);
+            this.tlpSelectAll.Controls.Add(this.pnButton01_2, 8, 0);
+            this.tlpSelectAll.Controls.Add(this.pnButton01_3, 9, 0);
+            this.tlpSelectAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpSelectAll.Location = new System.Drawing.Point(3, 3);
+            this.tlpSelectAll.Name = "tlpSelectAll";
+            this.tlpSelectAll.RowCount = 1;
+            this.tlpSelectAll.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpSelectAll.Size = new System.Drawing.Size(656, 71);
+            this.tlpSelectAll.TabIndex = 0;
+            // 
+            // lbKeyboardShortcutDesc_01
+            // 
+            this.tlpSelectAll.SetColumnSpan(this.lbKeyboardShortcutDesc_01, 3);
+            this.lbKeyboardShortcutDesc_01.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbKeyboardShortcutDesc_01.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbKeyboardShortcutDesc_01.Location = new System.Drawing.Point(264, 0);
+            this.lbKeyboardShortcutDesc_01.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbKeyboardShortcutDesc_01.Name = "lbKeyboardShortcutDesc_01";
+            this.lbKeyboardShortcutDesc_01.Size = new System.Drawing.Size(187, 71);
+            this.lbKeyboardShortcutDesc_01.TabIndex = 3;
+            this.lbKeyboardShortcutDesc_01.Text = "Keyboard shortcut:";
+            this.lbKeyboardShortcutDesc_01.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbSelectAll
             // 
-            this.tlpSelectAllDescription.SetColumnSpan(this.lbSelectAll, 4);
+            this.tlpSelectAll.SetColumnSpan(this.lbSelectAll, 4);
             this.lbSelectAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectAll.Image = global::amp.Properties.Resources.select_all;
             this.lbSelectAll.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbSelectAll.Location = new System.Drawing.Point(4, 0);
             this.lbSelectAll.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSelectAll.Name = "lbSelectAll";
-            this.lbSelectAll.Size = new System.Drawing.Size(260, 72);
+            this.lbSelectAll.Size = new System.Drawing.Size(252, 71);
             this.lbSelectAll.TabIndex = 2;
-            this.lbSelectAll.Text = "Select all (CTRL + A)";
+            this.lbSelectAll.Text = "Select all";
             this.lbSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel1
+            // pnButton01_1
             // 
-            this.panel1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(469, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(67, 72);
-            this.panel1.TabIndex = 4;
+            this.pnButton01_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
+            this.pnButton01_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton01_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton01_1.Location = new System.Drawing.Point(455, 0);
+            this.pnButton01_1.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton01_1.Name = "pnButton01_1";
+            this.pnButton01_1.Size = new System.Drawing.Size(65, 71);
+            this.pnButton01_1.TabIndex = 4;
             // 
-            // panel2
+            // pnButton01_2
             // 
-            this.panel2.BackgroundImage = global::amp.Properties.Resources.addButton;
-            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(536, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(67, 72);
-            this.panel2.TabIndex = 5;
+            this.pnButton01_2.BackgroundImage = global::amp.Properties.Resources.list_add;
+            this.pnButton01_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton01_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton01_2.Location = new System.Drawing.Point(520, 0);
+            this.pnButton01_2.Margin = new System.Windows.Forms.Padding(0);
+            this.pnButton01_2.Name = "pnButton01_2";
+            this.pnButton01_2.Size = new System.Drawing.Size(65, 71);
+            this.pnButton01_2.TabIndex = 5;
             // 
-            // panel3
+            // pnButton01_3
             // 
-            this.panel3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_a;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(603, 0);
-            this.panel3.Margin = new System.Windows.Forms.Padding(0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(74, 72);
-            this.panel3.TabIndex = 6;
+            this.pnButton01_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_a;
+            this.pnButton01_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnButton01_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnButton01_3.Location = new System.Drawing.Point(593, 8);
+            this.pnButton01_3.Margin = new System.Windows.Forms.Padding(8);
+            this.pnButton01_3.Name = "pnButton01_3";
+            this.pnButton01_3.Size = new System.Drawing.Size(55, 55);
+            this.pnButton01_3.TabIndex = 6;
             // 
-            // panel40
+            // pnNumericKeypadImage
             // 
-            this.panel40.BackgroundImage = global::amp.Properties.Resources.num_keypad;
-            this.panel40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.tlpMain.SetColumnSpan(this.panel40, 3);
-            this.panel40.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel40.Location = new System.Drawing.Point(476, 1014);
-            this.panel40.Margin = new System.Windows.Forms.Padding(0);
-            this.panel40.Name = "panel40";
-            this.panel40.Size = new System.Drawing.Size(207, 83);
-            this.panel40.TabIndex = 14;
+            this.pnNumericKeypadImage.BackgroundImage = global::amp.Properties.Resources.num_keypad;
+            this.pnNumericKeypadImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.tlpMain.SetColumnSpan(this.pnNumericKeypadImage, 3);
+            this.pnNumericKeypadImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnNumericKeypadImage.Location = new System.Drawing.Point(462, 1001);
+            this.pnNumericKeypadImage.Margin = new System.Windows.Forms.Padding(0);
+            this.pnNumericKeypadImage.Name = "pnNumericKeypadImage";
+            this.pnNumericKeypadImage.Size = new System.Drawing.Size(200, 79);
+            this.pnNumericKeypadImage.TabIndex = 14;
             // 
             // FormHelp
             // 
@@ -1338,19 +1343,19 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHelp_FormClosing);
             this.pnMain.ResumeLayout(false);
             this.tlpMain.ResumeLayout(false);
+            this.tlpRenameSong.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
-            this.tableLayoutPanel11.ResumeLayout(false);
-            this.tableLayoutPanel10.ResumeLayout(false);
-            this.tableLayoutPanel9.ResumeLayout(false);
-            this.tableLayoutPanel8.ResumeLayout(false);
-            this.tableLayoutPanel7.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tlpSelectAllDescription.ResumeLayout(false);
+            this.tlpAlternateQueueInsertSongs.ResumeLayout(false);
+            this.tlpAlternateQueueSongs.ResumeLayout(false);
+            this.tlpQueueInsertSongs.ResumeLayout(false);
+            this.tlpQueueSongs.ResumeLayout(false);
+            this.tlpShowThisHelp.ResumeLayout(false);
+            this.tlpShowAlternateQueue.ResumeLayout(false);
+            this.tlpScrambleQueue.ResumeLayout(false);
+            this.tlpClearQueue.ResumeLayout(false);
+            this.tlpShowQueue.ResumeLayout(false);
+            this.tlpSongInformation.ResumeLayout(false);
+            this.tlpSelectAll.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1360,84 +1365,84 @@
         private System.Windows.Forms.Panel pnMain;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Panel panel37;
-        private System.Windows.Forms.Panel panel38;
-        private System.Windows.Forms.Panel panel39;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Panel panel34;
-        private System.Windows.Forms.Panel panel35;
-        private System.Windows.Forms.Panel panel36;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Panel panel31;
-        private System.Windows.Forms.Panel panel32;
-        private System.Windows.Forms.Panel panel33;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Panel panel28;
-        private System.Windows.Forms.Panel panel29;
-        private System.Windows.Forms.Panel panel30;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Panel panel25;
-        private System.Windows.Forms.Panel panel26;
-        private System.Windows.Forms.Panel panel27;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Panel panel22;
-        private System.Windows.Forms.Panel panel23;
-        private System.Windows.Forms.Panel panel24;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Panel panel19;
-        private System.Windows.Forms.Panel panel20;
-        private System.Windows.Forms.Panel panel21;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.Panel panel15;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.TableLayoutPanel tlpSelectAllDescription;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_12;
+        private System.Windows.Forms.Label lbDeleteSongs;
+        private System.Windows.Forms.Panel pnButton12_1;
+        private System.Windows.Forms.Panel pnButton12_2;
+        private System.Windows.Forms.Panel pnButton12_3;
+        private System.Windows.Forms.TableLayoutPanel tlpAlternateQueueInsertSongs;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_11;
+        private System.Windows.Forms.Label lbAlternateQueueInsertSongs;
+        private System.Windows.Forms.Panel pnButton11_1;
+        private System.Windows.Forms.Panel pnButton11_2;
+        private System.Windows.Forms.Panel pnButton11_3;
+        private System.Windows.Forms.TableLayoutPanel tlpAlternateQueueSongs;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_10;
+        private System.Windows.Forms.Label lbAlternateQueueSongs;
+        private System.Windows.Forms.Panel pnButton10_1;
+        private System.Windows.Forms.Panel pnButton10_2;
+        private System.Windows.Forms.Panel pnButton10_3;
+        private System.Windows.Forms.TableLayoutPanel tlpQueueInsertSongs;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_09;
+        private System.Windows.Forms.Label lbQueueInsertSongs;
+        private System.Windows.Forms.Panel pnButton09_1;
+        private System.Windows.Forms.Panel pnButton09_2;
+        private System.Windows.Forms.Panel pnButton09_3;
+        private System.Windows.Forms.TableLayoutPanel tlpQueueSongs;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_08;
+        private System.Windows.Forms.Label lbQueueSongs;
+        private System.Windows.Forms.Panel pnButton08_1;
+        private System.Windows.Forms.Panel pnButton08_2;
+        private System.Windows.Forms.Panel pnButton08_3;
+        private System.Windows.Forms.TableLayoutPanel tlpShowThisHelp;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_07;
+        private System.Windows.Forms.Label lbShowThisHelp;
+        private System.Windows.Forms.Panel pnButton07_1;
+        private System.Windows.Forms.Panel pnButton07_2;
+        private System.Windows.Forms.Panel pnButton07_3;
+        private System.Windows.Forms.TableLayoutPanel tlpShowAlternateQueue;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_06;
+        private System.Windows.Forms.Label lbShowAlternateQueue;
+        private System.Windows.Forms.Panel pnButton06_1;
+        private System.Windows.Forms.Panel pnButton06_2;
+        private System.Windows.Forms.Panel pnButton06_3;
+        private System.Windows.Forms.TableLayoutPanel tlpScrambleQueue;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_05;
+        private System.Windows.Forms.Label lbScrambleQueue;
+        private System.Windows.Forms.Panel pnButton05_1;
+        private System.Windows.Forms.Panel pnButton05_2;
+        private System.Windows.Forms.Panel pnButton05_3;
+        private System.Windows.Forms.TableLayoutPanel tlpClearQueue;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_04;
+        private System.Windows.Forms.Label lbClearQueue;
+        private System.Windows.Forms.Panel pnButton4_1;
+        private System.Windows.Forms.Panel pnButton04_2;
+        private System.Windows.Forms.Panel pnButton04_3;
+        private System.Windows.Forms.TableLayoutPanel tlpShowQueue;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_03;
+        private System.Windows.Forms.Label lbShowQueue;
+        private System.Windows.Forms.Panel pnButton03_1;
+        private System.Windows.Forms.Panel pnButton03_2;
+        private System.Windows.Forms.Panel pnButton03_3;
+        private System.Windows.Forms.TableLayoutPanel tlpSongInformation;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_02;
+        private System.Windows.Forms.Label lbSongInformation;
+        private System.Windows.Forms.Panel pnButton02_1;
+        private System.Windows.Forms.Panel pnButton02_2;
+        private System.Windows.Forms.Panel pnButton02_3;
+        private System.Windows.Forms.TableLayoutPanel tlpSelectAll;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_01;
         private System.Windows.Forms.Label lbSelectAll;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Panel panel40;
+        private System.Windows.Forms.Panel pnButton01_1;
+        private System.Windows.Forms.Panel pnButton01_2;
+        private System.Windows.Forms.Panel pnButton01_3;
+        private System.Windows.Forms.Label lbNumericKeypadDesc;
+        private System.Windows.Forms.Panel pnNumericKeypadImage;
+        private System.Windows.Forms.TableLayoutPanel tlpRenameSong;
+        private System.Windows.Forms.Label lbKeyboardShortcutDesc_13;
+        private System.Windows.Forms.Label lbRenameSong;
+        private System.Windows.Forms.Panel pnButton13_1;
+        private System.Windows.Forms.Panel pnButton13_2;
+        private System.Windows.Forms.Panel pnButton13_3;
     }
 }

@@ -307,6 +307,8 @@
     <None Include="Resources\keyboard_modified_multiply.png" />
     <None Include="Resources\keyboard_function_delete.png" />
     <None Include="Resources\num_keypad.png" />
+    <None Include="Resources\keyboard_function_f2.png" />
+    <None Include="Resources\list_add.png" />
     <Content Include="VPKSoft.ico" />
     <None Include="Resources\amp_scramble_queue.png" />
     <None Include="Resources\view-refresh.png" />

@@ -51,6 +51,8 @@
             this.btAlbumNaming = new System.Windows.Forms.Button();
             this.tbTestQuietHour = new System.Windows.Forms.TextBox();
             this.btnTestQuietHour = new System.Windows.Forms.Button();
+            this.lbLanguage = new System.Windows.Forms.Label();
+            this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -153,7 +155,7 @@
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 367);
+            this.bCancel.Location = new System.Drawing.Point(12, 402);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -163,7 +165,7 @@
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(182, 367);
+            this.bOK.Location = new System.Drawing.Point(182, 402);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -269,7 +271,7 @@
             // 
             this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
             this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAlbumNaming.Location = new System.Drawing.Point(12, 338);
+            this.btAlbumNaming.Location = new System.Drawing.Point(12, 373);
             this.btAlbumNaming.Name = "btAlbumNaming";
             this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
             this.btAlbumNaming.TabIndex = 18;
@@ -295,13 +297,34 @@
             this.btnTestQuietHour.UseVisualStyleBackColor = true;
             this.btnTestQuietHour.Click += new System.EventHandler(this.btnTestQuietHour_Click);
             // 
+            // lbLanguage
+            // 
+            this.lbLanguage.AutoSize = true;
+            this.lbLanguage.Location = new System.Drawing.Point(9, 325);
+            this.lbLanguage.Name = "lbLanguage";
+            this.lbLanguage.Size = new System.Drawing.Size(136, 13);
+            this.lbLanguage.TabIndex = 21;
+            this.lbLanguage.Text = "Language (requires restart):";
+            // 
+            // cmbSelectLanguageValue
+            // 
+            this.cmbSelectLanguageValue.DisplayMember = "DisplayName";
+            this.cmbSelectLanguageValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSelectLanguageValue.FormattingEnabled = true;
+            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(12, 346);
+            this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
+            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(244, 21);
+            this.cmbSelectLanguageValue.TabIndex = 22;
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(269, 400);
+            this.ClientSize = new System.Drawing.Size(269, 435);
+            this.Controls.Add(this.cmbSelectLanguageValue);
+            this.Controls.Add(this.lbLanguage);
             this.Controls.Add(this.btnTestQuietHour);
             this.Controls.Add(this.tbTestQuietHour);
             this.Controls.Add(this.btAlbumNaming);
@@ -359,5 +382,7 @@
         private System.Windows.Forms.Button btAlbumNaming;
         private System.Windows.Forms.TextBox tbTestQuietHour;
         private System.Windows.Forms.Button btnTestQuietHour;
+        private System.Windows.Forms.Label lbLanguage;
+        private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
     }
 }

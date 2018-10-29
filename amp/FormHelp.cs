@@ -33,7 +33,6 @@ namespace amp
         private static FormHelp thisSingleton = null;
         private static bool allowDisposal = false;
 
-
         public static void ShowSingleton()
         {
             if (thisSingleton == null)

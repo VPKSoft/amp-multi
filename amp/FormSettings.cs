@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,6 +118,8 @@ namespace amp
 
             vnml.Save(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
+            Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
+
             SetMainWindowSettings();
         }
 
@@ -137,6 +140,11 @@ namespace amp
             tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
             nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
             cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+
+            List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
+
+            cmbSelectLanguageValue.Items.AddRange(cultures.ToArray());
+            cmbSelectLanguageValue.SelectedItem = Settings.Culture;
 
             bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
             if (netshRet != null)

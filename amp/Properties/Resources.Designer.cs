@@ -413,6 +413,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap keyboard_function_f2 {
+            get {
+                object obj = ResourceManager.GetObject("keyboard_function_f2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap keyboard_function_f4 {
             get {
                 object obj = ResourceManager.GetObject("keyboard_function_f4", resourceCulture);
@@ -486,6 +496,16 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap keyboard_numpad_plus {
             get {
                 object obj = ResourceManager.GetObject("keyboard_numpad_plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap list_add {
+            get {
+                object obj = ResourceManager.GetObject("list_add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

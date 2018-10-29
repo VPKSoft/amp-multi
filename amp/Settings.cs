@@ -8,6 +8,7 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
+using System.Globalization;
 using VPKSoft.Utils;
 
 namespace amp
@@ -123,6 +124,41 @@ namespace amp
                 vnml["AlbumNamingRenamed", "value"] = value;
                 _AlbumNamingRenamed = value;
                 vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        // the current language (Culture) to be used with the software..
+        private static CultureInfo _Culture = null;
+
+        /// <summary>
+        /// Gets or sets the current language (Culture) to be used with the software's localization.
+        /// </summary>
+        public static CultureInfo Culture
+        {
+            get
+            {
+                if (_Culture == null)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                    string culture = vnml["culture", "value", "en-US"].ToString();
+
+                    vnml["culture", "value"] = culture;
+                    vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+                    _Culture = new CultureInfo(culture);
+                }
+                return _Culture;
+            }
+
+            set
+            {
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["culture", "value"] = value.Name;
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+                _Culture = value;
             }
         }
     }

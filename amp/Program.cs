@@ -134,7 +134,10 @@ namespace amp
                 return;
             }
             // End save languages
+
+            DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
             Application.Run(new MainWindow());
+            FormHelp.DisposeSingleton(); // release the help form if any..
             PositionCore.UnBind(); // release the event handlers used by the PosLib and save the default data
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
         }
