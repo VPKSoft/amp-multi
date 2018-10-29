@@ -1587,6 +1587,7 @@ namespace amp
         private void mnuSettings_Click(object sender, EventArgs e)
         {
             new FormSettings().ShowDialog();
+            lbMusic.RefreshItems(); // the naming might have been hanged..
             TextInvoker();
         }
 
