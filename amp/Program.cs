@@ -62,6 +62,16 @@ namespace amp
         [STAThread]
         static void Main(string[] args)
         {
+            Process localizeProcess = VPKSoft.LangLib.Utils.CreateDBLocalizeProcess(VPKSoft.Utils.Paths.AppInstallDir);
+            //localizeProcess.
+
+            if (localizeProcess != null)
+            {
+                localizeProcess.Start();
+                return;
+            }
+
+
             ExceptionLogger.Bind(); // bind before any visual objects are created
 
 
@@ -72,6 +82,7 @@ namespace amp
                     ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
                     return;
                 }
+                DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
                 Application.Run(new FormDatabaseUpdatingProgress());
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
                 Settings.DBUpdateRequiredLevel = 1;

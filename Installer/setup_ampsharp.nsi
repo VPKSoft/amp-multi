@@ -140,6 +140,7 @@ Section -Main SEC0000
 	
 	
 	File ..\amp\bin\Release\VPKSoft.PosLib.dll
+	File ..\languages.ico    
 	
 	SetOutPath $INSTDIR\x64
 	File ..\amp\bin\Release\x64\SQLite.Interop.dll
@@ -158,7 +159,6 @@ Section -Main SEC0000
     
     SetOutPath "$LOCALAPPDATA\amp#"
     File ..\lang.sqlite
-	File ..\languages.ico    
 	
 	!insertmacro CheckNetFramework 461
 	  
