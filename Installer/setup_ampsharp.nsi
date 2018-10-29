@@ -158,7 +158,7 @@ Section -Main SEC0000
     
     SetOutPath "$LOCALAPPDATA\amp#"
     File ..\lang.sqlite
-    
+	File ..\languages.ico    
 	
 	!insertmacro CheckNetFramework 461
 	  
@@ -168,6 +168,8 @@ Section -Main SEC0000
     
     SetOutPath $SMPROGRAMS\$StartMenuGroup
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\amp#.lnk" $INSTDIR\amp.exe
+	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(LocalizeDesc).lnk" "$INSTDIR\amp.exe" '"--localize=$LOCALAPPDATA\amp#\lang.sqlite" ' "$INSTDIR\languages.ico" 0
+	
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
@@ -205,6 +207,7 @@ done${UNSECTION_ID}:
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\amp#.lnk"
+	Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(LocalizeDesc).lnk"	
 	
 	Delete /REBOOTOK $INSTDIR\amp.exe
 	Delete /REBOOTOK $INSTDIR\LibFlac.dll
@@ -339,6 +342,9 @@ LangString MUSWav2  ${LANG_FINNISH} "wav -tiedosto"
 LangString MUSAac2  ${LANG_FINNISH} "m4a/aac -tiedosto"
 LangString MUSAif2  ${LANG_FINNISH} "aif/aiff -tiedosto"
 LangString MUSQEXP2  ${LANG_FINNISH} "jono -tiedosto"
+
+LangString LocalizeDesc ${LANG_FINNISH} "Lokalisointi"
+LangString LocalizeDesc ${LANG_ENGLISH} "Localization"
 
 
 Function PageAssociation

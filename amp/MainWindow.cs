@@ -1311,12 +1311,7 @@ namespace amp
                 }
                 else
                 {
-                    lbMusic.Items.Clear();
-                    foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
-                    {
-                        lbMusic.Items.Add(mf);
-                    }
-                    Filtered = FilterType.NoneFiltered;
+                    ShowAllSongs();
                 }
             }
 
@@ -1328,6 +1323,16 @@ namespace amp
                     return;
                 }
             }
+        }
+
+        private void ShowAllSongs()
+        {
+            lbMusic.Items.Clear();
+            foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+            {
+                lbMusic.Items.Add(mf);
+            }
+            Filtered = FilterType.NoneFiltered;
         }
 
         void humanActivity_OnUserSleep(object sender, UserSleepEventArgs e)
@@ -1602,6 +1607,11 @@ namespace amp
         private void mnuHelpItem_Click(object sender, EventArgs e)
         {
             FormHelp.ShowSingleton();
+        }
+
+        private void mnuShowAllSongs_Click(object sender, EventArgs e)
+        {
+            ShowAllSongs();
         }
     }
 }

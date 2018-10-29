@@ -42,6 +42,7 @@
             this.mnuPlaylistM3UExport = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSongInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuShowAllSongs = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLoadQueue = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,7 +113,8 @@
             this.mnuSelectAll,
             this.mnuPlayListM3U,
             this.mnuSettings,
-            this.mnuSongInfo});
+            this.mnuSongInfo,
+            this.mnuShowAllSongs});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(37, 20);
             this.mnuFile.Text = "File";
@@ -121,14 +123,14 @@
             // 
             this.mnuAlbum.Image = global::amp.Properties.Resources.album_yellow;
             this.mnuAlbum.Name = "mnuAlbum";
-            this.mnuAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuAlbum.Size = new System.Drawing.Size(200, 36);
             this.mnuAlbum.Text = "Album";
             // 
             // mnuNewAlbum
             // 
             this.mnuNewAlbum.Image = ((System.Drawing.Image)(resources.GetObject("mnuNewAlbum.Image")));
             this.mnuNewAlbum.Name = "mnuNewAlbum";
-            this.mnuNewAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuNewAlbum.Size = new System.Drawing.Size(200, 36);
             this.mnuNewAlbum.Text = "New album";
             this.mnuNewAlbum.Click += new System.EventHandler(this.mnuNewAlbum_Click);
             // 
@@ -137,7 +139,7 @@
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(186, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(200, 36);
             this.mnuSelectAll.Text = "Select all";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -149,7 +151,7 @@
             this.mnuPlaylistM3UExport});
             this.mnuPlayListM3U.Image = global::amp.Properties.Resources.m3u2;
             this.mnuPlayListM3U.Name = "mnuPlayListM3U";
-            this.mnuPlayListM3U.Size = new System.Drawing.Size(186, 22);
+            this.mnuPlayListM3U.Size = new System.Drawing.Size(200, 36);
             this.mnuPlayListM3U.Text = "Playlist (m3u)";
             // 
             // mnuPlayListM3UNewAlbum
@@ -177,7 +179,7 @@
             // 
             this.mnuSettings.Image = global::amp.Properties.Resources.settings;
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(186, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(200, 36);
             this.mnuSettings.Text = "Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
@@ -186,9 +188,18 @@
             this.mnuSongInfo.Image = global::amp.Properties.Resources.info;
             this.mnuSongInfo.Name = "mnuSongInfo";
             this.mnuSongInfo.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuSongInfo.Size = new System.Drawing.Size(186, 22);
+            this.mnuSongInfo.Size = new System.Drawing.Size(200, 36);
             this.mnuSongInfo.Text = "Song information";
             this.mnuSongInfo.Click += new System.EventHandler(this.mnuSongInfo_Click);
+            // 
+            // mnuShowAllSongs
+            // 
+            this.mnuShowAllSongs.Image = global::amp.Properties.Resources.list;
+            this.mnuShowAllSongs.Name = "mnuShowAllSongs";
+            this.mnuShowAllSongs.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.mnuShowAllSongs.Size = new System.Drawing.Size(200, 36);
+            this.mnuShowAllSongs.Text = "Show all songs";
+            this.mnuShowAllSongs.Click += new System.EventHandler(this.mnuShowAllSongs_Click);
             // 
             // mnuQueue
             // 
@@ -269,7 +280,7 @@
             this.mnuHelpItem.Image = global::amp.Properties.Resources.help;
             this.mnuHelpItem.Name = "mnuHelpItem";
             this.mnuHelpItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mnuHelpItem.Size = new System.Drawing.Size(194, 36);
+            this.mnuHelpItem.Size = new System.Drawing.Size(118, 22);
             this.mnuHelpItem.Text = "Help";
             this.mnuHelpItem.Click += new System.EventHandler(this.mnuHelpItem_Click);
             // 
@@ -277,7 +288,7 @@
             // 
             this.mnuAbout.Image = global::amp.Properties.Resources.info1;
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(194, 36);
+            this.mnuAbout.Size = new System.Drawing.Size(118, 22);
             this.mnuAbout.Text = "About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
@@ -625,6 +636,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuHelpItem;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
+        private System.Windows.Forms.ToolStripMenuItem mnuShowAllSongs;
     }
 }
 

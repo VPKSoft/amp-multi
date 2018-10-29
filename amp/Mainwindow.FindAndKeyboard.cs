@@ -181,7 +181,8 @@ namespace amp
                 e.KeyCode == Keys.F4 ||
                 e.KeyCode == Keys.F6 ||
                 e.KeyCode == Keys.F7 ||
-                e.KeyCode == Keys.F8)
+                e.KeyCode == Keys.F8 ||
+                e.KeyCode == Keys.F9)
             {
                 return true;
             }
