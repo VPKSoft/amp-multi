@@ -30,12 +30,16 @@ namespace amp
 
             DBLangEngine.InitalizeLanguage("amp.Messages");
 
+            suspendCheckedChanged = true;
             cbModifiedRandomizationEnabled.Checked = Settings.BiasedRandom;
             SetBiasedRandomValue(tbRating, cbRatingEnabled, Settings.BiasedRating, Settings.BiasedRatingEnabled);
             SetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, Settings.BiasedPlayedCount, Settings.BiasedPlayedCountEnabled);
             SetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, Settings.BiasedRandomizedCount, Settings.BiasedRandomizedCountEnabled);
             SetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, Settings.BiasedSkippedCount, Settings.BiasedSkippedCountEnabled);
+            suspendCheckedChanged = false;
         }
+
+        private bool suspendCheckedChanged = false;
 
         private void SetBiasedRandomValue(TrackBar trackBar, CheckBox checkBox, double biasedRating, bool biasedRatingEnabled)
         {
@@ -79,7 +83,6 @@ namespace amp
 
         private void btDefault_Click(object sender, EventArgs e)
         {
-            cbModifiedRandomizationEnabled.Checked = false;
             tbRating.Value = 500;
             tbPlayedCount.Value = 0;
             tbRandomizedCount.Value = 0;
@@ -89,6 +92,7 @@ namespace amp
             cbRandomizedCountEnabled.Checked = false;
             cbSkippedCountEnabled.Checked = false;
             tbTolerancePercentage.Value = 100;
+            cbModifiedRandomizationEnabled.Checked = false;
         }
 
         private void tbTolerancePercentage_ValueChanged(object sender, EventArgs e)
@@ -96,8 +100,13 @@ namespace amp
             lbTolerancePercentageValue.Text = $"{tbTolerancePercentage.Value / 10}";
         }
 
-        private void cbRatingEnabled_CheckedChanged(object sender, EventArgs e)
+        private void cbCommon_CheckedChanged(object sender, EventArgs e)
         {
+            if (suspendCheckedChanged)
+            {
+                return;
+            }
+
             cbModifiedRandomizationEnabled.Checked =
                 cbRatingEnabled.Checked |
                 cbPlayedCountEnabled.Checked |
