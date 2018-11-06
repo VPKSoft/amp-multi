@@ -46,9 +46,9 @@
             this.lbSkippedCount = new System.Windows.Forms.Label();
             this.cbModifiedRandomizationEnabled = new System.Windows.Forms.CheckBox();
             this.btOK = new System.Windows.Forms.Button();
-            this.btCancel = new System.Windows.Forms.Button();
             this.btDefault = new System.Windows.Forms.Button();
             this.cbRatingEnabled = new System.Windows.Forms.CheckBox();
+            this.btCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbRating)).BeginInit();
             this.tlpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbTolerancePercentage)).BeginInit();
@@ -63,7 +63,7 @@
             this.tbRating.Location = new System.Drawing.Point(314, 3);
             this.tbRating.Maximum = 1000;
             this.tbRating.Name = "tbRating";
-            this.tbRating.Size = new System.Drawing.Size(174, 23);
+            this.tbRating.Size = new System.Drawing.Size(174, 26);
             this.tbRating.TabIndex = 0;
             this.tbRating.TickFrequency = 100;
             this.tbRating.Value = 500;
@@ -92,10 +92,10 @@
             this.tlpMain.Controls.Add(this.lbRandomizedCount, 0, 2);
             this.tlpMain.Controls.Add(this.lbSkippedCount, 0, 3);
             this.tlpMain.Controls.Add(this.cbModifiedRandomizationEnabled, 0, 5);
-            this.tlpMain.Controls.Add(this.btOK, 0, 7);
-            this.tlpMain.Controls.Add(this.btCancel, 1, 7);
             this.tlpMain.Controls.Add(this.btDefault, 1, 5);
             this.tlpMain.Controls.Add(this.cbRatingEnabled, 2, 0);
+            this.tlpMain.Controls.Add(this.btOK, 0, 8);
+            this.tlpMain.Controls.Add(this.btCancel, 1, 8);
             this.tlpMain.Location = new System.Drawing.Point(12, 12);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 8;
@@ -107,6 +107,7 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.Size = new System.Drawing.Size(546, 254);
             this.tlpMain.TabIndex = 1;
             // 
@@ -114,9 +115,9 @@
             // 
             this.lbTolerancePercentageValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbTolerancePercentageValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTolerancePercentageValue.Location = new System.Drawing.Point(494, 116);
+            this.lbTolerancePercentageValue.Location = new System.Drawing.Point(494, 128);
             this.lbTolerancePercentageValue.Name = "lbTolerancePercentageValue";
-            this.lbTolerancePercentageValue.Size = new System.Drawing.Size(49, 29);
+            this.lbTolerancePercentageValue.Size = new System.Drawing.Size(49, 32);
             this.lbTolerancePercentageValue.TabIndex = 18;
             this.lbTolerancePercentageValue.Text = "50";
             this.lbTolerancePercentageValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -124,10 +125,10 @@
             // tbTolerancePercentage
             // 
             this.tbTolerancePercentage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbTolerancePercentage.Location = new System.Drawing.Point(314, 119);
+            this.tbTolerancePercentage.Location = new System.Drawing.Point(314, 131);
             this.tbTolerancePercentage.Maximum = 1000;
             this.tbTolerancePercentage.Name = "tbTolerancePercentage";
-            this.tbTolerancePercentage.Size = new System.Drawing.Size(174, 23);
+            this.tbTolerancePercentage.Size = new System.Drawing.Size(174, 26);
             this.tbTolerancePercentage.TabIndex = 17;
             this.tbTolerancePercentage.TickFrequency = 100;
             this.tbTolerancePercentage.Value = 500;
@@ -137,9 +138,9 @@
             // 
             this.lbTolerancePercentage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbTolerancePercentage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTolerancePercentage.Location = new System.Drawing.Point(3, 116);
+            this.lbTolerancePercentage.Location = new System.Drawing.Point(3, 128);
             this.lbTolerancePercentage.Name = "lbTolerancePercentage";
-            this.lbTolerancePercentage.Size = new System.Drawing.Size(305, 29);
+            this.lbTolerancePercentage.Size = new System.Drawing.Size(305, 32);
             this.lbTolerancePercentage.TabIndex = 16;
             this.lbTolerancePercentage.Text = "Tolerance (%)";
             this.lbTolerancePercentage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -147,7 +148,7 @@
             // cbSkippedCountEnabled
             // 
             this.cbSkippedCountEnabled.AutoSize = true;
-            this.cbSkippedCountEnabled.Location = new System.Drawing.Point(511, 97);
+            this.cbSkippedCountEnabled.Location = new System.Drawing.Point(511, 106);
             this.cbSkippedCountEnabled.Margin = new System.Windows.Forms.Padding(20, 10, 3, 3);
             this.cbSkippedCountEnabled.Name = "cbSkippedCountEnabled";
             this.cbSkippedCountEnabled.Size = new System.Drawing.Size(15, 14);
@@ -158,7 +159,7 @@
             // cbRandomizedCountEnabled
             // 
             this.cbRandomizedCountEnabled.AutoSize = true;
-            this.cbRandomizedCountEnabled.Location = new System.Drawing.Point(511, 68);
+            this.cbRandomizedCountEnabled.Location = new System.Drawing.Point(511, 74);
             this.cbRandomizedCountEnabled.Margin = new System.Windows.Forms.Padding(20, 10, 3, 3);
             this.cbRandomizedCountEnabled.Name = "cbRandomizedCountEnabled";
             this.cbRandomizedCountEnabled.Size = new System.Drawing.Size(15, 14);
@@ -169,7 +170,7 @@
             // cbPlayedCountEnabled
             // 
             this.cbPlayedCountEnabled.AutoSize = true;
-            this.cbPlayedCountEnabled.Location = new System.Drawing.Point(511, 39);
+            this.cbPlayedCountEnabled.Location = new System.Drawing.Point(511, 42);
             this.cbPlayedCountEnabled.Margin = new System.Windows.Forms.Padding(20, 10, 3, 3);
             this.cbPlayedCountEnabled.Name = "cbPlayedCountEnabled";
             this.cbPlayedCountEnabled.Size = new System.Drawing.Size(15, 14);
@@ -180,10 +181,10 @@
             // tbSkippedCount
             // 
             this.tbSkippedCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSkippedCount.Location = new System.Drawing.Point(314, 90);
+            this.tbSkippedCount.Location = new System.Drawing.Point(314, 99);
             this.tbSkippedCount.Maximum = 1000;
             this.tbSkippedCount.Name = "tbSkippedCount";
-            this.tbSkippedCount.Size = new System.Drawing.Size(174, 23);
+            this.tbSkippedCount.Size = new System.Drawing.Size(174, 26);
             this.tbSkippedCount.TabIndex = 3;
             this.tbSkippedCount.TickFrequency = 100;
             this.tbSkippedCount.Value = 500;
@@ -191,10 +192,10 @@
             // tbRandomizedCount
             // 
             this.tbRandomizedCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbRandomizedCount.Location = new System.Drawing.Point(314, 61);
+            this.tbRandomizedCount.Location = new System.Drawing.Point(314, 67);
             this.tbRandomizedCount.Maximum = 1000;
             this.tbRandomizedCount.Name = "tbRandomizedCount";
-            this.tbRandomizedCount.Size = new System.Drawing.Size(174, 23);
+            this.tbRandomizedCount.Size = new System.Drawing.Size(174, 26);
             this.tbRandomizedCount.TabIndex = 2;
             this.tbRandomizedCount.TickFrequency = 100;
             this.tbRandomizedCount.Value = 500;
@@ -202,10 +203,10 @@
             // tbPlayedCount
             // 
             this.tbPlayedCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPlayedCount.Location = new System.Drawing.Point(314, 32);
+            this.tbPlayedCount.Location = new System.Drawing.Point(314, 35);
             this.tbPlayedCount.Maximum = 1000;
             this.tbPlayedCount.Name = "tbPlayedCount";
-            this.tbPlayedCount.Size = new System.Drawing.Size(174, 23);
+            this.tbPlayedCount.Size = new System.Drawing.Size(174, 26);
             this.tbPlayedCount.TabIndex = 1;
             this.tbPlayedCount.TickFrequency = 100;
             this.tbPlayedCount.Value = 500;
@@ -216,7 +217,7 @@
             this.lbRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbRating.Location = new System.Drawing.Point(3, 0);
             this.lbRating.Name = "lbRating";
-            this.lbRating.Size = new System.Drawing.Size(305, 29);
+            this.lbRating.Size = new System.Drawing.Size(305, 32);
             this.lbRating.TabIndex = 3;
             this.lbRating.Text = "Rating";
             this.lbRating.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,9 +226,9 @@
             // 
             this.lbPlayedCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbPlayedCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPlayedCount.Location = new System.Drawing.Point(3, 29);
+            this.lbPlayedCount.Location = new System.Drawing.Point(3, 32);
             this.lbPlayedCount.Name = "lbPlayedCount";
-            this.lbPlayedCount.Size = new System.Drawing.Size(305, 29);
+            this.lbPlayedCount.Size = new System.Drawing.Size(305, 32);
             this.lbPlayedCount.TabIndex = 4;
             this.lbPlayedCount.Text = "Played count";
             this.lbPlayedCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -236,9 +237,9 @@
             // 
             this.lbRandomizedCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbRandomizedCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbRandomizedCount.Location = new System.Drawing.Point(3, 58);
+            this.lbRandomizedCount.Location = new System.Drawing.Point(3, 64);
             this.lbRandomizedCount.Name = "lbRandomizedCount";
-            this.lbRandomizedCount.Size = new System.Drawing.Size(305, 29);
+            this.lbRandomizedCount.Size = new System.Drawing.Size(305, 32);
             this.lbRandomizedCount.TabIndex = 5;
             this.lbRandomizedCount.Text = "Randomized count";
             this.lbRandomizedCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -247,9 +248,9 @@
             // 
             this.lbSkippedCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSkippedCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSkippedCount.Location = new System.Drawing.Point(3, 87);
+            this.lbSkippedCount.Location = new System.Drawing.Point(3, 96);
             this.lbSkippedCount.Name = "lbSkippedCount";
-            this.lbSkippedCount.Size = new System.Drawing.Size(305, 29);
+            this.lbSkippedCount.Size = new System.Drawing.Size(305, 32);
             this.lbSkippedCount.TabIndex = 6;
             this.lbSkippedCount.Text = "Skipped count";
             this.lbSkippedCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -258,8 +259,8 @@
             // 
             this.cbModifiedRandomizationEnabled.AutoSize = true;
             this.cbModifiedRandomizationEnabled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbModifiedRandomizationEnabled.Location = new System.Drawing.Point(3, 155);
-            this.cbModifiedRandomizationEnabled.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.cbModifiedRandomizationEnabled.Location = new System.Drawing.Point(3, 168);
+            this.cbModifiedRandomizationEnabled.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.cbModifiedRandomizationEnabled.Name = "cbModifiedRandomizationEnabled";
             this.cbModifiedRandomizationEnabled.Size = new System.Drawing.Size(205, 17);
             this.cbModifiedRandomizationEnabled.TabIndex = 8;
@@ -268,34 +269,22 @@
             // 
             // btOK
             // 
-            this.btOK.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btOK.Location = new System.Drawing.Point(3, 212);
+            this.btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btOK.Location = new System.Drawing.Point(3, 228);
             this.btOK.Name = "btOK";
-            this.btOK.Size = new System.Drawing.Size(75, 39);
+            this.btOK.Size = new System.Drawing.Size(75, 23);
             this.btOK.TabIndex = 9;
             this.btOK.Text = "OK";
             this.btOK.UseVisualStyleBackColor = true;
             this.btOK.Click += new System.EventHandler(this.btOK_Click);
             // 
-            // btCancel
-            // 
-            this.tlpMain.SetColumnSpan(this.btCancel, 2);
-            this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btCancel.Location = new System.Drawing.Point(468, 212);
-            this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(75, 39);
-            this.btCancel.TabIndex = 10;
-            this.btCancel.Text = "Cancel";
-            this.btCancel.UseVisualStyleBackColor = true;
-            // 
             // btDefault
             // 
             this.btDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.SetColumnSpan(this.btDefault, 2);
-            this.btDefault.Location = new System.Drawing.Point(468, 148);
+            this.btDefault.Location = new System.Drawing.Point(468, 163);
             this.btDefault.Name = "btDefault";
-            this.btDefault.Size = new System.Drawing.Size(75, 29);
+            this.btDefault.Size = new System.Drawing.Size(75, 23);
             this.btDefault.TabIndex = 11;
             this.btDefault.Text = "Default";
             this.btDefault.UseVisualStyleBackColor = true;
@@ -311,6 +300,18 @@
             this.cbRatingEnabled.TabIndex = 12;
             this.cbRatingEnabled.UseVisualStyleBackColor = true;
             this.cbRatingEnabled.CheckedChanged += new System.EventHandler(this.cbCommon_CheckedChanged);
+            // 
+            // btCancel
+            // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.btCancel, 2);
+            this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btCancel.Location = new System.Drawing.Point(468, 228);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(75, 23);
+            this.btCancel.TabIndex = 10;
+            this.btCancel.Text = "Cancel";
+            this.btCancel.UseVisualStyleBackColor = true;
             // 
             // FormRandomizePriority
             // 

@@ -238,7 +238,7 @@ namespace amp
                     vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
 
                     _BiasedPlayedCount =
-                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
                         CultureInfo.InvariantCulture);
 
                 }
@@ -284,7 +284,7 @@ namespace amp
                     vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
 
                     _BiasedRandomizedCount =
-                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
                         CultureInfo.InvariantCulture);
                 }
                 return _BiasedRandomizedCount;
@@ -329,7 +329,7 @@ namespace amp
                     vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
 
                     _BiasedSkippedCount =
-                        double.Parse(vnml["biasedRandom", "biasedSkippedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        double.Parse(vnml["biasedRandom", "biasedSkippedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
                         CultureInfo.InvariantCulture);
 
                 }

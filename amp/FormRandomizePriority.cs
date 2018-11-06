@@ -36,6 +36,7 @@ namespace amp
             SetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, Settings.BiasedPlayedCount, Settings.BiasedPlayedCountEnabled);
             SetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, Settings.BiasedRandomizedCount, Settings.BiasedRandomizedCountEnabled);
             SetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, Settings.BiasedSkippedCount, Settings.BiasedSkippedCountEnabled);
+            tbTolerancePercentage.Value = Settings.Tolerance < 0 ? 10 : (int)Settings.Tolerance * 10;
             suspendCheckedChanged = false;
         }
 
