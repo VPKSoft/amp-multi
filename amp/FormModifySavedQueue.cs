@@ -10,12 +10,7 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 using System.Data.SQLite;
@@ -94,7 +89,7 @@ namespace amp
             {
                 string sql =
                     string.Format(
-                    "DELETE FROM QUEUE_SNAPSHOT WHERE WHERE SONG_ID = {1} AND ID = {2} ", mf.ID, queueIndex);
+                    "DELETE FROM QUEUE_SNAPSHOT WHERE SONG_ID = {0} AND ID = {1} ", mf.ID, queueIndex);
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText = sql;
@@ -124,9 +119,11 @@ namespace amp
 
         public static bool Execute(ref SQLiteConnection conn, int queueIndex)
         {
-            FormModifySavedQueue frm = new FormModifySavedQueue();
-            frm.queueIndex = queueIndex;
-            frm.conn = conn;
+            FormModifySavedQueue frm = new FormModifySavedQueue
+            {
+                queueIndex = queueIndex,
+                conn = conn
+            };
             frm.GetQueue();
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
@@ -196,11 +193,11 @@ namespace amp
 
             queueFiles.RemoveAt(idx);
 
-            foreach(MusicFile mf in queueFiles)
+            for (int i = 0; i < queueFiles.Count; i++)
             {
-                if (mf.QueueIndex > queueDown)
+                if (queueFiles[i].QueueIndex > queueDown)
                 {
-                    mf.QueueIndex--;
+                    queueFiles[i].QueueIndex--;
                 }
             }
 

@@ -54,8 +54,9 @@
             // 
             // bCancel
             // 
+            this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 35);
+            this.bCancel.Location = new System.Drawing.Point(12, 40);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 5;
@@ -64,9 +65,10 @@
             // 
             // bOK
             // 
+            this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.bOK.Enabled = false;
-            this.bOK.Location = new System.Drawing.Point(383, 35);
+            this.bOK.Location = new System.Drawing.Point(383, 40);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 4;
@@ -76,9 +78,10 @@
             // FormRename
             // 
             this.AcceptButton = this.bOK;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(470, 66);
+            this.ClientSize = new System.Drawing.Size(472, 75);
             this.Controls.Add(this.tbNewSongName);
             this.Controls.Add(this.lbNewSongName);
             this.Controls.Add(this.bCancel);
@@ -89,6 +92,7 @@
             this.MinimizeBox = false;
             this.Name = "FormRename";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Rename song";
             this.Shown += new System.EventHandler(this.frmRename_Shown);
             this.ResumeLayout(false);

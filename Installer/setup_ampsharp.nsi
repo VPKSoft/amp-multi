@@ -110,6 +110,7 @@ Section -Main SEC0000
 	File ..\amp\bin\Release\VPKSoft.About.dll
 	File ..\amp\bin\Release\VPKSoft.VersionCheck.dll
 	File ..\amp\bin\Release\DBLocalization.exe
+	File ..\amp\bin\Release\VPKSoft.RandomizationUtils.dll
 	
 	File ..\amp\bin\Release\VPKSoft.ErrorLogger.dll
 	
@@ -134,9 +135,6 @@ Section -Main SEC0000
 	
 	File ..\amp\bin\Release\NAudio.Flac.dll
 	File ..\amp\bin\Release\NAudio.Vorbis.dll
-	
-	File ..\amp\bin\Release\VPKSoft.About.dll
-	File ..\amp\bin\Release\VPKSoft.VersionCheck.dll
 	
 	
 	File ..\amp\bin\Release\VPKSoft.PosLib.dll
@@ -221,9 +219,13 @@ Section /o -un.Main UNSEC0000
 	Delete /REBOOTOK $INSTDIR\NVorbis.Vorbis.dll
 	Delete /REBOOTOK $INSTDIR\policy.2.0.taglib-sharp.dll
 	Delete /REBOOTOK $INSTDIR\VPKSoft.About.dll
+	Delete /REBOOTOK $INSTDIR\VPKSoft.VersionCheck.dll
 
 	Delete /REBOOTOK $INSTDIR\NAudio.Flac.dll
 	
+	
+	Delete /REBOOTOK $INSTDIR\DBLocalization.exe
+	Delete /REBOOTOK $INSTDIR\VPKSoft.RandomizationUtils.dll	
 	
 	Delete /REBOOTOK $INSTDIR\VPKSoft.ErrorLogger.dll
 
@@ -245,8 +247,7 @@ Section /o -un.Main UNSEC0000
 	Delete /REBOOTOK $INSTDIR\licenses\taglib.lgpl-2.1.txt
 	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING
 	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING.LESSER
-	
-	
+
     Delete /REBOOTOK "$LOCALAPPDATA\amp#\lang.sqlite"
 #    Delete /REBOOTOK "$LOCALAPPDATA\amp#\amp.sqlite"
     

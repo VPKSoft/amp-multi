@@ -11,8 +11,6 @@ Copyright (c) VPKSoft 2018
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
 
@@ -53,10 +51,10 @@ namespace amp
                 {
                     if ((lbMusic.Items[i] as MusicFile).ID == ID)
                     {
-                        Database.UpdateNPlayed(mFile, conn, Skipped);
+                        UpdateNPlayed(mFile, Skipped);
                         mFile = lbMusic.Items[i] as MusicFile;
                         latestSongIndex = mFile.VisualIndex;
-                        Database.UpdateNPlayed(mFile, conn, false);
+                        UpdateNPlayed(mFile, false);
                         newsong = true;
                     }
                 }
@@ -326,7 +324,7 @@ namespace amp
             {
                 mFile.Rating = rating;
                 mFile.RatingChanged = true;
-                Database.SaveRating(mFile, conn);
+                SaveRating(mFile);
                 return true;
             }
             return false;
@@ -381,7 +379,7 @@ namespace amp
                     {
                         PlayList[i].Rating = rating;
                         PlayList[i].RatingChanged = true;
-                        Database.SaveRating(PlayList[i], conn);
+                        SaveRating(PlayList[i]);
                         int lbIdx = GetListBoxIndexByID(PlayList[i].ID);
                         if (lbIdx >= 0)
                         {

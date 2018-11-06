@@ -65,7 +65,9 @@
             this.odM3U = new System.Windows.Forms.OpenFileDialog();
             this.sdM3U = new System.Windows.Forms.SaveFileDialog();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.lbSong = new System.Windows.Forms.Label();
             this.lbMusic = new amp.RefreshListbox();
+            this.lbTime = new System.Windows.Forms.Label();
             this.tbFind = new System.Windows.Forms.TextBox();
             this.scProgress = new System.Windows.Forms.HScrollBar();
             this.pnTools = new System.Windows.Forms.Panel();
@@ -73,9 +75,6 @@
             this.pnStars1 = new System.Windows.Forms.Panel();
             this.pnVol1 = new System.Windows.Forms.Panel();
             this.pnVol2 = new System.Windows.Forms.Panel();
-            this.pnSongNameTime = new System.Windows.Forms.Panel();
-            this.lbSong = new System.Windows.Forms.Label();
-            this.lbTime = new System.Windows.Forms.Label();
             this.tmPendOperation = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.tbTool.SuspendLayout();
@@ -84,7 +83,6 @@
             this.pnTools.SuspendLayout();
             this.pnStars0.SuspendLayout();
             this.pnVol1.SuspendLayout();
-            this.pnSongNameTime.SuspendLayout();
             this.SuspendLayout();
             // 
             // tmSeek
@@ -123,14 +121,14 @@
             // 
             this.mnuAlbum.Image = global::amp.Properties.Resources.album_yellow;
             this.mnuAlbum.Name = "mnuAlbum";
-            this.mnuAlbum.Size = new System.Drawing.Size(200, 36);
+            this.mnuAlbum.Size = new System.Drawing.Size(186, 22);
             this.mnuAlbum.Text = "Album";
             // 
             // mnuNewAlbum
             // 
             this.mnuNewAlbum.Image = ((System.Drawing.Image)(resources.GetObject("mnuNewAlbum.Image")));
             this.mnuNewAlbum.Name = "mnuNewAlbum";
-            this.mnuNewAlbum.Size = new System.Drawing.Size(200, 36);
+            this.mnuNewAlbum.Size = new System.Drawing.Size(186, 22);
             this.mnuNewAlbum.Text = "New album";
             this.mnuNewAlbum.Click += new System.EventHandler(this.mnuNewAlbum_Click);
             // 
@@ -139,7 +137,7 @@
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(200, 36);
+            this.mnuSelectAll.Size = new System.Drawing.Size(186, 22);
             this.mnuSelectAll.Text = "Select all";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -151,7 +149,7 @@
             this.mnuPlaylistM3UExport});
             this.mnuPlayListM3U.Image = global::amp.Properties.Resources.m3u2;
             this.mnuPlayListM3U.Name = "mnuPlayListM3U";
-            this.mnuPlayListM3U.Size = new System.Drawing.Size(200, 36);
+            this.mnuPlayListM3U.Size = new System.Drawing.Size(186, 22);
             this.mnuPlayListM3U.Text = "Playlist (m3u)";
             // 
             // mnuPlayListM3UNewAlbum
@@ -179,7 +177,7 @@
             // 
             this.mnuSettings.Image = global::amp.Properties.Resources.settings;
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(200, 36);
+            this.mnuSettings.Size = new System.Drawing.Size(186, 22);
             this.mnuSettings.Text = "Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
@@ -188,7 +186,7 @@
             this.mnuSongInfo.Image = global::amp.Properties.Resources.info;
             this.mnuSongInfo.Name = "mnuSongInfo";
             this.mnuSongInfo.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuSongInfo.Size = new System.Drawing.Size(200, 36);
+            this.mnuSongInfo.Size = new System.Drawing.Size(186, 22);
             this.mnuSongInfo.Text = "Song information";
             this.mnuSongInfo.Click += new System.EventHandler(this.mnuSongInfo_Click);
             // 
@@ -197,7 +195,7 @@
             this.mnuShowAllSongs.Image = global::amp.Properties.Resources.list;
             this.mnuShowAllSongs.Name = "mnuShowAllSongs";
             this.mnuShowAllSongs.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.mnuShowAllSongs.Size = new System.Drawing.Size(200, 36);
+            this.mnuShowAllSongs.Size = new System.Drawing.Size(186, 22);
             this.mnuShowAllSongs.Text = "Show all songs";
             this.mnuShowAllSongs.Click += new System.EventHandler(this.mnuShowAllSongs_Click);
             // 
@@ -402,13 +400,15 @@
             // 
             // tlpMain
             // 
-            this.tlpMain.ColumnCount = 1;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.ColumnCount = 2;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMain.Controls.Add(this.lbSong, 0, 1);
             this.tlpMain.Controls.Add(this.lbMusic, 0, 4);
+            this.tlpMain.Controls.Add(this.lbTime, 1, 1);
             this.tlpMain.Controls.Add(this.tbFind, 0, 3);
             this.tlpMain.Controls.Add(this.scProgress, 0, 2);
             this.tlpMain.Controls.Add(this.pnTools, 0, 0);
-            this.tlpMain.Controls.Add(this.pnSongNameTime, 0, 1);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 61);
             this.tlpMain.Name = "tlpMain";
@@ -421,14 +421,28 @@
             this.tlpMain.Size = new System.Drawing.Size(549, 335);
             this.tlpMain.TabIndex = 12;
             // 
+            // lbSong
+            // 
+            this.lbSong.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSong.AutoEllipsis = true;
+            this.lbSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSong.Location = new System.Drawing.Point(3, 59);
+            this.lbSong.Name = "lbSong";
+            this.lbSong.Size = new System.Drawing.Size(433, 13);
+            this.lbSong.TabIndex = 11;
+            this.lbSong.Text = "-";
+            // 
             // lbMusic
             // 
             this.lbMusic.AllowDrop = true;
             this.lbMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
             this.lbMusic.FormattingEnabled = true;
-            this.lbMusic.Location = new System.Drawing.Point(3, 120);
+            this.lbMusic.Location = new System.Drawing.Point(3, 114);
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbMusic.Size = new System.Drawing.Size(543, 212);
@@ -439,11 +453,24 @@
             this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
             this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
             // 
+            // lbTime
+            // 
+            this.lbTime.AutoSize = true;
+            this.lbTime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTime.Location = new System.Drawing.Point(442, 59);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(104, 13);
+            this.lbTime.TabIndex = 10;
+            this.lbTime.Text = "00:00";
+            this.lbTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // tbFind
             // 
             this.tbFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFind.Location = new System.Drawing.Point(3, 94);
+            this.tlpMain.SetColumnSpan(this.tbFind, 2);
+            this.tbFind.Location = new System.Drawing.Point(3, 88);
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(543, 20);
             this.tbFind.TabIndex = 13;
@@ -454,8 +481,10 @@
             // 
             // scProgress
             // 
-            this.scProgress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scProgress.Location = new System.Drawing.Point(0, 78);
+            this.scProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.scProgress, 2);
+            this.scProgress.Location = new System.Drawing.Point(0, 72);
             this.scProgress.Name = "scProgress";
             this.scProgress.Size = new System.Drawing.Size(549, 13);
             this.scProgress.TabIndex = 12;
@@ -465,6 +494,7 @@
             // 
             this.pnTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.pnTools, 2);
             this.pnTools.Controls.Add(this.pnStars0);
             this.pnTools.Controls.Add(this.pnVol1);
             this.pnTools.Location = new System.Drawing.Point(3, 3);
@@ -515,40 +545,6 @@
             this.pnVol2.TabIndex = 0;
             this.pnVol2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnVol1_MouseClick);
             // 
-            // pnSongNameTime
-            // 
-            this.pnSongNameTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnSongNameTime.AutoSize = true;
-            this.pnSongNameTime.Controls.Add(this.lbSong);
-            this.pnSongNameTime.Controls.Add(this.lbTime);
-            this.pnSongNameTime.Location = new System.Drawing.Point(3, 62);
-            this.pnSongNameTime.Name = "pnSongNameTime";
-            this.pnSongNameTime.Size = new System.Drawing.Size(543, 13);
-            this.pnSongNameTime.TabIndex = 1;
-            // 
-            // lbSong
-            // 
-            this.lbSong.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSong.Location = new System.Drawing.Point(0, 0);
-            this.lbSong.Name = "lbSong";
-            this.lbSong.Size = new System.Drawing.Size(454, 13);
-            this.lbSong.TabIndex = 11;
-            this.lbSong.Text = "-";
-            // 
-            // lbTime
-            // 
-            this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTime.Location = new System.Drawing.Point(449, 0);
-            this.lbTime.Name = "lbTime";
-            this.lbTime.Size = new System.Drawing.Size(91, 13);
-            this.lbTime.TabIndex = 10;
-            this.lbTime.Text = "00:00";
-            this.lbTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // tmPendOperation
             // 
             this.tmPendOperation.Interval = 1000;
@@ -582,7 +578,6 @@
             this.pnTools.ResumeLayout(false);
             this.pnStars0.ResumeLayout(false);
             this.pnVol1.ResumeLayout(false);
-            this.pnSongNameTime.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -620,7 +615,6 @@
         private System.Windows.Forms.Panel pnStars1;
         private System.Windows.Forms.Panel pnVol1;
         private System.Windows.Forms.Panel pnVol2;
-        private System.Windows.Forms.Panel pnSongNameTime;
         private System.Windows.Forms.Label lbSong;
         private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.Timer tmPendOperation;

@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿#region license
+/*
+This file is part of amp#, which is licensed
+under the terms of the Microsoft Public License (Ms-Pl) license.
+See https://opensource.org/licenses/MS-PL for details.
+
+Copyright (c) VPKSoft 2018
+*/
+#endregion
+
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
@@ -86,7 +90,7 @@ namespace amp
 
             lbDragItems.Items.Add(new TagDescriptionPair()
             {
-                Tag = "#QUEUE?[^]#", // the queue index number..
+                Tag = "#QUEUE? [^]#", // the queue index number..
                 Description = DBLangEngine.GetMessage("msgQueueTag", "Queue index|As a queue index of a music file")
             });
 
@@ -221,7 +225,6 @@ namespace amp
             // avoid replicating the code..
             Label label = sender.Equals(tbAlbumNaming) ? lbNamingSampleValue : lbNamingSampleRenamedValue;
             TextBox textBox = (TextBox)sender;
-            bool error;
             label.Text =
                 MusicFile.GetString(textBox.Text,
                 DBLangEngine.GetMessage("msgArtists", "Artist|As in an artist(s) of a music file"),
@@ -231,7 +234,7 @@ namespace amp
                 DBLangEngine.GetMessage("msgMusicFile", "A01 Song Name|A sample file name without path of a music file name"),
                 1, 2,
                 DBLangEngine.GetMessage("msgMusicFileRenamed", "I named this song my self|The user has renamed the song him self"),
-                DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), out error);
+                DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), out bool error);
 
             bool formulaInText = // check that the formula has been parsed properly..
                 label.Text.Contains("#ARTIST") ||

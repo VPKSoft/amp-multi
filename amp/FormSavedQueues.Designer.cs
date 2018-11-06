@@ -62,7 +62,7 @@
             this.lvQueues.Location = new System.Drawing.Point(3, 3);
             this.lvQueues.MultiSelect = false;
             this.lvQueues.Name = "lvQueues";
-            this.lvQueues.Size = new System.Drawing.Size(523, 411);
+            this.lvQueues.Size = new System.Drawing.Size(515, 411);
             this.lvQueues.TabIndex = 5;
             this.lvQueues.UseCompatibleStateImageBehavior = false;
             this.lvQueues.View = System.Windows.Forms.View.Details;
@@ -107,9 +107,9 @@
             this.tsbExportQueue,
             this.tsbImportQueue});
             this.tsMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.tsMain.Location = new System.Drawing.Point(529, 0);
+            this.tsMain.Location = new System.Drawing.Point(521, 0);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(24, 149);
+            this.tsMain.Size = new System.Drawing.Size(32, 168);
             this.tsMain.TabIndex = 6;
             this.tsMain.Text = "tsQueueManage";
             // 
@@ -120,7 +120,7 @@
             this.tsbRemove.Image = global::amp.Properties.Resources.Delete;
             this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbRemove.Name = "tsbRemove";
-            this.tsbRemove.Size = new System.Drawing.Size(22, 20);
+            this.tsbRemove.Size = new System.Drawing.Size(30, 20);
             this.tsbRemove.Text = "Remove saved queue";
             this.tsbRemove.ToolTipText = "Remove selected queue snapshot";
             this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
@@ -131,7 +131,7 @@
             this.tsbSave.Image = global::amp.Properties.Resources.Save;
             this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSave.Name = "tsbSave";
-            this.tsbSave.Size = new System.Drawing.Size(22, 20);
+            this.tsbSave.Size = new System.Drawing.Size(30, 20);
             this.tsbSave.Text = "Save changes";
             this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
             // 
@@ -141,7 +141,7 @@
             this.tsbModifySavedQueue.Image = global::amp.Properties.Resources.Modify;
             this.tsbModifySavedQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbModifySavedQueue.Name = "tsbModifySavedQueue";
-            this.tsbModifySavedQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbModifySavedQueue.Size = new System.Drawing.Size(30, 20);
             this.tsbModifySavedQueue.Text = "Modify saved queue";
             this.tsbModifySavedQueue.Click += new System.EventHandler(this.tsbModifySavedQueue_Click);
             // 
@@ -151,7 +151,7 @@
             this.tsbRefresh.Image = global::amp.Properties.Resources.Refresh;
             this.tsbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbRefresh.Name = "tsbRefresh";
-            this.tsbRefresh.Size = new System.Drawing.Size(22, 20);
+            this.tsbRefresh.Size = new System.Drawing.Size(30, 20);
             this.tsbRefresh.Text = "Refresh the list";
             this.tsbRefresh.Click += new System.EventHandler(this.tsbRefresh_Click);
             // 
@@ -161,7 +161,7 @@
             this.tsbExportQueue.Image = global::amp.Properties.Resources.Download;
             this.tsbExportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbExportQueue.Name = "tsbExportQueue";
-            this.tsbExportQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbExportQueue.Size = new System.Drawing.Size(30, 20);
             this.tsbExportQueue.Text = "Export selected queue";
             this.tsbExportQueue.Click += new System.EventHandler(this.tsbExportQueue_Click);
             // 
@@ -171,7 +171,7 @@
             this.tsbImportQueue.Image = global::amp.Properties.Resources.Upload;
             this.tsbImportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbImportQueue.Name = "tsbImportQueue";
-            this.tsbImportQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbImportQueue.Size = new System.Drawing.Size(30, 20);
             this.tsbImportQueue.Text = "Import queue from file";
             this.tsbImportQueue.Click += new System.EventHandler(this.tsbImportQueue_Click);
             // 

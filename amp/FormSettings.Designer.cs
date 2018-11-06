@@ -48,11 +48,12 @@
             this.gpRemoteControl = new System.Windows.Forms.GroupBox();
             this.lbRemoteControlURI = new System.Windows.Forms.Label();
             this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
-            this.btAlbumNaming = new System.Windows.Forms.Button();
             this.tbTestQuietHour = new System.Windows.Forms.TextBox();
             this.btnTestQuietHour = new System.Windows.Forms.Button();
             this.lbLanguage = new System.Windows.Forms.Label();
             this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
+            this.btnModifiedRandomization = new System.Windows.Forms.Button();
+            this.btAlbumNaming = new System.Windows.Forms.Button();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -155,7 +156,7 @@
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 402);
+            this.bCancel.Location = new System.Drawing.Point(12, 432);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -165,7 +166,7 @@
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(182, 402);
+            this.bOK.Location = new System.Drawing.Point(182, 432);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -267,18 +268,6 @@
             this.tbRemoteControlURI.TabIndex = 10;
             this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControllURI_TextChanged);
             // 
-            // btAlbumNaming
-            // 
-            this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
-            this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAlbumNaming.Location = new System.Drawing.Point(12, 373);
-            this.btAlbumNaming.Name = "btAlbumNaming";
-            this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
-            this.btAlbumNaming.TabIndex = 18;
-            this.btAlbumNaming.Text = "Album naming";
-            this.btAlbumNaming.UseVisualStyleBackColor = true;
-            this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
-            // 
             // tbTestQuietHour
             // 
             this.tbTestQuietHour.Location = new System.Drawing.Point(281, 200);
@@ -316,13 +305,38 @@
             this.cmbSelectLanguageValue.Size = new System.Drawing.Size(244, 21);
             this.cmbSelectLanguageValue.TabIndex = 22;
             // 
+            // btnModifiedRandomization
+            // 
+            this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
+            this.btnModifiedRandomization.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnModifiedRandomization.Location = new System.Drawing.Point(12, 374);
+            this.btnModifiedRandomization.Name = "btnModifiedRandomization";
+            this.btnModifiedRandomization.Size = new System.Drawing.Size(244, 23);
+            this.btnModifiedRandomization.TabIndex = 23;
+            this.btnModifiedRandomization.Text = "Modified randomization";
+            this.btnModifiedRandomization.UseVisualStyleBackColor = true;
+            this.btnModifiedRandomization.Click += new System.EventHandler(this.btnModifiedRandomization_Click);
+            // 
+            // btAlbumNaming
+            // 
+            this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
+            this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btAlbumNaming.Location = new System.Drawing.Point(12, 403);
+            this.btAlbumNaming.Name = "btAlbumNaming";
+            this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
+            this.btAlbumNaming.TabIndex = 18;
+            this.btAlbumNaming.Text = "Album naming";
+            this.btAlbumNaming.UseVisualStyleBackColor = true;
+            this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(269, 435);
+            this.ClientSize = new System.Drawing.Size(269, 465);
+            this.Controls.Add(this.btnModifiedRandomization);
             this.Controls.Add(this.cmbSelectLanguageValue);
             this.Controls.Add(this.lbLanguage);
             this.Controls.Add(this.btnTestQuietHour);
@@ -384,5 +398,6 @@
         private System.Windows.Forms.Button btnTestQuietHour;
         private System.Windows.Forms.Label lbLanguage;
         private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
+        private System.Windows.Forms.Button btnModifiedRandomization;
     }
 }

@@ -44,7 +44,7 @@
             this.pnButton13_2 = new System.Windows.Forms.Panel();
             this.pnButton13_3 = new System.Windows.Forms.Panel();
             this.lbNumericKeypadDesc = new System.Windows.Forms.Label();
-            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpDeleteSongs = new System.Windows.Forms.TableLayoutPanel();
             this.lbKeyboardShortcutDesc_12 = new System.Windows.Forms.Label();
             this.lbDeleteSongs = new System.Windows.Forms.Label();
             this.pnButton12_1 = new System.Windows.Forms.Panel();
@@ -121,7 +121,7 @@
             this.tlpMain.SuspendLayout();
             this.tlpShowAllAlbumSongs.SuspendLayout();
             this.tlpRenameSong.SuspendLayout();
-            this.tableLayoutPanel12.SuspendLayout();
+            this.tlpDeleteSongs.SuspendLayout();
             this.tlpAlternateQueueInsertSongs.SuspendLayout();
             this.tlpAlternateQueueSongs.SuspendLayout();
             this.tlpQueueInsertSongs.SuspendLayout();
@@ -162,20 +162,20 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpMain.Controls.Add(this.tlpShowAllAlbumSongs, 0, 13);
-            this.tlpMain.Controls.Add(this.tlpRenameSong, 0, 12);
+            this.tlpMain.Controls.Add(this.tlpShowAllAlbumSongs, 0, 7);
+            this.tlpMain.Controls.Add(this.tlpRenameSong, 0, 2);
             this.tlpMain.Controls.Add(this.lbNumericKeypadDesc, 0, 14);
-            this.tlpMain.Controls.Add(this.tableLayoutPanel12, 0, 11);
-            this.tlpMain.Controls.Add(this.tlpAlternateQueueInsertSongs, 0, 10);
-            this.tlpMain.Controls.Add(this.tlpAlternateQueueSongs, 0, 9);
-            this.tlpMain.Controls.Add(this.tlpQueueInsertSongs, 0, 8);
-            this.tlpMain.Controls.Add(this.tlpQueueSongs, 0, 7);
-            this.tlpMain.Controls.Add(this.tlpShowThisHelp, 0, 6);
-            this.tlpMain.Controls.Add(this.tlpShowAlternateQueue, 0, 5);
-            this.tlpMain.Controls.Add(this.tlpScrambleQueue, 0, 4);
-            this.tlpMain.Controls.Add(this.tlpClearQueue, 0, 3);
-            this.tlpMain.Controls.Add(this.tlpShowQueue, 0, 2);
-            this.tlpMain.Controls.Add(this.tlpSongInformation, 0, 1);
+            this.tlpMain.Controls.Add(this.tlpDeleteSongs, 0, 13);
+            this.tlpMain.Controls.Add(this.tlpAlternateQueueInsertSongs, 0, 11);
+            this.tlpMain.Controls.Add(this.tlpAlternateQueueSongs, 0, 10);
+            this.tlpMain.Controls.Add(this.tlpQueueInsertSongs, 0, 9);
+            this.tlpMain.Controls.Add(this.tlpQueueSongs, 0, 8);
+            this.tlpMain.Controls.Add(this.tlpShowThisHelp, 0, 1);
+            this.tlpMain.Controls.Add(this.tlpShowAlternateQueue, 0, 6);
+            this.tlpMain.Controls.Add(this.tlpScrambleQueue, 0, 5);
+            this.tlpMain.Controls.Add(this.tlpClearQueue, 0, 12);
+            this.tlpMain.Controls.Add(this.tlpShowQueue, 0, 4);
+            this.tlpMain.Controls.Add(this.tlpSongInformation, 0, 3);
             this.tlpMain.Controls.Add(this.tlpSelectAll, 0, 0);
             this.tlpMain.Controls.Add(this.pnNumericKeypadImage, 7, 14);
             this.tlpMain.Location = new System.Drawing.Point(4, 4);
@@ -199,7 +199,7 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666667F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(696, 1080);
+            this.tlpMain.Size = new System.Drawing.Size(679, 1080);
             this.tlpMain.TabIndex = 1;
             // 
             // tlpShowAllAlbumSongs
@@ -222,11 +222,11 @@
             this.tlpShowAllAlbumSongs.Controls.Add(this.pnButton14_2, 8, 0);
             this.tlpShowAllAlbumSongs.Controls.Add(this.pnButton14_3, 9, 0);
             this.tlpShowAllAlbumSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpShowAllAlbumSongs.Location = new System.Drawing.Point(3, 939);
+            this.tlpShowAllAlbumSongs.Location = new System.Drawing.Point(3, 507);
             this.tlpShowAllAlbumSongs.Name = "tlpShowAllAlbumSongs";
             this.tlpShowAllAlbumSongs.RowCount = 1;
             this.tlpShowAllAlbumSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowAllAlbumSongs.Size = new System.Drawing.Size(690, 66);
+            this.tlpShowAllAlbumSongs.Size = new System.Drawing.Size(673, 66);
             this.tlpShowAllAlbumSongs.TabIndex = 16;
             // 
             // lbKeyboardShortcutDesc_14
@@ -234,10 +234,10 @@
             this.tlpShowAllAlbumSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_14, 3);
             this.lbKeyboardShortcutDesc_14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_14.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_14.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_14.Name = "lbKeyboardShortcutDesc_14";
-            this.lbKeyboardShortcutDesc_14.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_14.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_14.TabIndex = 3;
             this.lbKeyboardShortcutDesc_14.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -250,7 +250,7 @@
             this.lbShowAllAlbumSongs.Location = new System.Drawing.Point(4, 0);
             this.lbShowAllAlbumSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowAllAlbumSongs.Name = "lbShowAllAlbumSongs";
-            this.lbShowAllAlbumSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbShowAllAlbumSongs.Size = new System.Drawing.Size(260, 66);
             this.lbShowAllAlbumSongs.TabIndex = 2;
             this.lbShowAllAlbumSongs.Text = "Show all songs";
             this.lbShowAllAlbumSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -260,30 +260,30 @@
             this.pnButton14_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f9;
             this.pnButton14_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton14_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton14_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton14_1.Name = "pnButton14_1";
-            this.pnButton14_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton14_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton14_1.TabIndex = 4;
             // 
             // pnButton14_2
             // 
             this.pnButton14_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton14_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton14_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton14_2.Name = "pnButton14_2";
-            this.pnButton14_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton14_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton14_2.TabIndex = 5;
             // 
             // pnButton14_3
             // 
             this.pnButton14_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_3.Location = new System.Drawing.Point(629, 8);
+            this.pnButton14_3.Location = new System.Drawing.Point(611, 8);
             this.pnButton14_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton14_3.Name = "pnButton14_3";
-            this.pnButton14_3.Size = new System.Drawing.Size(53, 50);
+            this.pnButton14_3.Size = new System.Drawing.Size(54, 50);
             this.pnButton14_3.TabIndex = 6;
             // 
             // tlpRenameSong
@@ -306,11 +306,11 @@
             this.tlpRenameSong.Controls.Add(this.pnButton13_2, 8, 0);
             this.tlpRenameSong.Controls.Add(this.pnButton13_3, 9, 0);
             this.tlpRenameSong.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpRenameSong.Location = new System.Drawing.Point(3, 867);
+            this.tlpRenameSong.Location = new System.Drawing.Point(3, 147);
             this.tlpRenameSong.Name = "tlpRenameSong";
             this.tlpRenameSong.RowCount = 1;
             this.tlpRenameSong.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRenameSong.Size = new System.Drawing.Size(690, 66);
+            this.tlpRenameSong.Size = new System.Drawing.Size(673, 66);
             this.tlpRenameSong.TabIndex = 15;
             // 
             // lbKeyboardShortcutDesc_13
@@ -318,10 +318,10 @@
             this.tlpRenameSong.SetColumnSpan(this.lbKeyboardShortcutDesc_13, 3);
             this.lbKeyboardShortcutDesc_13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_13.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_13.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_13.Name = "lbKeyboardShortcutDesc_13";
-            this.lbKeyboardShortcutDesc_13.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_13.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_13.TabIndex = 3;
             this.lbKeyboardShortcutDesc_13.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -334,7 +334,7 @@
             this.lbRenameSong.Location = new System.Drawing.Point(4, 0);
             this.lbRenameSong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbRenameSong.Name = "lbRenameSong";
-            this.lbRenameSong.Size = new System.Drawing.Size(268, 66);
+            this.lbRenameSong.Size = new System.Drawing.Size(260, 66);
             this.lbRenameSong.TabIndex = 2;
             this.lbRenameSong.Text = "Rename selected song";
             this.lbRenameSong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -344,30 +344,30 @@
             this.pnButton13_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f2;
             this.pnButton13_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton13_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton13_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton13_1.Name = "pnButton13_1";
-            this.pnButton13_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton13_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton13_1.TabIndex = 4;
             // 
             // pnButton13_2
             // 
             this.pnButton13_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton13_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton13_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton13_2.Name = "pnButton13_2";
-            this.pnButton13_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton13_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton13_2.TabIndex = 5;
             // 
             // pnButton13_3
             // 
             this.pnButton13_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton13_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton13_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton13_3.Name = "pnButton13_3";
-            this.pnButton13_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton13_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton13_3.TabIndex = 6;
             // 
             // lbNumericKeypadDesc
@@ -378,60 +378,60 @@
             this.lbNumericKeypadDesc.Location = new System.Drawing.Point(4, 1008);
             this.lbNumericKeypadDesc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbNumericKeypadDesc.Name = "lbNumericKeypadDesc";
-            this.lbNumericKeypadDesc.Size = new System.Drawing.Size(268, 72);
+            this.lbNumericKeypadDesc.Size = new System.Drawing.Size(260, 72);
             this.lbNumericKeypadDesc.TabIndex = 13;
             this.lbNumericKeypadDesc.Text = "* = numeric keypad";
             this.lbNumericKeypadDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tableLayoutPanel12
+            // tlpDeleteSongs
             // 
-            this.tableLayoutPanel12.ColumnCount = 10;
-            this.tlpMain.SetColumnSpan(this.tableLayoutPanel12, 10);
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel12.Controls.Add(this.lbKeyboardShortcutDesc_12, 4, 0);
-            this.tableLayoutPanel12.Controls.Add(this.lbDeleteSongs, 0, 0);
-            this.tableLayoutPanel12.Controls.Add(this.pnButton12_1, 7, 0);
-            this.tableLayoutPanel12.Controls.Add(this.pnButton12_2, 8, 0);
-            this.tableLayoutPanel12.Controls.Add(this.pnButton12_3, 9, 0);
-            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel12.Location = new System.Drawing.Point(3, 795);
-            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
-            this.tableLayoutPanel12.RowCount = 1;
-            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(690, 66);
-            this.tableLayoutPanel12.TabIndex = 12;
+            this.tlpDeleteSongs.ColumnCount = 10;
+            this.tlpMain.SetColumnSpan(this.tlpDeleteSongs, 10);
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpDeleteSongs.Controls.Add(this.lbKeyboardShortcutDesc_12, 4, 0);
+            this.tlpDeleteSongs.Controls.Add(this.lbDeleteSongs, 0, 0);
+            this.tlpDeleteSongs.Controls.Add(this.pnButton12_1, 7, 0);
+            this.tlpDeleteSongs.Controls.Add(this.pnButton12_2, 8, 0);
+            this.tlpDeleteSongs.Controls.Add(this.pnButton12_3, 9, 0);
+            this.tlpDeleteSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpDeleteSongs.Location = new System.Drawing.Point(3, 939);
+            this.tlpDeleteSongs.Name = "tlpDeleteSongs";
+            this.tlpDeleteSongs.RowCount = 1;
+            this.tlpDeleteSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpDeleteSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpDeleteSongs.TabIndex = 12;
             // 
             // lbKeyboardShortcutDesc_12
             // 
-            this.tableLayoutPanel12.SetColumnSpan(this.lbKeyboardShortcutDesc_12, 3);
+            this.tlpDeleteSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_12, 3);
             this.lbKeyboardShortcutDesc_12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_12.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_12.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_12.Name = "lbKeyboardShortcutDesc_12";
-            this.lbKeyboardShortcutDesc_12.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_12.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_12.TabIndex = 3;
             this.lbKeyboardShortcutDesc_12.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbDeleteSongs
             // 
-            this.tableLayoutPanel12.SetColumnSpan(this.lbDeleteSongs, 4);
+            this.tlpDeleteSongs.SetColumnSpan(this.lbDeleteSongs, 4);
             this.lbDeleteSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbDeleteSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbDeleteSongs.Location = new System.Drawing.Point(4, 0);
             this.lbDeleteSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbDeleteSongs.Name = "lbDeleteSongs";
-            this.lbDeleteSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbDeleteSongs.Size = new System.Drawing.Size(260, 66);
             this.lbDeleteSongs.TabIndex = 2;
             this.lbDeleteSongs.Text = "Delete song from album";
             this.lbDeleteSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -441,30 +441,30 @@
             this.pnButton12_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_delete;
             this.pnButton12_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_1.Location = new System.Drawing.Point(491, 8);
+            this.pnButton12_1.Location = new System.Drawing.Point(477, 8);
             this.pnButton12_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton12_1.Name = "pnButton12_1";
-            this.pnButton12_1.Size = new System.Drawing.Size(53, 50);
+            this.pnButton12_1.Size = new System.Drawing.Size(51, 50);
             this.pnButton12_1.TabIndex = 4;
             // 
             // pnButton12_2
             // 
             this.pnButton12_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton12_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton12_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton12_2.Name = "pnButton12_2";
-            this.pnButton12_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton12_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton12_2.TabIndex = 5;
             // 
             // pnButton12_3
             // 
             this.pnButton12_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton12_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton12_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton12_3.Name = "pnButton12_3";
-            this.pnButton12_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton12_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton12_3.TabIndex = 6;
             // 
             // tlpAlternateQueueInsertSongs
@@ -488,7 +488,7 @@
             this.tlpAlternateQueueInsertSongs.Controls.Add(this.pnButton11_2, 8, 0);
             this.tlpAlternateQueueInsertSongs.Controls.Add(this.pnButton11_3, 9, 0);
             this.tlpAlternateQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpAlternateQueueInsertSongs.Location = new System.Drawing.Point(3, 723);
+            this.tlpAlternateQueueInsertSongs.Location = new System.Drawing.Point(3, 795);
             this.tlpAlternateQueueInsertSongs.Name = "tlpAlternateQueueInsertSongs";
             this.tlpAlternateQueueInsertSongs.RowCount = 1;
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -496,7 +496,7 @@
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlpAlternateQueueInsertSongs.Size = new System.Drawing.Size(690, 66);
+            this.tlpAlternateQueueInsertSongs.Size = new System.Drawing.Size(673, 66);
             this.tlpAlternateQueueInsertSongs.TabIndex = 11;
             // 
             // lbKeyboardShortcutDesc_11
@@ -504,10 +504,10 @@
             this.tlpAlternateQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_11, 3);
             this.lbKeyboardShortcutDesc_11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_11.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_11.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_11.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_11.Name = "lbKeyboardShortcutDesc_11";
-            this.lbKeyboardShortcutDesc_11.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_11.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_11.TabIndex = 3;
             this.lbKeyboardShortcutDesc_11.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -520,7 +520,7 @@
             this.lbAlternateQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
             this.lbAlternateQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbAlternateQueueInsertSongs.Name = "lbAlternateQueueInsertSongs";
-            this.lbAlternateQueueInsertSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbAlternateQueueInsertSongs.Size = new System.Drawing.Size(260, 66);
             this.lbAlternateQueueInsertSongs.TabIndex = 2;
             this.lbAlternateQueueInsertSongs.Text = "Alternate queue insert";
             this.lbAlternateQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -530,10 +530,10 @@
             this.pnButton11_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton11_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_1.Location = new System.Drawing.Point(483, 0);
+            this.pnButton11_1.Location = new System.Drawing.Point(469, 0);
             this.pnButton11_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton11_1.Name = "pnButton11_1";
-            this.pnButton11_1.Size = new System.Drawing.Size(69, 66);
+            this.pnButton11_1.Size = new System.Drawing.Size(67, 66);
             this.pnButton11_1.TabIndex = 4;
             // 
             // pnButton11_2
@@ -541,10 +541,10 @@
             this.pnButton11_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton11_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton11_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton11_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton11_2.Name = "pnButton11_2";
-            this.pnButton11_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton11_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton11_2.TabIndex = 5;
             // 
             // pnButton11_3
@@ -552,10 +552,10 @@
             this.pnButton11_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
             this.pnButton11_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_3.Location = new System.Drawing.Point(629, 8);
+            this.pnButton11_3.Location = new System.Drawing.Point(611, 8);
             this.pnButton11_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton11_3.Name = "pnButton11_3";
-            this.pnButton11_3.Size = new System.Drawing.Size(53, 50);
+            this.pnButton11_3.Size = new System.Drawing.Size(54, 50);
             this.pnButton11_3.TabIndex = 6;
             // 
             // tlpAlternateQueueSongs
@@ -578,11 +578,11 @@
             this.tlpAlternateQueueSongs.Controls.Add(this.pnButton10_2, 8, 0);
             this.tlpAlternateQueueSongs.Controls.Add(this.pnButton10_3, 9, 0);
             this.tlpAlternateQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpAlternateQueueSongs.Location = new System.Drawing.Point(3, 651);
+            this.tlpAlternateQueueSongs.Location = new System.Drawing.Point(3, 723);
             this.tlpAlternateQueueSongs.Name = "tlpAlternateQueueSongs";
             this.tlpAlternateQueueSongs.RowCount = 1;
             this.tlpAlternateQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpAlternateQueueSongs.Size = new System.Drawing.Size(690, 66);
+            this.tlpAlternateQueueSongs.Size = new System.Drawing.Size(673, 66);
             this.tlpAlternateQueueSongs.TabIndex = 10;
             // 
             // lbKeyboardShortcutDesc_10
@@ -590,10 +590,10 @@
             this.tlpAlternateQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_10, 3);
             this.lbKeyboardShortcutDesc_10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_10.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_10.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_10.Name = "lbKeyboardShortcutDesc_10";
-            this.lbKeyboardShortcutDesc_10.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_10.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_10.TabIndex = 3;
             this.lbKeyboardShortcutDesc_10.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -606,7 +606,7 @@
             this.lbAlternateQueueSongs.Location = new System.Drawing.Point(4, 0);
             this.lbAlternateQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbAlternateQueueSongs.Name = "lbAlternateQueueSongs";
-            this.lbAlternateQueueSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbAlternateQueueSongs.Size = new System.Drawing.Size(260, 66);
             this.lbAlternateQueueSongs.TabIndex = 2;
             this.lbAlternateQueueSongs.Text = "Alternate queue add";
             this.lbAlternateQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -616,30 +616,30 @@
             this.pnButton10_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
             this.pnButton10_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_1.Location = new System.Drawing.Point(491, 8);
+            this.pnButton10_1.Location = new System.Drawing.Point(477, 8);
             this.pnButton10_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton10_1.Name = "pnButton10_1";
-            this.pnButton10_1.Size = new System.Drawing.Size(53, 50);
+            this.pnButton10_1.Size = new System.Drawing.Size(51, 50);
             this.pnButton10_1.TabIndex = 4;
             // 
             // pnButton10_2
             // 
             this.pnButton10_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton10_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton10_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton10_2.Name = "pnButton10_2";
-            this.pnButton10_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton10_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton10_2.TabIndex = 5;
             // 
             // pnButton10_3
             // 
             this.pnButton10_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton10_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton10_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton10_3.Name = "pnButton10_3";
-            this.pnButton10_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton10_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton10_3.TabIndex = 6;
             // 
             // tlpQueueInsertSongs
@@ -662,11 +662,11 @@
             this.tlpQueueInsertSongs.Controls.Add(this.pnButton09_2, 8, 0);
             this.tlpQueueInsertSongs.Controls.Add(this.pnButton09_3, 9, 0);
             this.tlpQueueInsertSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpQueueInsertSongs.Location = new System.Drawing.Point(3, 579);
+            this.tlpQueueInsertSongs.Location = new System.Drawing.Point(3, 651);
             this.tlpQueueInsertSongs.Name = "tlpQueueInsertSongs";
             this.tlpQueueInsertSongs.RowCount = 1;
             this.tlpQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpQueueInsertSongs.Size = new System.Drawing.Size(690, 66);
+            this.tlpQueueInsertSongs.Size = new System.Drawing.Size(673, 66);
             this.tlpQueueInsertSongs.TabIndex = 8;
             // 
             // lbKeyboardShortcutDesc_09
@@ -674,10 +674,10 @@
             this.tlpQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_09, 3);
             this.lbKeyboardShortcutDesc_09.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_09.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_09.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_09.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_09.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_09.Name = "lbKeyboardShortcutDesc_09";
-            this.lbKeyboardShortcutDesc_09.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_09.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_09.TabIndex = 3;
             this.lbKeyboardShortcutDesc_09.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_09.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -690,7 +690,7 @@
             this.lbQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
             this.lbQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbQueueInsertSongs.Name = "lbQueueInsertSongs";
-            this.lbQueueInsertSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbQueueInsertSongs.Size = new System.Drawing.Size(260, 66);
             this.lbQueueInsertSongs.TabIndex = 2;
             this.lbQueueInsertSongs.Text = "Insert to the queued song(s)";
             this.lbQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -700,10 +700,10 @@
             this.pnButton09_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton09_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_1.Location = new System.Drawing.Point(483, 0);
+            this.pnButton09_1.Location = new System.Drawing.Point(469, 0);
             this.pnButton09_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton09_1.Name = "pnButton09_1";
-            this.pnButton09_1.Size = new System.Drawing.Size(69, 66);
+            this.pnButton09_1.Size = new System.Drawing.Size(67, 66);
             this.pnButton09_1.TabIndex = 4;
             // 
             // pnButton09_2
@@ -711,10 +711,10 @@
             this.pnButton09_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton09_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton09_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton09_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton09_2.Name = "pnButton09_2";
-            this.pnButton09_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton09_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton09_2.TabIndex = 5;
             // 
             // pnButton09_3
@@ -722,10 +722,10 @@
             this.pnButton09_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
             this.pnButton09_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_3.Location = new System.Drawing.Point(629, 8);
+            this.pnButton09_3.Location = new System.Drawing.Point(611, 8);
             this.pnButton09_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton09_3.Name = "pnButton09_3";
-            this.pnButton09_3.Size = new System.Drawing.Size(53, 50);
+            this.pnButton09_3.Size = new System.Drawing.Size(54, 50);
             this.pnButton09_3.TabIndex = 6;
             // 
             // tlpQueueSongs
@@ -748,11 +748,11 @@
             this.tlpQueueSongs.Controls.Add(this.pnButton08_2, 8, 0);
             this.tlpQueueSongs.Controls.Add(this.pnButton08_3, 9, 0);
             this.tlpQueueSongs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpQueueSongs.Location = new System.Drawing.Point(3, 507);
+            this.tlpQueueSongs.Location = new System.Drawing.Point(3, 579);
             this.tlpQueueSongs.Name = "tlpQueueSongs";
             this.tlpQueueSongs.RowCount = 1;
             this.tlpQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpQueueSongs.Size = new System.Drawing.Size(690, 66);
+            this.tlpQueueSongs.Size = new System.Drawing.Size(673, 66);
             this.tlpQueueSongs.TabIndex = 7;
             // 
             // lbKeyboardShortcutDesc_08
@@ -760,10 +760,10 @@
             this.tlpQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_08, 3);
             this.lbKeyboardShortcutDesc_08.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_08.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_08.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_08.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_08.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_08.Name = "lbKeyboardShortcutDesc_08";
-            this.lbKeyboardShortcutDesc_08.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_08.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_08.TabIndex = 3;
             this.lbKeyboardShortcutDesc_08.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_08.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -776,7 +776,7 @@
             this.lbQueueSongs.Location = new System.Drawing.Point(4, 0);
             this.lbQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbQueueSongs.Name = "lbQueueSongs";
-            this.lbQueueSongs.Size = new System.Drawing.Size(268, 66);
+            this.lbQueueSongs.Size = new System.Drawing.Size(260, 66);
             this.lbQueueSongs.TabIndex = 2;
             this.lbQueueSongs.Text = "Queue selected song(s)";
             this.lbQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -786,30 +786,30 @@
             this.pnButton08_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
             this.pnButton08_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_1.Location = new System.Drawing.Point(491, 8);
+            this.pnButton08_1.Location = new System.Drawing.Point(477, 8);
             this.pnButton08_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton08_1.Name = "pnButton08_1";
-            this.pnButton08_1.Size = new System.Drawing.Size(53, 50);
+            this.pnButton08_1.Size = new System.Drawing.Size(51, 50);
             this.pnButton08_1.TabIndex = 4;
             // 
             // pnButton08_2
             // 
             this.pnButton08_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton08_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton08_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton08_2.Name = "pnButton08_2";
-            this.pnButton08_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton08_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton08_2.TabIndex = 5;
             // 
             // pnButton08_3
             // 
             this.pnButton08_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton08_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton08_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton08_3.Name = "pnButton08_3";
-            this.pnButton08_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton08_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton08_3.TabIndex = 6;
             // 
             // tlpShowThisHelp
@@ -832,11 +832,11 @@
             this.tlpShowThisHelp.Controls.Add(this.pnButton07_2, 8, 0);
             this.tlpShowThisHelp.Controls.Add(this.pnButton07_3, 9, 0);
             this.tlpShowThisHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpShowThisHelp.Location = new System.Drawing.Point(3, 435);
+            this.tlpShowThisHelp.Location = new System.Drawing.Point(3, 75);
             this.tlpShowThisHelp.Name = "tlpShowThisHelp";
             this.tlpShowThisHelp.RowCount = 1;
             this.tlpShowThisHelp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowThisHelp.Size = new System.Drawing.Size(690, 66);
+            this.tlpShowThisHelp.Size = new System.Drawing.Size(673, 66);
             this.tlpShowThisHelp.TabIndex = 6;
             // 
             // lbKeyboardShortcutDesc_07
@@ -844,10 +844,10 @@
             this.tlpShowThisHelp.SetColumnSpan(this.lbKeyboardShortcutDesc_07, 3);
             this.lbKeyboardShortcutDesc_07.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_07.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_07.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_07.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_07.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_07.Name = "lbKeyboardShortcutDesc_07";
-            this.lbKeyboardShortcutDesc_07.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_07.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_07.TabIndex = 3;
             this.lbKeyboardShortcutDesc_07.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_07.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -861,7 +861,7 @@
             this.lbShowThisHelp.Location = new System.Drawing.Point(4, 0);
             this.lbShowThisHelp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowThisHelp.Name = "lbShowThisHelp";
-            this.lbShowThisHelp.Size = new System.Drawing.Size(268, 66);
+            this.lbShowThisHelp.Size = new System.Drawing.Size(260, 66);
             this.lbShowThisHelp.TabIndex = 2;
             this.lbShowThisHelp.Text = "Show this help";
             this.lbShowThisHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -871,30 +871,30 @@
             this.pnButton07_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f1;
             this.pnButton07_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton07_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton07_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton07_1.Name = "pnButton07_1";
-            this.pnButton07_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton07_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton07_1.TabIndex = 4;
             // 
             // pnButton07_2
             // 
             this.pnButton07_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton07_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton07_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton07_2.Name = "pnButton07_2";
-            this.pnButton07_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton07_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton07_2.TabIndex = 5;
             // 
             // pnButton07_3
             // 
             this.pnButton07_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton07_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton07_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton07_3.Name = "pnButton07_3";
-            this.pnButton07_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton07_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton07_3.TabIndex = 6;
             // 
             // tlpShowAlternateQueue
@@ -917,11 +917,11 @@
             this.tlpShowAlternateQueue.Controls.Add(this.pnButton06_2, 8, 0);
             this.tlpShowAlternateQueue.Controls.Add(this.pnButton06_3, 9, 0);
             this.tlpShowAlternateQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpShowAlternateQueue.Location = new System.Drawing.Point(3, 363);
+            this.tlpShowAlternateQueue.Location = new System.Drawing.Point(3, 435);
             this.tlpShowAlternateQueue.Name = "tlpShowAlternateQueue";
             this.tlpShowAlternateQueue.RowCount = 1;
             this.tlpShowAlternateQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowAlternateQueue.Size = new System.Drawing.Size(690, 66);
+            this.tlpShowAlternateQueue.Size = new System.Drawing.Size(673, 66);
             this.tlpShowAlternateQueue.TabIndex = 5;
             // 
             // lbKeyboardShortcutDesc_06
@@ -929,10 +929,10 @@
             this.tlpShowAlternateQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_06, 3);
             this.lbKeyboardShortcutDesc_06.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_06.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_06.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_06.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_06.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_06.Name = "lbKeyboardShortcutDesc_06";
-            this.lbKeyboardShortcutDesc_06.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_06.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_06.TabIndex = 3;
             this.lbKeyboardShortcutDesc_06.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_06.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -946,7 +946,7 @@
             this.lbShowAlternateQueue.Location = new System.Drawing.Point(4, 0);
             this.lbShowAlternateQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowAlternateQueue.Name = "lbShowAlternateQueue";
-            this.lbShowAlternateQueue.Size = new System.Drawing.Size(268, 66);
+            this.lbShowAlternateQueue.Size = new System.Drawing.Size(260, 66);
             this.lbShowAlternateQueue.TabIndex = 2;
             this.lbShowAlternateQueue.Text = "Show alternate queue";
             this.lbShowAlternateQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -956,30 +956,30 @@
             this.pnButton06_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f8;
             this.pnButton06_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton06_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton06_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton06_1.Name = "pnButton06_1";
-            this.pnButton06_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton06_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton06_1.TabIndex = 4;
             // 
             // pnButton06_2
             // 
             this.pnButton06_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton06_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton06_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton06_2.Name = "pnButton06_2";
-            this.pnButton06_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton06_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton06_2.TabIndex = 5;
             // 
             // pnButton06_3
             // 
             this.pnButton06_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton06_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton06_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton06_3.Name = "pnButton06_3";
-            this.pnButton06_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton06_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton06_3.TabIndex = 6;
             // 
             // tlpScrambleQueue
@@ -1002,11 +1002,11 @@
             this.tlpScrambleQueue.Controls.Add(this.pnButton05_2, 8, 0);
             this.tlpScrambleQueue.Controls.Add(this.pnButton05_3, 9, 0);
             this.tlpScrambleQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpScrambleQueue.Location = new System.Drawing.Point(3, 291);
+            this.tlpScrambleQueue.Location = new System.Drawing.Point(3, 363);
             this.tlpScrambleQueue.Name = "tlpScrambleQueue";
             this.tlpScrambleQueue.RowCount = 1;
             this.tlpScrambleQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpScrambleQueue.Size = new System.Drawing.Size(690, 66);
+            this.tlpScrambleQueue.Size = new System.Drawing.Size(673, 66);
             this.tlpScrambleQueue.TabIndex = 4;
             // 
             // lbKeyboardShortcutDesc_05
@@ -1014,10 +1014,10 @@
             this.tlpScrambleQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_05, 3);
             this.lbKeyboardShortcutDesc_05.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_05.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_05.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_05.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_05.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_05.Name = "lbKeyboardShortcutDesc_05";
-            this.lbKeyboardShortcutDesc_05.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_05.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_05.TabIndex = 3;
             this.lbKeyboardShortcutDesc_05.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_05.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1031,7 +1031,7 @@
             this.lbScrambleQueue.Location = new System.Drawing.Point(4, 0);
             this.lbScrambleQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbScrambleQueue.Name = "lbScrambleQueue";
-            this.lbScrambleQueue.Size = new System.Drawing.Size(268, 66);
+            this.lbScrambleQueue.Size = new System.Drawing.Size(260, 66);
             this.lbScrambleQueue.TabIndex = 2;
             this.lbScrambleQueue.Text = "Scramble queue";
             this.lbScrambleQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1041,30 +1041,30 @@
             this.pnButton05_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f7;
             this.pnButton05_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton05_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton05_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton05_1.Name = "pnButton05_1";
-            this.pnButton05_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton05_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton05_1.TabIndex = 4;
             // 
             // pnButton05_2
             // 
             this.pnButton05_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton05_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton05_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton05_2.Name = "pnButton05_2";
-            this.pnButton05_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton05_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton05_2.TabIndex = 5;
             // 
             // pnButton05_3
             // 
             this.pnButton05_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton05_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton05_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton05_3.Name = "pnButton05_3";
-            this.pnButton05_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton05_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton05_3.TabIndex = 6;
             // 
             // tlpClearQueue
@@ -1087,11 +1087,11 @@
             this.tlpClearQueue.Controls.Add(this.pnButton04_2, 8, 0);
             this.tlpClearQueue.Controls.Add(this.pnButton04_3, 9, 0);
             this.tlpClearQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpClearQueue.Location = new System.Drawing.Point(3, 219);
+            this.tlpClearQueue.Location = new System.Drawing.Point(3, 867);
             this.tlpClearQueue.Name = "tlpClearQueue";
             this.tlpClearQueue.RowCount = 1;
             this.tlpClearQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpClearQueue.Size = new System.Drawing.Size(690, 66);
+            this.tlpClearQueue.Size = new System.Drawing.Size(673, 66);
             this.tlpClearQueue.TabIndex = 3;
             // 
             // lbKeyboardShortcutDesc_04
@@ -1099,10 +1099,10 @@
             this.tlpClearQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_04, 3);
             this.lbKeyboardShortcutDesc_04.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_04.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_04.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_04.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_04.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_04.Name = "lbKeyboardShortcutDesc_04";
-            this.lbKeyboardShortcutDesc_04.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_04.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_04.TabIndex = 3;
             this.lbKeyboardShortcutDesc_04.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_04.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1116,7 +1116,7 @@
             this.lbClearQueue.Location = new System.Drawing.Point(4, 0);
             this.lbClearQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbClearQueue.Name = "lbClearQueue";
-            this.lbClearQueue.Size = new System.Drawing.Size(268, 66);
+            this.lbClearQueue.Size = new System.Drawing.Size(260, 66);
             this.lbClearQueue.TabIndex = 2;
             this.lbClearQueue.Text = "Clear queue";
             this.lbClearQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1126,10 +1126,10 @@
             this.pnButton4_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton4_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton4_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton4_1.Location = new System.Drawing.Point(483, 0);
+            this.pnButton4_1.Location = new System.Drawing.Point(469, 0);
             this.pnButton4_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton4_1.Name = "pnButton4_1";
-            this.pnButton4_1.Size = new System.Drawing.Size(69, 66);
+            this.pnButton4_1.Size = new System.Drawing.Size(67, 66);
             this.pnButton4_1.TabIndex = 4;
             // 
             // pnButton04_2
@@ -1137,10 +1137,10 @@
             this.pnButton04_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton04_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton04_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton04_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton04_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton04_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton04_2.Name = "pnButton04_2";
-            this.pnButton04_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton04_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton04_2.TabIndex = 5;
             // 
             // pnButton04_3
@@ -1148,10 +1148,10 @@
             this.pnButton04_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_d;
             this.pnButton04_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton04_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton04_3.Location = new System.Drawing.Point(629, 8);
+            this.pnButton04_3.Location = new System.Drawing.Point(611, 8);
             this.pnButton04_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton04_3.Name = "pnButton04_3";
-            this.pnButton04_3.Size = new System.Drawing.Size(53, 50);
+            this.pnButton04_3.Size = new System.Drawing.Size(54, 50);
             this.pnButton04_3.TabIndex = 6;
             // 
             // tlpShowQueue
@@ -1174,11 +1174,11 @@
             this.tlpShowQueue.Controls.Add(this.pnButton03_2, 8, 0);
             this.tlpShowQueue.Controls.Add(this.pnButton03_3, 9, 0);
             this.tlpShowQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpShowQueue.Location = new System.Drawing.Point(3, 147);
+            this.tlpShowQueue.Location = new System.Drawing.Point(3, 291);
             this.tlpShowQueue.Name = "tlpShowQueue";
             this.tlpShowQueue.RowCount = 1;
             this.tlpShowQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowQueue.Size = new System.Drawing.Size(690, 66);
+            this.tlpShowQueue.Size = new System.Drawing.Size(673, 66);
             this.tlpShowQueue.TabIndex = 2;
             // 
             // lbKeyboardShortcutDesc_03
@@ -1186,10 +1186,10 @@
             this.tlpShowQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_03, 3);
             this.lbKeyboardShortcutDesc_03.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_03.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_03.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_03.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_03.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_03.Name = "lbKeyboardShortcutDesc_03";
-            this.lbKeyboardShortcutDesc_03.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_03.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_03.TabIndex = 3;
             this.lbKeyboardShortcutDesc_03.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_03.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1203,7 +1203,7 @@
             this.lbShowQueue.Location = new System.Drawing.Point(4, 0);
             this.lbShowQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowQueue.Name = "lbShowQueue";
-            this.lbShowQueue.Size = new System.Drawing.Size(268, 66);
+            this.lbShowQueue.Size = new System.Drawing.Size(260, 66);
             this.lbShowQueue.TabIndex = 2;
             this.lbShowQueue.Text = "Show queue";
             this.lbShowQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1213,30 +1213,30 @@
             this.pnButton03_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f6;
             this.pnButton03_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton03_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton03_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton03_1.Name = "pnButton03_1";
-            this.pnButton03_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton03_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton03_1.TabIndex = 4;
             // 
             // pnButton03_2
             // 
             this.pnButton03_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton03_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton03_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton03_2.Name = "pnButton03_2";
-            this.pnButton03_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton03_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton03_2.TabIndex = 5;
             // 
             // pnButton03_3
             // 
             this.pnButton03_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton03_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton03_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton03_3.Name = "pnButton03_3";
-            this.pnButton03_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton03_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton03_3.TabIndex = 6;
             // 
             // tlpSongInformation
@@ -1259,11 +1259,11 @@
             this.tlpSongInformation.Controls.Add(this.pnButton02_2, 8, 0);
             this.tlpSongInformation.Controls.Add(this.pnButton02_3, 9, 0);
             this.tlpSongInformation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpSongInformation.Location = new System.Drawing.Point(3, 75);
+            this.tlpSongInformation.Location = new System.Drawing.Point(3, 219);
             this.tlpSongInformation.Name = "tlpSongInformation";
             this.tlpSongInformation.RowCount = 1;
             this.tlpSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSongInformation.Size = new System.Drawing.Size(690, 66);
+            this.tlpSongInformation.Size = new System.Drawing.Size(673, 66);
             this.tlpSongInformation.TabIndex = 1;
             // 
             // lbKeyboardShortcutDesc_02
@@ -1271,10 +1271,10 @@
             this.tlpSongInformation.SetColumnSpan(this.lbKeyboardShortcutDesc_02, 3);
             this.lbKeyboardShortcutDesc_02.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_02.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_02.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_02.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_02.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_02.Name = "lbKeyboardShortcutDesc_02";
-            this.lbKeyboardShortcutDesc_02.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_02.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_02.TabIndex = 3;
             this.lbKeyboardShortcutDesc_02.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_02.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1288,7 +1288,7 @@
             this.lbSongInformation.Location = new System.Drawing.Point(4, 0);
             this.lbSongInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSongInformation.Name = "lbSongInformation";
-            this.lbSongInformation.Size = new System.Drawing.Size(268, 66);
+            this.lbSongInformation.Size = new System.Drawing.Size(260, 66);
             this.lbSongInformation.TabIndex = 2;
             this.lbSongInformation.Text = "Song information";
             this.lbSongInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1298,30 +1298,30 @@
             this.pnButton02_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f4;
             this.pnButton02_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_1.Location = new System.Drawing.Point(487, 4);
+            this.pnButton02_1.Location = new System.Drawing.Point(473, 4);
             this.pnButton02_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton02_1.Name = "pnButton02_1";
-            this.pnButton02_1.Size = new System.Drawing.Size(61, 58);
+            this.pnButton02_1.Size = new System.Drawing.Size(59, 58);
             this.pnButton02_1.TabIndex = 4;
             // 
             // pnButton02_2
             // 
             this.pnButton02_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton02_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton02_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton02_2.Name = "pnButton02_2";
-            this.pnButton02_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton02_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton02_2.TabIndex = 5;
             // 
             // pnButton02_3
             // 
             this.pnButton02_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_3.Location = new System.Drawing.Point(621, 0);
+            this.pnButton02_3.Location = new System.Drawing.Point(603, 0);
             this.pnButton02_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton02_3.Name = "pnButton02_3";
-            this.pnButton02_3.Size = new System.Drawing.Size(69, 66);
+            this.pnButton02_3.Size = new System.Drawing.Size(70, 66);
             this.pnButton02_3.TabIndex = 6;
             // 
             // tlpSelectAll
@@ -1348,7 +1348,7 @@
             this.tlpSelectAll.Name = "tlpSelectAll";
             this.tlpSelectAll.RowCount = 1;
             this.tlpSelectAll.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSelectAll.Size = new System.Drawing.Size(690, 66);
+            this.tlpSelectAll.Size = new System.Drawing.Size(673, 66);
             this.tlpSelectAll.TabIndex = 0;
             // 
             // lbKeyboardShortcutDesc_01
@@ -1356,10 +1356,10 @@
             this.tlpSelectAll.SetColumnSpan(this.lbKeyboardShortcutDesc_01, 3);
             this.lbKeyboardShortcutDesc_01.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_01.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_01.Location = new System.Drawing.Point(280, 0);
+            this.lbKeyboardShortcutDesc_01.Location = new System.Drawing.Point(272, 0);
             this.lbKeyboardShortcutDesc_01.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_01.Name = "lbKeyboardShortcutDesc_01";
-            this.lbKeyboardShortcutDesc_01.Size = new System.Drawing.Size(199, 66);
+            this.lbKeyboardShortcutDesc_01.Size = new System.Drawing.Size(193, 66);
             this.lbKeyboardShortcutDesc_01.TabIndex = 3;
             this.lbKeyboardShortcutDesc_01.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_01.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1373,7 +1373,7 @@
             this.lbSelectAll.Location = new System.Drawing.Point(4, 0);
             this.lbSelectAll.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSelectAll.Name = "lbSelectAll";
-            this.lbSelectAll.Size = new System.Drawing.Size(268, 66);
+            this.lbSelectAll.Size = new System.Drawing.Size(260, 66);
             this.lbSelectAll.TabIndex = 2;
             this.lbSelectAll.Text = "Select all";
             this.lbSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1383,10 +1383,10 @@
             this.pnButton01_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton01_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_1.Location = new System.Drawing.Point(483, 0);
+            this.pnButton01_1.Location = new System.Drawing.Point(469, 0);
             this.pnButton01_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton01_1.Name = "pnButton01_1";
-            this.pnButton01_1.Size = new System.Drawing.Size(69, 66);
+            this.pnButton01_1.Size = new System.Drawing.Size(67, 66);
             this.pnButton01_1.TabIndex = 4;
             // 
             // pnButton01_2
@@ -1394,10 +1394,10 @@
             this.pnButton01_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton01_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_2.Location = new System.Drawing.Point(552, 0);
+            this.pnButton01_2.Location = new System.Drawing.Point(536, 0);
             this.pnButton01_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton01_2.Name = "pnButton01_2";
-            this.pnButton01_2.Size = new System.Drawing.Size(69, 66);
+            this.pnButton01_2.Size = new System.Drawing.Size(67, 66);
             this.pnButton01_2.TabIndex = 5;
             // 
             // pnButton01_3
@@ -1405,10 +1405,10 @@
             this.pnButton01_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_a;
             this.pnButton01_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_3.Location = new System.Drawing.Point(629, 8);
+            this.pnButton01_3.Location = new System.Drawing.Point(611, 8);
             this.pnButton01_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton01_3.Name = "pnButton01_3";
-            this.pnButton01_3.Size = new System.Drawing.Size(53, 50);
+            this.pnButton01_3.Size = new System.Drawing.Size(54, 50);
             this.pnButton01_3.TabIndex = 6;
             // 
             // pnNumericKeypadImage
@@ -1417,10 +1417,10 @@
             this.pnNumericKeypadImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.tlpMain.SetColumnSpan(this.pnNumericKeypadImage, 3);
             this.pnNumericKeypadImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnNumericKeypadImage.Location = new System.Drawing.Point(483, 1008);
+            this.pnNumericKeypadImage.Location = new System.Drawing.Point(469, 1008);
             this.pnNumericKeypadImage.Margin = new System.Windows.Forms.Padding(0);
             this.pnNumericKeypadImage.Name = "pnNumericKeypadImage";
-            this.pnNumericKeypadImage.Size = new System.Drawing.Size(213, 72);
+            this.pnNumericKeypadImage.Size = new System.Drawing.Size(210, 72);
             this.pnNumericKeypadImage.TabIndex = 14;
             // 
             // FormHelp
@@ -1439,7 +1439,7 @@
             this.tlpMain.ResumeLayout(false);
             this.tlpShowAllAlbumSongs.ResumeLayout(false);
             this.tlpRenameSong.ResumeLayout(false);
-            this.tableLayoutPanel12.ResumeLayout(false);
+            this.tlpDeleteSongs.ResumeLayout(false);
             this.tlpAlternateQueueInsertSongs.ResumeLayout(false);
             this.tlpAlternateQueueSongs.ResumeLayout(false);
             this.tlpQueueInsertSongs.ResumeLayout(false);
@@ -1459,7 +1459,7 @@
 
         private System.Windows.Forms.Panel pnMain;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
+        private System.Windows.Forms.TableLayoutPanel tlpDeleteSongs;
         private System.Windows.Forms.Label lbKeyboardShortcutDesc_12;
         private System.Windows.Forms.Label lbDeleteSongs;
         private System.Windows.Forms.Panel pnButton12_1;

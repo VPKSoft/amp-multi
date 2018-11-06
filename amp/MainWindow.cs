@@ -11,33 +11,23 @@ Copyright (c) VPKSoft 2018
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
-using NAudio;
 using NAudio.Wave;
-using amp;
-using amp.Properties;
-using TagLib.Id3v1;
-using TagLib.Id3v2;
 using System.Threading;
 using NAudio.Flac;
 using NAudio.Vorbis;
 using NAudio.WindowsMediaFormat;
-using System.ServiceModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Globalization;
 using VPKSoft.LangLib;
-using VPKSoft.KeySendList;
 using VPKSoft.Utils;
-using VPKSoft.About;
 using VPKSoft.PosLib;
+using VPKSoft.ErrorLogger;
 
 namespace amp
 {
@@ -149,7 +139,7 @@ namespace amp
 
         private delegate void VoidDelegate();
 
-        private Random random = new Random();
+        internal Random random = new Random();
 
         private WaveStream CreateInputStream(string fileName)
         {
@@ -206,10 +196,11 @@ namespace amp
                 volumeStream = inputStream;
                 return volumeStream;
             }
-            catch
+            catch (Exception ex)
             {
-                try
+                try 
                 {
+                    ExceptionLogger.LogError(ex);
                     GetNextSong(true);
                 }
                 catch
@@ -283,8 +274,10 @@ namespace amp
                     if (!playing || newsong)
                     {
                         CloseWaveOut();
-                        waveOutDevice = new WaveOut();
-                        waveOutDevice.DesiredLatency = LatencyMS;
+                        waveOutDevice = new WaveOut
+                        {
+                            DesiredLatency = LatencyMS
+                        };
                         try
                         {
                             mainOutputStream = CreateInputStream(mFile.GetFileName());
@@ -459,7 +452,7 @@ namespace amp
             }
             else
             {
-                Database.UpdateNPlayed(mFile, conn, Skipped);
+                UpdateNPlayed(mFile, Skipped);
             }
 
             mFile = PlayList[index];
@@ -474,7 +467,7 @@ namespace amp
             }
             else
             {
-                Database.UpdateNPlayed(mFile, conn, false);
+                UpdateNPlayed(mFile, false);
             }
             newsong = true;
             DisplayPlayingSong();
@@ -572,7 +565,7 @@ namespace amp
             this.Enabled = false;
             FormPsycho.Execute(this);
             FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgWorking", "Working...|The program is loading something"));
-            context = SynchronizationContext.Current == null ? new SynchronizationContext() : SynchronizationContext.Current;
+            context = SynchronizationContext.Current ?? new SynchronizationContext();
             fileAddThread = new Thread(new ThreadStart(ThreadFilesAdd));
             fileAddThread.Start();
         }
@@ -822,10 +815,63 @@ namespace amp
                 return;
             }
 
+            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+            if (mfIdx != -1)
+            {
+                PlayList[mfIdx].NPLAYED_RAND++;
+                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
+            }
+
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
                 command.CommandText = "UPDATE SONG SET NPLAYED_RAND = IFNULL(NPLAYED_RAND, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + " + (skipped ? "1" : "0") + " WHERE ID = " + mf.ID + " ";
                 command.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateNPlayed(MusicFile mf, bool skipped)
+        {
+            if (mf == null)
+            {
+                return;
+            }
+
+            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+            if (mfIdx != -1)
+            {
+                PlayList[mfIdx].NPLAYED_RAND++;
+                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
+            }
+
+            using (SQLiteCommand command = new SQLiteCommand(conn))
+            {
+                command.CommandText =
+                    $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void SaveRating(MusicFile mf)
+        {
+            if (mf == null)
+            {
+                return;
+            }
+
+            if (mf.RatingChanged)
+            {
+                int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+                if (mfIdx != -1)
+                {
+                    PlayList[mfIdx].Rating = mf.Rating;
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
+                    command.ExecuteNonQuery();
+                    mf.RatingChanged = false;
+                }
             }
         }
 
@@ -945,6 +991,11 @@ namespace amp
         {
             pnVol2.Left = (int)(mFile.Volume * 50F);
         }
+
+        /// <summary>
+        /// String containing multiple characters which can be used to measure maximum text height.
+        /// </summary>
+        internal const string measureText = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö£€%[]$@ÂÊÎÔÛâêîôûÄËÏÖÜäëïöüÀÈÌÒÙàèìòùÁÉÍÓÚáéíóúÃÕãõ '|?+\\/{}½§01234567890+<>_-:;*&¤#\"!";
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
@@ -1082,7 +1133,7 @@ namespace amp
                 {
                     mFile.Rating = stars;
                     mFile.RatingChanged = true;
-                    Database.SaveRating(mFile, conn);
+                    SaveRating(mFile);
                 }
 
                 for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
@@ -1090,7 +1141,7 @@ namespace amp
                     MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
                     mf.Rating = stars;
                     mf.RatingChanged = true;
-                    Database.SaveRating(mf, conn);
+                    SaveRating(mf);
                     lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
                 }
             }
@@ -1400,8 +1451,10 @@ namespace amp
                     List<MusicFile> m3uAdd = new List<MusicFile>();
                     foreach(M3UEntry m in m3u.M3UFiles)
                     {
-                        MusicFile addMusicFile = new MusicFile(m.FileName);
-                        addMusicFile.OverrideName = m.FileDesc;
+                        MusicFile addMusicFile = new MusicFile(m.FileName)
+                        {
+                            OverrideName = m.FileDesc
+                        };
                         m3uAdd.Add(addMusicFile);
                     }
 
@@ -1422,8 +1475,10 @@ namespace amp
                 List<MusicFile> m3uAdd = new List<MusicFile>();
                 foreach (M3UEntry m in m3u.M3UFiles)
                 {
-                    MusicFile addMusicFile = new MusicFile(m.FileName);
-                    addMusicFile.OverrideName = m.FileDesc;
+                    MusicFile addMusicFile = new MusicFile(m.FileName)
+                    {
+                        OverrideName = m.FileDesc
+                    };
                     m3uAdd.Add(addMusicFile);
                 }
                 Database.GetIDsForSongs(ref m3uAdd, conn);
@@ -1574,8 +1629,7 @@ namespace amp
 
         private void mnuLoadQueue_Click(object sender, EventArgs e)
         {
-            bool append;
-            int qID =  FormSavedQueues.Execute(CurrentAlbum, ref conn, out append);
+            int qID = FormSavedQueues.Execute(CurrentAlbum, ref conn, out bool append);
             if (qID != -1)
             {
                 Database.LoadQueue(ref PlayList, conn, qID, append);
@@ -1587,7 +1641,7 @@ namespace amp
         private void mnuSettings_Click(object sender, EventArgs e)
         {
             new FormSettings().ShowDialog();
-            lbMusic.RefreshItems(); // the naming might have been hanged..
+            lbMusic.RefreshItems(); // the naming might have been changed..
             TextInvoker();
         }
 

@@ -11,8 +11,6 @@ Copyright (c) VPKSoft 2018
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
 using System.Threading;
@@ -23,29 +21,14 @@ namespace amp
 {
     public class Album
     {
-        int id;
-        string name;
+        public int ID { get; }
 
-        public int ID
-        {
-            get
-            {
-                return id;
-            }
-        }
-
-        public string AlbumName
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public string AlbumName { get; }
 
         public Album(int Id, string Name)
         {
-            name = Name;
-            id = Id;
+            AlbumName = Name;
+            ID = Id;
         }
     }
 
@@ -82,7 +65,7 @@ namespace amp
     public class Database
     {
         // initialize a System.Windows.Forms SynchronizationContext
-        private static SynchronizationContext context = SynchronizationContext.Current == null ? new SynchronizationContext() : SynchronizationContext.Current;
+        private static SynchronizationContext context = SynchronizationContext.Current ?? new SynchronizationContext();
 
         public delegate void OnDatabaseProgress(DatabaseEventArgs e);
 
@@ -90,10 +73,7 @@ namespace amp
 
         private static void OnDatabaseProgressThreadSafe(object state)
         {
-            if (DatabaseProgress != null)
-            {
-                DatabaseProgress(state as DatabaseEventArgs);
-            }
+            DatabaseProgress?.Invoke(state as DatabaseEventArgs);
         }
 
         private static void DatabaseProgressThreadSafe(DatabaseEventArgs e)
@@ -321,7 +301,10 @@ namespace amp
                         "IFNULL(S.ALBUM, '') AS ALBUM, ", // 10
                         "IFNULL(S.TRACK, '') AS TRACK, ", // 11
                         "IFNULL(S.YEAR, '') AS YEAR, ", // 12
-                        "IFNULL(S.TITLE, '') AS TITLE ", // 13
+                        "IFNULL(S.TITLE, '') AS TITLE, ", // 13
+                        "IFNULL(S.SKIPPED_EARLY, 0) AS SKIPPED_EARLY, ", // 14
+                        "IFNULL(S.NPLAYED_RAND, 0) AS NPLAYED_RAND, ", // 15
+                        "IFNULL(S.NPLAYED_USER, 0) AS NPLAYED_USER ", // 16
                         "FROM ",
                         "SONG S, ALBUMSONGS A ",
                         "WHERE ",
@@ -365,12 +348,19 @@ namespace amp
                             continue;
                         }
 
-                        MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1));
-                        mf.Volume = reader.GetFloat(2);
-                        mf.Rating = reader.GetInt32(3);
-                        mf.QueueIndex = reader.GetInt32(4);
-                        mf.OverrideName = reader.GetString(5);
+                        MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1))
+                        {
+                            Volume = reader.GetFloat(2),
+                            Rating = reader.GetInt32(3),
+                            QueueIndex = reader.GetInt32(4),
+                            OverrideName = reader.GetString(5)
+                        };
                         mf.GetTagFromDataReader(reader);
+
+                        mf.SKIPPED_EARLY = reader.GetInt32(14);
+                        mf.NPLAYED_RAND = reader.GetInt32(15);
+                        mf.NPLAYED_USER = reader.GetInt32(16);
+
                         if (reader.GetInt32(8) != 0)
                         {
                             mf.TagString = reader.GetString(6);
@@ -428,20 +418,6 @@ namespace amp
                 command.CommandText = $"UPDATE SONG SET OVERRIDE_NAME = {QS(newName)} WHERE ID = {mf.ID} ";
                 mf.OverrideName = newName;
                 command.ExecuteNonQuery();
-            }
-        }
-
-
-        public static void SaveRating(MusicFile mf, SQLiteConnection conn)
-        {
-            if (mf.RatingChanged)
-            {
-                using (SQLiteCommand command = new SQLiteCommand(conn))
-                {
-                    command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
-                    command.ExecuteNonQuery();
-                    mf.RatingChanged = false;
-                }
             }
         }
 
@@ -744,8 +720,10 @@ namespace amp
 
                 if (matches.Count > 0)
                 {
-                    MusicFile foundSong = new MusicFile(mf);
-                    foundSong.QueueIndex = queueIndices[matches[0].Item1];
+                    MusicFile foundSong = new MusicFile(mf)
+                    {
+                        QueueIndex = queueIndices[matches[0].Item1]
+                    };
                     foundSongs.Add(foundSong);
                     paths.RemoveAt(matches[0].Item1);
                     queueIndices.RemoveAt(matches[0].Item1);
@@ -788,22 +766,6 @@ namespace amp
             }
 
             return true;
-        }
-
-
-        public static void UpdateNPlayed(MusicFile mf, SQLiteConnection conn, bool skipped)
-        {
-            if (mf == null)
-            {
-                return;
-            }
-
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                command.CommandText = 
-                    $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
-                command.ExecuteNonQuery();
-            }
         }
 
         public class MusicFileEntry

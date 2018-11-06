@@ -8,16 +8,7 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using VPKSoft.LangLib;
 
 namespace amp

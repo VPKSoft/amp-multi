@@ -10,7 +10,6 @@ Copyright (c) VPKSoft 2018
 
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.ServiceModel;
 using VPKSoft.LangLib;
 
 namespace amp
@@ -27,12 +26,14 @@ namespace amp
 
         private System.Drawing.Bitmap GetNextImg(int goNum)
         {
-            List<System.Drawing.Bitmap> albumImages = new List<System.Drawing.Bitmap>();
-            albumImages.Add(Properties.Resources.album_blue);
-            albumImages.Add(Properties.Resources.album_byellow);
-            albumImages.Add(Properties.Resources.album_green);
-            albumImages.Add(Properties.Resources.album_red);
-            albumImages.Add(Properties.Resources.album_teal);
+            List<System.Drawing.Bitmap> albumImages = new List<System.Drawing.Bitmap>
+            {
+                Properties.Resources.album_blue,
+                Properties.Resources.album_byellow,
+                Properties.Resources.album_green,
+                Properties.Resources.album_red,
+                Properties.Resources.album_teal
+            };
             return albumImages[goNum % 5];
         }
 
@@ -117,7 +118,14 @@ namespace amp
                 {
                     if (tbRand.Checked)
                     {
-                        iSongIndex = random.Next(0, PlayList.Count);
+                        if (Settings.BiasedRandom)
+                        {
+                            iSongIndex = MusicFile.RandomWeighted(PlayList);
+                        }
+                        else
+                        {
+                            iSongIndex = random.Next(0, PlayList.Count);
+                        }
                         latestSongIndex = iSongIndex;
                         PlaySong(iSongIndex, true);
                     }

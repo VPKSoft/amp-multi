@@ -10,8 +10,6 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using VPKSoft.Utils;
@@ -63,7 +61,7 @@ namespace amp
         static void Main(string[] args)
         {
             Process localizeProcess = VPKSoft.LangLib.Utils.CreateDBLocalizeProcess(VPKSoft.Utils.Paths.AppInstallDir);
-            //localizeProcess.
+            // localizeProcess..
 
             if (localizeProcess != null)
             {
@@ -141,6 +139,7 @@ namespace amp
                 new FormAlbumNaming(); // 27.10.18
                 new FormDatabaseUpdatingProgress(); // 27.10.18
                 new FormHelp(); // 28.10.18
+                new FormRandomizePriority(); // 30.10.18
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
                 return;
             }

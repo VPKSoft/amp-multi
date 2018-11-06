@@ -127,6 +127,243 @@ namespace amp
             }
         }
 
+        #region BiasedRandomization
+        private static bool? _BiasedRandom = null;
+        public static bool BiasedRandom
+        {
+            get
+            {
+                if (_BiasedRandom == null)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                    _BiasedRandom = bool.Parse(vnml["biasedRandom", "enabled", false.ToString()].ToString());
+                }
+                return (bool)_BiasedRandom;
+            }
+
+            set
+            {
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "enabled"] = value;
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+                _BiasedRandom = value;
+            }
+        }
+
+        private static double _Tolerance = -1;
+        public static double Tolerance
+        {
+            get
+            {
+                if (_Tolerance == -1)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                    _Tolerance =
+                        double.Parse(vnml["biasedRandom", "tolerance", (10.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        CultureInfo.InvariantCulture);
+                }
+                return _Tolerance;
+            }
+
+            set
+            {
+                _Tolerance = value;
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "tolerance"] = _Tolerance.ToString(CultureInfo.InvariantCulture);
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        private static double _BiasedRating = -1;
+        public static double BiasedRating
+        {
+            get
+            {
+                if (_BiasedRating == -1)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                    _BiasedRating = 
+                        double.Parse(vnml["biasedRandom", "biasedRating", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(), 
+                        CultureInfo.InvariantCulture);
+                }
+                return _BiasedRating;
+            }
+
+            set
+            {
+                _BiasedRating = value;
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "biasedRating"] = _BiasedRating.ToString(CultureInfo.InvariantCulture);
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        public static bool BiasedRatingEnabled
+        {
+            get
+            {
+                return BiasedRating >= 0;
+            }
+
+            set
+            {
+                if (!value)
+                {
+                    BiasedRating = -1;
+                }
+            }
+        }
+
+        private static double _BiasedPlayedCount = -1;
+        public static double BiasedPlayedCount
+        {
+            get
+            {
+                if (_BiasedPlayedCount == -1)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+
+                    _BiasedPlayedCount =
+                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        CultureInfo.InvariantCulture);
+
+                }
+                return _BiasedPlayedCount;
+            }
+
+            set
+            {
+                _BiasedPlayedCount = value;
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "biasedPlayedCount"] = _BiasedPlayedCount.ToString(CultureInfo.InvariantCulture);
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        public static bool BiasedPlayedCountEnabled
+        {
+            get
+            {
+                return BiasedPlayedCount >= 0;
+            }
+
+            set
+            {
+                if (!value)
+                {
+                    BiasedPlayedCount = -1;
+                }
+            }
+        }
+
+        private static double _BiasedRandomizedCount = -1;
+        public static double BiasedRandomizedCount
+        {
+            get
+            {
+                if (_BiasedRandomizedCount == -1)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+
+                    _BiasedRandomizedCount =
+                        double.Parse(vnml["biasedRandom", "biasedPlayedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        CultureInfo.InvariantCulture);
+                }
+                return _BiasedRandomizedCount;
+            }
+
+            set
+            {
+                _BiasedRandomizedCount = value;
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "biasedRandomizedCount"] = _BiasedRandomizedCount.ToString(CultureInfo.InvariantCulture);
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        public static bool BiasedRandomizedCountEnabled
+        {
+            get
+            {
+                return BiasedRandomizedCount >= 0;
+            }
+
+            set
+            {
+                if (!value)
+                {
+                    BiasedRandomizedCount = -1;
+                }
+            }
+        }
+
+        private static double _BiasedSkippedCount = -1;
+        public static double BiasedSkippedCount
+        {
+            get
+            {
+                if (_BiasedSkippedCount == -1)
+                {
+                    VPKNml vnml = new VPKNml();
+                    Paths.MakeAppSettingsFolder();
+                    vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+
+                    _BiasedSkippedCount =
+                        double.Parse(vnml["biasedRandom", "biasedSkippedCount", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(),
+                        CultureInfo.InvariantCulture);
+
+                }
+                return _BiasedSkippedCount;
+            }
+
+            set
+            {
+                _BiasedSkippedCount = value;
+                VPKNml vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
+                vnml["biasedRandom", "biasedSkippedCount"] = _BiasedSkippedCount.ToString(CultureInfo.InvariantCulture);
+                vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
+            }
+        }
+
+        public static bool BiasedSkippedCountEnabled
+        {
+            get
+            {
+                return BiasedSkippedCount >= 0;
+            }
+
+            set
+            {
+                if (!value)
+                {
+                    BiasedSkippedCount = -1;
+                }
+            }
+        }
+        #endregion
+
         // the current language (Culture) to be used with the software..
         private static CultureInfo _Culture = null;
 

@@ -16,7 +16,6 @@ using System.ServiceModel; // for remote control..
 using System.ServiceModel.Description; // for remote control..
 using System.Data.SQLite; // for the database access..
 using System.Globalization;
-using System.Linq;
 
 namespace amp
 {
@@ -63,9 +62,10 @@ namespace amp
 
                 // A data transfer of information of possibly thousands of songs require large buffers/capacity..
                 ampRemoteHost.AddServiceEndpoint(typeof(IampRemote), new BasicHttpBinding() { MaxReceivedMessageSize = 2147483647, MaxBufferPoolSize = 2147483647 }, string.Empty);
-                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-
-                smb.HttpGetEnabled = true; // just enable HTTP
+                ServiceMetadataBehavior smb = new ServiceMetadataBehavior
+                {
+                    HttpGetEnabled = true // just enable HTTP
+                };
 
                 ampRemoteHost.Description.Behaviors.Add(smb); // Add the behavior..
 

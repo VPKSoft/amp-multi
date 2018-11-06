@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region license
+/*
+This file is part of amp#, which is licensed
+under the terms of the Microsoft Public License (Ms-Pl) license.
+See https://opensource.org/licenses/MS-PL for details.
+
+Copyright (c) VPKSoft 2018
+*/
+#endregion
+
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;

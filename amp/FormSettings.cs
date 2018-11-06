@@ -10,13 +10,8 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 using VU = VPKSoft.Utils;
@@ -198,6 +193,11 @@ namespace amp
                 bool isQuietHour =(dt1 >= span.Key && dt1 < span.Value);
                 tbTestQuietHour.Text += isQuietHour + ": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;
             }
+        }
+
+        private void btnModifiedRandomization_Click(object sender, EventArgs e)
+        {
+            new FormRandomizePriority().ShowDialog();
         }
     }
 }

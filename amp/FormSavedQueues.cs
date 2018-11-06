@@ -9,13 +9,6 @@ Copyright (c) VPKSoft 2018
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 using System.Data.SQLite;
@@ -91,8 +84,10 @@ namespace amp
                 {
                     while (dr.Read())
                     {
-                        ListViewItem lvi = new ListViewItem(dr.GetString(1));
-                        lvi.Tag = dr.GetInt32(0);
+                        ListViewItem lvi = new ListViewItem(dr.GetString(1))
+                        {
+                            Tag = dr.GetInt32(0)
+                        };
                         DateTime dt = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture);
                         lvi.SubItems.Add(dt.ToShortDateString() + " " + dt.ToShortTimeString());
                         lvQueues.Items.Add(lvi);
@@ -104,9 +99,11 @@ namespace amp
         public static int Execute(string albumName, ref SQLiteConnection conn, out bool append)
         {
 
-            FormSavedQueues frm = new FormSavedQueues();
-            frm.conn = conn;
-            frm.albumName = albumName;
+            FormSavedQueues frm = new FormSavedQueues
+            {
+                conn = conn,
+                albumName = albumName
+            };
             frm.RefreshList();
             if (frm.lvQueues.Items.Count == 0)
             {

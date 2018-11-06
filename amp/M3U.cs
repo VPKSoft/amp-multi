@@ -8,27 +8,18 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace amp
 {
     public class M3UEntry
     {
-        private string fileName = string.Empty;
         private string fileDesc = string.Empty;
 
-        public string FileName
-        {
-            get
-            {
-                return fileName;
-            }
-        }
+        public string FileName { get; } = string.Empty;
 
         public string FileDesc
         {
@@ -48,7 +39,7 @@ namespace amp
 
         public M3UEntry(string FileName, string FileDesc)
         {
-            fileName = FileName;
+            this.FileName = FileName;
             fileDesc = FileDesc;
         }
     }

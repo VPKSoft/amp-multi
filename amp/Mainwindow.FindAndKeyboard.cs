@@ -10,11 +10,8 @@ Copyright (c) VPKSoft 2018
 
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.ServiceModel;
 using VPKSoft.LangLib;
 using VPKSoft.KeySendList;
-
-
 
 namespace amp
 {
@@ -56,10 +53,10 @@ namespace amp
             {
                 if (lbMusic.SelectedItem != null)
                 {
-                    Database.UpdateNPlayed(mFile, conn, Skipped);
+                    UpdateNPlayed(mFile, Skipped);
                     mFile = lbMusic.SelectedItem as MusicFile;
                     latestSongIndex = mFile.VisualIndex;
-                    Database.UpdateNPlayed(mFile, conn, false);
+                    UpdateNPlayed(mFile, false);
                     newsong = true;
                     e.Handled = true;
                 }

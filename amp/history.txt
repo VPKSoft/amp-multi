@@ -2,3 +2,29 @@
 * 03.06.2018: Added WM_MOUSEMOVE to the HumanActivity class.
 * 23.07.2018: Added NetSH class to help give a permission to a web service for to host in a specific URL and specific port
 * 23.07.2018: Added ObjectSerialization containing helper methods to for object serialization and deserialization
+
+* 06.11.2018: Fixed quiet hours again!
+* 06.11.2018: Added song naming configuration.
+* 06.11.2018: Added possibility to create a queue while listening a another queue or just listening.
+* 06.11.2018: Added possibility to scramble / random a loaded queue.
+* 06.11.2018: The queue when set to show queue will now stay visible.
+* 06.11.2018: Added possibility to rate multiple songs.
+* 06.11.2018: Added possibility to set volume to multiple songs.
+* 06.11.2018: Updated the remote control API (WCF) maintaining the backwards compatibility.
+* 06.11.2018: Fixed a settings reset bug.
+* 06.11.2018: Updated static libraries to be NuGet packages.
+* 06.11.2018: Added mini-help.
+* 06.11.2018: Fixed bug in the ScriptRunner.cs file (Public Domain).
+* 06.11.2018: Added language selection to the settings.
+* 06.11.2018: Added F9 key to show all the songs in the collection.
+* 06.11.2018: The database will "fix" it self on the first start (a lengthy operation run only once) with the new version (missing tag value) in the SONG database table.
+* 06.11.2018: No llama’s [https://en.wikipedia.org/wiki/Llama] were hurt (by VPKSoft) during the coding process!
+* 06.11.2018: Added localization possibility to the start menu.
+* 06.11.2018: Fixed queue editor crashing the program when deleting single songs from a saved queue.
+* 06.11.2018: Fixed queue editor crashing the program with an invalid SQL sentence.
+* 06.11.2018: Fixed queue editor to re-index songs correctly in the queue when deleting items.
+* 06.11.2018: Added optional modified (biased) randomization.
+* 06.11.2018: Fixed the main window text scaling on a higher DPI setting.
+* 06.11.2018: Fixed text scaling on a higher DPI setting for few dialogs.
+* 06.11.2018: Fixed return and escape button working in the new album dialog.
+* 06.11.2018: Fixed dialog miss-placing on the screen.

@@ -37,9 +37,10 @@
             // 
             // bOK
             // 
+            this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.bOK.Enabled = false;
-            this.bOK.Location = new System.Drawing.Point(383, 32);
+            this.bOK.Location = new System.Drawing.Point(385, 41);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 0;
@@ -48,8 +49,9 @@
             // 
             // bCancel
             // 
+            this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 32);
+            this.bCancel.Location = new System.Drawing.Point(12, 41);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 1;
@@ -75,8 +77,11 @@
             // 
             // FormAddAlbum
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(470, 66);
+            this.AcceptButton = this.bOK;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.bCancel;
+            this.ClientSize = new System.Drawing.Size(472, 75);
             this.Controls.Add(this.tbAlbumName);
             this.Controls.Add(this.lbGiveAlbumName);
             this.Controls.Add(this.bCancel);
@@ -87,6 +92,7 @@
             this.MinimizeBox = false;
             this.Name = "FormAddAlbum";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New album";
             this.ResumeLayout(false);
             this.PerformLayout();

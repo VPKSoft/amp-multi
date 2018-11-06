@@ -11,11 +11,10 @@ Copyright (c) VPKSoft 2018
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 using System.Data.SQLite;
+using VPKSoft.RandomizationUtils;
 
 namespace amp
 {
@@ -308,7 +307,7 @@ namespace amp
         {
             get
             {
-                return (tArtist == null ? string.Empty : tArtist).Trim();
+                return (tArtist ?? string.Empty).Trim();
             }
         }
 
@@ -316,7 +315,7 @@ namespace amp
         {
             get
             {
-                return (tAlbum == null ? string.Empty : tAlbum).Trim();
+                return (tAlbum ?? string.Empty).Trim();
             }
         }
 
@@ -324,7 +323,7 @@ namespace amp
         {
             get
             {
-                return (tTitle == null ? string.Empty : tTitle).Trim();
+                return (tTitle ?? string.Empty).Trim();
             }
         }
 
@@ -844,6 +843,87 @@ namespace amp
             }
         }
 
+        #region WeightedRandomization
+        internal int SKIPPED_EARLY { get; set; } = 0;
+        internal int NPLAYED_RAND { get; set; } = 0;
+        internal int NPLAYED_USER { get; set; } = 0;
+
+        internal static Random random = new Random();
+
+        internal static bool InRange(double value, double randomValue, double min, double max, double tolerancePercentage)
+        {
+            double range = (max - min) / 100 * tolerancePercentage;
+            return value <= randomValue + range && value >= randomValue - range;
+        }
+
+        internal static int RandomWeighted(List<MusicFile> musicFiles)
+        {
+            if (musicFiles == null || musicFiles.Count == 0)
+            {
+                return -1;
+            }
+
+            List<MusicFile> results = new List<MusicFile>();
+
+            double valueMin = musicFiles.Min(f => f.Rating);
+            double ValueMax = musicFiles.Max(f => f.Rating);
+
+            double biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.BiasedRating);
+
+            if (Settings.BiasedRatingEnabled)
+            {
+                results.AddRange(musicFiles.FindAll(f =>
+                    InRange(f.Rating, biased, valueMin, ValueMax, Settings.Tolerance)));
+            }
+
+            valueMin = musicFiles.Min(f => f.NPLAYED_USER);
+            ValueMax = musicFiles.Max(f => f.NPLAYED_USER);
+            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.BiasedPlayedCount);
+
+            if (Settings.BiasedPlayedCountEnabled)
+            {
+                results.AddRange(musicFiles.FindAll(f =>
+                    InRange(f.NPLAYED_USER, biased, valueMin, ValueMax, Settings.Tolerance)));
+            }
+
+            valueMin = musicFiles.Min(f => f.NPLAYED_RAND);
+            ValueMax = musicFiles.Max(f => f.NPLAYED_RAND);
+            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.BiasedRandomizedCount);
+
+            if (Settings.BiasedRandomizedCountEnabled)
+            {
+                results.AddRange(musicFiles.FindAll(f =>
+                   InRange(f.NPLAYED_RAND, biased, valueMin, ValueMax, Settings.Tolerance)));
+            }
+
+            valueMin = musicFiles.Min(f => f.SKIPPED_EARLY);
+            ValueMax = musicFiles.Max(f => f.SKIPPED_EARLY);
+            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.BiasedSkippedCount);
+
+            if (Settings.BiasedSkippedCountEnabled)
+            {
+                results.AddRange(musicFiles.FindAll(f =>
+                   InRange(f.SKIPPED_EARLY, biased, valueMin, ValueMax, Settings.Tolerance)));
+            }
+
+            int result = -1;
+
+            if (results != null && results.Count > 0)
+            {
+                int tmpIndex = random.Next(results.Count);
+                result = musicFiles.FindIndex(f => f.ID == results[tmpIndex].ID);
+            }
+
+            if (result == -1)
+            {
+                result = random.Next(musicFiles.Count);
+            }
+            return result;
+        }
+
+        #endregion
+
+
         public string ToString(bool queue)
         {
             if (overrideName != string.Empty)
@@ -857,6 +937,8 @@ namespace amp
                     songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
             }
         }
+
+
 
         public override string ToString()
         {
