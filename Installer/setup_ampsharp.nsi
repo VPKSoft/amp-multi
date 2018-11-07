@@ -248,9 +248,11 @@ Section /o -un.Main UNSEC0000
 	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING
 	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING.LESSER
 
-    Delete /REBOOTOK "$LOCALAPPDATA\amp#\lang.sqlite"
+#    Delete /REBOOTOK "$LOCALAPPDATA\amp#\lang.sqlite"
 #    Delete /REBOOTOK "$LOCALAPPDATA\amp#\amp.sqlite"
     
+	Call un.DeleteLocalData
+	
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
@@ -291,6 +293,13 @@ Function un.onInit
     !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuGroup
     !insertmacro MUI_UNGETLANGUAGE
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
+FunctionEnd
+
+Function un.DeleteLocalData
+	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES deletelocal IDNO nodeletelocal
+	deletelocal:
+    RMDir /r /REBOOTOK "$LOCALAPPDATA\amp#"
+	nodeletelocal:
 FunctionEnd
 
 # Installer Language Strings
@@ -347,6 +356,8 @@ LangString MUSQEXP2  ${LANG_FINNISH} "jono -tiedosto"
 LangString LocalizeDesc ${LANG_FINNISH} "Lokalisointi"
 LangString LocalizeDesc ${LANG_ENGLISH} "Localization"
 
+LangString DeleteUserData ${LANG_FINNISH} "Poista paikalliset käyttäjätiedot?"
+LangString DeleteUserData ${LANG_ENGLISH} "Delete local user data?"
 
 Function PageAssociation
   # If you need to skip the page depending on a condition, call Abort.
