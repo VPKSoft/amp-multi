@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
+using amp.UtilityClasses.Controls;
 
 namespace amp
 {
@@ -69,7 +70,7 @@ namespace amp
             this.sdM3U = new System.Windows.Forms.SaveFileDialog();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lbSong = new System.Windows.Forms.Label();
-            this.lbMusic = new amp.RefreshListbox();
+            this.lbMusic = new RefreshListbox();
             this.lbTime = new System.Windows.Forms.Label();
             this.tbFind = new System.Windows.Forms.TextBox();
             this.scProgress = new System.Windows.Forms.HScrollBar();

@@ -1,31 +1,47 @@
-﻿#region license
+﻿#region License
 /*
-This file is part of amp#, which is licensed
-under the terms of the Microsoft Public License (Ms-Pl) license.
-See https://opensource.org/licenses/MS-PL for details.
+MIT License
 
-Copyright (c) VPKSoft 2018
+Copyright(c) 2019 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
 #endregion
 
 using System.Globalization;
 using VPKSoft.Utils;
 
-namespace amp
+namespace amp.UtilityClasses.Settings
 {
     public static class Settings
     {
-        private static int _DBUpdateRequiredLevel = -1;
+        private static int _DbUpdateRequiredLevel = -1;
         /// <summary>
         /// Gets or sets a value of to which level the database is updated to.
         /// </summary>
-        public static int DBUpdateRequiredLevel
+        public static int DbUpdateRequiredLevel
         {
             get
             {
-                if (_DBUpdateRequiredLevel != -1)
+                if (_DbUpdateRequiredLevel != -1)
                 {
-                    return _DBUpdateRequiredLevel;
+                    return _DbUpdateRequiredLevel;
                 }
 
                 VPKNml vnml = new VPKNml();
@@ -33,14 +49,14 @@ namespace amp
                 vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
                 int result = int.Parse(vnml["DBUpdateLevel", "value", 0.ToString()].ToString());
 
-                if (_DBUpdateRequiredLevel != -1)
+                if (_DbUpdateRequiredLevel != -1)
                 {
                     vnml["DBUpdateLevel", "value"] = result;
                     vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
                 }
 
 
-                _DBUpdateRequiredLevel = result;
+                _DbUpdateRequiredLevel = result;
                 return result;
             }
 
@@ -50,7 +66,7 @@ namespace amp
                 Paths.MakeAppSettingsFolder();
                 vnml.Load(Paths.GetAppSettingsFolder() + "settings.vnml");
                 vnml["DBUpdateLevel", "value"] = value;
-                _DBUpdateRequiredLevel = value;
+                _DbUpdateRequiredLevel = value;
                 vnml.Save(Paths.GetAppSettingsFolder() + "settings.vnml");
             }
         }
@@ -159,6 +175,7 @@ namespace amp
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (_Tolerance == -1)
                 {
                     VPKNml vnml = new VPKNml();

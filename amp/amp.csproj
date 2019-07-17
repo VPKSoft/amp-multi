@@ -129,7 +129,7 @@
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="WCFRemote\IampRemote.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="SQLiteDatabase\Database.cs" />
     <Compile Include="FormsUtility\FormAddAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,15 +172,15 @@
     <Compile Include="FormsUtility\QueueHandling\FormSavedQueues.Designer.cs">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSettings.cs">
+    <Compile Include="UtilityClasses\Settings\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSettings.Designer.cs">
+    <Compile Include="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeySendList.cs" />
+    <Compile Include="UtilityClasses\KeySendList.cs" />
     <Compile Include="UtilityClasses\M3U.cs" />
-    <Compile Include="MainWindow.Additional.cs">
+    <Compile Include="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.cs">
@@ -190,7 +190,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="WCFRemote\AmpRemote.cs" />
-    <Compile Include="Mainwindow.FindAndKeyboard.cs">
+    <Compile Include="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WCFRemote\MainWindow.WCF.cs">
@@ -201,7 +201,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="MusicFile.cs" />
+    <Compile Include="UtilityClasses\MusicFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -209,14 +209,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RefreshListbox.cs">
+    <Compile Include="UtilityClasses\Controls\RefreshListbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RefreshListbox.Designer.cs">
+    <Compile Include="UtilityClasses\Controls\RefreshListbox.Designer.cs">
       <DependentUpon>RefreshListbox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScriptRunner.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SQLiteDatabase\ScriptRunner.cs" />
+    <Compile Include="UtilityClasses\Settings\Settings.cs" />
     <EmbeddedResource Include="FormsUtility\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
@@ -250,7 +250,7 @@
     <EmbeddedResource Include="FormsUtility\QueueHandling\FormSavedQueues.resx">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSettings.resx">
+    <EmbeddedResource Include="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTagInfo.resx">
@@ -269,6 +269,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="amp.licenseheader" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -286,7 +287,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Script.sql_script">
+    <None Include="SQLiteDatabase\Script.sql_script">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -296,9 +297,6 @@
     </Content>
     <Content Include="history.txt" />
     <Content Include="icon.ico" />
-    <Content Include="license.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\help.png" />
     <None Include="Resources\info1.png" />
     <None Include="Resources\Keyboard.png" />
@@ -377,9 +375,7 @@
     <None Include="Resources\backward.png" />
     <None Include="Resources\random.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataBase\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

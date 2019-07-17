@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace amp
+namespace amp.UtilityClasses.Controls
 {
     partial class RefreshListbox
     {

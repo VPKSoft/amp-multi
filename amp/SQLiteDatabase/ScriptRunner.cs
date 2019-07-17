@@ -2,8 +2,7 @@
 /*
 This file is public domain.
 You may freely do anything with it.
-
-Copyright (c) VPKSoft 2018
+Copyright (c) VPKSoft 2019
 */
 #endregion
 
@@ -12,7 +11,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 
-namespace amp
+namespace amp.SQLiteDatabase
 {
     /// <summary>
     /// A class to run updates on a program's database if updated.
@@ -22,34 +21,33 @@ namespace amp
         /// <summary>
         /// A class representing a "block" in the script file. A such block should start with SQL comment '--VER n' and end with '--ENDVER n', where n is the version number.
         /// </summary>
-        public class DBScriptBlock
+        public class DbScriptBlock
         {
             /// <summary>
             /// A list of lines in a SQL script file which should start with SQL comment '--VER n' and end with '--ENDVER n', where n is the version number of the database.
             /// </summary>
-            public List<string> SQLBlock = new List<string>();
+            public List<string> SqlBlock = new List<string>();
 
             /// <summary>
             /// The database version number.
             /// </summary>
-            public int DBVer;
+            public int DbVer;
         }
 
         /// <summary>
         /// Checks the SQL script for version blocks and if the there are version blocks not already run they are executed against the SQLite database.
         /// </summary>
         /// <param name="sqliteDatasource">A file name for a SQLite database.</param>
+        /// <param name="scriptFile">A database script file location (optional).</param>
         /// <returns>True if the script was run successfully, otherwise false. 
         /// <note type="note">This has no indication to an issue whether an commands were actually executed.</note>
         /// </returns>
-        public static bool RunScript(string sqliteDatasource)
+        public static bool RunScript(string sqliteDatasource, string scriptFile = "")
         {
             try // we try..
             {
-                int dbVersion = 0; // assume that the database it at version 0..
-
                 // construct a list of database version blocks..
-                List<DBScriptBlock> sqlBlocks = new List<DBScriptBlock>();
+                List<DbScriptBlock> sqlBlocks = new List<DbScriptBlock>();
 
                 // indicates if any of the database version block executions failed..
                 bool noBlockExecError = true;
@@ -59,35 +57,46 @@ namespace amp
                 {
                     conn.Open(); // open the SQLite database connection..
 
-                    int DBVer = 0; // assume that a version block in the SQL script file is at version 0..
-                    string line; // a line in the SQL script file..
+                    int dbVer = 0; // assume that a version block in the SQL script file is at version 0..
 
                     try // again it is required to try as there might be syntax errors in the script file with the
                         // '--VER n' and '--ENDVER n' blocks..
                     {
                         // start reading the script file.. it is assumed to be in the application's 
                         // executable directory by the name of script.sql_script..
-                        using (StreamReader sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "script.sql_script"))
+
+                        // if the script file location has been set then use that; otherwise use the default location..
+                        scriptFile = scriptFile == string.Empty ?
+                            Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "script.sql_script") :
+                            scriptFile;
+
+                        using (StreamReader sr = new StreamReader(scriptFile))
                         {
                             while (!sr.EndOfStream) // read until all lines are read..
                             {
                                 // keep reading until a first '--VER n' line is found..
-                                while (!(line = sr.ReadLine()).StartsWith("--VER " + DBVer)) { }
+                                string line; // a line in the SQL script file..
+                                // ReSharper disable once PossibleNullReferenceException
+                                while (!(line = sr.ReadLine()).StartsWith("--VER " + dbVer)) { }
 
                                 // start building an instance of DBScriptBlock class from the "block"..
-                                DBScriptBlock scriptBlock = new DBScriptBlock
+                                if (line != null)
                                 {
-                                    DBVer = Convert.ToInt32(line.Split(' ')[1])
-                                };
+                                    DbScriptBlock scriptBlock = new DbScriptBlock
+                                    {
+                                        DbVer = Convert.ToInt32(line.Split(' ')[1])
+                                    };
 
-                                // and lines to the block, until a line like '--ENDVER n' is found..
-                                while (!(line = sr.ReadLine()).EndsWith("--ENDVER " + DBVer))
-                                {
-                                    // add the lines to the DBScriptBlock class instance..
-                                    scriptBlock.SQLBlock.Add(line);
+                                    // and lines to the block, until a line like '--ENDVER n' is found..
+                                    // ReSharper disable once PossibleNullReferenceException
+                                    while (!(line = sr.ReadLine()).StartsWith("--ENDVER " + dbVer))
+                                    {
+                                        // add the lines to the DBScriptBlock class instance..
+                                        scriptBlock.SqlBlock.Add(line);
+                                    }
+                                    dbVer++; // increase the database version by one..
+                                    sqlBlocks.Add(scriptBlock); // add the DBScriptBlock class instance to the list..
                                 }
-                                DBVer++; // increase the database version by one..
-                                sqlBlocks.Add(scriptBlock); // add the DBScriptBlock class instance to the list..
                             }
                         }
                     }
@@ -102,6 +111,7 @@ namespace amp
                     // --ENDVER 0
 
                     // an assumption is made that the version of the SQLite database can now be checked..
+                    int dbVersion; // assume that the database it at version 0..
                     using (SQLiteCommand command = new SQLiteCommand(conn))
                     {
                         try
@@ -140,7 +150,7 @@ namespace amp
                     for (int i = dbVersion; i < sqlBlocks.Count; i++)
                     {
                         string exec = string.Empty; // build an SQLite "transaction" block of lines in the block
-                        foreach (string sqLine in sqlBlocks[i].SQLBlock)
+                        foreach (string sqLine in sqlBlocks[i].SqlBlock)
                         {
                             exec += sqLine + Environment.NewLine;
                         }
@@ -162,8 +172,8 @@ namespace amp
 
                         // construct a SQL sentence to update the SQLite database version..
                         exec = "INSERT INTO DBVERSION(DBVERSION) " + Environment.NewLine +
-                                "SELECT " + sqlBlocks[i].DBVer + " " + Environment.NewLine +
-                                "WHERE NOT EXISTS(SELECT 1 FROM DBVERSION WHERE DBVERSION = " + sqlBlocks[i].DBVer + "); " + Environment.NewLine;
+                                "SELECT " + sqlBlocks[i].DbVer + " " + Environment.NewLine +
+                                "WHERE NOT EXISTS(SELECT 1 FROM DBVERSION WHERE DBVERSION = " + sqlBlocks[i].DbVer + "); " + Environment.NewLine;
                         // update the SQLite database version (DBVERSION table)..
                         using (SQLiteCommand command = new SQLiteCommand(conn))
                         {

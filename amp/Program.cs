@@ -1,10 +1,26 @@
-﻿#region license
+﻿#region License
 /*
-This file is part of amp#, which is licensed
-under the terms of the Microsoft Public License (Ms-Pl) license.
-See https://opensource.org/licenses/MS-PL for details.
+MIT License
 
-Copyright (c) VPKSoft 2018
+Copyright(c) 2019 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
 #endregion
 
@@ -18,6 +34,8 @@ using amp.FormsUtility.Help;
 using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
+using amp.UtilityClasses;
+using amp.UtilityClasses.Settings;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
@@ -80,7 +98,7 @@ namespace amp
             ExceptionLogger.Bind(); // bind before any visual objects are created
 
 
-            if (Settings.DBUpdateRequiredLevel < 1)
+            if (Settings.DbUpdateRequiredLevel < 1)
             {
                 if (AppRunning.CheckIfRunning("VPKSoft.amp.DBUpdate.sharp#"))
                 {
@@ -90,7 +108,7 @@ namespace amp
                 DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
                 Application.Run(new FormDatabaseUpdatingProgress());
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
-                Settings.DBUpdateRequiredLevel = 1;
+                Settings.DbUpdateRequiredLevel = 1;
                 Process.Start(new ProcessStartInfo(Path.Combine(Paths.AppInstallDir, "amp.exe"))); // the database is updated..
                 return;
             }

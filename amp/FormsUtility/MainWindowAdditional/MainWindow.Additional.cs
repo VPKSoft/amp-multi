@@ -1,10 +1,26 @@
-﻿#region license
+﻿#region License
 /*
-This file is part of amp#, which is licensed
-under the terms of the Microsoft Public License (Ms-Pl) license.
-See https://opensource.org/licenses/MS-PL for details.
+MIT License
 
-Copyright (c) VPKSoft 2018
+Copyright(c) 2019 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
 #endregion
 
@@ -12,8 +28,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using amp.Properties;
+using amp.SQLiteDatabase;
+using amp.UtilityClasses;
 using VPKSoft.LangLib;
+using Settings = amp.UtilityClasses.Settings.Settings;
 
+// ReSharper disable once CheckNamespace
 namespace amp
 {
     public partial class MainWindow : DBLangEngineWinforms
@@ -108,7 +128,7 @@ namespace amp
                 if (iSongIndex != -1)
                 {
                     PlayList[iSongIndex].Queue(ref PlayList);
-                    if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+                    if (Filtered == amp.MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
                     {
                         ShowQueue();
                     }
@@ -147,7 +167,7 @@ namespace amp
                 }
                 if (lbMusic.InvokeRequired)
                 {
-                    lbMusic.Invoke(new VoidDelegate(RefreshListboxFromThread));
+                    lbMusic.Invoke(new amp.MainWindow.VoidDelegate(RefreshListboxFromThread));
                 }
                 else
                 {
@@ -155,14 +175,14 @@ namespace amp
                 }
                 if (ssStatus.InvokeRequired)
                 {
-                    ssStatus.Invoke(new VoidDelegate(GetQueueCount));
+                    ssStatus.Invoke(new amp.MainWindow.VoidDelegate(GetQueueCount));
                 }
                 else
                 {
                     GetQueueCount();
                 }
 
-                if (Filtered == FilterType.QueueFiltered)
+                if (Filtered == amp.MainWindow.FilterType.QueueFiltered)
                 {
                     ShowQueue();
                 }
