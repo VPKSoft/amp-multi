@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility
 {
     partial class FormAddAlbum
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -101,9 +104,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Label lbGiveAlbumName;
-        private System.Windows.Forms.TextBox tbAlbumName;
+        private Button bOK;
+        private Button bCancel;
+        private Label lbGiveAlbumName;
+        private TextBox tbAlbumName;
     }
 }

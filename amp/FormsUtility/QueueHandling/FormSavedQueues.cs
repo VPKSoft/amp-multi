@@ -9,12 +9,12 @@ Copyright (c) VPKSoft 2018
 #endregion
 
 using System;
-using System.Windows.Forms;
-using VPKSoft.LangLib;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Windows.Forms;
+using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility.QueueHandling
 {
     public partial class FormSavedQueues : DBLangEngineWinforms
     {
@@ -39,18 +39,18 @@ namespace amp
             }
             catch
             {
-
+                // ignored..
             }
 
             odExportQueue.Title = DBLangEngine.GetMessage("msgImportQueueFrom", "Import queue from file|As in import a queue snapshot from a file");
             sdExportQueue.Title = DBLangEngine.GetMessage("msgExportQueueTo", "Export queue to file|As in export a queue snapshot to a file");
         }
 
-        private SQLiteConnection conn = null;
+        private SQLiteConnection conn;
         private string albumName = string.Empty;
         private string lastText = string.Empty;
 
-        private bool appendQueue = false;
+        private bool appendQueue;
 
         private void RefreshList()
         {
@@ -119,11 +119,9 @@ namespace amp
                 }
                 return -1;
             }
-            else
-            {
-                append = frm.appendQueue;
-                return -1;
-            }
+
+            append = frm.appendQueue;
+            return -1;
         }
 
         private void lvQueues_SelectedIndexChanged(object sender, EventArgs e)
@@ -140,7 +138,7 @@ namespace amp
         {
             foreach (ListViewItem lvi in lvQueues.Items)
             {
-                if (lvi.Name != "MODIFIED")
+                if (lvi.Name != @"MODIFIED")
                 {
                     continue;
                 }
@@ -165,7 +163,7 @@ namespace amp
             if (e.Label != lastText)
             {
                 tsbSave.Enabled = true;
-                lvQueues.Items[e.Item].Name = "MODIFIED";
+                lvQueues.Items[e.Item].Name = @"MODIFIED";
             }
             lastText = string.Empty;
         }
@@ -213,7 +211,8 @@ namespace amp
 
                 queueName = FormQueueSnapshotName.Execute(queueName, true);
 
-                if (Database.RestoreQueueSnapshotFromFile(wnd.PlayList, conn, wnd.CurrentAlbum, odExportQueue.FileName, queueName))
+                if (wnd != null && Database.RestoreQueueSnapshotFromFile(wnd.PlayList, conn, wnd.CurrentAlbum,
+                        odExportQueue.FileName, queueName))
                 {
                     RefreshList();
                 }

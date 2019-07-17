@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility.Help
 {
     partial class FormHelp
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -1457,93 +1460,93 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel pnMain;
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.TableLayoutPanel tlpDeleteSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_12;
-        private System.Windows.Forms.Label lbDeleteSongs;
-        private System.Windows.Forms.Panel pnButton12_1;
-        private System.Windows.Forms.Panel pnButton12_2;
-        private System.Windows.Forms.Panel pnButton12_3;
-        private System.Windows.Forms.TableLayoutPanel tlpAlternateQueueInsertSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_11;
-        private System.Windows.Forms.Label lbAlternateQueueInsertSongs;
-        private System.Windows.Forms.Panel pnButton11_1;
-        private System.Windows.Forms.Panel pnButton11_2;
-        private System.Windows.Forms.Panel pnButton11_3;
-        private System.Windows.Forms.TableLayoutPanel tlpAlternateQueueSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_10;
-        private System.Windows.Forms.Label lbAlternateQueueSongs;
-        private System.Windows.Forms.Panel pnButton10_1;
-        private System.Windows.Forms.Panel pnButton10_2;
-        private System.Windows.Forms.Panel pnButton10_3;
-        private System.Windows.Forms.TableLayoutPanel tlpQueueInsertSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_09;
-        private System.Windows.Forms.Label lbQueueInsertSongs;
-        private System.Windows.Forms.Panel pnButton09_1;
-        private System.Windows.Forms.Panel pnButton09_2;
-        private System.Windows.Forms.Panel pnButton09_3;
-        private System.Windows.Forms.TableLayoutPanel tlpQueueSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_08;
-        private System.Windows.Forms.Label lbQueueSongs;
-        private System.Windows.Forms.Panel pnButton08_1;
-        private System.Windows.Forms.Panel pnButton08_2;
-        private System.Windows.Forms.Panel pnButton08_3;
-        private System.Windows.Forms.TableLayoutPanel tlpShowThisHelp;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_07;
-        private System.Windows.Forms.Label lbShowThisHelp;
-        private System.Windows.Forms.Panel pnButton07_1;
-        private System.Windows.Forms.Panel pnButton07_2;
-        private System.Windows.Forms.Panel pnButton07_3;
-        private System.Windows.Forms.TableLayoutPanel tlpShowAlternateQueue;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_06;
-        private System.Windows.Forms.Label lbShowAlternateQueue;
-        private System.Windows.Forms.Panel pnButton06_1;
-        private System.Windows.Forms.Panel pnButton06_2;
-        private System.Windows.Forms.Panel pnButton06_3;
-        private System.Windows.Forms.TableLayoutPanel tlpScrambleQueue;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_05;
-        private System.Windows.Forms.Label lbScrambleQueue;
-        private System.Windows.Forms.Panel pnButton05_1;
-        private System.Windows.Forms.Panel pnButton05_2;
-        private System.Windows.Forms.Panel pnButton05_3;
-        private System.Windows.Forms.TableLayoutPanel tlpClearQueue;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_04;
-        private System.Windows.Forms.Label lbClearQueue;
-        private System.Windows.Forms.Panel pnButton4_1;
-        private System.Windows.Forms.Panel pnButton04_2;
-        private System.Windows.Forms.Panel pnButton04_3;
-        private System.Windows.Forms.TableLayoutPanel tlpShowQueue;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_03;
-        private System.Windows.Forms.Label lbShowQueue;
-        private System.Windows.Forms.Panel pnButton03_1;
-        private System.Windows.Forms.Panel pnButton03_2;
-        private System.Windows.Forms.Panel pnButton03_3;
-        private System.Windows.Forms.TableLayoutPanel tlpSongInformation;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_02;
-        private System.Windows.Forms.Label lbSongInformation;
-        private System.Windows.Forms.Panel pnButton02_1;
-        private System.Windows.Forms.Panel pnButton02_2;
-        private System.Windows.Forms.Panel pnButton02_3;
-        private System.Windows.Forms.TableLayoutPanel tlpSelectAll;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_01;
-        private System.Windows.Forms.Label lbSelectAll;
-        private System.Windows.Forms.Panel pnButton01_1;
-        private System.Windows.Forms.Panel pnButton01_2;
-        private System.Windows.Forms.Panel pnButton01_3;
-        private System.Windows.Forms.Label lbNumericKeypadDesc;
-        private System.Windows.Forms.Panel pnNumericKeypadImage;
-        private System.Windows.Forms.TableLayoutPanel tlpRenameSong;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_13;
-        private System.Windows.Forms.Label lbRenameSong;
-        private System.Windows.Forms.Panel pnButton13_1;
-        private System.Windows.Forms.Panel pnButton13_2;
-        private System.Windows.Forms.Panel pnButton13_3;
-        private System.Windows.Forms.TableLayoutPanel tlpShowAllAlbumSongs;
-        private System.Windows.Forms.Label lbKeyboardShortcutDesc_14;
-        private System.Windows.Forms.Label lbShowAllAlbumSongs;
-        private System.Windows.Forms.Panel pnButton14_1;
-        private System.Windows.Forms.Panel pnButton14_2;
-        private System.Windows.Forms.Panel pnButton14_3;
+        private Panel pnMain;
+        private TableLayoutPanel tlpMain;
+        private TableLayoutPanel tlpDeleteSongs;
+        private Label lbKeyboardShortcutDesc_12;
+        private Label lbDeleteSongs;
+        private Panel pnButton12_1;
+        private Panel pnButton12_2;
+        private Panel pnButton12_3;
+        private TableLayoutPanel tlpAlternateQueueInsertSongs;
+        private Label lbKeyboardShortcutDesc_11;
+        private Label lbAlternateQueueInsertSongs;
+        private Panel pnButton11_1;
+        private Panel pnButton11_2;
+        private Panel pnButton11_3;
+        private TableLayoutPanel tlpAlternateQueueSongs;
+        private Label lbKeyboardShortcutDesc_10;
+        private Label lbAlternateQueueSongs;
+        private Panel pnButton10_1;
+        private Panel pnButton10_2;
+        private Panel pnButton10_3;
+        private TableLayoutPanel tlpQueueInsertSongs;
+        private Label lbKeyboardShortcutDesc_09;
+        private Label lbQueueInsertSongs;
+        private Panel pnButton09_1;
+        private Panel pnButton09_2;
+        private Panel pnButton09_3;
+        private TableLayoutPanel tlpQueueSongs;
+        private Label lbKeyboardShortcutDesc_08;
+        private Label lbQueueSongs;
+        private Panel pnButton08_1;
+        private Panel pnButton08_2;
+        private Panel pnButton08_3;
+        private TableLayoutPanel tlpShowThisHelp;
+        private Label lbKeyboardShortcutDesc_07;
+        private Label lbShowThisHelp;
+        private Panel pnButton07_1;
+        private Panel pnButton07_2;
+        private Panel pnButton07_3;
+        private TableLayoutPanel tlpShowAlternateQueue;
+        private Label lbKeyboardShortcutDesc_06;
+        private Label lbShowAlternateQueue;
+        private Panel pnButton06_1;
+        private Panel pnButton06_2;
+        private Panel pnButton06_3;
+        private TableLayoutPanel tlpScrambleQueue;
+        private Label lbKeyboardShortcutDesc_05;
+        private Label lbScrambleQueue;
+        private Panel pnButton05_1;
+        private Panel pnButton05_2;
+        private Panel pnButton05_3;
+        private TableLayoutPanel tlpClearQueue;
+        private Label lbKeyboardShortcutDesc_04;
+        private Label lbClearQueue;
+        private Panel pnButton4_1;
+        private Panel pnButton04_2;
+        private Panel pnButton04_3;
+        private TableLayoutPanel tlpShowQueue;
+        private Label lbKeyboardShortcutDesc_03;
+        private Label lbShowQueue;
+        private Panel pnButton03_1;
+        private Panel pnButton03_2;
+        private Panel pnButton03_3;
+        private TableLayoutPanel tlpSongInformation;
+        private Label lbKeyboardShortcutDesc_02;
+        private Label lbSongInformation;
+        private Panel pnButton02_1;
+        private Panel pnButton02_2;
+        private Panel pnButton02_3;
+        private TableLayoutPanel tlpSelectAll;
+        private Label lbKeyboardShortcutDesc_01;
+        private Label lbSelectAll;
+        private Panel pnButton01_1;
+        private Panel pnButton01_2;
+        private Panel pnButton01_3;
+        private Label lbNumericKeypadDesc;
+        private Panel pnNumericKeypadImage;
+        private TableLayoutPanel tlpRenameSong;
+        private Label lbKeyboardShortcutDesc_13;
+        private Label lbRenameSong;
+        private Panel pnButton13_1;
+        private Panel pnButton13_2;
+        private Panel pnButton13_3;
+        private TableLayoutPanel tlpShowAllAlbumSongs;
+        private Label lbKeyboardShortcutDesc_14;
+        private Label lbShowAllAlbumSongs;
+        private Panel pnButton14_1;
+        private Panel pnButton14_2;
+        private Panel pnButton14_3;
     }
 }

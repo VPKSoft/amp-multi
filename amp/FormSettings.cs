@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using amp.FormsUtility;
+using amp.FormsUtility.Random;
 using VPKSoft.LangLib;
 using VU = VPKSoft.Utils;
 
@@ -57,9 +59,9 @@ namespace amp
             MainWindow.QuietHoursTo = vnml["quietHour", "end", "08:00"].ToString();
             MainWindow.QuietHoursPause = Convert.ToBoolean(vnml["quietHour", "pause", true]);
             MainWindow.QuietHoursVolPercentage = (100.0 - Convert.ToDouble(vnml["quietHour", "percentage", 70])) / 100.0;
-            MainWindow.LatencyMS = Convert.ToInt32(vnml["latency", "value", 300]);
-            MainWindow.RemoteControlApiWCF = Convert.ToBoolean(vnml["remote", "enabled", false]);
-            MainWindow.RemoteControlApiWCFAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
+            MainWindow.LatencyMs = Convert.ToInt32(vnml["latency", "value", 300]);
+            MainWindow.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
+            MainWindow.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
         }
 
         private static DateTime nextQuietTime = DateTime.Now;
@@ -71,8 +73,8 @@ namespace amp
 
         public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo, DateTime compareDate)
         {
-            DateTime dt1 = DateTime.ParseExact(Convert.ToString(hourFrom), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime dt2 = DateTime.ParseExact(Convert.ToString(hourTo), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime dt1 = DateTime.ParseExact(Convert.ToString(hourFrom), "HH':'mm", CultureInfo.InvariantCulture);
+            DateTime dt2 = DateTime.ParseExact(Convert.ToString(hourTo), "HH':'mm", CultureInfo.InvariantCulture);
 
             dt1 = new DateTime(compareDate.Year, compareDate.Month, compareDate.Day, dt1.Hour, dt1.Minute, 0);
             dt2 = new DateTime(compareDate.Year, compareDate.Month, compareDate.Day, dt2.Hour, dt2.Minute, 0);
@@ -126,8 +128,8 @@ namespace amp
 
             cbQuietHours.Checked = Convert.ToBoolean(vnml["quietHour", "enabled", false]);
 
-            dtpFrom.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "start", "23:00"]), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
-            dtpTo.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "end", "08:00"]), "HH':'mm", System.Globalization.CultureInfo.InvariantCulture);
+            dtpFrom.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "start", "23:00"]), "HH':'mm", CultureInfo.InvariantCulture);
+            dtpTo.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "end", "08:00"]), "HH':'mm", CultureInfo.InvariantCulture);
             nudQuietHourPercentage.Value = Convert.ToInt32(vnml["quietHour", "percentage", 70]);
             rbPauseQuiet.Checked = true;
             rbPauseQuiet.Checked = Convert.ToBoolean(vnml["quietHour", "pause", true]);

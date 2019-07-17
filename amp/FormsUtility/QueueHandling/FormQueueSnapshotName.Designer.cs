@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility.QueueHandling
 {
     partial class FormQueueSnapshotName
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -100,9 +103,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbQueueName;
-        private System.Windows.Forms.Label lbNewQueueName;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Button bOK;
+        private TextBox tbQueueName;
+        private Label lbNewQueueName;
+        private Button bCancel;
+        private Button bOK;
     }
 }

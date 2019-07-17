@@ -16,7 +16,7 @@ using System.IO;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility
 {
     public partial class FormDatabaseUpdatingProgress : DBLangEngineWinforms
     {
@@ -24,6 +24,7 @@ namespace amp
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -33,32 +34,25 @@ namespace amp
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        public void SetProgress(int percentage, int maximum)
+        public void SetProgress(int percentage, int maximumValue)
         {
             pbUpdateProgress.Value = percentage;
 
-            int current = maximum / 100 * percentage;
-            lbItemIndex.Text = $"({current}/{maximum})";
+            int current = maximumValue / 100 * percentage;
+            lbItemIndex.Text = $@"({current}/{maximumValue})";
         }
 
-        public void CenterForm(Form frm)
-        {
-            if (frm != null)
-            {
-                return;
-            }
-            Left = frm.Left + (frm.Width - Width) / 2;
-            Top = frm.Top + (frm.Height - Height) / 2;
-        }
-
-        SQLiteConnection conn = null;
+        SQLiteConnection conn;
         private int maximum;
 
         private void FormDatabaseUpdatingProgress_Shown(object sender, EventArgs e)
         {
-            conn = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
+            // ReSharper disable once StringLiteralTypo
+            conn = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir +
+                                        "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
             conn.Open();
 
+            // ReSharper disable once StringLiteralTypo
             if (!ScriptRunner.RunScript(DBLangEngine.DataDir + "amp.sqlite"))
             {
                 MessageBox.Show(
@@ -98,14 +92,9 @@ namespace amp
                     while (dr.Read())
                     {
                         currentValue++;
-                        if (File.Exists(dr.GetString(0)))
-                        {
-                            updateFiles.Add(new MusicFile(dr.GetString(0), dr.GetInt32(1)));
-                        }
-                        else
-                        {
-                            updateFiles.Add(null); // nice (weird) logic..
-                        }
+                        updateFiles.Add(File.Exists(dr.GetString(0))
+                            ? new MusicFile(dr.GetString(0), dr.GetInt32(1))
+                            : null);
 
                         if ((currentValue % 100) == 0)
                         {
@@ -151,7 +140,7 @@ namespace amp
             Close();
         }
 
-        private bool canCloseForm = false;
+        private bool canCloseForm;
 
         private void bwDatabaseUpdate_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {

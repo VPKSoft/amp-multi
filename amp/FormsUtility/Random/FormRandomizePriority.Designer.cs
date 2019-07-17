@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility.Random
 {
     partial class FormRandomizePriority
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -340,25 +343,25 @@
 
         #endregion
 
-        private System.Windows.Forms.TrackBar tbRating;
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.TrackBar tbSkippedCount;
-        private System.Windows.Forms.TrackBar tbRandomizedCount;
-        private System.Windows.Forms.TrackBar tbPlayedCount;
-        private System.Windows.Forms.Label lbRating;
-        private System.Windows.Forms.Label lbPlayedCount;
-        private System.Windows.Forms.Label lbRandomizedCount;
-        private System.Windows.Forms.Label lbSkippedCount;
-        private System.Windows.Forms.CheckBox cbModifiedRandomizationEnabled;
-        private System.Windows.Forms.Button btOK;
-        private System.Windows.Forms.Button btCancel;
-        private System.Windows.Forms.Button btDefault;
-        private System.Windows.Forms.CheckBox cbSkippedCountEnabled;
-        private System.Windows.Forms.CheckBox cbRandomizedCountEnabled;
-        private System.Windows.Forms.CheckBox cbPlayedCountEnabled;
-        private System.Windows.Forms.CheckBox cbRatingEnabled;
-        private System.Windows.Forms.TrackBar tbTolerancePercentage;
-        private System.Windows.Forms.Label lbTolerancePercentage;
-        private System.Windows.Forms.Label lbTolerancePercentageValue;
+        private TrackBar tbRating;
+        private TableLayoutPanel tlpMain;
+        private TrackBar tbSkippedCount;
+        private TrackBar tbRandomizedCount;
+        private TrackBar tbPlayedCount;
+        private Label lbRating;
+        private Label lbPlayedCount;
+        private Label lbRandomizedCount;
+        private Label lbSkippedCount;
+        private CheckBox cbModifiedRandomizationEnabled;
+        private Button btOK;
+        private Button btCancel;
+        private Button btDefault;
+        private CheckBox cbSkippedCountEnabled;
+        private CheckBox cbRandomizedCountEnabled;
+        private CheckBox cbPlayedCountEnabled;
+        private CheckBox cbRatingEnabled;
+        private TrackBar tbTolerancePercentage;
+        private Label lbTolerancePercentage;
+        private Label lbTolerancePercentageValue;
     }
 }

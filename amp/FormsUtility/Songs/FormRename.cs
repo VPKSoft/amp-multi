@@ -12,7 +12,7 @@ using System;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility.Songs
 {
     public partial class FormRename : DBLangEngineWinforms
     {
@@ -20,6 +20,7 @@ namespace amp
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -37,17 +38,16 @@ namespace amp
 
         public static string Execute(MusicFile mf)
         {
-            FormRename rename = new FormRename();
-            rename.tbNewSongName.Text = mf.ToString(false);
-            rename.lastName = mf.ToString(false);
+            FormRename rename = new FormRename
+            {
+                tbNewSongName = {Text = mf.ToString(false)}, lastName = mf.ToString(false)
+            };
             if (rename.ShowDialog() == DialogResult.OK)
             {
                 return rename.tbNewSongName.Text;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         private void frmRename_Shown(object sender, EventArgs e)

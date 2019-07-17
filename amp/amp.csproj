@@ -78,9 +78,6 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.About, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.About.1.0.0.4\lib\net45\VPKSoft.About.dll</HintPath>
-    </Reference>
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
@@ -96,33 +93,33 @@
     <Reference Include="VPKSoft.Utils, Version=1.0.3.7, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.Utils.1.0.3.7\lib\net45\VPKSoft.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.VersionCheck, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.VersionCheck.1.0.0.1\lib\net45\VPKSoft.VersionCheck.dll</HintPath>
+    <Reference Include="VPKSoft.VersionCheck, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.VersionCheck.1.0.0.7\lib\net45\VPKSoft.VersionCheck.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormAlbumNaming.cs">
+    <Compile Include="FormsUtility\FormDatabaseUpdatingProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAlbumNaming.Designer.cs">
-      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormDatabaseUpdatingProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormDatabaseUpdatingProgress.Designer.cs">
+    <Compile Include="FormsUtility\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormHelp.cs">
+    <Compile Include="FormsUtility\FormAlbumNaming.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormHelp.Designer.cs">
+    <Compile Include="FormsUtility\FormAlbumNaming.Designer.cs">
+      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormsUtility\Help\FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormsUtility\Help\FormHelp.Designer.cs">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRandomizePriority.cs">
+    <Compile Include="FormsUtility\Random\FormRandomizePriority.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRandomizePriority.Designer.cs">
+    <Compile Include="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTagInfo.cs">
@@ -131,48 +128,48 @@
     <Compile Include="FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="IampRemote.cs" />
+    <Compile Include="WCFRemote\IampRemote.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="FormAddAlbum.cs">
+    <Compile Include="FormsUtility\FormAddAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAddAlbum.Designer.cs">
+    <Compile Include="FormsUtility\FormAddAlbum.Designer.cs">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormAlbumImage.cs">
+    <Compile Include="FormsUtility\FormAlbumImage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAlbumImage.Designer.cs">
+    <Compile Include="FormsUtility\FormAlbumImage.Designer.cs">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormModifySavedQueue.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormModifySavedQueue.Designer.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPsycho.cs">
+    <Compile Include="FormsUtility\FormPsycho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPsycho.Designer.cs">
+    <Compile Include="FormsUtility\FormPsycho.Designer.cs">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormQueueSnapshotName.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormQueueSnapshotName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormQueueSnapshotName.Designer.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormQueueSnapshotName.Designer.cs">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRename.cs">
+    <Compile Include="FormsUtility\Songs\FormRename.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRename.designer.cs">
+    <Compile Include="FormsUtility\Songs\FormRename.designer.cs">
       <DependentUpon>FormRename.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSavedQueues.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormSavedQueues.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSavedQueues.Designer.cs">
+    <Compile Include="FormsUtility\QueueHandling\FormSavedQueues.Designer.cs">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSettings.cs">
@@ -182,7 +179,7 @@
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="KeySendList.cs" />
-    <Compile Include="M3U.cs" />
+    <Compile Include="UtilityClasses\M3U.cs" />
     <Compile Include="MainWindow.Additional.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,11 +189,11 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="AmpRemote.cs" />
+    <Compile Include="WCFRemote\AmpRemote.cs" />
     <Compile Include="Mainwindow.FindAndKeyboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.WCF.cs">
+    <Compile Include="WCFRemote\MainWindow.WCF.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Messages.Designer.cs">
@@ -220,37 +217,37 @@
     </Compile>
     <Compile Include="ScriptRunner.cs" />
     <Compile Include="Settings.cs" />
-    <EmbeddedResource Include="FormAddAlbum.resx">
-      <DependentUpon>FormAddAlbum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormAlbumImage.resx">
-      <DependentUpon>FormAlbumImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormAlbumNaming.resx">
-      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormDatabaseUpdatingProgress.resx">
+    <EmbeddedResource Include="FormsUtility\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormHelp.resx">
+    <EmbeddedResource Include="FormsUtility\FormAddAlbum.resx">
+      <DependentUpon>FormAddAlbum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormsUtility\FormAlbumImage.resx">
+      <DependentUpon>FormAlbumImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormsUtility\FormAlbumNaming.resx">
+      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormsUtility\Help\FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormModifySavedQueue.resx">
+    <EmbeddedResource Include="FormsUtility\QueueHandling\FormModifySavedQueue.resx">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPsycho.resx">
+    <EmbeddedResource Include="FormsUtility\FormPsycho.resx">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormQueueSnapshotName.resx">
+    <EmbeddedResource Include="FormsUtility\QueueHandling\FormQueueSnapshotName.resx">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRandomizePriority.resx">
+    <EmbeddedResource Include="FormsUtility\Random\FormRandomizePriority.resx">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRename.resx">
+    <EmbeddedResource Include="FormsUtility\Songs\FormRename.resx">
       <DependentUpon>FormRename.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSavedQueues.resx">
+    <EmbeddedResource Include="FormsUtility\QueueHandling\FormSavedQueues.resx">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.resx">
@@ -324,7 +321,6 @@
     <None Include="Resources\list.png" />
     <None Include="Resources\keyboard_function_f9.png" />
     <None Include="Resources\media_shuffle.png" />
-    <Content Include="VPKSoft.ico" />
     <None Include="Resources\amp_scramble_queue.png" />
     <None Include="Resources\view-refresh.png" />
     <None Include="Resources\Green tag.png" />
@@ -380,6 +376,9 @@
     <None Include="Resources\forward.png" />
     <None Include="Resources\backward.png" />
     <None Include="Resources\random.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataBase\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

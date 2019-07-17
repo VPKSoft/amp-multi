@@ -10,12 +10,12 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
-using System.Data.SQLite;
 
-namespace amp
+namespace amp.FormsUtility.QueueHandling
 {
     public partial class FormModifySavedQueue : DBLangEngineWinforms
     {
@@ -34,7 +34,7 @@ namespace amp
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        SQLiteConnection conn = null;
+        SQLiteConnection conn;
         int queueIndex = -1;
 
         List<MusicFile> queueFiles = new List<MusicFile>();
@@ -138,10 +138,8 @@ namespace amp
                 frm.SaveQueue();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         private void lvPlayList_SelectedIndexChanged(object sender, EventArgs e)

@@ -10,11 +10,13 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
 using System.Data.SQLite;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using TagLib;
 using VPKSoft.RandomizationUtils;
+using File = TagLib.File;
 
 namespace amp
 {
@@ -35,17 +37,17 @@ namespace amp
         private int id;
         private int queueIndex = -1;
         private int alternateQueueIndex = -1;
-        private int lastQueueIndex = 0;
-        private int visualIndex = 0;
-        private bool picLoaded = false;
-        private bool tagLoaded = false;
+        private int lastQueueIndex;
+        private int visualIndex;
+        private bool picLoaded;
+        private bool tagLoaded;
         private float volume = 1.0F;
         private int rating = 500;
-        private bool ratingChanged = false;
-        private TagLib.Tag tag = null;
+        private bool ratingChanged;
+        private Tag tag;
         private string overrideName = string.Empty;
-        public int Duration = 0;
-        public TagLib.IPicture[] Pictures;
+        public int Duration;
+        public IPicture[] Pictures;
 
         public string FileNameNoPath
         {
@@ -76,7 +78,7 @@ namespace amp
             }
             try
             {
-                using (TagLib.File tagFile = TagLib.File.Create(fullPath))
+                using (File tagFile = File.Create(fullPath))
                 {
                     Pictures = tagFile.Tag.Pictures;
                 }
@@ -96,7 +98,7 @@ namespace amp
             }
             try
             {                
-                using (TagLib.File tagFile = TagLib.File.Create(fullPath))
+                using (File tagFile = File.Create(fullPath))
                 {
                     tAlbum = tagFile.Tag.Album;
                     if (tagFile.Tag.AlbumArtists.Length > 0)
@@ -135,7 +137,7 @@ namespace amp
             tTitle = dr.GetString(13);
         }
 
-        private string GetTagString(TagLib.Tag strTag, bool goDeep = false)
+        private string GetTagString(Tag strTag, bool goDeep = false)
         {
             string retval = string.Empty;
             PropertyInfo[] pis = strTag.GetType().GetProperties();
@@ -145,7 +147,7 @@ namespace amp
                     pi.PropertyType != typeof(uint) &&
                     pi.PropertyType != typeof(UInt32) &&
                     pi.PropertyType != typeof(string[]) && 
-                    pi.PropertyType != typeof(TagLib.Tag[]))
+                    pi.PropertyType != typeof(Tag[]))
                 {
                     continue;
                 }
@@ -162,9 +164,9 @@ namespace amp
                     continue;
                 }
 
-                if (pi.PropertyType == typeof(TagLib.Tag[]) && goDeep)
+                if (pi.PropertyType == typeof(Tag[]) && goDeep)
                 {
-                    foreach (TagLib.Tag tmpTag in (pi.GetValue(tag) as TagLib.Tag[]))
+                    foreach (Tag tmpTag in (pi.GetValue(tag) as Tag[]))
                     {
                         retval += GetTagString(tmpTag);
                     }
@@ -185,8 +187,8 @@ namespace amp
             return retval;
         }
 
-        private int changeQueryCount = 0;
-        private bool valueChanged = false;
+        private int changeQueryCount;
+        private bool valueChanged;
 
         public bool SongChanged
         {
@@ -208,10 +210,8 @@ namespace amp
                     valueChanged = false;
                     return btmp;
                 }
-                else
-                {
-                    return valueChanged;
-                }
+
+                return valueChanged;
             }
         }
 
@@ -260,11 +260,9 @@ namespace amp
                 {
                     throw new ArgumentOutOfRangeException("Rating");
                 }
-                else
-                {
-                    rating = value;
-                    SongChanged = true;
-                }
+
+                rating = value;
+                SongChanged = true;
             }
         }
 
@@ -281,11 +279,9 @@ namespace amp
                 {
                     throw new ArgumentOutOfRangeException("volume");
                 }
-                else
-                {
-                    volume = value;
-                    SongChanged = true;
-                }
+
+                volume = value;
+                SongChanged = true;
             }
         }
 
@@ -405,10 +401,8 @@ namespace amp
                 {
                     throw new ArgumentOutOfRangeException();
                 }
-                else
-                {
-                    visualIndex = value;
-                }
+
+                visualIndex = value;
             }
         }
 
@@ -436,7 +430,7 @@ namespace amp
             return qIdx == int.MaxValue ? 1 : qIdx;
         }
 
-        private static bool queueChanged = false;
+        private static bool queueChanged;
 
         public static bool QueueChanged
         {
@@ -773,11 +767,9 @@ namespace amp
                 }
                 return result;
             }
-            else
-            {
-                formulaType = FormulaType.None;
-                return string.Empty;
-            }
+
+            formulaType = FormulaType.None;
+            return string.Empty;
         }
 
         public static string GetString(string formula, string artist, string album, int trackNo, 
@@ -836,10 +828,8 @@ namespace amp
                 {
                     return int.Parse(Track);
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
         }
 
@@ -931,11 +921,9 @@ namespace amp
                 return GetString(Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
                     songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
             }
-            else
-            {
-                return GetString(Settings.AlbumNaming, Artist, Album, TrackInt, Title,
-                    songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
-            }
+
+            return GetString(Settings.AlbumNaming, Artist, Album, TrackInt, Title,
+                songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
         }
 
 
@@ -952,14 +940,12 @@ namespace amp
             {
                 return overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
             }
-            else
-            {
-                return
-                    (Artist == string.Empty ? string.Empty : Artist + " - ") +
-                    (Album == string.Empty ? string.Empty : Album + " - ") +
-                    (Title.Length > 0 ? Title : songName) +
-                    (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
-            }
+
+            return
+                (Artist == string.Empty ? string.Empty : Artist + " - ") +
+                (Album == string.Empty ? string.Empty : Album + " - ") +
+                (Title.Length > 0 ? Title : songName) +
+                (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
         }
 
         public string SongName

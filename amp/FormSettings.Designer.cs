@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp
 {
     partial class FormSettings
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -374,30 +377,30 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox cbQuietHours;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dtpFrom;
-        private System.Windows.Forms.DateTimePicker dtpTo;
-        private System.Windows.Forms.GroupBox gpVolumeSetting;
-        private System.Windows.Forms.Label lbByPercent;
-        private System.Windows.Forms.NumericUpDown nudQuietHourPercentage;
-        private System.Windows.Forms.RadioButton rbDecreaseVolumeQuietHours;
-        private System.Windows.Forms.RadioButton rbPauseQuiet;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.Label lbRemoteControlURIVValue;
-        private System.Windows.Forms.Button btAssignRemoteControlURI;
-        private System.Windows.Forms.Label lbLatency;
-        private System.Windows.Forms.NumericUpDown nudLatency;
-        private System.Windows.Forms.CheckBox cbRemoteControlEnabled;
-        private System.Windows.Forms.GroupBox gpRemoteControl;
-        private System.Windows.Forms.Label lbRemoteControlURI;
-        private System.Windows.Forms.TextBox tbRemoteControlURI;
-        private System.Windows.Forms.Button btAlbumNaming;
-        private System.Windows.Forms.TextBox tbTestQuietHour;
-        private System.Windows.Forms.Button btnTestQuietHour;
-        private System.Windows.Forms.Label lbLanguage;
-        private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
-        private System.Windows.Forms.Button btnModifiedRandomization;
+        private CheckBox cbQuietHours;
+        private Label label1;
+        private DateTimePicker dtpFrom;
+        private DateTimePicker dtpTo;
+        private GroupBox gpVolumeSetting;
+        private Label lbByPercent;
+        private NumericUpDown nudQuietHourPercentage;
+        private RadioButton rbDecreaseVolumeQuietHours;
+        private RadioButton rbPauseQuiet;
+        private Button bCancel;
+        private Button bOK;
+        private Label lbRemoteControlURIVValue;
+        private Button btAssignRemoteControlURI;
+        private Label lbLatency;
+        private NumericUpDown nudLatency;
+        private CheckBox cbRemoteControlEnabled;
+        private GroupBox gpRemoteControl;
+        private Label lbRemoteControlURI;
+        private TextBox tbRemoteControlURI;
+        private Button btAlbumNaming;
+        private TextBox tbTestQuietHour;
+        private Button btnTestQuietHour;
+        private Label lbLanguage;
+        private ComboBox cmbSelectLanguageValue;
+        private Button btnModifiedRandomization;
     }
 }

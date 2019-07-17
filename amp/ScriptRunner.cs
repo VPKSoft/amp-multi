@@ -32,7 +32,7 @@ namespace amp
             /// <summary>
             /// The database version number.
             /// </summary>
-            public int DBVer = 0;
+            public int DBVer;
         }
 
         /// <summary>

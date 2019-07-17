@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp
 {
     partial class FormTagInfo
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -715,55 +718,55 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tlpSongInfo;
-        private System.Windows.Forms.Label lbAlbum;
-        private System.Windows.Forms.TextBox tbArtists;
-        private System.Windows.Forms.Label lbArtists;
-        private System.Windows.Forms.TextBox tbAlbum;
-        private System.Windows.Forms.TextBox tbTitle;
-        private System.Windows.Forms.Label lbTitle;
-        private System.Windows.Forms.TextBox tbPerformers;
-        private System.Windows.Forms.Label lbPerformers;
-        private System.Windows.Forms.TextBox tbComments;
-        private System.Windows.Forms.Label lbComments;
-        private System.Windows.Forms.TextBox tbComposers;
-        private System.Windows.Forms.Label lbComposers;
-        private System.Windows.Forms.TextBox tbCopyright;
-        private System.Windows.Forms.Label lbCopyright;
-        private System.Windows.Forms.TextBox tbGenres;
-        private System.Windows.Forms.Label lbGenres;
-        private System.Windows.Forms.TextBox tbConductor;
-        private System.Windows.Forms.Label lbConductor;
-        private System.Windows.Forms.Panel pnPictures;
-        private System.Windows.Forms.PictureBox pbAlbum;
-        private System.Windows.Forms.TextBox tbAudioBitrate;
-        private System.Windows.Forms.Label lbAudioBitrate;
-        private System.Windows.Forms.TextBox tbYear;
-        private System.Windows.Forms.Label lbYear;
-        private System.Windows.Forms.TextBox tbTrackCount;
-        private System.Windows.Forms.Label lbTrackCount;
-        private System.Windows.Forms.TextBox tbTrack;
-        private System.Windows.Forms.Label lbTrack;
-        private System.Windows.Forms.TextBox tbAudioChannels;
-        private System.Windows.Forms.TextBox tbAudioSampleRate;
-        private System.Windows.Forms.Label lbAudioSampleRate;
-        private System.Windows.Forms.Label lbAudioChannels;
-        private System.Windows.Forms.TextBox tbBitsPerSample;
-        private System.Windows.Forms.Label lbBitsPerSample;
-        private System.Windows.Forms.TextBox tbDuration;
-        private System.Windows.Forms.Label lbDuration;
-        private System.Windows.Forms.Label lbCodecs;
-        private System.Windows.Forms.TextBox tbCodecs;
-        private System.Windows.Forms.Label lbLyrics;
-        private System.Windows.Forms.TextBox tbLyrics;
-        private System.Windows.Forms.ToolStrip tsChangePic;
-        private System.Windows.Forms.ToolStripButton tsbPrevious;
-        private System.Windows.Forms.ToolStripButton tsbNext;
-        private System.Windows.Forms.Panel pnBottom;
-        private System.Windows.Forms.Button btOK;
-        private System.Windows.Forms.Label lbFileName;
-        private System.Windows.Forms.TextBox tbFileName;
-        private System.Windows.Forms.Label lbFullFileName;
-        private System.Windows.Forms.TextBox tbFullFileName;
+        private TableLayoutPanel tlpSongInfo;
+        private Label lbAlbum;
+        private TextBox tbArtists;
+        private Label lbArtists;
+        private TextBox tbAlbum;
+        private TextBox tbTitle;
+        private Label lbTitle;
+        private TextBox tbPerformers;
+        private Label lbPerformers;
+        private TextBox tbComments;
+        private Label lbComments;
+        private TextBox tbComposers;
+        private Label lbComposers;
+        private TextBox tbCopyright;
+        private Label lbCopyright;
+        private TextBox tbGenres;
+        private Label lbGenres;
+        private TextBox tbConductor;
+        private Label lbConductor;
+        private Panel pnPictures;
+        private PictureBox pbAlbum;
+        private TextBox tbAudioBitrate;
+        private Label lbAudioBitrate;
+        private TextBox tbYear;
+        private Label lbYear;
+        private TextBox tbTrackCount;
+        private Label lbTrackCount;
+        private TextBox tbTrack;
+        private Label lbTrack;
+        private TextBox tbAudioChannels;
+        private TextBox tbAudioSampleRate;
+        private Label lbAudioSampleRate;
+        private Label lbAudioChannels;
+        private TextBox tbBitsPerSample;
+        private Label lbBitsPerSample;
+        private TextBox tbDuration;
+        private Label lbDuration;
+        private Label lbCodecs;
+        private TextBox tbCodecs;
+        private Label lbLyrics;
+        private TextBox tbLyrics;
+        private ToolStrip tsChangePic;
+        private ToolStripButton tsbPrevious;
+        private ToolStripButton tsbNext;
+        private Panel pnBottom;
+        private Button btOK;
+        private Label lbFileName;
+        private TextBox tbFileName;
+        private Label lbFullFileName;
+        private TextBox tbFullFileName;
     }
 }

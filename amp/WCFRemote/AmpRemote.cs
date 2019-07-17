@@ -8,20 +8,26 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
-using System.Windows.Forms;
-using System.Collections.Generic;
-using VPKSoft.LangLib;
 using System;
-using System.ServiceModel; // for remote control..
-using System.ServiceModel.Description; // for remote control..
-using System.Data.SQLite; // for the database access..
+using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.ServiceModel;
+using System.ServiceModel.Description;
+using System.Windows.Forms;
+using VPKSoft.LangLib;
 
-namespace amp
+// for remote control..
+// for remote control..
+// for the database access..
+
+namespace amp.WCFRemote
 {
     /// <summary>
     /// An implementation for the remote control interface for the amp#.
     /// </summary>
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class AmpRemote : IampRemote
     {
         #region WCF
@@ -34,7 +40,7 @@ namespace amp
         /// <summary>
         /// A ServiceHost class instance for the self-hosted remote control basic HTTP binding WCF API.
         /// </summary>
-        ServiceHost ampRemoteHost = null;
+        ServiceHost ampRemoteHost;
 
         /// <summary>
         /// Reference to the MainWindow class instance as the playback logic is (sadly) in there.
@@ -48,20 +54,20 @@ namespace amp
         public bool InitAmpRemote()
         {
             // If not defined int the settings, we don't even try..
-            if (!MainWindow.RemoteControlApiWCF)
+            if (!MainWindow.RemoteControlApiWcf)
             {
                 return false;
             }
 
             // Create a ServiceHost class instance
-            ampRemoteHost = new ServiceHost(this.GetType(), ampRemoteAddress);
+            ampRemoteHost = new ServiceHost(GetType(), ampRemoteAddress);
 
             try // try to create a self-hosted WCF HTTP binding..
             {
-                ampRemoteAddress = new Uri(MainWindow.RemoteControlApiWCFAddress); // From the settings we get this..
+                ampRemoteAddress = new Uri(MainWindow.RemoteControlApiWcfAddress); // From the settings we get this..
 
                 // A data transfer of information of possibly thousands of songs require large buffers/capacity..
-                ampRemoteHost.AddServiceEndpoint(typeof(IampRemote), new BasicHttpBinding() { MaxReceivedMessageSize = 2147483647, MaxBufferPoolSize = 2147483647 }, string.Empty);
+                ampRemoteHost.AddServiceEndpoint(typeof(IampRemote), new BasicHttpBinding { MaxReceivedMessageSize = 2147483647, MaxBufferPoolSize = 2147483647 }, string.Empty);
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior
                 {
                     HttpGetEnabled = true // just enable HTTP
@@ -75,7 +81,7 @@ namespace amp
             catch (Exception ex)
             {
                 // If the self-hosted WCF HTTP binding was defined in the settings, but failed, do inform the user
-                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", MainWindow.RemoteControlApiWCFAddress, ex.Message),
+                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", MainWindow.RemoteControlApiWcfAddress, ex.Message),
                                 DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 // Do abort the host
@@ -167,7 +173,7 @@ namespace amp
         /// <returns>A Tuple containing the ID, length and position of the currently playing song. If no song is playing the ID will be -1.</returns>
         public Tuple<int, double, double> GetPlayingSong()
         {
-            return MainWindow.mFile == null ? new Tuple<int, double, double>(-1, 0, 0) : new Tuple<int, double, double>(MainWindow.mFile.ID, MainWindow.seconds, MainWindow.seconds_total);
+            return MainWindow.MFile == null ? new Tuple<int, double, double>(-1, 0, 0) : new Tuple<int, double, double>(MainWindow.MFile.ID, MainWindow.Seconds, MainWindow.SecondsTotal);
         }
 
         /// <summary>
@@ -176,9 +182,9 @@ namespace amp
         /// <returns></returns>
         public PlayerState GetPlayerState()
         {
-            MusicFile musicFile = MainWindow.mFile;
+            MusicFile musicFile = MainWindow.MFile;
 
-            int curentSongID = -1;
+            int currentSongId = -1;
             double currentSongPosition = 0, currentSongLength = 0;
             string currentSongName = string.Empty;
 
@@ -186,9 +192,9 @@ namespace amp
 
             if (musicFile != null)
             {
-                curentSongID = musicFile.ID;
-                currentSongPosition = MainWindow.seconds;
-                currentSongLength = MainWindow.seconds_total;
+                currentSongId = musicFile.ID;
+                currentSongPosition = MainWindow.Seconds;
+                currentSongLength = MainWindow.SecondsTotal;
                 currentSongName = musicFile.SongNameNoQueue;
             }
 
@@ -199,7 +205,7 @@ namespace amp
                 Random = Randomizing(),
                 Shuffle = Shuffle(),
                 QueueChangedFromPreviousQuery = MusicFile.QueueChanged,
-                CurrentSongID = curentSongID,
+                CurrentSongID = currentSongId,
                 CurrentSongLength = currentSongLength,
                 CurrentSongName = currentSongName,
                 CurrentSongPosition = currentSongPosition,
@@ -270,7 +276,7 @@ namespace amp
         /// Inserts or appends to the queue the given song ID list.
         /// </summary>
         /// <param name="insert">Whether to insert or append to the queue.</param>
-        /// <param name="queueList">A list of songs ID's to be appended or inserted into the queue.</param>
+        /// <param name="songIDs">A list of songs ID's to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
         {
@@ -334,7 +340,7 @@ namespace amp
         /// Inserts or appends to the queue the given song ID list.
         /// </summary>
         /// <param name="insert">Whether to insert or append to the queue.</param>
-        /// <param name="songID">A list of song IDs to be appended or inserted into the queue.</param>
+        /// <param name="songIDs">A list of song IDs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs)
         {
@@ -395,10 +401,10 @@ namespace amp
         /// <summary>
         /// Plays a song with a given ID.
         /// </summary>
-        /// <param name="ID">An ID for the song which to play.</param>
-        public void PlayID(int ID)
+        /// <param name="id">An ID for the song which to play.</param>
+        public void PlayID(int id)
         {
-            MainWindow.Play(ID);
+            MainWindow.Play(id);
         }
 
         /// <summary>
@@ -442,6 +448,7 @@ namespace amp
         /// <para/>This is the miss-spelled version of the Shuffle() method the keep backwards compatibility.
         /// </summary>
         /// <returns>Returns true if the playback "engine" is shuffling songs, otherwise false.</returns>
+        // ReSharper disable once IdentifierTypo
         public bool Suffle()
         {
             return MainWindow.Suffle;
@@ -452,6 +459,7 @@ namespace amp
         /// <para/>This is the miss-spelled version of the SetShuffle() method the keep backwards compatibility.
         /// </summary>
         /// <param name="value">A value indicating if the shuffling should be on or off.</param>
+        // ReSharper disable once IdentifierTypo
         public void SetSuffle(bool value)
         {
             MainWindow.Suffle = value;
@@ -488,12 +496,12 @@ namespace amp
         /// <summary>
         /// Sets the volume for multiple songs with a given list of ID numbers.
         /// </summary>
-        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="songIdList">The song identifier list.</param>
         /// <param name="volume">The volume to set for the given songs. This value must be between 0 and 2 where 1 means original volume.</param>
         /// <returns>True if the given list was valid and the and the given volume was within acceptable range, otherwise false.</returns>
-        public bool SetVolumeMultiple(List<int> songIDList, float volume) // 0.0-2.0
+        public bool SetVolumeMultiple(List<int> songIdList, float volume) // 0.0-2.0
         {
-            return MainWindow.SetVolume(songIDList, volume);
+            return MainWindow.SetVolume(songIdList, volume);
         }
 
 
@@ -510,12 +518,12 @@ namespace amp
         /// <summary>
         /// Sets the rating (stars) for the songs matching the given song ID list. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
         /// </summary>
-        /// <param name="songIDList">The song identifier list.</param>
+        /// <param name="songIdList">The song identifier list.</param>
         /// <param name="rating">A rating for the songs. This value must be between 0 and 1000 where 500 means a normal rating.</param>
         /// <returns>True if a songs which rating to set was a valid list and the given rating was within acceptable range, otherwise false.</returns>
-        public bool SetRatingMultiple(List<int> songIDList, int rating)
+        public bool SetRatingMultiple(List<int> songIdList, int rating)
         {
-            return MainWindow.SetRating(songIDList, rating);
+            return MainWindow.SetRating(songIdList, rating);
         }
 
         /// <summary>
@@ -525,7 +533,7 @@ namespace amp
         /// <returns>A list of QueueEntry class instances for the requested album.</returns>
         public List<QueueEntry> GetQueueList(string albumName)
         {
-            SQLiteConnection conn = MainWindow.conn; // there is sill a dependency for the MainWindow..
+            SQLiteConnection conn = MainWindow.Conn; // there is sill a dependency for the MainWindow..
             List<QueueEntry> queueList = new List<QueueEntry>();
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
@@ -533,6 +541,7 @@ namespace amp
                 {
                     command.CommandText =
                         string.Format("SELECT COUNT(DISTINCT ID) FROM " + Environment.NewLine +
+                                      // ReSharper disable once StringLiteralTypo
                                       "QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '{0}') ", albumName.Replace("'", "''"));
                 }
                 else
@@ -559,7 +568,8 @@ namespace amp
                 else
                 {
                     command.CommandText =
-                        string.Format("SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE " + Environment.NewLine +
+                        string.Format("SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE " +
+                                      Environment.NewLine +
                                       "FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = '{0}') " + Environment.NewLine +
                                       "GROUP BY ID, SNAPSHOTNAME " + Environment.NewLine +
                                       "ORDER BY MAX(SNAPSHOT_DATE) ", albumName.Replace("'", "''"));
@@ -570,7 +580,7 @@ namespace amp
                 {
                     while (dr.Read())
                     {
-                        queueList.Add(new QueueEntry()
+                        queueList.Add(new QueueEntry
                         {
                             CreteDate = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
                             ID = dr.GetInt32(0),
@@ -614,19 +624,19 @@ namespace amp
         /// <summary>
         /// Loads a queue to the play list with a given unique ID.
         /// </summary>
-        /// <param name="QueueID">An index a queue to load for the playback for the current album.</param>
-        public void LoadQueue(int QueueID)
+        /// <param name="queueId">An index a queue to load for the playback for the current album.</param>
+        public void LoadQueue(int queueId)
         {
-            MainWindow.RefreshLoadQueueStats(QueueID, false);
+            MainWindow.RefreshLoadQueueStats(queueId, false);
         }
 
         /// <summary>
         /// Appends a queue to the play list with a given unique ID preserving the current queue.
         /// </summary>
-        /// <param name="QueueID">An index a queue to load for the playback for the current album.</param>
-        public void AppendQueue(int QueueID)
+        /// <param name="queueId">An index a queue to load for the playback for the current album.</param>
+        public void AppendQueue(int queueId)
         {
-            MainWindow.RefreshLoadQueueStats(QueueID, true);
+            MainWindow.RefreshLoadQueueStats(queueId, true);
         }
 
         /// <summary>

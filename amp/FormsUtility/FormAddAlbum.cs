@@ -9,17 +9,10 @@ Copyright (c) VPKSoft 2018
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility
 {
     public partial class FormAddAlbum : DBLangEngineWinforms
     {
@@ -44,10 +37,8 @@ namespace amp
             {
                 return form.tbAlbumName.Text;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         private void tbAlbumName_TextChanged(object sender, EventArgs e)

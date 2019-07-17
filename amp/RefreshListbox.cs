@@ -4,14 +4,7 @@ Public domain. Free to be used in any purpose.
 */
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace amp
@@ -20,7 +13,7 @@ namespace amp
     {
         public void RefreshListBox()
         {
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
         }
 
         public new void RefreshItem(int index)

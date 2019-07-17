@@ -10,10 +10,13 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using TagLib;
-using System.IO;
 using VPKSoft.LangLib;
+using File = TagLib.File;
 
 namespace amp
 {
@@ -25,23 +28,23 @@ namespace amp
 
             DBLangEngine.DBName = "lang.sqlite";
 
-            if (VPKSoft.LangLib.Utils.ShouldLocalize() != null)
+            if (Utils.ShouldLocalize() != null)
             {
-                DBLangEngine.InitalizeLanguage("amp.Messages", VPKSoft.LangLib.Utils.ShouldLocalize(), false);
+                DBLangEngine.InitalizeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
                 return; // After localization don't do anything more.
             }
 
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        MusicFile mf = null;
+        MusicFile mf;
         List<IPicture> pictures = new List<IPicture>();
 
         private int picIndex = -1;
 
         internal void LoadTag()
         {
-            using (TagLib.File tagFile = TagLib.File.Create(mf.FullFileName))
+            using (File tagFile = File.Create(mf.FullFileName))
             {
                 if (tagFile.Tag.Title == null || tagFile.Tag.Title == string.Empty)
                 {
@@ -107,7 +110,7 @@ namespace amp
             {
                 MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data);
                 ms.Position = 0;
-                System.Drawing.Image im = System.Drawing.Image.FromStream(ms);
+                Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
         }
@@ -123,7 +126,7 @@ namespace amp
             {
                 MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data);
                 ms.Position = 0;
-                System.Drawing.Image im = System.Drawing.Image.FromStream(ms);
+                Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
         }
@@ -156,7 +159,7 @@ namespace amp
         {
             string argument = "/select, \"" + mf.FullFileName + "\"";
 
-            System.Diagnostics.Process.Start("explorer.exe", argument);
+            Process.Start("explorer.exe", argument);
         }
     }
 }

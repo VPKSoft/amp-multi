@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility
 {
     partial class FormAlbumNaming
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -296,20 +299,20 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.Label lbNamingInstruction;
-        private System.Windows.Forms.TextBox tbAlbumNaming;
-        private System.Windows.Forms.Label lbNamingSampleText;
-        private System.Windows.Forms.Label lbNamingSampleValue;
-        private System.Windows.Forms.ListBox lbDragItems;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.Button btAddToNaming;
-        private System.Windows.Forms.Button btDefaultNaming;
-        private System.Windows.Forms.Label lbRenamedSongNaming;
-        private System.Windows.Forms.Label lbNamingInstruction2;
-        private System.Windows.Forms.TextBox tbAlbumNamingRenamed;
-        private System.Windows.Forms.Label lbNamingSampleText2;
-        private System.Windows.Forms.Label lbNamingSampleRenamedValue;
+        private TableLayoutPanel tlpMain;
+        private Label lbNamingInstruction;
+        private TextBox tbAlbumNaming;
+        private Label lbNamingSampleText;
+        private Label lbNamingSampleValue;
+        private ListBox lbDragItems;
+        private Button bCancel;
+        private Button bOK;
+        private Button btAddToNaming;
+        private Button btDefaultNaming;
+        private Label lbRenamedSongNaming;
+        private Label lbNamingInstruction2;
+        private TextBox tbAlbumNamingRenamed;
+        private Label lbNamingSampleText2;
+        private Label lbNamingSampleRenamedValue;
     }
 }

@@ -9,11 +9,11 @@ Copyright (c) VPKSoft 2018
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 
-namespace amp
+namespace amp.UtilityClasses
 {
     public class M3UEntry
     {
@@ -46,7 +46,7 @@ namespace amp
 
     public class M3U
     {
-        private Encoding enc = null;
+        private Encoding enc;
         private string fileName = string.Empty;
         private string fileDir = string.Empty;
         public List<M3UEntry> M3UFiles = new List<M3UEntry>();
@@ -84,7 +84,6 @@ namespace amp
             {
                 if (fileLines[i] == string.Empty)
                 {
-                    continue;
                 }
                 else if (fileLines[i].StartsWith("#EXTINF:"))
                 {
@@ -116,7 +115,6 @@ namespace amp
                             }
                             M3UFiles.Add(new M3UEntry(fname, fileDesc));
                             i++;
-                            continue;
                         }
                     }
                 }

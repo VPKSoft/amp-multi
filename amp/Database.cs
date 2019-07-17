@@ -10,12 +10,14 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data.SQLite;
-using System.IO;
-using System.Threading;
-using System.Text.RegularExpressions;
 using System.ComponentModel;
+using System.Data.SQLite;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace amp
 {
@@ -53,7 +55,7 @@ namespace amp
         public DatabaseEventType EventType { get; set; }
 
 
-        public DatabaseEventArgs(int progress, int progressEnd, DatabaseEventType eventType): base()
+        public DatabaseEventArgs(int progress, int progressEnd, DatabaseEventType eventType)
         {
             Progress = progress;
             ProgressEnd = progressEnd;
@@ -69,7 +71,7 @@ namespace amp
 
         public delegate void OnDatabaseProgress(DatabaseEventArgs e);
 
-        public static event OnDatabaseProgress DatabaseProgress = null;
+        public static event OnDatabaseProgress DatabaseProgress;
 
         private static void OnDatabaseProgressThreadSafe(object state)
         {
@@ -141,7 +143,6 @@ namespace amp
                         mf.ID = IDFiles[i].Key;
                         IDFiles.RemoveAt(i);
                         counter++;
-                        continue;
                     }
                 }
                 if ((counter % 50) == 0)
@@ -154,7 +155,7 @@ namespace amp
             DatabaseProgressThreadSafe(new DatabaseEventArgs(count, count, DatabaseEventType.Stopped));
         }
 
-        private static bool albumChanged = false;
+        private static bool albumChanged;
 
         public static bool AlbumChanged
         {
@@ -177,9 +178,9 @@ namespace amp
                 if (oFileId != null && oAlbumId != null)
                 {
                     command.CommandText = "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX) " +
-                                          "SELECT " + oAlbumId.ToString() + ", " + oFileId.ToString() + ", 0 " +
+                                          "SELECT " + oAlbumId + ", " + oFileId + ", 0 " +
                                           "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
-                                          "ALBUM_ID = " + oAlbumId.ToString() + " AND SONG_ID = " + oFileId.ToString() + ") ";
+                                          "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + oFileId + ") ";
                     command.ExecuteNonQuery();
                 }
             }
@@ -207,9 +208,9 @@ namespace amp
             for (int i = 0; i < addSongs.Count; i++)
             {
                 sql += "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX) " +
-                       "SELECT " + oAlbumId.ToString() + ", " + addSongs[i].ID + ", 0 " +
+                       "SELECT " + oAlbumId + ", " + addSongs[i].ID + ", 0 " +
                        "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
-                       "ALBUM_ID = " + oAlbumId.ToString() + " AND SONG_ID = " + addSongs[i].ID + "); ";
+                       "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + addSongs[i].ID + "); ";
                 if ((i % 200) == 0 && i != 0)
                 {
                     ExecuteTransaction(sql, conn);
@@ -248,7 +249,7 @@ namespace amp
                     idList = idList.Substring(0, idList.Length - 2);
                     command.CommandText = "DELETE FROM ALBUMSONGS " +
                                           "WHERE " +
-                                          "ALBUM_ID = " + oAlbumId.ToString() + " AND SONG_ID IN(" + idList + ") ";
+                                          "ALBUM_ID = " + oAlbumId + " AND SONG_ID IN(" + idList + ") ";
                     command.ExecuteNonQuery();
                 }
             }
@@ -268,7 +269,7 @@ namespace amp
                 {
                     command.CommandText = "DELETE FROM ALBUMSONGS " +
                                           "WHERE " +
-                                          "ALBUM_ID = " + oAlbumId.ToString() + " AND SONG_ID = " + oFileId.ToString() + " ";
+                                          "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + oFileId + " ";
                     command.ExecuteNonQuery();
                 }
             }
@@ -464,7 +465,6 @@ namespace amp
                             MusicFile mf = files.Find(f => f.ID == dr.GetInt32(0));
                             if (append && mf.QueueIndex > 0)
                             {
-                                continue;
                             }
                             else if (append)
                             {
@@ -604,7 +604,7 @@ namespace amp
 
                             if (lines.Count == 3) // getting there.. stupid..
                             {
-                                lines.Add("DATE: " + dr.GetDateTime(4).ToString("yyyy-MM-dd HH':'mm':'ss", System.Globalization.CultureInfo.InvariantCulture));
+                                lines.Add("DATE: " + dr.GetDateTime(4).ToString("yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture));
                             } // the end of stupid.. SNIFF..
 
                             try
@@ -688,7 +688,7 @@ namespace amp
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
                 return false;
             }
 
@@ -772,7 +772,7 @@ namespace amp
         {
             public string path = string.Empty;
             public string filename = string.Empty;
-            public int id = 0;
+            public int id;
             public MusicFileEntry(string path, string filename, int id)
             {
                 this.path = path;

@@ -11,16 +11,17 @@ Copyright (c) VPKSoft 2018
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility
 {
     public partial class FormPsycho : DBLangEngineWinforms
     {
-        private static FormPsycho form = null;
+        private static FormPsycho form;
 
         public FormPsycho()
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {

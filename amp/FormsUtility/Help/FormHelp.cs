@@ -12,17 +12,18 @@ using System.Windows.Forms;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 
-namespace amp
+namespace amp.FormsUtility.Help
 {
     public partial class FormHelp : DBLangEngineWinforms
     {
         public FormHelp()
         {
             // Add this form to be positioned..
-            PositionForms.Add(this, PositionCore.SizeChangeMode.MoveTopLeft);
+            PositionForms.Add(this);
 
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -32,8 +33,8 @@ namespace amp
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        private static FormHelp thisSingleton = null;
-        private static bool allowDisposal = false;
+        private static FormHelp thisSingleton;
+        private static bool allowDisposal;
 
         public static void ShowSingleton()
         {

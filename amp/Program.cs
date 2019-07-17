@@ -10,13 +10,20 @@ Copyright (c) VPKSoft 2018
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Diagnostics;
 using System.IO;
-using VPKSoft.Utils;
+using System.Windows.Forms;
+using amp.FormsUtility;
+using amp.FormsUtility.Help;
+using amp.FormsUtility.QueueHandling;
+using amp.FormsUtility.Random;
+using amp.FormsUtility.Songs;
+using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
-using VPKSoft.ErrorLogger; // (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
-using System.Diagnostics;
+using VPKSoft.Utils;
+using Utils = VPKSoft.LangLib.Utils;
+// (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
 
 namespace amp
 {
@@ -60,7 +67,7 @@ namespace amp
         [STAThread]
         static void Main(string[] args)
         {
-            Process localizeProcess = VPKSoft.LangLib.Utils.CreateDBLocalizeProcess(VPKSoft.Utils.Paths.AppInstallDir);
+            Process localizeProcess = Utils.CreateDBLocalizeProcess(Paths.AppInstallDir);
             // localizeProcess..
 
             if (localizeProcess != null)
@@ -125,7 +132,7 @@ namespace amp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // Save languages
-            if (VPKSoft.LangLib.Utils.ShouldLocalize() != null)
+            if (Utils.ShouldLocalize() != null)
             {
                 new MainWindow();
                 new FormPsycho();

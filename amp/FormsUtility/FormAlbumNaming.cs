@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility
 {
     public partial class FormAlbumNaming : DBLangEngineWinforms
     {
@@ -21,6 +21,7 @@ namespace amp
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -31,7 +32,7 @@ namespace amp
 
             ListItems(); // list the "tag" items to the list box..
 
-            activeTextbox = tbAlbumNaming;
+            activeTextBox = tbAlbumNaming;
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace amp
             /// <summary>
             /// Gets or sets the description.
             /// </summary>
-            public string Description { get; set; } = string.Empty;
+            public string Description { private get; set; } = string.Empty;
 
             /// <summary>
             /// Returns a <see cref="System.String" /> that represents this instance.
@@ -64,43 +65,44 @@ namespace amp
         private void ListItems()
         {
             lbDragItems.Items.Clear();
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#ARTIST? - #", // the artist..
                 Description = DBLangEngine.GetMessage("msgArtists", "Artist|As in an artist(s) of a music file")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#ALBUM? - #", // the album..
                 Description = DBLangEngine.GetMessage("msgAlbum", "Album|As in a name of an album of a music file")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
-                Tag = "#TRACKNO?(^) #", // the title..
+                // ReSharper disable once StringLiteralTypo
+                Tag = @"#TRACKNO?(^) #", // the title..
                 Description = DBLangEngine.GetMessage("msgTrackNO", "Track number|As a track number of a song in a music album")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#TITLE?#", // the title..
                 Description = DBLangEngine.GetMessage("msgTitle", "Title|As in a title of a music file")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#QUEUE? [^]#", // the queue index number..
                 Description = DBLangEngine.GetMessage("msgQueueTag", "Queue index|As a queue index of a music file")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#ALTERNATE_QUEUE?[ *=^]#", // the alternate queue index..
                 Description = DBLangEngine.GetMessage("msgAlternateQueue", "Alternate queue index|As an alternate queue index of a music file")
             });
 
-            lbDragItems.Items.Add(new TagDescriptionPair()
+            lbDragItems.Items.Add(new TagDescriptionPair
             {
                 Tag = "#RENAMED?#", // a renamed song name..
                 Description = DBLangEngine.GetMessage("msgMusicFileRenamed", "I named this song my self|The user has renamed the song him self")
@@ -113,7 +115,7 @@ namespace amp
         /// <param name="sender">The sender from an event. This will be cast into a ListBox class.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         /// <param name="index">An index of a list box item at the mouse coordinates.</param>
-        /// <param name="lb">The <paramref name="sender"/> casted into a ListBox.</param>
+        /// <param name="lb">The <paramref name="sender"/> cast into a ListBox.</param>
         /// <param name="item">An item of the list box at the mouse coordinates..</param>
         /// <returns>True if an item was found in the current mouse coordinates; otherwise false.</returns>
         private bool InitDragDropListBox(object sender, MouseEventArgs e, out int index, out ListBox lb, out object item)
@@ -136,16 +138,14 @@ namespace amp
                 item = null; // ..set the item to null and..
                 return false; // ..return false..
             }
-            else // the index is valid..
-            {
-                item = lb.Items[index]; // ..set the item's value and..
-                return true; // ..return true..
-            }
+
+            item = lb.Items[index]; // ..set the item's value and..
+            return true; // ..return true..
         }
 
         private void lbDragItems_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!InitDragDropListBox(sender, e, out int index, out ListBox lb, out object dragDrop))
+            if (!InitDragDropListBox(sender, e, out _, out ListBox lb, out object dragDrop))
             {
                 return; // the click was "invalid" so just return..
             }
@@ -196,13 +196,13 @@ namespace amp
         {
             // if the data is of type of string set the effect to move..
             if (e.Data.GetDataPresent(typeof(TagDescriptionPair)) &&
-                sender.Equals(activeTextbox)) // the sender must be one of the two formula text boxes..
+                sender.Equals(activeTextBox)) // the sender must be one of the two formula text boxes..
             {
                 e.Effect = DragDropEffects.Move; // ensure a move effect..
                 TagDescriptionPair dropPair = (TagDescriptionPair)e.Data.GetData(typeof(TagDescriptionPair));
 
                 // set the text of the dropped item..
-                activeTextbox.SelectedText = dropPair.Tag;
+                activeTextBox.SelectedText = dropPair.Tag;
             }
         }
 
@@ -210,14 +210,15 @@ namespace amp
         {
             if (lbDragItems.SelectedIndex >= 0)
             {
-                activeTextbox.SelectedText = ((TagDescriptionPair)lbDragItems.SelectedItem).Tag;
+                activeTextBox.SelectedText = ((TagDescriptionPair)lbDragItems.SelectedItem).Tag;
             }
         }
 
         private void btDefaultNaming_Click(object sender, EventArgs e)
         {
-            tbAlbumNaming.Text = "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
-            tbAlbumNamingRenamed.Text = "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
+            // ReSharper disable once StringLiteralTypo
+            tbAlbumNaming.Text = @"    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
+            tbAlbumNamingRenamed.Text = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
         }
 
         private void tbCommonNaming_TextChanged(object sender, EventArgs e)
@@ -239,6 +240,7 @@ namespace amp
             bool formulaInText = // check that the formula has been parsed properly..
                 label.Text.Contains("#ARTIST") ||
                 label.Text.Contains("#ALBUM") ||
+                // ReSharper disable once StringLiteralTypo
                 label.Text.Contains("#TRACKNO") ||
                 label.Text.Contains("#QUEUE") ||
                 label.Text.Contains("#ALTERNATE_QUEUE") ||
@@ -262,11 +264,11 @@ namespace amp
             DialogResult = DialogResult.OK;
         }
 
-        private TextBox activeTextbox;
+        private TextBox activeTextBox;
 
         private void tbCommon_Enter(object sender, EventArgs e)
         {
-            activeTextbox = (TextBox)sender;
+            activeTextBox = (TextBox)sender;
             if (sender.Equals(tbAlbumNaming))
             {
                 tbAlbumNaming.BackColor = Color.PaleTurquoise;
@@ -294,11 +296,11 @@ namespace amp
             if (lb.SelectedItem != null) // check if an item is selected..
             {
                 TagDescriptionPair pair = (TagDescriptionPair)lb.SelectedItem; // get the selected item..
-                if (activeTextbox.Text.Contains(pair.Tag)) // if the text is there..
+                if (activeTextBox.Text.Contains(pair.Tag)) // if the text is there..
                 {
                     // ..select the text..
-                    activeTextbox.Select(activeTextbox.Text.IndexOf(pair.Tag), pair.Tag.Length);
-                    activeTextbox.Focus(); // set the focus to the text box..
+                    activeTextBox.Select(activeTextBox.Text.IndexOf(pair.Tag, StringComparison.Ordinal), pair.Tag.Length);
+                    activeTextBox.Focus(); // set the focus to the text box..
                 }
             }
         }

@@ -8,8 +8,10 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
-using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using amp.Properties;
 using VPKSoft.LangLib;
 
 namespace amp
@@ -24,15 +26,15 @@ namespace amp
             }
         }
 
-        private System.Drawing.Bitmap GetNextImg(int goNum)
+        private Bitmap GetNextImg(int goNum)
         {
-            List<System.Drawing.Bitmap> albumImages = new List<System.Drawing.Bitmap>
+            List<Bitmap> albumImages = new List<Bitmap>
             {
-                Properties.Resources.album_blue,
-                Properties.Resources.album_byellow,
-                Properties.Resources.album_green,
-                Properties.Resources.album_red,
-                Properties.Resources.album_teal
+                Resources.album_blue,
+                Resources.album_byellow,
+                Resources.album_green,
+                Resources.album_red,
+                Resources.album_teal
             };
             return albumImages[goNum % 5];
         }
@@ -40,7 +42,7 @@ namespace amp
         private void ListAlbums(int checkAlbum = -1)
         {
             mnuAlbum.DropDownItems.Clear();
-            List<Album> albums = Database.GetAlbums(conn);
+            List<Album> albums = Database.GetAlbums(Conn);
 
             int aNum = 0;
             foreach (Album album in albums)
@@ -51,7 +53,7 @@ namespace amp
                 {
                     item.Checked = true;
                 }
-                item.Click += selectAlbumClick;
+                item.Click += SelectAlbumClick;
                 mnuAlbum.DropDownItems.Add(item);
             }
         }
@@ -124,7 +126,7 @@ namespace amp
                         }
                         else
                         {
-                            iSongIndex = random.Next(0, PlayList.Count);
+                            iSongIndex = Random.Next(0, PlayList.Count);
                         }
                         latestSongIndex = iSongIndex;
                         PlaySong(iSongIndex, true);

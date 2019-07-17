@@ -12,7 +12,7 @@ using System;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility.QueueHandling
 {
     public partial class FormQueueSnapshotName : DBLangEngineWinforms
     {
@@ -20,6 +20,7 @@ namespace amp
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -47,24 +48,21 @@ namespace amp
             }
             else
             {
-                queueName.tbQueueName.Text = namePart + ": " + albumName + " - " + DateTime.Now.ToLongDateString() + " (" + DateTime.Now.ToShortTimeString() + ")";
+                queueName.tbQueueName.Text = namePart + @": " + albumName + @" - " + DateTime.Now.ToLongDateString() +
+                                             @" (" + DateTime.Now.ToShortTimeString() + @")";
             }
 
             if (queueName.ShowDialog() == DialogResult.OK)
             {
                 return queueName.tbQueueName.Text;
             }
-            else
+
+            if (overrideName)
             {
-                if (overrideName)
-                {
-                    return albumName;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return albumName;
             }
+
+            return string.Empty;
         }
 
         private void tbQueueName_TextChanged(object sender, EventArgs e)

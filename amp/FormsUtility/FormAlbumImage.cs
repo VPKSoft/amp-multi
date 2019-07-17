@@ -9,10 +9,13 @@ Copyright (c) VPKSoft 2018
 #endregion
 
 using System;
+using System.Drawing;
 using System.IO;
+using amp.Properties;
+using TagLib;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility
 {
     public partial class FormAlbumImage : DBLangEngineWinforms
     {
@@ -21,51 +24,49 @@ namespace amp
             InitializeComponent();
         }
 
-        public static FormAlbumImage thisInstance = null;
+        public static FormAlbumImage ThisInstance;
 
-        private static MainWindow activateWindow = null;
+        private static MainWindow activateWindow;
 
         private static bool firstShow = true;
 
         public static void Reposition(MainWindow mw, int top)
         {
-            if (thisInstance != null)
+            if (ThisInstance != null)
             {
                 activateWindow = mw;
-                thisInstance.Left = mw.Left + mw.Width;
-                thisInstance.Top = top;
+                ThisInstance.Left = mw.Left + mw.Width;
+                ThisInstance.Top = top;
             }
         }
 
         public static void Show(MainWindow mw, MusicFile mf, int top)
         {
-            if (thisInstance == null)
+            if (ThisInstance == null)
             {
-                thisInstance = new FormAlbumImage();
-                thisInstance.Owner = mw;
+                ThisInstance = new FormAlbumImage {Owner = mw};
             }
             mf.LoadPic();
             try
             {
                 if (mf.Pictures != null && mf.Pictures.Length > 0)
                 {
-                    TagLib.IPicture pic = mf.Pictures[0];
-                    MemoryStream ms = new MemoryStream(pic.Data.Data);
-                    ms.Position = 0;
-                    System.Drawing.Image im = System.Drawing.Image.FromStream(ms);
-                    thisInstance.pbAlbum.Image = im;
+                    IPicture pic = mf.Pictures[0];
+                    MemoryStream ms = new MemoryStream(pic.Data.Data) {Position = 0};
+                    Image im = Image.FromStream(ms);
+                    ThisInstance.pbAlbum.Image = im;
                 }
                 else
                 {
-                    thisInstance.pbAlbum.Image = Properties.Resources.music_note;
+                    ThisInstance.pbAlbum.Image = Resources.music_note;
                 }
             }
             catch
             {
-                thisInstance.pbAlbum.Image = Properties.Resources.music_note;
+                ThisInstance.pbAlbum.Image = Resources.music_note;
             }
-            thisInstance.Visible = thisInstance.pbAlbum.Image != null;
-            if (firstShow && thisInstance.Visible)
+            ThisInstance.Visible = ThisInstance.pbAlbum.Image != null;
+            if (firstShow && ThisInstance.Visible)
             {
                 mw.BringToFront();
             }
@@ -75,10 +76,7 @@ namespace amp
 
         private void FormAlbumImage_Activated(object sender, EventArgs e)
         {
-            if (activateWindow != null)
-            {
-                activateWindow.Activate();
-            }
+            activateWindow?.Activate();
         }
     }
 }

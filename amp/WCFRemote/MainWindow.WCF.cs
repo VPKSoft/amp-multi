@@ -12,8 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using amp.Properties;
+using amp.WCFRemote;
 using NAudio.Wave;
+// ReSharper disable IdentifierTypo
 
+// ReSharper disable once CheckNamespace
 namespace amp
 {
     // For the remote control
@@ -43,19 +47,23 @@ namespace amp
             VisualizePlaybackState();
         }
 
-        public void Play(int ID = -1)
+        public void Play(int id = -1)
         {
-            if (ID != -1)
+            if (id != -1)
             {
-                for (int i = 0; i < lbMusic.Items.Count; i++)
+                foreach (var item in lbMusic.Items)
                 {
-                    if ((lbMusic.Items[i] as MusicFile).ID == ID)
+                    if (((MusicFile) item).ID == id)
                     {
-                        UpdateNPlayed(mFile, Skipped);
-                        mFile = lbMusic.Items[i] as MusicFile;
-                        latestSongIndex = mFile.VisualIndex;
-                        UpdateNPlayed(mFile, false);
-                        newsong = true;
+                        UpdateNPlayed(MFile, Skipped);
+                        MFile = item as MusicFile;
+                        if (MFile != null)
+                        {
+                            latestSongIndex = MFile.VisualIndex;
+                            UpdateNPlayed(MFile, false);
+                        }
+
+                        newSong = true;
                     }
                 }
             }
@@ -76,18 +84,18 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = Properties.Resources.amp_play;
+                    tbPlayNext.Image = Resources.amp_play;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
                 }
                 else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
-                    tbPlayNext.Image = Properties.Resources.amp_pause;
+                    tbPlayNext.Image = Resources.amp_pause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                 }
             }
             else
             {
-                tbPlayNext.Image = Properties.Resources.amp_play;
+                tbPlayNext.Image = Resources.amp_play;
                 tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
             }
         }
@@ -152,7 +160,7 @@ namespace amp
                 {
                     if (playing)
                     {
-                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(mFile));
+                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(MFile));
                     }
                     else
                     {
@@ -184,11 +192,11 @@ namespace amp
         public void Queue(bool insert, List<int> songIDs)
         {
             List<MusicFile> qFiles = new List<MusicFile>();
-            foreach (int songID in songIDs)
+            foreach (int songId in songIDs)
             {
                 foreach (MusicFile mf in lbMusic.Items)
                 {
-                    if (mf.ID == songID)
+                    if (mf.ID == songId)
                     {
                         qFiles.Add(mf);
                     }
@@ -201,7 +209,7 @@ namespace amp
                 {
                     if (playing)
                     {
-                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(mFile));
+                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(MFile));
                     }
                     else
                     {
@@ -225,12 +233,12 @@ namespace amp
 
         public void RefreshLoadQueueStats(int queueIndex, bool append)
         {
-            Database.LoadQueue(ref PlayList, conn, queueIndex, append);
+            Database.LoadQueue(ref PlayList, Conn, queueIndex, append);
             lbMusic.RefreshItems();
             GetQueueCount();
         }
 
-        private bool albumChanged = false;
+        private bool albumChanged;
 
         public bool AlbumChanged
         {
@@ -246,15 +254,7 @@ namespace amp
             }
         }
 
-        private bool albumLoading = false;
-
-        public bool AlbumLoading
-        {
-            get
-            {
-                return albumLoading;
-            }
-        }
+        public bool AlbumLoading { get; private set; }
 
         public bool SongsChanged
         {
@@ -266,28 +266,16 @@ namespace amp
 
         public bool Randomizing
         {
-            get
-            {
-                return tbRand.Checked;
-            }
+            get => tbRand.Checked;
 
-            set
-            {
-                tbRand.Checked = value;
-            }
+            set => tbRand.Checked = value;
         }
 
         public bool Suffle
         {
-            get
-            {
-                return tbShuffle.Checked;
-            }
+            get => tbShuffle.Checked;
 
-            set
-            {
-                tbShuffle.Checked = value;
-            }
+            set => tbShuffle.Checked = value;
         }
 
         public void RemoveSongFromAlbum(AlbumSongWCF asf)
@@ -298,7 +286,7 @@ namespace amp
 
             for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
             {
-                if ((lbMusic.Items[i] as MusicFile).ID == asf.ID)
+                if (((MusicFile) lbMusic.Items[i]).ID == asf.ID)
                 {
                     lbMusic.Items.RemoveAt(i);
                     break;
@@ -313,18 +301,18 @@ namespace amp
                 MusicFile.RemoveByID(ref PlayList, mf.ID);
             }
 
-            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, conn);
+            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
             humanActivity.Enabled = true;
             lbMusic.ResumeLayout();
         }
 
         public bool SetRating(int rating)
         {
-            if (mFile != null && rating >= 0 && rating <= 1000)
+            if (MFile != null && rating >= 0 && rating <= 1000)
             {
-                mFile.Rating = rating;
-                mFile.RatingChanged = true;
-                SaveRating(mFile);
+                MFile.Rating = rating;
+                MFile.RatingChanged = true;
+                SaveRating(MFile);
                 return true;
             }
             return false;
@@ -336,10 +324,10 @@ namespace amp
             {
                 volumeStream.Volume = volume;
 
-                if (mFile != null)
+                if (MFile != null)
                 {
-                    mFile.Volume = volumeStream.Volume;
-                    Database.SaveVolume(mFile, conn);
+                    MFile.Volume = volumeStream.Volume;
+                    Database.SaveVolume(MFile, Conn);
                     return true;
                 }
                 return false;
@@ -347,56 +335,58 @@ namespace amp
             return false;
         }
 
-        public bool SetVolume(List<int> songIDList, float volume)
+        public bool SetVolume(List<int> songIdList, float volume)
         {
-            if (volume >= 0F && volume <= 2.0F && songIDList != null && songIDList.Count > 0)
+            if (volume >= 0F && volume <= 2.0F && songIdList != null && songIdList.Count > 0)
             {
-                for (int i = 0; i < PlayList.Count; i++)
-                {                    
-                    if (songIDList.Exists(f => f == PlayList[i].ID))
-                    {
-                        PlayList[i].Volume = volume;
-                        Database.SaveVolume(PlayList[i], conn);
-                        int lbIdx = GetListBoxIndexByID(PlayList[i].ID);
-                        if (lbIdx >= 0)
-                        {
-                            lbMusic.Items[lbIdx] = PlayList[i];
-                        }
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public bool SetRating(List<int> songIDList, int rating)
-        {
-            if (rating >= 0 && rating <= 1000 && songIDList != null && songIDList.Count > 0)
-            {
-                for (int i = 0; i < PlayList.Count; i++)
+                foreach (var item in PlayList)
                 {
-                    if (songIDList.Exists(f => f == PlayList[i].ID))
+                    if (songIdList.Exists(f => f == item.ID))
                     {
-                        PlayList[i].Rating = rating;
-                        PlayList[i].RatingChanged = true;
-                        SaveRating(PlayList[i]);
-                        int lbIdx = GetListBoxIndexByID(PlayList[i].ID);
+                        item.Volume = volume;
+                        Database.SaveVolume(item, Conn);
+                        int lbIdx = GetListBoxIndexById(item.ID);
                         if (lbIdx >= 0)
                         {
-                            lbMusic.Items[lbIdx] = PlayList[i];
+                            lbMusic.Items[lbIdx] = item;
                         }
                     }
                 }
+
                 return true;
             }
             return false;
         }
 
-        private int GetListBoxIndexByID(int ID)
+        public bool SetRating(List<int> songIdList, int rating)
+        {
+            if (rating >= 0 && rating <= 1000 && songIdList != null && songIdList.Count > 0)
+            {
+                foreach (var item in PlayList)
+                {
+                    if (songIdList.Exists(f => f == item.ID))
+                    {
+                        item.Rating = rating;
+                        item.RatingChanged = true;
+                        SaveRating(item);
+                        int lbIdx = GetListBoxIndexById(item.ID);
+                        if (lbIdx >= 0)
+                        {
+                            lbMusic.Items[lbIdx] = item;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        private int GetListBoxIndexById(int id)
         {
             for (int i = 0; i < lbMusic.Items.Count; i++)
             {
-                if (((MusicFile)lbMusic.Items[i]).ID == ID)
+                if (((MusicFile)lbMusic.Items[i]).ID == id)
                 {
                     return i;
                 }
@@ -406,18 +396,18 @@ namespace amp
 
         public List<AlbumWCF> GetAlbums()
         {
-            List<Album> albums = Database.GetAlbums(conn);
-            List<AlbumWCF> albumsWCF = new List<AlbumWCF>();
+            List<Album> albums = Database.GetAlbums(Conn);
+            List<AlbumWCF> albumsWcf = new List<AlbumWCF>();
             foreach (Album album in albums)
             {
-                albumsWCF.Add(new AlbumWCF { Name = album.AlbumName });
+                albumsWcf.Add(new AlbumWCF { Name = album.AlbumName });
             }
-            return albumsWCF;
+            return albumsWcf;
         }
 
         public bool SelectAlbum(string name)
         {
-            List<Album> albums = Database.GetAlbums(conn);
+            List<Album> albums = Database.GetAlbums(Conn);
             foreach (Album album in albums)
             {
                 foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
@@ -427,7 +417,7 @@ namespace amp
                     {
                         DisableChecks();
                         item.Checked = true;
-                        Database.SaveQueue(PlayList, conn, CurrentAlbum);
+                        Database.SaveQueue(PlayList, Conn, CurrentAlbum);
                         GetAlbum(name);
                         return true;
                     }
@@ -437,12 +427,6 @@ namespace amp
             return false;
         }
 
-        public bool CanGoPrevious
-        {
-            get
-            {
-                return playedSongs.Count >= 2;
-            }
-        }
+        public bool CanGoPrevious => playedSongs.Count >= 2;
     }
 }

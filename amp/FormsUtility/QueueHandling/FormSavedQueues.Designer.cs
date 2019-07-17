@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility.QueueHandling
 {
     partial class FormSavedQueues
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -248,22 +251,22 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView lvQueues;
-        private System.Windows.Forms.ColumnHeader colQueueName;
-        private System.Windows.Forms.ColumnHeader colQueueSaveTime;
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.ToolStrip tsMain;
-        private System.Windows.Forms.ToolStripButton tsbRemove;
-        private System.Windows.Forms.ToolStripButton tsbSave;
-        private System.Windows.Forms.ToolStripButton tsbModifySavedQueue;
-        private System.Windows.Forms.ToolStripButton tsbRefresh;
-        private System.Windows.Forms.ToolStripButton tsbExportQueue;
-        private System.Windows.Forms.ToolStripButton tsbImportQueue;
-        private System.Windows.Forms.SaveFileDialog sdExportQueue;
-        private System.Windows.Forms.OpenFileDialog odExportQueue;
-        private System.Windows.Forms.Button btAppendQueue;
+        private ListView lvQueues;
+        private ColumnHeader colQueueName;
+        private ColumnHeader colQueueSaveTime;
+        private TableLayoutPanel tlpMain;
+        private Button bCancel;
+        private Button bOK;
+        private ToolStrip tsMain;
+        private ToolStripButton tsbRemove;
+        private ToolStripButton tsbSave;
+        private ToolStripButton tsbModifySavedQueue;
+        private ToolStripButton tsbRefresh;
+        private ToolStripButton tsbExportQueue;
+        private ToolStripButton tsbImportQueue;
+        private SaveFileDialog sdExportQueue;
+        private OpenFileDialog odExportQueue;
+        private Button btAppendQueue;
 
     }
 }

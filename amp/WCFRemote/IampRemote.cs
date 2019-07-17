@@ -12,8 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
+// ReSharper disable All
 
-namespace amp
+namespace amp.WCFRemote
 {
     // netsh http add urlacl url=http://+:11316/ampRemote/ user="%USERNAME%"
     // netsh http delete urlacl url=http://+:11316/ampRemote/
@@ -24,6 +27,7 @@ namespace amp
     /// Remote control interface for the amp#
     /// </summary>
     [ServiceContract(Namespace = "http://ampRemote")]
+    // ReSharper disable once InconsistentNaming
     public interface IampRemote
     {
         /// <summary>
@@ -36,7 +40,7 @@ namespace amp
         /// <summary>
         /// Plays the next song. The next song to be played depends on the queue, random and shuffle states of the program.
         /// </summary>
-        [OperationContract()]
+        [OperationContract]
         void NextSong();
 
         /// <summary>
@@ -122,7 +126,7 @@ namespace amp
         /// Inserts or appends to the queue the given song ID list.
         /// </summary>
         /// <param name="insert">Whether to insert or append to the queue.</param>
-        /// <param name="queueList">A list of songs ID's to be appended or inserted into the queue.</param>
+        /// <param name="songIDs">A list of songs ID's to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
         List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs);
@@ -138,7 +142,7 @@ namespace amp
         /// Inserts or appends to the queue the given song ID list.
         /// </summary>
         /// <param name="insert">Whether to insert or append to the queue.</param>
-        /// <param name="songID">A list of song IDs to be appended or inserted into the queue.</param>
+        /// <param name="songIDs">A list of song IDs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
         List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs);
@@ -232,6 +236,7 @@ namespace amp
         /// </summary>
         /// <param name="value">A value indicating if the shuffling should be on or off.</param>
         [OperationContract]
+        // ReSharper disable once IdentifierTypo
         void SetSuffle(bool value);
 
         /// <summary>

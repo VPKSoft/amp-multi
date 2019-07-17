@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility
 {
     partial class FormAlbumImage
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -77,8 +80,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel pnBorderSeparator;
-        private System.Windows.Forms.PictureBox pbAlbum;
+        private Panel pnBorderSeparator;
+        private PictureBox pbAlbum;
 
     }
 }

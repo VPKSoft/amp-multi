@@ -12,7 +12,7 @@ using System;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp
+namespace amp.FormsUtility.Random
 {
     public partial class FormRandomizePriority : DBLangEngineWinforms
     {
@@ -20,11 +20,12 @@ namespace amp
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
 
-            if (VPKSoft.LangLib.Utils.ShouldLocalize() != null)
+            if (Utils.ShouldLocalize() != null)
             {
-                DBLangEngine.InitalizeLanguage("amp.Messages", VPKSoft.LangLib.Utils.ShouldLocalize(), false);
+                DBLangEngine.InitalizeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
                 return; // After localization don't do anything more.
             }
 
@@ -40,7 +41,7 @@ namespace amp
             suspendCheckedChanged = false;
         }
 
-        private bool suspendCheckedChanged = false;
+        private readonly bool suspendCheckedChanged;
 
         private void SetBiasedRandomValue(TrackBar trackBar, CheckBox checkBox, double biasedRating, bool biasedRatingEnabled)
         {
@@ -55,10 +56,8 @@ namespace amp
             {
                 return -1;
             }
-            else
-            {
-                return (double)trackBar.Value / 10;
-            }
+
+            return (double)trackBar.Value / 10;
         }
 
         private void btOK_Click(object sender, EventArgs e)
@@ -98,7 +97,7 @@ namespace amp
 
         private void tbTolerancePercentage_ValueChanged(object sender, EventArgs e)
         {
-            lbTolerancePercentageValue.Text = $"{tbTolerancePercentage.Value / 10}";
+            lbTolerancePercentageValue.Text = $@"{tbTolerancePercentage.Value / 10}";
         }
 
         private void cbCommon_CheckedChanged(object sender, EventArgs e)

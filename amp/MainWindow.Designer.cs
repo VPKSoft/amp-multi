@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp
 {
     partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -585,52 +588,52 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer tmSeek;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem mnuFile;
-        private System.Windows.Forms.ToolStrip tbTool;
-        private System.Windows.Forms.ToolStripButton tbRand;
-        private System.Windows.Forms.ToolStripButton tbShuffle;
-        private System.Windows.Forms.ToolStripButton tbPlayNext;
-        private System.Windows.Forms.ToolStripButton tbPrevious;
-        private System.Windows.Forms.ToolStripButton tbNext;
-        private System.Windows.Forms.ToolStripMenuItem mnuAlbum;
-        private System.Windows.Forms.ToolStripMenuItem mnuNewAlbum;
-        private System.Windows.Forms.StatusStrip ssStatus;
-        private System.Windows.Forms.ToolStripStatusLabel lbQueueCount;
-        private System.Windows.Forms.ToolStripButton tbShowQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuSelectAll;
-        private System.Windows.Forms.ToolStripMenuItem mnuPlayListM3U;
-        private System.Windows.Forms.ToolStripMenuItem mnuPlayListM3UNewAlbum;
-        private System.Windows.Forms.ToolStripMenuItem mnuPlayListM3UToCurrentAlbum;
-        private System.Windows.Forms.OpenFileDialog odM3U;
-        private System.Windows.Forms.ToolStripMenuItem mnuPlaylistM3UExport;
-        private System.Windows.Forms.SaveFileDialog sdM3U;
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
+        private Timer tmSeek;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem mnuFile;
+        private ToolStrip tbTool;
+        private ToolStripButton tbRand;
+        private ToolStripButton tbShuffle;
+        private ToolStripButton tbPlayNext;
+        private ToolStripButton tbPrevious;
+        private ToolStripButton tbNext;
+        private ToolStripMenuItem mnuAlbum;
+        private ToolStripMenuItem mnuNewAlbum;
+        private StatusStrip ssStatus;
+        private ToolStripStatusLabel lbQueueCount;
+        private ToolStripButton tbShowQueue;
+        private ToolStripMenuItem mnuSelectAll;
+        private ToolStripMenuItem mnuPlayListM3U;
+        private ToolStripMenuItem mnuPlayListM3UNewAlbum;
+        private ToolStripMenuItem mnuPlayListM3UToCurrentAlbum;
+        private OpenFileDialog odM3U;
+        private ToolStripMenuItem mnuPlaylistM3UExport;
+        private SaveFileDialog sdM3U;
+        private TableLayoutPanel tlpMain;
         private RefreshListbox lbMusic;
-        private System.Windows.Forms.TextBox tbFind;
-        private System.Windows.Forms.HScrollBar scProgress;
-        private System.Windows.Forms.Panel pnTools;
-        private System.Windows.Forms.Panel pnStars0;
-        private System.Windows.Forms.Panel pnStars1;
-        private System.Windows.Forms.Panel pnVol1;
-        private System.Windows.Forms.Panel pnVol2;
-        private System.Windows.Forms.Label lbSong;
-        private System.Windows.Forms.Label lbTime;
-        private System.Windows.Forms.Timer tmPendOperation;
-        private System.Windows.Forms.ToolStripMenuItem mnuQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuSaveQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuLoadQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuSettings;
-        private System.Windows.Forms.ToolStripMenuItem mnuShowQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuDeQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuSongInfo;
-        private System.Windows.Forms.ToolStripMenuItem mnuScrambleQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuShowAlternateQueue;
-        private System.Windows.Forms.ToolStripMenuItem mnuHelp;
-        private System.Windows.Forms.ToolStripMenuItem mnuHelpItem;
-        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
-        private System.Windows.Forms.ToolStripMenuItem mnuShowAllSongs;
+        private TextBox tbFind;
+        private HScrollBar scProgress;
+        private Panel pnTools;
+        private Panel pnStars0;
+        private Panel pnStars1;
+        private Panel pnVol1;
+        private Panel pnVol2;
+        private Label lbSong;
+        private Label lbTime;
+        private Timer tmPendOperation;
+        private ToolStripMenuItem mnuQueue;
+        private ToolStripMenuItem mnuSaveQueue;
+        private ToolStripMenuItem mnuLoadQueue;
+        private ToolStripMenuItem mnuSettings;
+        private ToolStripMenuItem mnuShowQueue;
+        private ToolStripMenuItem mnuDeQueue;
+        private ToolStripMenuItem mnuSongInfo;
+        private ToolStripMenuItem mnuScrambleQueue;
+        private ToolStripMenuItem mnuShowAlternateQueue;
+        private ToolStripMenuItem mnuHelp;
+        private ToolStripMenuItem mnuHelpItem;
+        private ToolStripMenuItem mnuAbout;
+        private ToolStripMenuItem mnuShowAllSongs;
     }
 }
 

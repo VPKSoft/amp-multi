@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility
 {
     partial class FormPsycho
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -75,7 +78,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lbLoading;
-        private System.Windows.Forms.Label lbStatus;
+        private Label lbLoading;
+        private Label lbStatus;
     }
 }

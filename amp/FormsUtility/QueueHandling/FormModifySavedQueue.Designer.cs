@@ -1,11 +1,14 @@
-﻿namespace amp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace amp.FormsUtility.QueueHandling
 {
     partial class FormModifySavedQueue
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -184,15 +187,15 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
-        private System.Windows.Forms.Button bCancel;
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.ListView lvPlayList;
-        private System.Windows.Forms.ColumnHeader colQueueIndex;
-        private System.Windows.Forms.ColumnHeader colSongName;
-        private System.Windows.Forms.ToolStrip tsMain;
-        private System.Windows.Forms.ToolStripButton tsbMoveUp;
-        private System.Windows.Forms.ToolStripButton tsbMoveDown;
-        private System.Windows.Forms.ToolStripButton tsbRemove;
+        private TableLayoutPanel tlpMain;
+        private Button bCancel;
+        private Button bOK;
+        private ListView lvPlayList;
+        private ColumnHeader colQueueIndex;
+        private ColumnHeader colSongName;
+        private ToolStrip tsMain;
+        private ToolStripButton tsbMoveUp;
+        private ToolStripButton tsbMoveDown;
+        private ToolStripButton tsbRemove;
     }
 }

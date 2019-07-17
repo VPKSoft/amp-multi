@@ -128,7 +128,7 @@ namespace amp
         }
 
         #region BiasedRandomization
-        private static bool? _BiasedRandom = null;
+        private static bool? _BiasedRandom;
         public static bool BiasedRandom
         {
             get
@@ -365,7 +365,7 @@ namespace amp
         #endregion
 
         // the current language (Culture) to be used with the software..
-        private static CultureInfo _Culture = null;
+        private static CultureInfo _Culture;
 
         /// <summary>
         /// Gets or sets the current language (Culture) to be used with the software's localization.

@@ -8,10 +8,11 @@ Copyright (c) VPKSoft 2018
 */
 #endregion
 
-using System.Windows.Forms;
 using System.Collections.Generic;
-using VPKSoft.LangLib;
+using System.Windows.Forms;
+using amp.FormsUtility.Songs;
 using VPKSoft.KeySendList;
+using VPKSoft.LangLib;
 
 namespace amp
 {
@@ -53,16 +54,17 @@ namespace amp
             {
                 if (lbMusic.SelectedItem != null)
                 {
-                    UpdateNPlayed(mFile, Skipped);
-                    mFile = lbMusic.SelectedItem as MusicFile;
-                    latestSongIndex = mFile.VisualIndex;
-                    UpdateNPlayed(mFile, false);
-                    newsong = true;
+                    UpdateNPlayed(MFile, Skipped);
+                    MFile = lbMusic.SelectedItem as MusicFile;
+                    latestSongIndex = MFile.VisualIndex;
+                    UpdateNPlayed(MFile, false);
+                    newSong = true;
                     e.Handled = true;
                 }
                 return true;
             }
-            else if (e.KeyCode == Keys.Delete)
+
+            if (e.KeyCode == Keys.Delete)
             {
                 lbMusic.SuspendLayout();
                 humanActivity.Enabled = false;
@@ -74,19 +76,20 @@ namespace amp
                     lbMusic.Items.RemoveAt(lbMusic.SelectedIndices[i]);
                     MusicFile.RemoveByID(ref PlayList, mf.ID);
                 }
-                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, conn);
+                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
                 humanActivity.Enabled = true;
                 lbMusic.ResumeLayout();
                 return true;
             }
-            else if (e.KeyCode == Keys.F2)
+
+            if (e.KeyCode == Keys.F2)
             {
                 if (lbMusic.SelectedItem != null)
                 {
                     humanActivity.Enabled = false;
                     MusicFile mf = lbMusic.SelectedItem as MusicFile;
                     string s = FormRename.Execute(mf);
-                    Database.SaveOverrideName(ref mf, s, conn);
+                    Database.SaveOverrideName(ref mf, s, Conn);
                     lbMusic.RefreshItem(lbMusic.SelectedIndex);
                     e.SuppressKeyPress = true;
                     e.Handled = true;
@@ -94,7 +97,8 @@ namespace amp
                 }
                 return true;
             }
-            else if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
+
+            if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
             {
                 foreach (MusicFile mf in lbMusic.SelectedItems)
                 {
@@ -102,7 +106,7 @@ namespace amp
                     {
                         if (playing || Filtered != FilterType.NoneFiltered)
                         {
-                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(mFile));
+                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(MFile));
                         }
                         else
                         {
@@ -130,7 +134,8 @@ namespace amp
                 e.SuppressKeyPress = true;
                 return true;
             }
-            else if (e.KeyCode == Keys.Multiply)
+
+            if (e.KeyCode == Keys.Multiply)
             {
                 foreach (MusicFile mf in lbMusic.SelectedItems)
                 {
@@ -138,7 +143,7 @@ namespace amp
                     {
                         if (playing || Filtered != FilterType.NoneFiltered)
                         {
-                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(mFile));
+                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(MFile));
                         }
                         else
                         {
