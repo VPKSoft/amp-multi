@@ -43,9 +43,10 @@ namespace amp.UtilityClasses.Controls
             try
             {
                 TopIndex = t;
-            } catch
+            }
+            catch
             {
-
+                // ignored..
             }
         }
 
@@ -57,11 +58,11 @@ namespace amp.UtilityClasses.Controls
                 {
                     ClearSelected();
                 }
-                    SelectedIndex = index;
+                SelectedIndex = index;
             }
             catch
             {
-
+                // ignored..
             }
         }
 
@@ -94,7 +95,7 @@ namespace amp.UtilityClasses.Controls
             }
             catch
             {
-
+                // ignored..
             }
         }
     }

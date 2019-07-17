@@ -70,7 +70,7 @@ namespace amp
             this.sdM3U = new System.Windows.Forms.SaveFileDialog();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lbSong = new System.Windows.Forms.Label();
-            this.lbMusic = new RefreshListbox();
+            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.lbTime = new System.Windows.Forms.Label();
             this.tbFind = new System.Windows.Forms.TextBox();
             this.scProgress = new System.Windows.Forms.HScrollBar();

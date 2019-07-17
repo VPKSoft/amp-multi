@@ -76,7 +76,7 @@ namespace amp
         public List<MusicFile> PlayList = new List<MusicFile>();
 
         // list of indexes of the played songs in the PlayList..
-        private List<int> playedSongs = new List<int>();
+        private readonly List<int> playedSongs = new List<int>();
 
         // a flag indicating if the player thread is active..
         private volatile bool playerThreadLoaded;
@@ -140,7 +140,7 @@ namespace amp
             foreach (Album album in albums)
             {
                 ToolStripMenuItem item = sender as ToolStripMenuItem;
-                if (item != null && ((int)item.Tag == album.ID && album.AlbumName != CurrentAlbum))
+                if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
                 {
                     DisableChecks();
                     item.Checked = true;
@@ -173,43 +173,43 @@ namespace amp
             try
             {
                 WaveChannel32 inputStream;
-                if (fileName.ToUpper().EndsWith(".mp3".ToUpper()))
+                if (Constants.FileIsMp3(fileName))
                 {
                     Mp3FileReader fr = new Mp3FileReader(fileName);
                     WaveStream mp3Reader = fr;
                     inputStream = new WaveChannel32(mp3Reader);
                 }
-                else if (fileName.ToUpper().EndsWith(".ogg".ToUpper()))
+                else if (Constants.FileIsOgg(fileName))
                 {
                     VorbisWaveReader fr = new VorbisWaveReader(fileName);
                     WaveStream oggReader = fr;
                     inputStream = new WaveChannel32(oggReader);
                 }
-                else if (fileName.ToUpper().EndsWith(".wav".ToUpper()))
+                else if (Constants.FileIsWav(fileName))
                 {
                     WaveFileReader fr = new WaveFileReader(fileName);
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
-                else if (fileName.ToUpper().EndsWith(".flac".ToUpper()))
+                else if (Constants.FileIsFlac(fileName))
                 {
                     FlacReader fr = new FlacReader(fileName);
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
-                else if (fileName.ToUpper().EndsWith(".wma".ToUpper()))
+                else if (Constants.FileIsWma(fileName))
                 {
                     WMAFileReader fr = new WMAFileReader(fileName);
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
-                else if (fileName.ToUpper().EndsWith(".m4a".ToUpper()) || fileName.ToUpper().EndsWith(".aac".ToUpper())) // Added: 01.02.2018
+                else if (Constants.FileIsAacOrM4A(fileName)) // Added: 01.02.2018
                 {
                     MediaFoundationReader fr = new MediaFoundationReader(fileName);
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
-                else if (fileName.ToUpper().EndsWith(".aif".ToUpper()) || fileName.ToUpper().EndsWith(".aiff".ToUpper())) // Added: 01.02.2018
+                else if (Constants.FileIsAif(fileName)) // Added: 01.02.2018
                 {
                     AiffFileReader fr = new AiffFileReader(fileName);
                     WaveStream wavReader = fr;
@@ -603,8 +603,6 @@ namespace amp
             fileAddThread.Start();
         }
 
-        private string[] extensions = {".MP3", ".OGG", ".FLAC", ".WMA", ".WAV", ".M4A", ".AAC", ".AIF", ".AIFF"};
-
         private void ThreadFilesAdd()
         {
             if (addFiles)
@@ -613,20 +611,19 @@ namespace amp
                 List<MusicFile> addList = new List<MusicFile>();
                 foreach (string filePath in fileAddList)
                 {
-                    if (extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
+                    if (Constants.Extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
                     {
-                        MusicFile mf;
                         if (!File.Exists(filePath))
                         {
                             continue;
                         }
 
-                        mf = new MusicFile(filePath);
+                        var mf = new MusicFile(filePath);
                         addList.Add(mf);
                     }
                 }
 
-                Database.AddFileToDB(addList, Conn);
+                Database.AddFileToDb(addList, Conn);
 
                 Database.GetIDsForSongs(ref addList, Conn);
                 Database.AddSongToAlbum(CurrentAlbum, addList, Conn);
@@ -651,19 +648,18 @@ namespace amp
 
             foreach (string filePath in musicFiles)
             {
-                if (extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
+                if (Constants.Extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
                 {
-                    MusicFile mf;
                     if (!File.Exists(filePath))
                     {
                         continue;
                     }
 
-                    mf = new MusicFile(filePath);
+                    var mf = new MusicFile(filePath);
                     addList.Add(mf);
                 }
             }
-            Database.AddFileToDB(addList, Conn);
+            Database.AddFileToDb(addList, Conn);
 
             Database.GetIDsForSongs(ref addList, Conn);
             Database.AddSongToAlbum(CurrentAlbum, addList, Conn);
@@ -712,11 +708,11 @@ namespace amp
 
         void Database_DatabaseProgress(DatabaseEventArgs e)
         {
-            if (e.EventType == DatabaseEventType.UpdateSongDB)
+            if (e.EventType == DatabaseEventType.UpdateSongDb)
             {                
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgUpdateDB", "Updating song list: {0} / {1}...|A conditional database update is in progress.", e.Progress, e.ProgressEnd));
             }
-            else if (e.EventType == DatabaseEventType.InsertSongDB)
+            else if (e.EventType == DatabaseEventType.InsertSongDb)
             {
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgAddDB", "Adding songs: {0} / {1}...|A conditional database add is in progress.", e.Progress, e.ProgressEnd));
             }
@@ -724,7 +720,7 @@ namespace amp
             {
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgAddDBAlbum", "Adding songs to album: {0} / {1}...|A conditional database album add is in progress.", e.Progress, e.ProgressEnd));
             }
-            else if (e.EventType == DatabaseEventType.GetSongID)
+            else if (e.EventType == DatabaseEventType.GetSongId)
             {
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgIDSong", "Identifying songs: {0} / {1}...|Songs are identified based on the database song data.", e.Progress, e.ProgressEnd));
             }
@@ -1461,7 +1457,7 @@ namespace amp
                         m3uAdd.Add(addMusicFile);
                     }
 
-                    Database.AddFileToDB(m3uAdd, Conn);
+                    Database.AddFileToDb(m3uAdd, Conn);
                     Database.GetIDsForSongs(ref m3uAdd, Conn);
                     Database.AddSongToAlbum(name, m3uAdd, Conn);
                     ListAlbums(albumIndex);

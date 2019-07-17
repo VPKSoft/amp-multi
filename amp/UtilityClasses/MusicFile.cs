@@ -38,52 +38,38 @@ namespace amp.UtilityClasses
 {
     public class MusicFile
     {
-        private string fileName;
-        private string filePath;
-        private string fileExt;
-        private string songName;
-        private string fullPath;
+        private readonly string fileName;
+        private readonly string filePath;
+        private readonly string fileExt;
+        private readonly string songName;
+        private readonly string fullPath;
         private string tAlbum;
         private string tArtist;
-        private long fileSize;
+        private readonly long fileSize;
+        // ReSharper disable once IdentifierTypo
         private string tagstr;
         private uint tYear;
         private uint tTrack;
         private string tTitle;
         private int id;
         private int queueIndex = -1;
-        private int alternateQueueIndex = -1;
-        private int lastQueueIndex;
         private int visualIndex;
         private bool picLoaded;
         private bool tagLoaded;
         private float volume = 1.0F;
         private int rating = 500;
-        private bool ratingChanged;
         private Tag tag;
         private string overrideName = string.Empty;
         public int Duration;
         public IPicture[] Pictures;
 
-        public string FileNameNoPath
-        {
-            get
-            {
-                return fileName;
-            }
-        }
+        public string FileNameNoPath => fileName;
 
         public string TagString
         {
-            get
-            {
-                return tagstr;
-            }
+            get => tagstr;
 
-            set
-            {
-                tagstr = value;
-            }
+            set => tagstr = value;
         }
 
         public void LoadPic()
@@ -131,7 +117,9 @@ namespace amp.UtilityClasses
             }
             catch
             {
+                // ignored..
             }
+
             tagLoaded = true;
         }
 
@@ -182,14 +170,14 @@ namespace amp.UtilityClasses
 
                 if (pi.PropertyType == typeof(Tag[]) && goDeep)
                 {
-                    foreach (Tag tmpTag in (pi.GetValue(tag) as Tag[]))
+                    foreach (Tag tmpTag in ((Tag[]) pi.GetValue(tag)))
                     {
                         retval += GetTagString(tmpTag);
                     }
                 }
                 if (pi.PropertyType == typeof(string[]))
                 {
-                    foreach (string str in (pi.GetValue(tag) as string[]))
+                    foreach (string str in ((string[]) pi.GetValue(tag)))
                     {
                         retval += str;
                     }
@@ -235,11 +223,8 @@ namespace amp.UtilityClasses
 
         public string OverrideName
         {
-            get
-            {
-                return overrideName;
-            }
-            
+            get => overrideName;
+
             set
             {
                 if (value != string.Empty)
@@ -250,31 +235,17 @@ namespace amp.UtilityClasses
             }
         }
 
-        public bool RatingChanged
-        {
-            get
-            {
-                return ratingChanged;
-            }
-
-            set
-            {
-                ratingChanged = value;
-            }
-        }
+        public bool RatingChanged { get; set; }
 
         public int Rating
         {
-            get
-            {
-                return rating;
-            }
+            get => rating;
 
             set
             {
                 if (value < 0 || value > 1000)
                 {
-                    throw new ArgumentOutOfRangeException("Rating");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 rating = value;
@@ -284,16 +255,13 @@ namespace amp.UtilityClasses
 
         public float Volume
         {
-            get
-            {
-                return volume;
-            }
+            get => volume;
 
             set
             {
                 if (value < 0 || value > 2)
                 {
-                    throw new ArgumentOutOfRangeException("volume");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 volume = value;
@@ -304,112 +272,40 @@ namespace amp.UtilityClasses
 
         public int ID
         {
-            get
-            {
-                return id;
-            }
+            get => id;
 
-            set
-            {
-                id = value;
-            }
+            set => id = value;
         }
 
-        public string Artist
-        {
-            get
-            {
-                return (tArtist ?? string.Empty).Trim();
-            }
-        }
+        public string Artist => (tArtist ?? string.Empty).Trim();
 
-        public string Album
-        {
-            get
-            {
-                return (tAlbum ?? string.Empty).Trim();
-            }
-        }
+        public string Album => (tAlbum ?? string.Empty).Trim();
 
-        public string Title
-        {
-            get
-            {
-                return (tTitle ?? string.Empty).Trim();
-            }
-        }
+        public string Title => (tTitle ?? string.Empty).Trim();
 
-        public string Year
-        {
-            get
-            {
-                return tYear == 0 ? "????" : tYear.ToString();
-            }
-        }
+        public string Year => tYear == 0 ? "????" : tYear.ToString();
 
-        public string Track
-        {
-            get
-            {
-                return tTrack == 0 ? string.Empty : tTrack.ToString();
-            }
-        }
+        public string Track => tTrack == 0 ? string.Empty : tTrack.ToString();
 
-        public string FullFileName
-        {
-            get
-            {
-                return fullPath;
-            }
-        }
+        public string FullFileName => fullPath;
 
-        public long FileSize
-        {
-            get
-            {
-                return fileSize;
-            }
-        }
+        public long FileSize => fileSize;
 
         public int QueueIndex
         {
-            get
-            {
-                return queueIndex;
-            }
+            get => queueIndex;
             set
             {
-                lastQueueIndex = queueIndex;
                 queueIndex = value;
                 queueChanged = true;
             }
         }
 
-        public int AlternateQueueIndex
-        {
-            get
-            {
-                return alternateQueueIndex;
-            }
-            set
-            {
-                alternateQueueIndex = value;
-            }
-        }
-        public int LastQueueIndex
-        {
-            get
-            {
-                return lastQueueIndex;
-            }
-        }
+        public int AlternateQueueIndex { get; set; } = -1;
 
         public int VisualIndex
         {
-            get
-            {
-                return visualIndex;
-            }
+            get => visualIndex;
 
             set
             {
@@ -422,7 +318,7 @@ namespace amp.UtilityClasses
             }
         }
 
-        public static void RemoveByID(ref List<MusicFile> files, int id)
+        public static void RemoveById(ref List<MusicFile> files, int id)
         {
             for (int i = files.Count - 1; i >= 0; i--)
             {
@@ -431,19 +327,6 @@ namespace amp.UtilityClasses
                     files.RemoveAt(i);
                 }
             }
-        }
-
-        internal int GetFirstQueueIndex(ref List<MusicFile> files)
-        {
-            int qIdx = int.MaxValue;
-            foreach (MusicFile mf in files)
-            {
-                if (mf.QueueIndex > 0 && mf.QueueIndex < qIdx)
-                {
-                    qIdx = mf.QueueIndex;
-                }
-            }
-            return qIdx == int.MaxValue ? 1 : qIdx;
         }
 
         private static bool queueChanged;
@@ -553,18 +436,6 @@ namespace amp.UtilityClasses
         }
 
         #region AlternateQueue
-        internal int GetFirstAlternateQueueIndex(ref List<MusicFile> files)
-        {
-            int qIdx = int.MaxValue;
-            foreach (MusicFile mf in files)
-            {
-                if (mf.AlternateQueueIndex > 0 && mf.AlternateQueueIndex < qIdx)
-                {
-                    qIdx = mf.AlternateQueueIndex;
-                }
-            }
-            return qIdx == int.MaxValue ? 1 : qIdx;
-        }
 
         public void QueueInsertAlternate(ref List<MusicFile> files, bool filtered, int mfIndex = -1) // 14.10.17
         {
@@ -665,7 +536,7 @@ namespace amp.UtilityClasses
         #region PlayListNaming
         public static string FormulaReplace(string formula, string value, string formulaStr)
         {
-            int formulaStart = formula.IndexOf(formulaStr);
+            int formulaStart = formula.IndexOf(formulaStr, StringComparison.Ordinal);
 
             
             if (formulaStr + "#" == "#ARTIST#" ||
@@ -704,9 +575,9 @@ namespace amp.UtilityClasses
 
                 string[] tmpParts = stringPart.Split('^');
 
-                string stringPartStart = tmpParts != null && tmpParts.Length == 1 ? string.Empty :
+                string stringPartStart = tmpParts.Length == 1 ? string.Empty :
                     (tmpParts.Length > 1 ? tmpParts[0] : string.Empty);
-                string stringPartEnd = tmpParts != null && tmpParts.Length > 1 ? tmpParts[1] : stringPart;
+                string stringPartEnd = tmpParts.Length > 1 ? tmpParts[1] : stringPart;
 
                 formula = string.IsNullOrEmpty(value) ?
                     startPart + endPart :
@@ -724,7 +595,7 @@ namespace amp.UtilityClasses
             None,
             Artist,
             Album,
-            TrackNO,
+            TrackNo,
             Title,
             QueueIndex,
             AlternateQueueIndex,
@@ -758,7 +629,7 @@ namespace amp.UtilityClasses
                 }
                 else if (result.StartsWith("#TRACKNO"))
                 {
-                    formulaType = FormulaType.TrackNO;
+                    formulaType = FormulaType.TrackNo;
                 }
                 else if (result.StartsWith("#TITLE"))
                 {
@@ -793,9 +664,8 @@ namespace amp.UtilityClasses
         {
             try
             {
-                FormulaType formulaType = FormulaType.None;
                 string formulaStr;
-                while ((formulaStr = GetNextFormula(formula, out formulaType)) != string.Empty)
+                while ((formulaStr = GetNextFormula(formula, out var formulaType)) != string.Empty)
                 {
                     if (formulaType == FormulaType.Artist)
                     {
@@ -805,7 +675,7 @@ namespace amp.UtilityClasses
                     {
                         formula = FormulaReplace(formula, album == string.Empty ? string.Empty : album, formulaStr);
                     }
-                    else if (formulaType == FormulaType.TrackNO)
+                    else if (formulaType == FormulaType.TrackNo)
                     {
                         formula = FormulaReplace(formula, trackNo <= 0 ? string.Empty : trackNo.ToString(), formulaStr);
                     }
@@ -850,11 +720,16 @@ namespace amp.UtilityClasses
         }
 
         #region WeightedRandomization
+        // ReSharper disable once InconsistentNaming
         internal int SKIPPED_EARLY { get; set; } = 0;
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
         internal int NPLAYED_RAND { get; set; } = 0;
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
         internal int NPLAYED_USER { get; set; } = 0;
 
-        internal static Random random = new Random();
+        internal static Random Random = new Random();
 
         internal static bool InRange(double value, double randomValue, double min, double max, double tolerancePercentage)
         {
@@ -872,57 +747,57 @@ namespace amp.UtilityClasses
             List<MusicFile> results = new List<MusicFile>();
 
             double valueMin = musicFiles.Min(f => f.Rating);
-            double ValueMax = musicFiles.Max(f => f.Rating);
+            double valueMax = musicFiles.Max(f => f.Rating);
 
-            double biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.Settings.BiasedRating);
+            double biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedRating);
 
             if (Settings.Settings.BiasedRatingEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                    InRange(f.Rating, biased, valueMin, ValueMax, Settings.Settings.Tolerance)));
+                    InRange(f.Rating, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.NPLAYED_USER);
-            ValueMax = musicFiles.Max(f => f.NPLAYED_USER);
-            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.Settings.BiasedPlayedCount);
+            valueMax = musicFiles.Max(f => f.NPLAYED_USER);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedPlayedCount);
 
             if (Settings.Settings.BiasedPlayedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                    InRange(f.NPLAYED_USER, biased, valueMin, ValueMax, Settings.Settings.Tolerance)));
+                    InRange(f.NPLAYED_USER, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.NPLAYED_RAND);
-            ValueMax = musicFiles.Max(f => f.NPLAYED_RAND);
-            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.Settings.BiasedRandomizedCount);
+            valueMax = musicFiles.Max(f => f.NPLAYED_RAND);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedRandomizedCount);
 
             if (Settings.Settings.BiasedRandomizedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                   InRange(f.NPLAYED_RAND, biased, valueMin, ValueMax, Settings.Settings.Tolerance)));
+                   InRange(f.NPLAYED_RAND, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.SKIPPED_EARLY);
-            ValueMax = musicFiles.Max(f => f.SKIPPED_EARLY);
-            biased = BiasedRandom.RandomBiased(valueMin, ValueMax, Settings.Settings.BiasedSkippedCount);
+            valueMax = musicFiles.Max(f => f.SKIPPED_EARLY);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedSkippedCount);
 
             if (Settings.Settings.BiasedSkippedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                   InRange(f.SKIPPED_EARLY, biased, valueMin, ValueMax, Settings.Settings.Tolerance)));
+                   InRange(f.SKIPPED_EARLY, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
             }
 
             int result = -1;
 
-            if (results != null && results.Count > 0)
+            if (results.Count > 0)
             {
-                int tmpIndex = random.Next(results.Count);
+                int tmpIndex = Random.Next(results.Count);
                 result = musicFiles.FindIndex(f => f.ID == results[tmpIndex].ID);
             }
 
             if (result == -1)
             {
-                result = random.Next(musicFiles.Count);
+                result = Random.Next(musicFiles.Count);
             }
             return result;
         }
@@ -964,21 +839,10 @@ namespace amp.UtilityClasses
                 (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
         }
 
-        public string SongName
-        {
-            get
-            {
-                return ToString();
-            }
-        }
+        public string SongName => ToString();
 
-        public string SongNameNoQueue
-        {
-            get
-            {
-                return ToString(false);
-            }
-        }
+        public string SongNameNoQueue => ToString(false);
+
         #endregion
 
         public string GetFileName()
@@ -986,7 +850,7 @@ namespace amp.UtilityClasses
             return fullPath;
         }
 
-        public MusicFile(string FullPath): this(FullPath, 0)
+        public MusicFile(string fullPath): this(fullPath, 0)
         {
         }
 
@@ -1012,10 +876,9 @@ namespace amp.UtilityClasses
                 return bfound1;
             }
             bool bfound2 = true;
-            string tmpStr;
             foreach(string str in search2)
             {
-                tmpStr = str.ToUpper();
+                var tmpStr = str.ToUpper();
                 bfound2 &= Artist.ToUpper().Contains(tmpStr) ||
                            Album.ToUpper().Contains(tmpStr) ||
                            Title.ToUpper().Contains(tmpStr) ||
@@ -1025,24 +888,24 @@ namespace amp.UtilityClasses
                            OverrideName.ToUpper().Contains(search) ||
                            tagstr.ToUpper().Contains(tmpStr);
             }
-            return bfound1 || bfound2;
+            return bfound2;
         }
 
-        public MusicFile(string FullPath, int id)
+        public MusicFile(string fullPath, int id)
         {
             this.id = id;
-            fileName = Path.GetFileName(FullPath);
-            filePath = Path.GetFullPath(FullPath);
-            songName = Path.GetFileNameWithoutExtension(FullPath);
-            fileExt = Path.GetExtension(FullPath);
-            FileInfo fInfo = new FileInfo(FullPath);
+            fileName = Path.GetFileName(fullPath);
+            filePath = Path.GetFullPath(fullPath);
+            songName = Path.GetFileNameWithoutExtension(fullPath);
+            fileExt = Path.GetExtension(fullPath);
+            FileInfo fInfo = new FileInfo(fullPath);
             fileSize = fInfo.Length;
             tAlbum = string.Empty;
             tArtist = string.Empty;
             tagstr = string.Empty;
             tYear = 0;
             tTitle = string.Empty;
-            fullPath = FullPath;
+            this.fullPath = fullPath;
             tTrack = 0;
             Duration = 0;
         }

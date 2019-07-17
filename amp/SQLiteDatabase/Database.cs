@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
@@ -40,14 +39,14 @@ namespace amp.SQLiteDatabase
 {
     public class Album
     {
-        public int ID { get; }
+        public int Id { get; }
 
         public string AlbumName { get; }
 
-        public Album(int Id, string Name)
+        public Album(int id, string name)
         {
-            AlbumName = Name;
-            ID = Id;
+            AlbumName = name;
+            Id = id;
         }
     }
 
@@ -57,12 +56,12 @@ namespace amp.SQLiteDatabase
         Started = 0,
         Stopped = 1,
         GetSongTag = 2,
-        UpdateSongDB = 4,
-        InsertSongDB = 8,
+        UpdateSongDb = 4,
+        InsertSongDb = 8,
         InsertSongAlbum = 16,
-        GetSongID = 32,
+        GetSongId = 32,
         LoadMeta = 64,
-        QueryDB = 128
+        QueryDb = 128
     }
 
     public class DatabaseEventArgs: EventArgs
@@ -84,7 +83,7 @@ namespace amp.SQLiteDatabase
     public class Database
     {
         // initialize a System.Windows.Forms SynchronizationContext
-        private static SynchronizationContext context = SynchronizationContext.Current ?? new SynchronizationContext();
+        private static readonly SynchronizationContext Context = SynchronizationContext.Current ?? new SynchronizationContext();
 
         public delegate void OnDatabaseProgress(DatabaseEventArgs e);
 
@@ -97,7 +96,7 @@ namespace amp.SQLiteDatabase
 
         private static void DatabaseProgressThreadSafe(DatabaseEventArgs e)
         {
-            context.Send(OnDatabaseProgressThreadSafe, e);
+            Context.Send(OnDatabaseProgressThreadSafe, e);
         }
 
         public static List<Album> GetAlbums(SQLiteConnection conn)
@@ -121,21 +120,20 @@ namespace amp.SQLiteDatabase
         {
             int count = noIdSongs.Count;
             DatabaseProgressThreadSafe(new DatabaseEventArgs(0, count, DatabaseEventType.Started));
-            DatabaseProgressThreadSafe(new DatabaseEventArgs(0, count, DatabaseEventType.GetSongID));
-            string sql = string.Empty;
+            DatabaseProgressThreadSafe(new DatabaseEventArgs(0, count, DatabaseEventType.GetSongId));
             if (noIdSongs.Count == 0)
             {
                 return;
             }
 
-            sql = "SELECT ID, FILENAME FROM SONG WHERE FILENAME IN(";
+            var sql = "SELECT ID, FILENAME FROM SONG WHERE FILENAME IN(";
             foreach (MusicFile mf in noIdSongs)
             {
                 sql += "'" + mf.FullFileName.Replace("'", "''") + "', ";
             }
             sql = sql.TrimEnd(", ".ToCharArray()) + ") ";
 
-            List<KeyValuePair<int, string>> IDFiles = new List<KeyValuePair<int, string>>();
+            List<KeyValuePair<int, string>> idFiles = new List<KeyValuePair<int, string>>();
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
@@ -144,7 +142,7 @@ namespace amp.SQLiteDatabase
                 {
                     while (dr.Read())
                     {
-                        IDFiles.Add(new KeyValuePair<int, string>(dr.GetInt32(0), dr.GetString(1)));
+                        idFiles.Add(new KeyValuePair<int, string>(dr.GetInt32(0), dr.GetString(1)));
                     }
                 }
             }
@@ -153,22 +151,22 @@ namespace amp.SQLiteDatabase
 
             foreach (MusicFile mf in noIdSongs)
             {
-                for (int i = IDFiles.Count - 1; i >= 0; i--)
+                for (int i = idFiles.Count - 1; i >= 0; i--)
                 {
-                    if (mf.FullFileName == IDFiles[i].Value)
+                    if (mf.FullFileName == idFiles[i].Value)
                     {
-                        mf.ID = IDFiles[i].Key;
-                        IDFiles.RemoveAt(i);
+                        mf.ID = idFiles[i].Key;
+                        idFiles.RemoveAt(i);
                         counter++;
                     }
                 }
                 if ((counter % 50) == 0)
                 {
-                    DatabaseProgressThreadSafe(new DatabaseEventArgs(counter, count, DatabaseEventType.GetSongID));
+                    DatabaseProgressThreadSafe(new DatabaseEventArgs(counter, count, DatabaseEventType.GetSongId));
                 }
                 counter++;
             }
-            DatabaseProgressThreadSafe(new DatabaseEventArgs(count, count, DatabaseEventType.GetSongID));
+            DatabaseProgressThreadSafe(new DatabaseEventArgs(count, count, DatabaseEventType.GetSongId));
             DatabaseProgressThreadSafe(new DatabaseEventArgs(count, count, DatabaseEventType.Stopped));
         }
 
@@ -184,26 +182,6 @@ namespace amp.SQLiteDatabase
             }
         }
 
-        public static void AddSongToAlbum(string name, MusicFile mf, SQLiteConnection conn)
-        {
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                command.CommandText = "SELECT ID FROM SONG WHERE FILENAME = '" + mf.FullFileName.Replace("'", "''") + "' ";
-                object oFileId = command.ExecuteScalar();
-                command.CommandText = "SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "' ";
-                object oAlbumId = command.ExecuteScalar();
-                if (oFileId != null && oAlbumId != null)
-                {
-                    command.CommandText = "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX) " +
-                                          "SELECT " + oAlbumId + ", " + oFileId + ", 0 " +
-                                          "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
-                                          "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + oFileId + ") ";
-                    command.ExecuteNonQuery();
-                }
-            }
-            albumChanged = true;
-        }
-
         public static void AddSongToAlbum(string name, List<MusicFile> addSongs, SQLiteConnection conn)
         {
             string sql = string.Empty;
@@ -214,7 +192,7 @@ namespace amp.SQLiteDatabase
 
             DatabaseProgressThreadSafe(new DatabaseEventArgs(0, addSongs.Count, DatabaseEventType.Started));
 
-            object oAlbumId = null;
+            object oAlbumId;
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
@@ -274,41 +252,23 @@ namespace amp.SQLiteDatabase
         }
 
 
-        public static void RemoveSongFromAlbum(string name, MusicFile mf, SQLiteConnection conn)
+        public static void ClearTmpAlbum(ref List<MusicFile> playList, SQLiteConnection conn)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "SELECT ID FROM SONG WHERE FILENAME = '" + mf.FullFileName.Replace("'", "''") + "' ";
-                object oFileId = command.ExecuteScalar();
-                command.CommandText = "SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "' ";
-                object oAlbumId = command.ExecuteScalar();
-                if (oFileId != null && oAlbumId != null)
-                {
-                    command.CommandText = "DELETE FROM ALBUMSONGS " +
-                                          "WHERE " +
-                                          "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + oFileId + " ";
-                    command.ExecuteNonQuery();
-                }
-            }
-            albumChanged = true;
-        }
-
-        public static void ClearTmpAlbum(ref List<MusicFile> PlayList, SQLiteConnection conn)
-        {
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                PlayList.Clear();
+                playList.Clear();
                 command.CommandText = "DELETE FROM ALBUMSONGS WHERE ALBUM_ID = 0 ";
                 command.ExecuteNonQuery();
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         public static string QS(string value)
         {
             return "'" + value.Replace("'", "''") + "'";
         }
 
-        public static string GetAlbumSQL(string name)
+        public static string GetAlbumSql(string name)
         {
             string result =
                 string.Join(Environment.NewLine,
@@ -343,18 +303,17 @@ namespace amp.SQLiteDatabase
             return result;
         }
 
-        public static void GetAlbum(string name, ref List<MusicFile> PlayList, SQLiteConnection conn)
+        public static void GetAlbum(string name, ref List<MusicFile> playList, SQLiteConnection conn)
         {
-            int totalCnt = 0;
             List<int> indices = new List<int>();
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                PlayList.Clear();
+                playList.Clear();
 
                 command.CommandText = "SELECT COUNT(*) FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "') ";
-                totalCnt = Convert.ToInt32(command.ExecuteScalar());
+                var totalCnt = Convert.ToInt32(command.ExecuteScalar());
 
-                command.CommandText = GetAlbumSQL(name);
+                command.CommandText = GetAlbumSql(name);
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     int counter = 0, counter2 = 1;
@@ -379,26 +338,19 @@ namespace amp.SQLiteDatabase
                         mf.NPLAYED_RAND = reader.GetInt32(15);
                         mf.NPLAYED_USER = reader.GetInt32(16);
 
-                        if (reader.GetInt32(8) != 0)
-                        {
-                            mf.TagString = reader.GetString(6);
-                        }
-                        else
-                        {
-                            mf.TagString = string.Empty;
-                        }
+                        mf.TagString = reader.GetInt32(8) != 0 ? reader.GetString(6) : string.Empty;
                         mf.VisualIndex = counter++;
                         if (reader.GetInt32(7) == 0)
                         {
                             indices.Add(mf.VisualIndex);
                         }
-                        PlayList.Add(mf);
-                        DatabaseProgressThreadSafe(new DatabaseEventArgs(counter2, totalCnt, DatabaseEventType.QueryDB));
+                        playList.Add(mf);
+                        DatabaseProgressThreadSafe(new DatabaseEventArgs(counter2, totalCnt, DatabaseEventType.QueryDb));
                     }
                 }
 
                 string sSql = string.Empty;
-                foreach (MusicFile mf in PlayList)
+                foreach (MusicFile mf in playList)
                 {
                     for (int i = 0; i < indices.Count; i++)
                     {
@@ -420,7 +372,7 @@ namespace amp.SQLiteDatabase
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = $"UPDATE SONG SET VOLUME = {mf.Volume.ToString().Replace(',', '.')} WHERE ID = {mf.ID} ";
+                command.CommandText = $"UPDATE SONG SET VOLUME = {mf.Volume.ToString(CultureInfo.InvariantCulture).Replace(',', '.')} WHERE ID = {mf.ID} ";
                 command.ExecuteNonQuery();
             }
         }
@@ -503,9 +455,9 @@ namespace amp.SQLiteDatabase
 
         public static void SaveQueueSnapshot(List<MusicFile> files, SQLiteConnection conn, string albumName, string snapshotName)
         {
-            string sql = string.Empty;
+            string sql;
 
-            int id = 0;
+            int id;
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
                 command.CommandText = "SELECT IFNULL((SELECT MAX(ID) FROM QUEUE_SNAPSHOT), -1) + 1 ";
@@ -554,16 +506,6 @@ namespace amp.SQLiteDatabase
 
                             command.CommandText = sql;
                             command.ExecuteNonQuery();
-
-
-                            /*
-                              ID INTEGER NOT NULL,
-                              ALBUM_ID INTEGER NOT NULL, 
-                              SONG_ID INTEGER NOT NULL, 
-                              QUEUEINDEX INTEGER NOT NULL,
-                              SNAPSHOTNAME TEXT NOT NULL,
-                              SNAPSHOT_DATE DATE DEFAULT (datetime('now','localtime'))                  
-                             */
                         }
                     }
                 }
@@ -590,7 +532,7 @@ namespace amp.SQLiteDatabase
             return retval;
         }
 
-        public static bool SaveQueueSnapshotToFile(SQLiteConnection conn, int ID, string queueFileName)
+        public static bool SaveQueueSnapshotToFile(SQLiteConnection conn, int id, string queueFileName)
         {
             try
             {
@@ -602,7 +544,7 @@ namespace amp.SQLiteDatabase
                         "(SELECT ALBUMNAME FROM ALBUM WHERE ID = ALBUM_ID) AS ALBUMNAME, " + Environment.NewLine +
                         "(SELECT FILENAME FROM SONG WHERE ID = SONG_ID) AS FILENAME, " + Environment.NewLine +
                         "QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE " + Environment.NewLine +
-                        "FROM QUEUE_SNAPSHOT WHERE ID = " + ID + " ";
+                        "FROM QUEUE_SNAPSHOT WHERE ID = " + id + " ";
 
                     lines.Add("amp# QueueSnapshot Export");
                     using (SQLiteDataReader dr = command.ExecuteReader())
@@ -665,17 +607,15 @@ namespace amp.SQLiteDatabase
 
         public static bool RestoreQueueSnapshotFromFile(List<MusicFile> files, SQLiteConnection conn, string albumName, string queueFileName, string overrideName)
         {
-            string sql = string.Empty;
-
-            int id = 0;
+            int id;
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
                 command.CommandText = "SELECT IFNULL((SELECT MAX(ID) FROM QUEUE_SNAPSHOT), -1) + 1 ";
                 id = Convert.ToInt32(command.ExecuteScalar());
             }
 
-            string snapShotDate = string.Empty;
-            string snapshotName = string.Empty;
+            string snapShotDate;
+            string snapshotName;
 
             List<List<string>> paths = new List<List<string>>();
             List<int> queueIndices = new List<int>();
@@ -695,7 +635,10 @@ namespace amp.SQLiteDatabase
                 {
                     queueIndices.Add(int.Parse(lines[i].Replace("SONG: QIDX=", string.Empty).Split(':')[0]));
                     lines[i] = lines[i].Replace("SONG: QIDX=", string.Empty);
-                    lines[i].TrimStart('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+                    // NOTE::Changed to actually mean something (watch out for a bug!)
+                    lines[i] = lines[i].TrimStart('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
                     lines[i] = lines[i].Substring(3);
                     lines[i] = lines[i].TrimStart();
                     lines[i] = Regex.Replace(lines[i], "^[A-Za-z][:]?", string.Empty);
@@ -760,25 +703,15 @@ namespace amp.SQLiteDatabase
             {
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
-                    sql =
-                        "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE) VALUES( " + Environment.NewLine +
-                        id + ", " + Environment.NewLine +
-                        "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
-                        mf.ID + ", " + Environment.NewLine +
-                        qIDx++ + ", " + Environment.NewLine +
-                        "'" + snapshotName.Replace("'", "''") + "', DATETIME('" + snapShotDate + "')) " + Environment.NewLine;
+                    var sql = "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE) VALUES( " + Environment.NewLine +
+                                 id + ", " + Environment.NewLine +
+                                 "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
+                                 mf.ID + ", " + Environment.NewLine +
+                                 qIDx++ + ", " + Environment.NewLine +
+                                 "'" + snapshotName.Replace("'", "''") + "', DATETIME('" + snapShotDate + "')) " + Environment.NewLine;
 
                     command.CommandText = sql;
                     command.ExecuteNonQuery();
-
-                    /*
-                      ID INTEGER NOT NULL,
-                      ALBUM_ID INTEGER NOT NULL, 
-                      SONG_ID INTEGER NOT NULL, 
-                      QUEUEINDEX INTEGER NOT NULL,
-                      SNAPSHOTNAME TEXT NOT NULL,
-                      SNAPSHOT_DATE DATE DEFAULT (datetime('now','localtime'))                  
-                     */
                 }
             }
 
@@ -787,40 +720,18 @@ namespace amp.SQLiteDatabase
 
         public class MusicFileEntry
         {
-            public string path = string.Empty;
-            public string filename = string.Empty;
-            public int id;
+            public string Path;
+            public string Filename;
+            public int Id;
             public MusicFileEntry(string path, string filename, int id)
             {
-                this.path = path;
-                this.filename = filename;
-                this.id = id;
+                Path = path;
+                Filename = filename;
+                Id = id;
             }
         }
 
-        public static List<MusicFileEntry> CheckFileExistence(SQLiteConnection conn)
-        {
-            List<MusicFileEntry> nonFile = new List<MusicFileEntry>();
-            string fname;
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                command.CommandText = "SELECT ID, FILENAME FROM SONG ORDER BY ID ";
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        fname = reader.GetString(1);
-                        if (!File.Exists(fname))
-                        {
-                            nonFile.Add(new MusicFileEntry(Path.GetDirectoryName(fname), Path.GetFileName(fname), reader.GetInt32(0)));
-                        }
-                    }
-                }
-            }
-            return nonFile;
-        }
-
-        public static void AddFileToDB(List<MusicFile> addFiles, SQLiteConnection conn)
+        public static void AddFileToDb(List<MusicFile> addFiles, SQLiteConnection conn)
         {
             if (addFiles.Count == 0)
             {
@@ -844,53 +755,48 @@ namespace amp.SQLiteDatabase
 
             for (int i = 0; i < addFiles.Count; i++)
             {
-                sql += UpdateSongSQL(addFiles[i]);
+                sql += UpdateSongSql(addFiles[i]);
                 if ((i % 200) == 0 && i != 0)
                 {
                     ExecuteTransaction(sql, conn);
                     sql = string.Empty;
-                    DatabaseProgressThreadSafe(new DatabaseEventArgs(i, addFiles.Count, DatabaseEventType.UpdateSongDB));
+                    DatabaseProgressThreadSafe(new DatabaseEventArgs(i, addFiles.Count, DatabaseEventType.UpdateSongDb));
                 }
             }
             if (sql != string.Empty)
             {
                 ExecuteTransaction(sql, conn);
             }
-            DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.UpdateSongDB));
+            DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.UpdateSongDb));
 
             sql = string.Empty;
 
             for (int i = 0; i < addFiles.Count; i++)
             {
 //                addFiles[i].LoadTag();
-                sql += InsertSongSQL(addFiles[i]);
+                sql += InsertSongSql(addFiles[i]);
                 if ((i % 200) == 0 && i != 0)
                 {
                     ExecuteTransaction(sql, conn);
                     sql = string.Empty;
-                    DatabaseProgressThreadSafe(new DatabaseEventArgs(i, addFiles.Count, DatabaseEventType.InsertSongDB));
+                    DatabaseProgressThreadSafe(new DatabaseEventArgs(i, addFiles.Count, DatabaseEventType.InsertSongDb));
                 }
             }
             if (sql != string.Empty)
             {
                 ExecuteTransaction(sql, conn);
             }
-            DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.InsertSongDB));
+            DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.InsertSongDb));
             DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.Stopped));
         }
 
-        private static string UpdateSongSQL(MusicFile mf)
+        private static string UpdateSongSql(MusicFile mf)
         {
             return $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
                    $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
         }
 
-        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static string InsertSongSQL(MusicFile mf)
+        private static string InsertSongSql(MusicFile mf)
         {
             return
                 string.Join(Environment.NewLine,
@@ -900,26 +806,6 @@ namespace amp.SQLiteDatabase
                     $"{QS(mf.Album)}, {QS(mf.Track)}, {QS(mf.Year)}, 500, 0, 0, {mf.FileSize}, 1.0, {QS(mf.OverrideName)}, ",
                     $"{QS(mf.TagString)}, 1, {QS(mf.FileNameNoPath)}, {QS(mf.Title)} ",
                     $"WHERE NOT EXISTS(SELECT 1 FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
-        }
-
-        public static void UpdateSongTags(SQLiteConnection conn)
-        {
-            string sSql = string.Empty;
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                command.CommandText = "SELECT ID, FILENAME, ARTIST, ALBUM, TRACK, YEAR, LYRICS, RATING, NPLAYED_RAND, NPLAYED_USER, FILESIZE, VOLUME, OVERRIDE_NAME, TAGFINDSTR, TAGREAD FROM SONG ";
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        MusicFile mf = new MusicFile(reader.GetString(1), reader.GetInt32(0));
-                        sSql += 
-                            $"UPDATE SONG SET TAGFINDSTR = {QS(mf.TagString)}, TAGREAD = 1 WHERE ID = {mf.ID}; ";
-                    }
-
-                }
-            }
-            ExecuteTransaction(sSql, conn);
         }
 
         public static bool ExecuteTransaction(string sql, SQLiteConnection conn)
@@ -934,24 +820,6 @@ namespace amp.SQLiteDatabase
                         command.ExecuteNonQuery();
                     }
                     trans.Commit();
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-
-        public static bool ExecuteCommand(string sql, SQLiteConnection conn)
-        {
-            try
-            {
-                using (SQLiteCommand command = new SQLiteCommand(conn))
-                {
-                    command.CommandText = sql;
-                    command.ExecuteNonQuery();
                 }
                 return true;
             }

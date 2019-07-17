@@ -316,7 +316,7 @@ namespace amp
             if (mf != null)
             {
                 removeList.Add(mf);
-                MusicFile.RemoveByID(ref PlayList, mf.ID);
+                MusicFile.RemoveById(ref PlayList, mf.ID);
             }
 
             Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
@@ -431,7 +431,7 @@ namespace amp
                 foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
                 {
                     if ((album.AlbumName != CurrentAlbum && album.AlbumName == name) 
-                        && (int)(item).Tag == album.ID)
+                        && (int)(item).Tag == album.Id)
                     {
                         DisableChecks();
                         item.Checked = true;

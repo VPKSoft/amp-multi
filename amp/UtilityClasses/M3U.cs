@@ -33,16 +33,13 @@ namespace amp.UtilityClasses
 {
     public class M3UEntry
     {
-        private string fileDesc = string.Empty;
+        private string fileDesc;
 
-        public string FileName { get; } = string.Empty;
+        public string FileName { get; }
 
         public string FileDesc
         {
-            get
-            {
-                return fileDesc;
-            }
+            get => fileDesc;
 
             set
             {
@@ -53,29 +50,26 @@ namespace amp.UtilityClasses
             }
         }
 
-        public M3UEntry(string FileName, string FileDesc)
+        public M3UEntry(string fileName, string fileDesc)
         {
-            this.FileName = FileName;
-            fileDesc = FileDesc;
+            FileName = fileName;
+            FileDesc = fileDesc;
         }
     }
 
     public class M3U
     {
-        private Encoding enc;
-        private string fileName = string.Empty;
-        private string fileDir = string.Empty;
+        private readonly Encoding enc;
         public List<M3UEntry> M3UFiles = new List<M3UEntry>();
-        public M3U(string FileName)
+        public M3U(string fileName)
         {
             List<string> fileLines = new List<string>();
-            fileName = FileName;
-            fileDir = Path.GetDirectoryName(fileName).TrimEnd('\\') + "\\";
-            if (Path.GetExtension(fileName).ToUpper() == ".m3u".ToUpper())
+            var fileDir = Path.GetDirectoryName(fileName)?.TrimEnd('\\') + "\\";
+            if (Path.GetExtension(fileName)?.ToUpper() == ".m3u".ToUpper())
             {
                 enc = Encoding.GetEncoding(1252);
             }
-            else if (Path.GetExtension(fileName).ToUpper() == ".m3u8".ToUpper())
+            else if (Path.GetExtension(fileName)?.ToUpper() == ".m3u8".ToUpper())
             {
                 enc = new UTF8Encoding();
             }
@@ -172,15 +166,7 @@ namespace amp.UtilityClasses
             }
             for (int i = M3UFiles.Count - 1; i >= 0; i--)
             {
-                if (Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".mp3".ToUpper() &&
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".ogg".ToUpper() &&
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".flac".ToUpper() &&
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".wma".ToUpper() &&
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".wav".ToUpper() &&
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".m4a".ToUpper() && // Added: 01.02.2018
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".aif".ToUpper() && // Added: 01.02.2018
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".aac".ToUpper() && // Added: 01.02.2018
-                    Path.GetExtension(M3UFiles[i].FileName).ToUpper() != ".aiff".ToUpper()) // Added: 01.02.2018
+                if (!Constants.Extensions.Contains(Path.GetExtension(M3UFiles[i].FileName)?.ToUpper()))
                 {
                     M3UFiles.RemoveAt(i);
                 }

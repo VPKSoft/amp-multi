@@ -29,11 +29,11 @@ using System.Windows.Forms;
 using amp.FormsUtility.Songs;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
-using VPKSoft.LangLib;
 
+// ReSharper disable once CheckNamespace
 namespace amp
 {
-    public partial class MainWindow : DBLangEngineWinforms
+    public partial class MainWindow
     {
         internal enum FilterType
         {
@@ -65,7 +65,7 @@ namespace amp
             Filtered = tbFind.Text != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
         }
 
-        private bool HandleKeyDown(ref KeyEventArgs e)
+        private void HandleKeyDown(ref KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
@@ -73,12 +73,17 @@ namespace amp
                 {
                     UpdateNPlayed(MFile, Skipped);
                     MFile = lbMusic.SelectedItem as MusicFile;
-                    latestSongIndex = MFile.VisualIndex;
-                    UpdateNPlayed(MFile, false);
+                    if (MFile != null)
+                    {
+                        latestSongIndex = MFile.VisualIndex;
+                        UpdateNPlayed(MFile, false);
+                    }
+
                     newSong = true;
                     e.Handled = true;
                 }
-                return true;
+
+                return;
             }
 
             if (e.KeyCode == Keys.Delete)
@@ -91,12 +96,15 @@ namespace amp
                     MusicFile mf = (lbMusic.SelectedItems[i] as MusicFile);
                     removeList.Add(mf);
                     lbMusic.Items.RemoveAt(lbMusic.SelectedIndices[i]);
-                    MusicFile.RemoveByID(ref PlayList, mf.ID);
+                    if (mf != null)
+                    {
+                        MusicFile.RemoveById(ref PlayList, mf.ID);
+                    }
                 }
                 Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
                 humanActivity.Enabled = true;
                 lbMusic.ResumeLayout();
-                return true;
+                return;
             }
 
             if (e.KeyCode == Keys.F2)
@@ -112,7 +120,8 @@ namespace amp
                     e.Handled = true;
                     humanActivity.Enabled = true;
                 }
-                return true;
+
+                return;
             }
 
             if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
@@ -149,7 +158,7 @@ namespace amp
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                return true;
+                return;
             }
 
             if (e.KeyCode == Keys.Multiply)
@@ -185,7 +194,7 @@ namespace amp
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                return true;
+                return;
             }
 
             if (e.KeyCode == Keys.Up ||
@@ -203,7 +212,7 @@ namespace amp
                 e.KeyCode == Keys.F8 ||
                 e.KeyCode == Keys.F9)
             {
-                return true;
+                return;
             }
 
             if (char.IsLetterOrDigit((char)e.KeyValue) || KeySendList.HasKey(e.KeyCode))
@@ -212,20 +221,12 @@ namespace amp
                 tbFind.Focus();
                 char key = (char)e.KeyValue;
 
-                if (char.IsLetterOrDigit(key))
-                {
-                    SendKeys.Send(key.ToString().ToLower());
-                }
-                else
-                {
-                    SendKeys.Send(KeySendList.GetKeyString(e.KeyCode));
-                }
+                SendKeys.Send(
+                    char.IsLetterOrDigit(key) ? key.ToString().ToLower() : KeySendList.GetKeyString(e.KeyCode));
+
                 e.SuppressKeyPress = true;
                 e.Handled = true;
-                return false;
             }
-
-            return false;
         }
 
         private void lbMusic_KeyDown(object sender, KeyEventArgs e)

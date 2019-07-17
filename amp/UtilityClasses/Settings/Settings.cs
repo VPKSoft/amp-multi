@@ -204,6 +204,7 @@ namespace amp.UtilityClasses.Settings
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (_BiasedRating == -1)
                 {
                     VPKNml vnml = new VPKNml();
@@ -248,6 +249,7 @@ namespace amp.UtilityClasses.Settings
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (_BiasedPlayedCount == -1)
                 {
                     VPKNml vnml = new VPKNml();
@@ -294,6 +296,7 @@ namespace amp.UtilityClasses.Settings
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (_BiasedRandomizedCount == -1)
                 {
                     VPKNml vnml = new VPKNml();
@@ -339,6 +342,7 @@ namespace amp.UtilityClasses.Settings
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (_BiasedSkippedCount == -1)
                 {
                     VPKNml vnml = new VPKNml();

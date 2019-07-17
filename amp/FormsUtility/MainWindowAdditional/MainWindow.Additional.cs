@@ -30,19 +30,18 @@ using System.Windows.Forms;
 using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
-using VPKSoft.LangLib;
 using Settings = amp.UtilityClasses.Settings.Settings;
 
 // ReSharper disable once CheckNamespace
 namespace amp
 {
-    public partial class MainWindow : DBLangEngineWinforms
+    public partial class MainWindow
     {
         private void DisableChecks()
         {
             for (int i = 0; i < mnuAlbum.DropDownItems.Count; i++)
             {
-                (mnuAlbum.DropDownItems[i] as ToolStripMenuItem).Checked = false;
+                ((ToolStripMenuItem) mnuAlbum.DropDownItems[i]).Checked = false;
             }
         }
 
@@ -68,34 +67,14 @@ namespace amp
             foreach (Album album in albums)
             {
                 ToolStripMenuItem item = new ToolStripMenuItem(album.AlbumName) { Image = GetNextImg(aNum++) };
-                item.Tag = album.ID;
-                if (album.ID == checkAlbum)
+                item.Tag = album.Id;
+                if (album.Id == checkAlbum)
                 {
                     item.Checked = true;
                 }
                 item.Click += SelectAlbumClick;
                 mnuAlbum.DropDownItems.Add(item);
             }
-        }
-
-        private void GetLyric()
-        {
-            /*
-            LyricWiki wiki = new LyricWiki();
-            LyricsResult result;
-            string artist = artistTextBox.Text;
-            string song = SongTextBox.Text;
-            if (wiki.checkSongExists(artist, song))
-            {
-                result = wiki.getSong(artist, song);
-                Encoding iso8859 = Encoding.GetEncoding("ISO-8859-1");
-                LyricsRichTextBox.Text = Encoding.UTF8.GetString(iso8859.GetBytes(result.lyrics));
-            }
-            else
-            {
-                StatusLabel.Text = "Lyrics not found in database";
-            }
-            */
         }
 
         public void GetNextSong(bool fromEvent = false)
@@ -128,7 +107,7 @@ namespace amp
                 if (iSongIndex != -1)
                 {
                     PlayList[iSongIndex].Queue(ref PlayList);
-                    if (Filtered == amp.MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+                    if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
                     {
                         ShowQueue();
                     }
@@ -167,7 +146,7 @@ namespace amp
                 }
                 if (lbMusic.InvokeRequired)
                 {
-                    lbMusic.Invoke(new amp.MainWindow.VoidDelegate(RefreshListboxFromThread));
+                    lbMusic.Invoke(new VoidDelegate(RefreshListboxFromThread));
                 }
                 else
                 {
@@ -175,14 +154,14 @@ namespace amp
                 }
                 if (ssStatus.InvokeRequired)
                 {
-                    ssStatus.Invoke(new amp.MainWindow.VoidDelegate(GetQueueCount));
+                    ssStatus.Invoke(new VoidDelegate(GetQueueCount));
                 }
                 else
                 {
                     GetQueueCount();
                 }
 
-                if (Filtered == amp.MainWindow.FilterType.QueueFiltered)
+                if (Filtered == FilterType.QueueFiltered)
                 {
                     ShowQueue();
                 }

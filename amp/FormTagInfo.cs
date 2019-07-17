@@ -71,7 +71,7 @@ namespace amp
                 {
                     if (tagFile.Tag.FirstAlbumArtist != null && tagFile.Tag.FirstAlbumArtist != string.Empty)
                     {
-                        Text = tagFile.Tag.FirstAlbumArtist + " - " + tagFile.Tag.Title;
+                        Text = tagFile.Tag.FirstAlbumArtist + @" - " + tagFile.Tag.Title;
                     }
                     else
                     {
@@ -102,7 +102,7 @@ namespace amp
 
                 foreach (ICodec codec in tagFile.Properties.Codecs)
                 {
-                    tbCodecs.Text += codec.Description + ", ";
+                    tbCodecs.Text += codec.Description + @", ";
                 }
 
                 tbCodecs.Text = tbCodecs.Text.TrimEnd(' ', ',');

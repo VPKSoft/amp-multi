@@ -69,7 +69,7 @@ namespace amp.UtilityClasses.Settings
             VU.Paths.MakeAppSettingsFolder();
             vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
-            MainWindow.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); ; // this is gotten from the settings
+            MainWindow.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
 
             MainWindow.QuietHoursFrom = vnml["quietHour", "start", "23:00"].ToString();
             MainWindow.QuietHoursTo = vnml["quietHour", "end", "08:00"].ToString();
@@ -79,8 +79,6 @@ namespace amp.UtilityClasses.Settings
             MainWindow.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
             MainWindow.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
         }
-
-        private static DateTime nextQuietTime = DateTime.Now;
 
         public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo)
         {
@@ -156,7 +154,11 @@ namespace amp.UtilityClasses.Settings
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
-            cmbSelectLanguageValue.Items.AddRange(cultures.ToArray());
+            if (cultures != null)
+            {
+                // ReSharper disable once CoVariantArrayConversion
+                cmbSelectLanguageValue.Items.AddRange(cultures.ToArray());
+            }
             cmbSelectLanguageValue.SelectedItem = Settings.Culture;
 
             bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
@@ -182,9 +184,11 @@ namespace amp.UtilityClasses.Settings
 
         private void btAssignRemoteControlURI_Click(object sender, EventArgs e)
         {
+            // ReSharper disable once IdentifierTypo
             bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
             if (netshRet != null && netshRet == false)
             {
+                // ReSharper disable once RedundantAssignment
                 netshRet = VU.NetSH.ReserveNetShUrl(
                     lbRemoteControlURIVValue.Text, 
                     VU.BuiltInWindowsAccountsLocalize.GetUserNameBySID(VU.BuiltInWindowsAccountsLocalize.Everyone));
@@ -209,7 +213,7 @@ namespace amp.UtilityClasses.Settings
                 KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(MainWindow.QuietHoursFrom, MainWindow.QuietHoursTo, dtCompare);
                 dt1 = dt1.AddMinutes(1);
                 bool isQuietHour =(dt1 >= span.Key && dt1 < span.Value);
-                tbTestQuietHour.Text += isQuietHour + ": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;
+                tbTestQuietHour.Text += isQuietHour + @": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;
             }
         }
 

@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System;
 using System.Windows.Forms;
-using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
 using VPKSoft.LangLib;
 
