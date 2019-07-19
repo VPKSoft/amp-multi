@@ -1,1 +1,2 @@
-﻿* Done? [N/A  ] [2019/07/18] Export playlist to a flat directory structure (for a car CD).
+﻿* Done? [YES  ] [2019/07/19] Export playlist to a flat directory structure (for a car CD).
+* Done? [N/A  ] [2019/07/19] Enhancements to the progress dialog(s). I.e. a thread.

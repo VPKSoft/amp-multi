@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.1.0.0
+!define VERSION 1.1.0.1
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -51,7 +51,7 @@ Var /GLOBAL ASSOC_AIF
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE ..\license.txt
+!insertmacro MUI_PAGE_LICENSE ..\LICENSE
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 Page Custom PageAssociation
@@ -65,12 +65,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_1_0_0.exe
+OutFile setup_ampsharp_1_1_0_1.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.1.0.0
+VIProductVersion 1.1.0.1
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -96,18 +96,16 @@ Section -Main SEC0000
 	${EndIf}			
 	
 	File ..\amp\bin\Release\amp.exe
-	File ..\amp\bin\Release\license.txt
+	File ..\LICENSE
 	File ..\amp\bin\Release\NAudio.dll
 	File ..\amp\bin\Release\NAudio.WindowsMediaFormat.dll
 	File ..\amp\bin\Release\NVorbis.dll
-	File ..\amp\bin\Release\Script.sql_script
 	File ..\amp\bin\Release\System.Data.SQLite.dll
 	File ..\amp\bin\Release\taglib-sharp.dll
 	File ..\amp\bin\Release\VPKSoft.LangLib.dll
 	File ..\amp\bin\Release\VPKSoft.Utils.dll
 	File ..\amp\bin\Release\NAudio.Flac.dll
 	File ..\amp\bin\Release\NAudio.Vorbis.dll
-	File ..\amp\bin\Release\VPKSoft.About.dll
 	File ..\amp\bin\Release\VPKSoft.VersionCheck.dll
 	File ..\amp\bin\Release\DBLocalization.exe
 	File ..\amp\bin\Release\VPKSoft.RandomizationUtils.dll
@@ -138,7 +136,7 @@ Section -Main SEC0000
 	
 	
 	File ..\amp\bin\Release\VPKSoft.PosLib.dll
-	File ..\languages.ico    
+	File .\languages.ico    
 	
 	SetOutPath $INSTDIR\x64
 	File ..\amp\bin\Release\x64\SQLite.Interop.dll
@@ -154,9 +152,12 @@ Section -Main SEC0000
 	File ..\licenses\VPKSoft.Utils.COPYING
 	File ..\licenses\VPKSoft.Utils.COPYING.LESSER
 	
+	
+	SetOutPath $INSTDIR\SQLiteDatabase
+	File ..\amp\bin\Release\SQLiteDatabase\Script.sql_script
     
     SetOutPath "$LOCALAPPDATA\amp#"
-    File ..\lang.sqlite
+    File ..\amp\Localization\lang.sqlite
 	
 	!insertmacro CheckNetFramework 461
 	  

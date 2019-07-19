@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>amp</RootNamespace>
     <AssemblyName>amp</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -42,20 +42,17 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NAudio, Version=1.8.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.1.8.5\lib\net35\NAudio.dll</HintPath>
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NAudio.Flac, Version=1.0.5702.29018, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Flac.1.0.5702.29018\lib\net45\NAudio.Flac.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NAudio.Vorbis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Vorbis.1.0.0.0\lib\net35\NAudio.Vorbis.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NAudio.WindowsMediaFormat, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.Wma.1.0.1\lib\net35\NAudio.WindowsMediaFormat.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
@@ -68,8 +65,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.109.1\lib\net46\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.111.0\lib\net46\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
@@ -88,8 +86,8 @@
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.5\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.LangLib, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.LangLib.1.0.1.2\lib\net461\VPKSoft.LangLib.dll</HintPath>
+    <Reference Include="VPKSoft.LangLib, Version=1.0.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.LangLib.1.0.1.5\lib\net461\VPKSoft.LangLib.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.PosLib, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.PosLib.1.0.1.1\lib\net45\VPKSoft.PosLib.dll</HintPath>
@@ -389,19 +387,15 @@
     <None Include="Resources\backward.png" />
     <None Include="Resources\random.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Localization\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets'))" />
-  </Target>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
