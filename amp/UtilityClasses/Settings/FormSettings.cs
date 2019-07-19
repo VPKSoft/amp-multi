@@ -235,7 +235,6 @@ namespace amp.UtilityClasses.Settings
                                   "amp#",
                                   "lang.sqlite") + "\"";
 
-                MessageBox.Show(Application.ExecutablePath + ' ' + args);
                 Process.Start(Application.ExecutablePath, args);
             }
             catch (Exception ex)
