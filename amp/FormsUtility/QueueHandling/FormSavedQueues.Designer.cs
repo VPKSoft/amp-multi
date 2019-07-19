@@ -37,17 +37,20 @@ namespace amp.FormsUtility.QueueHandling
             this.colQueueSaveTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.bCancel = new System.Windows.Forms.Button();
+            this.bOK = new System.Windows.Forms.Button();
+            this.sdExportQueue = new System.Windows.Forms.SaveFileDialog();
+            this.odExportQueue = new System.Windows.Forms.OpenFileDialog();
+            this.btAppendQueue = new System.Windows.Forms.Button();
             this.tsbRemove = new System.Windows.Forms.ToolStripButton();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
             this.tsbModifySavedQueue = new System.Windows.Forms.ToolStripButton();
             this.tsbRefresh = new System.Windows.Forms.ToolStripButton();
             this.tsbExportQueue = new System.Windows.Forms.ToolStripButton();
             this.tsbImportQueue = new System.Windows.Forms.ToolStripButton();
-            this.bCancel = new System.Windows.Forms.Button();
-            this.bOK = new System.Windows.Forms.Button();
-            this.sdExportQueue = new System.Windows.Forms.SaveFileDialog();
-            this.odExportQueue = new System.Windows.Forms.OpenFileDialog();
-            this.btAppendQueue = new System.Windows.Forms.Button();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCopyAllFlat = new System.Windows.Forms.ToolStripButton();
+            this.fbdDirectory = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
             this.tlpMain.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +68,7 @@ namespace amp.FormsUtility.QueueHandling
             this.lvQueues.Location = new System.Drawing.Point(3, 3);
             this.lvQueues.MultiSelect = false;
             this.lvQueues.Name = "lvQueues";
-            this.lvQueues.Size = new System.Drawing.Size(515, 411);
+            this.lvQueues.Size = new System.Drawing.Size(523, 411);
             this.lvQueues.TabIndex = 5;
             this.lvQueues.UseCompatibleStateImageBehavior = false;
             this.lvQueues.View = System.Windows.Forms.View.Details;
@@ -108,75 +111,15 @@ namespace amp.FormsUtility.QueueHandling
             this.tsbModifySavedQueue,
             this.tsbRefresh,
             this.tsbExportQueue,
-            this.tsbImportQueue});
+            this.tsbImportQueue,
+            this.toolStripSeparator1,
+            this.tsbCopyAllFlat});
             this.tsMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.tsMain.Location = new System.Drawing.Point(521, 0);
+            this.tsMain.Location = new System.Drawing.Point(529, 0);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(32, 168);
+            this.tsMain.Size = new System.Drawing.Size(24, 178);
             this.tsMain.TabIndex = 6;
             this.tsMain.Text = "tsQueueManage";
-            // 
-            // tsbRemove
-            // 
-            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbRemove.Enabled = false;
-            this.tsbRemove.Image = global::amp.Properties.Resources.Delete;
-            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbRemove.Name = "tsbRemove";
-            this.tsbRemove.Size = new System.Drawing.Size(30, 20);
-            this.tsbRemove.Text = "Remove saved queue";
-            this.tsbRemove.ToolTipText = "Remove selected queue snapshot";
-            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
-            // 
-            // tsbSave
-            // 
-            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbSave.Image = global::amp.Properties.Resources.Save;
-            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSave.Name = "tsbSave";
-            this.tsbSave.Size = new System.Drawing.Size(30, 20);
-            this.tsbSave.Text = "Save changes";
-            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
-            // 
-            // tsbModifySavedQueue
-            // 
-            this.tsbModifySavedQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbModifySavedQueue.Image = global::amp.Properties.Resources.Modify;
-            this.tsbModifySavedQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbModifySavedQueue.Name = "tsbModifySavedQueue";
-            this.tsbModifySavedQueue.Size = new System.Drawing.Size(30, 20);
-            this.tsbModifySavedQueue.Text = "Modify saved queue";
-            this.tsbModifySavedQueue.Click += new System.EventHandler(this.tsbModifySavedQueue_Click);
-            // 
-            // tsbRefresh
-            // 
-            this.tsbRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbRefresh.Image = global::amp.Properties.Resources.Refresh;
-            this.tsbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbRefresh.Name = "tsbRefresh";
-            this.tsbRefresh.Size = new System.Drawing.Size(30, 20);
-            this.tsbRefresh.Text = "Refresh the list";
-            this.tsbRefresh.Click += new System.EventHandler(this.tsbRefresh_Click);
-            // 
-            // tsbExportQueue
-            // 
-            this.tsbExportQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbExportQueue.Image = global::amp.Properties.Resources.Download;
-            this.tsbExportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbExportQueue.Name = "tsbExportQueue";
-            this.tsbExportQueue.Size = new System.Drawing.Size(30, 20);
-            this.tsbExportQueue.Text = "Export selected queue";
-            this.tsbExportQueue.Click += new System.EventHandler(this.tsbExportQueue_Click);
-            // 
-            // tsbImportQueue
-            // 
-            this.tsbImportQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbImportQueue.Image = global::amp.Properties.Resources.Upload;
-            this.tsbImportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbImportQueue.Name = "tsbImportQueue";
-            this.tsbImportQueue.Size = new System.Drawing.Size(30, 20);
-            this.tsbImportQueue.Text = "Import queue from file";
-            this.tsbImportQueue.Click += new System.EventHandler(this.tsbImportQueue_Click);
             // 
             // bCancel
             // 
@@ -224,6 +167,89 @@ namespace amp.FormsUtility.QueueHandling
             this.btAppendQueue.UseVisualStyleBackColor = true;
             this.btAppendQueue.Click += new System.EventHandler(this.btAppendQueue_Click);
             // 
+            // tsbRemove
+            // 
+            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRemove.Enabled = false;
+            this.tsbRemove.Image = global::amp.Properties.Resources.Delete;
+            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRemove.Name = "tsbRemove";
+            this.tsbRemove.Size = new System.Drawing.Size(22, 20);
+            this.tsbRemove.Text = "Remove saved queue";
+            this.tsbRemove.ToolTipText = "Remove selected queue snapshot";
+            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSave.Image = global::amp.Properties.Resources.Save;
+            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(22, 20);
+            this.tsbSave.Text = "Save changes";
+            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
+            // 
+            // tsbModifySavedQueue
+            // 
+            this.tsbModifySavedQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbModifySavedQueue.Image = global::amp.Properties.Resources.Modify;
+            this.tsbModifySavedQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbModifySavedQueue.Name = "tsbModifySavedQueue";
+            this.tsbModifySavedQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbModifySavedQueue.Text = "Modify saved queue";
+            this.tsbModifySavedQueue.Click += new System.EventHandler(this.tsbModifySavedQueue_Click);
+            // 
+            // tsbRefresh
+            // 
+            this.tsbRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRefresh.Image = global::amp.Properties.Resources.Refresh;
+            this.tsbRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRefresh.Name = "tsbRefresh";
+            this.tsbRefresh.Size = new System.Drawing.Size(22, 20);
+            this.tsbRefresh.Text = "Refresh the list";
+            this.tsbRefresh.Click += new System.EventHandler(this.tsbRefresh_Click);
+            // 
+            // tsbExportQueue
+            // 
+            this.tsbExportQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbExportQueue.Image = global::amp.Properties.Resources.Download;
+            this.tsbExportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbExportQueue.Name = "tsbExportQueue";
+            this.tsbExportQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbExportQueue.Text = "Export selected queue";
+            this.tsbExportQueue.Click += new System.EventHandler(this.tsbExportQueue_Click);
+            // 
+            // tsbImportQueue
+            // 
+            this.tsbImportQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbImportQueue.Image = global::amp.Properties.Resources.Upload;
+            this.tsbImportQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbImportQueue.Name = "tsbImportQueue";
+            this.tsbImportQueue.Size = new System.Drawing.Size(22, 20);
+            this.tsbImportQueue.Text = "Import queue from file";
+            this.tsbImportQueue.Click += new System.EventHandler(this.tsbImportQueue_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(22, 6);
+            // 
+            // tsbCopyAllFlat
+            // 
+            this.tsbCopyAllFlat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbCopyAllFlat.Enabled = false;
+            this.tsbCopyAllFlat.Image = global::amp.Properties.Resources.copy_all;
+            this.tsbCopyAllFlat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCopyAllFlat.Name = "tsbCopyAllFlat";
+            this.tsbCopyAllFlat.Size = new System.Drawing.Size(22, 20);
+            this.tsbCopyAllFlat.Text = "Copy songs into a single directory";
+            this.tsbCopyAllFlat.Click += new System.EventHandler(this.TsbCopyAllFlat_Click);
+            // 
+            // fbdDirectory
+            // 
+            this.fbdDirectory.Description = "Copy songs into a single directory";
+            this.fbdDirectory.UseDescriptionForTitle = true;
+            // 
             // FormSavedQueues
             // 
             this.AcceptButton = this.bOK;
@@ -267,6 +293,8 @@ namespace amp.FormsUtility.QueueHandling
         private SaveFileDialog sdExportQueue;
         private OpenFileDialog odExportQueue;
         private Button btAppendQueue;
-
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton tsbCopyAllFlat;
+        private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog fbdDirectory;
     }
 }

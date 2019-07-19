@@ -94,6 +94,27 @@ namespace amp
             }
 
 
+            // Save languages
+            if (Utils.ShouldLocalize() != null)
+            {
+                new MainWindow();
+                new FormPsycho();
+                new FormAddAlbum();
+                new FormRename();
+                new FormQueueSnapshotName(); // 16.10.17
+                new FormSavedQueues(); // 18.10.17
+                new FormModifySavedQueue(); // 19.10.17
+                new FormSettings(); // 21.10.17
+                new FormTagInfo(); // 11.02.18
+                new FormAlbumNaming(); // 27.10.18
+                new FormDatabaseUpdatingProgress(); // 27.10.18
+                new FormHelp(); // 28.10.18
+                new FormRandomizePriority(); // 30.10.18
+                ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
+                return;
+            }
+            // End save languages
+
             ExceptionLogger.Bind(); // bind before any visual objects are created
 
 
@@ -148,26 +169,6 @@ namespace amp
             PositionCore.Bind(); // attach the PosLib to the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Save languages
-            if (Utils.ShouldLocalize() != null)
-            {
-                new MainWindow();
-                new FormPsycho();
-                new FormAddAlbum();
-                new FormRename();
-                new FormQueueSnapshotName(); // 16.10.17
-                new FormSavedQueues(); // 18.10.17
-                new FormModifySavedQueue(); // 19.10.17
-                new FormSettings(); // 21.10.17
-                new FormTagInfo(); // 11.02.18
-                new FormAlbumNaming(); // 27.10.18
-                new FormDatabaseUpdatingProgress(); // 27.10.18
-                new FormHelp(); // 28.10.18
-                new FormRandomizePriority(); // 30.10.18
-                ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
-                return;
-            }
-            // End save languages
 
             DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
             Application.Run(new MainWindow());

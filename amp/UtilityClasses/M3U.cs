@@ -31,12 +31,24 @@ using System.Text;
 
 namespace amp.UtilityClasses
 {
+    /// <summary>
+    /// Represents a single entry in a music playlist file (*.m3u or *.m3u8).
+    /// </summary>
     public class M3UEntry
     {
+        /// <summary>
+        /// The description of the file.
+        /// </summary>
         private string fileDesc;
 
+        /// <summary>
+        /// Gets or set the file name.
+        /// </summary>
         public string FileName { get; }
 
+        /// <summary>
+        /// Gets or set the description of a file.
+        /// </summary>
         public string FileDesc
         {
             get => fileDesc;
@@ -50,6 +62,11 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:amp.UtilityClasses.M3UEntry"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="fileDesc">The description of the file.</param>
         public M3UEntry(string fileName, string fileDesc)
         {
             FileName = fileName;
@@ -57,6 +74,9 @@ namespace amp.UtilityClasses
         }
     }
 
+    /// <summary>
+    /// A class representing a M3U playlist file.
+    /// </summary>
     public class M3U
     {
         private readonly Encoding enc;

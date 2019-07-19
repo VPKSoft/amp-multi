@@ -27,10 +27,14 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using amp.SQLiteDatabase.DatabaseUtils;
 using amp.UtilityClasses;
+using TagLib;
 using VPKSoft.LangLib;
+using File = System.IO.File;
 
 namespace amp.FormsUtility.QueueHandling
 {
@@ -49,6 +53,10 @@ namespace amp.FormsUtility.QueueHandling
                 return; // After localization don't do anything more.
             }
             DBLangEngine.InitalizeLanguage("amp.Messages");
+
+
+            fbdDirectory.Description = DBLangEngine.GetMessage("msgQueueCopyFlat",
+                "Copy songs into a single directory|A title to a folder select dialog indicating that files in a queue should be copied into a single directory.");
         }
 
         SQLiteConnection conn;
@@ -217,6 +225,14 @@ namespace amp.FormsUtility.QueueHandling
             }
 
             ReList();
+        }
+
+        private void TsbCopyAllFlat_Click(object sender, EventArgs e)
+        {
+            if (fbdDirectory.ShowDialog() == DialogResult.OK)
+            {
+                QueueUtilities.CopyQueueFiles(queueIndex, fbdDirectory.SelectedPath, conn);
+            }
         }
     }
 }

@@ -55,18 +55,23 @@ namespace amp.UtilityClasses.Settings
             this.btnTestQuietHour = new System.Windows.Forms.Button();
             this.lbLanguage = new System.Windows.Forms.Label();
             this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnModifiedRandomization = new System.Windows.Forms.Button();
             this.btAlbumNaming = new System.Windows.Forms.Button();
+            this.mnuLocalization = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDumpLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
             this.gpRemoteControl.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbQuietHours
             // 
             this.cbQuietHours.AutoSize = true;
-            this.cbQuietHours.Location = new System.Drawing.Point(12, 12);
+            this.cbQuietHours.Location = new System.Drawing.Point(12, 31);
             this.cbQuietHours.Name = "cbQuietHours";
             this.cbQuietHours.Size = new System.Drawing.Size(120, 17);
             this.cbQuietHours.TabIndex = 0;
@@ -76,7 +81,7 @@ namespace amp.UtilityClasses.Settings
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(127, 35);
+            this.label1.Location = new System.Drawing.Point(127, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(13, 13);
             this.label1.TabIndex = 2;
@@ -86,7 +91,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.dtpFrom.CustomFormat = "HH\':\'mm";
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(12, 35);
+            this.dtpFrom.Location = new System.Drawing.Point(12, 54);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.ShowUpDown = true;
             this.dtpFrom.Size = new System.Drawing.Size(92, 20);
@@ -96,7 +101,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.dtpTo.CustomFormat = "HH\':\'mm";
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(164, 35);
+            this.dtpTo.Location = new System.Drawing.Point(164, 54);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.ShowUpDown = true;
             this.dtpTo.Size = new System.Drawing.Size(92, 20);
@@ -110,7 +115,7 @@ namespace amp.UtilityClasses.Settings
             this.gpVolumeSetting.Controls.Add(this.nudQuietHourPercentage);
             this.gpVolumeSetting.Controls.Add(this.rbDecreaseVolumeQuietHours);
             this.gpVolumeSetting.Controls.Add(this.rbPauseQuiet);
-            this.gpVolumeSetting.Location = new System.Drawing.Point(12, 61);
+            this.gpVolumeSetting.Location = new System.Drawing.Point(12, 80);
             this.gpVolumeSetting.Name = "gpVolumeSetting";
             this.gpVolumeSetting.Size = new System.Drawing.Size(245, 96);
             this.gpVolumeSetting.TabIndex = 6;
@@ -147,6 +152,7 @@ namespace amp.UtilityClasses.Settings
             // rbPauseQuiet
             // 
             this.rbPauseQuiet.AutoSize = true;
+            this.rbPauseQuiet.Checked = true;
             this.rbPauseQuiet.Location = new System.Drawing.Point(6, 19);
             this.rbPauseQuiet.Name = "rbPauseQuiet";
             this.rbPauseQuiet.Size = new System.Drawing.Size(125, 17);
@@ -159,7 +165,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 432);
+            this.bCancel.Location = new System.Drawing.Point(12, 451);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -169,7 +175,7 @@ namespace amp.UtilityClasses.Settings
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(182, 432);
+            this.bOK.Location = new System.Drawing.Point(182, 451);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -200,7 +206,7 @@ namespace amp.UtilityClasses.Settings
             // lbLatency
             // 
             this.lbLatency.AutoSize = true;
-            this.lbLatency.Location = new System.Drawing.Point(9, 300);
+            this.lbLatency.Location = new System.Drawing.Point(9, 319);
             this.lbLatency.Name = "lbLatency";
             this.lbLatency.Size = new System.Drawing.Size(76, 13);
             this.lbLatency.TabIndex = 14;
@@ -208,7 +214,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // nudLatency
             // 
-            this.nudLatency.Location = new System.Drawing.Point(184, 298);
+            this.nudLatency.Location = new System.Drawing.Point(184, 317);
             this.nudLatency.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -245,7 +251,7 @@ namespace amp.UtilityClasses.Settings
             this.gpRemoteControl.Controls.Add(this.tbRemoteControlURI);
             this.gpRemoteControl.Controls.Add(this.btAssignRemoteControlURI);
             this.gpRemoteControl.Controls.Add(this.lbRemoteControlURIVValue);
-            this.gpRemoteControl.Location = new System.Drawing.Point(12, 163);
+            this.gpRemoteControl.Location = new System.Drawing.Point(12, 182);
             this.gpRemoteControl.Name = "gpRemoteControl";
             this.gpRemoteControl.Size = new System.Drawing.Size(244, 125);
             this.gpRemoteControl.TabIndex = 17;
@@ -292,7 +298,7 @@ namespace amp.UtilityClasses.Settings
             // lbLanguage
             // 
             this.lbLanguage.AutoSize = true;
-            this.lbLanguage.Location = new System.Drawing.Point(9, 325);
+            this.lbLanguage.Location = new System.Drawing.Point(9, 344);
             this.lbLanguage.Name = "lbLanguage";
             this.lbLanguage.Size = new System.Drawing.Size(136, 13);
             this.lbLanguage.TabIndex = 21;
@@ -303,16 +309,35 @@ namespace amp.UtilityClasses.Settings
             this.cmbSelectLanguageValue.DisplayMember = "DisplayName";
             this.cmbSelectLanguageValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSelectLanguageValue.FormattingEnabled = true;
-            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(12, 346);
+            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(12, 365);
             this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
             this.cmbSelectLanguageValue.Size = new System.Drawing.Size(244, 21);
             this.cmbSelectLanguageValue.TabIndex = 22;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(269, 24);
+            this.menuStrip1.TabIndex = 24;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLocalization,
+            this.mnuDumpLanguage});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
             // btnModifiedRandomization
             // 
             this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
             this.btnModifiedRandomization.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModifiedRandomization.Location = new System.Drawing.Point(12, 374);
+            this.btnModifiedRandomization.Location = new System.Drawing.Point(12, 393);
             this.btnModifiedRandomization.Name = "btnModifiedRandomization";
             this.btnModifiedRandomization.Size = new System.Drawing.Size(244, 23);
             this.btnModifiedRandomization.TabIndex = 23;
@@ -324,7 +349,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
             this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAlbumNaming.Location = new System.Drawing.Point(12, 403);
+            this.btAlbumNaming.Location = new System.Drawing.Point(12, 422);
             this.btAlbumNaming.Name = "btAlbumNaming";
             this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
             this.btAlbumNaming.TabIndex = 18;
@@ -332,13 +357,29 @@ namespace amp.UtilityClasses.Settings
             this.btAlbumNaming.UseVisualStyleBackColor = true;
             this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
             // 
+            // mnuLocalization
+            // 
+            this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
+            this.mnuLocalization.Name = "mnuLocalization";
+            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocalization.Text = "Localization";
+            this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
+            // 
+            // mnuDumpLanguage
+            // 
+            this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
+            this.mnuDumpLanguage.Name = "mnuDumpLanguage";
+            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
+            this.mnuDumpLanguage.Text = "Dumb language";
+            this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(269, 465);
+            this.ClientSize = new System.Drawing.Size(269, 484);
             this.Controls.Add(this.btnModifiedRandomization);
             this.Controls.Add(this.cmbSelectLanguageValue);
             this.Controls.Add(this.lbLanguage);
@@ -355,8 +396,10 @@ namespace amp.UtilityClasses.Settings
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpFrom);
             this.Controls.Add(this.cbQuietHours);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSettings";
@@ -370,6 +413,8 @@ namespace amp.UtilityClasses.Settings
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).EndInit();
             this.gpRemoteControl.ResumeLayout(false);
             this.gpRemoteControl.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,5 +447,9 @@ namespace amp.UtilityClasses.Settings
         private Label lbLanguage;
         private ComboBox cmbSelectLanguageValue;
         private Button btnModifiedRandomization;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem mnuLocalization;
+        private ToolStripMenuItem mnuDumpLanguage;
     }
 }

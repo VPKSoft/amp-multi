@@ -26,11 +26,14 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 using amp.FormsUtility;
 using amp.FormsUtility.Random;
+using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VU = VPKSoft.Utils;
 
@@ -220,6 +223,39 @@ namespace amp.UtilityClasses.Settings
         private void btnModifiedRandomization_Click(object sender, EventArgs e)
         {
             new FormRandomizePriority().ShowDialog();
+        }
+
+        private void MnuLocalization_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string args = "--localize=\"" +
+                              Path.Combine(
+                                  Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                  "amp#",
+                                  "lang.sqlite") + "\"";
+
+                MessageBox.Show(Application.ExecutablePath + ' ' + args);
+                Process.Start(Application.ExecutablePath, args);
+            }
+            catch (Exception ex)
+            {
+                // log the exception..
+                ExceptionLogger.LogError(ex, "Localization");
+            }
+        }
+
+        private void MnuDumpLanguage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(Application.ExecutablePath, "--dblang");
+            }
+            catch (Exception ex)
+            {
+                // log the exception..
+                ExceptionLogger.LogError(ex, "Localization dump");
+            }
         }
     }
 }

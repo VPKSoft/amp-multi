@@ -29,6 +29,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Windows.Forms;
 using amp.SQLiteDatabase;
+using amp.SQLiteDatabase.DatabaseUtils;
 using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.QueueHandling
@@ -61,6 +62,9 @@ namespace amp.FormsUtility.QueueHandling
 
             odExportQueue.Title = DBLangEngine.GetMessage("msgImportQueueFrom", "Import queue from file|As in import a queue snapshot from a file");
             sdExportQueue.Title = DBLangEngine.GetMessage("msgExportQueueTo", "Export queue to file|As in export a queue snapshot to a file");
+
+            fbdDirectory.Description = DBLangEngine.GetMessage("msgQueueCopyFlat",
+                "Copy songs into a single directory|A title to a folder select dialog indicating that files in a queue should be copied into a single directory.");
         }
 
         private SQLiteConnection conn;
@@ -74,6 +78,7 @@ namespace amp.FormsUtility.QueueHandling
             lvQueues.Items.Clear();
             tsbSave.Enabled = false;
             tsbRemove.Enabled = false;
+            tsbCopyAllFlat.Enabled = false;
             lastText = string.Empty;
             bOK.Enabled = false;
             btAppendQueue.Enabled = false;
@@ -147,6 +152,7 @@ namespace amp.FormsUtility.QueueHandling
             bOK.Enabled = lv.SelectedIndices.Count > 0;
             tsbRemove.Enabled = lv.SelectedIndices.Count > 0;
             tsbModifySavedQueue.Enabled = lv.SelectedIndices.Count > 0;
+            tsbCopyAllFlat.Enabled = lv.SelectedIndices.Count > 0;
             tsbExportQueue.Enabled = lv.SelectedIndices.Count > 0;
             btAppendQueue.Enabled = lv.SelectedIndices.Count > 0;
         }
@@ -240,6 +246,15 @@ namespace amp.FormsUtility.QueueHandling
         {
             appendQueue = true;
             DialogResult = DialogResult.OK;
+        }
+
+        private void TsbCopyAllFlat_Click(object sender, EventArgs e)
+        {
+            if (fbdDirectory.ShowDialog() == DialogResult.OK)
+            {
+                QueueUtilities.CopyQueueFiles(Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag),
+                    fbdDirectory.SelectedPath, conn);
+            }
         }
     }
 }

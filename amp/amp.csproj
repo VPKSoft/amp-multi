@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\amp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\amp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -58,6 +60,9 @@
     <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.1.1.0\lib\net45\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="policy.2.0.taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
@@ -66,7 +71,9 @@
     <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.109.1\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,8 +85,8 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
+    <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.5\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.LangLib, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.LangLib.1.0.1.2\lib\net461\VPKSoft.LangLib.dll</HintPath>
@@ -128,6 +135,7 @@
     <Compile Include="FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQLiteDatabase\DatabaseUtils\QueueUtilities.cs" />
     <Compile Include="UtilityClasses\Constants.cs" />
     <Compile Include="WCFRemote\IampRemote.cs" />
     <Compile Include="SQLiteDatabase\Database.cs" />
@@ -298,6 +306,11 @@
     </Content>
     <Content Include="history.txt" />
     <Content Include="icon.ico" />
+    <None Include="Resources\education-languages.png" />
+    <None Include="Resources\database-go.png" />
+    <Content Include="VPKSoft.ico" />
+    <None Include="Resources\copy_all.png" />
+    <Content Include="todo_list.txt" />
     <None Include="Resources\help.png" />
     <None Include="Resources\info1.png" />
     <None Include="Resources\Keyboard.png" />

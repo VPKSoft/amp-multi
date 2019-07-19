@@ -234,4 +234,7 @@
   <data name="msgTrackNO" xml:space="preserve">
     <value>Track number|As a track number of a song in a music album</value>
   </data>
+  <data name="msgQueueCopyFlat" xml:space="preserve">
+    <value>Copy songs into a single directory|A title to a folder select dialog indicating that files in a queue should be copied into a single directory.</value>
+  </data>
 </root>
