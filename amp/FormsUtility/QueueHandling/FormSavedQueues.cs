@@ -228,7 +228,7 @@ namespace amp.FormsUtility.QueueHandling
         {
             if (odExportQueue.ShowDialog() == DialogResult.OK)
             {                
-                MainWindow wnd = Application.OpenForms[0] as MainWindow;
+                FormMain wnd = Application.OpenForms[0] as FormMain;
 
                 string queueName = Database.GetQueueSnapshotName(odExportQueue.FileName);
 

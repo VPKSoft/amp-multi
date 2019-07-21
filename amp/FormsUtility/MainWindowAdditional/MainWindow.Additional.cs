@@ -35,7 +35,7 @@ using Settings = amp.UtilityClasses.Settings.Settings;
 // ReSharper disable once CheckNamespace
 namespace amp
 {
-    public partial class MainWindow
+    public partial class FormMain
     {
         private void DisableChecks()
         {

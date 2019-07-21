@@ -30,6 +30,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -114,6 +115,56 @@ namespace amp.SQLiteDatabase
                 }
             }
             return retval;
+        }
+
+        /// <summary>
+        /// Gets the name of the of the default album.
+        /// </summary>
+        /// <param name="conn">A reference to an open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <returns>A name of the default album.</returns>
+        public static string GetDefaultAlbumName(SQLiteConnection conn)
+        {
+            string sql =
+                string.Join(Environment.NewLine,
+                    "SELECT ALBUMNAME FROM ALBUM WHERE ID = 1;");
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, conn))
+            {
+                return (string) command.ExecuteScalar();
+            }
+        }
+
+        /// <summary>
+        /// Deletes an album from the database with a given <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the album to delete.</param>
+        /// <param name="conn">A reference to an open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <returns><c>true</c> if the album was successfully deleted, <c>false</c> otherwise.</returns>
+        public static bool DeleteAlbum(string name, SQLiteConnection conn)
+        {
+            string sql =
+                string.Join(Environment.NewLine,
+                    $"SELECT COUNT(*) FROM ALBUM WHERE ALBUMNAME = {QS(name)} AND ID NOT IN (0, 1);");
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, conn))
+            {
+                if ((long) command.ExecuteScalar() == 0)
+                {
+                    return false;
+                }
+            }
+
+            sql =
+                string.Join(Environment.NewLine,
+                    $"DELETE FROM ALBUMSONGS WHERE ALBUM_ID IN (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)} AND ID NOT IN (0, 1));",
+                    $"DELETE FROM ALBUM WHERE ALBUMNAME = {QS(name)} AND ID NOT IN (0, 1);");
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, conn))
+            {
+                command.ExecuteNonQuery();
+            }
+
+            return true;
         }
 
         public static void GetIDsForSongs(ref List<MusicFile> noIdSongs, SQLiteConnection conn)

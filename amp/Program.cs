@@ -28,14 +28,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility;
 using amp.FormsUtility.Help;
 using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
+using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
 using VPKSoft.ErrorLogger;
+using VPKSoft.IPC;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.Utils;
@@ -49,40 +52,8 @@ namespace amp
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        /// 
-
-        public static List<string> Arguments = new List<string>();
-        public static DateTime FirstInstanceCall = DateTime.Now;
-
-        static public string AppDataDir
-        {
-            get
-            {
-                MakeDataDir();
-                return Environment.GetEnvironmentVariable("LOCALAPPDATA") + @"\" + Application.ProductName + @"\";
-            }
-        }
-
-        public static string AppInstallDir
-        {
-            get
-            {
-                return AppDomain.CurrentDomain.BaseDirectory;
-            }
-        }
-
-        public static void MakeDataDir()
-        {
-            string dir = Environment.GetEnvironmentVariable("LOCALAPPDATA") + @"\" + Application.ProductName + @"\";
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-        }
-
-
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             Process localizeProcess = Utils.CreateDBLocalizeProcess(Paths.AppInstallDir);
             // localizeProcess..
@@ -93,88 +64,171 @@ namespace amp
                 return;
             }
 
+            ExceptionLogger.Bind(); // bind before any visual objects are created
+            ExceptionLogger.ApplicationCrashData += ExceptionLogger_ApplicationCrashData;
+
 
             // Save languages
             if (Utils.ShouldLocalize() != null)
             {
-                new MainWindow();
+                // ReSharper disable once ObjectCreationAsStatement
+                new FormMain();
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormPsycho();
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormAddAlbum();
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormRename();
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormQueueSnapshotName(); // 16.10.17
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormSavedQueues(); // 18.10.17
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormModifySavedQueue(); // 19.10.17
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormSettings(); // 21.10.17
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormTagInfo(); // 11.02.18
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormAlbumNaming(); // 27.10.18
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormDatabaseUpdatingProgress(); // 27.10.18
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormHelp(); // 28.10.18
+                // ReSharper disable once ObjectCreationAsStatement
                 new FormRandomizePriority(); // 30.10.18
+                ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
                 return;
             }
             // End save languages
-
-            ExceptionLogger.Bind(); // bind before any visual objects are created
 
 
             if (Settings.DbUpdateRequiredLevel < 1)
             {
                 if (AppRunning.CheckIfRunning("VPKSoft.amp.DBUpdate.sharp#"))
                 {
+                    ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                     ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
                     return;
                 }
                 DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
                 Application.Run(new FormDatabaseUpdatingProgress());
+                ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
                 Settings.DbUpdateRequiredLevel = 1;
                 Process.Start(new ProcessStartInfo(Path.Combine(Paths.AppInstallDir, "amp.exe"))); // the database is updated..
                 return;
             }
 
-            foreach (string arg in args)
-            {
-                Arguments.Add(arg);
-            }
             if (AppRunning.CheckIfRunning("VPKSoft.amp.sharp#"))
             {
-                if (Arguments.Count > 0)
+                ExceptionLogger.LogMessage($"Application is running. Checking for open file requests. The current directory is: '{Environment.CurrentDirectory}'.");
+                try
                 {
-                    string msg = string.Empty;
-                    foreach (string a in Arguments)
+                    IpcClientServer ipcClient = new IpcClientServer();
+                    ipcClient.CreateClient("localhost", 50671);
+                    string[] args = Environment.GetCommandLineArgs();
+
+                    // only send the existing files to the running instance, don't send the executable
+                    // file name thus the start from 1..
+                    for (int i = 1; i < args.Length; i++)
                     {
-                        if (File.Exists(a))
+                        string file = args[i];
+                        
+                        ExceptionLogger.LogMessage($"Request file open: '{file}'.");
+                        if (File.Exists(file))
                         {
-                            if (Path.GetExtension(a).ToUpper() == ".mp3".ToUpper() ||
-                                Path.GetExtension(a).ToUpper() == ".ogg".ToUpper() ||
-                                Path.GetExtension(a).ToUpper() == ".flac".ToUpper() ||
-                                Path.GetExtension(a).ToUpper() == ".wma".ToUpper() ||
-                                Path.GetExtension(a).ToUpper() == ".wav".ToUpper())
-                            {
-                                msg += a + ";";
-                            }
+                            ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
+                            ipcClient.SendMessage(file);
                         }
                     }
-                    if (msg.Length > 0)
-                    {
-                        msg = msg.TrimEnd(';');
-                        RemotingMessageClient amp_client = new RemotingMessageClient(50670, "apm_sharp_remoting");
-                        amp_client.SendMessage(msg, amp_client.TCPPort, amp_client.UriExtension);
-                    }
                 }
-                ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
+                catch (Exception ex)
+                {
+                    ExceptionLogger.LogError(ex);
+                    // just in case something fails with the IPC communication..
+                }
+                ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
+                ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully..
                 return;
             }
+            else
+            {
+                // create an IPC server at localhost, the port was randomized in the development phase..
+                IpcServer.CreateServer("localhost", 50671);
+
+                // subscribe to the IPC event if the application receives a message from another instance of this application..
+                IpcClientServer.RemoteMessage.MessageReceived += RemoteMessage_MessageReceived;
+            }
+
             PositionCore.Bind(); // attach the PosLib to the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
-            Application.Run(new MainWindow());
+            Application.Run(new FormMain());
             FormHelp.DisposeSingleton(); // release the help form if any..
             PositionCore.UnBind(); // release the event handlers used by the PosLib and save the default data
+
+            // unsubscribe the IpcClientServer MessageReceived event handler..
+            IpcClientServer.RemoteMessage.MessageReceived -= RemoteMessage_MessageReceived;
+
+            ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
         }
+
+        private static void ExceptionLogger_ApplicationCrashData(ApplicationCrashEventArgs e)
+        {
+            // unsubscribe this event handler..
+            ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
+            IpcClientServer.RemoteMessage.MessageReceived -= RemoteMessage_MessageReceived;
+            ExceptionLogger.UnBind(); // unbind the exception logger..
+
+            // kill self as the native inter-op libraries may have some issues of keeping the process alive..
+            Process.GetCurrentProcess().Kill();
+
+            // This is the end..
+        }
+
+        private static readonly List<string> TemporaryRemoteFiles = new List<string>();
+
+        private static void RemoteMessage_MessageReceived(object sender, MessageReceivedEventArgs e)
+        {
+            if (FormMain.RemoteFileBeingProcessed)
+            {
+                TemporaryRemoteFiles.Add(e.Message);
+            }
+            else
+            {
+                FormMain.StopIpcTimer = true;
+                FormMain.RemoteFiles.Add(e.Message);
+                FormMain.RemoteFiles.AddRange(TemporaryRemoteFiles);
+                TemporaryRemoteFiles.Clear();
+                FormMain.StopIpcTimer = false;
+            }
+
+            bool threadWait = false;
+
+            while (TemporaryRemoteFiles.Count > 0 && FormMain.RemoteFileBeingProcessed)
+            {
+                threadWait = true;
+                Thread.Sleep(100);
+            }
+
+            if (threadWait)
+            {
+                FormMain.StopIpcTimer = true;
+                FormMain.RemoteFiles.AddRange(TemporaryRemoteFiles);
+                TemporaryRemoteFiles.Clear();
+                FormMain.StopIpcTimer = false;
+            }
+        }
+
+        /// <summary>
+        /// An IPC client / server to transmit Windows shell file open requests to the current process.
+        /// (C): VPKSoft: https://gist.github.com/VPKSoft/5d78f1c06ec51ebad34817b491fe6ac6
+        /// </summary>
+        private static readonly IpcClientServer IpcServer = new IpcClientServer();
     }
 }

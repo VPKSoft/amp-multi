@@ -24,9 +24,9 @@ SOFTWARE.
 */
 #endregion
 
+#region Usings
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
@@ -49,30 +49,61 @@ using NAudio.Vorbis;
 using NAudio.Wave;
 using NAudio.WindowsMediaFormat;
 using VPKSoft.ErrorLogger;
+using VPKSoft.IPC;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.Utils;
 using VPKSoft.VersionCheck;
 using Utils = VPKSoft.LangLib.Utils;
+using System.Runtime.InteropServices;
+#endregion
 
 namespace amp
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public partial class MainWindow : DBLangEngineWinforms
+    /// <summary>
+    /// The main form of the application.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms"/>
+    /// </summary>
+    public partial class FormMain : DBLangEngineWinforms
     {
-        // the currently playing musing file
+        #region Fields        
+        /// <summary>
+        /// Gets or sets the files passed by the IPC channel.
+        /// </summary>
+        internal static List<string> RemoteFiles { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Gets a value indicating whether the software is processing the <see cref="RemoteFiles"/> list.
+        /// </summary>
+        internal static volatile bool RemoteFileBeingProcessed = false;
+
+        internal static volatile bool StopIpcTimer = false;
+
+        // the self-hosted WCF remote control API for the software.
+        readonly AmpRemote remote = new AmpRemote();
+
+        /// <summary>
+        /// The currently playing musing file.
+        /// </summary>
         public volatile MusicFile MFile;
 
-        // the thread that handles the playback logic (next song, randomizing, UI updates, e.g..
+        // the thread that handles the playback logic (next song, randomizing, UI updates, e.g.)..
         private Thread thread;
 
-        // a SQLiteConnection for the database access..
+        /// <summary>
+        /// The SQLiteConnection for the database access.
+        /// </summary>
         public SQLiteConnection Conn; // database connection for the SQLite database
 
-        // the name of a currently playing album..
+        /// <summary>
+        /// The name of a currently playing album.
+        /// </summary>
         public string CurrentAlbum;
 
-        // list of entries in the current album..
+        /// <summary>
+        /// The list of entries in the current album.
+        /// </summary>
         public List<MusicFile> PlayList = new List<MusicFile>();
 
         // list of indexes of the played songs in the PlayList..
@@ -83,21 +114,59 @@ namespace amp
 
         // a flag indicating if the play back progress (the ProgressBar and the time left text) are changing via a user generated event..
         private bool progressUpdating = false;
+        #endregion
 
-        // some "useful" settings to enable "quiet hours", latency and the remote control WCF service 
-        public static bool QuietHours = false; // this is gotten from the settings
+        #region Settings
+        /// <summary>
+        /// A flag indicating whether the quiet hours is enabled in the settings.
+        /// </summary>
+        public static bool QuietHours = false;
+
+        /// <summary>
+        /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
         public static string QuietHoursFrom = "08:00";
+
+        /// <summary>
+        /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
         public static string QuietHoursTo = "23:00";
+
+        /// <summary>
+        /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
         public static bool QuietHoursPause = false;
+
+        /// <summary>
+        /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
         public static double QuietHoursVolPercentage = 0.7;
+
+        /// <summary>
+        /// The latency in milliseconds for the <see cref="WaveOut.DesiredLatency"/>.
+        /// </summary>
         public static int LatencyMs = 300;
+
+        /// <summary>
+        /// A value indicating if the remote control WCF API is enabled.
+        /// </summary>
         public static bool RemoteControlApiWcf = false;
-        public static string RemoteControlApiWcfAddress = "http://localhost:11316/ampRemote"; // END: this is gotten from the settings
 
+        /// <summary>
+        /// The remote control WCF API address (URL).
+        /// </summary>
+        public static string RemoteControlApiWcfAddress = "http://localhost:11316/ampRemote";
 
-        AmpRemote remote = new AmpRemote();
+        /// <summary>
+        /// A value indicating whether the software should check for updates automatically upon startup.
+        /// </summary>
+        public static bool AutoCheckUpdates = false;
+        #endregion
 
-        public MainWindow() 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormMain"/> class.
+        /// </summary>
+        public FormMain() 
         {
             // Add this form to be positioned..
             PositionForms.Add(this);
@@ -134,12 +203,46 @@ namespace amp
             AmpRemote.MainWindow = this;
         }
 
+        private void CheckArguments()
+        {
+            var args = Environment.GetCommandLineArgs();
+
+            for (int i = 1; i < args.Length; i++)
+            {
+                string file = args[i];
+                        
+                ExceptionLogger.LogMessage($"Request file open: '{file}'.");
+                if (File.Exists(file))
+                {
+                    ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
+                    OpenFileToTemporaryAlbum(file);
+                }
+            }
+        }
+
+        private void OpenFileToTemporaryAlbum(string file)
+        {
+            if (CurrentAlbum != "tmp")
+            {
+                CurrentAlbum = "tmp";
+                Database.ClearTmpAlbum(ref PlayList, Conn);
+                tbShuffle.Checked = true;
+                tbRand.Checked = false;
+                tbFind.Text = string.Empty;
+            }
+            CurrentAlbum = "tmp";
+            DoAddFileList(new List<string>(new [] {file}), false);
+
+            GetAlbum(CurrentAlbum, false);
+            ListAlbums(0);
+        }
+
         private void SelectAlbumClick(object sender, EventArgs e)
         {
             List<Album> albums = Database.GetAlbums(Conn);
             foreach (Album album in albums)
             {
-                ToolStripMenuItem item = sender as ToolStripMenuItem;
+                ToolStripMenuItem item = (ToolStripMenuItem) sender;
                 if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
                 {
                     DisableChecks();
@@ -151,6 +254,7 @@ namespace amp
             }
         }
 
+        // a class monitoring if the user is idle..
         private HumanActivity humanActivity;
 
         public double Seconds;
@@ -771,6 +875,7 @@ namespace amp
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
+            tmIPCFiles.Enabled = false;
             tmSeek.Stop();
             tmPendOperation.Stop();
             CloseWaveOut();
@@ -997,7 +1102,6 @@ namespace amp
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
-
             Conn = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
             Conn.Open();
 
@@ -1027,49 +1131,70 @@ namespace amp
                 Thread.Sleep(500);
             }
 
-            if (Program.Arguments.Count > 1)
-            {
-                CurrentAlbum = "tmp";
-                Database.ClearTmpAlbum(ref PlayList, Conn);
-                DoAddFileList(Program.Arguments);
-                ListAlbums(0);
-            }
-            else if (Program.Arguments.Count == 1 && !Program.Arguments.Contains("#--dblang")) 
-                // this is the way the debug argument doesn't dump the language database (#--dblang), but the argument may remain as an invalid argument vs the right one (--dblang).. #ref1
-            {
-                if (CurrentAlbum != "tmp")
-                {
-                    CurrentAlbum = "tmp";
-                    Database.ClearTmpAlbum(ref PlayList, Conn);
-                    tbShuffle.Checked = true;
-                    tbRand.Checked = false;
-                    tbFind.Text = string.Empty;
-                }
-                CurrentAlbum = "tmp";
-                DoAddFileList(Program.Arguments, false);
+            ListAlbums(1);
 
-                GetAlbum(CurrentAlbum, false);
-                ListAlbums(0);
-            }
-            else
-            {
-                ListAlbums(1);
-            }
+            CheckArguments();
 
-            if (CurrentAlbum != "tmp")
+            if (CurrentAlbum != "tmp" && RemoteFiles.Count == 0)
             {
                 GetAlbum(CurrentAlbum);
             }
 
-            if (Program.Arguments.Count > 0 && !Program.Arguments.Contains("#--dblang")) // see "#ref1" for the '#--dblang'...
-            {
-                if (!playing)
-                {
-                    GetNextSong(true);
-                }
-            }
             albumChanged = false;
             remote.InitAmpRemote();
+
+            // check for a new version from the internet..
+            CheckForNewVersion();
+
+            tmIPCFiles.Enabled = true;
+        }
+
+        /// <summary>
+        /// Checks for new version of the application.
+        /// </summary>
+        private void CheckForNewVersion()
+        {
+            // no going to the internet if the user doesn't allow it..
+            if (AutoCheckUpdates)
+            {
+                try
+                {
+                    VersionCheck.CheckUri = "https://www.vpksoft.net/versions/version.php";
+                    var assembly = Assembly.GetEntryAssembly();
+                    var version = VersionCheck.GetVersion(assembly);
+
+                    // null validation before usage..
+                    if (version != null && version.IsLargerVersion(assembly))
+                    {
+                        if (MessageBox.Show(DBLangEngine.GetMessage("msgQueryDownloadNewVersion",
+                                    "A new version is available to download. Download now?|A message describing that a new version of the software is available to download and the user is asked whether to download it now."),
+                                DBLangEngine.GetMessage("msgQueryNewVersionTitle",
+                                    "New version is available|A dialog title informing a user of a new version download possibility"),
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) ==
+                            DialogResult.Yes)
+                        {
+                            string tempPath = Path.GetTempPath();
+                            if (VersionCheck.DownloadFile(version.DownloadLink, tempPath))
+                            {
+                                try
+                                {
+                                    Process.Start(Path.Combine(tempPath, Path.GetFileName(new Uri(version.DownloadLink).LocalPath)));
+                                }
+                                catch (Exception ex)
+                                {
+                                    // log the exception..
+                                    ExceptionLogger.LogError(ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // log the exception..
+                    ExceptionLogger.LogError(ex);
+                }
+            }
         }
 
         private void tbPlayNext_Click(object sender, EventArgs e)
@@ -1302,7 +1427,6 @@ namespace amp
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            RemotingMessageServer.Register(50670, "apm_sharp_remoting", RemotingOnMessage, 1000, 1000000);
             humanActivity = new HumanActivity(15);
             humanActivity.UserSleep += humanActivity_OnUserSleep;
         }
@@ -1386,54 +1510,6 @@ namespace amp
         void humanActivity_OnUserSleep(object sender, UserSleepEventArgs e)
         {
             DisplayPlayingSong();
-        }
-
-        void RemotingOnMessage(string message)
-        {
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += (s, e) => 
-            {
-                while (!playerThreadLoaded)
-                {
-                    Thread.Sleep(500);
-                }
-            };
-            bw.RunWorkerCompleted += (s, e) => 
-            {
-                Program.Arguments.Clear();
-
-                Program.Arguments.AddRange(message.Split(';'));
-                if (Program.Arguments.Count > 1)
-                {
-                    CurrentAlbum = "tmp";
-                    Database.ClearTmpAlbum(ref PlayList, Conn);
-                    DoAddFileList(Program.Arguments);
-
-
-                    GetAlbum(CurrentAlbum, false);
-                    tbRand.Checked = false;
-                    tbShuffle.Checked = true;
-                    tbFind.Text = string.Empty;
-                    GetNextSong(true);
-                }
-                else if (Program.Arguments.Count == 1)
-                {
-                    if (CurrentAlbum != "tmp")
-                    {
-                        CurrentAlbum = "tmp";
-                        Database.ClearTmpAlbum(ref PlayList, Conn);
-                        tbShuffle.Checked = true;
-                        tbRand.Checked = false;
-                        tbFind.Text = string.Empty;
-                    }
-                    CurrentAlbum = "tmp";
-                    DoAddFileList(Program.Arguments, false);
-
-                    GetAlbum(CurrentAlbum, false);
-                    ListAlbums(0);
-                }
-            };
-            bw.RunWorkerAsync();
         }
 
         private void mnuPlayListM3UNewAlbum_Click(object sender, EventArgs e)
@@ -1675,6 +1751,68 @@ namespace amp
         private void mnuShowAllSongs_Click(object sender, EventArgs e)
         {
             ShowAllSongs();
+        }
+
+        private void TmIPCFiles_Tick(object sender, EventArgs e)
+        {
+            if (StopIpcTimer)
+            {
+                return;
+            }
+
+            tmIPCFiles.Enabled = false;
+            RemoteFileBeingProcessed = RemoteFiles.Count > 0;
+
+            foreach (var remoteFile in RemoteFiles)
+            {
+                OpenFileToTemporaryAlbum(remoteFile);
+            }
+            RemoteFiles.Clear();
+
+            RemoteFileBeingProcessed = false;
+            tmIPCFiles.Enabled = true;
+        }
+
+        private void MnuSaveAlbumAs_Click(object sender, EventArgs e)
+        {
+            string name = FormAddAlbum.Execute();
+            if (name != string.Empty)
+            {
+                int id;
+                if ((id = Database.AddNewAlbum(name, Conn)) != -1)
+                {
+                    ListAlbums(id);
+                    Database.AddSongToAlbum(name, PlayList, Conn);
+                    CurrentAlbum = name;
+                    GetAlbum(CurrentAlbum);
+                }
+            }
+        }
+
+        private void MnuDeleteAlbum_Click(object sender, EventArgs e)
+        {
+            if (CurrentAlbum != "tmp" &&
+                CurrentAlbum != Database.GetDefaultAlbumName(Conn))
+            {
+                if (MessageBox.Show(
+                        DBLangEngine.GetMessage("msgQueryDeleteAlbum",
+                            "Really delete album named: '{0}'?|A confirmation query for the user that a deletion of an album is intended.", CurrentAlbum),
+                        DBLangEngine.GetMessage("msgConfirmation",
+                            "Confirm|Used in a dialog title to ask for a confirmation to do something"),
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) ==
+                    DialogResult.Yes)
+                {
+                    Database.DeleteAlbum(CurrentAlbum, Conn);
+                    ListAlbums();
+                    GetAlbum(Database.GetDefaultAlbumName(Conn));
+                }
+            }
+        }
+
+        private void MnuFile_DropDownOpening(object sender, EventArgs e)
+        {
+            mnuDeleteAlbum.Enabled = CurrentAlbum != "tmp" &&
+                                     CurrentAlbum != Database.GetDefaultAlbumName(Conn);
         }
     }
 }

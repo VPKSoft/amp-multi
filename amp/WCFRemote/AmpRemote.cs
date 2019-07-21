@@ -63,7 +63,7 @@ namespace amp.WCFRemote
         /// <summary>
         /// Reference to the MainWindow class instance as the playback logic is (sadly) in there.
         /// </summary>
-        public static MainWindow MainWindow = null;
+        public static FormMain MainWindow = null;
 
         /// <summary>
         /// Initializes a ServiceHost class instance for the self-hosted remote control basic HTTP binding WCF API.
@@ -72,7 +72,7 @@ namespace amp.WCFRemote
         public bool InitAmpRemote()
         {
             // If not defined int the settings, we don't even try..
-            if (!MainWindow.RemoteControlApiWcf)
+            if (!FormMain.RemoteControlApiWcf)
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace amp.WCFRemote
 
             try // try to create a self-hosted WCF HTTP binding..
             {
-                ampRemoteAddress = new Uri(MainWindow.RemoteControlApiWcfAddress); // From the settings we get this..
+                ampRemoteAddress = new Uri(FormMain.RemoteControlApiWcfAddress); // From the settings we get this..
 
                 // A data transfer of information of possibly thousands of songs require large buffers/capacity..
                 ampRemoteHost.AddServiceEndpoint(typeof(IampRemote), new BasicHttpBinding { MaxReceivedMessageSize = 2147483647, MaxBufferPoolSize = 2147483647 }, string.Empty);
@@ -99,7 +99,7 @@ namespace amp.WCFRemote
             catch (Exception ex)
             {
                 // If the self-hosted WCF HTTP binding was defined in the settings, but failed, do inform the user
-                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", MainWindow.RemoteControlApiWcfAddress, ex.Message),
+                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", FormMain.RemoteControlApiWcfAddress, ex.Message),
                                 DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 // Do abort the host
@@ -282,7 +282,7 @@ namespace amp.WCFRemote
         public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
         {
             MainWindow.Queue(insert, queueList);
-            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }
@@ -299,7 +299,7 @@ namespace amp.WCFRemote
         public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
         {
             MainWindow.Queue(insert, songIDs);
-            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }
@@ -364,7 +364,7 @@ namespace amp.WCFRemote
         {
             MainWindow.Queue(insert, songIDs);
 
-            if (MainWindow.Filtered == MainWindow.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 MainWindow.ShowQueue();
             }

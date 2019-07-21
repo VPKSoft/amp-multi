@@ -39,8 +39,14 @@ using VU = VPKSoft.Utils;
 
 namespace amp.UtilityClasses.Settings
 {
+    /// <summary>
+    /// The main settings form for the software.
+    /// </summary>
     public partial class FormSettings : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:amp.UtilityClasses.Settings.FormSettings"/> class.
+        /// </summary>
         public FormSettings()
         {
             InitializeComponent();
@@ -66,28 +72,46 @@ namespace amp.UtilityClasses.Settings
             DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Get the main form settings.
+        /// </summary>
         public static void SetMainWindowSettings()
         {
             VU.VPKNml vnml = new VU.VPKNml();
             VU.Paths.MakeAppSettingsFolder();
             vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
-            MainWindow.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
+            FormMain.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
 
-            MainWindow.QuietHoursFrom = vnml["quietHour", "start", "23:00"].ToString();
-            MainWindow.QuietHoursTo = vnml["quietHour", "end", "08:00"].ToString();
-            MainWindow.QuietHoursPause = Convert.ToBoolean(vnml["quietHour", "pause", true]);
-            MainWindow.QuietHoursVolPercentage = (100.0 - Convert.ToDouble(vnml["quietHour", "percentage", 70])) / 100.0;
-            MainWindow.LatencyMs = Convert.ToInt32(vnml["latency", "value", 300]);
-            MainWindow.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
-            MainWindow.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
+            FormMain.QuietHoursFrom = vnml["quietHour", "start", "23:00"].ToString();
+            FormMain.QuietHoursTo = vnml["quietHour", "end", "08:00"].ToString();
+            FormMain.QuietHoursPause = Convert.ToBoolean(vnml["quietHour", "pause", true]);
+            FormMain.QuietHoursVolPercentage = (100.0 - Convert.ToDouble(vnml["quietHour", "percentage", 70])) / 100.0;
+            FormMain.LatencyMs = Convert.ToInt32(vnml["latency", "value", 300]);
+            FormMain.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
+            FormMain.AutoCheckUpdates = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
+            FormMain.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
         }
 
+
+        /// <summary>
+        /// Calculates the quiet hour start and end based on the current time.
+        /// </summary>
+        /// <param name="hourFrom">The starting hour formatted as HH:mm.</param>
+        /// <param name="hourTo">The ending hour formatted as HH:mm.</param>
+        /// <returns>A <see cref="KeyValuePair{TKey,TValue}"/> containing the starting and ending <see cref="DateTime"/> of a quiet hour.</returns>
         public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo)
         {
             return CalculateQuietHour(hourFrom, hourTo, DateTime.Now);
         }
 
+        /// <summary>
+        /// Calculates the quiet hour start and end based on the given time.
+        /// </summary>
+        /// <param name="hourFrom">The starting hour formatted as HH:mm.</param>
+        /// <param name="hourTo">The ending hour formatted as HH:mm.</param>
+        /// <param name="compareDate">A date and time to compare the <paramref name="hourFrom"/> and <paramref name="hourTo"/> values.</param>
+        /// <returns>A <see cref="KeyValuePair{TKey,TValue}"/> containing the starting and ending <see cref="DateTime"/> of a quiet hour.</returns>
         public static KeyValuePair<DateTime, DateTime> CalculateQuietHour(string hourFrom, string hourTo, DateTime compareDate)
         {
             DateTime dt1 = DateTime.ParseExact(Convert.ToString(hourFrom), "HH':'mm", CultureInfo.InvariantCulture);
@@ -104,18 +128,26 @@ namespace amp.UtilityClasses.Settings
             return new KeyValuePair<DateTime, DateTime>(dt1, dt2);
         }
 
+        /// <summary>
+        /// Gets a value indicating based on the settings whether the current time is a quiet hour.
+        /// </summary>
+        /// <returns>True if the current time is a quiet hour; otherwise false.</returns>
         public static bool IsQuietHour()
         {
-            if (!MainWindow.QuietHours)
+            // if the setting is not enabled the return false..
+            if (!FormMain.QuietHours)
             {
                 return false;
             }
 
-            KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(MainWindow.QuietHoursFrom, MainWindow.QuietHoursTo);
+            KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(FormMain.QuietHoursFrom, FormMain.QuietHoursTo);
             bool retval = (DateTime.Now >= span.Key && DateTime.Now < span.Value);
             return retval;
         }
 
+        /// <summary>
+        /// Saves the settings to a .vnml file.
+        /// </summary>
         private void SaveSettings()
         {
             VU.VPKNml vnml = new VU.VPKNml();
@@ -129,6 +161,9 @@ namespace amp.UtilityClasses.Settings
             vnml["remote", "uri"] = tbRemoteControlURI.Text;
             vnml["latency", "value"] = (int)nudLatency.Value;
             vnml["remote", "enabled"] = cbRemoteControlEnabled.Checked;
+
+            // the user decides if an internet request is allowed..
+            vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
 
             vnml.Save(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
@@ -154,6 +189,10 @@ namespace amp.UtilityClasses.Settings
             tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
             nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
             cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+
+            // the user decides if an internet request is allowed..
+            cbCheckUpdatesStartup.Checked = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
+
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
@@ -213,7 +252,7 @@ namespace amp.UtilityClasses.Settings
 
             while (dt1 < dt2)
             {
-                KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(MainWindow.QuietHoursFrom, MainWindow.QuietHoursTo, dtCompare);
+                KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(FormMain.QuietHoursFrom, FormMain.QuietHoursTo, dtCompare);
                 dt1 = dt1.AddMinutes(1);
                 bool isQuietHour =(dt1 >= span.Key && dt1 < span.Value);
                 tbTestQuietHour.Text += isQuietHour + @": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;

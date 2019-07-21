@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /amp/DBLocalization.exe
 *.exe
+/amp/Localization/AppDataBackup

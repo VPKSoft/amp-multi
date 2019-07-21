@@ -277,6 +277,33 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Really delete album named: &apos;{0}&apos;?|A confirmation query for the user that a deletion of an album is intended..
+        /// </summary>
+        public static string msgQueryDeleteAlbum {
+            get {
+                return ResourceManager.GetString("msgQueryDeleteAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version is available to download. Download now?|A message describing that a new version of the software is available to download and the user is asked whether to download it now..
+        /// </summary>
+        public static string msgQueryDownloadNewVersion {
+            get {
+                return ResourceManager.GetString("msgQueryDownloadNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New version is available|A dialog title informing a user of a new version download possibility.
+        /// </summary>
+        public static string msgQueryNewVersionTitle {
+            get {
+                return ResourceManager.GetString("msgQueryNewVersionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue|As in a queue snapshot.
         /// </summary>
         public static string msgQueue {

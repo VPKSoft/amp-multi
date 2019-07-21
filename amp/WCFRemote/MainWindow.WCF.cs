@@ -39,7 +39,7 @@ using NAudio.Wave;
 namespace amp
 {
     // For the remote control
-    public partial class MainWindow
+    public partial class FormMain
     {
         public bool Paused()
         {

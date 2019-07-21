@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.1.0.1
+!define VERSION 1.1.0.2
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -31,6 +31,7 @@ BrandingText "amp#"
 !include "FileAssoc.nsh"
 !include "InstallOptions.nsh"
 !include "DotNetChecker.nsh"
+!include "nsProcess.nsh"
 
 # Included files
 !include Sections.nsh
@@ -65,12 +66,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_1_0_1.exe
+OutFile setup_ampsharp_1_1_0_2.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.1.0.1
+VIProductVersion 1.1.0.2
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -94,6 +95,11 @@ Section -Main SEC0000
 				CopyFiles $TEMP\amp.sqlite "$LOCALAPPDATA\amp#\amp.sqlite"
 				Delete $TEMP\amp.sqlite
 	${EndIf}			
+	
+	${nsProcess::FindProcess} "amp.exe" $R0
+    ${If} $R0 == 0
+		${nsProcess::CloseProcess} "amp.exe" $R0
+	${EndIf}
 	
 	File ..\amp\bin\Release\amp.exe
 	File ..\LICENSE

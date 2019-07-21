@@ -43,11 +43,11 @@ namespace amp.FormsUtility
 
         public static FormAlbumImage ThisInstance;
 
-        private static MainWindow activateWindow;
+        private static FormMain activateWindow;
 
         private static bool firstShow = true;
 
-        public static void Reposition(MainWindow mw, int top)
+        public static void Reposition(FormMain mw, int top)
         {
             if (ThisInstance != null)
             {
@@ -57,7 +57,7 @@ namespace amp.FormsUtility
             }
         }
 
-        public static void Show(MainWindow mw, MusicFile mf, int top)
+        public static void Show(FormMain mw, MusicFile mf, int top)
         {
             if (ThisInstance == null)
             {

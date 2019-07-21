@@ -57,10 +57,11 @@ namespace amp.UtilityClasses.Settings
             this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnModifiedRandomization = new System.Windows.Forms.Button();
-            this.btAlbumNaming = new System.Windows.Forms.Button();
             this.mnuLocalization = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDumpLanguage = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnModifiedRandomization = new System.Windows.Forms.Button();
+            this.btAlbumNaming = new System.Windows.Forms.Button();
+            this.cbCheckUpdatesStartup = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -165,7 +166,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 451);
+            this.bCancel.Location = new System.Drawing.Point(12, 476);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -175,7 +176,7 @@ namespace amp.UtilityClasses.Settings
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(182, 451);
+            this.bOK.Location = new System.Drawing.Point(182, 476);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -333,6 +334,22 @@ namespace amp.UtilityClasses.Settings
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // mnuLocalization
+            // 
+            this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
+            this.mnuLocalization.Name = "mnuLocalization";
+            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocalization.Text = "Localization";
+            this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
+            // 
+            // mnuDumpLanguage
+            // 
+            this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
+            this.mnuDumpLanguage.Name = "mnuDumpLanguage";
+            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
+            this.mnuDumpLanguage.Text = "Dumb language";
+            this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
+            // 
             // btnModifiedRandomization
             // 
             this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
@@ -357,21 +374,15 @@ namespace amp.UtilityClasses.Settings
             this.btAlbumNaming.UseVisualStyleBackColor = true;
             this.btAlbumNaming.Click += new System.EventHandler(this.btAlbumNaming_Click);
             // 
-            // mnuLocalization
+            // cbCheckUpdatesStartup
             // 
-            this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
-            this.mnuLocalization.Name = "mnuLocalization";
-            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
-            this.mnuLocalization.Text = "Localization";
-            this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
-            // 
-            // mnuDumpLanguage
-            // 
-            this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
-            this.mnuDumpLanguage.Name = "mnuDumpLanguage";
-            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
-            this.mnuDumpLanguage.Text = "Dumb language";
-            this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
+            this.cbCheckUpdatesStartup.AutoSize = true;
+            this.cbCheckUpdatesStartup.Location = new System.Drawing.Point(12, 451);
+            this.cbCheckUpdatesStartup.Name = "cbCheckUpdatesStartup";
+            this.cbCheckUpdatesStartup.Size = new System.Drawing.Size(175, 17);
+            this.cbCheckUpdatesStartup.TabIndex = 25;
+            this.cbCheckUpdatesStartup.Text = "Check for updates upon startup";
+            this.cbCheckUpdatesStartup.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
@@ -379,7 +390,8 @@ namespace amp.UtilityClasses.Settings
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(269, 484);
+            this.ClientSize = new System.Drawing.Size(269, 509);
+            this.Controls.Add(this.cbCheckUpdatesStartup);
             this.Controls.Add(this.btnModifiedRandomization);
             this.Controls.Add(this.cmbSelectLanguageValue);
             this.Controls.Add(this.lbLanguage);
@@ -451,5 +463,6 @@ namespace amp.UtilityClasses.Settings
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem mnuLocalization;
         private ToolStripMenuItem mnuDumpLanguage;
+        private CheckBox cbCheckUpdatesStartup;
     }
 }

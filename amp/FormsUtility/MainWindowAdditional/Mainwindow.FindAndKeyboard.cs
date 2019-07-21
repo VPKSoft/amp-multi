@@ -33,7 +33,7 @@ using amp.UtilityClasses;
 // ReSharper disable once CheckNamespace
 namespace amp
 {
-    public partial class MainWindow
+    public partial class FormMain
     {
         internal enum FilterType
         {

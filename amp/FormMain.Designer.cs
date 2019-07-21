@@ -4,7 +4,7 @@ using amp.UtilityClasses.Controls;
 
 namespace amp
 {
-    partial class MainWindow
+    partial class FormMain
     {
         /// <summary>
         /// Required designer variable.
@@ -33,12 +33,14 @@ namespace amp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tmSeek = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAlbum = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSaveAlbumAs = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewAlbum = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDeleteAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlayListM3U = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlayListM3UNewAlbum = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +82,7 @@ namespace amp
             this.pnVol1 = new System.Windows.Forms.Panel();
             this.pnVol2 = new System.Windows.Forms.Panel();
             this.tmPendOperation = new System.Windows.Forms.Timer(this.components);
+            this.tmIPCFiles = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.tbTool.SuspendLayout();
             this.ssStatus.SuspendLayout();
@@ -111,7 +114,9 @@ namespace amp
             // 
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAlbum,
+            this.mnuSaveAlbumAs,
             this.mnuNewAlbum,
+            this.mnuDeleteAlbum,
             this.mnuSelectAll,
             this.mnuPlayListM3U,
             this.mnuSettings,
@@ -120,28 +125,45 @@ namespace amp
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(37, 20);
             this.mnuFile.Text = "File";
+            this.mnuFile.DropDownOpening += new System.EventHandler(this.MnuFile_DropDownOpening);
             // 
             // mnuAlbum
             // 
             this.mnuAlbum.Image = global::amp.Properties.Resources.album_yellow;
             this.mnuAlbum.Name = "mnuAlbum";
-            this.mnuAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuAlbum.Size = new System.Drawing.Size(204, 36);
             this.mnuAlbum.Text = "Album";
+            // 
+            // mnuSaveAlbumAs
+            // 
+            this.mnuSaveAlbumAs.Image = global::amp.Properties.Resources.Save_as32;
+            this.mnuSaveAlbumAs.Name = "mnuSaveAlbumAs";
+            this.mnuSaveAlbumAs.Size = new System.Drawing.Size(204, 36);
+            this.mnuSaveAlbumAs.Text = "Save current album as";
+            this.mnuSaveAlbumAs.Click += new System.EventHandler(this.MnuSaveAlbumAs_Click);
             // 
             // mnuNewAlbum
             // 
             this.mnuNewAlbum.Image = ((System.Drawing.Image)(resources.GetObject("mnuNewAlbum.Image")));
             this.mnuNewAlbum.Name = "mnuNewAlbum";
-            this.mnuNewAlbum.Size = new System.Drawing.Size(186, 22);
+            this.mnuNewAlbum.Size = new System.Drawing.Size(204, 36);
             this.mnuNewAlbum.Text = "New album";
             this.mnuNewAlbum.Click += new System.EventHandler(this.mnuNewAlbum_Click);
+            // 
+            // mnuDeleteAlbum
+            // 
+            this.mnuDeleteAlbum.Image = global::amp.Properties.Resources.remove_album;
+            this.mnuDeleteAlbum.Name = "mnuDeleteAlbum";
+            this.mnuDeleteAlbum.Size = new System.Drawing.Size(204, 36);
+            this.mnuDeleteAlbum.Text = "Delete current album";
+            this.mnuDeleteAlbum.Click += new System.EventHandler(this.MnuDeleteAlbum_Click);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(186, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(204, 36);
             this.mnuSelectAll.Text = "Select all";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -153,7 +175,7 @@ namespace amp
             this.mnuPlaylistM3UExport});
             this.mnuPlayListM3U.Image = global::amp.Properties.Resources.m3u2;
             this.mnuPlayListM3U.Name = "mnuPlayListM3U";
-            this.mnuPlayListM3U.Size = new System.Drawing.Size(186, 22);
+            this.mnuPlayListM3U.Size = new System.Drawing.Size(204, 36);
             this.mnuPlayListM3U.Text = "Playlist (m3u)";
             // 
             // mnuPlayListM3UNewAlbum
@@ -181,7 +203,7 @@ namespace amp
             // 
             this.mnuSettings.Image = global::amp.Properties.Resources.settings;
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(186, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(204, 36);
             this.mnuSettings.Text = "Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
@@ -190,7 +212,7 @@ namespace amp
             this.mnuSongInfo.Image = global::amp.Properties.Resources.info;
             this.mnuSongInfo.Name = "mnuSongInfo";
             this.mnuSongInfo.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuSongInfo.Size = new System.Drawing.Size(186, 22);
+            this.mnuSongInfo.Size = new System.Drawing.Size(204, 36);
             this.mnuSongInfo.Text = "Song information";
             this.mnuSongInfo.Click += new System.EventHandler(this.mnuSongInfo_Click);
             // 
@@ -199,7 +221,7 @@ namespace amp
             this.mnuShowAllSongs.Image = global::amp.Properties.Resources.list;
             this.mnuShowAllSongs.Name = "mnuShowAllSongs";
             this.mnuShowAllSongs.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.mnuShowAllSongs.Size = new System.Drawing.Size(186, 22);
+            this.mnuShowAllSongs.Size = new System.Drawing.Size(204, 36);
             this.mnuShowAllSongs.Text = "Show all songs";
             this.mnuShowAllSongs.Click += new System.EventHandler(this.mnuShowAllSongs_Click);
             // 
@@ -554,7 +576,12 @@ namespace amp
             this.tmPendOperation.Interval = 1000;
             this.tmPendOperation.Tick += new System.EventHandler(this.tmPendOperation_Tick);
             // 
-            // MainWindow
+            // tmIPCFiles
+            // 
+            this.tmIPCFiles.Interval = 1000;
+            this.tmIPCFiles.Tick += new System.EventHandler(this.TmIPCFiles_Tick);
+            // 
+            // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(549, 418);
@@ -564,7 +591,7 @@ namespace amp
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "MainWindow";
+            this.Name = "FormMain";
             this.Text = "amp#";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -635,6 +662,9 @@ namespace amp
         private ToolStripMenuItem mnuHelpItem;
         private ToolStripMenuItem mnuAbout;
         private ToolStripMenuItem mnuShowAllSongs;
+        private Timer tmIPCFiles;
+        private ToolStripMenuItem mnuSaveAlbumAs;
+        private ToolStripMenuItem mnuDeleteAlbum;
     }
 }
 
