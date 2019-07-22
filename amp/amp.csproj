@@ -129,10 +129,10 @@
     <Compile Include="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTagInfo.cs">
+    <Compile Include="FormsUtility\FormTagInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTagInfo.Designer.cs">
+    <Compile Include="FormsUtility\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="SQLiteDatabase\DatabaseUtils\QueueUtilities.cs" />
@@ -188,7 +188,7 @@
     <Compile Include="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\KeySendList.cs" />
+    <Compile Include="UtilityClasses\KeySendList.ExcludeLicense.cs" />
     <Compile Include="UtilityClasses\M3U.cs" />
     <Compile Include="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs">
       <SubType>Form</SubType>
@@ -219,13 +219,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\Controls\RefreshListbox.cs">
+    <Compile Include="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UtilityClasses\Controls\RefreshListbox.Designer.cs">
-      <DependentUpon>RefreshListbox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SQLiteDatabase\ScriptRunner.cs" />
+    <Compile Include="SQLiteDatabase\ScriptRunner.ExcludeLicense.cs" />
     <Compile Include="UtilityClasses\Settings\Settings.cs" />
     <EmbeddedResource Include="FormsUtility\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
@@ -263,7 +260,7 @@
     <EmbeddedResource Include="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTagInfo.resx">
+    <EmbeddedResource Include="FormsUtility\FormTagInfo.resx">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">

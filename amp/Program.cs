@@ -35,7 +35,6 @@ using amp.FormsUtility.Help;
 using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
-using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
 using VPKSoft.ErrorLogger;
 using VPKSoft.IPC;
@@ -178,6 +177,7 @@ namespace amp
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
         }
 
+        // the application is crashing without exception handling..
         private static void ExceptionLogger_ApplicationCrashData(ApplicationCrashEventArgs e)
         {
             // unsubscribe this event handler..
@@ -191,8 +191,12 @@ namespace amp
             // This is the end..
         }
 
+        /// <summary>
+        /// The IPC channel pushes the existing files to be added to the the list to be added to the temporary album.
+        /// </summary>
         private static readonly List<string> TemporaryRemoteFiles = new List<string>();
 
+        // an event handler for the IPC channel to add files to the temporary album via user shell interaction..
         private static void RemoteMessage_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             if (FormMain.RemoteFileBeingProcessed)

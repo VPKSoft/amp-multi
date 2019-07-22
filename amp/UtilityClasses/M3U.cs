@@ -80,16 +80,25 @@ namespace amp.UtilityClasses
     public class M3U
     {
         private readonly Encoding enc;
+
+        /// <summary>
+        /// A list of file entries in a m3u/m3u8 file.
+        /// </summary>
         public List<M3UEntry> M3UFiles = new List<M3UEntry>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="M3U"/> class.
+        /// </summary>
+        /// <param name="fileName">Name of the m3u/m3u8 file.</param>
         public M3U(string fileName)
         {
             List<string> fileLines = new List<string>();
             var fileDir = Path.GetDirectoryName(fileName)?.TrimEnd('\\') + "\\";
-            if (Path.GetExtension(fileName)?.ToUpper() == ".m3u".ToUpper())
+            if (Path.GetExtension(fileName)?.ToUpper() == ".M3U")
             {
                 enc = Encoding.GetEncoding(1252);
             }
-            else if (Path.GetExtension(fileName)?.ToUpper() == ".m3u8".ToUpper())
+            else if (Path.GetExtension(fileName)?.ToUpper() == ".M3U8")
             {
                 enc = new UTF8Encoding();
             }
@@ -109,79 +118,83 @@ namespace amp.UtilityClasses
                 return;
             }
 
-            string fname;
             for (int i = 0; i < fileLines.Count; i++)
             {
                 if (fileLines[i] == string.Empty)
                 {
                 }
-                else if (fileLines[i].StartsWith("#EXTINF:"))
+                else
                 {
-                    if (i + 1 < fileLines.Count)
+                    string fileNameInM3U;
+                    // ReSharper disable once StringLiteralTypo
+                    if (fileLines[i].StartsWith("#EXTINF:"))
                     {
-                        if (File.Exists(fileLines[i + 1]))
+                        if (i + 1 < fileLines.Count)
                         {
-                            fname = fileLines[i + 1];
+                            if (File.Exists(fileLines[i + 1]))
+                            {
+                                fileNameInM3U = fileLines[i + 1];
+                            }
+                            else if (File.Exists(fileDir + fileLines[i + 1]))
+                            {
+                                fileNameInM3U = fileDir + fileLines[i + 1];
+                            }
+                            else
+                            {
+                                continue;
+                            }
+
+                            if (File.Exists(fileNameInM3U))
+                            {
+                                string fileDesc;
+                                try
+                                {
+                                    fileDesc = fileLines[i].Split(',')[1];
+                                }
+                                catch
+                                {
+                                    fileDesc = string.Empty;
+                                }
+                                M3UFiles.Add(new M3UEntry(fileNameInM3U, fileDesc));
+                                i++;
+                            }
                         }
-                        else if (File.Exists(fileDir + fileLines[i + 1]))
+                    }
+                    else if (Directory.Exists(fileLines[i]) || Directory.Exists(fileDir + fileLines[i]))
+                    {
+                        if (Directory.Exists(fileLines[i]))
                         {
-                            fname = fileDir + fileLines[i + 1];
+                            fileNameInM3U = fileLines[i];
+                        }
+                        else if (Directory.Exists(fileDir + fileLines[i]))
+                        {
+                            fileNameInM3U = fileDir + fileLines[i];
                         }
                         else
                         {
-                            continue;
+                            fileNameInM3U = string.Empty;
                         }
-
-                        if (File.Exists(fname))
+                        foreach (string dirFileName in Directory.GetFiles(fileNameInM3U.TrimEnd('\\') + "\\", "*.*", SearchOption.AllDirectories).ToArray())
                         {
-                            string fileDesc;
-                            try
-                            {
-                                fileDesc = fileLines[i].Split(',')[1];
-                            }
-                            catch
-                            {
-                                fileDesc = string.Empty;
-                            }
-                            M3UFiles.Add(new M3UEntry(fname, fileDesc));
-                            i++;
+                            M3UFiles.Add(new M3UEntry(dirFileName, string.Empty));
                         }
                     }
-                }
-                else if (Directory.Exists(fileLines[i]) || Directory.Exists(fileDir + fileLines[i]))
-                {
-                    if (Directory.Exists(fileLines[i]))
+                    else if (File.Exists(fileLines[i]) || File.Exists(fileDir + fileLines[i]))
                     {
-                        fname = fileLines[i];
+                        if (File.Exists(fileLines[i]))
+                        {
+                            fileNameInM3U = fileLines[i];
+                        }
+                        else if (File.Exists(fileDir + fileLines[i]))
+                        {
+                            fileNameInM3U = fileDir + fileLines[i];
+                        }
+                        else
+                        {
+                            fileNameInM3U = string.Empty;
+                        }
+                        M3UFiles.Add(new M3UEntry(fileNameInM3U, string.Empty));
                     }
-                    else if (Directory.Exists(fileDir + fileLines[i]))
-                    {
-                        fname = fileDir + fileLines[i];
-                    }
-                    else
-                    {
-                        fname = string.Empty;
-                    }
-                    foreach (string dirFileName in Directory.GetFiles(fname.TrimEnd('\\') + "\\", "*.*", SearchOption.AllDirectories).ToArray())
-                    {
-                        M3UFiles.Add(new M3UEntry(dirFileName, string.Empty));
-                    }
-                }
-                else if (File.Exists(fileLines[i]) || File.Exists(fileDir + fileLines[i]))
-                {
-                    if (File.Exists(fileLines[i]))
-                    {
-                        fname = fileLines[i];
-                    }
-                    else if (File.Exists(fileDir + fileLines[i]))
-                    {
-                        fname = fileDir + fileLines[i];
-                    }
-                    else
-                    {
-                        fname = string.Empty;
-                    }
-                    M3UFiles.Add(new M3UEntry(fname, string.Empty));
                 }
             }
             for (int i = M3UFiles.Count - 1; i >= 0; i--)

@@ -31,8 +31,16 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.Songs
 {
+    /// <summary>
+    /// A dialog to rename a song internally; No changes to the file system is done.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormRename : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormRename"/> class.
+        /// </summary>
         public FormRename()
         {
             InitializeComponent();
@@ -47,12 +55,20 @@ namespace amp.FormsUtility.Songs
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
+        // a value for a previous name of the song, so a change can be detected..
         string lastName = string.Empty;
+
+        // enable/disable the OK button depending on the validity of the new name text box value..
         private void tbNewSongName_TextChanged(object sender, EventArgs e)
         {
-            bOK.Enabled = tbNewSongName.Text.Length > 0 && tbNewSongName.Text != lastName;
+            bOK.Enabled = tbNewSongName.Text.Trim() != string.Empty && tbNewSongName.Text != lastName;
         }
 
+        /// <summary>
+        /// Displays the dialog querying a new name for a song.
+        /// </summary>
+        /// <param name="mf">The <see cref="MusicFile"/> class instance of which name to change.</param>
+        /// <returns>A <see cref="string"/> value for a new name for the music file if the user accepted the dialog; otherwise <see cref="string.Empty"/>.</returns>
         public static string Execute(MusicFile mf)
         {
             FormRename rename = new FormRename
@@ -67,6 +83,7 @@ namespace amp.FormsUtility.Songs
             return string.Empty;
         }
 
+        // the dialog form is shown; focus and select all from the name text box..
         private void frmRename_Shown(object sender, EventArgs e)
         {
             bOK.Enabled = false;

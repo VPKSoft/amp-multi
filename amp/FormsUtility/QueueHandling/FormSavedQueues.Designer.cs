@@ -37,11 +37,6 @@ namespace amp.FormsUtility.QueueHandling
             this.colQueueSaveTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.bCancel = new System.Windows.Forms.Button();
-            this.bOK = new System.Windows.Forms.Button();
-            this.sdExportQueue = new System.Windows.Forms.SaveFileDialog();
-            this.odExportQueue = new System.Windows.Forms.OpenFileDialog();
-            this.btAppendQueue = new System.Windows.Forms.Button();
             this.tsbRemove = new System.Windows.Forms.ToolStripButton();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
             this.tsbModifySavedQueue = new System.Windows.Forms.ToolStripButton();
@@ -50,6 +45,11 @@ namespace amp.FormsUtility.QueueHandling
             this.tsbImportQueue = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbCopyAllFlat = new System.Windows.Forms.ToolStripButton();
+            this.bCancel = new System.Windows.Forms.Button();
+            this.bOK = new System.Windows.Forms.Button();
+            this.sdExportQueue = new System.Windows.Forms.SaveFileDialog();
+            this.odExportQueue = new System.Windows.Forms.OpenFileDialog();
+            this.btAppendQueue = new System.Windows.Forms.Button();
             this.fbdDirectory = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
             this.tlpMain.SuspendLayout();
             this.tsMain.SuspendLayout();
@@ -120,52 +120,6 @@ namespace amp.FormsUtility.QueueHandling
             this.tsMain.Size = new System.Drawing.Size(24, 178);
             this.tsMain.TabIndex = 6;
             this.tsMain.Text = "tsQueueManage";
-            // 
-            // bCancel
-            // 
-            this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 435);
-            this.bCancel.Name = "bCancel";
-            this.bCancel.Size = new System.Drawing.Size(75, 23);
-            this.bCancel.TabIndex = 11;
-            this.bCancel.Text = "Cancel";
-            this.bCancel.UseVisualStyleBackColor = true;
-            // 
-            // bOK
-            // 
-            this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.bOK.Enabled = false;
-            this.bOK.Location = new System.Drawing.Point(490, 435);
-            this.bOK.Name = "bOK";
-            this.bOK.Size = new System.Drawing.Size(75, 23);
-            this.bOK.TabIndex = 10;
-            this.bOK.Text = "OK";
-            this.bOK.UseVisualStyleBackColor = true;
-            // 
-            // sdExportQueue
-            // 
-            this.sdExportQueue.DefaultExt = "*.amp#_qex";
-            this.sdExportQueue.Filter = "amp# queue export files (*.amp#_qex)|*.amp#_qex";
-            this.sdExportQueue.Title = "Export queue to file";
-            // 
-            // odExportQueue
-            // 
-            this.odExportQueue.DefaultExt = "*.amp#_qex";
-            this.odExportQueue.Filter = "amp# queue export files (*.amp#_qex)|*.amp#_qex";
-            this.odExportQueue.Title = "Import queue from file";
-            // 
-            // btAppendQueue
-            // 
-            this.btAppendQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAppendQueue.Location = new System.Drawing.Point(352, 435);
-            this.btAppendQueue.Name = "btAppendQueue";
-            this.btAppendQueue.Size = new System.Drawing.Size(132, 23);
-            this.btAppendQueue.TabIndex = 12;
-            this.btAppendQueue.Text = "Append to queue";
-            this.btAppendQueue.UseVisualStyleBackColor = true;
-            this.btAppendQueue.Click += new System.EventHandler(this.btAppendQueue_Click);
             // 
             // tsbRemove
             // 
@@ -244,6 +198,52 @@ namespace amp.FormsUtility.QueueHandling
             this.tsbCopyAllFlat.Size = new System.Drawing.Size(22, 20);
             this.tsbCopyAllFlat.Text = "Copy songs into a single directory";
             this.tsbCopyAllFlat.Click += new System.EventHandler(this.TsbCopyAllFlat_Click);
+            // 
+            // bCancel
+            // 
+            this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bCancel.Location = new System.Drawing.Point(12, 435);
+            this.bCancel.Name = "bCancel";
+            this.bCancel.Size = new System.Drawing.Size(75, 23);
+            this.bCancel.TabIndex = 11;
+            this.bCancel.Text = "Cancel";
+            this.bCancel.UseVisualStyleBackColor = true;
+            // 
+            // bOK
+            // 
+            this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.bOK.Enabled = false;
+            this.bOK.Location = new System.Drawing.Point(490, 435);
+            this.bOK.Name = "bOK";
+            this.bOK.Size = new System.Drawing.Size(75, 23);
+            this.bOK.TabIndex = 10;
+            this.bOK.Text = "OK";
+            this.bOK.UseVisualStyleBackColor = true;
+            // 
+            // sdExportQueue
+            // 
+            this.sdExportQueue.DefaultExt = "*.amp#_qex";
+            this.sdExportQueue.Filter = "amp# queue export files (*.amp#_qex)|*.amp#_qex";
+            this.sdExportQueue.Title = "Export queue to file";
+            // 
+            // odExportQueue
+            // 
+            this.odExportQueue.DefaultExt = "*.amp#_qex";
+            this.odExportQueue.Filter = "amp# queue export files (*.amp#_qex)|*.amp#_qex";
+            this.odExportQueue.Title = "Import queue from file";
+            // 
+            // btAppendQueue
+            // 
+            this.btAppendQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAppendQueue.Location = new System.Drawing.Point(352, 435);
+            this.btAppendQueue.Name = "btAppendQueue";
+            this.btAppendQueue.Size = new System.Drawing.Size(132, 23);
+            this.btAppendQueue.TabIndex = 12;
+            this.btAppendQueue.Text = "Append to queue";
+            this.btAppendQueue.UseVisualStyleBackColor = true;
+            this.btAppendQueue.Click += new System.EventHandler(this.btAppendQueue_Click);
             // 
             // fbdDirectory
             // 

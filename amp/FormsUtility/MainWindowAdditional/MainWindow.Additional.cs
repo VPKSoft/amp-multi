@@ -37,6 +37,9 @@ namespace amp
 {
     public partial class FormMain
     {
+        /// <summary>
+        /// Un-checks all the album menu drop down items.
+        /// </summary>
         private void DisableChecks()
         {
             for (int i = 0; i < mnuAlbum.DropDownItems.Count; i++)
@@ -45,6 +48,11 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets the next image for the album drop down menu.
+        /// </summary>
+        /// <param name="goNum">The index number.</param>
+        /// <returns>Bitmap.</returns>
         private Bitmap GetNextImg(int goNum)
         {
             List<Bitmap> albumImages = new List<Bitmap>
@@ -58,6 +66,10 @@ namespace amp
             return albumImages[goNum % 5];
         }
 
+        /// <summary>
+        /// Lists the albums.
+        /// </summary>
+        /// <param name="checkAlbum">The album of which dropdown item to check from the GUI.</param>
         private void ListAlbums(int checkAlbum = -1)
         {
             mnuAlbum.DropDownItems.Clear();
@@ -66,17 +78,26 @@ namespace amp
             int aNum = 0;
             foreach (Album album in albums)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(album.AlbumName) { Image = GetNextImg(aNum++) };
-                item.Tag = album.Id;
+                ToolStripMenuItem item = new ToolStripMenuItem(album.AlbumName)
+                {
+                    Image = GetNextImg(aNum++), 
+                    Tag = album.Id
+                };
+
                 if (album.Id == checkAlbum)
                 {
                     item.Checked = true;
                 }
+
                 item.Click += SelectAlbumClick;
                 mnuAlbum.DropDownItems.Add(item);
             }
         }
 
+        /// <summary>
+        /// Gets the next song for playback.
+        /// </summary>
+        /// <param name="fromEvent">if set to <c>true</c> the request came from an event.</param>
         public void GetNextSong(bool fromEvent = false)
         {
             if (addFiles)
@@ -119,14 +140,7 @@ namespace amp
                 {
                     if (tbRand.Checked)
                     {
-                        if (Settings.BiasedRandom)
-                        {
-                            iSongIndex = MusicFile.RandomWeighted(PlayList);
-                        }
-                        else
-                        {
-                            iSongIndex = Random.Next(0, PlayList.Count);
-                        }
+                        iSongIndex = Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
                         latestSongIndex = iSongIndex;
                         PlaySong(iSongIndex, true);
                     }

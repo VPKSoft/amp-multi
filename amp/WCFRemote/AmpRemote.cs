@@ -555,43 +555,33 @@ namespace amp.WCFRemote
             List<QueueEntry> queueList = new List<QueueEntry>();
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                if (albumName == string.Empty)
-                {
-                    command.CommandText =
-                        string.Format("SELECT COUNT(DISTINCT ID) FROM " + Environment.NewLine +
-                                      // ReSharper disable once StringLiteralTypo
-                                      "QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '{0}') ", albumName.Replace("'", "''"));
-                }
-                else
-                {
-                    command.CommandText =
-                        "SELECT COUNT(DISTINCT ID) FROM " + Environment.NewLine +
-                         "QUEUE_SNAPSHOT ";
-                }
+                command.CommandText = albumName != string.Empty
+                    ? string.Join(Environment.NewLine,
+                        "SELECT COUNT(DISTINCT ID) FROM",
+                        // ReSharper disable once StringLiteralTypo
+                        $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})")
+                    : string.Join(Environment.NewLine,
+                        "SELECT COUNT(DISTINCT ID) FROM",
+                        "QUEUE_SNAPSHOT");
 
                 if (Convert.ToInt32(command.ExecuteScalar()) == 0)
                 {
                     return queueList;
                 }
 
-                if (albumName == string.Empty)
-                {
-                    command.CommandText =
-                        "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE " + Environment.NewLine +
-                                      "FROM QUEUE_SNAPSHOT " + Environment.NewLine +
-                                      "GROUP BY ID, SNAPSHOTNAME " + Environment.NewLine +
-                                      "ORDER BY MAX(SNAPSHOT_DATE) ";
-
-                }
-                else
-                {
-                    command.CommandText =
-                        string.Format("SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE " +
-                                      Environment.NewLine +
-                                      "FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = '{0}') " + Environment.NewLine +
-                                      "GROUP BY ID, SNAPSHOTNAME " + Environment.NewLine +
-                                      "ORDER BY MAX(SNAPSHOT_DATE) ", albumName.Replace("'", "''"));
-                }
+                command.CommandText = albumName == string.Empty
+                    ? command.CommandText =
+                        string.Join(Environment.NewLine,
+                            "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
+                            "FROM QUEUE_SNAPSHOT",
+                            "GROUP BY ID, SNAPSHOTNAME",
+                            "ORDER BY MAX(SNAPSHOT_DATE)")
+                    : command.CommandText =
+                        string.Join(Environment.NewLine,
+                            "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
+                            $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})",
+                            "GROUP BY ID, SNAPSHOTNAME",
+                            "ORDER BY MAX(SNAPSHOT_DATE)");
 
 
                 using (SQLiteDataReader dr = command.ExecuteReader())

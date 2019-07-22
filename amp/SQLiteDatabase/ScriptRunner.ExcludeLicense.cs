@@ -9,13 +9,17 @@ Copyright (c) VPKSoft 2019
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+// ReSharper disable CommentTypo
 
-namespace amp.SQLiteDatabase
+// ReSharper disable once CheckNamespace
+namespace VPKSoft.ScriptRunner
 {
     /// <summary>
     /// A class to run updates on a program's database if updated.
     /// </summary>
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
     public class ScriptRunner
     {
         /// <summary>
@@ -37,12 +41,13 @@ namespace amp.SQLiteDatabase
         /// <summary>
         /// Checks the SQL script for version blocks and if the there are version blocks not already run they are executed against the SQLite database.
         /// </summary>
-        /// <param name="sqliteDatasource">A file name for a SQLite database.</param>
+        /// <param name="sqliteDataSource">A file name for a SQLite database.</param>
         /// <param name="scriptFile">A database script file location (optional).</param>
         /// <returns>True if the script was run successfully, otherwise false. 
         /// <note type="note">This has no indication to an issue whether an commands were actually executed.</note>
         /// </returns>
-        public static bool RunScript(string sqliteDatasource, string scriptFile = "")
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public static bool RunScript(string sqliteDataSource, string scriptFile = "")
         {
             try // we try..
             {
@@ -53,7 +58,7 @@ namespace amp.SQLiteDatabase
                 bool noBlockExecError = true;
 
                 // construct a SQLite database connection..
-                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + sqliteDatasource + ";Pooling=true;FailIfMissing=false"))
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + sqliteDataSource + ";Pooling=true;FailIfMissing=false"))
                 {
                     conn.Open(); // open the SQLite database connection..
 
@@ -121,16 +126,7 @@ namespace amp.SQLiteDatabase
                             using (SQLiteDataReader dr = command.ExecuteReader())
                             {
                                 // if anything was returned..
-                                if (dr.Read())
-                                {
-                                    // get the current SQLite database version..
-                                    dbVersion = dr.GetInt32(0);
-                                }
-                                else
-                                {
-                                    // nothing was returned, so assume the version as 0..
-                                    dbVersion = 0;
-                                }
+                                dbVersion = dr.Read() ? dr.GetInt32(0) : 0;
                             }
                         }
                         catch // an exception occurred..
@@ -171,9 +167,11 @@ namespace amp.SQLiteDatabase
                         }
 
                         // construct a SQL sentence to update the SQLite database version..
-                        exec = "INSERT INTO DBVERSION(DBVERSION) " + Environment.NewLine +
-                                "SELECT " + sqlBlocks[i].DbVer + " " + Environment.NewLine +
-                                "WHERE NOT EXISTS(SELECT 1 FROM DBVERSION WHERE DBVERSION = " + sqlBlocks[i].DbVer + "); " + Environment.NewLine;
+                        exec =
+                            string.Join(Environment.NewLine,
+                                "INSERT INTO DBVERSION(DBVERSION)",
+                                $"SELECT {sqlBlocks[i].DbVer}",
+                                $"WHERE NOT EXISTS(SELECT * FROM DBVERSION WHERE DBVERSION = {sqlBlocks[i].DbVer});");
                         // update the SQLite database version (DBVERSION table)..
                         using (SQLiteCommand command = new SQLiteCommand(conn))
                         {

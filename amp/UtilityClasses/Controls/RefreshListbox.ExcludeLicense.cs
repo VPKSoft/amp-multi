@@ -1,26 +1,6 @@
-﻿#region License
+﻿#region license
 /*
-MIT License
-
-Copyright(c) 2019 Petteri Kautonen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Public domain. Free to be used in any purpose.
 */
 #endregion
 
@@ -29,13 +9,25 @@ using System.Windows.Forms;
 
 namespace amp.UtilityClasses.Controls
 {
-    public partial class RefreshListbox : ListBox
+    /// <summary>
+    /// An inherited class from the list box which allows the items to be refreshed.
+    /// Implements the <see cref="System.Windows.Forms.ListBox" />
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.ListBox" />
+    public class RefreshListbox : ListBox
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RefreshListBox"/> class.
+        /// </summary>
         public void RefreshListBox()
         {
             DoubleBuffered = true;
         }
 
+        /// <summary>
+        /// Refreshes the item contained at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to refresh.</param>
         public new void RefreshItem(int index)
         {
             int t = TopIndex;
@@ -50,6 +42,10 @@ namespace amp.UtilityClasses.Controls
             }
         }
 
+        /// <summary>
+        /// Selects an item from the list box with specific index.
+        /// </summary>
+        /// <param name="index">The index.</param>
         public void SetIndex(int index)
         {
             try
@@ -66,7 +62,11 @@ namespace amp.UtilityClasses.Controls
             }
         }
 
-        private List<int> pushedSelection = new List<int>();
+        private readonly List<int> pushedSelection = new List<int>();
+
+        /// <summary>
+        /// Pushes the selection in to an internal list which can be then restored by using <see cref="PopSelection"/> method.
+        /// </summary>
         public void PushSelection()
         {
             pushedSelection.Clear();
@@ -76,6 +76,9 @@ namespace amp.UtilityClasses.Controls
             }
         }
 
+        /// <summary>
+        /// Pops the selection saved by using the <see cref="PushSelection"/> method.
+        /// </summary>
         public void PopSelection()
         {
             for (int i = 0; i < Items.Count; i++)
@@ -84,7 +87,9 @@ namespace amp.UtilityClasses.Controls
             }
         }
 
-
+        /// <summary>
+        /// Refreshes all <see cref="T:System.Windows.Forms.ListBox" /> items and retrieves new strings for them.
+        /// </summary>
         public new void RefreshItems()
         {
             int t = TopIndex;

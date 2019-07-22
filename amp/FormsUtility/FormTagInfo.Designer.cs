@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace amp
+namespace amp.FormsUtility
 {
     partial class FormTagInfo
     {

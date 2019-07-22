@@ -11,7 +11,6 @@ using System;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Messaging;
 using System.Security.Permissions;
 
 // Based on the Microsoft's article on IpcChannel class: https://docs.microsoft.com/en-us/dotnet/api/system.runtime.remoting.channels.ipc.ipcchannel
@@ -32,12 +31,12 @@ namespace VPKSoft.IPC
         /// <summary>
         /// The IPC server channel.
         /// </summary>
-        private IpcChannel serverChannel = null;
+        private IpcChannel serverChannel;
 
         /// <summary>
         /// The IPC client channel.
         /// </summary>
-        private IpcChannel clientChannel = null;
+        private IpcChannel clientChannel;
 
         /// <summary>
         /// Creates the IPC server channel.
@@ -73,9 +72,9 @@ namespace VPKSoft.IPC
         }
 
         /// <summary>
-        /// The class to be used with both client and server for interprocess communication using strings as messages.
+        /// The class to be used with both client and server for inter-process communication using strings as messages.
         /// </summary>
-        RemoteMessage service = null;
+        RemoteMessage service;
 
         /// <summary>
         /// Creates the IPC client channel.
@@ -104,11 +103,9 @@ namespace VPKSoft.IPC
                 RemotingConfiguration.RegisterWellKnownClientType(remoteType);
 
                 // create a message sink..
-                string objectUri;
-                IMessageSink messageSink =
-                    clientChannel.CreateMessageSink(
-                        $"ipc://{endPoint}:{port}/RemoteMessage.rem", null,
-                        out objectUri);
+                clientChannel.CreateMessageSink(
+                    $"ipc://{endPoint}:{port}/RemoteMessage.rem", null,
+                    out _);
 
                 // create the class to be used for passing messages between the client and the server channels..
                 service = new RemoteMessage();
@@ -160,7 +157,7 @@ namespace VPKSoft.IPC
             /// <summary>
             /// Occurs when <see cref="SendString"/> method has been called.
             /// </summary>
-            public static event OnMessageReceived MessageReceived = null;
+            public static event OnMessageReceived MessageReceived;
 
             /// <summary>
             /// Sends a string message to the IPC server via the <see cref="MessageReceived"/> event.

@@ -35,14 +35,23 @@ using TagLib;
 using VPKSoft.LangLib;
 using File = TagLib.File;
 
-namespace amp
+namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A form to display IDvX Tag information related to the music file.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormTagInfo : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormTagInfo"/> class.
+        /// </summary>
         public FormTagInfo()
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
 
             if (Utils.ShouldLocalize() != null)
@@ -54,22 +63,33 @@ namespace amp
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        MusicFile mf;
-        List<IPicture> pictures = new List<IPicture>();
+        /// <summary>
+        /// The <see cref="MusicFile"/> class instance of which information to display within the form.
+        /// </summary>
+        private MusicFile mf;
+
+        /// <summary>
+        /// A value to hold the pictures stored in a music file.
+        /// </summary>
+        private readonly List<IPicture> pictures = new List<IPicture>();
 
         private int picIndex = -1;
 
+        /// <summary>
+        /// Loads the IDvX Tag information from the music file.
+        /// </summary>
         internal void LoadTag()
         {
+            // IDisposable so using..
             using (File tagFile = File.Create(mf.FullFileName))
             {
-                if (tagFile.Tag.Title == null || tagFile.Tag.Title == string.Empty)
+                if (string.IsNullOrEmpty(tagFile.Tag.Title))
                 {
                     Text = Path.GetFileNameWithoutExtension(mf.FullFileName);
                 }
                 else
                 {
-                    if (tagFile.Tag.FirstAlbumArtist != null && tagFile.Tag.FirstAlbumArtist != string.Empty)
+                    if (!string.IsNullOrEmpty(tagFile.Tag.FirstAlbumArtist))
                     {
                         Text = tagFile.Tag.FirstAlbumArtist + @" - " + tagFile.Tag.Title;
                     }
@@ -116,6 +136,9 @@ namespace amp
             btOK.Focus();
         }
 
+        /// <summary>
+        /// Shows the next picture from the IDvX Tag information if any exists.
+        /// </summary>
         internal void ShowNextPic()
         {
             picIndex++;
@@ -125,13 +148,15 @@ namespace amp
             }
             if (pictures.Count > 0)
             {
-                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data);
-                ms.Position = 0;
+                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) {Position = 0};
                 Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
         }
 
+        /// <summary>
+        /// Shows the previous picture from the IDvX Tag information if any exists.
+        /// </summary>
         internal void ShowPreviousPic()
         {
             picIndex--;
@@ -141,36 +166,46 @@ namespace amp
             }
             if (pictures.Count > 0)
             {
-                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data);
-                ms.Position = 0;
+                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) {Position = 0};
                 Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
         }
 
-        public static bool Execute(MusicFile mf, Form parent)
+        /// <summary>
+        /// Displays the dialog and shows the IDvX Tag information of the music file if any.
+        /// </summary>
+        /// <param name="musicFile">The <see cref="MusicFile"/> class instance of which IDvX Tag information to display.</param>
+        /// <param name="parent">The parent <see cref="Form"/>.</param>
+        public static void Execute(MusicFile musicFile, Form parent)
         {
-            FormTagInfo frm = new FormTagInfo();
-            frm.mf = mf;
-            frm.Owner = parent;
-            return frm.ShowDialog() == DialogResult.OK;
+            FormTagInfo frm = new FormTagInfo
+            {
+                mf = musicFile, 
+                Owner = parent
+            };
+            frm.ShowDialog();
         }
 
+        // the user wants to see the next picture..
         private void tsbNext_Click(object sender, EventArgs e)
         {
             ShowNextPic();
         }
 
+        // the user wants to see the previous picture..
         private void tsbPrevious_Click(object sender, EventArgs e)
         {
             ShowPreviousPic();
         }
 
+        // when the form is shown, display the IDvX Tag information..
         private void FormTagInfo_Shown(object sender, EventArgs e)
         {
             LoadTag();
         }
 
+        // displays the file in the windows explorer if the user clicks the full file name label..
         // https://stackoverflow.com/questions/334630/opening-a-folder-in-explorer-and-selecting-a-file
         private void lbFullFileName_Click(object sender, EventArgs e)
         {

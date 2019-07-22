@@ -276,7 +276,7 @@ namespace amp.UtilityClasses.Settings
             this.tbRemoteControlURI.Name = "tbRemoteControlURI";
             this.tbRemoteControlURI.Size = new System.Drawing.Size(229, 20);
             this.tbRemoteControlURI.TabIndex = 10;
-            this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControllURI_TextChanged);
+            this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControlURI_TextChanged);
             // 
             // tbTestQuietHour
             // 

@@ -202,7 +202,7 @@ namespace amp.FormsUtility.Help
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666667F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(679, 1080);
+            this.tlpMain.Size = new System.Drawing.Size(662, 1080);
             this.tlpMain.TabIndex = 1;
             // 
             // tlpShowAllAlbumSongs
@@ -229,7 +229,7 @@ namespace amp.FormsUtility.Help
             this.tlpShowAllAlbumSongs.Name = "tlpShowAllAlbumSongs";
             this.tlpShowAllAlbumSongs.RowCount = 1;
             this.tlpShowAllAlbumSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowAllAlbumSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpShowAllAlbumSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpShowAllAlbumSongs.TabIndex = 16;
             // 
             // lbKeyboardShortcutDesc_14
@@ -237,10 +237,10 @@ namespace amp.FormsUtility.Help
             this.tlpShowAllAlbumSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_14, 3);
             this.lbKeyboardShortcutDesc_14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_14.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_14.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_14.Name = "lbKeyboardShortcutDesc_14";
-            this.lbKeyboardShortcutDesc_14.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_14.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_14.TabIndex = 3;
             this.lbKeyboardShortcutDesc_14.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -253,7 +253,7 @@ namespace amp.FormsUtility.Help
             this.lbShowAllAlbumSongs.Location = new System.Drawing.Point(4, 0);
             this.lbShowAllAlbumSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowAllAlbumSongs.Name = "lbShowAllAlbumSongs";
-            this.lbShowAllAlbumSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbShowAllAlbumSongs.Size = new System.Drawing.Size(252, 66);
             this.lbShowAllAlbumSongs.TabIndex = 2;
             this.lbShowAllAlbumSongs.Text = "Show all songs";
             this.lbShowAllAlbumSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -263,30 +263,30 @@ namespace amp.FormsUtility.Help
             this.pnButton14_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f9;
             this.pnButton14_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton14_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton14_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton14_1.Name = "pnButton14_1";
-            this.pnButton14_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton14_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton14_1.TabIndex = 4;
             // 
             // pnButton14_2
             // 
             this.pnButton14_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton14_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton14_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton14_2.Name = "pnButton14_2";
-            this.pnButton14_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton14_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton14_2.TabIndex = 5;
             // 
             // pnButton14_3
             // 
             this.pnButton14_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton14_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton14_3.Location = new System.Drawing.Point(611, 8);
+            this.pnButton14_3.Location = new System.Drawing.Point(593, 8);
             this.pnButton14_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton14_3.Name = "pnButton14_3";
-            this.pnButton14_3.Size = new System.Drawing.Size(54, 50);
+            this.pnButton14_3.Size = new System.Drawing.Size(55, 50);
             this.pnButton14_3.TabIndex = 6;
             // 
             // tlpRenameSong
@@ -313,7 +313,7 @@ namespace amp.FormsUtility.Help
             this.tlpRenameSong.Name = "tlpRenameSong";
             this.tlpRenameSong.RowCount = 1;
             this.tlpRenameSong.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpRenameSong.Size = new System.Drawing.Size(673, 66);
+            this.tlpRenameSong.Size = new System.Drawing.Size(656, 66);
             this.tlpRenameSong.TabIndex = 15;
             // 
             // lbKeyboardShortcutDesc_13
@@ -321,10 +321,10 @@ namespace amp.FormsUtility.Help
             this.tlpRenameSong.SetColumnSpan(this.lbKeyboardShortcutDesc_13, 3);
             this.lbKeyboardShortcutDesc_13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_13.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_13.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_13.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_13.Name = "lbKeyboardShortcutDesc_13";
-            this.lbKeyboardShortcutDesc_13.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_13.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_13.TabIndex = 3;
             this.lbKeyboardShortcutDesc_13.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -337,7 +337,7 @@ namespace amp.FormsUtility.Help
             this.lbRenameSong.Location = new System.Drawing.Point(4, 0);
             this.lbRenameSong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbRenameSong.Name = "lbRenameSong";
-            this.lbRenameSong.Size = new System.Drawing.Size(260, 66);
+            this.lbRenameSong.Size = new System.Drawing.Size(252, 66);
             this.lbRenameSong.TabIndex = 2;
             this.lbRenameSong.Text = "Rename selected song";
             this.lbRenameSong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -347,30 +347,30 @@ namespace amp.FormsUtility.Help
             this.pnButton13_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f2;
             this.pnButton13_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton13_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton13_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton13_1.Name = "pnButton13_1";
-            this.pnButton13_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton13_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton13_1.TabIndex = 4;
             // 
             // pnButton13_2
             // 
             this.pnButton13_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton13_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton13_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton13_2.Name = "pnButton13_2";
-            this.pnButton13_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton13_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton13_2.TabIndex = 5;
             // 
             // pnButton13_3
             // 
             this.pnButton13_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton13_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton13_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton13_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton13_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton13_3.Name = "pnButton13_3";
-            this.pnButton13_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton13_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton13_3.TabIndex = 6;
             // 
             // lbNumericKeypadDesc
@@ -381,7 +381,7 @@ namespace amp.FormsUtility.Help
             this.lbNumericKeypadDesc.Location = new System.Drawing.Point(4, 1008);
             this.lbNumericKeypadDesc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbNumericKeypadDesc.Name = "lbNumericKeypadDesc";
-            this.lbNumericKeypadDesc.Size = new System.Drawing.Size(260, 72);
+            this.lbNumericKeypadDesc.Size = new System.Drawing.Size(256, 72);
             this.lbNumericKeypadDesc.TabIndex = 13;
             this.lbNumericKeypadDesc.Text = "* = numeric keypad";
             this.lbNumericKeypadDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -410,7 +410,7 @@ namespace amp.FormsUtility.Help
             this.tlpDeleteSongs.Name = "tlpDeleteSongs";
             this.tlpDeleteSongs.RowCount = 1;
             this.tlpDeleteSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpDeleteSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpDeleteSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpDeleteSongs.TabIndex = 12;
             // 
             // lbKeyboardShortcutDesc_12
@@ -418,10 +418,10 @@ namespace amp.FormsUtility.Help
             this.tlpDeleteSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_12, 3);
             this.lbKeyboardShortcutDesc_12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_12.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_12.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_12.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_12.Name = "lbKeyboardShortcutDesc_12";
-            this.lbKeyboardShortcutDesc_12.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_12.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_12.TabIndex = 3;
             this.lbKeyboardShortcutDesc_12.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -434,7 +434,7 @@ namespace amp.FormsUtility.Help
             this.lbDeleteSongs.Location = new System.Drawing.Point(4, 0);
             this.lbDeleteSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbDeleteSongs.Name = "lbDeleteSongs";
-            this.lbDeleteSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbDeleteSongs.Size = new System.Drawing.Size(252, 66);
             this.lbDeleteSongs.TabIndex = 2;
             this.lbDeleteSongs.Text = "Delete song from album";
             this.lbDeleteSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -444,30 +444,30 @@ namespace amp.FormsUtility.Help
             this.pnButton12_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_delete;
             this.pnButton12_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_1.Location = new System.Drawing.Point(477, 8);
+            this.pnButton12_1.Location = new System.Drawing.Point(463, 8);
             this.pnButton12_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton12_1.Name = "pnButton12_1";
-            this.pnButton12_1.Size = new System.Drawing.Size(51, 50);
+            this.pnButton12_1.Size = new System.Drawing.Size(49, 50);
             this.pnButton12_1.TabIndex = 4;
             // 
             // pnButton12_2
             // 
             this.pnButton12_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton12_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton12_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton12_2.Name = "pnButton12_2";
-            this.pnButton12_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton12_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton12_2.TabIndex = 5;
             // 
             // pnButton12_3
             // 
             this.pnButton12_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton12_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton12_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton12_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton12_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton12_3.Name = "pnButton12_3";
-            this.pnButton12_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton12_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton12_3.TabIndex = 6;
             // 
             // tlpAlternateQueueInsertSongs
@@ -499,7 +499,7 @@ namespace amp.FormsUtility.Help
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tlpAlternateQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlpAlternateQueueInsertSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpAlternateQueueInsertSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpAlternateQueueInsertSongs.TabIndex = 11;
             // 
             // lbKeyboardShortcutDesc_11
@@ -507,10 +507,10 @@ namespace amp.FormsUtility.Help
             this.tlpAlternateQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_11, 3);
             this.lbKeyboardShortcutDesc_11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_11.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_11.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_11.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_11.Name = "lbKeyboardShortcutDesc_11";
-            this.lbKeyboardShortcutDesc_11.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_11.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_11.TabIndex = 3;
             this.lbKeyboardShortcutDesc_11.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -523,7 +523,7 @@ namespace amp.FormsUtility.Help
             this.lbAlternateQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
             this.lbAlternateQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbAlternateQueueInsertSongs.Name = "lbAlternateQueueInsertSongs";
-            this.lbAlternateQueueInsertSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbAlternateQueueInsertSongs.Size = new System.Drawing.Size(252, 66);
             this.lbAlternateQueueInsertSongs.TabIndex = 2;
             this.lbAlternateQueueInsertSongs.Text = "Alternate queue insert";
             this.lbAlternateQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -533,10 +533,10 @@ namespace amp.FormsUtility.Help
             this.pnButton11_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton11_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_1.Location = new System.Drawing.Point(469, 0);
+            this.pnButton11_1.Location = new System.Drawing.Point(455, 0);
             this.pnButton11_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton11_1.Name = "pnButton11_1";
-            this.pnButton11_1.Size = new System.Drawing.Size(67, 66);
+            this.pnButton11_1.Size = new System.Drawing.Size(65, 66);
             this.pnButton11_1.TabIndex = 4;
             // 
             // pnButton11_2
@@ -544,10 +544,10 @@ namespace amp.FormsUtility.Help
             this.pnButton11_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton11_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton11_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton11_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton11_2.Name = "pnButton11_2";
-            this.pnButton11_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton11_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton11_2.TabIndex = 5;
             // 
             // pnButton11_3
@@ -555,10 +555,10 @@ namespace amp.FormsUtility.Help
             this.pnButton11_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
             this.pnButton11_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton11_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton11_3.Location = new System.Drawing.Point(611, 8);
+            this.pnButton11_3.Location = new System.Drawing.Point(593, 8);
             this.pnButton11_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton11_3.Name = "pnButton11_3";
-            this.pnButton11_3.Size = new System.Drawing.Size(54, 50);
+            this.pnButton11_3.Size = new System.Drawing.Size(55, 50);
             this.pnButton11_3.TabIndex = 6;
             // 
             // tlpAlternateQueueSongs
@@ -585,7 +585,7 @@ namespace amp.FormsUtility.Help
             this.tlpAlternateQueueSongs.Name = "tlpAlternateQueueSongs";
             this.tlpAlternateQueueSongs.RowCount = 1;
             this.tlpAlternateQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpAlternateQueueSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpAlternateQueueSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpAlternateQueueSongs.TabIndex = 10;
             // 
             // lbKeyboardShortcutDesc_10
@@ -593,10 +593,10 @@ namespace amp.FormsUtility.Help
             this.tlpAlternateQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_10, 3);
             this.lbKeyboardShortcutDesc_10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_10.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_10.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_10.Name = "lbKeyboardShortcutDesc_10";
-            this.lbKeyboardShortcutDesc_10.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_10.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_10.TabIndex = 3;
             this.lbKeyboardShortcutDesc_10.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -609,7 +609,7 @@ namespace amp.FormsUtility.Help
             this.lbAlternateQueueSongs.Location = new System.Drawing.Point(4, 0);
             this.lbAlternateQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbAlternateQueueSongs.Name = "lbAlternateQueueSongs";
-            this.lbAlternateQueueSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbAlternateQueueSongs.Size = new System.Drawing.Size(252, 66);
             this.lbAlternateQueueSongs.TabIndex = 2;
             this.lbAlternateQueueSongs.Text = "Alternate queue add";
             this.lbAlternateQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -619,30 +619,30 @@ namespace amp.FormsUtility.Help
             this.pnButton10_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_multiply;
             this.pnButton10_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_1.Location = new System.Drawing.Point(477, 8);
+            this.pnButton10_1.Location = new System.Drawing.Point(463, 8);
             this.pnButton10_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton10_1.Name = "pnButton10_1";
-            this.pnButton10_1.Size = new System.Drawing.Size(51, 50);
+            this.pnButton10_1.Size = new System.Drawing.Size(49, 50);
             this.pnButton10_1.TabIndex = 4;
             // 
             // pnButton10_2
             // 
             this.pnButton10_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton10_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton10_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton10_2.Name = "pnButton10_2";
-            this.pnButton10_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton10_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton10_2.TabIndex = 5;
             // 
             // pnButton10_3
             // 
             this.pnButton10_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton10_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton10_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton10_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton10_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton10_3.Name = "pnButton10_3";
-            this.pnButton10_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton10_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton10_3.TabIndex = 6;
             // 
             // tlpQueueInsertSongs
@@ -669,7 +669,7 @@ namespace amp.FormsUtility.Help
             this.tlpQueueInsertSongs.Name = "tlpQueueInsertSongs";
             this.tlpQueueInsertSongs.RowCount = 1;
             this.tlpQueueInsertSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpQueueInsertSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpQueueInsertSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpQueueInsertSongs.TabIndex = 8;
             // 
             // lbKeyboardShortcutDesc_09
@@ -677,10 +677,10 @@ namespace amp.FormsUtility.Help
             this.tlpQueueInsertSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_09, 3);
             this.lbKeyboardShortcutDesc_09.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_09.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_09.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_09.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_09.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_09.Name = "lbKeyboardShortcutDesc_09";
-            this.lbKeyboardShortcutDesc_09.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_09.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_09.TabIndex = 3;
             this.lbKeyboardShortcutDesc_09.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_09.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -693,7 +693,7 @@ namespace amp.FormsUtility.Help
             this.lbQueueInsertSongs.Location = new System.Drawing.Point(4, 0);
             this.lbQueueInsertSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbQueueInsertSongs.Name = "lbQueueInsertSongs";
-            this.lbQueueInsertSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbQueueInsertSongs.Size = new System.Drawing.Size(252, 66);
             this.lbQueueInsertSongs.TabIndex = 2;
             this.lbQueueInsertSongs.Text = "Insert to the queued song(s)";
             this.lbQueueInsertSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -703,10 +703,10 @@ namespace amp.FormsUtility.Help
             this.pnButton09_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton09_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_1.Location = new System.Drawing.Point(469, 0);
+            this.pnButton09_1.Location = new System.Drawing.Point(455, 0);
             this.pnButton09_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton09_1.Name = "pnButton09_1";
-            this.pnButton09_1.Size = new System.Drawing.Size(67, 66);
+            this.pnButton09_1.Size = new System.Drawing.Size(65, 66);
             this.pnButton09_1.TabIndex = 4;
             // 
             // pnButton09_2
@@ -714,10 +714,10 @@ namespace amp.FormsUtility.Help
             this.pnButton09_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton09_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton09_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton09_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton09_2.Name = "pnButton09_2";
-            this.pnButton09_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton09_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton09_2.TabIndex = 5;
             // 
             // pnButton09_3
@@ -725,10 +725,10 @@ namespace amp.FormsUtility.Help
             this.pnButton09_3.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
             this.pnButton09_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton09_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton09_3.Location = new System.Drawing.Point(611, 8);
+            this.pnButton09_3.Location = new System.Drawing.Point(593, 8);
             this.pnButton09_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton09_3.Name = "pnButton09_3";
-            this.pnButton09_3.Size = new System.Drawing.Size(54, 50);
+            this.pnButton09_3.Size = new System.Drawing.Size(55, 50);
             this.pnButton09_3.TabIndex = 6;
             // 
             // tlpQueueSongs
@@ -755,7 +755,7 @@ namespace amp.FormsUtility.Help
             this.tlpQueueSongs.Name = "tlpQueueSongs";
             this.tlpQueueSongs.RowCount = 1;
             this.tlpQueueSongs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpQueueSongs.Size = new System.Drawing.Size(673, 66);
+            this.tlpQueueSongs.Size = new System.Drawing.Size(656, 66);
             this.tlpQueueSongs.TabIndex = 7;
             // 
             // lbKeyboardShortcutDesc_08
@@ -763,10 +763,10 @@ namespace amp.FormsUtility.Help
             this.tlpQueueSongs.SetColumnSpan(this.lbKeyboardShortcutDesc_08, 3);
             this.lbKeyboardShortcutDesc_08.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_08.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_08.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_08.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_08.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_08.Name = "lbKeyboardShortcutDesc_08";
-            this.lbKeyboardShortcutDesc_08.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_08.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_08.TabIndex = 3;
             this.lbKeyboardShortcutDesc_08.Text = "Keyboard shortcut (*):";
             this.lbKeyboardShortcutDesc_08.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -779,7 +779,7 @@ namespace amp.FormsUtility.Help
             this.lbQueueSongs.Location = new System.Drawing.Point(4, 0);
             this.lbQueueSongs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbQueueSongs.Name = "lbQueueSongs";
-            this.lbQueueSongs.Size = new System.Drawing.Size(260, 66);
+            this.lbQueueSongs.Size = new System.Drawing.Size(252, 66);
             this.lbQueueSongs.TabIndex = 2;
             this.lbQueueSongs.Text = "Queue selected song(s)";
             this.lbQueueSongs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -789,30 +789,30 @@ namespace amp.FormsUtility.Help
             this.pnButton08_1.BackgroundImage = global::amp.Properties.Resources.keyboard_modified_plus;
             this.pnButton08_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_1.Location = new System.Drawing.Point(477, 8);
+            this.pnButton08_1.Location = new System.Drawing.Point(463, 8);
             this.pnButton08_1.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton08_1.Name = "pnButton08_1";
-            this.pnButton08_1.Size = new System.Drawing.Size(51, 50);
+            this.pnButton08_1.Size = new System.Drawing.Size(49, 50);
             this.pnButton08_1.TabIndex = 4;
             // 
             // pnButton08_2
             // 
             this.pnButton08_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton08_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton08_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton08_2.Name = "pnButton08_2";
-            this.pnButton08_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton08_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton08_2.TabIndex = 5;
             // 
             // pnButton08_3
             // 
             this.pnButton08_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton08_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton08_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton08_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton08_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton08_3.Name = "pnButton08_3";
-            this.pnButton08_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton08_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton08_3.TabIndex = 6;
             // 
             // tlpShowThisHelp
@@ -839,7 +839,7 @@ namespace amp.FormsUtility.Help
             this.tlpShowThisHelp.Name = "tlpShowThisHelp";
             this.tlpShowThisHelp.RowCount = 1;
             this.tlpShowThisHelp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowThisHelp.Size = new System.Drawing.Size(673, 66);
+            this.tlpShowThisHelp.Size = new System.Drawing.Size(656, 66);
             this.tlpShowThisHelp.TabIndex = 6;
             // 
             // lbKeyboardShortcutDesc_07
@@ -847,10 +847,10 @@ namespace amp.FormsUtility.Help
             this.tlpShowThisHelp.SetColumnSpan(this.lbKeyboardShortcutDesc_07, 3);
             this.lbKeyboardShortcutDesc_07.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_07.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_07.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_07.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_07.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_07.Name = "lbKeyboardShortcutDesc_07";
-            this.lbKeyboardShortcutDesc_07.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_07.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_07.TabIndex = 3;
             this.lbKeyboardShortcutDesc_07.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_07.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -864,7 +864,7 @@ namespace amp.FormsUtility.Help
             this.lbShowThisHelp.Location = new System.Drawing.Point(4, 0);
             this.lbShowThisHelp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowThisHelp.Name = "lbShowThisHelp";
-            this.lbShowThisHelp.Size = new System.Drawing.Size(260, 66);
+            this.lbShowThisHelp.Size = new System.Drawing.Size(252, 66);
             this.lbShowThisHelp.TabIndex = 2;
             this.lbShowThisHelp.Text = "Show this help";
             this.lbShowThisHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -874,30 +874,30 @@ namespace amp.FormsUtility.Help
             this.pnButton07_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f1;
             this.pnButton07_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton07_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton07_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton07_1.Name = "pnButton07_1";
-            this.pnButton07_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton07_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton07_1.TabIndex = 4;
             // 
             // pnButton07_2
             // 
             this.pnButton07_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton07_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton07_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton07_2.Name = "pnButton07_2";
-            this.pnButton07_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton07_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton07_2.TabIndex = 5;
             // 
             // pnButton07_3
             // 
             this.pnButton07_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton07_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton07_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton07_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton07_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton07_3.Name = "pnButton07_3";
-            this.pnButton07_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton07_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton07_3.TabIndex = 6;
             // 
             // tlpShowAlternateQueue
@@ -924,7 +924,7 @@ namespace amp.FormsUtility.Help
             this.tlpShowAlternateQueue.Name = "tlpShowAlternateQueue";
             this.tlpShowAlternateQueue.RowCount = 1;
             this.tlpShowAlternateQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowAlternateQueue.Size = new System.Drawing.Size(673, 66);
+            this.tlpShowAlternateQueue.Size = new System.Drawing.Size(656, 66);
             this.tlpShowAlternateQueue.TabIndex = 5;
             // 
             // lbKeyboardShortcutDesc_06
@@ -932,10 +932,10 @@ namespace amp.FormsUtility.Help
             this.tlpShowAlternateQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_06, 3);
             this.lbKeyboardShortcutDesc_06.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_06.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_06.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_06.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_06.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_06.Name = "lbKeyboardShortcutDesc_06";
-            this.lbKeyboardShortcutDesc_06.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_06.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_06.TabIndex = 3;
             this.lbKeyboardShortcutDesc_06.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_06.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -949,7 +949,7 @@ namespace amp.FormsUtility.Help
             this.lbShowAlternateQueue.Location = new System.Drawing.Point(4, 0);
             this.lbShowAlternateQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowAlternateQueue.Name = "lbShowAlternateQueue";
-            this.lbShowAlternateQueue.Size = new System.Drawing.Size(260, 66);
+            this.lbShowAlternateQueue.Size = new System.Drawing.Size(252, 66);
             this.lbShowAlternateQueue.TabIndex = 2;
             this.lbShowAlternateQueue.Text = "Show alternate queue";
             this.lbShowAlternateQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -959,30 +959,30 @@ namespace amp.FormsUtility.Help
             this.pnButton06_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f8;
             this.pnButton06_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton06_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton06_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton06_1.Name = "pnButton06_1";
-            this.pnButton06_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton06_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton06_1.TabIndex = 4;
             // 
             // pnButton06_2
             // 
             this.pnButton06_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton06_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton06_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton06_2.Name = "pnButton06_2";
-            this.pnButton06_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton06_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton06_2.TabIndex = 5;
             // 
             // pnButton06_3
             // 
             this.pnButton06_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton06_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton06_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton06_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton06_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton06_3.Name = "pnButton06_3";
-            this.pnButton06_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton06_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton06_3.TabIndex = 6;
             // 
             // tlpScrambleQueue
@@ -1009,7 +1009,7 @@ namespace amp.FormsUtility.Help
             this.tlpScrambleQueue.Name = "tlpScrambleQueue";
             this.tlpScrambleQueue.RowCount = 1;
             this.tlpScrambleQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpScrambleQueue.Size = new System.Drawing.Size(673, 66);
+            this.tlpScrambleQueue.Size = new System.Drawing.Size(656, 66);
             this.tlpScrambleQueue.TabIndex = 4;
             // 
             // lbKeyboardShortcutDesc_05
@@ -1017,10 +1017,10 @@ namespace amp.FormsUtility.Help
             this.tlpScrambleQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_05, 3);
             this.lbKeyboardShortcutDesc_05.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_05.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_05.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_05.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_05.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_05.Name = "lbKeyboardShortcutDesc_05";
-            this.lbKeyboardShortcutDesc_05.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_05.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_05.TabIndex = 3;
             this.lbKeyboardShortcutDesc_05.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_05.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1034,7 +1034,7 @@ namespace amp.FormsUtility.Help
             this.lbScrambleQueue.Location = new System.Drawing.Point(4, 0);
             this.lbScrambleQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbScrambleQueue.Name = "lbScrambleQueue";
-            this.lbScrambleQueue.Size = new System.Drawing.Size(260, 66);
+            this.lbScrambleQueue.Size = new System.Drawing.Size(252, 66);
             this.lbScrambleQueue.TabIndex = 2;
             this.lbScrambleQueue.Text = "Scramble queue";
             this.lbScrambleQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1044,30 +1044,30 @@ namespace amp.FormsUtility.Help
             this.pnButton05_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f7;
             this.pnButton05_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton05_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton05_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton05_1.Name = "pnButton05_1";
-            this.pnButton05_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton05_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton05_1.TabIndex = 4;
             // 
             // pnButton05_2
             // 
             this.pnButton05_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton05_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton05_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton05_2.Name = "pnButton05_2";
-            this.pnButton05_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton05_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton05_2.TabIndex = 5;
             // 
             // pnButton05_3
             // 
             this.pnButton05_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton05_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton05_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton05_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton05_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton05_3.Name = "pnButton05_3";
-            this.pnButton05_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton05_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton05_3.TabIndex = 6;
             // 
             // tlpClearQueue
@@ -1094,7 +1094,7 @@ namespace amp.FormsUtility.Help
             this.tlpClearQueue.Name = "tlpClearQueue";
             this.tlpClearQueue.RowCount = 1;
             this.tlpClearQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpClearQueue.Size = new System.Drawing.Size(673, 66);
+            this.tlpClearQueue.Size = new System.Drawing.Size(656, 66);
             this.tlpClearQueue.TabIndex = 3;
             // 
             // lbKeyboardShortcutDesc_04
@@ -1102,10 +1102,10 @@ namespace amp.FormsUtility.Help
             this.tlpClearQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_04, 3);
             this.lbKeyboardShortcutDesc_04.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_04.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_04.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_04.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_04.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_04.Name = "lbKeyboardShortcutDesc_04";
-            this.lbKeyboardShortcutDesc_04.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_04.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_04.TabIndex = 3;
             this.lbKeyboardShortcutDesc_04.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_04.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1119,7 +1119,7 @@ namespace amp.FormsUtility.Help
             this.lbClearQueue.Location = new System.Drawing.Point(4, 0);
             this.lbClearQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbClearQueue.Name = "lbClearQueue";
-            this.lbClearQueue.Size = new System.Drawing.Size(260, 66);
+            this.lbClearQueue.Size = new System.Drawing.Size(252, 66);
             this.lbClearQueue.TabIndex = 2;
             this.lbClearQueue.Text = "Clear queue";
             this.lbClearQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1129,10 +1129,10 @@ namespace amp.FormsUtility.Help
             this.pnButton4_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton4_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton4_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton4_1.Location = new System.Drawing.Point(469, 0);
+            this.pnButton4_1.Location = new System.Drawing.Point(455, 0);
             this.pnButton4_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton4_1.Name = "pnButton4_1";
-            this.pnButton4_1.Size = new System.Drawing.Size(67, 66);
+            this.pnButton4_1.Size = new System.Drawing.Size(65, 66);
             this.pnButton4_1.TabIndex = 4;
             // 
             // pnButton04_2
@@ -1140,10 +1140,10 @@ namespace amp.FormsUtility.Help
             this.pnButton04_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton04_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton04_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton04_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton04_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton04_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton04_2.Name = "pnButton04_2";
-            this.pnButton04_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton04_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton04_2.TabIndex = 5;
             // 
             // pnButton04_3
@@ -1151,10 +1151,10 @@ namespace amp.FormsUtility.Help
             this.pnButton04_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_d;
             this.pnButton04_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton04_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton04_3.Location = new System.Drawing.Point(611, 8);
+            this.pnButton04_3.Location = new System.Drawing.Point(593, 8);
             this.pnButton04_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton04_3.Name = "pnButton04_3";
-            this.pnButton04_3.Size = new System.Drawing.Size(54, 50);
+            this.pnButton04_3.Size = new System.Drawing.Size(55, 50);
             this.pnButton04_3.TabIndex = 6;
             // 
             // tlpShowQueue
@@ -1181,7 +1181,7 @@ namespace amp.FormsUtility.Help
             this.tlpShowQueue.Name = "tlpShowQueue";
             this.tlpShowQueue.RowCount = 1;
             this.tlpShowQueue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpShowQueue.Size = new System.Drawing.Size(673, 66);
+            this.tlpShowQueue.Size = new System.Drawing.Size(656, 66);
             this.tlpShowQueue.TabIndex = 2;
             // 
             // lbKeyboardShortcutDesc_03
@@ -1189,10 +1189,10 @@ namespace amp.FormsUtility.Help
             this.tlpShowQueue.SetColumnSpan(this.lbKeyboardShortcutDesc_03, 3);
             this.lbKeyboardShortcutDesc_03.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_03.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_03.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_03.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_03.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_03.Name = "lbKeyboardShortcutDesc_03";
-            this.lbKeyboardShortcutDesc_03.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_03.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_03.TabIndex = 3;
             this.lbKeyboardShortcutDesc_03.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_03.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1206,7 +1206,7 @@ namespace amp.FormsUtility.Help
             this.lbShowQueue.Location = new System.Drawing.Point(4, 0);
             this.lbShowQueue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbShowQueue.Name = "lbShowQueue";
-            this.lbShowQueue.Size = new System.Drawing.Size(260, 66);
+            this.lbShowQueue.Size = new System.Drawing.Size(252, 66);
             this.lbShowQueue.TabIndex = 2;
             this.lbShowQueue.Text = "Show queue";
             this.lbShowQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1216,30 +1216,30 @@ namespace amp.FormsUtility.Help
             this.pnButton03_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f6;
             this.pnButton03_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton03_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton03_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton03_1.Name = "pnButton03_1";
-            this.pnButton03_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton03_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton03_1.TabIndex = 4;
             // 
             // pnButton03_2
             // 
             this.pnButton03_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton03_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton03_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton03_2.Name = "pnButton03_2";
-            this.pnButton03_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton03_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton03_2.TabIndex = 5;
             // 
             // pnButton03_3
             // 
             this.pnButton03_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton03_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton03_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton03_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton03_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton03_3.Name = "pnButton03_3";
-            this.pnButton03_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton03_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton03_3.TabIndex = 6;
             // 
             // tlpSongInformation
@@ -1266,7 +1266,7 @@ namespace amp.FormsUtility.Help
             this.tlpSongInformation.Name = "tlpSongInformation";
             this.tlpSongInformation.RowCount = 1;
             this.tlpSongInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSongInformation.Size = new System.Drawing.Size(673, 66);
+            this.tlpSongInformation.Size = new System.Drawing.Size(656, 66);
             this.tlpSongInformation.TabIndex = 1;
             // 
             // lbKeyboardShortcutDesc_02
@@ -1274,10 +1274,10 @@ namespace amp.FormsUtility.Help
             this.tlpSongInformation.SetColumnSpan(this.lbKeyboardShortcutDesc_02, 3);
             this.lbKeyboardShortcutDesc_02.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_02.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_02.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_02.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_02.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_02.Name = "lbKeyboardShortcutDesc_02";
-            this.lbKeyboardShortcutDesc_02.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_02.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_02.TabIndex = 3;
             this.lbKeyboardShortcutDesc_02.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_02.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1291,7 +1291,7 @@ namespace amp.FormsUtility.Help
             this.lbSongInformation.Location = new System.Drawing.Point(4, 0);
             this.lbSongInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSongInformation.Name = "lbSongInformation";
-            this.lbSongInformation.Size = new System.Drawing.Size(260, 66);
+            this.lbSongInformation.Size = new System.Drawing.Size(252, 66);
             this.lbSongInformation.TabIndex = 2;
             this.lbSongInformation.Text = "Song information";
             this.lbSongInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1301,30 +1301,30 @@ namespace amp.FormsUtility.Help
             this.pnButton02_1.BackgroundImage = global::amp.Properties.Resources.keyboard_function_f4;
             this.pnButton02_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_1.Location = new System.Drawing.Point(473, 4);
+            this.pnButton02_1.Location = new System.Drawing.Point(459, 4);
             this.pnButton02_1.Margin = new System.Windows.Forms.Padding(4);
             this.pnButton02_1.Name = "pnButton02_1";
-            this.pnButton02_1.Size = new System.Drawing.Size(59, 58);
+            this.pnButton02_1.Size = new System.Drawing.Size(57, 58);
             this.pnButton02_1.TabIndex = 4;
             // 
             // pnButton02_2
             // 
             this.pnButton02_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton02_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton02_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton02_2.Name = "pnButton02_2";
-            this.pnButton02_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton02_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton02_2.TabIndex = 5;
             // 
             // pnButton02_3
             // 
             this.pnButton02_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton02_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton02_3.Location = new System.Drawing.Point(603, 0);
+            this.pnButton02_3.Location = new System.Drawing.Point(585, 0);
             this.pnButton02_3.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton02_3.Name = "pnButton02_3";
-            this.pnButton02_3.Size = new System.Drawing.Size(70, 66);
+            this.pnButton02_3.Size = new System.Drawing.Size(71, 66);
             this.pnButton02_3.TabIndex = 6;
             // 
             // tlpSelectAll
@@ -1351,7 +1351,7 @@ namespace amp.FormsUtility.Help
             this.tlpSelectAll.Name = "tlpSelectAll";
             this.tlpSelectAll.RowCount = 1;
             this.tlpSelectAll.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSelectAll.Size = new System.Drawing.Size(673, 66);
+            this.tlpSelectAll.Size = new System.Drawing.Size(656, 66);
             this.tlpSelectAll.TabIndex = 0;
             // 
             // lbKeyboardShortcutDesc_01
@@ -1359,10 +1359,10 @@ namespace amp.FormsUtility.Help
             this.tlpSelectAll.SetColumnSpan(this.lbKeyboardShortcutDesc_01, 3);
             this.lbKeyboardShortcutDesc_01.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbKeyboardShortcutDesc_01.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbKeyboardShortcutDesc_01.Location = new System.Drawing.Point(272, 0);
+            this.lbKeyboardShortcutDesc_01.Location = new System.Drawing.Point(264, 0);
             this.lbKeyboardShortcutDesc_01.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbKeyboardShortcutDesc_01.Name = "lbKeyboardShortcutDesc_01";
-            this.lbKeyboardShortcutDesc_01.Size = new System.Drawing.Size(193, 66);
+            this.lbKeyboardShortcutDesc_01.Size = new System.Drawing.Size(187, 66);
             this.lbKeyboardShortcutDesc_01.TabIndex = 3;
             this.lbKeyboardShortcutDesc_01.Text = "Keyboard shortcut:";
             this.lbKeyboardShortcutDesc_01.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1376,7 +1376,7 @@ namespace amp.FormsUtility.Help
             this.lbSelectAll.Location = new System.Drawing.Point(4, 0);
             this.lbSelectAll.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSelectAll.Name = "lbSelectAll";
-            this.lbSelectAll.Size = new System.Drawing.Size(260, 66);
+            this.lbSelectAll.Size = new System.Drawing.Size(252, 66);
             this.lbSelectAll.TabIndex = 2;
             this.lbSelectAll.Text = "Select all";
             this.lbSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1386,10 +1386,10 @@ namespace amp.FormsUtility.Help
             this.pnButton01_1.BackgroundImage = global::amp.Properties.Resources.keyboard_lctrl;
             this.pnButton01_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_1.Location = new System.Drawing.Point(469, 0);
+            this.pnButton01_1.Location = new System.Drawing.Point(455, 0);
             this.pnButton01_1.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton01_1.Name = "pnButton01_1";
-            this.pnButton01_1.Size = new System.Drawing.Size(67, 66);
+            this.pnButton01_1.Size = new System.Drawing.Size(65, 66);
             this.pnButton01_1.TabIndex = 4;
             // 
             // pnButton01_2
@@ -1397,10 +1397,10 @@ namespace amp.FormsUtility.Help
             this.pnButton01_2.BackgroundImage = global::amp.Properties.Resources.list_add;
             this.pnButton01_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_2.Location = new System.Drawing.Point(536, 0);
+            this.pnButton01_2.Location = new System.Drawing.Point(520, 0);
             this.pnButton01_2.Margin = new System.Windows.Forms.Padding(0);
             this.pnButton01_2.Name = "pnButton01_2";
-            this.pnButton01_2.Size = new System.Drawing.Size(67, 66);
+            this.pnButton01_2.Size = new System.Drawing.Size(65, 66);
             this.pnButton01_2.TabIndex = 5;
             // 
             // pnButton01_3
@@ -1408,10 +1408,10 @@ namespace amp.FormsUtility.Help
             this.pnButton01_3.BackgroundImage = global::amp.Properties.Resources.keyboard_alphabet_a;
             this.pnButton01_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnButton01_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnButton01_3.Location = new System.Drawing.Point(611, 8);
+            this.pnButton01_3.Location = new System.Drawing.Point(593, 8);
             this.pnButton01_3.Margin = new System.Windows.Forms.Padding(8);
             this.pnButton01_3.Name = "pnButton01_3";
-            this.pnButton01_3.Size = new System.Drawing.Size(54, 50);
+            this.pnButton01_3.Size = new System.Drawing.Size(55, 50);
             this.pnButton01_3.TabIndex = 6;
             // 
             // pnNumericKeypadImage
@@ -1420,10 +1420,10 @@ namespace amp.FormsUtility.Help
             this.pnNumericKeypadImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.tlpMain.SetColumnSpan(this.pnNumericKeypadImage, 3);
             this.pnNumericKeypadImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnNumericKeypadImage.Location = new System.Drawing.Point(469, 1008);
+            this.pnNumericKeypadImage.Location = new System.Drawing.Point(462, 1008);
             this.pnNumericKeypadImage.Margin = new System.Windows.Forms.Padding(0);
             this.pnNumericKeypadImage.Name = "pnNumericKeypadImage";
-            this.pnNumericKeypadImage.Size = new System.Drawing.Size(210, 72);
+            this.pnNumericKeypadImage.Size = new System.Drawing.Size(200, 72);
             this.pnNumericKeypadImage.TabIndex = 14;
             // 
             // FormHelp
@@ -1436,6 +1436,7 @@ namespace amp.FormsUtility.Help
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormHelp";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Help";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHelp_FormClosing);
             this.pnMain.ResumeLayout(false);

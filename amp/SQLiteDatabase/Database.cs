@@ -27,23 +27,37 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
 using amp.UtilityClasses;
+using VPKSoft.ErrorLogger;
 
 namespace amp.SQLiteDatabase
 {
+    /// <summary>
+    /// A class representing an album in the database.
+    /// </summary>
     public class Album
     {
+        /// <summary>
+        /// Gets the database identifier of the album.
+        /// </summary>
         public int Id { get; }
 
+        /// <summary>
+        /// Gets the name of the album.
+        /// </summary>
         public string AlbumName { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Album"/> class.
+        /// </summary>
+        /// <param name="id">The database identifier of the album.</param>
+        /// <param name="name">The name of the album.</param>
         public Album(int id, string name)
         {
             AlbumName = name;
@@ -51,27 +65,89 @@ namespace amp.SQLiteDatabase
         }
     }
 
+    /// <summary>
+    /// An enumeration describing a type of a database event.
+    /// </summary>
     [Flags]
     public enum DatabaseEventType
     {
+        /// <summary>
+        /// A database operation started.
+        /// </summary>
         Started = 0,
+
+        /// <summary>
+        /// A database operation stopped.
+        /// </summary>
         Stopped = 1,
+
+        /// <summary>
+        /// A song tag information is being fetched from the database.
+        /// </summary>
+        [Obsolete("No in use in the current design anymore.")]
+        // ReSharper disable once UnusedMember.Global
         GetSongTag = 2,
+
+        /// <summary>
+        /// A song is being updated into the database.
+        /// </summary>
         UpdateSongDb = 4,
+
+        /// <summary>
+        /// A song is being inserted into the database.
+        /// </summary>
         InsertSongDb = 8,
+
+        /// <summary>
+        /// A song is being inserted into an album in the database.
+        /// </summary>
         InsertSongAlbum = 16,
+
+        /// <summary>
+        /// An ID number is being fetched for a song in the database.
+        /// </summary>
         GetSongId = 32,
+
+        /// <summary>
+        /// Meta data is being loaded from the database.
+        /// </summary>
         LoadMeta = 64,
+
+        /// <summary>
+        /// The database is being queried.
+        /// </summary>
         QueryDb = 128
     }
 
+    /// <summary>
+    /// Event arguments for the <see cref="Database.DatabaseProgress"/> event.
+    /// Implements the <see cref="System.EventArgs" />
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class DatabaseEventArgs: EventArgs
     {
+        /// <summary>
+        /// Gets or sets the progress of the database operation.
+        /// </summary>
+        /// <value>The progress.</value>
         public int Progress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the progress end value of the database operation.
+        /// </summary>
         public int ProgressEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the database operation.
+        /// </summary>
         public DatabaseEventType EventType { get; set; }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseEventArgs"/> class.
+        /// </summary>
+        /// <param name="progress">The current progress of a database operation.</param>
+        /// <param name="progressEnd">The progress end value of a database operation.</param>
+        /// <param name="eventType">Type of the database operation.</param>
         public DatabaseEventArgs(int progress, int progressEnd, DatabaseEventType eventType)
         {
             Progress = progress;
@@ -80,48 +156,75 @@ namespace amp.SQLiteDatabase
         }
     }
 
-
+    /// <summary>
+    /// A class for most of the database handling for the software.
+    /// </summary>
     public class Database
     {
-        // initialize a System.Windows.Forms SynchronizationContext
+        // initialize a System.Windows.Forms SynchronizationContext..
         private static readonly SynchronizationContext Context = SynchronizationContext.Current ?? new SynchronizationContext();
 
+        /// <summary>
+        /// A delegate for the <see cref="DatabaseProgress"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="DatabaseEventArgs"/> instance containing the event data.</param>
         public delegate void OnDatabaseProgress(DatabaseEventArgs e);
 
+        /// <summary>
+        /// Occurs when a database operation is in progress or ending.
+        /// </summary>
         public static event OnDatabaseProgress DatabaseProgress;
 
+        /// <summary>
+        /// Raises the <see cref="DatabaseProgress"/> event.
+        /// </summary>
+        /// <param name="state">A <see cref="DatabaseEventArgs"/> class instance for the event.</param>
         private static void OnDatabaseProgressThreadSafe(object state)
         {
             DatabaseProgress?.Invoke(state as DatabaseEventArgs);
         }
 
+        /// <summary>
+        /// Raises the <see cref="DatabaseProgress"/> event thread-safely.
+        /// </summary>
+        /// <param name="e">The <see cref="DatabaseEventArgs"/> instance containing the event data.</param>
         private static void DatabaseProgressThreadSafe(DatabaseEventArgs e)
         {
+            // send via threading context..
             Context.Send(OnDatabaseProgressThreadSafe, e);
         }
 
+        /// <summary>
+        /// Gets the albums from the database.
+        /// </summary>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <returns>A list of <see cref="Album"/> instances.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static List<Album> GetAlbums(SQLiteConnection conn)
         {
-            List<Album> retval = new List<Album>();
+            List<Album> result = new List<Album>();
             using (SQLiteCommand command = new SQLiteCommand (conn))
             {
-                command.CommandText = "SELECT ID, ALBUMNAME FROM ALBUM " +
-                                      "WHERE ID >= 1 " +
-                                      "ORDER BY ALBUMNAME COLLATE NOCASE ";
+                command.CommandText =
+                    string.Join(Environment.NewLine,
+                        "SELECT ID, ALBUMNAME FROM ALBUM",
+                        "WHERE ID >= 1",
+                        "ORDER BY ALBUMNAME COLLATE NOCASE");
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    retval.Add(new Album(reader.GetInt32(0), reader.GetString(1)));
+                    result.Add(new Album(reader.GetInt32(0), reader.GetString(1)));
                 }
             }
-            return retval;
+            return result;
         }
 
         /// <summary>
         /// Gets the name of the of the default album.
         /// </summary>
-        /// <param name="conn">A reference to an open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         /// <returns>A name of the default album.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static string GetDefaultAlbumName(SQLiteConnection conn)
         {
             string sql =
@@ -138,8 +241,9 @@ namespace amp.SQLiteDatabase
         /// Deletes an album from the database with a given <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the album to delete.</param>
-        /// <param name="conn">A reference to an open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         /// <returns><c>true</c> if the album was successfully deleted, <c>false</c> otherwise.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static bool DeleteAlbum(string name, SQLiteConnection conn)
         {
             string sql =
@@ -167,6 +271,11 @@ namespace amp.SQLiteDatabase
             return true;
         }
 
+        /// <summary>
+        /// Gets the ID numbers for songs without an ID number from the database.
+        /// </summary>
+        /// <param name="noIdSongs">A list of songs without a database ID number.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         public static void GetIDsForSongs(ref List<MusicFile> noIdSongs, SQLiteConnection conn)
         {
             int count = noIdSongs.Count;
@@ -180,7 +289,7 @@ namespace amp.SQLiteDatabase
             var sql = "SELECT ID, FILENAME FROM SONG WHERE FILENAME IN(";
             foreach (MusicFile mf in noIdSongs)
             {
-                sql += "'" + mf.FullFileName.Replace("'", "''") + "', ";
+                sql += QS(mf.FullFileName) + ", ";
             }
             sql = sql.TrimEnd(", ".ToCharArray()) + ") ";
 
@@ -221,18 +330,31 @@ namespace amp.SQLiteDatabase
             DatabaseProgressThreadSafe(new DatabaseEventArgs(count, count, DatabaseEventType.Stopped));
         }
 
+        // a field for the AlbumChanged property..
         private static bool albumChanged;
 
+        /// <summary>
+        /// Gets a value indicating whether the album changed during a database operation.
+        /// Note: The property resets to false once its value is read.
+        /// </summary>
+        /// <value><c>true</c> if the album changed during a database operation; otherwise, <c>false</c>.</value>
         public static bool AlbumChanged
         {
             get
             {
-                bool btmp = albumChanged;
+                bool tmp = albumChanged;
                 albumChanged = false;
-                return btmp;
+                return tmp;
             }
         }
 
+        /// <summary>
+        /// Adds songs to album.
+        /// </summary>
+        /// <param name="name">The name of the album to add the songs to.</param>
+        /// <param name="addSongs">A list of <see cref="MusicFile"/> class instances to add to an album.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static void AddSongToAlbum(string name, List<MusicFile> addSongs, SQLiteConnection conn)
         {
             string sql = string.Empty;
@@ -247,16 +369,17 @@ namespace amp.SQLiteDatabase
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "' ";
+                command.CommandText = $"SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)} ";
                 oAlbumId = command.ExecuteScalar();
             }
 
             for (int i = 0; i < addSongs.Count; i++)
             {
-                sql += "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX) " +
-                       "SELECT " + oAlbumId + ", " + addSongs[i].ID + ", 0 " +
-                       "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
-                       "ALBUM_ID = " + oAlbumId + " AND SONG_ID = " + addSongs[i].ID + "); ";
+                sql += string.Join(Environment.NewLine,
+                    "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX)",
+                    $"SELECT {oAlbumId}, {addSongs[i].ID}, 0 ",
+                    "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
+                    $"ALBUM_ID = {oAlbumId} AND SONG_ID = {addSongs[i].ID}); ");
                 if ((i % 200) == 0 && i != 0)
                 {
                     ExecuteTransaction(sql, conn);
@@ -274,6 +397,12 @@ namespace amp.SQLiteDatabase
             albumChanged = true;
         }
 
+        /// <summary>
+        /// Removes songs from album.
+        /// </summary>
+        /// <param name="name">The name of the album to add the songs to.</param>
+        /// <param name="musicFiles">A list of <see cref="MusicFile"/> class instances to add to an album.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         public static void RemoveSongFromAlbum(string name, List<MusicFile> musicFiles, SQLiteConnection conn)
         {
             if (musicFiles.Count == 0)
@@ -302,7 +431,11 @@ namespace amp.SQLiteDatabase
             albumChanged = true;
         }
 
-
+        /// <summary>
+        /// Clears the temporary album from the database.
+        /// </summary>
+        /// <param name="playList">A reference to list of <see cref="MusicFile"/> class instances to be cleared also.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         public static void ClearTmpAlbum(ref List<MusicFile> playList, SQLiteConnection conn)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
@@ -313,12 +446,34 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Quotes a given string suitable for raw SQL.
+        /// </summary>
+        /// <param name="value">The string value to quote.</param>
+        /// <returns>A quoted string suitable for raw SQL.</returns>
         // ReSharper disable once InconsistentNaming
         public static string QS(string value)
         {
             return "'" + value.Replace("'", "''") + "'";
         }
 
+        /// <summary>
+        /// Converts a double value into a string value understood by SQL.
+        /// </summary>
+        /// <param name="value">The double value to convert into a string.</param>
+        /// <returns>A string converted from the give <paramref name="value"/>.</returns>
+        // ReSharper disable once InconsistentNaming
+        public static string DS(double value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a SQL sentence for getting an album with a given <paramref name="name"/> from the database.
+        /// </summary>
+        /// <param name="name">The name of the album.</param>
+        /// <returns>A SQL sentence generated with the given parameters.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static string GetAlbumSql(string name)
         {
             string result =
@@ -354,6 +509,13 @@ namespace amp.SQLiteDatabase
             return result;
         }
 
+        /// <summary>
+        /// Gets an album from the database.
+        /// </summary>
+        /// <param name="name">The name of the album.</param>
+        /// <param name="playList">A reference to list of <see cref="MusicFile"/> class instances to fill with the results from the database.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static void GetAlbum(string name, ref List<MusicFile> playList, SQLiteConnection conn)
         {
             List<int> indices = new List<int>();
@@ -361,7 +523,7 @@ namespace amp.SQLiteDatabase
             {
                 playList.Clear();
 
-                command.CommandText = "SELECT COUNT(*) FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "') ";
+                command.CommandText = $"SELECT COUNT(*) FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})";
                 var totalCnt = Convert.ToInt32(command.ExecuteScalar());
 
                 command.CommandText = GetAlbumSql(name);
@@ -403,9 +565,9 @@ namespace amp.SQLiteDatabase
                 string sSql = string.Empty;
                 foreach (MusicFile mf in playList)
                 {
-                    for (int i = 0; i < indices.Count; i++)
+                    foreach (var index in indices)
                     {
-                        if (mf.VisualIndex == indices[i])
+                        if (mf.VisualIndex == index)
                         {
                             mf.LoadTag();
                             sSql += $"UPDATE SONG SET TAGFINDSTR = {QS(mf.TagString)}, TAGREAD = 1 WHERE ID = {mf.ID}; ";
@@ -419,15 +581,26 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Saves the volume (playback) to the database of a given <see cref="MusicFile"/>.
+        /// </summary>
+        /// <param name="mf">The <see cref="MusicFile"/> which volume to update to the database.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         public static void SaveVolume(MusicFile mf, SQLiteConnection conn)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = $"UPDATE SONG SET VOLUME = {mf.Volume.ToString(CultureInfo.InvariantCulture).Replace(',', '.')} WHERE ID = {mf.ID} ";
+                command.CommandText = $"UPDATE SONG SET VOLUME = {DS(mf.Volume)} WHERE ID = {mf.ID} ";
                 command.ExecuteNonQuery();
             }
         }
 
+        /// <summary>
+        /// Sets an override name for a given <see cref="MusicFile"/> reference.
+        /// </summary>
+        /// <param name="mf">The reference to a <see cref="MusicFile"/> which override name to set.</param>
+        /// <param name="newName">The new override name for the song.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
         public static void SaveOverrideName(ref MusicFile mf, string newName, SQLiteConnection conn)
         {
             if (newName == string.Empty)
@@ -442,11 +615,18 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Saves the current queue into the database so it will be remembered next time the software starts.
+        /// </summary>
+        /// <param name="files">A list of <see cref="MusicFile"/> containing the album.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="albumName">The name of the album the music files belong to.</param>
         public static void SaveQueue(List<MusicFile> files, SQLiteConnection conn, string albumName)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "UPDATE ALBUMSONGS SET QUEUEINDEX = 0 WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "') ";
+                command.CommandText =
+                    $"UPDATE ALBUMSONGS SET QUEUEINDEX = 0 WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)})";
                 command.ExecuteNonQuery();
             }
             foreach (MusicFile mf in files)
@@ -455,13 +635,21 @@ namespace amp.SQLiteDatabase
                 {
                     if (mf.QueueIndex > 0)
                     {
-                        command.CommandText = "UPDATE ALBUMSONGS SET QUEUEINDEX = " + mf.QueueIndex + " WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "') AND SONG_ID = " + mf.ID + " ";
+                        command.CommandText =
+                            $"UPDATE ALBUMSONGS SET QUEUEINDEX = {mf.QueueIndex} WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}) AND SONG_ID = {mf.ID}";
                         command.ExecuteNonQuery();
                     }
                 }                
             }
         }
 
+        /// <summary>
+        /// Loads a queue snapshot with a given <paramref name="queueIndex"/> (SQL ID field) from the database.
+        /// </summary>
+        /// <param name="files">A reference to list of <see cref="MusicFile"/> class instances to fill with the queue snapshot contents with.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="queueIndex">The queue index (SQL ID number in the database) for the queue snapshot</param>
+        /// <param name="append">A value indicating whether the queue snapshot should be appended to the <paramref name="files"/>.</param>
         public static void LoadQueue(ref List<MusicFile> files, SQLiteConnection conn, int queueIndex, bool append)
         {
             int qIdx = files.Max(f => f.QueueIndex);
@@ -475,7 +663,7 @@ namespace amp.SQLiteDatabase
 
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "SELECT SONG_ID, QUEUEINDEX FROM QUEUE_SNAPSHOT WHERE ID = " + queueIndex + " ORDER BY QUEUEINDEX ";
+                command.CommandText = $"SELECT SONG_ID, QUEUEINDEX FROM QUEUE_SNAPSHOT WHERE ID = {queueIndex} ORDER BY QUEUEINDEX";
                 using (SQLiteDataReader dr = command.ExecuteReader())
                 {
                     while (dr.Read())
@@ -504,6 +692,14 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Saves a given list of music files to a queue snapshot.
+        /// </summary>
+        /// <param name="files">A list of <see cref="MusicFile"/> class instances save to a queue snapshot.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="albumName">The name of the album the queue snapshot belongs to.</param>
+        /// <param name="snapshotName">The name for the queue snapshot to be saved into the database.</param>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static void SaveQueueSnapshot(List<MusicFile> files, SQLiteConnection conn, string albumName, string snapshotName)
         {
             string sql;
@@ -525,12 +721,12 @@ namespace amp.SQLiteDatabase
                         {
 
                             sql =
-                                "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES( " + Environment.NewLine +
-                                id + ", " + Environment.NewLine +
-                                "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
-                                mf.ID + ", " + Environment.NewLine +
-                                mf.AlternateQueueIndex + ", " + Environment.NewLine +
-                                "'" + snapshotName.Replace("'", "''") + "') " + Environment.NewLine;
+                                string.Join(Environment.NewLine,
+                                    "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES(",
+                                    $"{id},",
+                                    $"(SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}),",
+                                    $"{mf.ID}, {mf.AlternateQueueIndex},",
+                                    $"{QS(snapshotName)})");
 
                             command.CommandText = sql;
                             command.ExecuteNonQuery();
@@ -548,12 +744,12 @@ namespace amp.SQLiteDatabase
                         {
 
                             sql =
-                                "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES( " + Environment.NewLine +
-                                id + ", " + Environment.NewLine +
-                                "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
-                                mf.ID + ", " + Environment.NewLine +
-                                mf.QueueIndex + ", " + Environment.NewLine +
-                                "'" + snapshotName.Replace("'", "''") + "') " + Environment.NewLine;
+                                string.Join(Environment.NewLine,
+                                "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME) VALUES(",
+                                $"{id},",
+                                $"(SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}),",
+                                $"{mf.ID}, {mf.QueueIndex},",
+                                $"{QS(snapshotName)})");
 
                             command.CommandText = sql;
                             command.ExecuteNonQuery();
@@ -563,26 +759,40 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Matches a two lists of strings downwards using the length of the smaller list.
+        /// </summary>
+        /// <param name="list1">The first list of strings.</param>
+        /// <param name="list2">The second list of strings.</param>
+        /// <returns>A count of how many strings with the lists matched with each other in reversed order.</returns>
         public static int ListStringDownMatch(List<string> list1, List<string> list2)
         {
             int min = Math.Min(list1.Count, list2.Count);
             list1.Reverse();
             list2.Reverse();
-            int retval = 0;
+            int result = 0;
             for (int i = 0; i < min; i++)
             {
                 if (list1[i] == list2[i])
                 {
-                    retval++;
+                    result++;
                 }
                 else
                 {
                     break;
                 }
             }
-            return retval;
+            return result;
         }
 
+        /// <summary>
+        /// Saves a queue snapshot into a file.
+        /// </summary>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="id">The SQL ID number of the queue snapshot.</param>
+        /// <param name="queueFileName">The file name to which the queue snapshot should be saved into.</param>
+        /// <returns>True if the operation was successful; otherwise false.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static bool SaveQueueSnapshotToFile(SQLiteConnection conn, int id, string queueFileName)
         {
             try
@@ -591,11 +801,12 @@ namespace amp.SQLiteDatabase
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText =
-                        "SELECT " + Environment.NewLine +
-                        "(SELECT ALBUMNAME FROM ALBUM WHERE ID = ALBUM_ID) AS ALBUMNAME, " + Environment.NewLine +
-                        "(SELECT FILENAME FROM SONG WHERE ID = SONG_ID) AS FILENAME, " + Environment.NewLine +
-                        "QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE " + Environment.NewLine +
-                        "FROM QUEUE_SNAPSHOT WHERE ID = " + id + " ";
+                        string.Join(
+                            "SELECT",
+                            "(SELECT ALBUMNAME FROM ALBUM WHERE ID = ALBUM_ID) AS ALBUMNAME,",
+                            "(SELECT FILENAME FROM SONG WHERE ID = SONG_ID) AS FILENAME,",
+                            "QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE",
+                            $"FROM QUEUE_SNAPSHOT WHERE ID = {id}");
 
                     lines.Add("amp# QueueSnapshot Export");
                     using (SQLiteDataReader dr = command.ExecuteReader())
@@ -639,6 +850,11 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Gets a queue snapshot name from a given file.
+        /// </summary>
+        /// <param name="queueFileName">The file name containing the queue snapshot to get the snapshot name from.</param>
+        /// <returns>A queue snapshot name if the operation was successful; otherwise <see cref="string.Empty"/>.</returns>
         public static string GetQueueSnapshotName(string queueFileName)
         {
             try
@@ -656,6 +872,16 @@ namespace amp.SQLiteDatabase
             }
         }
 
+        /// <summary>
+        /// Restores a queue snapshot from a file into the database.
+        /// </summary>
+        /// <param name="files">A list of <see cref="MusicFile"/> entries (an album contents) to compare the entries in the <paramref name="queueFileName"/> file.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="albumName">The name of the album.</param>
+        /// <param name="queueFileName">The name of the file containing the queue snapshot.</param>
+        /// <param name="overrideName">An override for the snap shot name in the file. This value can be a empty string.</param>
+        /// <returns>True if the snapshot was successfully inserted into the database; otherwise false.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static bool RestoreQueueSnapshotFromFile(List<MusicFile> files, SQLiteConnection conn, string albumName, string queueFileName, string overrideName)
         {
             int id;
@@ -699,13 +925,12 @@ namespace amp.SQLiteDatabase
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionLogger.LogError(ex);
                 return false;
             }
 
             // select datetime('2017-08-01 10:12:11')
 
-            List<string> queueFile;
             List<Tuple<int, int>> matches = new List<Tuple<int, int>>();
             List<MusicFile> foundSongs = new List<MusicFile>();
             foreach (MusicFile mf in files)
@@ -715,7 +940,8 @@ namespace amp.SQLiteDatabase
                     break;
                 }
 
-                queueFile = new List<string>(Regex.Replace(mf.FullFileName, "^[A-Za-z][:]?", string.Empty).TrimStart('\\').Split('\\'));
+                var queueFile = new List<string>(Regex.Replace(mf.FullFileName, "^[A-Za-z][:]?", string.Empty)
+                    .TrimStart('\\').Split('\\'));
 
                 matches.Clear();
                 for (int i = 0; i < paths.Count; i++)
@@ -743,7 +969,7 @@ namespace amp.SQLiteDatabase
             
             foundSongs.Sort((x, y) => x.QueueIndex.CompareTo(y.QueueIndex));
 
-            if (overrideName != string.Empty)
+            if (overrideName.Trim() != string.Empty)
             {
                 snapshotName = overrideName;
             }
@@ -754,12 +980,14 @@ namespace amp.SQLiteDatabase
             {
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
-                    var sql = "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE) VALUES( " + Environment.NewLine +
-                                 id + ", " + Environment.NewLine +
-                                 "(SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + albumName.Replace("'", "''") + "'), " + Environment.NewLine +
-                                 mf.ID + ", " + Environment.NewLine +
-                                 qIDx++ + ", " + Environment.NewLine +
-                                 "'" + snapshotName.Replace("'", "''") + "', DATETIME('" + snapShotDate + "')) " + Environment.NewLine;
+                    var sql =
+                        string.Join(Environment.NewLine,
+                            "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE) VALUES(",
+                            $"{id},",
+                            $"(SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}),",
+                            $"{mf.ID}, {qIDx++},{QS(snapshotName)}",
+                            $"DATETIME('{snapShotDate}'))");
+
 
                     command.CommandText = sql;
                     command.ExecuteNonQuery();
@@ -769,19 +997,11 @@ namespace amp.SQLiteDatabase
             return true;
         }
 
-        public class MusicFileEntry
-        {
-            public string Path;
-            public string Filename;
-            public int Id;
-            public MusicFileEntry(string path, string filename, int id)
-            {
-                Path = path;
-                Filename = filename;
-                Id = id;
-            }
-        }
-
+        /// <summary>
+        /// Adds music files into the database.
+        /// </summary>
+        /// <param name="addFiles">A list of <see cref="MusicFile"/> entries to add to the database.</param>
+        /// <param name="conn">An instance to a <see cref="SQLiteConnection"/> for the query.</param>
         public static void AddFileToDb(List<MusicFile> addFiles, SQLiteConnection conn)
         {
             if (addFiles.Count == 0)
@@ -824,7 +1044,6 @@ namespace amp.SQLiteDatabase
 
             for (int i = 0; i < addFiles.Count; i++)
             {
-//                addFiles[i].LoadTag();
                 sql += InsertSongSql(addFiles[i]);
                 if ((i % 200) == 0 && i != 0)
                 {
@@ -841,12 +1060,24 @@ namespace amp.SQLiteDatabase
             DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.Stopped));
         }
 
+        /// <summary>
+        /// Generates an update SQL sentence for a given <see cref="MusicFile"/>.
+        /// </summary>
+        /// <param name="mf">The music file instance for which to generate the SQL sentence for.</param>
+        /// <returns>A generated SQL sentence with the given parameter(s).</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private static string UpdateSongSql(MusicFile mf)
         {
             return $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
                    $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
         }
 
+        /// <summary>
+        /// Generates an insert SQL sentence for a given <see cref="MusicFile"/>.
+        /// </summary>
+        /// <param name="mf">The music file instance for which to generate the SQL sentence for.</param>
+        /// <returns>A generated SQL sentence with the given parameter(s).</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private static string InsertSongSql(MusicFile mf)
         {
             return
@@ -859,6 +1090,12 @@ namespace amp.SQLiteDatabase
                     $"WHERE NOT EXISTS(SELECT 1 FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
         }
 
+        /// <summary>
+        /// Executes a given SQL sentence against the database.
+        /// </summary>
+        /// <param name="sql">The SQL sentence to execute.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <returns>True if the operation was successful; otherwise false.</returns>
         public static bool ExecuteTransaction(string sql, SQLiteConnection conn)
         {
             try
@@ -874,26 +1111,38 @@ namespace amp.SQLiteDatabase
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                // log the exception..
+                ExceptionLogger.LogError(ex);
                 return false;
             }
         }
 
+        /// <summary>
+        /// Inserts the default album (ID = 1) into the database with a given name.
+        /// </summary>
+        /// <param name="name">The localized name of the default database.</param>
+        /// <param name="conn">An instance to a <see cref="SQLiteConnection"/> for the query.</param>
+        /// <returns></returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static int AddDefaultAlbum(string name, SQLiteConnection conn)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "INSERT INTO ALBUM(ID, ALBUMNAME) " +
-                                      "SELECT 1, '" + name.Replace("'", "''") + "' " +
-                                      "WHERE NOT EXISTS(SELECT 1 FROM ALBUM WHERE ID = 1); " +
-                                      "UPDATE ALBUM SET ALBUMNAME = '" + name.Replace("'", "''") + "' WHERE ID = 1; ";
+                command.CommandText =
+                    string.Join(Environment.NewLine,
+                        "INSERT INTO ALBUM(ID, ALBUMNAME)",
+                        $"SELECT 1, {QS(name)}",
+                        "WHERE NOT EXISTS(SELECT 1 FROM ALBUM WHERE ID = 1);",
+                        $"UPDATE ALBUM SET ALBUMNAME = {QS(name)} WHERE ID = 1;");
                 command.ExecuteNonQuery();
 
             }
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "' ";
+                command.CommandText =
+                    $"SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)} ";
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -912,22 +1161,34 @@ namespace amp.SQLiteDatabase
             return -1;
         }
 
+        /// <summary>
+        /// Adds a new album with a given <paramref name="name"/> into the database.
+        /// </summary>
+        /// <param name="name">The name of the album to add.</param>
+        /// <param name="conn">An instance to a <see cref="SQLiteConnection"/> for the query.</param>
+        /// <returns>A SQL ID number for the album if the operation was successful; otherwise -1.</returns>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static int AddNewAlbum(string name, SQLiteConnection conn)
         {
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "INSERT INTO ALBUM(ALBUMNAME) " +
-                                      "SELECT '" + name.Replace("'", "''") + "' " +
-                                      "WHERE NOT EXISTS(SELECT 1 FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "') ";
+                command.CommandText =
+                    string.Join(Environment.NewLine,
+                        "INSERT INTO ALBUM(ALBUMNAME) ",
+                        $"SELECT {QS(name)}",
+                        $"WHERE NOT EXISTS(SELECT * FROM ALBUM WHERE ALBUMNAME = {QS(name)})");
                 command.ExecuteNonQuery();
 
             }
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
-                command.CommandText = "SELECT ID FROM ALBUM WHERE ALBUMNAME = '" + name.Replace("'", "''") + "' ";
+                command.CommandText =
+                    $"SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)}";
+
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    try {
+                    try 
+                    {
                         if (reader.Read())
                         {
                             return reader.GetInt32(0);
@@ -935,7 +1196,8 @@ namespace amp.SQLiteDatabase
                     } 
                     catch (Exception ex)
                     {
-                        throw new Exception("SQLite error: '" + ex.Message + "'.");
+                        // log the exception..
+                        ExceptionLogger.LogError(ex);
                     }
                 }
             }

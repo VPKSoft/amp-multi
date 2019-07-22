@@ -131,14 +131,14 @@ namespace amp
             // 
             this.mnuAlbum.Image = global::amp.Properties.Resources.album_yellow;
             this.mnuAlbum.Name = "mnuAlbum";
-            this.mnuAlbum.Size = new System.Drawing.Size(204, 36);
+            this.mnuAlbum.Size = new System.Drawing.Size(190, 22);
             this.mnuAlbum.Text = "Album";
             // 
             // mnuSaveAlbumAs
             // 
             this.mnuSaveAlbumAs.Image = global::amp.Properties.Resources.Save_as32;
             this.mnuSaveAlbumAs.Name = "mnuSaveAlbumAs";
-            this.mnuSaveAlbumAs.Size = new System.Drawing.Size(204, 36);
+            this.mnuSaveAlbumAs.Size = new System.Drawing.Size(190, 22);
             this.mnuSaveAlbumAs.Text = "Save current album as";
             this.mnuSaveAlbumAs.Click += new System.EventHandler(this.MnuSaveAlbumAs_Click);
             // 
@@ -146,7 +146,7 @@ namespace amp
             // 
             this.mnuNewAlbum.Image = ((System.Drawing.Image)(resources.GetObject("mnuNewAlbum.Image")));
             this.mnuNewAlbum.Name = "mnuNewAlbum";
-            this.mnuNewAlbum.Size = new System.Drawing.Size(204, 36);
+            this.mnuNewAlbum.Size = new System.Drawing.Size(190, 22);
             this.mnuNewAlbum.Text = "New album";
             this.mnuNewAlbum.Click += new System.EventHandler(this.mnuNewAlbum_Click);
             // 
@@ -154,7 +154,7 @@ namespace amp
             // 
             this.mnuDeleteAlbum.Image = global::amp.Properties.Resources.remove_album;
             this.mnuDeleteAlbum.Name = "mnuDeleteAlbum";
-            this.mnuDeleteAlbum.Size = new System.Drawing.Size(204, 36);
+            this.mnuDeleteAlbum.Size = new System.Drawing.Size(190, 22);
             this.mnuDeleteAlbum.Text = "Delete current album";
             this.mnuDeleteAlbum.Click += new System.EventHandler(this.MnuDeleteAlbum_Click);
             // 
@@ -163,7 +163,7 @@ namespace amp
             this.mnuSelectAll.Image = ((System.Drawing.Image)(resources.GetObject("mnuSelectAll.Image")));
             this.mnuSelectAll.Name = "mnuSelectAll";
             this.mnuSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnuSelectAll.Size = new System.Drawing.Size(204, 36);
+            this.mnuSelectAll.Size = new System.Drawing.Size(190, 22);
             this.mnuSelectAll.Text = "Select all";
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
@@ -175,7 +175,7 @@ namespace amp
             this.mnuPlaylistM3UExport});
             this.mnuPlayListM3U.Image = global::amp.Properties.Resources.m3u2;
             this.mnuPlayListM3U.Name = "mnuPlayListM3U";
-            this.mnuPlayListM3U.Size = new System.Drawing.Size(204, 36);
+            this.mnuPlayListM3U.Size = new System.Drawing.Size(190, 22);
             this.mnuPlayListM3U.Text = "Playlist (m3u)";
             // 
             // mnuPlayListM3UNewAlbum
@@ -203,7 +203,7 @@ namespace amp
             // 
             this.mnuSettings.Image = global::amp.Properties.Resources.settings;
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(204, 36);
+            this.mnuSettings.Size = new System.Drawing.Size(190, 22);
             this.mnuSettings.Text = "Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
@@ -212,7 +212,7 @@ namespace amp
             this.mnuSongInfo.Image = global::amp.Properties.Resources.info;
             this.mnuSongInfo.Name = "mnuSongInfo";
             this.mnuSongInfo.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnuSongInfo.Size = new System.Drawing.Size(204, 36);
+            this.mnuSongInfo.Size = new System.Drawing.Size(190, 22);
             this.mnuSongInfo.Text = "Song information";
             this.mnuSongInfo.Click += new System.EventHandler(this.mnuSongInfo_Click);
             // 
@@ -221,7 +221,7 @@ namespace amp
             this.mnuShowAllSongs.Image = global::amp.Properties.Resources.list;
             this.mnuShowAllSongs.Name = "mnuShowAllSongs";
             this.mnuShowAllSongs.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.mnuShowAllSongs.Size = new System.Drawing.Size(204, 36);
+            this.mnuShowAllSongs.Size = new System.Drawing.Size(190, 22);
             this.mnuShowAllSongs.Text = "Show all songs";
             this.mnuShowAllSongs.Click += new System.EventHandler(this.mnuShowAllSongs_Click);
             // 

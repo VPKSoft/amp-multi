@@ -30,8 +30,16 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A dialog for adding new albums to the database.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormAddAlbum : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddAlbum"/> class.
+        /// </summary>
         public FormAddAlbum()
         {
             InitializeComponent();
@@ -45,6 +53,11 @@ namespace amp.FormsUtility
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
+        /// <summary>
+        /// Displays the dialog and with an optional album name.
+        /// </summary>
+        /// <param name="name">The optional name for the album.</param>
+        /// <returns>A name for an album in case the user accepted the dialog; otherwise string.Empty.</returns>
         public static string Execute(string name = "")
         {
             FormAddAlbum form = new FormAddAlbum();
@@ -59,7 +72,8 @@ namespace amp.FormsUtility
 
         private void tbAlbumName_TextChanged(object sender, EventArgs e)
         {
-            bOK.Enabled = tbAlbumName.Text.Length > 0;
+            // not ok if empty or only white space..
+            bOK.Enabled = tbAlbumName.Text.Trim().Length > 0;
         }
     }
 }

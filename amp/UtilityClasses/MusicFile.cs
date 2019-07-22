@@ -31,27 +31,79 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using TagLib;
+using VPKSoft.ErrorLogger;
 using VPKSoft.RandomizationUtils;
 using File = TagLib.File;
 
 namespace amp.UtilityClasses
 {
+    /// <summary>
+    /// Represents a single music file within the software.
+    /// </summary>
     public class MusicFile
     {
-        private readonly string fileName;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MusicFile"/> class.
+        /// </summary>
+        /// <param name="fullPath">The full path of the music file.</param>
+        /// <param name="id">The database ID number for the music file.</param>
+        public MusicFile(string fullPath, int id)
+        {
+            ID = id;
+            FileNameNoPath = Path.GetFileName(fullPath);
+            filePath = Path.GetFullPath(fullPath);
+            songName = Path.GetFileNameWithoutExtension(fullPath);
+            fileExt = Path.GetExtension(fullPath);
+            FileInfo fInfo = new FileInfo(fullPath);
+            FileSize = fInfo.Length;
+            tAlbum = string.Empty;
+            tArtist = string.Empty;
+            TagString = string.Empty;
+            tYear = 0;
+            tTitle = string.Empty;
+            FullFileName = fullPath;
+            tTrack = 0;
+            Duration = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MusicFile"/> class.
+        /// </summary>
+        /// <param name="fullPath">The full path of the music file.</param>
+        public MusicFile(string fullPath): this(fullPath, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MusicFile"/> class.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to use as a base.</param>
+        public MusicFile(MusicFile mf)
+        {
+            ID = mf.ID;
+            FileNameNoPath = mf.FileNameNoPath;
+            filePath = mf.filePath;
+            songName = mf.songName;
+            fileExt = mf.fileExt;
+            FileSize = mf.FileSize;
+            tAlbum = mf.tAlbum;
+            tArtist = mf.tArtist;
+            TagString = mf.TagString;
+            tYear = mf.tYear;
+            tTitle = mf.tTitle;
+            FullFileName = mf.FullFileName;
+            tTrack = mf.tTrack;
+            Duration = mf.Duration;
+        }
+
         private readonly string filePath;
         private readonly string fileExt;
         private readonly string songName;
-        private readonly string fullPath;
         private string tAlbum;
         private string tArtist;
-        private readonly long fileSize;
-        // ReSharper disable once IdentifierTypo
-        private string tagstr;
         private uint tYear;
         private uint tTrack;
         private string tTitle;
-        private int id;
         private int queueIndex = -1;
         private int visualIndex;
         private bool picLoaded;
@@ -60,18 +112,30 @@ namespace amp.UtilityClasses
         private int rating = 500;
         private Tag tag;
         private string overrideName = string.Empty;
-        public int Duration;
-        public IPicture[] Pictures;
 
-        public string FileNameNoPath => fileName;
+        /// <summary>
+        /// Gets or sets the duration of the music file.
+        /// </summary>
+        public int Duration { get; set; }
 
-        public string TagString
-        {
-            get => tagstr;
+        /// <summary>
+        /// Gets or sets the pictures stored in the music file.
+        /// </summary>
+        public IPicture[] Pictures { get; set; }
 
-            set => tagstr = value;
-        }
+        /// <summary>
+        /// Gets the file name without a path of the music file.
+        /// </summary>
+        public string FileNameNoPath { get; }
 
+        /// <summary>
+        /// Gets or sets the tag string (a combined string of data in a IDvX Tag) for searching purposes.
+        /// </summary>
+        public string TagString { get; set; }
+
+        /// <summary>
+        /// Loads the pictures containing in the music file's IDvX Tag.
+        /// </summary>
         public void LoadPic()
         {
             if (picLoaded)
@@ -80,27 +144,33 @@ namespace amp.UtilityClasses
             }
             try
             {
-                using (File tagFile = File.Create(fullPath))
+                using (File tagFile = File.Create(FullFileName))
                 {
                     Pictures = tagFile.Tag.Pictures;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Do nothing..
+                // log the exception..
+                ExceptionLogger.LogError(ex);
             }
             picLoaded = true;
         }
 
+        /// <summary>
+        /// Loads the IDvX Tag data from the music file.
+        /// </summary>
+        /// <param name="force">if set to <c>true</c> the tag is tried read again even if it has been read already.</param>
         public void LoadTag(bool force = false)
         {
             if (tagLoaded && !force)
             {
                 return;
             }
+
             try
             {                
-                using (File tagFile = File.Create(fullPath))
+                using (File tagFile = File.Create(FullFileName))
                 {
                     tAlbum = tagFile.Tag.Album;
                     if (tagFile.Tag.AlbumArtists.Length > 0)
@@ -113,16 +183,21 @@ namespace amp.UtilityClasses
                     tTrack = tagFile.Tag.Track;
                     tag = tagFile.Tag;
                 }
-                tagstr = GetTagString(tag);
+                TagString = GetTagString(tag);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored..
+                // log the exception..
+                ExceptionLogger.LogError(ex);
             }
 
             tagLoaded = true;
         }
 
+        /// <summary>
+        /// Gets the tag from a <see cref="SQLiteDataReader"/> instance.
+        /// </summary>
+        /// <param name="dr">The <see cref="SQLiteDataReader"/> instance to read the tag from.</param>
         public void GetTagFromDataReader(SQLiteDataReader dr)
         {
             tArtist = dr.GetString(9);
@@ -141,11 +216,19 @@ namespace amp.UtilityClasses
             tTitle = dr.GetString(13);
         }
 
+        /// <summary>
+        /// Gets the tag string by combining all the data in an IDvX Tag into a one string.
+        /// </summary>
+        /// <param name="strTag">The <see cref="Tag"/> instance to get the data from.</param>
+        /// <param name="goDeep">if set to <c>true</c> a recursion is used to navigate through the IDvX Tag's tree structure.</param>
+        /// <returns>A string representing the data in the tag if the operation was successful; otherwise <see cref="string.Empty"/>.</returns>
         private string GetTagString(Tag strTag, bool goDeep = false)
         {
-            string retval = string.Empty;
-            PropertyInfo[] pis = strTag.GetType().GetProperties();
-            foreach (PropertyInfo pi in pis)
+            string result = string.Empty;
+
+            PropertyInfo[] propertyInfos = strTag.GetType().GetProperties();
+
+            foreach (PropertyInfo pi in propertyInfos)
             {
                 if (pi.PropertyType != typeof(string) &&
                     pi.PropertyType != typeof(uint) &&
@@ -172,28 +255,35 @@ namespace amp.UtilityClasses
                 {
                     foreach (Tag tmpTag in ((Tag[]) pi.GetValue(tag)))
                     {
-                        retval += GetTagString(tmpTag);
+                        result += GetTagString(tmpTag);
                     }
                 }
                 if (pi.PropertyType == typeof(string[]))
                 {
                     foreach (string str in ((string[]) pi.GetValue(tag)))
                     {
-                        retval += str;
+                        result += str;
                     }
                 }
                 else
                 {
-                    retval += pi.GetValue(tag).ToString();
+                    result += pi.GetValue(tag).ToString();
                 }
             }
-            retval = retval.TrimStart("TagLib.Tag".ToCharArray());
-            return retval;
+            result = result.TrimStart("TagLib.Tag".ToCharArray());
+            return result;
         }
 
+        // a query counter for the SongChanged property..
         private int changeQueryCount;
+
+        // a field for the SongChanged property..
         private bool valueChanged;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the music file has changed.
+        /// Note: This property auto-resets to false after querying the value.
+        /// </summary>
         public bool SongChanged
         {
             set
@@ -210,17 +300,18 @@ namespace amp.UtilityClasses
                 changeQueryCount++;
                 if (changeQueryCount >= 2)
                 {
-                    bool btmp = valueChanged;
+                    bool tmp = valueChanged;
                     valueChanged = false;
-                    return btmp;
+                    return tmp;
                 }
 
                 return valueChanged;
             }
         }
 
-
-
+        /// <summary>
+        /// Gets or sets the override name for the music file.
+        /// </summary>
         public string OverrideName
         {
             get => overrideName;
@@ -235,8 +326,15 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether rating of the music file has changed.
+        /// </summary>
         public bool RatingChanged { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rating of the music file. The range is between 0 to 1000.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">value</exception>
         public int Rating
         {
             get => rating;
@@ -253,6 +351,10 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Gets or sets the volume for the music file. The range is between 0 to 2.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">value</exception>
         public float Volume
         {
             get => volume;
@@ -269,28 +371,50 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Gets or sets the database ID number for the music file.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public int ID { get; set; }
 
-        public int ID
-        {
-            get => id;
-
-            set => id = value;
-        }
-
+        /// <summary>
+        /// Gets the artist of the music file.
+        /// </summary>
         public string Artist => (tArtist ?? string.Empty).Trim();
 
+        /// <summary>
+        /// Gets the album of the music file.
+        /// </summary>
         public string Album => (tAlbum ?? string.Empty).Trim();
 
+        /// <summary>
+        /// Gets the title of the music file.
+        /// </summary>
         public string Title => (tTitle ?? string.Empty).Trim();
 
+        /// <summary>
+        /// Gets the publishing year of the music file.
+        /// </summary>
         public string Year => tYear == 0 ? "????" : tYear.ToString();
 
+        /// <summary>
+        /// Gets the track number of the music file.
+        /// </summary>
         public string Track => tTrack == 0 ? string.Empty : tTrack.ToString();
 
-        public string FullFileName => fullPath;
+        /// <summary>
+        /// Gets the full name of the music file.
+        /// </summary>
+        public string FullFileName { get; }
 
-        public long FileSize => fileSize;
+        /// <summary>
+        /// Gets the size of the music file.
+        /// </summary>
+        public long FileSize { get; }
 
+        /// <summary>
+        /// Gets or sets the queue index of the music file.
+        /// </summary>
         public int QueueIndex
         {
             get => queueIndex;
@@ -301,8 +425,15 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Gets or sets the alternate queue index of music file.
+        /// </summary>
         public int AlternateQueueIndex { get; set; } = -1;
 
+        /// <summary>
+        /// Gets or sets the visual index of the music file (in the play list box).
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int VisualIndex
         {
             get => visualIndex;
@@ -318,19 +449,23 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Removes a music file from the given <paramref name="files"/> with a given database ID number.
+        /// </summary>
+        /// <param name="files">A reference to a list of <see cref="MusicFile"/>.</param>
+        /// <param name="id">The database ID number used to remove the music file from the list.</param>
         public static void RemoveById(ref List<MusicFile> files, int id)
         {
-            for (int i = files.Count - 1; i >= 0; i--)
-            {
-                if (files[i].ID == id)
-                {
-                    files.RemoveAt(i);
-                }
-            }
+            files.RemoveAll(f => f.ID == id);
         }
 
+        // a field for the QueueChanged property..
         private static bool queueChanged;
 
+        /// <summary>
+        /// Gets a value indicating whether the queue has changed.
+        /// Note: This property auto-resets it self to false after access.
+        /// </summary>
         public static bool QueueChanged
         {
             get
@@ -341,11 +476,18 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Inserts this music file to the top of the queue.
+        /// </summary>
+        /// <param name="files">A reference to a list of <see cref="MusicFile"/> class instances to which this instance should be queued on top.</param>
+        /// <param name="filtered">if set to <c>true</c> the list is considered as filtered.</param>
+        /// <param name="mfIndex">An optional index of the music file within the list.</param>
         public void QueueInsert(ref List<MusicFile> files, bool filtered, int mfIndex = -1) // 14.10.17
         {
             if (QueueIndex > 0)
             {
                 Queue(ref files);
+                //return; // added return at 2019/07/22, might cause a bug or fix one..
             }
 
             if ((filtered || mfIndex != -1) && QueueIndex == 0)
@@ -360,7 +502,6 @@ namespace amp.UtilityClasses
                 QueueIndex = 1; //::QUEUE
                 return;
             }
-
 
             int iQueue = 0;
 
@@ -408,6 +549,10 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Queues this music file to the end of the queue of given music file list.
+        /// </summary>
+        /// <param name="files">A reference to a list of <see cref="MusicFile"/> class instances to which this instance should be queued to the end of.</param>
         public void Queue(ref List<MusicFile> files)
         {
             int iQueue = 0;
@@ -418,6 +563,7 @@ namespace amp.UtilityClasses
                     iQueue = mf.QueueIndex;
                 }
             }
+
             if (QueueIndex >= 1)
             {
                 int tmp = QueueIndex;
@@ -435,13 +581,19 @@ namespace amp.UtilityClasses
             //::QUEUE
         }
 
-        #region AlternateQueue
-
+        #region AlternateQueue        
+        /// <summary>
+        /// Inserts this music file to the top of the alternate queue.
+        /// </summary>
+        /// <param name="files">A reference to a list of <see cref="MusicFile"/> class instances to which this instance should be queued on top.</param>
+        /// <param name="filtered">if set to <c>true</c> the list is considered as filtered.</param>
+        /// <param name="mfIndex">An optional index of the music file within the list.</param>
         public void QueueInsertAlternate(ref List<MusicFile> files, bool filtered, int mfIndex = -1) // 14.10.17
         {
             if (AlternateQueueIndex > 0)
             {
                 QueueAlternate(ref files);
+                //return; // added return at 2019/07/22, might cause a bug or fix one..
             }
 
             if ((filtered || mfIndex != -1) && QueueIndex == 0)
@@ -456,7 +608,6 @@ namespace amp.UtilityClasses
                 AlternateQueueIndex = 1; //::QUEUE
                 return;
             }
-
 
             int iQueue = 0;
 
@@ -504,6 +655,10 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Queues this music file to the end of the alternate queue of given music file list.
+        /// </summary>
+        /// <param name="files">A reference to a list of <see cref="MusicFile"/> class instances to which this instance should be queued to the end of.</param>
         public void QueueAlternate(ref List<MusicFile> files)
         {
             int iQueue = 0;
@@ -530,21 +685,27 @@ namespace amp.UtilityClasses
             AlternateQueueIndex = iQueue + 1;
             //::QUEUE
         }
-
         #endregion
 
-        #region PlayListNaming
+        #region PlayListNaming        
+        /// <summary>
+        /// Replaces a given formula part with with a given string value.
+        /// </summary>
+        /// <param name="formula">The formula of which part is to be replaced.</param>
+        /// <param name="value">The value to replace the <paramref name="formula"/> part with.</param>
+        /// <param name="formulaStr">The formula part to replace from the <paramref name="formula"/> string.</param>
+        /// <returns>The <paramref name="formula"/> with replacements.</returns>
         public static string FormulaReplace(string formula, string value, string formulaStr)
         {
             int formulaStart = formula.IndexOf(formulaStr, StringComparison.Ordinal);
 
-            
             if (formulaStr + "#" == "#ARTIST#" ||
                 formulaStr + "#" == "#ALBUM#" ||
                 formulaStr + "#" == "#TITLE#" ||
                 formulaStr + "#" == "#QUEUE#" ||
                 formulaStr + "#" == "#ALTERNATE_QUEUE#" ||
                 formulaStr + "#" == "#RENAMED#" ||
+                // ReSharper disable once StringLiteralTypo
                 formulaStr + "#" == "#TRACKNO#")
             {
                 formula = formula.Replace(formulaStr + "#", value);
@@ -590,19 +751,58 @@ namespace amp.UtilityClasses
             return formula;
         }
 
+        /// <summary>
+        /// An enumeration describing a part of a song naming formula.
+        /// </summary>
         public enum FormulaType
         {
+            /// <summary>
+            /// There is no formula.
+            /// </summary>
             None,
+
+            /// <summary>
+            /// The artist part.
+            /// </summary>
             Artist,
+
+            /// <summary>
+            /// The album part.
+            /// </summary>
             Album,
+
+            /// <summary>
+            /// The track number part.
+            /// </summary>
             TrackNo,
+
+            /// <summary>
+            /// The title part.
+            /// </summary>
             Title,
+
+            /// <summary>
+            /// The queue index part.
+            /// </summary>
             QueueIndex,
+
+            /// <summary>
+            /// The alternate queue index part.
+            /// </summary>
             AlternateQueueIndex,
+
+            /// <summary>
+            /// The override (renamed) name part.
+            /// </summary>
             Renamed
         }
 
-
+        /// <summary>
+        /// Gets the next formula part of the given formula string.
+        /// </summary>
+        /// <param name="formula">The formula from which the next formula part to get.</param>
+        /// <param name="formulaType">Type of the formula found; if nothing was found, then <see cref="FormulaType.None"/>.</param>
+        /// <returns>The next formula part if found; otherwise a <see cref="string.Empty"/>.</returns>
         internal static string GetNextFormula(string formula, out FormulaType formulaType)
         {
             int startIndex = formula.IndexOf('#');
@@ -627,6 +827,7 @@ namespace amp.UtilityClasses
                 {
                     formulaType = FormulaType.Album;
                 }
+                // ReSharper disable once StringLiteralTypo
                 else if (result.StartsWith("#TRACKNO"))
                 {
                     formulaType = FormulaType.TrackNo;
@@ -659,6 +860,21 @@ namespace amp.UtilityClasses
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets a string based on a given formula and a the given parameters.
+        /// </summary>
+        /// <param name="formula">The formula to create string from.</param>
+        /// <param name="artist">The artist.</param>
+        /// <param name="album">The album.</param>
+        /// <param name="trackNo">The track number.</param>
+        /// <param name="title">The title of the song.</param>
+        /// <param name="songName">Name of the song.</param>
+        /// <param name="queueIndex">Index in the queue.</param>
+        /// <param name="alternateQueueIndex">Index in the alternate queue.</param>
+        /// <param name="overrideName">The overridden name.</param>
+        /// <param name="onError">A value to return in case of an exception.</param>
+        /// <param name="error">A value indicating if an error occurred while parsing the formula.</param>
+        /// <returns>A string parsed from the given parameters.</returns>
         public static string GetString(string formula, string artist, string album, int trackNo, 
             string title, string songName, int queueIndex, int alternateQueueIndex, string overrideName, string onError, out bool error)
         {
@@ -706,6 +922,10 @@ namespace amp.UtilityClasses
             }
         }
 
+        /// <summary>
+        /// Gets the music file track as an integer.
+        /// </summary>
+        /// <value>The track as an integer if successful; otherwise 0.</value>
         private int TrackInt
         {
             get
@@ -717,6 +937,73 @@ namespace amp.UtilityClasses
 
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <param name="queue">if set to <c>true</c> the possible queue index should also be included in the result.</param>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public string ToString(bool queue)
+        {
+            if (overrideName != string.Empty)
+            {
+                return GetString(Settings.Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
+                    songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
+            }
+
+            return GetString(Settings.Settings.AlbumNaming, Artist, Album, TrackInt, Title,
+                songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return ToString(true);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance (old version).
+        /// </summary>
+        /// <param name="queue">if set to <c>true</c> the possible queue index should also be included in the result.</param>
+        /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
+        private string ToStringOld(bool queue)
+        {
+            string alternateQueue = AlternateQueueIndex > 0 && queue ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
+            if (overrideName != string.Empty)
+            {
+                return overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
+            }
+
+            return
+                (Artist == string.Empty ? string.Empty : Artist + " - ") +
+                (Album == string.Empty ? string.Empty : Album + " - ") +
+                (Title.Length > 0 ? Title : songName) +
+                (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
+        }
+
+        /// <summary>
+        /// Gets the name of the song.
+        /// </summary>
+        /// <value>The name of the song.</value>
+        public string SongName => ToString();
+
+        /// <summary>
+        /// Gets the name of the song without a queue index.
+        /// </summary>
+        public string SongNameNoQueue => ToString(false);
+        #endregion
+
+        /// <summary>
+        /// Gets the full name of the file of this music file instance.
+        /// </summary>
+        /// <returns>The full file name of this music file instance.</returns>
+        public string GetFileName()
+        {
+            return FullFileName;
         }
 
         #region WeightedRandomization
@@ -804,56 +1091,11 @@ namespace amp.UtilityClasses
 
         #endregion
 
-
-        public string ToString(bool queue)
-        {
-            if (overrideName != string.Empty)
-            {
-                return GetString(Settings.Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
-                    songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
-            }
-
-            return GetString(Settings.Settings.AlbumNaming, Artist, Album, TrackInt, Title,
-                songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
-        }
-
-
-
-        public override string ToString()
-        {
-            return ToString(true);
-        }
-
-        private string ToStringOld(bool queue)
-        {
-            string alternateQueue = AlternateQueueIndex > 0 && queue ? " [*=" + AlternateQueueIndex + "]" : string.Empty;
-            if (overrideName != string.Empty)
-            {
-                return overrideName + ((queueIndex >= 1 && queue) ? " [" + queueIndex + "]" : "") + alternateQueue;
-            }
-
-            return
-                (Artist == string.Empty ? string.Empty : Artist + " - ") +
-                (Album == string.Empty ? string.Empty : Album + " - ") +
-                (Title.Length > 0 ? Title : songName) +
-                (queueIndex >= 1 ? " [" + queueIndex + "]" : "") + alternateQueue;
-        }
-
-        public string SongName => ToString();
-
-        public string SongNameNoQueue => ToString(false);
-
-        #endregion
-
-        public string GetFileName()
-        {
-            return fullPath;
-        }
-
-        public MusicFile(string fullPath): this(fullPath, 0)
-        {
-        }
-
+        /// <summary>
+        /// Checks if the properties of this music file instance matches the given search string.
+        /// </summary>
+        /// <param name="search">The search string.</param>
+        /// <returns><c>true</c> if one of the properties of this music file instance matches the search string, <c>false</c> otherwise.</returns>
         public bool Match(string search)
         {
             if (search.Trim() == string.Empty)
@@ -861,71 +1103,34 @@ namespace amp.UtilityClasses
                 return true;
             }
             search = search.ToUpper().Trim();
-            bool bfound1 = Artist.ToUpper().Contains(search) ||
+            bool found1 = Artist.ToUpper().Contains(search) ||
                            Album.ToUpper().Contains(search) ||
                            Title.ToUpper().Contains(search) ||
                            Year.ToUpper().Contains(search) ||
                            Track.ToUpper().Contains(search) ||
                            FullFileName.ToUpper().Contains(search) ||
                            OverrideName.ToUpper().Contains(search) ||
-                           tagstr.ToUpper().Contains(search);
+                           TagString.ToUpper().Contains(search);
 
             string[] search2 = search.Split(' ');
-            if (search2.Length <= 1 || bfound1)
+            if (search2.Length <= 1 || found1)
             {
-                return bfound1;
+                return found1;
             }
-            bool bfound2 = true;
+            bool found2 = true;
             foreach(string str in search2)
             {
                 var tmpStr = str.ToUpper();
-                bfound2 &= Artist.ToUpper().Contains(tmpStr) ||
+                found2 &= Artist.ToUpper().Contains(tmpStr) ||
                            Album.ToUpper().Contains(tmpStr) ||
                            Title.ToUpper().Contains(tmpStr) ||
                            Year.ToUpper().Contains(tmpStr) ||
                            Track.ToUpper().Contains(search) ||
                            FullFileName.ToUpper().Contains(tmpStr) ||
                            OverrideName.ToUpper().Contains(search) ||
-                           tagstr.ToUpper().Contains(tmpStr);
+                           TagString.ToUpper().Contains(tmpStr);
             }
-            return bfound2;
-        }
-
-        public MusicFile(string fullPath, int id)
-        {
-            this.id = id;
-            fileName = Path.GetFileName(fullPath);
-            filePath = Path.GetFullPath(fullPath);
-            songName = Path.GetFileNameWithoutExtension(fullPath);
-            fileExt = Path.GetExtension(fullPath);
-            FileInfo fInfo = new FileInfo(fullPath);
-            fileSize = fInfo.Length;
-            tAlbum = string.Empty;
-            tArtist = string.Empty;
-            tagstr = string.Empty;
-            tYear = 0;
-            tTitle = string.Empty;
-            this.fullPath = fullPath;
-            tTrack = 0;
-            Duration = 0;
-        }
-
-        public MusicFile(MusicFile mf)
-        {
-            id = mf.id;
-            fileName = mf.fileName;
-            filePath = mf.filePath;
-            songName = mf.songName;
-            fileExt = mf.fileExt;
-            fileSize = mf.fileSize;
-            tAlbum = mf.tAlbum;
-            tArtist = mf.tArtist;
-            tagstr = mf.tagstr;
-            tYear = mf.tYear;
-            tTitle = mf.tTitle;
-            fullPath = mf.fullPath;
-            tTrack = mf.tTrack;
-            Duration = mf.Duration;
+            return found2;
         }
     }
 }

@@ -33,11 +33,20 @@ using System.Windows.Forms;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using VPKSoft.LangLib;
+using VPKSoft.ScriptRunner;
 
 namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A form for displaying progress for a lengthy operation with the database.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormDatabaseUpdatingProgress : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormDatabaseUpdatingProgress"/> class.
+        /// </summary>
         public FormDatabaseUpdatingProgress()
         {
             InitializeComponent();
@@ -52,6 +61,11 @@ namespace amp.FormsUtility
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
+        /// <summary>
+        /// Sets the progress for the progress bar and for the item counter.
+        /// </summary>
+        /// <param name="percentage">The percentage.</param>
+        /// <param name="maximumValue">The maximum value of updating items.</param>
         public void SetProgress(int percentage, int maximumValue)
         {
             pbUpdateProgress.Value = percentage;
@@ -60,9 +74,17 @@ namespace amp.FormsUtility
             lbItemIndex.Text = $@"({current}/{maximumValue})";
         }
 
-        SQLiteConnection conn;
+        /// <summary>
+        /// A field to hold <see cref="SQLiteConnection"/> connection.
+        /// </summary>
+        private SQLiteConnection conn;
+
+        /// <summary>
+        /// The count of entries in the SONG database table.
+        /// </summary>
         private int maximum;
 
+        // the form is shown, so start the update process..
         private void FormDatabaseUpdatingProgress_Shown(object sender, EventArgs e)
         {
             // ReSharper disable once StringLiteralTypo
@@ -86,6 +108,7 @@ namespace amp.FormsUtility
             bwDatabaseUpdate.RunWorkerAsync();
         }
 
+        // run the update against the database..
         private void bwDatabaseUpdate_DoWork(object sender, DoWorkEventArgs e)
         {
             string sql = "SELECT COUNT(*) FROM SONG ";
@@ -148,6 +171,7 @@ namespace amp.FormsUtility
             bwDatabaseUpdate.ReportProgress(100);
         }
 
+        // the update is finished; close the form
         private void bwDatabaseUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             using (conn)
@@ -158,13 +182,18 @@ namespace amp.FormsUtility
             Close();
         }
 
+        /// <summary>
+        /// a value indicating whether the form can be closed to prevent interruption of the process.
+        /// </summary>
         private bool canCloseForm;
 
+        // indicate the progress..
         private void bwDatabaseUpdate_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             SetProgress(e.ProgressPercentage, maximum);
         }
 
+        // validate whether the form can be closed..
         private void FormDatabaseUpdatingProgress_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !canCloseForm;

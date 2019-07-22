@@ -30,8 +30,16 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.QueueHandling
 {
+    /// <summary>
+    /// A dialog for asking a name for a queue.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormQueueSnapshotName : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormQueueSnapshotName"/> class.
+        /// </summary>
         public FormQueueSnapshotName()
         {
             InitializeComponent();
@@ -46,6 +54,12 @@ namespace amp.FormsUtility.QueueHandling
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
+        /// <summary>
+        /// Displays the dialog asking for a name to the queue snapshot.
+        /// </summary>
+        /// <param name="albumName">Name of the album to be used as a suggestion for a name for the snapshot.</param>
+        /// <param name="overrideName">if set to <c>true</c> the name will contain the <paramref name="albumName"/> value.</param>
+        /// <returns>A <see cref="string"/> the user gave for the dialog if the user accepted and the album name wasn't the temporary album; otherwise <see cref="string.Empty"/>.</returns>
         public static string Execute(string albumName, bool overrideName = false)
         {
             if (albumName == "tmp")
@@ -81,11 +95,13 @@ namespace amp.FormsUtility.QueueHandling
             return string.Empty;
         }
 
+        // enables/disables the OK button based on the user input being only white space..
         private void tbQueueName_TextChanged(object sender, EventArgs e)
         {
             bOK.Enabled = tbQueueName.Text.Trim().Length > 0;
         }
 
+        // the form is shown so focus the queue snapshot name box and select the text in it..
         private void FormQueueSnapshotName_Shown(object sender, EventArgs e)
         {
             tbQueueName.SelectAll();

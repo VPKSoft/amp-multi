@@ -29,27 +29,53 @@ using System.Windows.Forms;
 using amp.FormsUtility.Songs;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
+using VPKSoft.KeySendList;
 
 // ReSharper disable once CheckNamespace
 namespace amp
 {
     public partial class FormMain
     {
+        /// <summary>
+        /// An enumeration describing the filter status of the playlist.
+        /// </summary>
         internal enum FilterType
         {
+            /// <summary>
+            /// The playlist is filter with a search string.
+            /// </summary>
             SearchFiltered,
+
+            /// <summary>
+            /// The playlist is showing queued songs.
+            /// </summary>
             QueueFiltered,
+
+            /// <summary>
+            /// The playlist is showing song in the alternate queue.
+            /// </summary>
             AlternateFiltered,
+
+            /// <summary>
+            /// The playlist is not filtered.
+            /// </summary>
             NoneFiltered
         }
 
+        /// <summary>
+        /// Gets or sets the type of the playlist filtering.
+        /// </summary>
         internal FilterType Filtered { get; set; } = FilterType.NoneFiltered; // if the list of files is somehow filtered..
 
+        /// <summary>
+        /// Finds the songs with the text in the search box.
+        /// </summary>
+        /// <param name="onlyIfText">if set to <c>true</c> an empty or white space in the search box doesn't affect the filtering.</param>
         private void Find(bool onlyIfText = false)
         {
             if (onlyIfText)
             {
-                if (tbFind.Text == string.Empty)
+                if (tbFind.Text.Trim() == string.Empty)
                 {
                     return;
                 }
@@ -65,6 +91,11 @@ namespace amp
             Filtered = tbFind.Text != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
         }
 
+        /// <summary>
+        /// Handles the key down event with the playlist box which is the other focusable control on the form besides the search box.
+        /// If the key is none of the control keys the key is send to the search box and the search box is then focused.
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void HandleKeyDown(ref KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -229,9 +260,10 @@ namespace amp
             }
         }
 
+        // handle the key down of the playlist box..
         private void lbMusic_KeyDown(object sender, KeyEventArgs e)
         {
-            HandleKeyDown(ref e); // I had an intention, but I forgot it..
+            HandleKeyDown(ref e);
         }
     }
 }

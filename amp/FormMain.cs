@@ -49,13 +49,12 @@ using NAudio.Vorbis;
 using NAudio.Wave;
 using NAudio.WindowsMediaFormat;
 using VPKSoft.ErrorLogger;
-using VPKSoft.IPC;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
+using VPKSoft.ScriptRunner;
 using VPKSoft.Utils;
 using VPKSoft.VersionCheck;
 using Utils = VPKSoft.LangLib.Utils;
-using System.Runtime.InteropServices;
 #endregion
 
 namespace amp
@@ -74,10 +73,18 @@ namespace amp
         internal static List<string> RemoteFiles { get; set; } = new List<string>();
 
         /// <summary>
+        /// A value indicating if the playback state was previously paused.
+        /// </summary>
+        private bool lastPaused;
+
+        /// <summary>
         /// Gets a value indicating whether the software is processing the <see cref="RemoteFiles"/> list.
         /// </summary>
-        internal static volatile bool RemoteFileBeingProcessed = false;
+        internal static volatile bool RemoteFileBeingProcessed;
 
+        /// <summary>
+        /// A flag to indicate for the <see cref="tmIPCFiles"/> timer whether to execute its code or not.
+        /// </summary>
         internal static volatile bool StopIpcTimer = false;
 
         // the self-hosted WCF remote control API for the software.
@@ -173,6 +180,7 @@ namespace amp
 
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
 
             if (Utils.ShouldLocalize() != null)
@@ -203,6 +211,9 @@ namespace amp
             AmpRemote.MainWindow = this;
         }
 
+        /// <summary>
+        /// Checks the software arguments whether music files are passed as arguments to the software.
+        /// </summary>
         private void CheckArguments()
         {
             var args = Environment.GetCommandLineArgs();
@@ -220,6 +231,10 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Opens a given file to the temporary album.
+        /// </summary>
+        /// <param name="file">The file name to add.</param>
         private void OpenFileToTemporaryAlbum(string file)
         {
             if (CurrentAlbum != "tmp")
@@ -237,6 +252,7 @@ namespace amp
             ListAlbums(0);
         }
 
+        // a user selected an album, so do open the album the user selected..
         private void SelectAlbumClick(object sender, EventArgs e)
         {
             List<Album> albums = Database.GetAlbums(Conn);
@@ -257,26 +273,78 @@ namespace amp
         // a class monitoring if the user is idle..
         private HumanActivity humanActivity;
 
+        /// <summary>
+        /// The current playback position in seconds.
+        /// </summary>
         public double Seconds;
-        public double SecondsTotal;
-        private volatile WaveOut waveOutDevice;
-        private volatile WaveStream mainOutputStream;
-        private volatile WaveChannel32 volumeStream;
-        private volatile bool stopped;
-        private volatile bool playing;
-        private volatile bool newSong;
-        private volatile int latestSongIndex = -1;
-        private bool pendNextSong; // if a lengthy operation is running, pend the GetNextSong()..
 
+        /// <summary>
+        /// The current song's length in seconds.
+        /// </summary>
+        public double SecondsTotal;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveOut waveOutDevice;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveStream"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveStream mainOutputStream;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveChannel32 volumeStream;
+
+        /// <summary>
+        /// A flag indicating whether the playback is stopped.
+        /// </summary>
+        private volatile bool stopped;
+
+        /// <summary>
+        /// A flag indicating if a song is currently playing.
+        /// </summary>
+        private volatile bool playing;
+
+        /// <summary>
+        /// A flag indicating whether a new song has been selected compared to previously playing song.
+        /// </summary>
+        private volatile bool newSong;
+
+        /// <summary>
+        /// The latest song index which was played or is being played.
+        /// </summary>
+        private volatile int latestSongIndex = -1;
+
+        /// <summary>
+        /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
+        /// </summary>
+        private bool pendNextSong; 
+
+        /// <summary>
+        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
+        /// </summary>
         private delegate void VoidDelegate();
 
+        /// <summary>
+        /// A general randomization class instance.
+        /// </summary>
         internal Random Random = new Random();
 
+        /// <summary>
+        /// Creates a <see cref="NAudio.Wave.WaveStream"/> class instance from a give <paramref name="fileName"/>.
+        /// </summary>
+        /// <param name="fileName">A file name for a music file to create the <see cref="NAudio.Wave.WaveStream"/> for.</param>
+        /// <returns>An instance to the <see cref="NAudio.Wave.WaveStream"/> class if the operation was successful; otherwise false.</returns>
         private WaveStream CreateInputStream(string fileName)
         {
             try
             {
                 WaveChannel32 inputStream;
+
+                // determine the file type by it's extension..
                 if (Constants.FileIsMp3(fileName))
                 {
                     Mp3FileReader fr = new Mp3FileReader(fileName);
@@ -319,29 +387,44 @@ namespace amp
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
-                else
+                else // throw for catching furthermore in the code..
                 {
                     throw new InvalidOperationException(DBLangEngine.GetMessage("msgUnsupportedExt", "Unsupported file extension.|The file extension is not in the list of supported file types."));
                 }
+
                 inputStream.PadWithZeroes = false;
                 volumeStream = inputStream;
+
+                // if successful, return the WaveChannel32 instance..
                 return volumeStream;
             }
             catch (Exception ex)
             {
                 try 
                 {
+                    // log the exception..
                     ExceptionLogger.LogError(ex);
+
+                    // try to get the next song..
                     GetNextSong(true);
                 }
-                catch
+                catch (Exception ex2)
                 {
+                    // log the exception..
+                    ExceptionLogger.LogError(ex2);
+
+                    // try recursion to create a WaveChannel32 instance..
                     return CreateInputStream(fileName);
                 }
             }
+
+            // eek! - failure..
             return null;
         }
 
+        /// <summary>
+        /// Displays the currently playing song and a possible album image.
+        /// </summary>
         private void UpdateSongName()
         {
             lbSong.Text = MFile.SongName;
@@ -350,13 +433,17 @@ namespace amp
             DisplayPlayingSong();
         }
 
-
-
+        /// <summary>
+        /// A call to either invoke or call directly to refresh the main song list box from a thread. 
+        /// </summary>
         private void RefreshListboxFromThread()
         {
             lbMusic.RefreshItems();
         }
 
+        /// <summary>
+        /// A call to pause the playback to either be invoked or called directly. 
+        /// </summary>
         private void PauseInvoker()
         {
             if (waveOutDevice != null)
@@ -372,6 +459,9 @@ namespace amp
             TextInvoker();
         }
 
+        /// <summary>
+        /// Starts the playback. From thread call with Invoke method; otherwise direct call.
+        /// </summary>
         private void PlayInvoker()
         {
             if (waveOutDevice != null && lastPaused)
@@ -388,14 +478,23 @@ namespace amp
             lastPaused = false;
         }
 
+        /// <summary>
+        /// Sets the playback button to indicate pause. From thread call with Invoke method; otherwise direct call.
+        /// </summary>
         private void SetPause()
         {
             tbPlayNext.Image = Resources.amp_pause;
             tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
         }
 
-        private volatile int calcMs; // for the thread to calculate "time"
+        /// <summary>
+        /// A screen refresh counter for the playback thread to calculate "time".
+        /// </summary>
+        private volatile int calcMs;
 
+        /// <summary>
+        /// A method for the playback thread.
+        /// </summary>
         private void PlayerThread()
         {
             while (!stopped)
@@ -533,6 +632,9 @@ namespace amp
             CloseWaveOut();
         }
 
+        /// <summary>
+        /// Displays the main form title. From thread call with Invoke method; otherwise direct call.
+        /// </summary>
         private void TextInvoker()
         {
             if (CurrentAlbum == "tmp")
@@ -553,36 +655,46 @@ namespace amp
             }
         }
 
+        // handles the playback stopped event..
         void waveOutDevice_PlaybackStopped(object sender, StoppedEventArgs e)
         {
             GetNextSong(true);
         }
 
+        /// <summary>
+        /// Gets the value whether a playback is considered as skipped; Only 15 percentage of the song was played.
+        /// </summary>
         internal bool Skipped
         {
             get
             {
-                double percPlayed;
+                double percentagePlayed;
                 if (mainOutputStream != null)
                 {
                     try
                     {
-                        percPlayed = 100.0 - ((mainOutputStream.TotalTime - mainOutputStream.CurrentTime).TotalSeconds / mainOutputStream.TotalTime.TotalSeconds * 100.0);
+                        percentagePlayed = 100.0 - ((mainOutputStream.TotalTime - mainOutputStream.CurrentTime).TotalSeconds / mainOutputStream.TotalTime.TotalSeconds * 100.0);
                     }
                     catch
                     {
-                        percPlayed = 100;
+                        percentagePlayed = 100;
                     }
                 }
                 else
                 {
-                    percPlayed = 100;
+                    percentagePlayed = 100;
                 }
 
-                return percPlayed < 15.0;
+                return percentagePlayed < 15.0;
             }
         }
 
+        /// <summary>
+        /// Plays a song with a given index.
+        /// </summary>
+        /// <param name="index">The index of the song to play.</param>
+        /// <param name="random">A value indicating whether the <paramref name="index"/> was gotten by randomizing.</param>
+        /// <param name="addPlayedSong">A value indicating whether to add this song to the played song list.</param>
         private void PlaySong(int index, bool random, bool addPlayedSong = true)
         {
             if (random)
@@ -612,6 +724,9 @@ namespace amp
             DisplayPlayingSong();
         }
 
+        /// <summary>
+        /// Plays the previous song.
+        /// </summary>
         public void GetPrevSong()
         {
             if (playedSongs.Count < 2)
@@ -625,6 +740,9 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Stops the playback, cleans and disposes of the objects used for the playback.
+        /// </summary>
         private void CloseWaveOut()
         {
             if (waveOutDevice != null)
@@ -648,29 +766,32 @@ namespace amp
             }
         }
 
-
-
-
+        // a user is dragging files and/or directories to the software..
         private void lbMusic_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         // File drag drop operation hangs the Windows Explorer (the event duration) so do it in a thread..
         #region DragDropThread
+        // the thread to handle the dropped files and/or directories..
         private Thread fileAddThread;
-        private List<string> fileAddList;
-        private volatile bool addFiles;
-        private SynchronizationContext context;
-        private bool lastPaused;
 
+        // the file list to be added to the current album..
+        private List<string> fileAddList;
+
+        /// <summary>
+        /// A flag indicating whether a thread is currently adding songs to a an album (a lengthy operation).
+        /// </summary>
+        private volatile bool addFiles;
+
+        // a synchronization context for the ThreadFilesAdd thread..
+        private SynchronizationContext context;
+
+        /// <summary>
+        /// Lists a given files from a call via a <see cref="SynchronizationContext"/> instance.
+        /// </summary>
+        /// <param name="state">A list of MusicFile class instances.</param>
         private void ListFiles(object state)
         {
             List<MusicFile> addList = (List<MusicFile>)state;
@@ -687,7 +808,9 @@ namespace amp
             Enabled = true;
         }
 
-
+        /// <summary>
+        /// Starts a file add thread after a file drop operation.
+        /// </summary>
         private void StartFileAddThread()
         {
             if (fileAddThread != null)
@@ -696,7 +819,6 @@ namespace amp
                 {
                     Application.DoEvents();
                 }
-//                fileAddThread.Join();
                 fileAddThread = null;
             }
             Enabled = false;
@@ -707,6 +829,9 @@ namespace amp
             fileAddThread.Start();
         }
 
+        /// <summary>
+        /// A thread method for the add files via drag &amp; drop.
+        /// </summary>
         private void ThreadFilesAdd()
         {
             if (addFiles)
@@ -738,6 +863,11 @@ namespace amp
         }
         #endregion
 
+        /// <summary>
+        /// Adds a list of files to the album.
+        /// </summary>
+        /// <param name="musicFiles">A list of file names to add.</param>
+        /// <param name="usePsycho">A value indicating whether to use a funny-named "progress" dialog while adding the files.</param>
         private void DoAddFileList(List<string> musicFiles, bool usePsycho = true)
         {
             lbMusic.SuspendLayout();
@@ -783,8 +913,7 @@ namespace amp
             humanActivity.Enabled = true;
         }
 
-
-
+        // a user is dropped files and/or directories to the software, so handle it..
         private void lbMusic_DragDrop(object sender, DragEventArgs e)
         {            
             List<string> musicFiles = new List<string>();
@@ -810,6 +939,10 @@ namespace amp
             humanActivity.Enabled = true;
         }
 
+        /// <summary>
+        /// Gets the status message for the progress dialog in case of the <see cref="Database.DatabaseProgress"/> event.
+        /// </summary>
+        /// <param name="e">A DatabaseEventArgs instance containing the event data.</param>
         void Database_DatabaseProgress(DatabaseEventArgs e)
         {
             if (e.EventType == DatabaseEventType.UpdateSongDb)
@@ -834,19 +967,13 @@ namespace amp
             }
         }
 
-
+        // a user is dragging files and/or directories over the playlist..
         private void lbMusic_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
+        // sets the scroll bar value indicating the current playback position..
         private void tmSeek_Tick(object sender, EventArgs e)
         {
             try
@@ -865,6 +992,7 @@ namespace amp
             }
         }
 
+        // a user double-clicked a file in the playlist, so do play it..
         private void lbMusic_DoubleClick(object sender, EventArgs e)
         {
             if (lbMusic.SelectedItem != null)
@@ -873,6 +1001,7 @@ namespace amp
             }
         }
 
+        // the main form is closing, so dispose of the used data and join the threads..
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             tmIPCFiles.Enabled = false;
@@ -884,11 +1013,14 @@ namespace amp
             {
                 Application.DoEvents();
             }
-//            thread.Join();
             Database.SaveQueue(PlayList, Conn, CurrentAlbum);
         }
 
-
+        /// <summary>
+        /// Gets an album with a given name and lists it to the playlist.
+        /// </summary>
+        /// <param name="name">The name of the album.</param>
+        /// <param name="usePsycho">A value indicating whether to use the progress dialog while loading the album to the playlist.</param>
         private void GetAlbum(string name, bool usePsycho = true)
         {
             AlbumLoading = true;
@@ -933,6 +1065,11 @@ namespace amp
             albumChanged = true;
         }
 
+        /// <summary>
+        /// Updates the time of how many times the file has been played via randomization to the program database.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
+        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
         private void UpdateRPlayed(MusicFile mf, bool skipped)
         {
             if (mf == null)
@@ -954,6 +1091,11 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Updates the time of how many times the file has been played via user selection to the program database.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
+        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
         public void UpdateNPlayed(MusicFile mf, bool skipped)
         {
             if (mf == null)
@@ -976,6 +1118,10 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Sets a user given rating for a song to the database.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
         public void SaveRating(MusicFile mf)
         {
             if (mf == null)
@@ -1000,6 +1146,9 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Sets the visual indices of the current playlist within the playlist box.
+        /// </summary>
         private void ReIndexVisual()
         {
             int iCount = 0;
@@ -1009,11 +1158,13 @@ namespace amp
             }
         }
 
+        // the search text was changed, so do the search thing..
         private void tbFind_TextChanged(object sender, EventArgs e)
         {
             Find();
         }
 
+        // handles the key down events within the search text box to avoid a focus change..
         private void tbFind_KeyDown(object sender, KeyEventArgs e)
         {
             if (lbMusic.Items.Count > 0)
@@ -1055,6 +1206,7 @@ namespace amp
             }
         }
 
+        // the user wanted to play the next song, so do obey..
         private void tbNext_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
@@ -1063,6 +1215,7 @@ namespace amp
             GetNextSong();
         }
 
+        // the user wanted to play the previous song, so do obey..
         private void tbPrevious_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
@@ -1071,6 +1224,7 @@ namespace amp
             GetPrevSong();
         }
 
+        // a user wants to add a new album to the software..
         private void mnuNewAlbum_Click(object sender, EventArgs e)
         {
             string name = FormAddAlbum.Execute();
@@ -1080,28 +1234,35 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets the current count of songs in the queue.
+        /// </summary>
+        /// <returns>The current count of songs in the queue.</returns>
         private int GetQueueCountNum()
         {
             return PlayList.Count(f => f.QueueIndex > 0);
         }
 
+        /// <summary>
+        /// Updates the status strip text with the current count of songs in the queue.
+        /// </summary>
         private void GetQueueCount()
         {
             lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue", "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
         }
 
+        /// <summary>
+        /// Updates the current playback volume to the GUI.
+        /// </summary>
         private void UpdateVolume()
         {
             pnVol2.Left = (int)(MFile.Volume * 50F);
         }
 
-        /// <summary>
-        /// String containing multiple characters which can be used to measure maximum text height.
-        /// </summary>
-        internal const string MeasureText = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö£€%[]$@ÂÊÎÔÛâêîôûÄËÏÖÜäëïöüÀÈÌÒÙàèìòùÁÉÍÓÚáéíóúÃÕãõ '|?+\\/{}½§01234567890+<>_-:;*&¤#\"!";
-
+        // the main form is shown; enable few timers, update the database, possibly load the default album and create the necessary thread(s)..
         private void MainWindow_Shown(object sender, EventArgs e)
         {
+            // ReSharper disable once StringLiteralTypo
             Conn = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
             Conn.Open();
 
@@ -1197,6 +1358,7 @@ namespace amp
             }
         }
 
+        // the user wants to play the next song, so do obey..
         private void tbPlayNext_Click(object sender, EventArgs e)
         {
             if (waveOutDevice != null)
@@ -1223,6 +1385,7 @@ namespace amp
             }
         }
 
+        // a user scrolls the song playback position; set the position to the user given value..
         private void scProgress_Scroll(object sender, ScrollEventArgs e)
         {
             tmSeek.Stop();
@@ -1230,11 +1393,15 @@ namespace amp
             tmSeek.Start();
         }
 
+        /// <summary>
+        /// Updates the current song rating to the GUI.
+        /// </summary>
         private void UpdateStars()
         {
             pnStars1.Left = (int)(MFile.Rating / 1000.0 * 176.0);
         }
 
+        // a user changes the per-song based volume; set the volume and update it to the database..
         private void pnStars0_MouseClick(object sender, MouseEventArgs e)
         {
             if (MFile != null || lbMusic.SelectedIndices.Count > 0)
@@ -1269,11 +1436,15 @@ namespace amp
             }
         }
 
+        // a user wants to see only queued songs..
         private void tbShowQueue_Click(object sender, EventArgs e)
         {
             ShowQueue();
         }
 
+        /// <summary>
+        /// Displays the queued songs within the playlist.
+        /// </summary>
         internal void ShowQueue()
         {
             lbMusic.Invoke(new MethodInvoker(() =>
@@ -1302,6 +1473,9 @@ namespace amp
             Filtered = FilterType.QueueFiltered;
         }
 
+        /// <summary>
+        /// Displays the alternate queue within the playlist.
+        /// </summary>
         internal void ShowAlternateQueue()
         {
             lbMusic.Invoke(new MethodInvoker(() =>
@@ -1329,6 +1503,7 @@ namespace amp
             }));
         }
 
+        // a user wants to clear the queue..
         private void mnuDeQueue_Click(object sender, EventArgs e)
         {
             bool affected = false;
@@ -1351,6 +1526,7 @@ namespace amp
             }
         }
 
+        // a user wants to scramble the current queue..
         private void mnuScrambleQueue_Click(object sender, EventArgs e)
         {
             ScrambleQueue(); // scramble the queue to have new random indices..
@@ -1412,6 +1588,7 @@ namespace amp
             return affected;
         }
 
+        // a user wants to select all songs within the playlist box..
         private void mnuSelectAll_Click(object sender, EventArgs e)
         {
             humanActivity.Enabled = false;
@@ -1425,12 +1602,16 @@ namespace amp
             lbMusic.Focus();
         }
 
+        // the main form has loaded it self; start the user idle monitor..
         private void MainWindow_Load(object sender, EventArgs e)
         {
             humanActivity = new HumanActivity(15);
             humanActivity.UserSleep += humanActivity_OnUserSleep;
         }
 
+        /// <summary>
+        /// Displays the currently playing song.
+        /// </summary>
         private void DisplayPlayingSong()
         {
             if (humanActivity.Sleeping)
@@ -1446,6 +1627,9 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets the count of currently queued songs.
+        /// </summary>
         private int QueueCount
         {
             get
@@ -1454,6 +1638,11 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets a value whether the playlist box should be refreshed.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to use for comparison.</param>
+        /// <returns>True if the playlist box should be refreshed; otherwise false.</returns>
         private bool ShouldRefreshList(MusicFile mf)
         {
             if (mf == null)
@@ -1464,6 +1653,9 @@ namespace amp
             return !currentFiles.Exists(f => f.ID == mf.ID);
         }
 
+        /// <summary>
+        /// Displays the currently playing song and refreshes the playlist box if necessary.
+        /// </summary>
         private void ShowPlayingSong()
         {
             for (int i = 0; i < lbMusic.Items.Count; i++ )
@@ -1497,6 +1689,9 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// List all to songs within the album to the playlist box.
+        /// </summary>
         private void ShowAllSongs()
         {
             lbMusic.Items.Clear();
@@ -1507,11 +1702,13 @@ namespace amp
             Filtered = FilterType.NoneFiltered;
         }
 
+        // the user is idle; update the GUI..
         void humanActivity_OnUserSleep(object sender, UserSleepEventArgs e)
         {
             DisplayPlayingSong();
         }
 
+        // opens a m3u/m3u8 playlist file and adds the songs within the playlist a new user given album..
         private void mnuPlayListM3UNewAlbum_Click(object sender, EventArgs e)
         {
             if (odM3U.ShowDialog() == DialogResult.OK)
@@ -1542,6 +1739,7 @@ namespace amp
             }
         }
 
+        // opens a m3u/m3u8 playlist file and adds the songs within the playlist to the current album..
         private void mnuPlayListM3UToCurrentAlbum_Click(object sender, EventArgs e)
         {
             if (odM3U.ShowDialog() == DialogResult.OK)
@@ -1564,6 +1762,7 @@ namespace amp
             }
         }
 
+        // saves the current album into a m3u/m3u8 playlist file..
         private void mnuPlaylistM3UExport_Click(object sender, EventArgs e)
         {
             if (PlayList.Count > 0)
@@ -1594,9 +1793,11 @@ namespace amp
                     {
                         using (StreamWriter sw = new StreamWriter(fs, enc))
                         {
+                            // ReSharper disable once StringLiteralTypo
                             sw.WriteLine("#EXTM3U");
                             foreach (MusicFile mf in PlayList)
                             {
+                                // ReSharper disable once StringLiteralTypo
                                 sw.WriteLine("#EXTINF:" + mf.Duration + "," + ((mf.OverrideName == string.Empty) ? mf.ToString() : mf.OverrideName));
                                 sw.WriteLine(mf.FullFileName);
                                 sw.WriteLine();
@@ -1607,16 +1808,19 @@ namespace amp
             }
         }
 
+        // the search box was clicked; search if not empty..
         private void tbFind_Click(object sender, EventArgs e)
         {
             Find(true);
         }
 
+        // the search box was focused; search if not empty..
         private void tbFind_Enter(object sender, EventArgs e)
         {
             Find(true);
         }
 
+        // the user adjusts the volume of currently playing song; save the user given volume to the database..
         private void pnVol1_MouseClick(object sender, MouseEventArgs e)
         {
             if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
@@ -1661,6 +1865,8 @@ namespace amp
             }
         }
 
+        // gets the next song if the flag is set and no new files
+        // are currently being added to the database..
         private void tmPendOperation_Tick(object sender, EventArgs e)
         {
             if (pendNextSong && !addFiles)
@@ -1670,6 +1876,8 @@ namespace amp
             }
         }
 
+        // displays the about dialog which also allows the
+        // user to check for a new version of the software..
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             // ReSharper disable once ObjectCreationAsStatement
@@ -1678,11 +1886,13 @@ namespace amp
                 "https://www.vpksoft.net/versions/version.php");
         }
 
+        // reposition the album image if the main window is moved..
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             FormAlbumImage.Reposition(this, tbFind.PointToScreen(Point.Empty).Y);
         }
 
+        // saves the current queue snapshot into the database..
         private void saveQueueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (GetQueueCountNum() == 0)
@@ -1711,6 +1921,7 @@ namespace amp
             }
         }
 
+        // loads a queue snapshot from the database..
         private void mnuLoadQueue_Click(object sender, EventArgs e)
         {
             int qId = FormSavedQueues.Execute(CurrentAlbum, ref Conn, out bool append);
@@ -1722,6 +1933,7 @@ namespace amp
             GetQueueCount();
         }
 
+        // opens the settings dialog form..
         private void mnuSettings_Click(object sender, EventArgs e)
         {
             new FormSettings().ShowDialog();
@@ -1729,6 +1941,7 @@ namespace amp
             TextInvoker();
         }
 
+        // displays information about the current song..
         private void mnuSongInfo_Click(object sender, EventArgs e)
         {
             if (lbMusic.SelectedItem != null)
@@ -1738,41 +1951,58 @@ namespace amp
             }
         }
 
+        // displays the alternate queue..
         private void mnuShowAlternateQueue_Click(object sender, EventArgs e)
         {
             ShowAlternateQueue();
         }
 
+        // displays the help..
         private void mnuHelpItem_Click(object sender, EventArgs e)
         {
             FormHelp.ShowSingleton();
         }
 
+        // displays all the songs in the current album..
         private void mnuShowAllSongs_Click(object sender, EventArgs e)
         {
             ShowAllSongs();
         }
 
+        // the IPC may start pushing songs in to the static list
+        // before any forms are created within the application, so
+        // this timer processes the possible list of songs queued
+        // to be added to the playlist via the shell context menu..
         private void TmIPCFiles_Tick(object sender, EventArgs e)
         {
             if (StopIpcTimer)
             {
-                return;
+                // songs are currently being pushed to the list..
+                return; // ..so just return..
             }
 
+            // stop the timer..
             tmIPCFiles.Enabled = false;
+
+            // set the flag whether remotely pushed files are being processed within the timer..
             RemoteFileBeingProcessed = RemoteFiles.Count > 0;
 
+            // open all the files in the list to a temporary album..
             foreach (var remoteFile in RemoteFiles)
             {
                 OpenFileToTemporaryAlbum(remoteFile);
             }
+            // clear the list as all the files are handled..
             RemoteFiles.Clear();
 
+            // set the flag whether remotely pushed files are being processed within the timer to false..
             RemoteFileBeingProcessed = false;
+
+            // restart the timer..
             tmIPCFiles.Enabled = true;
         }
 
+        // saves the album as..
         private void MnuSaveAlbumAs_Click(object sender, EventArgs e)
         {
             string name = FormAddAlbum.Execute();
@@ -1789,6 +2019,7 @@ namespace amp
             }
         }
 
+        // deletes the current album with a confirmation query..
         private void MnuDeleteAlbum_Click(object sender, EventArgs e)
         {
             if (CurrentAlbum != "tmp" &&
@@ -1809,6 +2040,8 @@ namespace amp
             }
         }
 
+        // enables/disables the delete current album menu item
+        // based on the current album..
         private void MnuFile_DropDownOpening(object sender, EventArgs e)
         {
             mnuDeleteAlbum.Enabled = CurrentAlbum != "tmp" &&

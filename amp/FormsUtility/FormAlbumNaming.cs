@@ -33,8 +33,16 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A form form creating instructions for how to display a music file in the playlist box.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormAlbumNaming : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormAlbumNaming"/> class.
+        /// </summary>
         public FormAlbumNaming()
         {
             InitializeComponent();
@@ -210,6 +218,7 @@ namespace amp.FormsUtility
             }
         }
 
+        // an event handler for drag &amp; drop for the naming instructions..
         private void tbCommon_DragDrop(object sender, DragEventArgs e)
         {
             // if the data is of type of string set the effect to move..
@@ -224,6 +233,7 @@ namespace amp.FormsUtility
             }
         }
 
+        // adds a selected item to the song naming instructions..
         private void btAddToNaming_Click(object sender, EventArgs e)
         {
             if (lbDragItems.SelectedIndex >= 0)
@@ -232,6 +242,7 @@ namespace amp.FormsUtility
             }
         }
 
+        // resets the song naming rules to default values..
         private void btDefaultNaming_Click(object sender, EventArgs e)
         {
             // ReSharper disable once StringLiteralTypo
@@ -239,6 +250,7 @@ namespace amp.FormsUtility
             tbAlbumNamingRenamed.Text = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
         }
 
+        // validates the "recipe" for the song naming..
         private void tbCommonNaming_TextChanged(object sender, EventArgs e)
         {
             // avoid replicating the code..
@@ -274,6 +286,7 @@ namespace amp.FormsUtility
             bOK.Enabled = !error && textBox.Text.Trim() != string.Empty;
         }
 
+        // a click handler for the OK button; the settings are also saved..
         private void bOK_Click(object sender, EventArgs e)
         {
             // save the settings..
@@ -282,8 +295,10 @@ namespace amp.FormsUtility
             DialogResult = DialogResult.OK;
         }
 
+        // a field to save the active text box so the text boxes can be used in common events..
         private TextBox activeTextBox;
 
+        // a text box was focused..
         private void tbCommon_Enter(object sender, EventArgs e)
         {
             activeTextBox = (TextBox)sender;
@@ -299,6 +314,8 @@ namespace amp.FormsUtility
             }
         }
 
+        // the dialog form is shown so focus to the upper-most text box and set the
+        // text for the naming rule text boxes..
         private void FormAlbumNaming_Shown(object sender, EventArgs e)
         {
             tbAlbumNaming.Focus();

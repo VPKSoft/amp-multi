@@ -34,14 +34,23 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.QueueHandling
 {
+    /// <summary>
+    /// A form for managing saved queue snapshots.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormSavedQueues : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormSavedQueues"/> class.
+        /// </summary>
         public FormSavedQueues()
         {
             InitializeComponent();
             colQueueSaveTime.Name = "colQueueSaveTime"; // the columns have only a design name.. LangLib doesn't apply on the nameless components 
             colQueueName.Name = "colQueueName"; // the columns have only a design name.. LangLib doesn't apply on the nameless components
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -67,12 +76,29 @@ namespace amp.FormsUtility.QueueHandling
                 "Copy songs into a single directory|A title to a folder select dialog indicating that files in a queue should be copied into a single directory.");
         }
 
+        /// <summary>
+        /// A field to hold <see cref="SQLiteConnection"/> connection given in the <see cref="Execute(string, ref SQLiteConnection, out bool)"/> method call.
+        /// </summary>
         private SQLiteConnection conn;
+
+        /// <summary>
+        /// The album name.
+        /// </summary>
         private string albumName = string.Empty;
+
+        /// <summary>
+        /// A field to hold the previous queue snapshot name in case the user cancels the rename.
+        /// </summary>
         private string lastText = string.Empty;
 
+        /// <summary>
+        /// A field indicating whether the user chose to append to a selected queue snapshot to the current queue of the album.
+        /// </summary>
         private bool appendQueue;
 
+        /// <summary>
+        /// Refreshes the list of saved queue snapshots discarding the previous changes.
+        /// </summary>
         private void RefreshList()
         {
             lvQueues.Items.Clear();
@@ -87,8 +113,10 @@ namespace amp.FormsUtility.QueueHandling
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {
                 command.CommandText =
-                    string.Format("SELECT COUNT(DISTINCT ID) FROM " + Environment.NewLine +
-                                  "QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = '{0}') ", albumName.Replace("'", "''"));
+                    string.Join(Environment.NewLine,
+                        "SELECT COUNT(DISTINCT ID) FROM",
+                        // ReSharper disable once StringLiteralTypo
+                        $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})");
 
                 if (Convert.ToInt32(command.ExecuteScalar()) == 0)
                 {
@@ -96,10 +124,14 @@ namespace amp.FormsUtility.QueueHandling
                 }
 
                 command.CommandText =
-                    string.Format("SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE " + Environment.NewLine +
-                                  "FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = '{0}') " + Environment.NewLine +
-                                  "GROUP BY ID, SNAPSHOTNAME " + Environment.NewLine +
-                                  "ORDER BY MAX(SNAPSHOT_DATE) ", albumName.Replace("'", "''"));
+                    string.Join(Environment.NewLine,
+                        // ReSharper disable once StringLiteralTypo
+                        "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
+                        // ReSharper disable once StringLiteralTypo
+                        $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})",
+                                // ReSharper disable once StringLiteralTypo
+                                "GROUP BY ID, SNAPSHOTNAME",
+                                "ORDER BY MAX(SNAPSHOT_DATE)");
 
 
                 using (SQLiteDataReader dr = command.ExecuteReader())
@@ -118,9 +150,15 @@ namespace amp.FormsUtility.QueueHandling
             }
         }
 
+        /// <summary>
+        /// Displays the dialog for the user to edit the saved queue snapshots.
+        /// </summary>
+        /// <param name="albumName">Name of the album which queue snapshots to edit.</param>
+        /// <param name="conn">A reference to a <see cref="SQLiteConnection"/> class instance.</param>
+        /// <param name="append">if set to <c>true</c> the user chose to append the selected queue to the current one in the album.</param>
+        /// <returns>The queue index the user selected from the dialog; otherwise -1.</returns>
         public static int Execute(string albumName, ref SQLiteConnection conn, out bool append)
         {
-
             FormSavedQueues frm = new FormSavedQueues
             {
                 conn = conn,
@@ -146,6 +184,7 @@ namespace amp.FormsUtility.QueueHandling
             return -1;
         }
 
+        // enables/disables the control buttons based on state of the GUI..
         private void lvQueues_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView lv = (ListView)sender;
@@ -157,6 +196,7 @@ namespace amp.FormsUtility.QueueHandling
             btAppendQueue.Enabled = lv.SelectedIndices.Count > 0;
         }
 
+        // saves the changes to the queue snapshots..
         private void tsbSave_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvi in lvQueues.Items)
@@ -168,7 +208,7 @@ namespace amp.FormsUtility.QueueHandling
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText =
-                        string.Format("UPDATE QUEUE_SNAPSHOT SET SNAPSHOTNAME = '{0}' WHERE ID = {1} ", lvi.Text, lvi.Tag);
+                        $"UPDATE QUEUE_SNAPSHOT SET SNAPSHOTNAME = '{lvi.Text}' WHERE ID = {lvi.Tag} ";
                     command.ExecuteNonQuery();
                     lvi.Name = string.Empty;
                 }
@@ -176,11 +216,13 @@ namespace amp.FormsUtility.QueueHandling
             tsbSave.Enabled = false;
         }
 
+        // the user discarded the changes and refreshed the list of queue snapshots..
         private void tsbRefresh_Click(object sender, EventArgs e)
         {
             RefreshList();
         }
 
+        // if the name of a queue snapshot was modified by the user, indicate the change by setting the item's name..
         private void lvQueues_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             if (e.Label != lastText)
@@ -191,11 +233,13 @@ namespace amp.FormsUtility.QueueHandling
             lastText = string.Empty;
         }
 
+        // save the name of the queue snapshot before the user edits it to detect a change..
         private void lvQueues_BeforeLabelEdit(object sender, LabelEditEventArgs e)
         {
             lastText = e.Label;
         }
 
+        // the user wants to remove a selected queue snapshot..
         private void tsbRemove_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
@@ -211,11 +255,13 @@ namespace amp.FormsUtility.QueueHandling
             }
         }
 
+        // the user wants to modify the selected queue in detail..
         private void tsbModifySavedQueue_Click(object sender, EventArgs e)
         {
             FormModifySavedQueue.Execute(ref conn, Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag));
         }
 
+        // the user wants to export the queue into a file..
         private void tsbExportQueue_Click(object sender, EventArgs e)
         {
             if (sdExportQueue.ShowDialog() == DialogResult.OK)
@@ -224,6 +270,7 @@ namespace amp.FormsUtility.QueueHandling
             }
         }
 
+        // the user wants to import a saved queue from a file..
         private void tsbImportQueue_Click(object sender, EventArgs e)
         {
             if (odExportQueue.ShowDialog() == DialogResult.OK)
@@ -242,12 +289,14 @@ namespace amp.FormsUtility.QueueHandling
             }
         }
 
+        // the user wants to append the selected queue snapshot to the current album queue..
         private void btAppendQueue_Click(object sender, EventArgs e)
         {
             appendQueue = true;
             DialogResult = DialogResult.OK;
         }
 
+        // copies the selected queue snapshot to a single directory for to be burned to e.g. MP3 CD for a car usage..
         private void TsbCopyAllFlat_Click(object sender, EventArgs e)
         {
             if (fbdDirectory.ShowDialog() == DialogResult.OK)

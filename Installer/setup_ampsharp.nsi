@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.1.0.2
+!define VERSION 1.1.0.3
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -66,12 +66,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_1_0_2.exe
+OutFile setup_ampsharp_1_1_0_3.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.1.0.2
+VIProductVersion 1.1.0.3
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -86,69 +86,19 @@ ShowUninstDetails hide
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-
-    ${If} ${RunningX64}
-		${AndIf} ${FileExists} "$PROGRAMFILES32\amp#\uninstall_ampsharp.exe"
-		    ${AndIf} ${FileExists} "$LOCALAPPDATA\amp#\amp.sqlite"
-				CopyFiles "$LOCALAPPDATA\amp#\amp.sqlite" $TEMP
-				ExecWait "$PROGRAMFILES32\amp#\uninstall_ampsharp.exe"
-				CopyFiles $TEMP\amp.sqlite "$LOCALAPPDATA\amp#\amp.sqlite"
-				Delete $TEMP\amp.sqlite
-	${EndIf}			
-	
+			
 	${nsProcess::FindProcess} "amp.exe" $R0
     ${If} $R0 == 0
 		${nsProcess::CloseProcess} "amp.exe" $R0
 	${EndIf}
 	
-	File ..\amp\bin\Release\amp.exe
+	${nsProcess::Unload}
+	
+	File /r ..\amp\bin\Release\*.*
+	
 	File ..\LICENSE
-	File ..\amp\bin\Release\NAudio.dll
-	File ..\amp\bin\Release\NAudio.WindowsMediaFormat.dll
-	File ..\amp\bin\Release\NVorbis.dll
-	File ..\amp\bin\Release\System.Data.SQLite.dll
-	File ..\amp\bin\Release\taglib-sharp.dll
-	File ..\amp\bin\Release\VPKSoft.LangLib.dll
-	File ..\amp\bin\Release\VPKSoft.Utils.dll
-	File ..\amp\bin\Release\NAudio.Flac.dll
-	File ..\amp\bin\Release\NAudio.Vorbis.dll
-	File ..\amp\bin\Release\VPKSoft.VersionCheck.dll
-	File ..\amp\bin\Release\DBLocalization.exe
-	File ..\amp\bin\Release\VPKSoft.RandomizationUtils.dll
-	
-	File ..\amp\bin\Release\VPKSoft.ErrorLogger.dll
-	
-	${If} ${FileExists} "$PROGRAMFILES32\amp#\*.*"
-		RmDir /REBOOTOK "$PROGRAMFILES32\amp#"
-	${EndIf}
 		
-	
-	${If} ${FileExists} $INSTDIR\NAudioFLAC.dll
-		Delete $INSTDIR\NAudioFLAC.dll
-	${EndIf}
-	
-	${If} ${FileExists} $INSTDIR\NVorbis.NAudioSupport.dll	
-		Delete $INSTDIR\NVorbis.NAudioSupport.dll	
-	${EndIf}
-	
-	${If} ${FileExists} $INSTDIR\NVorbis.OpenTKSupport.dll
-		Delete $INSTDIR\NVorbis.OpenTKSupport.dll
-	${EndIf}
-	
-	File ..\amp\bin\Release\policy.2.0.taglib-sharp.dll
-	
-	File ..\amp\bin\Release\NAudio.Flac.dll
-	File ..\amp\bin\Release\NAudio.Vorbis.dll
-	
-	
-	File ..\amp\bin\Release\VPKSoft.PosLib.dll
 	File .\languages.ico    
-	
-	SetOutPath $INSTDIR\x64
-	File ..\amp\bin\Release\x64\SQLite.Interop.dll
-	
-	SetOutPath $INSTDIR\x86
-	File ..\amp\bin\Release\x86\SQLite.Interop.dll
 	
 	SetOutPath $INSTDIR\licenses
 	File ..\licenses\NAudio.license.txt
@@ -157,19 +107,13 @@ Section -Main SEC0000
 	File ..\licenses\taglib.lgpl-2.1.txt
 	File ..\licenses\VPKSoft.Utils.COPYING
 	File ..\licenses\VPKSoft.Utils.COPYING.LESSER
-	
-	
-	SetOutPath $INSTDIR\SQLiteDatabase
-	File ..\amp\bin\Release\SQLiteDatabase\Script.sql_script
-    
+	    
     SetOutPath "$LOCALAPPDATA\amp#"
     File ..\amp\Localization\lang.sqlite
 	
-	!insertmacro CheckNetFramework 461
+	!insertmacro CheckNetFramework 47
 	  
     Call Associate
-    
-    Delete $TEMP\NDP451-KB2859818-Web.exe
     
     SetOutPath $SMPROGRAMS\$StartMenuGroup
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\amp#.lnk" $INSTDIR\amp.exe
@@ -214,50 +158,15 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\amp#.lnk"
 	Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(LocalizeDesc).lnk"	
 	
-	Delete /REBOOTOK $INSTDIR\amp.exe
-	Delete /REBOOTOK $INSTDIR\LibFlac.dll
-	Delete /REBOOTOK $INSTDIR\license.txt
-	Delete /REBOOTOK $INSTDIR\NAudio.dll
-	Delete /REBOOTOK $INSTDIR\NAudio.WindowsMediaFormat.dll
-#	Delete /REBOOTOK $INSTDIR\NAudioFLAC.dll
-	Delete /REBOOTOK $INSTDIR\NVorbis.dll
-#	Delete /REBOOTOK $INSTDIR\NVorbis.NAudioSupport.dll
-#	Delete /REBOOTOK $INSTDIR\NVorbis.OpenTKSupport.dll
-	Delete /REBOOTOK $INSTDIR\NVorbis.Vorbis.dll
-	Delete /REBOOTOK $INSTDIR\policy.2.0.taglib-sharp.dll
-	Delete /REBOOTOK $INSTDIR\VPKSoft.About.dll
-	Delete /REBOOTOK $INSTDIR\VPKSoft.VersionCheck.dll
-
-	Delete /REBOOTOK $INSTDIR\NAudio.Flac.dll
+	${nsProcess::FindProcess} "amp.exe" $R0
+    ${If} $R0 == 0
+		${nsProcess::CloseProcess} "amp.exe" $R0
+	${EndIf}	
 	
+	${nsProcess::Unload}
 	
-	Delete /REBOOTOK $INSTDIR\DBLocalization.exe
-	Delete /REBOOTOK $INSTDIR\VPKSoft.RandomizationUtils.dll	
-	
-	Delete /REBOOTOK $INSTDIR\VPKSoft.ErrorLogger.dll
-
-
-	Delete /REBOOTOK $INSTDIR\Script.sql_script
-	Delete /REBOOTOK $INSTDIR\System.Data.SQLite.dll
-	Delete /REBOOTOK $INSTDIR\taglib-sharp.dll
-	Delete /REBOOTOK $INSTDIR\VPKSoft.LangLib.dll
-	Delete /REBOOTOK $INSTDIR\VPKSoft.Utils.dll
-	
-	Delete /REBOOTOK $INSTDIR\VPKSoft.PosLib.dll
-	
-	Delete /REBOOTOK $INSTDIR\x64\SQLite.Interop.dll
-	Delete /REBOOTOK $INSTDIR\x86\SQLite.Interop.dll
-	
-	Delete /REBOOTOK $INSTDIR\licenses\NAudio.license.txt
-	Delete /REBOOTOK $INSTDIR\licenses\NAudioFLAC.LICENSE
-	Delete /REBOOTOK $INSTDIR\licenses\NVorbis.COPYING
-	Delete /REBOOTOK $INSTDIR\licenses\taglib.lgpl-2.1.txt
-	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING
-	Delete /REBOOTOK $INSTDIR\licenses\VPKSoft.Utils.COPYING.LESSER
-
-#    Delete /REBOOTOK "$LOCALAPPDATA\amp#\lang.sqlite"
-#    Delete /REBOOTOK "$LOCALAPPDATA\amp#\amp.sqlite"
-    
+	RMDir /r /REBOOTOK $INSTDIR	
+	    
 	Call un.DeleteLocalData
 	
     DeleteRegValue HKLM "${REGKEY}\Components" Main

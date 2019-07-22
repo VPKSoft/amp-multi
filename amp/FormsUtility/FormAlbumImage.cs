@@ -34,19 +34,39 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A floating form to display the album image of the currently playing song.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormAlbumImage : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormAlbumImage"/> class.
+        /// </summary>
         public FormAlbumImage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets a singleton instance of this form.
+        /// </summary>
         public static FormAlbumImage ThisInstance;
 
+        /// <summary>
+        /// The main form of the application (for to activate the main form in case this form was activated).
+        /// </summary>
         private static FormMain activateWindow;
 
+        // a flag indicating whether the form was shown the first time..
         private static bool firstShow = true;
 
+        /// <summary>
+        /// Repositions the <see cref="ThisInstance"/> of this form.
+        /// </summary>
+        /// <param name="mw">The main form's instance.</param>
+        /// <param name="top">The top position for the instance of this form.</param>
         public static void Reposition(FormMain mw, int top)
         {
             if (ThisInstance != null)
@@ -57,6 +77,12 @@ namespace amp.FormsUtility
             }
         }
 
+        /// <summary>
+        /// Displays this form with a given music file at a given position.
+        /// </summary>
+        /// <param name="mw">The main form's instance.</param>
+        /// <param name="mf">The <see cref="MusicFile"/> class instance for which album image to display on this form.</param>
+        /// <param name="top">The top position for the instance of this form.</param>
         public static void Show(FormMain mw, MusicFile mf, int top)
         {
             if (ThisInstance == null)
@@ -91,6 +117,7 @@ namespace amp.FormsUtility
             Reposition(mw, top);
         }
 
+        // re-activate the main form in case this form was activated..
         private void FormAlbumImage_Activated(object sender, EventArgs e)
         {
             activateWindow?.Activate();

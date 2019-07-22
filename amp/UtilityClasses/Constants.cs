@@ -1,4 +1,30 @@
-﻿using System.Collections.Generic;
+﻿#region License
+/*
+MIT License
+
+Copyright(c) 2019 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+#endregion
+
+using System.Collections.Generic;
 
 namespace amp.UtilityClasses
 {
@@ -32,7 +58,7 @@ namespace amp.UtilityClasses
         /// <param name="fileName">The name of the file check.</param>
         public static bool FileIsMp3(string fileName)
         {
-            return fileName.ToUpper().EndsWith(".mp3".ToUpper());
+            return fileName.ToUpper().EndsWith(".MP3");
         }
 
         /// <summary>
@@ -41,7 +67,7 @@ namespace amp.UtilityClasses
         /// <param name="fileName">The name of the file check.</param>
         public static bool FileIsOgg(string fileName)
         {
-            return fileName.ToUpper().EndsWith(".ogg".ToUpper());
+            return fileName.ToUpper().EndsWith(".OGG");
         }
 
         /// <summary>
@@ -50,7 +76,7 @@ namespace amp.UtilityClasses
         /// <param name="fileName">The name of the file check.</param>
         public static bool FileIsWav(string fileName)
         {
-            return fileName.ToUpper().EndsWith(".wav".ToUpper());
+            return fileName.ToUpper().EndsWith(".WAV");
         }
 
         // ReSharper disable once CommentTypo
@@ -62,7 +88,7 @@ namespace amp.UtilityClasses
         public static bool FileIsFlac(string fileName)
         {
             // ReSharper disable once StringLiteralTypo
-            return fileName.ToUpper().EndsWith(".flac".ToUpper());
+            return fileName.ToUpper().EndsWith(".FLAC");
         }
 
         /// <summary>
@@ -72,7 +98,7 @@ namespace amp.UtilityClasses
         public static bool FileIsWma(string fileName)
         {
             // ReSharper disable once StringLiteralTypo
-            return fileName.ToUpper().EndsWith(".wma".ToUpper());
+            return fileName.ToUpper().EndsWith(".WMA");
         }
 
         /// <summary>
@@ -81,8 +107,8 @@ namespace amp.UtilityClasses
         /// <param name="fileName">The name of the file check.</param>
         public static bool FileIsAacOrM4A(string fileName)
         {
-            return fileName.ToUpper().EndsWith(".wma".ToUpper()) ||
-                   fileName.ToUpper().EndsWith(".aac".ToUpper());
+            return fileName.ToUpper().EndsWith(".M4A") ||
+                   fileName.ToUpper().EndsWith(".AAC");
         }
 
         /// <summary>
@@ -91,10 +117,9 @@ namespace amp.UtilityClasses
         /// <param name="fileName">The name of the file check.</param>
         public static bool FileIsAif(string fileName)
         {
-            return fileName.ToUpper().EndsWith(".aif".ToUpper()) ||
-
+            return fileName.ToUpper().EndsWith(".AIF") ||
                    // ReSharper disable once StringLiteralTypo
-                   fileName.ToUpper().EndsWith(".aiff".ToUpper());
+                   fileName.ToUpper().EndsWith(".AIFF");
         }
     }
 }

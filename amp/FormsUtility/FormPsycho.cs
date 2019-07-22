@@ -29,10 +29,21 @@ using VPKSoft.LangLib;
 
 namespace amp.FormsUtility
 {
+    /// <summary>
+    /// A form the report progress to the user.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormPsycho : DBLangEngineWinforms
     {
-        private static FormPsycho form;
+        /// <summary>
+        /// A field to hold a current instance of the form.
+        /// </summary>
+        private static FormPsycho formPsycho;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormPsycho"/> class.
+        /// </summary>
         public FormPsycho()
         {
             InitializeComponent();
@@ -48,32 +59,43 @@ namespace amp.FormsUtility
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
-        public static void Execute(Form frm)
+        /// <summary>
+        /// Displays the form and aligns it to the center of the <paramref name="form"/>.
+        /// </summary>
+        /// <param name="form">The form .</param>
+        public static void Execute(Form form)
         {
-            if (form != null)
+            if (formPsycho != null)
             {
                 return;
             }
-            form = new FormPsycho();
-            form.Left = frm.Left + (frm.Width - form.Width) / 2;
-            form.Top = frm.Top + (frm.Height - form.Height) / 2;
-            form.Show();
-            form.Refresh();
+            formPsycho = new FormPsycho();
+            formPsycho.Left = form.Left + (form.Width - formPsycho.Width) / 2;
+            formPsycho.Top = form.Top + (form.Height - formPsycho.Height) / 2;
+            formPsycho.Show();
+            formPsycho.Refresh();
         }
 
+        /// <summary>
+        /// Sets the status text for the instance of this form.
+        /// </summary>
+        /// <param name="text">The text to display.</param>
         public static void SetStatusText(string text)
         {
-            if (form != null)
+            if (formPsycho != null)
             {
-                form.lbStatus.Text = text;
-                form.lbStatus.Refresh();
+                formPsycho.lbStatus.Text = text;
+                formPsycho.lbStatus.Refresh();
             }            
         }
 
+        /// <summary>
+        /// Closes an instance of this form a and sets it to null.
+        /// </summary>
         public static void UnExecute()
         {
-            form.Close();
-            form = null;
+            formPsycho.Close();
+            formPsycho = null;
         }
     }
 }

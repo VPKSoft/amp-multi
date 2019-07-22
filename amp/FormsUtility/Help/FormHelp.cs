@@ -30,8 +30,16 @@ using VPKSoft.PosLib;
 
 namespace amp.FormsUtility.Help
 {
+    /// <summary>
+    /// A form displaying a small help for the software.
+    /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
+    /// </summary>
+    /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormHelp : DBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormHelp"/> class.
+        /// </summary>
         public FormHelp()
         {
             // Add this form to be positioned..
@@ -49,9 +57,19 @@ namespace amp.FormsUtility.Help
             DBLangEngine.InitalizeLanguage("amp.Messages");
         }
 
+        /// <summary>
+        /// The form is used as a singleton because of the amount of resources the images take.
+        /// </summary>
         private static FormHelp thisSingleton;
+
+        /// <summary>
+        /// A flag indicating whether the singleton instance is allowed to be disposed of.
+        /// </summary>
         private static bool allowDisposal;
 
+        /// <summary>
+        /// Shows the singleton instance of this form.
+        /// </summary>
         public static void ShowSingleton()
         {
             if (thisSingleton == null)
@@ -69,6 +87,7 @@ namespace amp.FormsUtility.Help
             }
         }
 
+        // the form is closing..
         private void FormHelp_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!allowDisposal)
@@ -78,6 +97,9 @@ namespace amp.FormsUtility.Help
             }
         }
 
+        /// <summary>
+        /// Disposes the singleton instance of this form.
+        /// </summary>
         public static void DisposeSingleton()
         {
             allowDisposal = true;

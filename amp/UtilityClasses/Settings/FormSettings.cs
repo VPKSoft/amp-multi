@@ -51,6 +51,7 @@ namespace amp.UtilityClasses.Settings
         {
             InitializeComponent();
 
+            // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
             if (Utils.ShouldLocalize() != null)
             {
@@ -77,8 +78,10 @@ namespace amp.UtilityClasses.Settings
         /// </summary>
         public static void SetMainWindowSettings()
         {
+            // ReSharper disable once IdentifierTypo
             VU.VPKNml vnml = new VU.VPKNml();
             VU.Paths.MakeAppSettingsFolder();
+            // ReSharper disable once StringLiteralTypo
             vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
             FormMain.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
@@ -141,17 +144,20 @@ namespace amp.UtilityClasses.Settings
             }
 
             KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(FormMain.QuietHoursFrom, FormMain.QuietHoursTo);
-            bool retval = (DateTime.Now >= span.Key && DateTime.Now < span.Value);
-            return retval;
+            bool result = (DateTime.Now >= span.Key && DateTime.Now < span.Value);
+            return result;
         }
 
+        // ReSharper disable once CommentTypo
         /// <summary>
         /// Saves the settings to a .vnml file.
         /// </summary>
         private void SaveSettings()
         {
+            // ReSharper disable once IdentifierTypo
             VU.VPKNml vnml = new VU.VPKNml();
             VU.Paths.MakeAppSettingsFolder();
+            // ReSharper disable once StringLiteralTypo
             vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
             vnml["quietHour", "enabled"] = cbQuietHours.Checked;
             vnml["quietHour", "start"] = dtpFrom.Value.ToString("HH':'mm");
@@ -165,6 +171,7 @@ namespace amp.UtilityClasses.Settings
             // the user decides if an internet request is allowed..
             vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
 
+            // ReSharper disable once StringLiteralTypo
             vnml.Save(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
             Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
@@ -174,8 +181,10 @@ namespace amp.UtilityClasses.Settings
 
         private void FormSettings_Shown(object sender, EventArgs e)
         {
+            // ReSharper disable once IdentifierTypo
             VU.VPKNml vnml = new VU.VPKNml();
             VU.Paths.MakeAppSettingsFolder();
+            // ReSharper disable once StringLiteralTypo
             vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
             cbQuietHours.Checked = Convert.ToBoolean(vnml["quietHour", "enabled", false]);
@@ -203,14 +212,14 @@ namespace amp.UtilityClasses.Settings
             }
             cmbSelectLanguageValue.SelectedItem = Settings.Culture;
 
-            bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
-            if (netshRet != null)
+            bool? netShResult = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
+            if (netShResult != null)
             {
-                btAssignRemoteControlURI.Enabled = netshRet == false;
+                btAssignRemoteControlURI.Enabled = netShResult == false;
             }
         }
 
-        private void tbRemoteControllURI_TextChanged(object sender, EventArgs e)
+        private void tbRemoteControlURI_TextChanged(object sender, EventArgs e)
         {
             if (!VU.UriUrlUtils.ValidHttpUrl(tbRemoteControlURI.Text, true))
             {
@@ -272,6 +281,7 @@ namespace amp.UtilityClasses.Settings
                               Path.Combine(
                                   Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                                   "amp#",
+                                  // ReSharper disable once StringLiteralTypo
                                   "lang.sqlite") + "\"";
 
                 Process.Start(Application.ExecutablePath, args);
