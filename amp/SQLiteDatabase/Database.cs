@@ -378,7 +378,7 @@ namespace amp.SQLiteDatabase
                 sql += string.Join(Environment.NewLine,
                     "INSERT INTO ALBUMSONGS (ALBUM_ID, SONG_ID, QUEUEINDEX)",
                     $"SELECT {oAlbumId}, {addSongs[i].ID}, 0 ",
-                    "WHERE NOT EXISTS(SELECT 1 FROM ALBUMSONGS WHERE " +
+                    "WHERE NOT EXISTS(SELECT * FROM ALBUMSONGS WHERE " +
                     $"ALBUM_ID = {oAlbumId} AND SONG_ID = {addSongs[i].ID}); ");
                 if ((i % 200) == 0 && i != 0)
                 {
@@ -801,7 +801,7 @@ namespace amp.SQLiteDatabase
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText =
-                        string.Join(
+                        string.Join(Environment.NewLine,
                             "SELECT",
                             "(SELECT ALBUMNAME FROM ALBUM WHERE ID = ALBUM_ID) AS ALBUMNAME,",
                             "(SELECT FILENAME FROM SONG WHERE ID = SONG_ID) AS FILENAME,",
@@ -985,7 +985,7 @@ namespace amp.SQLiteDatabase
                             "INSERT INTO QUEUE_SNAPSHOT (ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE) VALUES(",
                             $"{id},",
                             $"(SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}),",
-                            $"{mf.ID}, {qIDx++},{QS(snapshotName)}",
+                            $"{mf.ID}, {qIDx++},{QS(snapshotName)},",
                             $"DATETIME('{snapShotDate}'))");
 
 
@@ -1087,7 +1087,7 @@ namespace amp.SQLiteDatabase
                     $"SELECT {QS(mf.FullFileName)}, {QS(mf.Artist)}, ",
                     $"{QS(mf.Album)}, {QS(mf.Track)}, {QS(mf.Year)}, 500, 0, 0, {mf.FileSize}, 1.0, {QS(mf.OverrideName)}, ",
                     $"{QS(mf.TagString)}, 1, {QS(mf.FileNameNoPath)}, {QS(mf.Title)} ",
-                    $"WHERE NOT EXISTS(SELECT 1 FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
+                    $"WHERE NOT EXISTS(SELECT * FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
         }
 
         /// <summary>
@@ -1134,7 +1134,7 @@ namespace amp.SQLiteDatabase
                     string.Join(Environment.NewLine,
                         "INSERT INTO ALBUM(ID, ALBUMNAME)",
                         $"SELECT 1, {QS(name)}",
-                        "WHERE NOT EXISTS(SELECT 1 FROM ALBUM WHERE ID = 1);",
+                        "WHERE NOT EXISTS(SELECT * FROM ALBUM WHERE ID = 1);",
                         $"UPDATE ALBUM SET ALBUMNAME = {QS(name)} WHERE ID = 1;");
                 command.ExecuteNonQuery();
 
