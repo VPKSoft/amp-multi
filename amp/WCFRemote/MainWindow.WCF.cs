@@ -33,6 +33,8 @@ using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using amp.WCFRemote;
 using NAudio.Wave;
+using VPKSoft.ErrorLogger;
+
 // ReSharper disable IdentifierTypo
 
 // ReSharper disable once CheckNamespace
@@ -41,15 +43,18 @@ namespace amp
     // For the remote control
     public partial class FormMain
     {
+        /// <summary>
+        /// Gets a value whether the playback is paused.
+        /// </summary>
+        /// <returns><c>true</c> if the playback state is paused; otherwise <c>false</c>.</returns>
         public bool Paused()
         {
-            if (waveOutDevice == null)
-            {
-                return false;
-            }
-            return waveOutDevice.PlaybackState == PlaybackState.Paused;
+            return waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused;
         }
 
+        /// <summary>
+        /// Pauses the playback.
+        /// </summary>
         public void Pause()
         {
             if (waveOutDevice == null)
@@ -65,6 +70,10 @@ namespace amp
             VisualizePlaybackState();
         }
 
+        /// <summary>
+        /// Plays a song with a given database ID number or the next song if the given id is -1.
+        /// </summary>
+        /// <param name="id">The database ID number for the song to play.</param>
         public void Play(int id = -1)
         {
             if (id != -1)
@@ -96,6 +105,9 @@ namespace amp
             VisualizePlaybackState();
         }
 
+        /// <summary>
+        /// Displays the playback state in the main window.
+        /// </summary>
         internal void VisualizePlaybackState()
         {
             if (waveOutDevice != null)
@@ -118,24 +130,28 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets a value whether the playback is stopped.
+        /// </summary>
+        /// <returns><c>true</c> if the playback is stopped; otherwise <c>false</c>.</returns>
         public bool Stopped()
         {
-            if (waveOutDevice == null)
-            {
-                return true;
-            }
-            return waveOutDevice.PlaybackState == PlaybackState.Stopped;
+            return waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped;
         }
 
+        /// <summary>
+        /// Gets a value whether the playback state is playing.
+        /// </summary>
+        /// <returns><c>true</c> if the playback is playing; otherwise <c>false</c>.</returns>
         public bool Playing()
         {
-            if (waveOutDevice == null)
-            {
-                return false;
-            }
-            return waveOutDevice.PlaybackState == PlaybackState.Playing;
+            return waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Playing;
         }
 
+        /// <summary>
+        /// Sets the playback position in seconds.
+        /// </summary>
+        /// <param name="seconds">The playback position in seconds.</param>
         public void SetPositionSeconds(double seconds)
         {
             if (mainOutputStream != null)
@@ -145,16 +161,17 @@ namespace amp
                 {
                     mainOutputStream.CurrentTime = new TimeSpan(0, 0, (int)seconds);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // do nothing
+                    // log the exception..
+                    ExceptionLogger.LogError(ex);
                 }
                 tmSeek.Start();
             }
         }
 
         /// <summary>
-        /// For the remote interface..
+        /// Queue a song.
         /// </summary>
         /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
         /// <param name="queueList">A list of songs which are to be queued from the remote GUI.</param>
@@ -203,7 +220,7 @@ namespace amp
 
 
         /// <summary>
-        /// For the remote interface..
+        /// Queue a song.
         /// </summary>
         /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
         /// <param name="songIDs">A list of song IDs which are to be queued from the remote GUI.</param>
@@ -249,6 +266,11 @@ namespace amp
             GetQueueCount();
         }
 
+        /// <summary>
+        /// Refreshes the main window after loading a queue to it.
+        /// </summary>
+        /// <param name="queueIndex">The queue index (Database ID number) for the queue to load.</param>
+        /// <param name="append">If set to <c>true</c> the queue is appended to the previous queue.</param>
         public void RefreshLoadQueueStats(int queueIndex, bool append)
         {
             Database.LoadQueue(ref PlayList, Conn, queueIndex, append);
@@ -256,8 +278,13 @@ namespace amp
             GetQueueCount();
         }
 
+        // a field for the AlbumChanged property..
         private bool albumChanged;
 
+        /// <summary>
+        /// Gets a value whether the album has changed.
+        /// Note: This is an auto-resetting property; after querying the value the property returns false.
+        /// </summary>
         public bool AlbumChanged
         {
             get
@@ -266,14 +293,20 @@ namespace amp
                 {
                     return false;
                 }
-                bool bTmp = albumChanged;
+                bool tmp = albumChanged;
                 albumChanged = false;
-                return bTmp;
+                return tmp;
             }
         }
 
+        /// <summary>
+        /// Gets a value whether an album is currently loading.
+        /// </summary>
         public bool AlbumLoading { get; private set; }
 
+        /// <summary>
+        /// Gets a value whether songs in the album have changed.
+        /// </summary>
         public bool SongsChanged
         {
             get
@@ -282,6 +315,9 @@ namespace amp
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value whether the randomization is enabled in the main form.
+        /// </summary>
         public bool Randomizing
         {
             get => tbRand.Checked;
@@ -289,13 +325,20 @@ namespace amp
             set => tbRand.Checked = value;
         }
 
-        public bool Suffle
+        /// <summary>
+        /// Gets or sets a value whether shuffling is enabled in the main form.
+        /// </summary>
+        public bool Shuffle
         {
             get => tbShuffle.Checked;
 
             set => tbShuffle.Checked = value;
         }
 
+        /// <summary>
+        /// Removes a song from the current album.
+        /// </summary>
+        /// <param name="asf">A <see cref="AlbumSongWCF"/> class instance to remove from the album.</param>
         public void RemoveSongFromAlbum(AlbumSongWCF asf)
         {
             lbMusic.SuspendLayout();
@@ -324,6 +367,11 @@ namespace amp
             lbMusic.ResumeLayout();
         }
 
+        /// <summary>
+        /// Sets the rating for the current song.
+        /// </summary>
+        /// <param name="rating">The new rating value.</param>
+        /// <returns><c>true</c> if there is a song to set a rating for; otherwise <c>false</c>.</returns>
         public bool SetRating(int rating)
         {
             if (MFile != null && rating >= 0 && rating <= 1000)
@@ -336,6 +384,11 @@ namespace amp
             return false;
         }
 
+        /// <summary>
+        /// Sets the volume of the currently playing song.
+        /// </summary>
+        /// <param name="volume">The new volume value.</param>
+        /// <returns><c>true</c> if there is a song to set a volume for; otherwise <c>false</c>.</returns>
         public bool SetVolume(float volume)
         {
             if (volumeStream != null && volume >= 0F && volume <= 2.0F)
@@ -353,6 +406,12 @@ namespace amp
             return false;
         }
 
+        /// <summary>
+        /// Sets a volume for multiple songs.
+        /// </summary>
+        /// <param name="songIdList">A list of song database ID numbers to set the volume for.</param>
+        /// <param name="volume">The new volume value.</param>
+        /// <returns><c>true</c> if the volume was set successfully; otherwise <c>false</c>.</returns>
         public bool SetVolume(List<int> songIdList, float volume)
         {
             if (volume >= 0F && volume <= 2.0F && songIdList != null && songIdList.Count > 0)
@@ -376,6 +435,12 @@ namespace amp
             return false;
         }
 
+        /// <summary>
+        /// Sets a rating for multiple songs.
+        /// </summary>
+        /// <param name="songIdList">A list of song database ID numbers to set the rating for.</param>
+        /// <param name="rating"></param>
+        /// <returns><c>true</c> if the rating was set successfully; otherwise <c>false</c>.</returns>
         public bool SetRating(List<int> songIdList, int rating)
         {
             if (rating >= 0 && rating <= 1000 && songIdList != null && songIdList.Count > 0)
@@ -400,6 +465,11 @@ namespace amp
             return false;
         }
 
+        /// <summary>
+        /// Gets the index of the music file in the main form playlist box.
+        /// </summary>
+        /// <param name="id">A song database ID number to get the index for.</param>
+        /// <returns>An index if the operation was successful; otherwise -1.</returns>
         private int GetListBoxIndexById(int id)
         {
             for (int i = 0; i < lbMusic.Items.Count; i++)
@@ -412,6 +482,10 @@ namespace amp
             return -1;
         }
 
+        /// <summary>
+        /// Gets the albums currently in the software database.
+        /// </summary>
+        /// <returns>A list of <see cref="AlbumWCF"/> class instances containing the album data.</returns>
         public List<AlbumWCF> GetAlbums()
         {
             List<Album> albums = Database.GetAlbums(Conn);
@@ -423,6 +497,11 @@ namespace amp
             return albumsWcf;
         }
 
+        /// <summary>
+        /// Selects an album with a given name.
+        /// </summary>
+        /// <param name="name">The name of the album to select.</param>
+        /// <returns><c>true</c> if the album was selected successfully; otherwise <c>false</c>.</returns>
         public bool SelectAlbum(string name)
         {
             List<Album> albums = Database.GetAlbums(Conn);
@@ -445,6 +524,9 @@ namespace amp
             return false;
         }
 
+        /// <summary>
+        /// Gets a value whether it is possible to jump to the previously played song.
+        /// </summary>
         public bool CanGoPrevious => playedSongs.Count >= 2;
     }
 }
