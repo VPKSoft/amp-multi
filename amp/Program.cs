@@ -32,6 +32,7 @@ using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility;
 using amp.FormsUtility.Help;
+using amp.FormsUtility.Progress;
 using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
@@ -74,6 +75,8 @@ namespace amp
                 new FormMain();
                 // ReSharper disable once ObjectCreationAsStatement
                 new FormPsycho();
+                // ReSharper disable once ObjectCreationAsStatement
+                new FormProgressBackground();
                 // ReSharper disable once ObjectCreationAsStatement
                 new FormAddAlbum();
                 // ReSharper disable once ObjectCreationAsStatement

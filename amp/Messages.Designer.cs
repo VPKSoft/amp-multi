@@ -277,6 +277,33 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Processing files...|A message describing a possible lenghty operation with files is running..
+        /// </summary>
+        public static string msgProcessingFiles {
+            get {
+                return ResourceManager.GetString("msgProcessingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Progress: {0} %|A message describing some operation progress in percentage..
+        /// </summary>
+        public static string msgProgressPercentage {
+            get {
+                return ResourceManager.GetString("msgProgressPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Convert non-MP3 files to MP3 format?|A query to ask whether to convert files other than MP3 to MP3 format..
+        /// </summary>
+        public static string msgQueryConvertToMP3 {
+            get {
+                return ResourceManager.GetString("msgQueryConvertToMP3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Really delete album named: &apos;{0}&apos;?|A confirmation query for the user that a deletion of an album is intended..
         /// </summary>
         public static string msgQueryDeleteAlbum {

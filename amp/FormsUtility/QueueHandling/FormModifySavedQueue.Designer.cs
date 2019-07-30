@@ -34,16 +34,16 @@ namespace amp.FormsUtility.QueueHandling
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModifySavedQueue));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsbMoveUp = new System.Windows.Forms.ToolStripButton();
+            this.tsbMoveDown = new System.Windows.Forms.ToolStripButton();
+            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCopyAllFlat = new System.Windows.Forms.ToolStripButton();
             this.lvPlayList = new System.Windows.Forms.ListView();
             this.colQueueIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colSongName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bCancel = new System.Windows.Forms.Button();
             this.bOK = new System.Windows.Forms.Button();
-            this.tsbMoveUp = new System.Windows.Forms.ToolStripButton();
-            this.tsbMoveDown = new System.Windows.Forms.ToolStripButton();
-            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
-            this.tsbCopyAllFlat = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.fbdDirectory = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
             this.tlpMain.SuspendLayout();
             this.tsMain.SuspendLayout();
@@ -80,6 +80,53 @@ namespace amp.FormsUtility.QueueHandling
             this.tsMain.Size = new System.Drawing.Size(32, 128);
             this.tsMain.TabIndex = 7;
             this.tsMain.Text = "tsQueueManage";
+            // 
+            // tsbMoveUp
+            // 
+            this.tsbMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbMoveUp.Enabled = false;
+            this.tsbMoveUp.Image = global::amp.Properties.Resources.Up;
+            this.tsbMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMoveUp.Name = "tsbMoveUp";
+            this.tsbMoveUp.Size = new System.Drawing.Size(30, 20);
+            this.tsbMoveUp.Text = "Move up";
+            this.tsbMoveUp.Click += new System.EventHandler(this.tsbMoveUp_Click);
+            // 
+            // tsbMoveDown
+            // 
+            this.tsbMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbMoveDown.Enabled = false;
+            this.tsbMoveDown.Image = global::amp.Properties.Resources.Down;
+            this.tsbMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMoveDown.Name = "tsbMoveDown";
+            this.tsbMoveDown.Size = new System.Drawing.Size(30, 20);
+            this.tsbMoveDown.Text = "Move down";
+            this.tsbMoveDown.Click += new System.EventHandler(this.tsbMoveDown_Click);
+            // 
+            // tsbRemove
+            // 
+            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRemove.Image = global::amp.Properties.Resources.Delete;
+            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRemove.Name = "tsbRemove";
+            this.tsbRemove.Size = new System.Drawing.Size(30, 20);
+            this.tsbRemove.Text = "Remove from the queue";
+            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
+            // 
+            // tsbCopyAllFlat
+            // 
+            this.tsbCopyAllFlat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbCopyAllFlat.Image = global::amp.Properties.Resources.copy_all;
+            this.tsbCopyAllFlat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCopyAllFlat.Name = "tsbCopyAllFlat";
+            this.tsbCopyAllFlat.Size = new System.Drawing.Size(30, 20);
+            this.tsbCopyAllFlat.Text = "Copy songs into a single directory";
+            this.tsbCopyAllFlat.Click += new System.EventHandler(this.TsbCopyAllFlat_Click);
             // 
             // lvPlayList
             // 
@@ -131,53 +178,6 @@ namespace amp.FormsUtility.QueueHandling
             this.bOK.TabIndex = 12;
             this.bOK.Text = "OK";
             this.bOK.UseVisualStyleBackColor = true;
-            // 
-            // tsbMoveUp
-            // 
-            this.tsbMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbMoveUp.Enabled = false;
-            this.tsbMoveUp.Image = global::amp.Properties.Resources.Up;
-            this.tsbMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbMoveUp.Name = "tsbMoveUp";
-            this.tsbMoveUp.Size = new System.Drawing.Size(30, 20);
-            this.tsbMoveUp.Text = "Move up";
-            this.tsbMoveUp.Click += new System.EventHandler(this.tsbMoveUp_Click);
-            // 
-            // tsbMoveDown
-            // 
-            this.tsbMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbMoveDown.Enabled = false;
-            this.tsbMoveDown.Image = global::amp.Properties.Resources.Down;
-            this.tsbMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbMoveDown.Name = "tsbMoveDown";
-            this.tsbMoveDown.Size = new System.Drawing.Size(30, 20);
-            this.tsbMoveDown.Text = "Move down";
-            this.tsbMoveDown.Click += new System.EventHandler(this.tsbMoveDown_Click);
-            // 
-            // tsbRemove
-            // 
-            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbRemove.Image = global::amp.Properties.Resources.Delete;
-            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbRemove.Name = "tsbRemove";
-            this.tsbRemove.Size = new System.Drawing.Size(30, 20);
-            this.tsbRemove.Text = "Remove from the queue";
-            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
-            // 
-            // tsbCopyAllFlat
-            // 
-            this.tsbCopyAllFlat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbCopyAllFlat.Image = global::amp.Properties.Resources.copy_all;
-            this.tsbCopyAllFlat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbCopyAllFlat.Name = "tsbCopyAllFlat";
-            this.tsbCopyAllFlat.Size = new System.Drawing.Size(30, 20);
-            this.tsbCopyAllFlat.Text = "Copy songs into a single directory";
-            this.tsbCopyAllFlat.Click += new System.EventHandler(this.TsbCopyAllFlat_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
             // 
             // fbdDirectory
             // 

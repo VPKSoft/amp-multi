@@ -273,7 +273,20 @@ namespace amp.FormsUtility.QueueHandling
         {
             if (fbdDirectory.ShowDialog() == DialogResult.OK)
             {
-                QueueUtilities.CopyQueueFiles(queueIndex, fbdDirectory.SelectedPath, conn);
+                bool convertToMp3 =
+                    MessageBox.Show(
+                        DBLangEngine.GetMessage("msgQueryConvertToMP3",
+                            "Convert non-MP3 files to MP3 format?|A query to ask whether to convert files other than MP3 to MP3 format."),
+                        DBLangEngine.GetMessage("msgConfirmation",
+                            "Confirm|Used in a dialog title to ask for a confirmation to do something"),
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button1) == DialogResult.Yes;
+
+                QueueUtilities.RunWithDialog(this, queueIndex, fbdDirectory.SelectedPath, conn, convertToMp3,
+                    DBLangEngine.GetMessage("msgProcessingFiles",
+                        "Processing files...|A message describing a possible lengthy operation with files is running."),
+                    DBLangEngine.GetMessage("msgProgressPercentage",
+                        "Progress: {0} %|A message describing some operation progress in percentage."));
             }
         }
     }

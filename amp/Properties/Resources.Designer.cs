@@ -263,6 +263,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bar_teal {
+            get {
+                object obj = ResourceManager.GetObject("bar_teal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap copy_all {
             get {
                 object obj = ResourceManager.GetObject("copy_all", resourceCulture);

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -63,6 +64,9 @@
     <Reference Include="policy.2.0.taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged, Version=3.0.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.3.0.1\lib\net452\PropertyChanged.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -105,6 +109,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormsUtility\Progress\FormProgressBackground.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormsUtility\Progress\FormProgressBackground.designer.cs">
+      <DependentUpon>FormProgressBackground.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormsUtility\FormDatabaseUpdatingProgress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,7 +146,14 @@
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="SQLiteDatabase\DatabaseUtils\QueueUtilities.cs" />
+    <Compile Include="UtilityClasses\AudioConvert.cs" />
     <Compile Include="UtilityClasses\Constants.cs" />
+    <Compile Include="UtilityClasses\Controls\ImageProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UtilityClasses\Controls\ImageProgressBar.Designer.cs">
+      <DependentUpon>ImageProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="UtilityClasses\Gists\IpcClientServer.ExcludeLicense.cs" />
     <Compile Include="WCFRemote\IampRemote.cs" />
     <Compile Include="SQLiteDatabase\Database.cs" />
@@ -158,10 +175,10 @@
     <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\FormPsycho.cs">
+    <Compile Include="FormsUtility\Progress\FormPsycho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormPsycho.Designer.cs">
+    <Compile Include="FormsUtility\Progress\FormPsycho.Designer.cs">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsUtility\QueueHandling\FormQueueSnapshotName.cs">
@@ -224,6 +241,9 @@
     </Compile>
     <Compile Include="SQLiteDatabase\ScriptRunner.ExcludeLicense.cs" />
     <Compile Include="UtilityClasses\Settings\Settings.cs" />
+    <EmbeddedResource Include="FormsUtility\Progress\FormProgressBackground.resx">
+      <DependentUpon>FormProgressBackground.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormsUtility\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
@@ -242,7 +262,7 @@
     <EmbeddedResource Include="FormsUtility\QueueHandling\FormModifySavedQueue.resx">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormPsycho.resx">
+    <EmbeddedResource Include="FormsUtility\Progress\FormPsycho.resx">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsUtility\QueueHandling\FormQueueSnapshotName.resx">
@@ -256,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormsUtility\QueueHandling\FormSavedQueues.resx">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityClasses\Controls\ImageProgressBar.resx">
+      <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
@@ -307,6 +330,7 @@
     <None Include="Resources\education-languages.png" />
     <None Include="Resources\database-go.png" />
     <None Include="Resources\remove_album.png" />
+    <None Include="Resources\bar_teal.png" />
     <Content Include="VPKSoft.ico" />
     <None Include="Resources\copy_all.png" />
     <Content Include="todo_list.txt" />
@@ -397,6 +421,14 @@
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.5.1.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.5.1.1\build\Fody.targets'))" />
+  </Target>
+  <Import Project="..\packages\Fody.5.1.1\build\Fody.targets" Condition="Exists('..\packages\Fody.5.1.1\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

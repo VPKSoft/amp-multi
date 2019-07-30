@@ -246,4 +246,13 @@
   <data name="msgQueryDeleteAlbum" xml:space="preserve">
     <value>Really delete album named: '{0}'?|A confirmation query for the user that a deletion of an album is intended.</value>
   </data>
+  <data name="msgProcessingFiles" xml:space="preserve">
+    <value>Processing files...|A message describing a possible lenghty operation with files is running.</value>
+  </data>
+  <data name="msgProgressPercentage" xml:space="preserve">
+    <value>Progress: {0} %|A message describing some operation progress in percentage.</value>
+  </data>
+  <data name="msgQueryConvertToMP3" xml:space="preserve">
+    <value>Convert non-MP3 files to MP3 format?|A query to ask whether to convert files other than MP3 to MP3 format.</value>
+  </data>
 </root>

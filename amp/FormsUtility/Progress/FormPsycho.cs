@@ -27,7 +27,7 @@ SOFTWARE.
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.Progress
 {
     /// <summary>
     /// A form the report progress to the user.

@@ -38,6 +38,7 @@ using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility;
 using amp.FormsUtility.Help;
+using amp.FormsUtility.Progress;
 using amp.FormsUtility.QueueHandling;
 using amp.Properties;
 using amp.SQLiteDatabase;

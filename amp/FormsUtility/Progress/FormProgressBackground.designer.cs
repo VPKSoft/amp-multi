@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.Progress
 {
-    partial class FormPsycho
+    partial class FormProgressBackground
     {
         /// <summary>
         /// Required designer variable.
@@ -31,9 +31,11 @@ namespace amp.FormsUtility
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPsycho));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormProgressBackground));
             this.lbLoading = new System.Windows.Forms.Label();
             this.lbStatus = new System.Windows.Forms.Label();
+            this.btCancel = new System.Windows.Forms.Button();
+            this.pbProgress = new amp.UtilityClasses.Controls.ImageProgressBar();
             this.SuspendLayout();
             // 
             // lbLoading
@@ -54,23 +56,52 @@ namespace amp.FormsUtility
             this.lbStatus.Size = new System.Drawing.Size(353, 20);
             this.lbStatus.TabIndex = 1;
             // 
-            // FormPsycho
+            // btCancel
+            // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btCancel.Location = new System.Drawing.Point(407, 91);
+            this.btCancel.Name = "btCancel";
+            this.btCancel.Size = new System.Drawing.Size(75, 23);
+            this.btCancel.TabIndex = 2;
+            this.btCancel.Text = "Cancel";
+            this.btCancel.UseVisualStyleBackColor = true;
+            this.btCancel.Click += new System.EventHandler(this.BtCancel_Click);
+            // 
+            // pbProgress
+            // 
+            this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbProgress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbProgress.Location = new System.Drawing.Point(133, 91);
+            this.pbProgress.Margin = new System.Windows.Forms.Padding(0);
+            this.pbProgress.Maximum = 100;
+            this.pbProgress.Minimum = 0;
+            this.pbProgress.Name = "pbProgress";
+            this.pbProgress.ProgressBarImage = ((System.Drawing.Image)(resources.GetObject("pbProgress.ProgressBarImage")));
+            this.pbProgress.Size = new System.Drawing.Size(245, 25);
+            this.pbProgress.TabIndex = 4;
+            this.pbProgress.Value = 0;
+            // 
+            // FormProgressBackground
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.BackgroundImage = global::amp.Properties.Resources.loading;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(494, 94);
+            this.ClientSize = new System.Drawing.Size(494, 126);
             this.ControlBox = false;
+            this.Controls.Add(this.pbProgress);
+            this.Controls.Add(this.btCancel);
             this.Controls.Add(this.lbStatus);
             this.Controls.Add(this.lbLoading);
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FormPsycho";
+            this.Name = "FormProgressBackground";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Shown += new System.EventHandler(this.FormProgressBackground_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -80,5 +111,7 @@ namespace amp.FormsUtility
 
         private Label lbLoading;
         private Label lbStatus;
+        private Button btCancel;
+        private UtilityClasses.Controls.ImageProgressBar pbProgress;
     }
 }
