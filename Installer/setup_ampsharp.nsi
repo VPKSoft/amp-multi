@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.1.0.3
+!define VERSION 1.1.0.4
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -66,12 +66,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_1_0_3.exe
+OutFile setup_ampsharp_1_1_0_4.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.1.0.3
+VIProductVersion 1.1.0.4
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
