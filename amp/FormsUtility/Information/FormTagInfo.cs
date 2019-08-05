@@ -35,7 +35,7 @@ using TagLib;
 using VPKSoft.LangLib;
 using File = TagLib.File;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.Information
 {
     /// <summary>
     /// A form to display IDvX Tag information related to the music file.

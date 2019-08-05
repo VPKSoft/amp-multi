@@ -38,8 +38,11 @@ using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility;
 using amp.FormsUtility.Help;
+using amp.FormsUtility.Information;
 using amp.FormsUtility.Progress;
 using amp.FormsUtility.QueueHandling;
+using amp.FormsUtility.UserInteraction;
+using amp.FormsUtility.Visual;
 using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
@@ -431,6 +434,7 @@ namespace amp
             lbSong.Text = MFile.SongName;
 
             FormAlbumImage.Show(this, MFile, tbFind.PointToScreen(Point.Empty).Y);
+            FormAudioVisualization.ShowForm(this, FormAlbumImage.ThisInstance.Bottom + 10, true, true, true);
             DisplayPlayingSong();
         }
 
@@ -1856,6 +1860,10 @@ namespace amp
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             FormAlbumImage.Reposition(this, tbFind.PointToScreen(Point.Empty).Y);
+            if (FormAlbumImage.ThisInstance != null)
+            {
+                FormAudioVisualization.Reposition(this, FormAlbumImage.ThisInstance.Bottom + 10);
+            }
         }
 
         // saves the current queue snapshot into the database..

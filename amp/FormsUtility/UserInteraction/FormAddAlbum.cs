@@ -28,7 +28,7 @@ using System;
 using System.Windows.Forms;
 using VPKSoft.LangLib;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.UserInteraction
 {
     /// <summary>
     /// A dialog for adding new albums to the database.

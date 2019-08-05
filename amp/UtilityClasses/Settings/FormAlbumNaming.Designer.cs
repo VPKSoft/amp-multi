@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace amp.FormsUtility
+namespace amp.UtilityClasses.Settings
 {
     partial class FormAlbumNaming
     {

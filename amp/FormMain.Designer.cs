@@ -72,7 +72,6 @@ namespace amp
             this.sdM3U = new System.Windows.Forms.SaveFileDialog();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lbSong = new System.Windows.Forms.Label();
-            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.lbTime = new System.Windows.Forms.Label();
             this.tbFind = new System.Windows.Forms.TextBox();
             this.scProgress = new System.Windows.Forms.HScrollBar();
@@ -83,6 +82,7 @@ namespace amp
             this.pnVol2 = new System.Windows.Forms.Panel();
             this.tmPendOperation = new System.Windows.Forms.Timer(this.components);
             this.tmIPCFiles = new System.Windows.Forms.Timer(this.components);
+            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.menuStrip1.SuspendLayout();
             this.tbTool.SuspendLayout();
             this.ssStatus.SuspendLayout();
@@ -460,25 +460,6 @@ namespace amp
             this.lbSong.TabIndex = 11;
             this.lbSong.Text = "-";
             // 
-            // lbMusic
-            // 
-            this.lbMusic.AllowDrop = true;
-            this.lbMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
-            this.lbMusic.FormattingEnabled = true;
-            this.lbMusic.Location = new System.Drawing.Point(3, 114);
-            this.lbMusic.Name = "lbMusic";
-            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(543, 212);
-            this.lbMusic.TabIndex = 14;
-            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
-            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
-            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
-            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
-            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
-            // 
             // lbTime
             // 
             this.lbTime.AutoSize = true;
@@ -580,6 +561,25 @@ namespace amp
             // 
             this.tmIPCFiles.Interval = 1000;
             this.tmIPCFiles.Tick += new System.EventHandler(this.TmIPCFiles_Tick);
+            // 
+            // lbMusic
+            // 
+            this.lbMusic.AllowDrop = true;
+            this.lbMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
+            this.lbMusic.FormattingEnabled = true;
+            this.lbMusic.Location = new System.Drawing.Point(3, 114);
+            this.lbMusic.Name = "lbMusic";
+            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbMusic.Size = new System.Drawing.Size(543, 212);
+            this.lbMusic.TabIndex = 14;
+            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
+            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
+            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
+            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
+            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
             // 
             // FormMain
             // 

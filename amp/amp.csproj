@@ -89,6 +89,9 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="VPKSoft.AudioVisualization, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.AudioVisualization.1.0.0.2\lib\net47\VPKSoft.AudioVisualization.dll</HintPath>
+    </Reference>
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.5\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
@@ -115,16 +118,22 @@
     <Compile Include="FormsUtility\Progress\FormProgressBackground.designer.cs">
       <DependentUpon>FormProgressBackground.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\FormDatabaseUpdatingProgress.cs">
+    <Compile Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormDatabaseUpdatingProgress.designer.cs">
+    <Compile Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\FormAlbumNaming.cs">
+    <Compile Include="FormsUtility\Visual\FormAudioVisualization.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormAlbumNaming.Designer.cs">
+    <Compile Include="FormsUtility\Visual\FormAudioVisualization.Designer.cs">
+      <DependentUpon>FormAudioVisualization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilityClasses\Settings\FormAlbumNaming.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UtilityClasses\Settings\FormAlbumNaming.Designer.cs">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsUtility\Help\FormHelp.cs">
@@ -139,10 +148,10 @@
     <Compile Include="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\FormTagInfo.cs">
+    <Compile Include="FormsUtility\Information\FormTagInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormTagInfo.Designer.cs">
+    <Compile Include="FormsUtility\Information\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="SQLiteDatabase\DatabaseUtils\QueueUtilities.cs" />
@@ -157,16 +166,16 @@
     <Compile Include="UtilityClasses\Gists\IpcClientServer.ExcludeLicense.cs" />
     <Compile Include="WCFRemote\IampRemote.cs" />
     <Compile Include="SQLiteDatabase\Database.cs" />
-    <Compile Include="FormsUtility\FormAddAlbum.cs">
+    <Compile Include="FormsUtility\UserInteraction\FormAddAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormAddAlbum.Designer.cs">
+    <Compile Include="FormsUtility\UserInteraction\FormAddAlbum.Designer.cs">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\FormAlbumImage.cs">
+    <Compile Include="FormsUtility\Visual\FormAlbumImage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\FormAlbumImage.Designer.cs">
+    <Compile Include="FormsUtility\Visual\FormAlbumImage.Designer.cs">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.cs">
@@ -244,16 +253,19 @@
     <EmbeddedResource Include="FormsUtility\Progress\FormProgressBackground.resx">
       <DependentUpon>FormProgressBackground.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormDatabaseUpdatingProgress.resx">
+    <EmbeddedResource Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormAddAlbum.resx">
+    <EmbeddedResource Include="FormsUtility\UserInteraction\FormAddAlbum.resx">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormAlbumImage.resx">
+    <EmbeddedResource Include="FormsUtility\Visual\FormAlbumImage.resx">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormAlbumNaming.resx">
+    <EmbeddedResource Include="FormsUtility\Visual\FormAudioVisualization.resx">
+      <DependentUpon>FormAudioVisualization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UtilityClasses\Settings\FormAlbumNaming.resx">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsUtility\Help\FormHelp.resx">
@@ -283,7 +295,7 @@
     <EmbeddedResource Include="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\FormTagInfo.resx">
+    <EmbeddedResource Include="FormsUtility\Information\FormTagInfo.resx">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">

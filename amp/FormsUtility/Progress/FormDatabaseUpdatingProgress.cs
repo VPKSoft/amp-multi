@@ -35,7 +35,7 @@ using amp.UtilityClasses;
 using VPKSoft.LangLib;
 using VPKSoft.ScriptRunner;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.Progress
 {
     /// <summary>
     /// A form for displaying progress for a lengthy operation with the database.

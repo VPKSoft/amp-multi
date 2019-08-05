@@ -62,17 +62,33 @@ namespace amp.UtilityClasses.Settings
             this.btnModifiedRandomization = new System.Windows.Forms.Button();
             this.btAlbumNaming = new System.Windows.Forms.Button();
             this.cbCheckUpdatesStartup = new System.Windows.Forms.CheckBox();
+            this.tcMain = new System.Windows.Forms.TabControl();
+            this.tpMain = new System.Windows.Forms.TabPage();
+            this.tpAdditional = new System.Windows.Forms.TabPage();
+            this.gbAudioVisualizationWindow = new System.Windows.Forms.GroupBox();
+            this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
+            this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
+            this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
+            this.lbVisualizationWindowSize = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
             this.gpRemoteControl.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.tcMain.SuspendLayout();
+            this.tpMain.SuspendLayout();
+            this.tpAdditional.SuspendLayout();
+            this.gbAudioVisualizationWindow.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
             // 
             this.cbQuietHours.AutoSize = true;
-            this.cbQuietHours.Location = new System.Drawing.Point(12, 31);
+            this.cbQuietHours.Location = new System.Drawing.Point(6, 6);
             this.cbQuietHours.Name = "cbQuietHours";
             this.cbQuietHours.Size = new System.Drawing.Size(120, 17);
             this.cbQuietHours.TabIndex = 0;
@@ -82,7 +98,7 @@ namespace amp.UtilityClasses.Settings
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(127, 54);
+            this.label1.Location = new System.Drawing.Point(121, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(13, 13);
             this.label1.TabIndex = 2;
@@ -92,7 +108,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.dtpFrom.CustomFormat = "HH\':\'mm";
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(12, 54);
+            this.dtpFrom.Location = new System.Drawing.Point(6, 29);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.ShowUpDown = true;
             this.dtpFrom.Size = new System.Drawing.Size(92, 20);
@@ -102,7 +118,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.dtpTo.CustomFormat = "HH\':\'mm";
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(164, 54);
+            this.dtpTo.Location = new System.Drawing.Point(158, 29);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.ShowUpDown = true;
             this.dtpTo.Size = new System.Drawing.Size(92, 20);
@@ -116,9 +132,9 @@ namespace amp.UtilityClasses.Settings
             this.gpVolumeSetting.Controls.Add(this.nudQuietHourPercentage);
             this.gpVolumeSetting.Controls.Add(this.rbDecreaseVolumeQuietHours);
             this.gpVolumeSetting.Controls.Add(this.rbPauseQuiet);
-            this.gpVolumeSetting.Location = new System.Drawing.Point(12, 80);
+            this.gpVolumeSetting.Location = new System.Drawing.Point(6, 55);
             this.gpVolumeSetting.Name = "gpVolumeSetting";
-            this.gpVolumeSetting.Size = new System.Drawing.Size(245, 96);
+            this.gpVolumeSetting.Size = new System.Drawing.Size(244, 96);
             this.gpVolumeSetting.TabIndex = 6;
             this.gpVolumeSetting.TabStop = false;
             // 
@@ -166,7 +182,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(12, 476);
+            this.bCancel.Location = new System.Drawing.Point(13, 507);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -176,7 +192,7 @@ namespace amp.UtilityClasses.Settings
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(182, 476);
+            this.bOK.Location = new System.Drawing.Point(199, 507);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -207,7 +223,7 @@ namespace amp.UtilityClasses.Settings
             // lbLatency
             // 
             this.lbLatency.AutoSize = true;
-            this.lbLatency.Location = new System.Drawing.Point(9, 319);
+            this.lbLatency.Location = new System.Drawing.Point(3, 294);
             this.lbLatency.Name = "lbLatency";
             this.lbLatency.Size = new System.Drawing.Size(76, 13);
             this.lbLatency.TabIndex = 14;
@@ -215,7 +231,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // nudLatency
             // 
-            this.nudLatency.Location = new System.Drawing.Point(184, 317);
+            this.nudLatency.Location = new System.Drawing.Point(178, 292);
             this.nudLatency.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -252,7 +268,7 @@ namespace amp.UtilityClasses.Settings
             this.gpRemoteControl.Controls.Add(this.tbRemoteControlURI);
             this.gpRemoteControl.Controls.Add(this.btAssignRemoteControlURI);
             this.gpRemoteControl.Controls.Add(this.lbRemoteControlURIVValue);
-            this.gpRemoteControl.Location = new System.Drawing.Point(12, 182);
+            this.gpRemoteControl.Location = new System.Drawing.Point(6, 157);
             this.gpRemoteControl.Name = "gpRemoteControl";
             this.gpRemoteControl.Size = new System.Drawing.Size(244, 125);
             this.gpRemoteControl.TabIndex = 17;
@@ -280,7 +296,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // tbTestQuietHour
             // 
-            this.tbTestQuietHour.Location = new System.Drawing.Point(281, 200);
+            this.tbTestQuietHour.Location = new System.Drawing.Point(298, 206);
             this.tbTestQuietHour.Multiline = true;
             this.tbTestQuietHour.Name = "tbTestQuietHour";
             this.tbTestQuietHour.Size = new System.Drawing.Size(269, 161);
@@ -288,7 +304,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // btnTestQuietHour
             // 
-            this.btnTestQuietHour.Location = new System.Drawing.Point(281, 171);
+            this.btnTestQuietHour.Location = new System.Drawing.Point(298, 177);
             this.btnTestQuietHour.Name = "btnTestQuietHour";
             this.btnTestQuietHour.Size = new System.Drawing.Size(269, 23);
             this.btnTestQuietHour.TabIndex = 20;
@@ -299,7 +315,7 @@ namespace amp.UtilityClasses.Settings
             // lbLanguage
             // 
             this.lbLanguage.AutoSize = true;
-            this.lbLanguage.Location = new System.Drawing.Point(9, 344);
+            this.lbLanguage.Location = new System.Drawing.Point(3, 319);
             this.lbLanguage.Name = "lbLanguage";
             this.lbLanguage.Size = new System.Drawing.Size(136, 13);
             this.lbLanguage.TabIndex = 21;
@@ -310,7 +326,7 @@ namespace amp.UtilityClasses.Settings
             this.cmbSelectLanguageValue.DisplayMember = "DisplayName";
             this.cmbSelectLanguageValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSelectLanguageValue.FormattingEnabled = true;
-            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(12, 365);
+            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(6, 340);
             this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
             this.cmbSelectLanguageValue.Size = new System.Drawing.Size(244, 21);
             this.cmbSelectLanguageValue.TabIndex = 22;
@@ -321,7 +337,7 @@ namespace amp.UtilityClasses.Settings
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(269, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(288, 24);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -338,7 +354,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
             this.mnuLocalization.Name = "mnuLocalization";
-            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocalization.Size = new System.Drawing.Size(159, 22);
             this.mnuLocalization.Text = "Localization";
             this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
             // 
@@ -346,7 +362,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
             this.mnuDumpLanguage.Name = "mnuDumpLanguage";
-            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
+            this.mnuDumpLanguage.Size = new System.Drawing.Size(159, 22);
             this.mnuDumpLanguage.Text = "Dumb language";
             this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
             // 
@@ -354,7 +370,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
             this.btnModifiedRandomization.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModifiedRandomization.Location = new System.Drawing.Point(12, 393);
+            this.btnModifiedRandomization.Location = new System.Drawing.Point(6, 368);
             this.btnModifiedRandomization.Name = "btnModifiedRandomization";
             this.btnModifiedRandomization.Size = new System.Drawing.Size(244, 23);
             this.btnModifiedRandomization.TabIndex = 23;
@@ -366,7 +382,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
             this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAlbumNaming.Location = new System.Drawing.Point(12, 422);
+            this.btAlbumNaming.Location = new System.Drawing.Point(6, 397);
             this.btAlbumNaming.Name = "btAlbumNaming";
             this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
             this.btAlbumNaming.TabIndex = 18;
@@ -377,12 +393,148 @@ namespace amp.UtilityClasses.Settings
             // cbCheckUpdatesStartup
             // 
             this.cbCheckUpdatesStartup.AutoSize = true;
-            this.cbCheckUpdatesStartup.Location = new System.Drawing.Point(12, 451);
+            this.cbCheckUpdatesStartup.Location = new System.Drawing.Point(6, 426);
             this.cbCheckUpdatesStartup.Name = "cbCheckUpdatesStartup";
             this.cbCheckUpdatesStartup.Size = new System.Drawing.Size(175, 17);
             this.cbCheckUpdatesStartup.TabIndex = 25;
             this.cbCheckUpdatesStartup.Text = "Check for updates upon startup";
             this.cbCheckUpdatesStartup.UseVisualStyleBackColor = true;
+            // 
+            // tcMain
+            // 
+            this.tcMain.Controls.Add(this.tpMain);
+            this.tcMain.Controls.Add(this.tpAdditional);
+            this.tcMain.Location = new System.Drawing.Point(12, 27);
+            this.tcMain.Name = "tcMain";
+            this.tcMain.SelectedIndex = 0;
+            this.tcMain.Size = new System.Drawing.Size(266, 474);
+            this.tcMain.TabIndex = 26;
+            // 
+            // tpMain
+            // 
+            this.tpMain.Controls.Add(this.cbQuietHours);
+            this.tpMain.Controls.Add(this.cbCheckUpdatesStartup);
+            this.tpMain.Controls.Add(this.dtpFrom);
+            this.tpMain.Controls.Add(this.btnModifiedRandomization);
+            this.tpMain.Controls.Add(this.label1);
+            this.tpMain.Controls.Add(this.cmbSelectLanguageValue);
+            this.tpMain.Controls.Add(this.dtpTo);
+            this.tpMain.Controls.Add(this.lbLanguage);
+            this.tpMain.Controls.Add(this.gpVolumeSetting);
+            this.tpMain.Controls.Add(this.lbLatency);
+            this.tpMain.Controls.Add(this.nudLatency);
+            this.tpMain.Controls.Add(this.btAlbumNaming);
+            this.tpMain.Controls.Add(this.gpRemoteControl);
+            this.tpMain.Location = new System.Drawing.Point(4, 22);
+            this.tpMain.Name = "tpMain";
+            this.tpMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMain.Size = new System.Drawing.Size(258, 448);
+            this.tpMain.TabIndex = 0;
+            this.tpMain.Text = "Main";
+            this.tpMain.UseVisualStyleBackColor = true;
+            // 
+            // tpAdditional
+            // 
+            this.tpAdditional.Controls.Add(this.gbAudioVisualizationWindow);
+            this.tpAdditional.Location = new System.Drawing.Point(4, 22);
+            this.tpAdditional.Name = "tpAdditional";
+            this.tpAdditional.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAdditional.Size = new System.Drawing.Size(258, 448);
+            this.tpAdditional.TabIndex = 1;
+            this.tpAdditional.Text = "Additional";
+            this.tpAdditional.UseVisualStyleBackColor = true;
+            // 
+            // gbAudioVisualizationWindow
+            // 
+            this.gbAudioVisualizationWindow.Controls.Add(this.numericUpDown2);
+            this.gbAudioVisualizationWindow.Controls.Add(this.numericUpDown1);
+            this.gbAudioVisualizationWindow.Controls.Add(this.lbVisualizationWindowSize);
+            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationLines);
+            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationBars);
+            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationOff);
+            this.gbAudioVisualizationWindow.Location = new System.Drawing.Point(6, 6);
+            this.gbAudioVisualizationWindow.Name = "gbAudioVisualizationWindow";
+            this.gbAudioVisualizationWindow.Size = new System.Drawing.Size(246, 142);
+            this.gbAudioVisualizationWindow.TabIndex = 0;
+            this.gbAudioVisualizationWindow.TabStop = false;
+            this.gbAudioVisualizationWindow.Text = "Audio visualization";
+            // 
+            // rbAudioVisualizationLines
+            // 
+            this.rbAudioVisualizationLines.AutoSize = true;
+            this.rbAudioVisualizationLines.Location = new System.Drawing.Point(6, 65);
+            this.rbAudioVisualizationLines.Name = "rbAudioVisualizationLines";
+            this.rbAudioVisualizationLines.Size = new System.Drawing.Size(75, 17);
+            this.rbAudioVisualizationLines.TabIndex = 2;
+            this.rbAudioVisualizationLines.TabStop = true;
+            this.rbAudioVisualizationLines.Text = "Line graph";
+            this.rbAudioVisualizationLines.UseVisualStyleBackColor = true;
+            // 
+            // rbAudioVisualizationBars
+            // 
+            this.rbAudioVisualizationBars.AutoSize = true;
+            this.rbAudioVisualizationBars.Location = new System.Drawing.Point(6, 42);
+            this.rbAudioVisualizationBars.Name = "rbAudioVisualizationBars";
+            this.rbAudioVisualizationBars.Size = new System.Drawing.Size(71, 17);
+            this.rbAudioVisualizationBars.TabIndex = 1;
+            this.rbAudioVisualizationBars.TabStop = true;
+            this.rbAudioVisualizationBars.Text = "Bar graph";
+            this.rbAudioVisualizationBars.UseVisualStyleBackColor = true;
+            // 
+            // rbAudioVisualizationOff
+            // 
+            this.rbAudioVisualizationOff.AutoSize = true;
+            this.rbAudioVisualizationOff.Location = new System.Drawing.Point(6, 19);
+            this.rbAudioVisualizationOff.Name = "rbAudioVisualizationOff";
+            this.rbAudioVisualizationOff.Size = new System.Drawing.Size(39, 17);
+            this.rbAudioVisualizationOff.TabIndex = 0;
+            this.rbAudioVisualizationOff.TabStop = true;
+            this.rbAudioVisualizationOff.Text = "Off";
+            this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
+            // 
+            // lbVisualizationWindowSize
+            // 
+            this.lbVisualizationWindowSize.AutoSize = true;
+            this.lbVisualizationWindowSize.Location = new System.Drawing.Point(6, 94);
+            this.lbVisualizationWindowSize.Name = "lbVisualizationWindowSize";
+            this.lbVisualizationWindowSize.Size = new System.Drawing.Size(128, 13);
+            this.lbVisualizationWindowSize.TabIndex = 3;
+            this.lbVisualizationWindowSize.Text = "Visualization window size:";
+            this.lbVisualizationWindowSize.Click += new System.EventHandler(this.Label2_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(6, 110);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(96, 20);
+            this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            450,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(144, 110);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(96, 20);
+            this.numericUpDown2.TabIndex = 5;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             // 
             // FormSettings
             // 
@@ -390,24 +542,12 @@ namespace amp.UtilityClasses.Settings
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(269, 509);
-            this.Controls.Add(this.cbCheckUpdatesStartup);
-            this.Controls.Add(this.btnModifiedRandomization);
-            this.Controls.Add(this.cmbSelectLanguageValue);
-            this.Controls.Add(this.lbLanguage);
+            this.ClientSize = new System.Drawing.Size(288, 547);
+            this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnTestQuietHour);
             this.Controls.Add(this.tbTestQuietHour);
-            this.Controls.Add(this.btAlbumNaming);
-            this.Controls.Add(this.gpRemoteControl);
-            this.Controls.Add(this.nudLatency);
-            this.Controls.Add(this.lbLatency);
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bOK);
-            this.Controls.Add(this.gpVolumeSetting);
-            this.Controls.Add(this.dtpTo);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.dtpFrom);
-            this.Controls.Add(this.cbQuietHours);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -427,6 +567,14 @@ namespace amp.UtilityClasses.Settings
             this.gpRemoteControl.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tcMain.ResumeLayout(false);
+            this.tpMain.ResumeLayout(false);
+            this.tpMain.PerformLayout();
+            this.tpAdditional.ResumeLayout(false);
+            this.gbAudioVisualizationWindow.ResumeLayout(false);
+            this.gbAudioVisualizationWindow.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -464,5 +612,15 @@ namespace amp.UtilityClasses.Settings
         private ToolStripMenuItem mnuLocalization;
         private ToolStripMenuItem mnuDumpLanguage;
         private CheckBox cbCheckUpdatesStartup;
+        private TabControl tcMain;
+        private TabPage tpMain;
+        private TabPage tpAdditional;
+        private GroupBox gbAudioVisualizationWindow;
+        private RadioButton rbAudioVisualizationLines;
+        private RadioButton rbAudioVisualizationBars;
+        private RadioButton rbAudioVisualizationOff;
+        private Label lbVisualizationWindowSize;
+        private NumericUpDown numericUpDown2;
+        private NumericUpDown numericUpDown1;
     }
 }

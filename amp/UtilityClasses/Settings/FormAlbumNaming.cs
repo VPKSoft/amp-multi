@@ -27,11 +27,9 @@ SOFTWARE.
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using amp.UtilityClasses;
-using amp.UtilityClasses.Settings;
 using VPKSoft.LangLib;
 
-namespace amp.FormsUtility
+namespace amp.UtilityClasses.Settings
 {
     /// <summary>
     /// A form form creating instructions for how to display a music file in the playlist box.

@@ -1,4 +1,4 @@
-﻿namespace amp.FormsUtility
+﻿namespace amp.FormsUtility.Progress
 {
     partial class FormDatabaseUpdatingProgress
     {

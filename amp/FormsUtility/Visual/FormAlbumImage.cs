@@ -32,7 +32,7 @@ using amp.UtilityClasses;
 using TagLib;
 using VPKSoft.LangLib;
 
-namespace amp.FormsUtility
+namespace amp.FormsUtility.Visual
 {
     /// <summary>
     /// A floating form to display the album image of the currently playing song.

@@ -305,5 +305,10 @@ namespace amp.UtilityClasses.Settings
                 ExceptionLogger.LogError(ex, "Localization dump");
             }
         }
+
+        private void Label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
