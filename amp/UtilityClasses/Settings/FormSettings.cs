@@ -31,7 +31,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using amp.FormsUtility;
 using amp.FormsUtility.Random;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
@@ -94,6 +93,10 @@ namespace amp.UtilityClasses.Settings
             FormMain.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
             FormMain.AutoCheckUpdates = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
             FormMain.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
+
+            FormMain.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
+            FormMain.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
+            FormMain.AudioVisualizationCombineChannels = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
         }
 
 
@@ -167,6 +170,9 @@ namespace amp.UtilityClasses.Settings
             vnml["remote", "uri"] = tbRemoteControlURI.Text;
             vnml["latency", "value"] = (int)nudLatency.Value;
             vnml["remote", "enabled"] = cbRemoteControlEnabled.Checked;
+            vnml["visualizeAudio", "type"] = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
+            vnml["visualizeAudio", "percentage"] = (int) nudAudioVisualizationSize.Value;
+            vnml["visualizeAudio", "combineChannels"] = cbAudioVisualizationCombineChannels.Checked;
 
             // the user decides if an internet request is allowed..
             vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
@@ -198,6 +204,18 @@ namespace amp.UtilityClasses.Settings
             tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
             nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
             cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+
+            switch (Convert.ToInt32(vnml["visualizeAudio", "type", 0]))
+            {
+                case 0: rbAudioVisualizationOff.Checked = true; break;
+                case 1: rbAudioVisualizationBars.Checked = true; break;
+                case 2: rbAudioVisualizationLines.Checked = true; break;
+                default: rbAudioVisualizationOff.Checked = true; break;
+            }
+
+            nudAudioVisualizationSize.Value = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
+
+            cbAudioVisualizationCombineChannels.Checked = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
 
             // the user decides if an internet request is allowed..
             cbCheckUpdatesStartup.Checked = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
@@ -306,9 +324,10 @@ namespace amp.UtilityClasses.Settings
             }
         }
 
-        private void Label2_Click(object sender, EventArgs e)
+        private void RbAudioVisualization_CheckedChanged(object sender, EventArgs e)
         {
-
+            var radioButton = (RadioButton) sender;
+            gbAudioVisualizationStyle.Tag = radioButton.Tag;
         }
     }
 }

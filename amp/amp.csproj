@@ -124,12 +124,6 @@
     <Compile Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Visual\FormAudioVisualization.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormsUtility\Visual\FormAudioVisualization.Designer.cs">
-      <DependentUpon>FormAudioVisualization.cs</DependentUpon>
-    </Compile>
     <Compile Include="UtilityClasses\Settings\FormAlbumNaming.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,9 +255,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormsUtility\Visual\FormAlbumImage.resx">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Visual\FormAudioVisualization.resx">
-      <DependentUpon>FormAudioVisualization.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UtilityClasses\Settings\FormAlbumNaming.resx">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>

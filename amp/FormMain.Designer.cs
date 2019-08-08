@@ -21,6 +21,7 @@ namespace amp
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -71,6 +72,7 @@ namespace amp
             this.odM3U = new System.Windows.Forms.OpenFileDialog();
             this.sdM3U = new System.Windows.Forms.SaveFileDialog();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.lbSong = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
             this.tbFind = new System.Windows.Forms.TextBox();
@@ -80,9 +82,11 @@ namespace amp
             this.pnStars1 = new System.Windows.Forms.Panel();
             this.pnVol1 = new System.Windows.Forms.Panel();
             this.pnVol2 = new System.Windows.Forms.Panel();
+            this.pnAudioVisualizationMain = new System.Windows.Forms.Panel();
+            this.avBars = new VPKSoft.AudioVisualization.AudioVisualizationBars();
+            this.avLine = new VPKSoft.AudioVisualization.AudioVisualizationPlot();
             this.tmPendOperation = new System.Windows.Forms.Timer(this.components);
             this.tmIPCFiles = new System.Windows.Forms.Timer(this.components);
-            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.menuStrip1.SuspendLayout();
             this.tbTool.SuspendLayout();
             this.ssStatus.SuspendLayout();
@@ -90,6 +94,7 @@ namespace amp
             this.pnTools.SuspendLayout();
             this.pnStars0.SuspendLayout();
             this.pnVol1.SuspendLayout();
+            this.pnAudioVisualizationMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // tmSeek
@@ -429,23 +434,42 @@ namespace amp
             this.tlpMain.ColumnCount = 2;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpMain.Controls.Add(this.lbSong, 0, 1);
             this.tlpMain.Controls.Add(this.lbMusic, 0, 4);
+            this.tlpMain.Controls.Add(this.lbSong, 0, 1);
             this.tlpMain.Controls.Add(this.lbTime, 1, 1);
             this.tlpMain.Controls.Add(this.tbFind, 0, 3);
             this.tlpMain.Controls.Add(this.scProgress, 0, 2);
             this.tlpMain.Controls.Add(this.pnTools, 0, 0);
+            this.tlpMain.Controls.Add(this.pnAudioVisualizationMain, 0, 5);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 61);
             this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 5;
+            this.tlpMain.RowCount = 6;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tlpMain.Size = new System.Drawing.Size(549, 335);
             this.tlpMain.TabIndex = 12;
+            // 
+            // lbMusic
+            // 
+            this.lbMusic.AllowDrop = true;
+            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
+            this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMusic.FormattingEnabled = true;
+            this.lbMusic.Location = new System.Drawing.Point(3, 114);
+            this.lbMusic.Name = "lbMusic";
+            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbMusic.Size = new System.Drawing.Size(543, 184);
+            this.lbMusic.TabIndex = 14;
+            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
+            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
+            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
+            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
+            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
             // 
             // lbSong
             // 
@@ -552,6 +576,53 @@ namespace amp
             this.pnVol2.TabIndex = 0;
             this.pnVol2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnVol1_MouseClick);
             // 
+            // pnAudioVisualizationMain
+            // 
+            this.tlpMain.SetColumnSpan(this.pnAudioVisualizationMain, 2);
+            this.pnAudioVisualizationMain.Controls.Add(this.avBars);
+            this.pnAudioVisualizationMain.Controls.Add(this.avLine);
+            this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 301);
+            this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
+            this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
+            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(549, 34);
+            this.pnAudioVisualizationMain.TabIndex = 15;
+            // 
+            // avBars
+            // 
+            this.avBars.ColorAudioChannelLeft = System.Drawing.Color.Aqua;
+            this.avBars.ColorAudioChannelRight = System.Drawing.Color.LimeGreen;
+            this.avBars.ColorGradientLeftEnd = System.Drawing.Color.DarkGreen;
+            this.avBars.ColorGradientLeftStart = System.Drawing.Color.SpringGreen;
+            this.avBars.ColorGradientRightEnd = System.Drawing.Color.MidnightBlue;
+            this.avBars.ColorGradientRightStart = System.Drawing.Color.LightSteelBlue;
+            this.avBars.ColorHertzLabels = System.Drawing.Color.Magenta;
+            this.avBars.CombineChannels = false;
+            this.avBars.DisplayHertzLabels = false;
+            this.avBars.DrawWithGradient = true;
+            this.avBars.HertzSpan = 92;
+            this.avBars.Location = new System.Drawing.Point(12, 3);
+            this.avBars.MinorityCropPercentage = 3;
+            this.avBars.Name = "avBars";
+            this.avBars.RefreshRate = 30;
+            this.avBars.Size = new System.Drawing.Size(402, 10);
+            this.avBars.TabIndex = 10;
+            // 
+            // avLine
+            // 
+            this.avLine.ColorAudioChannelLeft = System.Drawing.Color.Aqua;
+            this.avLine.ColorAudioChannelRight = System.Drawing.Color.LimeGreen;
+            this.avLine.ColorHertzLabels = System.Drawing.Color.Magenta;
+            this.avLine.CombineChannels = false;
+            this.avLine.DisplayHertzLabels = false;
+            this.avLine.Location = new System.Drawing.Point(34, 19);
+            this.avLine.MinorityCropPercentage = 2;
+            this.avLine.Name = "avLine";
+            this.avLine.RefreshRate = 30;
+            this.avLine.Size = new System.Drawing.Size(402, 10);
+            this.avLine.TabIndex = 9;
+            this.avLine.UseAntiAliasing = true;
+            // 
             // tmPendOperation
             // 
             this.tmPendOperation.Interval = 1000;
@@ -561,25 +632,6 @@ namespace amp
             // 
             this.tmIPCFiles.Interval = 1000;
             this.tmIPCFiles.Tick += new System.EventHandler(this.TmIPCFiles_Tick);
-            // 
-            // lbMusic
-            // 
-            this.lbMusic.AllowDrop = true;
-            this.lbMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
-            this.lbMusic.FormattingEnabled = true;
-            this.lbMusic.Location = new System.Drawing.Point(3, 114);
-            this.lbMusic.Name = "lbMusic";
-            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(543, 212);
-            this.lbMusic.TabIndex = 14;
-            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
-            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
-            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
-            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
-            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
             // 
             // FormMain
             // 
@@ -609,6 +661,7 @@ namespace amp
             this.pnTools.ResumeLayout(false);
             this.pnStars0.ResumeLayout(false);
             this.pnVol1.ResumeLayout(false);
+            this.pnAudioVisualizationMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -665,6 +718,9 @@ namespace amp
         private Timer tmIPCFiles;
         private ToolStripMenuItem mnuSaveAlbumAs;
         private ToolStripMenuItem mnuDeleteAlbum;
+        private Panel pnAudioVisualizationMain;
+        private VPKSoft.AudioVisualization.AudioVisualizationBars avBars;
+        private VPKSoft.AudioVisualization.AudioVisualizationPlot avLine;
     }
 }
 

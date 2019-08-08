@@ -36,7 +36,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using amp.FormsUtility;
 using amp.FormsUtility.Help;
 using amp.FormsUtility.Information;
 using amp.FormsUtility.Progress;
@@ -139,6 +138,21 @@ namespace amp
         public static string QuietHoursFrom = "08:00";
 
         /// <summary>
+        /// The audio visualization style.
+        /// </summary>
+        public static int AudioVisualizationStyle = 0;
+
+        /// <summary>
+        /// The percentage the audio visualization should take from the main form's playlist area.
+        /// </summary>
+        public static int AudioVisualizationVisualPercentage = 15;
+
+        /// <summary>
+        /// A value indicating whether the audio visualization should combine the channels into a single view.
+        /// </summary>
+        public static bool AudioVisualizationCombineChannels = false;
+
+        /// <summary>
         /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
         /// </summary>
         public static string QuietHoursTo = "23:00";
@@ -213,6 +227,42 @@ namespace amp
             tmPendOperation.Enabled = true;
             FormSettings.SetMainWindowSettings();
             AmpRemote.MainWindow = this;
+
+            SetAudioVisualization();
+        }
+
+        /// <summary>
+        /// Sets the audio visualization based on the settings.
+        /// </summary>
+        private void SetAudioVisualization()
+        {
+            // set the audio visualization panel row style if used..
+            tlpMain.RowStyles[5].Height = AudioVisualizationStyle == 0 ? 0 : AudioVisualizationVisualPercentage;
+            tlpMain.RowStyles[4].Height = AudioVisualizationStyle == 0 ? 100 : 100 - AudioVisualizationVisualPercentage;
+
+            if (AudioVisualizationStyle == 0)
+            {
+                avBars.Visible = false;
+                avLine.Visible = false;
+            }
+            else if (AudioVisualizationStyle == 1)
+            {
+                avBars.Visible = true;
+                avLine.Visible = false;
+                avBars.Dock = DockStyle.Fill;
+                avBars.Start();
+                avLine.Stop();
+                avBars.CombineChannels = AudioVisualizationCombineChannels;
+            }
+            else if (AudioVisualizationStyle == 2)
+            {
+                avBars.Visible = false;
+                avLine.Visible = true;
+                avLine.Dock = DockStyle.Fill;
+                avLine.Start();
+                avBars.Stop();
+                avLine.CombineChannels = AudioVisualizationCombineChannels;
+            }
         }
 
         /// <summary>
@@ -434,7 +484,6 @@ namespace amp
             lbSong.Text = MFile.SongName;
 
             FormAlbumImage.Show(this, MFile, tbFind.PointToScreen(Point.Empty).Y);
-            FormAudioVisualization.ShowForm(this, FormAlbumImage.ThisInstance.Bottom + 10, true, true, true);
             DisplayPlayingSong();
         }
 
@@ -1860,10 +1909,6 @@ namespace amp
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             FormAlbumImage.Reposition(this, tbFind.PointToScreen(Point.Empty).Y);
-            if (FormAlbumImage.ThisInstance != null)
-            {
-                FormAudioVisualization.Reposition(this, FormAlbumImage.ThisInstance.Bottom + 10);
-            }
         }
 
         // saves the current queue snapshot into the database..
@@ -1913,6 +1958,7 @@ namespace amp
             new FormSettings().ShowDialog();
             lbMusic.RefreshItems(); // the naming might have been changed..
             TextInvoker();
+            SetAudioVisualization();
         }
 
         // displays information about the current song..

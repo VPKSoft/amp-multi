@@ -65,13 +65,14 @@ namespace amp.UtilityClasses.Settings
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMain = new System.Windows.Forms.TabPage();
             this.tpAdditional = new System.Windows.Forms.TabPage();
-            this.gbAudioVisualizationWindow = new System.Windows.Forms.GroupBox();
+            this.gbAudioVisualizationStyle = new System.Windows.Forms.GroupBox();
+            this.lbAudioVisualizationSizePercentage = new System.Windows.Forms.Label();
+            this.nudAudioVisualizationSize = new System.Windows.Forms.NumericUpDown();
+            this.lbVisualizationWindowSize = new System.Windows.Forms.Label();
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.lbVisualizationWindowSize = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.cbAudioVisualizationCombineChannels = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -80,9 +81,8 @@ namespace amp.UtilityClasses.Settings
             this.tcMain.SuspendLayout();
             this.tpMain.SuspendLayout();
             this.tpAdditional.SuspendLayout();
-            this.gbAudioVisualizationWindow.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.gbAudioVisualizationStyle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
@@ -435,7 +435,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // tpAdditional
             // 
-            this.tpAdditional.Controls.Add(this.gbAudioVisualizationWindow);
+            this.tpAdditional.Controls.Add(this.gbAudioVisualizationStyle);
             this.tpAdditional.Location = new System.Drawing.Point(4, 22);
             this.tpAdditional.Name = "tpAdditional";
             this.tpAdditional.Padding = new System.Windows.Forms.Padding(3);
@@ -444,20 +444,56 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
             // 
-            // gbAudioVisualizationWindow
+            // gbAudioVisualizationStyle
             // 
-            this.gbAudioVisualizationWindow.Controls.Add(this.numericUpDown2);
-            this.gbAudioVisualizationWindow.Controls.Add(this.numericUpDown1);
-            this.gbAudioVisualizationWindow.Controls.Add(this.lbVisualizationWindowSize);
-            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationLines);
-            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationBars);
-            this.gbAudioVisualizationWindow.Controls.Add(this.rbAudioVisualizationOff);
-            this.gbAudioVisualizationWindow.Location = new System.Drawing.Point(6, 6);
-            this.gbAudioVisualizationWindow.Name = "gbAudioVisualizationWindow";
-            this.gbAudioVisualizationWindow.Size = new System.Drawing.Size(246, 142);
-            this.gbAudioVisualizationWindow.TabIndex = 0;
-            this.gbAudioVisualizationWindow.TabStop = false;
-            this.gbAudioVisualizationWindow.Text = "Audio visualization";
+            this.gbAudioVisualizationStyle.Controls.Add(this.cbAudioVisualizationCombineChannels);
+            this.gbAudioVisualizationStyle.Controls.Add(this.lbAudioVisualizationSizePercentage);
+            this.gbAudioVisualizationStyle.Controls.Add(this.nudAudioVisualizationSize);
+            this.gbAudioVisualizationStyle.Controls.Add(this.lbVisualizationWindowSize);
+            this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationLines);
+            this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationBars);
+            this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationOff);
+            this.gbAudioVisualizationStyle.Location = new System.Drawing.Point(6, 6);
+            this.gbAudioVisualizationStyle.Name = "gbAudioVisualizationStyle";
+            this.gbAudioVisualizationStyle.Size = new System.Drawing.Size(246, 189);
+            this.gbAudioVisualizationStyle.TabIndex = 0;
+            this.gbAudioVisualizationStyle.TabStop = false;
+            this.gbAudioVisualizationStyle.Tag = "0";
+            this.gbAudioVisualizationStyle.Text = "Audio visualization";
+            // 
+            // lbAudioVisualizationSizePercentage
+            // 
+            this.lbAudioVisualizationSizePercentage.AutoSize = true;
+            this.lbAudioVisualizationSizePercentage.Location = new System.Drawing.Point(108, 134);
+            this.lbAudioVisualizationSizePercentage.Name = "lbAudioVisualizationSizePercentage";
+            this.lbAudioVisualizationSizePercentage.Size = new System.Drawing.Size(15, 13);
+            this.lbAudioVisualizationSizePercentage.TabIndex = 5;
+            this.lbAudioVisualizationSizePercentage.Text = "%";
+            // 
+            // nudAudioVisualizationSize
+            // 
+            this.nudAudioVisualizationSize.Location = new System.Drawing.Point(6, 132);
+            this.nudAudioVisualizationSize.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.nudAudioVisualizationSize.Name = "nudAudioVisualizationSize";
+            this.nudAudioVisualizationSize.Size = new System.Drawing.Size(96, 20);
+            this.nudAudioVisualizationSize.TabIndex = 4;
+            this.nudAudioVisualizationSize.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            // 
+            // lbVisualizationWindowSize
+            // 
+            this.lbVisualizationWindowSize.Location = new System.Drawing.Point(6, 94);
+            this.lbVisualizationWindowSize.Name = "lbVisualizationWindowSize";
+            this.lbVisualizationWindowSize.Size = new System.Drawing.Size(234, 35);
+            this.lbVisualizationWindowSize.TabIndex = 3;
+            this.lbVisualizationWindowSize.Text = "Visualization size in of the main window area:";
             // 
             // rbAudioVisualizationLines
             // 
@@ -466,9 +502,10 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines.Name = "rbAudioVisualizationLines";
             this.rbAudioVisualizationLines.Size = new System.Drawing.Size(75, 17);
             this.rbAudioVisualizationLines.TabIndex = 2;
-            this.rbAudioVisualizationLines.TabStop = true;
+            this.rbAudioVisualizationLines.Tag = "2";
             this.rbAudioVisualizationLines.Text = "Line graph";
             this.rbAudioVisualizationLines.UseVisualStyleBackColor = true;
+            this.rbAudioVisualizationLines.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
             // rbAudioVisualizationBars
             // 
@@ -477,64 +514,34 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationBars.Name = "rbAudioVisualizationBars";
             this.rbAudioVisualizationBars.Size = new System.Drawing.Size(71, 17);
             this.rbAudioVisualizationBars.TabIndex = 1;
-            this.rbAudioVisualizationBars.TabStop = true;
+            this.rbAudioVisualizationBars.Tag = "1";
             this.rbAudioVisualizationBars.Text = "Bar graph";
             this.rbAudioVisualizationBars.UseVisualStyleBackColor = true;
+            this.rbAudioVisualizationBars.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
             // rbAudioVisualizationOff
             // 
             this.rbAudioVisualizationOff.AutoSize = true;
+            this.rbAudioVisualizationOff.Checked = true;
             this.rbAudioVisualizationOff.Location = new System.Drawing.Point(6, 19);
             this.rbAudioVisualizationOff.Name = "rbAudioVisualizationOff";
             this.rbAudioVisualizationOff.Size = new System.Drawing.Size(39, 17);
             this.rbAudioVisualizationOff.TabIndex = 0;
             this.rbAudioVisualizationOff.TabStop = true;
+            this.rbAudioVisualizationOff.Tag = "0";
             this.rbAudioVisualizationOff.Text = "Off";
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
+            this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // lbVisualizationWindowSize
+            // cbAudioVisualizationCombineChannels
             // 
-            this.lbVisualizationWindowSize.AutoSize = true;
-            this.lbVisualizationWindowSize.Location = new System.Drawing.Point(6, 94);
-            this.lbVisualizationWindowSize.Name = "lbVisualizationWindowSize";
-            this.lbVisualizationWindowSize.Size = new System.Drawing.Size(128, 13);
-            this.lbVisualizationWindowSize.TabIndex = 3;
-            this.lbVisualizationWindowSize.Text = "Visualization window size:";
-            this.lbVisualizationWindowSize.Click += new System.EventHandler(this.Label2_Click);
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(6, 110);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(96, 20);
-            this.numericUpDown1.TabIndex = 4;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            450,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(144, 110);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(96, 20);
-            this.numericUpDown2.TabIndex = 5;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
+            this.cbAudioVisualizationCombineChannels.AutoSize = true;
+            this.cbAudioVisualizationCombineChannels.Location = new System.Drawing.Point(6, 158);
+            this.cbAudioVisualizationCombineChannels.Name = "cbAudioVisualizationCombineChannels";
+            this.cbAudioVisualizationCombineChannels.Size = new System.Drawing.Size(113, 17);
+            this.cbAudioVisualizationCombineChannels.TabIndex = 6;
+            this.cbAudioVisualizationCombineChannels.Text = "Combine channels";
+            this.cbAudioVisualizationCombineChannels.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
@@ -571,10 +578,9 @@ namespace amp.UtilityClasses.Settings
             this.tpMain.ResumeLayout(false);
             this.tpMain.PerformLayout();
             this.tpAdditional.ResumeLayout(false);
-            this.gbAudioVisualizationWindow.ResumeLayout(false);
-            this.gbAudioVisualizationWindow.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.gbAudioVisualizationStyle.ResumeLayout(false);
+            this.gbAudioVisualizationStyle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -615,12 +621,13 @@ namespace amp.UtilityClasses.Settings
         private TabControl tcMain;
         private TabPage tpMain;
         private TabPage tpAdditional;
-        private GroupBox gbAudioVisualizationWindow;
+        private GroupBox gbAudioVisualizationStyle;
         private RadioButton rbAudioVisualizationLines;
         private RadioButton rbAudioVisualizationBars;
         private RadioButton rbAudioVisualizationOff;
         private Label lbVisualizationWindowSize;
-        private NumericUpDown numericUpDown2;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown nudAudioVisualizationSize;
+        private Label lbAudioVisualizationSizePercentage;
+        private CheckBox cbAudioVisualizationCombineChannels;
     }
 }
