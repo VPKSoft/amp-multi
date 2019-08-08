@@ -1,7 +1,7 @@
 # amp#
 A music player for common audio formats with a simple and intuitive GUI.
 
-## Screen shot
+## Screenshot
 ![image](https://user-images.githubusercontent.com/40712699/62694814-b65d7580-b9dd-11e9-82e0-cddc0335b603.png)
 
 ### Thanks to
