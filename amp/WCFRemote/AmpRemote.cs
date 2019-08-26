@@ -551,7 +551,7 @@ namespace amp.WCFRemote
         /// <returns>A list of QueueEntry class instances for the requested album.</returns>
         public List<QueueEntry> GetQueueList(string albumName)
         {
-            SQLiteConnection conn = MainWindow.Conn; // there is sill a dependency for the MainWindow..
+            SQLiteConnection conn = FormMain.Connection; // there is sill a dependency for the MainWindow..
             List<QueueEntry> queueList = new List<QueueEntry>();
             using (SQLiteCommand command = new SQLiteCommand(conn))
             {

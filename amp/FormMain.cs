@@ -104,7 +104,7 @@ namespace amp
         /// <summary>
         /// The SQLiteConnection for the database access.
         /// </summary>
-        public SQLiteConnection Conn; // database connection for the SQLite database
+        public static SQLiteConnection Connection { get; set; } // database connection for the SQLite database
 
         /// <summary>
         /// The name of a currently playing album.
@@ -294,7 +294,7 @@ namespace amp
             if (CurrentAlbum != "tmp")
             {
                 CurrentAlbum = "tmp";
-                Database.ClearTmpAlbum(ref PlayList, Conn);
+                Database.ClearTmpAlbum(ref PlayList, Connection);
                 tbShuffle.Checked = true;
                 tbRand.Checked = false;
                 tbFind.Text = string.Empty;
@@ -309,7 +309,7 @@ namespace amp
         // a user selected an album, so do open the album the user selected..
         private void SelectAlbumClick(object sender, EventArgs e)
         {
-            List<Album> albums = Database.GetAlbums(Conn);
+            List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
                 ToolStripMenuItem item = (ToolStripMenuItem) sender;
@@ -317,7 +317,7 @@ namespace amp
                 {
                     DisableChecks();
                     item.Checked = true;
-                    Database.SaveQueue(PlayList, Conn, CurrentAlbum);
+                    Database.SaveQueue(PlayList, Connection, CurrentAlbum);
                     GetAlbum(album.AlbumName);
                     return;
                 }
@@ -906,10 +906,10 @@ namespace amp
                     }
                 }
 
-                Database.AddFileToDb(addList, Conn);
+                Database.AddFileToDb(addList, Connection);
 
-                Database.GetIDsForSongs(ref addList, Conn);
-                Database.AddSongToAlbum(CurrentAlbum, addList, Conn);
+                Database.GetIDsForSongs(ref addList, Connection);
+                Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
                 context.Send(ListFiles, addList);
                 humanActivity.Enabled = true;
             }
@@ -947,10 +947,10 @@ namespace amp
                     addList.Add(mf);
                 }
             }
-            Database.AddFileToDb(addList, Conn);
+            Database.AddFileToDb(addList, Connection);
 
-            Database.GetIDsForSongs(ref addList, Conn);
-            Database.AddSongToAlbum(CurrentAlbum, addList, Conn);
+            Database.GetIDsForSongs(ref addList, Connection);
+            Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
             foreach (MusicFile mf in addList)
             {
                 lbMusic.Items.Add(mf);
@@ -1067,7 +1067,12 @@ namespace amp
             {
                 Application.DoEvents();
             }
-            Database.SaveQueue(PlayList, Conn, CurrentAlbum);
+            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+
+            using (Connection)
+            {
+                Connection.Close();
+            }
         }
 
         /// <summary>
@@ -1083,7 +1088,7 @@ namespace amp
                 FormPsycho.Execute(this);
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgLoadingAlbum", "Loading album '{0}'...|Text for loading an album (enumerating files and their tags)", name));
             }
-            Database.GetAlbum(name, ref PlayList, Conn);
+            Database.GetAlbum(name, ref PlayList, Connection);
             CurrentAlbum = name;
             if (name == "tmp")
             {
@@ -1138,7 +1143,7 @@ namespace amp
                 PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
             }
 
-            using (SQLiteCommand command = new SQLiteCommand(Conn))
+            using (SQLiteCommand command = new SQLiteCommand(Connection))
             {
                 command.CommandText = "UPDATE SONG SET NPLAYED_RAND = IFNULL(NPLAYED_RAND, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + " + (skipped ? "1" : "0") + " WHERE ID = " + mf.ID + " ";
                 command.ExecuteNonQuery();
@@ -1164,7 +1169,7 @@ namespace amp
                 PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
             }
 
-            using (SQLiteCommand command = new SQLiteCommand(Conn))
+            using (SQLiteCommand command = new SQLiteCommand(Connection))
             {
                 command.CommandText =
                     $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
@@ -1191,7 +1196,7 @@ namespace amp
                     PlayList[mfIdx].Rating = mf.Rating;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(Conn))
+                using (SQLiteCommand command = new SQLiteCommand(Connection))
                 {
                     command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
                     command.ExecuteNonQuery();
@@ -1284,7 +1289,7 @@ namespace amp
             string name = FormAddAlbum.Execute();
             if (name != string.Empty)
             {
-                ListAlbums(Database.AddNewAlbum(name, Conn));
+                ListAlbums(Database.AddNewAlbum(name, Connection));
             }
         }
 
@@ -1317,8 +1322,8 @@ namespace amp
         private void MainWindow_Shown(object sender, EventArgs e)
         {
             // ReSharper disable once StringLiteralTypo
-            Conn = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
-            Conn.Open();
+            Connection = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
+            Connection.Open();
 
             if (!ScriptRunner.RunScript(Path.Combine(DBLangEngine.DataDir, "amp.sqlite"), Path.Combine(Paths.AppInstallDir, "SQLiteDatabase", "Script.sql_script")))
             {
@@ -1334,7 +1339,7 @@ namespace amp
             }
 
             CurrentAlbum = DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album");
-            Database.AddDefaultAlbum(DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album"), Conn);
+            Database.AddDefaultAlbum(DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album"), Connection);
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -1735,7 +1740,7 @@ namespace amp
                 string name = FormAddAlbum.Execute(Path.GetFileNameWithoutExtension(odM3U.FileName));
                 if (name != string.Empty)
                 {
-                    int albumIndex = Database.AddNewAlbum(name, Conn);
+                    int albumIndex = Database.AddNewAlbum(name, Connection);
                     // ReSharper disable once InconsistentNaming
                     M3U m3u = new M3U(odM3U.FileName);
                     // ReSharper disable once InconsistentNaming
@@ -1749,9 +1754,9 @@ namespace amp
                         m3uAdd.Add(addMusicFile);
                     }
 
-                    Database.AddFileToDb(m3uAdd, Conn);
-                    Database.GetIDsForSongs(ref m3uAdd, Conn);
-                    Database.AddSongToAlbum(name, m3uAdd, Conn);
+                    Database.AddFileToDb(m3uAdd, Connection);
+                    Database.GetIDsForSongs(ref m3uAdd, Connection);
+                    Database.AddSongToAlbum(name, m3uAdd, Connection);
                     ListAlbums(albumIndex);
                     GetAlbum(name);
                 }
@@ -1775,8 +1780,8 @@ namespace amp
                     };
                     m3uAdd.Add(addMusicFile);
                 }
-                Database.GetIDsForSongs(ref m3uAdd, Conn);
-                Database.AddSongToAlbum(CurrentAlbum, m3uAdd, Conn);
+                Database.GetIDsForSongs(ref m3uAdd, Connection);
+                Database.AddSongToAlbum(CurrentAlbum, m3uAdd, Connection);
                 GetAlbum(CurrentAlbum);
             }
         }
@@ -1867,7 +1872,7 @@ namespace amp
                     {
                         MFile.Volume = volumeStream.Volume;
                     }
-                    Database.SaveVolume(MFile, Conn);
+                    Database.SaveVolume(MFile, Connection);
                 }
 
                 for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
@@ -1878,7 +1883,7 @@ namespace amp
                     {
                         PlayList[index].Volume = volume;
                         lbMusic.Items[idx] = PlayList[index];
-                        Database.SaveVolume(PlayList[index], Conn);
+                        Database.SaveVolume(PlayList[index], Connection);
                     }
                 }
             }
@@ -1925,7 +1930,7 @@ namespace amp
             string queueName = FormQueueSnapshotName.Execute(CurrentAlbum);
             if (queueName != string.Empty)
             {
-                Database.SaveQueueSnapshot(PlayList, Conn, CurrentAlbum, queueName);
+                Database.SaveQueueSnapshot(PlayList, Connection, CurrentAlbum, queueName);
             }
 
             // the alternate queue must go away..
@@ -1943,10 +1948,10 @@ namespace amp
         // loads a queue snapshot from the database..
         private void mnuLoadQueue_Click(object sender, EventArgs e)
         {
-            int qId = FormSavedQueues.Execute(CurrentAlbum, ref Conn, out bool append);
+            int qId = FormSavedQueues.Execute(CurrentAlbum, Connection, out bool append);
             if (qId != -1)
             {
-                Database.LoadQueue(ref PlayList, Conn, qId, append);
+                Database.LoadQueue(ref PlayList, Connection, qId, append);
             }
             lbMusic.RefreshItems();
             GetQueueCount();
@@ -2029,10 +2034,10 @@ namespace amp
             if (name != string.Empty)
             {
                 int id;
-                if ((id = Database.AddNewAlbum(name, Conn)) != -1)
+                if ((id = Database.AddNewAlbum(name, Connection)) != -1)
                 {
                     ListAlbums(id);
-                    Database.AddSongToAlbum(name, PlayList, Conn);
+                    Database.AddSongToAlbum(name, PlayList, Connection);
                     CurrentAlbum = name;
                     GetAlbum(CurrentAlbum);
                 }
@@ -2043,7 +2048,7 @@ namespace amp
         private void MnuDeleteAlbum_Click(object sender, EventArgs e)
         {
             if (CurrentAlbum != "tmp" &&
-                CurrentAlbum != Database.GetDefaultAlbumName(Conn))
+                CurrentAlbum != Database.GetDefaultAlbumName(Connection))
             {
                 if (MessageBox.Show(
                         DBLangEngine.GetMessage("msgQueryDeleteAlbum",
@@ -2053,9 +2058,9 @@ namespace amp
                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) ==
                     DialogResult.Yes)
                 {
-                    Database.DeleteAlbum(CurrentAlbum, Conn);
+                    Database.DeleteAlbum(CurrentAlbum, Connection);
                     ListAlbums();
-                    GetAlbum(Database.GetDefaultAlbumName(Conn));
+                    GetAlbum(Database.GetDefaultAlbumName(Connection));
                 }
             }
         }
@@ -2065,7 +2070,7 @@ namespace amp
         private void MnuFile_DropDownOpening(object sender, EventArgs e)
         {
             mnuDeleteAlbum.Enabled = CurrentAlbum != "tmp" &&
-                                     CurrentAlbum != Database.GetDefaultAlbumName(Conn);
+                                     CurrentAlbum != Database.GetDefaultAlbumName(Connection);
         }
     }
 }

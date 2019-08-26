@@ -158,8 +158,9 @@ namespace amp.SQLiteDatabase
 
     /// <summary>
     /// A class for most of the database handling for the software.
+    /// Implements the <see cref="T:amp.SQLiteDatabase.DatabaseHelpers"/>
     /// </summary>
-    public class Database
+    public class Database: DatabaseHelpers
     {
         // initialize a System.Windows.Forms SynchronizationContext..
         private static readonly SynchronizationContext Context = SynchronizationContext.Current ?? new SynchronizationContext();
@@ -446,27 +447,7 @@ namespace amp.SQLiteDatabase
             }
         }
 
-        /// <summary>
-        /// Quotes a given string suitable for raw SQL.
-        /// </summary>
-        /// <param name="value">The string value to quote.</param>
-        /// <returns>A quoted string suitable for raw SQL.</returns>
-        // ReSharper disable once InconsistentNaming
-        public static string QS(string value)
-        {
-            return "'" + value.Replace("'", "''") + "'";
-        }
 
-        /// <summary>
-        /// Converts a double value into a string value understood by SQL.
-        /// </summary>
-        /// <param name="value">The double value to convert into a string.</param>
-        /// <returns>A string converted from the give <paramref name="value"/>.</returns>
-        // ReSharper disable once InconsistentNaming
-        public static string DS(double value)
-        {
-            return value.ToString(CultureInfo.InvariantCulture);
-        }
 
         /// <summary>
         /// Generates a SQL sentence for getting an album with a given <paramref name="name"/> from the database.

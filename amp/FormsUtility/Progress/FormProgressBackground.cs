@@ -75,7 +75,7 @@ namespace amp.FormsUtility.Progress
         /// <returns>True if the <see cref="BackgroundWorker"/> instance was successfully run; otherwise false.</returns>
         public static bool Execute(Form form, BackgroundWorker worker, string staticStatusText, string statusLabelText)
         {
-            if (formProgressBackground != null)
+            if (formProgressBackground != null || worker == null)
             {
                 return false;
             }

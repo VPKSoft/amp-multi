@@ -73,7 +73,7 @@ namespace amp
         private void ListAlbums(int checkAlbum = -1)
         {
             mnuAlbum.DropDownItems.Clear();
-            List<Album> albums = Database.GetAlbums(Conn);
+            List<Album> albums = Database.GetAlbums(Connection);
 
             int aNum = 0;
             foreach (Album album in albums)

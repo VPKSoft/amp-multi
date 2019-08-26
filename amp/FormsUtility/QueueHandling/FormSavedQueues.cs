@@ -154,10 +154,10 @@ namespace amp.FormsUtility.QueueHandling
         /// Displays the dialog for the user to edit the saved queue snapshots.
         /// </summary>
         /// <param name="albumName">Name of the album which queue snapshots to edit.</param>
-        /// <param name="conn">A reference to a <see cref="SQLiteConnection"/> class instance.</param>
+        /// <param name="conn">A <see cref="SQLiteConnection"/> class instance.</param>
         /// <param name="append">if set to <c>true</c> the user chose to append the selected queue to the current one in the album.</param>
         /// <returns>The queue index the user selected from the dialog; otherwise -1.</returns>
-        public static int Execute(string albumName, ref SQLiteConnection conn, out bool append)
+        public static int Execute(string albumName, SQLiteConnection conn, out bool append)
         {
             FormSavedQueues frm = new FormSavedQueues
             {

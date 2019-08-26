@@ -31,6 +31,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using amp.DataMigrate.GUI;
 using amp.FormsUtility.Random;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
@@ -328,6 +329,11 @@ namespace amp.UtilityClasses.Settings
         {
             var radioButton = (RadioButton) sender;
             gbAudioVisualizationStyle.Tag = radioButton.Tag;
+        }
+
+        private void MnuDatabaseMigration_Click(object sender, EventArgs e)
+        {
+            FormFileRelocate.ShowDialog(FormMain.Connection);
         }
     }
 }

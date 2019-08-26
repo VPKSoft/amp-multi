@@ -132,7 +132,7 @@ namespace amp
                         MusicFile.RemoveById(ref PlayList, mf.ID);
                     }
                 }
-                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
+                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
                 humanActivity.Enabled = true;
                 lbMusic.ResumeLayout();
                 return;
@@ -145,7 +145,7 @@ namespace amp
                     humanActivity.Enabled = false;
                     MusicFile mf = lbMusic.SelectedItem as MusicFile;
                     string s = FormRename.Execute(mf);
-                    Database.SaveOverrideName(ref mf, s, Conn);
+                    Database.SaveOverrideName(ref mf, s, Connection);
                     lbMusic.RefreshItem(lbMusic.SelectedIndex);
                     e.SuppressKeyPress = true;
                     e.Handled = true;

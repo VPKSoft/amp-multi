@@ -59,6 +59,7 @@ namespace amp.UtilityClasses.Settings
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLocalization = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDumpLanguage = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDatabaseMigration = new System.Windows.Forms.ToolStripMenuItem();
             this.btnModifiedRandomization = new System.Windows.Forms.Button();
             this.btAlbumNaming = new System.Windows.Forms.Button();
             this.cbCheckUpdatesStartup = new System.Windows.Forms.CheckBox();
@@ -66,13 +67,13 @@ namespace amp.UtilityClasses.Settings
             this.tpMain = new System.Windows.Forms.TabPage();
             this.tpAdditional = new System.Windows.Forms.TabPage();
             this.gbAudioVisualizationStyle = new System.Windows.Forms.GroupBox();
+            this.cbAudioVisualizationCombineChannels = new System.Windows.Forms.CheckBox();
             this.lbAudioVisualizationSizePercentage = new System.Windows.Forms.Label();
             this.nudAudioVisualizationSize = new System.Windows.Forms.NumericUpDown();
             this.lbVisualizationWindowSize = new System.Windows.Forms.Label();
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.cbAudioVisualizationCombineChannels = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -345,7 +346,8 @@ namespace amp.UtilityClasses.Settings
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLocalization,
-            this.mnuDumpLanguage});
+            this.mnuDumpLanguage,
+            this.mnuDatabaseMigration});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -354,7 +356,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
             this.mnuLocalization.Name = "mnuLocalization";
-            this.mnuLocalization.Size = new System.Drawing.Size(159, 22);
+            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
             this.mnuLocalization.Text = "Localization";
             this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
             // 
@@ -362,9 +364,16 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
             this.mnuDumpLanguage.Name = "mnuDumpLanguage";
-            this.mnuDumpLanguage.Size = new System.Drawing.Size(159, 22);
+            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
             this.mnuDumpLanguage.Text = "Dumb language";
             this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
+            // 
+            // mnuDatabaseMigration
+            // 
+            this.mnuDatabaseMigration.Name = "mnuDatabaseMigration";
+            this.mnuDatabaseMigration.Size = new System.Drawing.Size(180, 22);
+            this.mnuDatabaseMigration.Text = "Database migration";
+            this.mnuDatabaseMigration.Click += new System.EventHandler(this.MnuDatabaseMigration_Click);
             // 
             // btnModifiedRandomization
             // 
@@ -461,6 +470,16 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.Tag = "0";
             this.gbAudioVisualizationStyle.Text = "Audio visualization";
             // 
+            // cbAudioVisualizationCombineChannels
+            // 
+            this.cbAudioVisualizationCombineChannels.AutoSize = true;
+            this.cbAudioVisualizationCombineChannels.Location = new System.Drawing.Point(6, 158);
+            this.cbAudioVisualizationCombineChannels.Name = "cbAudioVisualizationCombineChannels";
+            this.cbAudioVisualizationCombineChannels.Size = new System.Drawing.Size(113, 17);
+            this.cbAudioVisualizationCombineChannels.TabIndex = 6;
+            this.cbAudioVisualizationCombineChannels.Text = "Combine channels";
+            this.cbAudioVisualizationCombineChannels.UseVisualStyleBackColor = true;
+            // 
             // lbAudioVisualizationSizePercentage
             // 
             this.lbAudioVisualizationSizePercentage.AutoSize = true;
@@ -532,16 +551,6 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.Text = "Off";
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
-            // 
-            // cbAudioVisualizationCombineChannels
-            // 
-            this.cbAudioVisualizationCombineChannels.AutoSize = true;
-            this.cbAudioVisualizationCombineChannels.Location = new System.Drawing.Point(6, 158);
-            this.cbAudioVisualizationCombineChannels.Name = "cbAudioVisualizationCombineChannels";
-            this.cbAudioVisualizationCombineChannels.Size = new System.Drawing.Size(113, 17);
-            this.cbAudioVisualizationCombineChannels.TabIndex = 6;
-            this.cbAudioVisualizationCombineChannels.Text = "Combine channels";
-            this.cbAudioVisualizationCombineChannels.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
@@ -629,5 +638,6 @@ namespace amp.UtilityClasses.Settings
         private NumericUpDown nudAudioVisualizationSize;
         private Label lbAudioVisualizationSizePercentage;
         private CheckBox cbAudioVisualizationCombineChannels;
+        private ToolStripMenuItem mnuDatabaseMigration;
     }
 }

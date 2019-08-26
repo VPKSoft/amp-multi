@@ -273,7 +273,7 @@ namespace amp
         /// <param name="append">If set to <c>true</c> the queue is appended to the previous queue.</param>
         public void RefreshLoadQueueStats(int queueIndex, bool append)
         {
-            Database.LoadQueue(ref PlayList, Conn, queueIndex, append);
+            Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
             lbMusic.RefreshItems();
             GetQueueCount();
         }
@@ -362,7 +362,7 @@ namespace amp
                 MusicFile.RemoveById(ref PlayList, mf.ID);
             }
 
-            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Conn);
+            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
             humanActivity.Enabled = true;
             lbMusic.ResumeLayout();
         }
@@ -398,7 +398,7 @@ namespace amp
                 if (MFile != null)
                 {
                     MFile.Volume = volumeStream.Volume;
-                    Database.SaveVolume(MFile, Conn);
+                    Database.SaveVolume(MFile, Connection);
                     return true;
                 }
                 return false;
@@ -421,7 +421,7 @@ namespace amp
                     if (songIdList.Exists(f => f == item.ID))
                     {
                         item.Volume = volume;
-                        Database.SaveVolume(item, Conn);
+                        Database.SaveVolume(item, Connection);
                         int lbIdx = GetListBoxIndexById(item.ID);
                         if (lbIdx >= 0)
                         {
@@ -488,7 +488,7 @@ namespace amp
         /// <returns>A list of <see cref="AlbumWCF"/> class instances containing the album data.</returns>
         public List<AlbumWCF> GetAlbums()
         {
-            List<Album> albums = Database.GetAlbums(Conn);
+            List<Album> albums = Database.GetAlbums(Connection);
             List<AlbumWCF> albumsWcf = new List<AlbumWCF>();
             foreach (Album album in albums)
             {
@@ -504,7 +504,7 @@ namespace amp
         /// <returns><c>true</c> if the album was selected successfully; otherwise <c>false</c>.</returns>
         public bool SelectAlbum(string name)
         {
-            List<Album> albums = Database.GetAlbums(Conn);
+            List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
                 foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
@@ -514,7 +514,7 @@ namespace amp
                     {
                         DisableChecks();
                         item.Checked = true;
-                        Database.SaveQueue(PlayList, Conn, CurrentAlbum);
+                        Database.SaveQueue(PlayList, Connection, CurrentAlbum);
                         GetAlbum(name);
                         return true;
                     }
