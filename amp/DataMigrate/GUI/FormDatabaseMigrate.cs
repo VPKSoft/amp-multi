@@ -19,12 +19,12 @@ namespace amp.DataMigrate.GUI
     /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     /// </summary>
     /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
-    public partial class FormFileRelocate : DBLangEngineWinforms
+    public partial class FormDatabaseMigrate : DBLangEngineWinforms
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FormFileRelocate"/> class.
+        /// Initializes a new instance of the <see cref="FormDatabaseMigrate"/> class.
         /// </summary>
-        public FormFileRelocate()
+        public FormDatabaseMigrate()
         {
             InitializeComponent();
 
@@ -49,16 +49,22 @@ namespace amp.DataMigrate.GUI
         /// <returns><c>true</c> if changes were made to the database, <c>false</c> otherwise.</returns>
         public static bool ShowDialog(SQLiteConnection connection)
         {
-            var form = new FormFileRelocate {Connection = connection};
+            var form = new FormDatabaseMigrate {Connection = connection};
 
             return form.ShowDialog() == DialogResult.OK;
         }
 
         private void FormFileRelocate_Shown(object sender, EventArgs e)
         {
-            var paths = DatabaseDataMigrate.GetDirectories(Connection, 3);
+            ListPaths((int) nudDirectoryDepth.Value);
+        }
+
+        private void ListPaths(int depth)
+        {
+            lbPathsUsedList.Items.Clear();
+            var paths = DatabaseDataMigrate.GetDirectories(Connection, depth);
             // ReSharper disable once CoVariantArrayConversion
-            clbAlbumPaths.Items.AddRange(paths.ToArray());
+            lbPathsUsedList.Items.AddRange(paths.ToArray());
         }
 
         private void BtUpdateFileLocation_Click(object sender, EventArgs e)
@@ -67,6 +73,19 @@ namespace amp.DataMigrate.GUI
                 DatabaseDataMigrate.UpdateSongLocations(fbdDirectory, Connection), "Database update",
                 DBLangEngine.GetMessage("msgProgressPercentage",
                     "Progress: {0} %|A message describing some operation progress in percentage."));
+        }
+
+        private void BtDeleteNonExistingSongs_Click(object sender, EventArgs e)
+        {
+            FormProgressBackground.Execute(this,
+                DatabaseDataMigrate.DeleteNonExistingSongs(Connection), "Database update",
+                DBLangEngine.GetMessage("msgProgressPercentage",
+                    "Progress: {0} %|A message describing some operation progress in percentage."));
+        }
+
+        private void NudDirectoryDepth_ValueChanged(object sender, EventArgs e)
+        {
+            ListPaths((int) nudDirectoryDepth.Value);
         }
     }
 }

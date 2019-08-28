@@ -80,6 +80,11 @@ namespace amp.DataMigrate
             return result.Distinct(StringComparer.InvariantCultureIgnoreCase).OrderBy(f => f).ToList();
         }
 
+        /// <summary>
+        /// Deletes songs which doesn't exist in the file system from the database.
+        /// </summary>
+        /// <param name="connection">The <see cref="SQLiteConnection"/> instance to access the database.</param>
+        /// <returns>An instance to a <see cref="BackgroundWorker"/> class to handle the operation.</returns>
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public static BackgroundWorker DeleteNonExistingSongs(SQLiteConnection connection)
         {
@@ -95,20 +100,90 @@ namespace amp.DataMigrate
             BackgroundWorker worker = new BackgroundWorker
                 {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
 
-            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            worker.DoWork += (sender, args) =>
             {
-                using (SQLiteDataReader reader = command.ExecuteReader())
+                List<Song> orphanSongs = new List<Song>();
+
+                long songCount = GetScalar<long>(Song.GenerateCountSentence(false), connection);
+
+                int progress = 0;
+                int previousProgress = -1;
+
+                using (SQLiteCommand command = new SQLiteCommand(sql, connection))
                 {
-                    while (reader.Read())
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        Song song = Song.FromSqLiteDataReader(reader);
+                        while (reader.Read())
+                        {
+                            Song song = Song.FromSqLiteDataReader(reader);
+
+                            var percentage = CalculatePercentage(progress, songCount, 50);
+
+                            if (percentage > previousProgress)
+                            {
+                                worker.ReportProgress(percentage);
+                                previousProgress = percentage;
+                            }
+
+                            if (!File.Exists(song.Filename))
+                            {
+                                orphanSongs.Add(song);
+                            }
+
+                            progress++;
+
+                            if (worker.CancellationPending)
+                            {
+                                return;
+                            }
+                        }
                     }
                 }
-            }
 
-            worker.DoWork += (sender, args) => { };
+                previousProgress = -1;
+                songCount = orphanSongs.Count;
+                progress = 0;
+                foreach (var orphanSong in orphanSongs)
+                {
+                    var percentage = CalculatePercentage(progress, songCount, 50, 50);
+
+                    if (percentage > previousProgress)
+                    {
+                        worker.ReportProgress(percentage);
+                        previousProgress = percentage;
+                    }
+
+                    ExecuteSql(orphanSong.GenerateDeleteSentence(false), connection);
+
+                    progress++;
+
+                    if (worker.CancellationPending)
+                    {
+                        return;
+                    }
+                }
+
+                if (orphanSongs.Count > 0)
+                {
+                    ExecuteSql(Song.GenerateDeleteSongsFromTable(orphanSongs, "ALBUMSONGS"), connection);
+
+                    ExecuteSql(Song.GenerateDeleteSongsFromTable(orphanSongs, "QUEUE_SNAPSHOT"), connection);
+                }
+
+                worker.ReportProgress(100, orphanSongs.Count);
+            };
 
             return worker;
+        }
+
+        private static int CalculatePercentage(double currentValue, double maximumValue, double partsOfHundred = 100, double addToHundred = 0)
+        {
+            if (maximumValue > 0)
+            {
+                return (int) (addToHundred + currentValue * partsOfHundred / maximumValue);
+            }
+
+            return 0;
         }
 
         /// <summary>

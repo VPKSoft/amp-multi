@@ -25,8 +25,10 @@ SOFTWARE.
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using VPKSoft.ErrorLogger;
 
 namespace amp.SQLiteDatabase
@@ -262,6 +264,66 @@ namespace amp.SQLiteDatabase
         public static string GenerateCountSentence(bool historyTable)
         {
             return GenerateCountSentence(historyTable ? "SONG_HISTORY" : "SONG");
+        }
+
+        /// <summary>
+        /// Generates a SQL sentence to delete a given <see cref="Song"/> from the database.
+        /// </summary>
+        /// <param name="song">The song to delete from the database.</param>
+        /// <param name="songTableName">The of the database table to delete the song from.</param>
+        /// <returns>A SQL sentence formulated with the given parameters.</returns>
+        public static string GenerateDeleteSentence(Song song, string songTableName)
+        {
+            string sql =
+                string.Join(Environment.NewLine,
+                    "DELETE",
+                    "FROM",
+                    songTableName,
+                    "WHERE",
+                    $"ID = {song.Id};");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// Generates a SQL sentence to delete a given <see cref="Song"/> from the database.
+        /// </summary>
+        /// <param name="song">The song to delete from the database.</param>
+        /// <param name="historyTable">A value indicating whether the use the SONG_HISTORY or the SONG database table.</param>
+        /// <returns>A SQL sentence formulated with the given parameters.</returns>
+        public static string GenerateDeleteSentence(Song song, bool historyTable)
+        {
+            return GenerateDeleteSentence(song, historyTable ? "SONG_HISTORY" : "SONG");
+        }
+
+        /// <summary>
+        /// Generates a SQL sentence to delete the <see cref="Song"/> instance from the database.
+        /// </summary>
+        /// <param name="historyTable">A value indicating whether the use the SONG_HISTORY or the SONG database table.</param>
+        /// <returns>A SQL sentence formulated with the given parameters.</returns>
+        public string GenerateDeleteSentence(bool historyTable)
+        {
+            return GenerateDeleteSentence(this, historyTable ? "SONG_HISTORY" : "SONG");
+        }
+
+        /// <summary>
+        /// Generates a SQL sentence to delete the <see cref="Song"/> instance references from a given database table.
+        /// </summary>
+        /// <param name="songs">The songs which references to remove from a given database table.</param>
+        /// <param name="tableName">The name of the table where the songs are identified via SONG_ID field.</param>
+        /// <returns>A SQL sentence formulated with the given parameters.</returns>
+        // ReSharper disable once StringLiteralTypo
+        public static string GenerateDeleteSongsFromTable(List<Song> songs, string tableName)
+        {
+            string sql =
+                string.Join(Environment.NewLine,
+                    "DELETE",
+                    "FROM",
+                    tableName,
+                    "WHERE",
+                    $"SONG_ID IN ({string.Join(", ", songs.Select(f => f.Id))});");
+
+            return sql;
         }
 
         /// <summary>

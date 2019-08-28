@@ -333,7 +333,7 @@ namespace amp.UtilityClasses.Settings
 
         private void MnuDatabaseMigration_Click(object sender, EventArgs e)
         {
-            FormFileRelocate.ShowDialog(FormMain.Connection);
+            FormDatabaseMigrate.ShowDialog(FormMain.Connection);
         }
     }
 }
