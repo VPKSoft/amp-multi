@@ -56,15 +56,17 @@ namespace amp.DataMigrate.GUI
 
         private void FormFileRelocate_Shown(object sender, EventArgs e)
         {
-            var paths = DatabaseDataMigrate.GetDirectories(Connection, true, 3);
+            var paths = DatabaseDataMigrate.GetDirectories(Connection, 3);
             // ReSharper disable once CoVariantArrayConversion
             clbAlbumPaths.Items.AddRange(paths.ToArray());
         }
 
         private void BtUpdateFileLocation_Click(object sender, EventArgs e)
         {
-            FormProgressBackground.Execute(this, DatabaseDataMigrate.UpdateSongLocations(fbdDirectory, Connection), "Database update", DBLangEngine.GetMessage("msgProgressPercentage",
-                "Progress: {0} %|A message describing some operation progress in percentage."));
+            FormProgressBackground.Execute(this,
+                DatabaseDataMigrate.UpdateSongLocations(fbdDirectory, Connection), "Database update",
+                DBLangEngine.GetMessage("msgProgressPercentage",
+                    "Progress: {0} %|A message describing some operation progress in percentage."));
         }
     }
 }

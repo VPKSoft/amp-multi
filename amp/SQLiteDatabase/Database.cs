@@ -33,6 +33,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
 using amp.UtilityClasses;
 using VPKSoft.ErrorLogger;
 
@@ -1037,6 +1038,10 @@ namespace amp.SQLiteDatabase
             {
                 ExecuteTransaction(sql, conn);
             }
+
+            // some (invalid) encoding in the file name seems to create duplicates..
+            ExecuteTransaction(CleanUpDuplicates, conn);
+
             DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.InsertSongDb));
             DatabaseProgressThreadSafe(new DatabaseEventArgs(addFiles.Count, addFiles.Count, DatabaseEventType.Stopped));
         }
@@ -1049,8 +1054,39 @@ namespace amp.SQLiteDatabase
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private static string UpdateSongSql(MusicFile mf)
         {
-            return $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
-                   $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
+            string sql = 
+                $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
+                $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
+
+            return sql;
+        }
+
+        /// <summary>
+        /// Gets a SQL sentence to clean up duplicates from the database.
+        /// </summary>
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        private static string CleanUpDuplicates
+        {
+            get
+            {
+                string sql =
+                    string.Join(Environment.NewLine,
+                        "CREATE TABLE IF NOT EXISTS TMPSONG AS",
+                        "SELECT FILENAME, MIN(ID) AS ID FROM SONG",
+                        "GROUP BY FILENAME",
+                        "HAVING COUNT(FILENAME) > 1;",
+                        "",
+                        "DELETE FROM SONG",
+                        "WHERE FILENAME =",
+                        "(SELECT FILENAME FROM TMPSONG WHERE TMPSONG.FILENAME = SONG.FILENAME AND TMPSONG.ID <> SONG.ID);",
+                        "",
+                        "DELETE FROM ALBUMSONGS WHERE SONG_ID NOT IN (SELECT ID FROM SONG);",
+                        "",
+                        "DELETE FROM QUEUE_SNAPSHOT WHERE SONG_ID NOT IN (SELECT ID FROM SONG);",
+                        "",
+                        "DROP TABLE IF EXISTS TMPSONG;");
+                return sql;
+            }
         }
 
         /// <summary>
@@ -1061,7 +1097,7 @@ namespace amp.SQLiteDatabase
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private static string InsertSongSql(MusicFile mf)
         {
-            return
+            string sql =
                 string.Join(Environment.NewLine,
                     "INSERT INTO SONG(FILENAME, ARTIST, ALBUM, TRACK, YEAR, RATING, NPLAYED_RAND, ",
                     "NPLAYED_USER, FILESIZE, VOLUME, OVERRIDE_NAME, TAGFINDSTR, TAGREAD, FILENAME_NOPATH, TITLE) ",
@@ -1069,6 +1105,8 @@ namespace amp.SQLiteDatabase
                     $"{QS(mf.Album)}, {QS(mf.Track)}, {QS(mf.Year)}, 500, 0, 0, {mf.FileSize}, 1.0, {QS(mf.OverrideName)}, ",
                     $"{QS(mf.TagString)}, 1, {QS(mf.FileNameNoPath)}, {QS(mf.Title)} ",
                     $"WHERE NOT EXISTS(SELECT * FROM SONG WHERE FILENAME = {QS(mf.FullFileName)}); ");
+
+            return sql;
         }
 
         /// <summary>

@@ -25,6 +25,8 @@ SOFTWARE.
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
+using VPKSoft.Utils;
 
 namespace amp.UtilityClasses
 {
@@ -53,9 +55,27 @@ namespace amp.UtilityClasses
             });
 
         /// <summary>
+        /// Gets a value indicating based on the file name whether the file is a music file.
+        /// </summary>
+        /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a music file, <c>false</c> otherwise.</returns>
+        public static bool FileIsMusicFile(string fileName)
+        {
+            return
+                FileIsMp3(fileName) ||
+                FileIsOgg(fileName) ||
+                FileIsWav(fileName) ||
+                FileIsFlac(fileName) ||
+                FileIsWma(fileName) ||
+                FileIsAacOrM4A(fileName) ||
+                FileIsAif(fileName);
+        }
+
+        /// <summary>
         /// Gets a value indicating based on the file name if the file is a MP3 file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a MP3 file, <c>false</c> otherwise.</returns>
         public static bool FileIsMp3(string fileName)
         {
             return fileName.ToUpper().EndsWith(".MP3");
@@ -65,6 +85,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is an OGG file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a OGG file, <c>false</c> otherwise.</returns>
         public static bool FileIsOgg(string fileName)
         {
             return fileName.ToUpper().EndsWith(".OGG");
@@ -74,6 +95,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is a WAV file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a WAV file, <c>false</c> otherwise.</returns>
         public static bool FileIsWav(string fileName)
         {
             return fileName.ToUpper().EndsWith(".WAV");
@@ -84,6 +106,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is a FLAC file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a Flac file, <c>false</c> otherwise.</returns>
         // ReSharper disable once IdentifierTypo
         public static bool FileIsFlac(string fileName)
         {
@@ -95,6 +118,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is a WMA file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is a WMA file, <c>false</c> otherwise.</returns>
         public static bool FileIsWma(string fileName)
         {
             // ReSharper disable once StringLiteralTypo
@@ -105,6 +129,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is an AAC/M4A file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is an AAC/M4A file, <c>false</c> otherwise.</returns>
         public static bool FileIsAacOrM4A(string fileName)
         {
             return fileName.ToUpper().EndsWith(".M4A") ||
@@ -115,6 +140,7 @@ namespace amp.UtilityClasses
         /// Gets a value indicating based on the file name if the file is an AIF file.
         /// </summary>
         /// <param name="fileName">The name of the file check.</param>
+        /// <returns><c>true</c> if the file is an AIF file, <c>false</c> otherwise.</returns>
         public static bool FileIsAif(string fileName)
         {
             return fileName.ToUpper().EndsWith(".AIF") ||

@@ -77,7 +77,7 @@ namespace amp.FormsUtility.QueueHandling
         }
 
         /// <summary>
-        /// A field to hold <see cref="SQLiteConnection"/> connection given in the <see cref="Execute(string, ref SQLiteConnection, out bool)"/> method call.
+        /// A field to hold <see cref="SQLiteConnection"/> connection used with the <see cref="FormSavedQueues"/> member method calls.
         /// </summary>
         private SQLiteConnection conn;
 

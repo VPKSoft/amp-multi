@@ -36,6 +36,7 @@ using System.Windows.Forms;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using Ookii.Dialogs.WinForms;
+using VPKSoft.ErrorLogger;
 using VPKSoft.Utils;
 
 namespace amp.DataMigrate
@@ -49,10 +50,9 @@ namespace amp.DataMigrate
         /// Gets the directories of the SONG database table.
         /// </summary>
         /// <param name="connection">The <see cref="SQLiteConnection"/> instance to access the database.</param>
-        /// <param name="ignoreCase">if set to <c>true</c> the character case is ignored upon returning the distinct list of directories.</param>
         /// <param name="maxDepth">The maximum depth.</param>
         /// <returns>A distinct list of directories in the software's SONG database table.</returns>
-        public static List<string> GetDirectories(SQLiteConnection connection, bool ignoreCase, int maxDepth = -1)
+        public static List<string> GetDirectories(SQLiteConnection connection, int maxDepth = -1)
         {
             List<string> result = new List<string>();
 
@@ -101,6 +101,7 @@ namespace amp.DataMigrate
                 {
                     while (reader.Read())
                     {
+                        Song song = Song.FromSqLiteDataReader(reader);
                     }
                 }
             }
@@ -110,6 +111,12 @@ namespace amp.DataMigrate
             return worker;
         }
 
+        /// <summary>
+        /// Creates a <see cref="BackgroundWorker"/> class instance to update the song locations with a user selected path.
+        /// </summary>
+        /// <param name="folderBrowserDialog">An instance to <see cref="Ookii.Dialogs.WinForms.VistaFolderBrowserDialog"/> for the user to select the path.</param>
+        /// <param name="connection">A SQLite connection to use for the procedure.</param>
+        /// <returns>An instance to a <see cref="BackgroundWorker"/> class to handle the operation.</returns>
         public static BackgroundWorker UpdateSongLocations(
             VistaFolderBrowserDialog folderBrowserDialog, SQLiteConnection connection)
         {
@@ -136,6 +143,8 @@ namespace amp.DataMigrate
 
                     int progress = 0;
 
+                    int previousProgress = -1;
+
                     List<Song> songs = new List<Song>();
                     using (SQLiteCommand command = new SQLiteCommand(Song.GenerateSelectSentence(false), connection))
                     {
@@ -144,9 +153,14 @@ namespace amp.DataMigrate
                             while (reader.Read())
                             {
                                 var percentage = progress * 50 / (int) songCount;
-                                worker.ReportProgress(percentage);
+
+                                if (percentage > previousProgress)
+                                {
+                                    worker.ReportProgress(percentage);
+                                    previousProgress = percentage;
+                                }
+
                                 songs.Add(Song.FromSqLiteDataReader(reader));
-                                worker.ReportProgress(progress);
                                 progress++;
 
                                 if (worker.CancellationPending)
@@ -160,21 +174,59 @@ namespace amp.DataMigrate
                     progress = 0;
                     foreach (var file in files)
                     {
-                        var fileInfo = new FileInfo(file.FileName);
-                        var song = songs.First(f =>
-                            f.FileSize == fileInfo.Length && f.FileNameNoPath == file.FileName);
-
-                        worker.ReportProgress(50 + progress * 50 / fileCount);
-
-                        song.Filename = file.FileName;
-                        ExecuteSql(song.GenerateInsertUpdateSqlSentence(false), connection);
-                        progress++;
-
-                        if (worker.CancellationPending)
+                        try
                         {
-                            return;
+                            var fileInfo = new FileInfo(file.FileNameWithPath);
+                            var song = songs.FirstOrDefault(f =>
+                                f.FileSize == fileInfo.Length && f.FileNameNoPath == fileInfo.Name);
+
+                            if (song == null)
+                            {
+                                song = songs.FirstOrDefault(f => f.Filename == fileInfo.FullName);
+                                if (song != null)
+                                {
+                                    song.FileSize = (int) fileInfo.Length;
+                                }
+                                else
+                                {
+                                    song = songs.FirstOrDefault(f => f.FileNameNoPath == fileInfo.Name);
+                                    if (song != null)
+                                    {
+                                        song.FileSize = (int) fileInfo.Length;
+                                    }
+                                }
+                            }
+
+                            var percentage = 50 + progress * 50 / fileCount;
+
+                            if (percentage > previousProgress)
+                            {
+                                worker.ReportProgress(percentage);
+                                previousProgress = percentage;
+                            }
+
+                            if (song == null)
+                            {
+                                continue;
+                            }
+
+                            song.Filename = file.FileNameWithPath;
+                            ExecuteSql(song.GenerateInsertUpdateSqlSentence(false), connection);
+                            progress++;
+
+                            if (worker.CancellationPending)
+                            {
+                                return;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // log the exception..
+                            ExceptionLogger.LogError(ex);
                         }
                     }
+
+                    worker.ReportProgress(100);
                 };
 
                 return worker;

@@ -76,6 +76,11 @@ namespace amp.SQLiteDatabase
                 return DS(Convert.ToDecimal(value));
             }
 
+            if (value is bool)
+            {
+                return Convert.ToBoolean(value) ? "1" : "0";
+            }
+
             return value.ToString();
         }
 

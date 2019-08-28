@@ -105,8 +105,8 @@
     <Reference Include="VPKSoft.RandomizationUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.RandomizationUtils.1.0.0\lib\net45\VPKSoft.RandomizationUtils.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.Utils, Version=1.0.3.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.Utils.1.0.3.7\lib\net45\VPKSoft.Utils.dll</HintPath>
+    <Reference Include="VPKSoft.Utils, Version=1.0.3.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.Utils.1.0.3.8\lib\net45\VPKSoft.Utils.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.VersionCheck, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.VersionCheck.1.0.0.8\lib\net47\VPKSoft.VersionCheck.dll</HintPath>
