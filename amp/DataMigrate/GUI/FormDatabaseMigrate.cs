@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using amp.FormsUtility.Progress;
 using amp.SQLiteDatabase;
+using Ionic.Zip;
+using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
+using VPKSoft.Utils;
+using Utils = VPKSoft.LangLib.Utils;
 
 namespace amp.DataMigrate.GUI
 {
@@ -86,6 +92,47 @@ namespace amp.DataMigrate.GUI
         private void NudDirectoryDepth_ValueChanged(object sender, EventArgs e)
         {
             ListPaths((int) nudDirectoryDepth.Value);
+        }
+
+        private void BtExportUserData_Click(object sender, EventArgs e)
+        {
+            sdZip.FileName = "amp_" + DateTime.Now.ToString("yyyy'-'MM'-'dd HH'_'mm") + "_backup";
+            if (sdZip.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (ZipFile zip = new ZipFile())
+                    {
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "amp.sqlite"), "");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "lang.sqlite"),"");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "settings.vnml"), "");
+                        zip.Save(sdZip.FileName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLogger.LogError(ex);
+                    MessageBox.Show(
+                        DBLangEngine.GetMessage("msgUserDataExportError",
+                            "An error occurred while exporting the user data.|Something failed during compressing the user data to a ZIP file"),
+                        DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."),
+                        MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void BtImportUserData_Click(object sender, EventArgs e)
+        {
+            if (odZip.ShowDialog() == DialogResult.OK)
+            {
+                using (ZipFile zip = ZipFile.Read(odZip.FileName))
+                {
+                    var args = "--restoreBackup=" + odZip.FileName;
+                    args = "\"" + args + "\"";
+                    Process.Start(Application.ExecutablePath,args);
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
         }
     }
 }

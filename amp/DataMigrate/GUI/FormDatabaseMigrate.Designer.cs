@@ -43,6 +43,8 @@
             this.lbDirectoryDepth = new System.Windows.Forms.Label();
             this.nudDirectoryDepth = new System.Windows.Forms.NumericUpDown();
             this.lbPathsUsedList = new System.Windows.Forms.ListBox();
+            this.sdZip = new System.Windows.Forms.SaveFileDialog();
+            this.odZip = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.nudDirectoryDepth)).BeginInit();
             this.SuspendLayout();
             // 
@@ -144,6 +146,7 @@
             this.btExportUserData.TabIndex = 11;
             this.btExportUserData.Text = "Export user data";
             this.btExportUserData.UseVisualStyleBackColor = true;
+            this.btExportUserData.Click += new System.EventHandler(this.BtExportUserData_Click);
             // 
             // tbImportUserData
             // 
@@ -173,6 +176,7 @@
             this.btImportUserData.TabIndex = 13;
             this.btImportUserData.Text = "Import user data";
             this.btImportUserData.UseVisualStyleBackColor = true;
+            this.btImportUserData.Click += new System.EventHandler(this.BtImportUserData_Click);
             // 
             // btOKRestartClose
             // 
@@ -240,6 +244,16 @@
             this.lbPathsUsedList.Size = new System.Drawing.Size(317, 316);
             this.lbPathsUsedList.TabIndex = 20;
             // 
+            // sdZip
+            // 
+            this.sdZip.DefaultExt = "zip";
+            this.sdZip.Filter = "Zip files|*.zip";
+            // 
+            // odZip
+            // 
+            this.odZip.DefaultExt = "zip";
+            this.odZip.Filter = "Zip files|*.zip";
+            // 
             // FormDatabaseMigrate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -287,5 +301,7 @@
         private System.Windows.Forms.Label lbDirectoryDepth;
         private System.Windows.Forms.NumericUpDown nudDirectoryDepth;
         private System.Windows.Forms.ListBox lbPathsUsedList;
+        private System.Windows.Forms.SaveFileDialog sdZip;
+        private System.Windows.Forms.OpenFileDialog odZip;
     }
 }

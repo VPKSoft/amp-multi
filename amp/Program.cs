@@ -39,6 +39,7 @@ using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
 using amp.FormsUtility.UserInteraction;
 using amp.UtilityClasses.Settings;
+using Ionic.Zip;
 using VPKSoft.ErrorLogger;
 using VPKSoft.IPC;
 using VPKSoft.LangLib;
@@ -57,6 +58,41 @@ namespace amp
         [STAThread]
         static void Main()
         {
+            string[] args = Environment.GetCommandLineArgs();
+
+            foreach (var arg in args)
+            {
+                if (arg.StartsWith("--restoreBackup"))
+                {
+                    var restoreParameters = arg.Split('=');
+                    if (restoreParameters.Length == 2)
+                    {
+                        if (File.Exists(restoreParameters[1]))
+                        {
+                            while (AppRunning.CheckIfRunningNoAdd("VPKSoft.amp.sharp#"))
+                            {
+                                Thread.Sleep(100);
+                            }
+
+                            try
+                            {
+                                using (ZipFile zip = ZipFile.Read(restoreParameters[1]))
+                                {
+                                    zip.ExtractAll(Paths.GetAppSettingsFolder(),
+                                        ExtractExistingFileAction.OverwriteSilently);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // log the exception..
+                                ExceptionLogger.LogError(ex);
+                            }
+                        }
+                    }
+                }
+            }
+
+
             Process localizeProcess = Utils.CreateDBLocalizeProcess(Paths.AppInstallDir);
             // localizeProcess..
 
@@ -110,7 +146,7 @@ namespace amp
 
             if (Settings.DbUpdateRequiredLevel < 1)
             {
-                if (AppRunning.CheckIfRunning("VPKSoft.amp.DBUpdate.sharp#"))
+                if (AppRunning.CheckIfRunningNoAdd("VPKSoft.amp.DBUpdate.sharp#"))
                 {
                     ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                     ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
@@ -125,14 +161,13 @@ namespace amp
                 return;
             }
 
-            if (AppRunning.CheckIfRunning("VPKSoft.amp.sharp#"))
+            if (AppRunning.CheckIfRunningNoAdd("VPKSoft.amp.sharp#"))
             {
                 ExceptionLogger.LogMessage($"Application is running. Checking for open file requests. The current directory is: '{Environment.CurrentDirectory}'.");
                 try
                 {
                     IpcClientServer ipcClient = new IpcClientServer();
                     ipcClient.CreateClient("localhost", 50671);
-                    string[] args = Environment.GetCommandLineArgs();
 
                     // only send the existing files to the running instance, don't send the executable
                     // file name thus the start from 1..
@@ -157,14 +192,14 @@ namespace amp
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully..
                 return;
             }
-            else
-            {
-                // create an IPC server at localhost, the port was randomized in the development phase..
-                IpcServer.CreateServer("localhost", 50671);
 
-                // subscribe to the IPC event if the application receives a message from another instance of this application..
-                IpcClientServer.RemoteMessage.MessageReceived += RemoteMessage_MessageReceived;
-            }
+            AppRunning.CheckIfRunning("VPKSoft.amp.sharp#");
+
+            // create an IPC server at localhost, the port was randomized in the development phase..
+            IpcServer.CreateServer("localhost", 50671);
+
+            // subscribe to the IPC event if the application receives a message from another instance of this application..
+            IpcClientServer.RemoteMessage.MessageReceived += RemoteMessage_MessageReceived;
 
             PositionCore.Bind(); // attach the PosLib to the application
             Application.EnableVisualStyles();
@@ -180,6 +215,7 @@ namespace amp
 
             ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
+            AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
         }
 
         // the application is crashing without exception handling..
@@ -189,6 +225,8 @@ namespace amp
             ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
             IpcClientServer.RemoteMessage.MessageReceived -= RemoteMessage_MessageReceived;
             ExceptionLogger.UnBind(); // unbind the exception logger..
+
+            AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
 
             // kill self as the native inter-op libraries may have some issues of keeping the process alive..
             Process.GetCurrentProcess().Kill();

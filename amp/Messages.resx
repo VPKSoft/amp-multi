@@ -255,4 +255,7 @@
   <data name="msgQueryConvertToMP3" xml:space="preserve">
     <value>Convert non-MP3 files to MP3 format?|A query to ask whether to convert files other than MP3 to MP3 format.</value>
   </data>
+  <data name="msgUserDataExportError" xml:space="preserve">
+    <value>An error occurred while exporting the user data.|Something failed during compressing the user data to a ZIP file</value>
+  </data>
 </root>

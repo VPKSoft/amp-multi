@@ -457,6 +457,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while exporting the user data.|Something failed during compressing the user data to a ZIP file.
+        /// </summary>
+        public static string msgUserDataExportError {
+            get {
+                return ResourceManager.GetString("msgUserDataExportError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version {0}|As in version.
         /// </summary>
         public static string msgVersionText {
