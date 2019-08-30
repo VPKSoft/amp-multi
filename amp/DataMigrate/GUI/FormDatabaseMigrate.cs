@@ -106,6 +106,7 @@ namespace amp.DataMigrate.GUI
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "amp.sqlite"), "");
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "lang.sqlite"),"");
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "settings.vnml"), "");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "position.vnml"), "");
                         zip.Save(sdZip.FileName);
                     }
                 }
@@ -127,10 +128,18 @@ namespace amp.DataMigrate.GUI
             {
                 using (ZipFile zip = ZipFile.Read(odZip.FileName))
                 {
+                    Program.RunProgramOnExit = Application.ExecutablePath;
                     var args = "--restoreBackup=" + odZip.FileName;
                     args = "\"" + args + "\"";
-                    Process.Start(Application.ExecutablePath,args);
-                    Process.GetCurrentProcess().Kill();
+
+                    Program.RunProgramOnExitArguments = args;
+
+                    MessageBox.Show(
+                        DBLangEngine.GetMessage("msgQueryUserShutdownProgram",
+                            "Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored."),
+                        DBLangEngine.GetMessage("msgInformation",
+                            "Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'..."),
+                        MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
             }
         }

@@ -331,6 +331,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored..
+        /// </summary>
+        public static string msgQueryUserShutdownProgram {
+            get {
+                return ResourceManager.GetString("msgQueryUserShutdownProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue|As in a queue snapshot.
         /// </summary>
         public static string msgQueue {

@@ -50,7 +50,7 @@ using Utils = VPKSoft.LangLib.Utils;
 
 namespace amp
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -216,6 +216,11 @@ namespace amp
             ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
             AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
+
+            if (RunProgramOnExit != string.Empty)
+            {
+                Process.Start(RunProgramOnExit, RunProgramOnExitArguments);
+            }
         }
 
         // the application is crashing without exception handling..
@@ -277,5 +282,9 @@ namespace amp
         /// (C): VPKSoft: https://gist.github.com/VPKSoft/5d78f1c06ec51ebad34817b491fe6ac6
         /// </summary>
         private static readonly IpcClientServer IpcServer = new IpcClientServer();
+
+        internal static string RunProgramOnExit { get; set; } = string.Empty;
+
+        internal static string RunProgramOnExitArguments { get; set; } = string.Empty;
     }
 }

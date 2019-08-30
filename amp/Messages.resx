@@ -258,4 +258,7 @@
   <data name="msgUserDataExportError" xml:space="preserve">
     <value>An error occurred while exporting the user data.|Something failed during compressing the user data to a ZIP file</value>
   </data>
+  <data name="msgQueryUserShutdownProgram" xml:space="preserve">
+    <value>Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored.</value>
+  </data>
 </root>
