@@ -98,6 +98,11 @@ namespace amp.FormsUtility.Progress
                 formProgressBackground = null;
             }
 
+            using (worker)
+            {
+                // dispose of the BackgroundWorker class instance.. 
+            }
+
             return result;
         }
 

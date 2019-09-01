@@ -356,7 +356,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuLocalization.Image = global::amp.Properties.Resources.education_languages;
             this.mnuLocalization.Name = "mnuLocalization";
-            this.mnuLocalization.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocalization.Size = new System.Drawing.Size(196, 22);
             this.mnuLocalization.Text = "Localization";
             this.mnuLocalization.Click += new System.EventHandler(this.MnuLocalization_Click);
             // 
@@ -364,15 +364,15 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuDumpLanguage.Image = global::amp.Properties.Resources.database_go;
             this.mnuDumpLanguage.Name = "mnuDumpLanguage";
-            this.mnuDumpLanguage.Size = new System.Drawing.Size(180, 22);
+            this.mnuDumpLanguage.Size = new System.Drawing.Size(196, 22);
             this.mnuDumpLanguage.Text = "Dumb language";
             this.mnuDumpLanguage.Click += new System.EventHandler(this.MnuDumpLanguage_Click);
             // 
             // mnuDatabaseMigration
             // 
             this.mnuDatabaseMigration.Name = "mnuDatabaseMigration";
-            this.mnuDatabaseMigration.Size = new System.Drawing.Size(180, 22);
-            this.mnuDatabaseMigration.Text = "Database migration";
+            this.mnuDatabaseMigration.Size = new System.Drawing.Size(196, 22);
+            this.mnuDatabaseMigration.Text = "Database management";
             this.mnuDatabaseMigration.Click += new System.EventHandler(this.MnuDatabaseMigration_Click);
             // 
             // btnModifiedRandomization

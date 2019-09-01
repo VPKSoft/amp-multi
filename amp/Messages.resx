@@ -261,4 +261,7 @@
   <data name="msgQueryUserShutdownProgram" xml:space="preserve">
     <value>Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored.</value>
   </data>
+  <data name="msgQueryUserDeleteNonExistingSongs" xml:space="preserve">
+    <value>Really delete non-existing files from the database?|A message requesting for user confirmation to delete non-existing files from the database.</value>
+  </data>
 </root>

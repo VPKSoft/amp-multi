@@ -123,7 +123,7 @@ namespace amp
         private volatile bool playerThreadLoaded;
 
         // a flag indicating if the play back progress (the ProgressBar and the time left text) are changing via a user generated event..
-        private bool progressUpdating = false;
+        private readonly bool progressUpdating = false;
         #endregion
 
         #region Settings
@@ -1438,8 +1438,11 @@ namespace amp
                 }
                 else if (sender == pnStars1)
                 {
-                    pnStars1.Left += e.X;
-                    stars = (int)(500 * (pnStars1.Left / 88.0));
+                    if (pnStars1 != null)
+                    {
+                        pnStars1.Left += e.X;
+                        stars = (int) (500 * (pnStars1.Left / 88.0));
+                    }
                 }
 
                 if (MFile != null)
@@ -1857,8 +1860,11 @@ namespace amp
                 }
                 else if (sender == pnVol2)
                 {
-                    pnVol2.Left += e.X;
-                    volume = 1.0F * (pnVol2.Left / 50F);
+                    if (pnVol2 != null)
+                    {
+                        pnVol2.Left += e.X;
+                        volume = 1.0F * (pnVol2.Left / 50F);
+                    }
                 }
 
                 if (volumeStream != null)
@@ -1905,9 +1911,9 @@ namespace amp
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             // ReSharper disable once ObjectCreationAsStatement
-            new FormAbout(this, "MIT",
+            using (new FormAbout(this, "MIT",
                 "https://raw.githubusercontent.com/VPKSoft/amp/master/LICENSE",
-                "https://www.vpksoft.net/versions/version.php");
+                "https://www.vpksoft.net/versions/version.php")) { }
         }
 
         // reposition the album image if the main window is moved..
@@ -1960,7 +1966,11 @@ namespace amp
         // opens the settings dialog form..
         private void mnuSettings_Click(object sender, EventArgs e)
         {
-            new FormSettings().ShowDialog();
+            using (var formSettings = new FormSettings())
+            {
+                formSettings.ShowDialog();
+            }
+
             lbMusic.RefreshItems(); // the naming might have been changed..
             TextInvoker();
             SetAudioVisualization();

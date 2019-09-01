@@ -30,6 +30,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using amp.DataMigrate.GUI;
 using amp.FormsUtility;
 using amp.FormsUtility.Help;
 using amp.FormsUtility.Information;
@@ -137,6 +138,9 @@ namespace amp
                 new FormHelp(); // 28.10.18
                 // ReSharper disable once ObjectCreationAsStatement
                 new FormRandomizePriority(); // 30.10.18
+                // ReSharper disable once ObjectCreationAsStatement
+                new FormDatabaseMigrate(); // 01.09.19
+
                 ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully
                 return;
@@ -217,7 +221,8 @@ namespace amp
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
             AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
 
-            if (RunProgramOnExit != string.Empty)
+            // run a possible software (as of the time of the writing the software is this one.)..
+            if (File.Exists(RunProgramOnExit))
             {
                 Process.Start(RunProgramOnExit, RunProgramOnExitArguments);
             }
@@ -283,8 +288,14 @@ namespace amp
         /// </summary>
         private static readonly IpcClientServer IpcServer = new IpcClientServer();
 
+        /// <summary>
+        /// Gets or sets the program to run upon an application exit.
+        /// </summary>
         internal static string RunProgramOnExit { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the arguments for the program to run upon an application exit.
+        /// </summary>
         internal static string RunProgramOnExitArguments { get; set; } = string.Empty;
     }
 }

@@ -1,17 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿#region License
+/*
+MIT License
+
+Copyright(c) 2019 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+#endregion
+
+using System;
 using System.Data.SQLite;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using amp.FormsUtility.Progress;
-using amp.SQLiteDatabase;
 using Ionic.Zip;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
@@ -57,7 +74,10 @@ namespace amp.DataMigrate.GUI
         {
             var form = new FormDatabaseMigrate {Connection = connection};
 
-            return form.ShowDialog() == DialogResult.OK;
+            using (form)
+            {
+                return form.ShowDialog() == DialogResult.OK;
+            }
         }
 
         private void FormFileRelocate_Shown(object sender, EventArgs e)
@@ -83,10 +103,19 @@ namespace amp.DataMigrate.GUI
 
         private void BtDeleteNonExistingSongs_Click(object sender, EventArgs e)
         {
-            FormProgressBackground.Execute(this,
-                DatabaseDataMigrate.DeleteNonExistingSongs(Connection), "Database update",
-                DBLangEngine.GetMessage("msgProgressPercentage",
-                    "Progress: {0} %|A message describing some operation progress in percentage."));
+            if (MessageBox.Show(
+                    DBLangEngine.GetMessage("msgQueryUserDeleteNonExistingSongs",
+                        "Really delete non-existing files from the database?|A message requesting for user confirmation to delete non-existing files from the database."),
+                    DBLangEngine.GetMessage("msgConfirmation",
+                        "Confirm|Used in a dialog title to ask for a confirmation to do something"),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) ==
+                DialogResult.Yes)
+            {
+                FormProgressBackground.Execute(this,
+                    DatabaseDataMigrate.DeleteNonExistingSongs(Connection), "Database update",
+                    DBLangEngine.GetMessage("msgProgressPercentage",
+                        "Progress: {0} %|A message describing some operation progress in percentage."));
+            }
         }
 
         private void NudDirectoryDepth_ValueChanged(object sender, EventArgs e)
@@ -126,21 +155,18 @@ namespace amp.DataMigrate.GUI
         {
             if (odZip.ShowDialog() == DialogResult.OK)
             {
-                using (ZipFile zip = ZipFile.Read(odZip.FileName))
-                {
-                    Program.RunProgramOnExit = Application.ExecutablePath;
-                    var args = "--restoreBackup=" + odZip.FileName;
-                    args = "\"" + args + "\"";
+                Program.RunProgramOnExit = Application.ExecutablePath;
+                var args = "--restoreBackup=" + odZip.FileName;
+                args = "\"" + args + "\"";
 
-                    Program.RunProgramOnExitArguments = args;
+                Program.RunProgramOnExitArguments = args;
 
-                    MessageBox.Show(
-                        DBLangEngine.GetMessage("msgQueryUserShutdownProgram",
-                            "Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored."),
-                        DBLangEngine.GetMessage("msgInformation",
-                            "Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'..."),
-                        MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                }
+                MessageBox.Show(
+                    DBLangEngine.GetMessage("msgQueryUserShutdownProgram",
+                        "Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored."),
+                    DBLangEngine.GetMessage("msgInformation",
+                        "Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'..."),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
     }

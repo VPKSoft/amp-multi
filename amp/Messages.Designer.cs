@@ -331,6 +331,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Really delete non-existing files from the database?|A message requesting for user confirmation to delete non-existing files from the database..
+        /// </summary>
+        public static string msgQueryUserDeleteNonExistingSongs {
+            get {
+                return ResourceManager.GetString("msgQueryUserDeleteNonExistingSongs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored..
         /// </summary>
         public static string msgQueryUserShutdownProgram {

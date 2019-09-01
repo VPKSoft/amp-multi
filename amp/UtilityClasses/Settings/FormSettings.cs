@@ -258,8 +258,7 @@ namespace amp.UtilityClasses.Settings
             bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
             if (netshRet != null && netshRet == false)
             {
-                // ReSharper disable once RedundantAssignment
-                netshRet = VU.NetSH.ReserveNetShUrl(
+                VU.NetSH.ReserveNetShUrl(
                     lbRemoteControlURIVValue.Text, 
                     VU.BuiltInWindowsAccountsLocalize.GetUserNameBySID(VU.BuiltInWindowsAccountsLocalize.Everyone));
             }
@@ -267,7 +266,10 @@ namespace amp.UtilityClasses.Settings
 
         private void btAlbumNaming_Click(object sender, EventArgs e)
         {
-            new FormAlbumNaming().ShowDialog();
+            using (var formAlbumNaming = new FormAlbumNaming())
+            {
+                formAlbumNaming.ShowDialog();
+            }
         }
 
         private void btnTestQuietHour_Click(object sender, EventArgs e)
@@ -289,7 +291,10 @@ namespace amp.UtilityClasses.Settings
 
         private void btnModifiedRandomization_Click(object sender, EventArgs e)
         {
-            new FormRandomizePriority().ShowDialog();
+            using (var formRandomizePriority = new FormRandomizePriority())
+            {
+                formRandomizePriority.ShowDialog();
+            }
         }
 
         private void MnuLocalization_Click(object sender, EventArgs e)
