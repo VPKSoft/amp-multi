@@ -23,6 +23,8 @@ Name "amp#"
 !define MUI_LANGDLL_REGISTRY_ROOT HKLM
 !define MUI_LANGDLL_REGISTRY_KEY ${REGKEY}
 !define MUI_LANGDLL_REGISTRY_VALUENAME InstallerLanguage
+!define MUI_FINISHPAGE_RUN "$INSTDIR\amp.exe" # The check box for a query whether to run the installed software..
+
 BrandingText "amp#"
 
 #Include the LogicLib
