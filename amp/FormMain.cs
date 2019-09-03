@@ -33,6 +33,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel.Configuration;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -105,6 +106,11 @@ namespace amp
         /// The SQLiteConnection for the database access.
         /// </summary>
         public static SQLiteConnection Connection { get; set; } // database connection for the SQLite database
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a restart for the application is required.
+        /// </summary>
+        public static bool RestartRequired { get; set; }
 
         /// <summary>
         /// The name of a currently playing album.
@@ -1067,7 +1073,11 @@ namespace amp
             {
                 Application.DoEvents();
             }
-            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+
+            if (!RestartRequired)
+            {
+                Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+            }
 
             using (Connection)
             {
@@ -1971,9 +1981,16 @@ namespace amp
                 formSettings.ShowDialog();
             }
 
-            lbMusic.RefreshItems(); // the naming might have been changed..
-            TextInvoker();
-            SetAudioVisualization();
+            if (RestartRequired)
+            {
+                Close();
+            }
+            else
+            {
+                lbMusic.RefreshItems(); // the naming might have been changed..
+                TextInvoker();
+                SetAudioVisualization();
+            }
         }
 
         // displays information about the current song..

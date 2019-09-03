@@ -45,6 +45,7 @@
             this.lbPathsUsedList = new System.Windows.Forms.ListBox();
             this.sdZip = new System.Windows.Forms.SaveFileDialog();
             this.odZip = new System.Windows.Forms.OpenFileDialog();
+            this.tbRestartRequired = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDirectoryDepth)).BeginInit();
             this.SuspendLayout();
             // 
@@ -241,7 +242,7 @@
             this.lbPathsUsedList.FormattingEnabled = true;
             this.lbPathsUsedList.Location = new System.Drawing.Point(471, 63);
             this.lbPathsUsedList.Name = "lbPathsUsedList";
-            this.lbPathsUsedList.Size = new System.Drawing.Size(317, 316);
+            this.lbPathsUsedList.Size = new System.Drawing.Size(317, 251);
             this.lbPathsUsedList.TabIndex = 20;
             // 
             // sdZip
@@ -254,11 +255,32 @@
             this.odZip.DefaultExt = "zip";
             this.odZip.Filter = "Zip files|*.zip";
             // 
+            // tbRestartRequired
+            // 
+            this.tbRestartRequired.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbRestartRequired.BackColor = System.Drawing.SystemColors.Control;
+            this.tbRestartRequired.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbRestartRequired.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.tbRestartRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRestartRequired.ForeColor = System.Drawing.Color.DarkOrange;
+            this.tbRestartRequired.Location = new System.Drawing.Point(471, 321);
+            this.tbRestartRequired.Multiline = true;
+            this.tbRestartRequired.Name = "tbRestartRequired";
+            this.tbRestartRequired.ReadOnly = true;
+            this.tbRestartRequired.Size = new System.Drawing.Size(317, 58);
+            this.tbRestartRequired.TabIndex = 21;
+            this.tbRestartRequired.TabStop = false;
+            this.tbRestartRequired.Text = "A restart is required for the application.\r\nThe application will automatically\r\nr" +
+    "estart after this dialog is closed.";
+            this.tbRestartRequired.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbRestartRequired.Visible = false;
+            // 
             // FormDatabaseMigrate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 420);
+            this.Controls.Add(this.tbRestartRequired);
             this.Controls.Add(this.lbPathsUsedList);
             this.Controls.Add(this.nudDirectoryDepth);
             this.Controls.Add(this.lbDirectoryDepth);
@@ -279,6 +301,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Database management";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDatabaseMigrate_FormClosing);
             this.Shown += new System.EventHandler(this.FormFileRelocate_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.nudDirectoryDepth)).EndInit();
             this.ResumeLayout(false);
@@ -303,5 +326,6 @@
         private System.Windows.Forms.ListBox lbPathsUsedList;
         private System.Windows.Forms.SaveFileDialog sdZip;
         private System.Windows.Forms.OpenFileDialog odZip;
+        private System.Windows.Forms.TextBox tbRestartRequired;
     }
 }

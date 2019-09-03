@@ -226,6 +226,10 @@ namespace amp
             {
                 Process.Start(RunProgramOnExit, RunProgramOnExitArguments);
             }
+            else if (FormMain.RestartRequired)
+            {
+                Process.Start(Application.ExecutablePath);
+            }
         }
 
         // the application is crashing without exception handling..

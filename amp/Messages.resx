@@ -264,4 +264,10 @@
   <data name="msgQueryUserDeleteNonExistingSongs" xml:space="preserve">
     <value>Really delete non-existing files from the database?|A message requesting for user confirmation to delete non-existing files from the database.</value>
   </data>
+  <data name="msgDatabaseUpdate" xml:space="preserve">
+    <value>Database update|A message describing that the software is updating it's database.</value>
+  </data>
+  <data name="msgSoftwareWillRestart" xml:space="preserve">
+    <value>The software will now restart for the changes to take affect.|A message informing the user that the software will restart for the changes to take affect.</value>
+  </data>
 </root>

@@ -124,6 +124,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database update|A message describing that the software is updating it&apos;s database..
+        /// </summary>
+        public static string msgDatabaseUpdate {
+            get {
+                return ResourceManager.GetString("msgDatabaseUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default|Default as in default album.
         /// </summary>
         public static string msgDefault {
@@ -426,6 +435,15 @@ namespace amp {
         public static string msgSavePlaylistFile {
             get {
                 return ResourceManager.GetString("msgSavePlaylistFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The software will now restart for the changes to take affect.|A message informing the user that the software will restart for the changes to take affect..
+        /// </summary>
+        public static string msgSoftwareWillRestart {
+            get {
+                return ResourceManager.GetString("msgSoftwareWillRestart", resourceCulture);
             }
         }
         

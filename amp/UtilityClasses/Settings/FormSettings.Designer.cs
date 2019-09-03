@@ -370,6 +370,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // mnuDatabaseMigration
             // 
+            this.mnuDatabaseMigration.Image = global::amp.Properties.Resources.Toolbox;
             this.mnuDatabaseMigration.Name = "mnuDatabaseMigration";
             this.mnuDatabaseMigration.Size = new System.Drawing.Size(196, 22);
             this.mnuDatabaseMigration.Text = "Database management";

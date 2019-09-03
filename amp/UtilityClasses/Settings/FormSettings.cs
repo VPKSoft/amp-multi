@@ -339,6 +339,11 @@ namespace amp.UtilityClasses.Settings
         private void MnuDatabaseMigration_Click(object sender, EventArgs e)
         {
             FormDatabaseMigrate.ShowDialog(FormMain.Connection);
+
+            if (FormMain.RestartRequired)
+            {
+                DialogResult = DialogResult.OK;
+            }
         }
     }
 }

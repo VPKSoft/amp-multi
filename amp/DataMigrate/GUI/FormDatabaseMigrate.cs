@@ -96,9 +96,16 @@ namespace amp.DataMigrate.GUI
         private void BtUpdateFileLocation_Click(object sender, EventArgs e)
         {
             FormProgressBackground.Execute(this,
-                DatabaseDataMigrate.UpdateSongLocations(fbdDirectory, Connection), "Database update",
+                DatabaseDataMigrate.UpdateSongLocations(fbdDirectory, Connection),
+                DBLangEngine.GetMessage("msgDatabaseUpdate", "Database update|A message describing that the software is updating it's database."),
                 DBLangEngine.GetMessage("msgProgressPercentage",
                     "Progress: {0} %|A message describing some operation progress in percentage."));
+
+            // indicate to the user that a software restart is required..
+            tbRestartRequired.Visible = true;
+
+            // indicate that the application should be restarted after the operation..
+            FormMain.RestartRequired = true;
         }
 
         private void BtDeleteNonExistingSongs_Click(object sender, EventArgs e)
@@ -111,10 +118,17 @@ namespace amp.DataMigrate.GUI
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) ==
                 DialogResult.Yes)
             {
+                // indicate to the user that a software restart is required..
+                tbRestartRequired.Visible = true;
+
                 FormProgressBackground.Execute(this,
-                    DatabaseDataMigrate.DeleteNonExistingSongs(Connection), "Database update",
+                    DatabaseDataMigrate.DeleteNonExistingSongs(Connection), 
+                    DBLangEngine.GetMessage("msgDatabaseUpdate", "Database update|A message describing that the software is updating it's database."),
                     DBLangEngine.GetMessage("msgProgressPercentage",
                         "Progress: {0} %|A message describing some operation progress in percentage."));
+
+                // indicate that the application should be restarted after the operation..
+                FormMain.RestartRequired = true;
             }
         }
 
@@ -133,7 +147,11 @@ namespace amp.DataMigrate.GUI
                     using (ZipFile zip = new ZipFile())
                     {
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "amp.sqlite"), "");
-                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "lang.sqlite"),"");
+                        // Removed as useless: if a new version is installed and a backup is restored the
+                        // localization will revert to the moment of the backup:
+                        // ReSharper disable once CommentTypo
+                        // zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "lang.sqlite"),"");
+
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "settings.vnml"), "");
                         zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "position.vnml"), "");
                         zip.Save(sdZip.FileName);
@@ -161,9 +179,33 @@ namespace amp.DataMigrate.GUI
 
                 Program.RunProgramOnExitArguments = args;
 
+                // indicate that the application should be restarted after the operation..
+                FormMain.RestartRequired = true;
+
+                // indicate to the user that a software restart is required..
+                tbRestartRequired.Visible = true;
+
+                // other operations aren't allowed before restart..
+                DialogResult = DialogResult.OK;
+                /*
+
                 MessageBox.Show(
                     DBLangEngine.GetMessage("msgQueryUserShutdownProgram",
                         "Please close the software so the backup can be restored.|A message informing the user that the close the software that the backup zip file can be restored."),
+                    DBLangEngine.GetMessage("msgInformation",
+                        "Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'..."),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                */
+            }
+        }
+
+        private void FormDatabaseMigrate_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FormMain.RestartRequired)
+            {
+                MessageBox.Show(
+                    DBLangEngine.GetMessage("msgSoftwareWillRestart",
+                        "The software will now restart for the changes to take affect.|A message informing the user that the software will restart for the changes to take affect."),
                     DBLangEngine.GetMessage("msgInformation",
                         "Information|Some information is given to the user, do add more definitive message to make some sense to the 'information'..."),
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);

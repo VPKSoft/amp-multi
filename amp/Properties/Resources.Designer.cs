@@ -813,6 +813,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Toolbox {
+            get {
+                object obj = ResourceManager.GetObject("Toolbox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Up {
             get {
                 object obj = ResourceManager.GetObject("Up", resourceCulture);
