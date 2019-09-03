@@ -1921,7 +1921,7 @@ namespace amp
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             // ReSharper disable once ObjectCreationAsStatement
-            using (new FormAbout(this, "MIT",
+            using (new FormAbout(this,  Assembly.GetEntryAssembly(), "MIT",
                 "https://raw.githubusercontent.com/VPKSoft/amp/master/LICENSE",
                 "https://www.vpksoft.net/versions/version.php")) { }
         }

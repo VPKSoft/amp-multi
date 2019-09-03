@@ -77,16 +77,16 @@ namespace amp.FormsUtility.Information
             this.tbAlbum = new System.Windows.Forms.TextBox();
             this.pnPictures = new System.Windows.Forms.Panel();
             this.tsChangePic = new System.Windows.Forms.ToolStrip();
+            this.pnBottom = new System.Windows.Forms.Panel();
+            this.btOK = new System.Windows.Forms.Button();
             this.tsbPrevious = new System.Windows.Forms.ToolStripButton();
             this.tsbNext = new System.Windows.Forms.ToolStripButton();
             this.pbAlbum = new System.Windows.Forms.PictureBox();
-            this.pnBottom = new System.Windows.Forms.Panel();
-            this.btOK = new System.Windows.Forms.Button();
             this.tlpSongInfo.SuspendLayout();
             this.pnPictures.SuspendLayout();
             this.tsChangePic.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAlbum)).BeginInit();
             this.pnBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAlbum)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpSongInfo
@@ -635,6 +635,26 @@ namespace amp.FormsUtility.Information
             this.tsChangePic.TabIndex = 22;
             this.tsChangePic.Text = "toolStrip1";
             // 
+            // pnBottom
+            // 
+            this.pnBottom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnBottom.Controls.Add(this.btOK);
+            this.pnBottom.Location = new System.Drawing.Point(0, 519);
+            this.pnBottom.Name = "pnBottom";
+            this.pnBottom.Size = new System.Drawing.Size(594, 35);
+            this.pnBottom.TabIndex = 1;
+            // 
+            // btOK
+            // 
+            this.btOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btOK.Location = new System.Drawing.Point(477, 5);
+            this.btOK.Name = "btOK";
+            this.btOK.Size = new System.Drawing.Size(75, 23);
+            this.btOK.TabIndex = 0;
+            this.btOK.Text = "OK";
+            this.btOK.UseVisualStyleBackColor = true;
+            // 
             // tsbPrevious
             // 
             this.tsbPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -668,26 +688,6 @@ namespace amp.FormsUtility.Information
             this.pbAlbum.TabIndex = 21;
             this.pbAlbum.TabStop = false;
             // 
-            // pnBottom
-            // 
-            this.pnBottom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnBottom.Controls.Add(this.btOK);
-            this.pnBottom.Location = new System.Drawing.Point(0, 519);
-            this.pnBottom.Name = "pnBottom";
-            this.pnBottom.Size = new System.Drawing.Size(594, 35);
-            this.pnBottom.TabIndex = 1;
-            // 
-            // btOK
-            // 
-            this.btOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btOK.Location = new System.Drawing.Point(477, 5);
-            this.btOK.Name = "btOK";
-            this.btOK.Size = new System.Drawing.Size(75, 23);
-            this.btOK.TabIndex = 0;
-            this.btOK.Text = "OK";
-            this.btOK.UseVisualStyleBackColor = true;
-            // 
             // FormTagInfo
             // 
             this.AcceptButton = this.btOK;
@@ -710,8 +710,8 @@ namespace amp.FormsUtility.Information
             this.pnPictures.PerformLayout();
             this.tsChangePic.ResumeLayout(false);
             this.tsChangePic.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAlbum)).EndInit();
             this.pnBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbAlbum)).EndInit();
             this.ResumeLayout(false);
 
         }
