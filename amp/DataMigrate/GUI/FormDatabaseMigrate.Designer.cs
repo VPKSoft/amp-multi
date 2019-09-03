@@ -189,6 +189,7 @@
             this.btOKRestartClose.TabIndex = 15;
             this.btOKRestartClose.Text = "OK";
             this.btOKRestartClose.UseVisualStyleBackColor = true;
+            this.btOKRestartClose.Click += new System.EventHandler(this.BtOKRestartClose_Click);
             // 
             // lbPathsUsed
             // 

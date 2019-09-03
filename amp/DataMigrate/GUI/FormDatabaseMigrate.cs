@@ -211,5 +211,10 @@ namespace amp.DataMigrate.GUI
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
+
+        private void BtOKRestartClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+        }
     }
 }
