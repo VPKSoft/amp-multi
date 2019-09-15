@@ -341,7 +341,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBLocalization.exe" />
+    <Content Include="DBLocalization.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="history.txt" />
     <Content Include="icon.ico" />
     <None Include="Resources\education-languages.png" />
