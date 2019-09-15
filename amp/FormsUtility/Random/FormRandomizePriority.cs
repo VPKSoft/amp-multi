@@ -50,11 +50,11 @@ namespace amp.FormsUtility.Random
 
             if (Utils.ShouldLocalize() != null)
             {
-                DBLangEngine.InitalizeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
+                DBLangEngine.InitializeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
                 return; // After localization don't do anything more.
             }
 
-            DBLangEngine.InitalizeLanguage("amp.Messages");
+            DBLangEngine.InitializeLanguage("amp.Messages");
 
             suspendCheckedChanged = true;
             cbModifiedRandomizationEnabled.Checked = Settings.BiasedRandom;

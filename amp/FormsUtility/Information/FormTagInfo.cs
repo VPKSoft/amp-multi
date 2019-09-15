@@ -56,11 +56,11 @@ namespace amp.FormsUtility.Information
 
             if (Utils.ShouldLocalize() != null)
             {
-                DBLangEngine.InitalizeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
+                DBLangEngine.InitializeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
                 return; // After localization don't do anything more.
             }
 
-            DBLangEngine.InitalizeLanguage("amp.Messages");
+            DBLangEngine.InitializeLanguage("amp.Messages");
         }
 
         /// <summary>
