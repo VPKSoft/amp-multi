@@ -6,7 +6,7 @@ Name "amp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.1.0.8
+!define VERSION 1.1.0.9
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -23,7 +23,8 @@ Name "amp#"
 !define MUI_LANGDLL_REGISTRY_ROOT HKLM
 !define MUI_LANGDLL_REGISTRY_KEY ${REGKEY}
 !define MUI_LANGDLL_REGISTRY_VALUENAME InstallerLanguage
-!define MUI_FINISHPAGE_RUN "$INSTDIR\amp.exe" # The check box for a query whether to run the installed software..
+!define MUI_FINISHPAGE_RUN # this needs to be not-defined for the MUI_FINISHPAGE_RUN_FUNCTION to work..
+!define MUI_FINISHPAGE_RUN_FUNCTION "RunAsCurrentUser" # The check box for a query whether to run the installed software as the current user after the installation..
 
 BrandingText "amp#"
 
@@ -68,12 +69,12 @@ Page Custom PageAssociation
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_ampsharp_1_1_0_8.exe
+OutFile setup_ampsharp_1_1_0_9.exe
 InstallDir "$PROGRAMFILES64\amp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.1.0.8
+VIProductVersion 1.1.0.9
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "amp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -154,6 +155,11 @@ next${UNSECTION_ID}:
 done${UNSECTION_ID}:
     Pop $R0
 !macroend
+
+# a function to execute the installed software as non-administrator.. 
+Function RunAsCurrentUser	
+	ShellExecAsUser::ShellExecAsUser "" "$INSTDIR\amp.exe"
+FunctionEnd
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000

@@ -58,7 +58,9 @@ using VPKSoft.PosLib;
 using VPKSoft.ScriptRunner;
 using VPKSoft.Utils;
 using VPKSoft.VersionCheck;
+using VPKSoft.VersionCheck.Forms;
 using Utils = VPKSoft.LangLib.Utils;
+//using VPKSoft.VersionCheck.Forms;
 #endregion
 
 namespace amp
@@ -863,6 +865,7 @@ namespace amp
             }
             lbMusic.ResumeLayout();
             ReIndexVisual();
+            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
             GetAlbum(CurrentAlbum, false);
             FormPsycho.UnExecute();
             Enabled = true;

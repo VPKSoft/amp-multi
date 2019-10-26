@@ -111,8 +111,8 @@
     <Reference Include="VPKSoft.Utils, Version=1.0.3.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.Utils.1.0.3.9\lib\net45\VPKSoft.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.VersionCheck, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.VersionCheck.1.0.0.9\lib\net47\VPKSoft.VersionCheck.dll</HintPath>
+    <Reference Include="VPKSoft.VersionCheck, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.VersionCheck.1.0.1.2\lib\net47\VPKSoft.VersionCheck.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +351,7 @@
     <None Include="Resources\remove_album.png" />
     <None Include="Resources\bar_teal.png" />
     <None Include="Resources\Toolbox.png" />
+    <Content Include="Resources\download_dialog_localization.txt" />
     <Content Include="VPKSoft.ico" />
     <None Include="Resources\copy_all.png" />
     <Content Include="todo_list.txt" />
