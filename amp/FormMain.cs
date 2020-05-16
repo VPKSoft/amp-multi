@@ -47,6 +47,7 @@ using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
+using amp.UtilityClasses.WindowsPowerSave;
 using amp.WCFRemote;
 using NAudio.Flac;
 using NAudio.Vorbis;
@@ -559,8 +560,25 @@ namespace amp
         /// </summary>
         private void PlayerThread()
         {
+            var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
             while (!stopped)
             {
+                if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
+                {
+                    if (previousPaused)
+                    {
+                        ThreadExecutionState.SetThreadExecutionState(
+                            EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
+                    }
+                    else
+                    {
+                        ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
+                    }
+
+                    previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+                }
+
                 if (MFile != null)
                 {
                     if (!playing || newSong)
