@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2019 Petteri Kautonen
+Copyright(c) 2020 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -76,6 +76,49 @@ namespace amp.UtilityClasses.Settings
                 vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
                 vnml["DBUpdateLevel", "value"] = value;
                 _DbUpdateRequiredLevel = value;
+                vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+            }
+        }
+
+        // a field for the LoadEntireFileSizeLimit property..
+        private static int? _LoadEntireFileSizeLimit;
+
+        /// <summary>
+        /// Gets or sets the limit of a file size to be loaded into the memory for smoother playback.
+        /// </summary>
+        public static int LoadEntireFileSizeLimit
+        {
+            get
+            {
+                if (_LoadEntireFileSizeLimit != null)
+                {
+                    return (int) _LoadEntireFileSizeLimit;
+                }
+
+                vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+
+                var result = int.Parse(vnml["PlayBack", "loadToMemoryLimit", "-1"].ToString());
+
+
+                if (_LoadEntireFileSizeLimit == null)
+                {
+                    vnml["PlayBack", "loadToMemoryLimit"] = result;
+                    vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _LoadEntireFileSizeLimit = result;
+                }
+
+                return result;
+            }
+
+            set
+            {
+                vnml = new VPKNml();
+                Paths.MakeAppSettingsFolder();
+                vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                vnml["PlayBack", "loadToMemoryLimit"] = value;
+                _LoadEntireFileSizeLimit = value;
                 vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
             }
         }

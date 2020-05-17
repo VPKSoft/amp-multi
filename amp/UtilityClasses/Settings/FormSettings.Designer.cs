@@ -74,6 +74,11 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
+            this.gbMemoryBuffering = new System.Windows.Forms.GroupBox();
+            this.lbMemoryBuffer = new System.Windows.Forms.Label();
+            this.nudMemoryBuffering = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbMemoryBuffering = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -84,6 +89,8 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.SuspendLayout();
             this.gbAudioVisualizationStyle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
+            this.gbMemoryBuffering.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
@@ -445,6 +452,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // tpAdditional
             // 
+            this.tpAdditional.Controls.Add(this.gbMemoryBuffering);
             this.tpAdditional.Controls.Add(this.gbAudioVisualizationStyle);
             this.tpAdditional.Location = new System.Drawing.Point(4, 22);
             this.tpAdditional.Name = "tpAdditional";
@@ -553,6 +561,71 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
+            // gbMemoryBuffering
+            // 
+            this.gbMemoryBuffering.Controls.Add(this.cbMemoryBuffering);
+            this.gbMemoryBuffering.Controls.Add(this.label2);
+            this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
+            this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
+            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 201);
+            this.gbMemoryBuffering.Name = "gbMemoryBuffering";
+            this.gbMemoryBuffering.Size = new System.Drawing.Size(246, 62);
+            this.gbMemoryBuffering.TabIndex = 1;
+            this.gbMemoryBuffering.TabStop = false;
+            this.gbMemoryBuffering.Text = "Memory buffering";
+            // 
+            // lbMemoryBuffer
+            // 
+            this.lbMemoryBuffer.AutoSize = true;
+            this.lbMemoryBuffer.Location = new System.Drawing.Point(6, 16);
+            this.lbMemoryBuffer.Name = "lbMemoryBuffer";
+            this.lbMemoryBuffer.Size = new System.Drawing.Size(118, 13);
+            this.lbMemoryBuffer.TabIndex = 0;
+            this.lbMemoryBuffer.Text = "Buffer files smaller than:";
+            // 
+            // nudMemoryBuffering
+            // 
+            this.nudMemoryBuffering.Location = new System.Drawing.Point(6, 32);
+            this.nudMemoryBuffering.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudMemoryBuffering.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudMemoryBuffering.Name = "nudMemoryBuffering";
+            this.nudMemoryBuffering.Size = new System.Drawing.Size(87, 20);
+            this.nudMemoryBuffering.TabIndex = 1;
+            this.nudMemoryBuffering.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudMemoryBuffering.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(99, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "MB into the memory";
+            // 
+            // cbMemoryBuffering
+            // 
+            this.cbMemoryBuffering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbMemoryBuffering.AutoSize = true;
+            this.cbMemoryBuffering.Location = new System.Drawing.Point(225, 1);
+            this.cbMemoryBuffering.Name = "cbMemoryBuffering";
+            this.cbMemoryBuffering.Size = new System.Drawing.Size(15, 14);
+            this.cbMemoryBuffering.TabIndex = 3;
+            this.cbMemoryBuffering.UseVisualStyleBackColor = true;
+            this.cbMemoryBuffering.CheckedChanged += new System.EventHandler(this.cbMemoryBuffering_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
@@ -591,6 +664,9 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.ResumeLayout(false);
             this.gbAudioVisualizationStyle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
+            this.gbMemoryBuffering.ResumeLayout(false);
+            this.gbMemoryBuffering.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -640,5 +716,10 @@ namespace amp.UtilityClasses.Settings
         private Label lbAudioVisualizationSizePercentage;
         private CheckBox cbAudioVisualizationCombineChannels;
         private ToolStripMenuItem mnuDatabaseMigration;
+        private GroupBox gbMemoryBuffering;
+        private CheckBox cbMemoryBuffering;
+        private Label label2;
+        private NumericUpDown nudMemoryBuffering;
+        private Label lbMemoryBuffer;
     }
 }

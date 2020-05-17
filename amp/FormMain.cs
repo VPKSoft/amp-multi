@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2019 Petteri Kautonen
+Copyright(c) 2020 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.ServiceModel.Configuration;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -58,7 +57,6 @@ using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.ScriptRunner;
 using VPKSoft.Utils;
-using VPKSoft.VersionCheck;
 using VPKSoft.VersionCheck.Forms;
 using Utils = VPKSoft.LangLib.Utils;
 //using VPKSoft.VersionCheck.Forms;
@@ -357,6 +355,11 @@ namespace amp
         private volatile WaveStream mainOutputStream;
 
         /// <summary>
+        /// The current <see cref="MemoryStream"/> used by the <see cref="NAudio.Wave.WaveStream"/> class instance in case the file is entirely loaded into the memory.
+        /// </summary>
+        private volatile MemoryStream mainMemoryStream;
+
+        /// <summary>
         /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
         /// </summary>
         private volatile WaveChannel32 volumeStream;
@@ -401,52 +404,94 @@ namespace amp
         /// </summary>
         /// <param name="fileName">A file name for a music file to create the <see cref="NAudio.Wave.WaveStream"/> for.</param>
         /// <returns>An instance to the <see cref="NAudio.Wave.WaveStream"/> class if the operation was successful; otherwise false.</returns>
-        private WaveStream CreateInputStream(string fileName)
+        private (WaveStream waveStream, MemoryStream memoryStream) CreateInputStream(string fileName)
         {
             try
             {
                 WaveChannel32 inputStream;
 
+                MemoryStream memoryStream = null;
+
+                try
+                {
+                    if (UtilityClasses.Settings.Settings.LoadEntireFileSizeLimit > 0 &&
+                        UtilityClasses.Settings.Settings.LoadEntireFileSizeLimit * 1000000 > new FileInfo(fileName).Length)
+                    {
+                        // load the entire file into the memory..
+                        memoryStream = new MemoryStream(File.ReadAllBytes(fileName));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // log the exception..
+                    ExceptionLogger.LogError(ex);
+                    memoryStream = null;
+                }
+                
                 // determine the file type by it's extension..
                 if (Constants.FileIsMp3(fileName))
                 {
-                    Mp3FileReader fr = new Mp3FileReader(fileName);
+                    Mp3FileReader fr = memoryStream != null
+                        ? new Mp3FileReader(memoryStream)
+                        : new Mp3FileReader(fileName);
+
                     WaveStream mp3Reader = fr;
                     inputStream = new WaveChannel32(mp3Reader);
                 }
                 else if (Constants.FileIsOgg(fileName))
                 {
-                    VorbisWaveReader fr = new VorbisWaveReader(fileName);
+                    VorbisWaveReader fr = memoryStream != null
+                        ? new VorbisWaveReader(memoryStream)
+                        : new VorbisWaveReader(fileName);
+
                     WaveStream oggReader = fr;
                     inputStream = new WaveChannel32(oggReader);
                 }
                 else if (Constants.FileIsWav(fileName))
                 {
-                    WaveFileReader fr = new WaveFileReader(fileName);
+                    WaveFileReader fr = memoryStream != null
+                        ? new WaveFileReader(memoryStream)
+                        : new WaveFileReader(fileName);
+
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
                 else if (Constants.FileIsFlac(fileName))
                 {
-                    FlacReader fr = new FlacReader(fileName);
+                    FlacReader fr = memoryStream != null ? 
+                        new FlacReader(memoryStream) : 
+                        new FlacReader(fileName);
+
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
                 else if (Constants.FileIsWma(fileName))
                 {
+                    // now stream constructor on this one..
+                    memoryStream?.Dispose();
+                    memoryStream = null;
+
                     WMAFileReader fr = new WMAFileReader(fileName);
+
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
                 else if (Constants.FileIsAacOrM4A(fileName)) // Added: 01.02.2018
                 {
+                    // now stream constructor on this one..
+                    memoryStream?.Dispose();
+                    memoryStream = null;
+
                     MediaFoundationReader fr = new MediaFoundationReader(fileName);
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
                 else if (Constants.FileIsAif(fileName)) // Added: 01.02.2018
                 {
-                    AiffFileReader fr = new AiffFileReader(fileName);
+                    AiffFileReader fr = memoryStream != null
+                        ? new AiffFileReader(memoryStream)
+                        : new AiffFileReader(fileName);
+
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
@@ -459,7 +504,7 @@ namespace amp
                 volumeStream = inputStream;
 
                 // if successful, return the WaveChannel32 instance..
-                return volumeStream;
+                return (volumeStream, memoryStream);
             }
             catch (Exception ex)
             {
@@ -482,7 +527,7 @@ namespace amp
             }
 
             // eek! - failure..
-            return null;
+            return default;
         }
 
         /// <summary>
@@ -561,11 +606,13 @@ namespace amp
         private void PlayerThread()
         {
             var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+            // prevent total sleep/hibernate mode of the system..
             ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
             while (!stopped)
             {
                 if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
                 {
+                    // prevent total sleep/hibernate mode of the system..
                     if (previousPaused)
                     {
                         ThreadExecutionState.SetThreadExecutionState(
@@ -573,6 +620,7 @@ namespace amp
                     }
                     else
                     {
+                        // on pause allow total sleep/hibernate mode of the system..
                         ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
                     }
 
@@ -590,7 +638,9 @@ namespace amp
                         };
                         try
                         {
-                            mainOutputStream = CreateInputStream(MFile.GetFileName());
+                            var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
+                            mainOutputStream = waveStream;
+                            mainMemoryStream = memoryStream;
                         }
                         catch
                         {
@@ -710,6 +760,8 @@ namespace amp
                 playerThreadLoaded = true;
             }
             CloseWaveOut();
+            // on thread stop allow total sleep/hibernate mode of the system..
+            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
         }
 
         /// <summary>
@@ -837,6 +889,11 @@ namespace amp
                 volumeStream = null;
                 // this one does the metering stream
                 mainOutputStream.Close();
+
+                // dispose the main memory stream in case one is assigned..
+                mainMemoryStream?.Dispose();
+
+                mainMemoryStream = null;
                 mainOutputStream = null;
             }
             if (waveOutDevice != null)

@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2019 Petteri Kautonen
+Copyright(c) 2020 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -183,6 +183,15 @@ namespace amp.UtilityClasses.Settings
 
             Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
 
+            if (cbMemoryBuffering.Checked)
+            {
+                Settings.LoadEntireFileSizeLimit = (int) nudMemoryBuffering.Value;
+            }
+            else
+            {
+                Settings.LoadEntireFileSizeLimit = -1;
+            }
+
             SetMainWindowSettings();
         }
 
@@ -221,6 +230,17 @@ namespace amp.UtilityClasses.Settings
             // the user decides if an internet request is allowed..
             cbCheckUpdatesStartup.Checked = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
 
+            cbMemoryBuffering.Checked = Settings.LoadEntireFileSizeLimit > 0;
+            if (Settings.LoadEntireFileSizeLimit > 0)
+            {
+                nudMemoryBuffering.Value = Settings.LoadEntireFileSizeLimit;
+                nudMemoryBuffering.Enabled = true;
+            }
+            else
+            {
+                nudMemoryBuffering.Value = 100;
+                nudMemoryBuffering.Enabled = false;
+            }
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
@@ -344,6 +364,13 @@ namespace amp.UtilityClasses.Settings
             {
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        private void cbMemoryBuffering_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkBox = (CheckBox) sender;
+            nudMemoryBuffering.Value = 100;
+            nudMemoryBuffering.Enabled = checkBox.Checked;
         }
     }
 }

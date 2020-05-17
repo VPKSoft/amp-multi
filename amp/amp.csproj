@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\PropertyChanged.Fody.3.2.8\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.3.2.8\build\PropertyChanged.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -184,7 +184,6 @@
     <Compile Include="UtilityClasses\Controls\ImageProgressBar.Designer.cs">
       <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\Gists\IpcClientServer.ExcludeLicense.cs" />
     <Compile Include="UtilityClasses\WindowsPowerSave\ThreadExecutionState.cs" />
     <Compile Include="WCFRemote\IampRemote.cs" />
     <Compile Include="SQLiteDatabase\Database.cs" />
@@ -334,6 +333,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="amp.licenseheader" />
+    <None Include="amp2.licenseheader" />
     <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
