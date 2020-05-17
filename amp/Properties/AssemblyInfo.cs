@@ -35,7 +35,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("VPKSoft")]
 [assembly: AssemblyProduct("amp#")]
-[assembly: AssemblyCopyright("Copyright © VPKSoft 2019")]
+[assembly: AssemblyCopyright("Copyright © VPKSoft 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
