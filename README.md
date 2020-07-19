@@ -1,6 +1,8 @@
 # amp#
 A music player for common audio formats with a simple and intuitive GUI.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/uhlautvij4stgkwk?svg=true)](https://ci.appveyor.com/project/VPKSoft/amp)
+
 ## Screenshot
 ![image](https://user-images.githubusercontent.com/40712699/62694814-b65d7580-b9dd-11e9-82e0-cddc0335b603.png)
 
