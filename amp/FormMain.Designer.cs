@@ -36,7 +36,7 @@ namespace amp
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tmSeek = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.msMain = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveAlbumAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +63,9 @@ namespace amp
             this.tbTool = new System.Windows.Forms.ToolStrip();
             this.tbRand = new System.Windows.Forms.ToolStripButton();
             this.tbShuffle = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbQueueStack = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbPrevious = new System.Windows.Forms.ToolStripButton();
             this.tbPlayNext = new System.Windows.Forms.ToolStripButton();
             this.tbNext = new System.Windows.Forms.ToolStripButton();
@@ -87,7 +90,7 @@ namespace amp
             this.avLine = new VPKSoft.AudioVisualization.AudioVisualizationPlot();
             this.tmPendOperation = new System.Windows.Forms.Timer(this.components);
             this.tmIPCFiles = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip1.SuspendLayout();
+            this.msMain.SuspendLayout();
             this.tbTool.SuspendLayout();
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
@@ -102,18 +105,18 @@ namespace amp
             this.tmSeek.Enabled = true;
             this.tmSeek.Tick += new System.EventHandler(this.tmSeek_Tick);
             // 
-            // menuStrip1
+            // msMain
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(30, 30);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.msMain.ImageScalingSize = new System.Drawing.Size(30, 30);
+            this.msMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
             this.mnuQueue,
             this.mnuHelp});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(549, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
+            this.msMain.Location = new System.Drawing.Point(0, 0);
+            this.msMain.Name = "msMain";
+            this.msMain.Size = new System.Drawing.Size(549, 24);
+            this.msMain.TabIndex = 5;
+            this.msMain.Text = "menuStrip1";
             // 
             // mnuFile
             // 
@@ -327,6 +330,9 @@ namespace amp
             this.tbTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbRand,
             this.tbShuffle,
+            this.toolStripSeparator1,
+            this.tsbQueueStack,
+            this.toolStripSeparator2,
             this.tbPrevious,
             this.tbPlayNext,
             this.tbNext,
@@ -360,6 +366,26 @@ namespace amp
             this.tbShuffle.Size = new System.Drawing.Size(34, 34);
             this.tbShuffle.Text = "tbSuffle";
             this.tbShuffle.ToolTipText = "Continous playback";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 37);
+            // 
+            // tsbQueueStack
+            // 
+            this.tsbQueueStack.CheckOnClick = true;
+            this.tsbQueueStack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbQueueStack.Image = global::amp.Properties.Resources.stack;
+            this.tsbQueueStack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbQueueStack.Name = "tsbQueueStack";
+            this.tsbQueueStack.Size = new System.Drawing.Size(34, 34);
+            this.tsbQueueStack.Text = "Stack queue";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 37);
             // 
             // tbPrevious
             // 
@@ -598,11 +624,15 @@ namespace amp
             this.avBars.ColorGradientRightStart = System.Drawing.Color.LightSteelBlue;
             this.avBars.ColorHertzLabels = System.Drawing.Color.Magenta;
             this.avBars.CombineChannels = false;
+            this.avBars.CustomWindowFunc = null;
             this.avBars.DisplayHertzLabels = false;
             this.avBars.DrawWithGradient = true;
+            this.avBars.FftWindowType = VPKSoft.AudioVisualization.WindowType.Hanning;
             this.avBars.HertzSpan = 92;
             this.avBars.Location = new System.Drawing.Point(12, 3);
+            this.avBars.MinorityCropOnBarLevel = false;
             this.avBars.MinorityCropPercentage = 3;
+            this.avBars.MinorityPercentageStepping = 1000;
             this.avBars.Name = "avBars";
             this.avBars.RefreshRate = 30;
             this.avBars.Size = new System.Drawing.Size(402, 10);
@@ -614,9 +644,13 @@ namespace amp
             this.avLine.ColorAudioChannelRight = System.Drawing.Color.LimeGreen;
             this.avLine.ColorHertzLabels = System.Drawing.Color.Magenta;
             this.avLine.CombineChannels = false;
+            this.avLine.CustomWindowFunc = null;
             this.avLine.DisplayHertzLabels = false;
+            this.avLine.FftWindowType = VPKSoft.AudioVisualization.WindowType.Hanning;
             this.avLine.Location = new System.Drawing.Point(34, 19);
+            this.avLine.MinorityCropOnBarLevel = false;
             this.avLine.MinorityCropPercentage = 2;
+            this.avLine.MinorityPercentageStepping = 1000;
             this.avLine.Name = "avLine";
             this.avLine.RefreshRate = 30;
             this.avLine.Size = new System.Drawing.Size(402, 10);
@@ -640,9 +674,9 @@ namespace amp
             this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.ssStatus);
             this.Controls.Add(this.tbTool);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.msMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.msMain;
             this.Name = "FormMain";
             this.Text = "amp#";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
@@ -650,8 +684,8 @@ namespace amp
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.ResizeEnd += new System.EventHandler(this.MainWindow_LocationChanged);
             this.LocationChanged += new System.EventHandler(this.MainWindow_LocationChanged);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.msMain.ResumeLayout(false);
+            this.msMain.PerformLayout();
             this.tbTool.ResumeLayout(false);
             this.tbTool.PerformLayout();
             this.ssStatus.ResumeLayout(false);
@@ -670,7 +704,7 @@ namespace amp
         #endregion
 
         private Timer tmSeek;
-        private MenuStrip menuStrip1;
+        private MenuStrip msMain;
         private ToolStripMenuItem mnuFile;
         private ToolStrip tbTool;
         private ToolStripButton tbRand;
@@ -721,6 +755,9 @@ namespace amp
         private Panel pnAudioVisualizationMain;
         private VPKSoft.AudioVisualization.AudioVisualizationBars avBars;
         private VPKSoft.AudioVisualization.AudioVisualizationPlot avLine;
+        private ToolStripButton tsbQueueStack;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator toolStripSeparator2;
     }
 }
 

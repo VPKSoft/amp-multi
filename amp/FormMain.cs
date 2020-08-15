@@ -59,7 +59,6 @@ using VPKSoft.ScriptRunner;
 using VPKSoft.Utils;
 using VPKSoft.VersionCheck.Forms;
 using Utils = VPKSoft.LangLib.Utils;
-//using VPKSoft.VersionCheck.Forms;
 #endregion
 
 namespace amp
@@ -137,62 +136,67 @@ namespace amp
         /// <summary>
         /// A flag indicating whether the quiet hours is enabled in the settings.
         /// </summary>
-        public static bool QuietHours = false;
+        public static bool QuietHours { get; set; } = false;
 
         /// <summary>
         /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
         /// </summary>
-        public static string QuietHoursFrom = "08:00";
+        public static string QuietHoursFrom  { get; set; } = "08:00";
 
         /// <summary>
         /// The audio visualization style.
         /// </summary>
-        public static int AudioVisualizationStyle = 0;
+        public static int AudioVisualizationStyle { get; set; } = 0;
 
         /// <summary>
         /// The percentage the audio visualization should take from the main form's playlist area.
         /// </summary>
-        public static int AudioVisualizationVisualPercentage = 15;
+        public static int AudioVisualizationVisualPercentage { get; set; } = 15;
 
         /// <summary>
         /// A value indicating whether the audio visualization should combine the channels into a single view.
         /// </summary>
-        public static bool AudioVisualizationCombineChannels = false;
+        public static bool AudioVisualizationCombineChannels { get; set; } = false;
 
         /// <summary>
         /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
         /// </summary>
-        public static string QuietHoursTo = "23:00";
+        public static string QuietHoursTo { get; set; } = "23:00";
 
         /// <summary>
         /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
         /// </summary>
-        public static bool QuietHoursPause = false;
+        public static bool QuietHoursPause { get; set; } = false;
 
         /// <summary>
         /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
         /// </summary>
-        public static double QuietHoursVolPercentage = 0.7;
+        public static double QuietHoursVolPercentage { get; set; } = 0.7;
 
         /// <summary>
         /// The latency in milliseconds for the <see cref="WaveOut.DesiredLatency"/>.
         /// </summary>
-        public static int LatencyMs = 300;
+        public static int LatencyMs { get; set; } = 300;
 
         /// <summary>
         /// A value indicating if the remote control WCF API is enabled.
         /// </summary>
-        public static bool RemoteControlApiWcf = false;
+        public static bool RemoteControlApiWcf { get; set; } = false;
 
         /// <summary>
         /// The remote control WCF API address (URL).
         /// </summary>
-        public static string RemoteControlApiWcfAddress = "http://localhost:11316/ampRemote";
+        public static string RemoteControlApiWcfAddress { get; set; } = "http://localhost:11316/ampRemote";
 
         /// <summary>
         /// A value indicating whether the software should check for updates automatically upon startup.
         /// </summary>
-        public static bool AutoCheckUpdates = false;
+        public static bool AutoCheckUpdates { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the stack random percentage.
+        /// </summary>
+        internal static int StackRandomPercentage { get => MusicFile.StackRandomPercentage; set => MusicFile.StackRandomPercentage = value; }
         #endregion
 
         /// <summary>
@@ -234,6 +238,8 @@ namespace amp
             tmPendOperation.Enabled = true;
             FormSettings.SetMainWindowSettings();
             AmpRemote.MainWindow = this;
+
+            MusicFile.StackRandomPercentage = StackRandomPercentage;
 
             SetAudioVisualization();
         }
@@ -344,6 +350,7 @@ namespace amp
         /// </summary>
         public double SecondsTotal;
 
+        #region NAudioPlayBack
         /// <summary>
         /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
         /// </summary>
@@ -363,6 +370,8 @@ namespace amp
         /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
         /// </summary>
         private volatile WaveChannel32 volumeStream;
+        #endregion
+
 
         /// <summary>
         /// A flag indicating whether the playback is stopped.
@@ -372,12 +381,14 @@ namespace amp
         /// <summary>
         /// A flag indicating if a song is currently playing.
         /// </summary>
-        private volatile bool playing;
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool playing;
 
         /// <summary>
         /// A flag indicating whether a new song has been selected compared to previously playing song.
         /// </summary>
-        private volatile bool newSong;
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool newSong;
 
         /// <summary>
         /// The latest song index which was played or is being played.
@@ -607,161 +618,176 @@ namespace amp
         {
             var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
             // prevent total sleep/hibernate mode of the system..
-            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
-            while (!stopped)
+
+            try
             {
-                if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
+
+                ThreadExecutionState.SetThreadExecutionState(
+                    EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
+                while (!stopped)
                 {
-                    // prevent total sleep/hibernate mode of the system..
-                    if (previousPaused)
+                    if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
                     {
-                        ThreadExecutionState.SetThreadExecutionState(
-                            EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
-                    }
-                    else
-                    {
-                        // on pause allow total sleep/hibernate mode of the system..
-                        ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
-                    }
-
-                    previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
-                }
-
-                if (MFile != null)
-                {
-                    if (!playing || newSong)
-                    {
-                        CloseWaveOut();
-                        waveOutDevice = new WaveOut
+                        // prevent total sleep/hibernate mode of the system..
+                        if (previousPaused)
                         {
-                            DesiredLatency = LatencyMs
-                        };
-                        try
-                        {
-                            var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
-                            mainOutputStream = waveStream;
-                            mainMemoryStream = memoryStream;
-                        }
-                        catch
-                        {
-                            GetNextSong();
-                            continue;
-                        }
-                        if (mainOutputStream == null)
-                        {
-                            continue;
-                        }
-                        SecondsTotal = mainOutputStream.TotalTime.TotalSeconds;
-
-                        if (lbSong.InvokeRequired)
-                        {
-                            lbSong.Invoke(new VoidDelegate((UpdateSongName)));
+                            ThreadExecutionState.SetThreadExecutionState(
+                                EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
                         }
                         else
                         {
-                            UpdateSongName();
+                            // on pause allow total sleep/hibernate mode of the system..
+                            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
                         }
 
-                        if (pnVol2.InvokeRequired)
-                        {
-                            lbSong.Invoke(new VoidDelegate((UpdateVolume)));
-                        }
-                        else
-                        {
-                            UpdateVolume();
-                        }
-
-                        if (pnStars1.InvokeRequired)
-                        {
-                            lbSong.Invoke(new VoidDelegate((UpdateStars)));
-                        }
-                        else
-                        {
-                            UpdateStars();
-                        }
-                        
-                        if (tbTool.InvokeRequired) 
-                        {
-                            tbTool.Invoke(new VoidDelegate(SetPause));
-                        }
-                        else
-                        {
-                            SetPause();
-                        }
-
-
-                        waveOutDevice.Init(mainOutputStream);
-                        waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
-                        waveOutDevice.Play();
-                        if (FormSettings.IsQuietHour() && !QuietHoursPause)
-                        {
-                            volumeStream.Volume = MFile.Volume * (float)QuietHoursVolPercentage;
-                        }
-                        else
-                        {
-                            volumeStream.Volume = MFile.Volume;
-                        }
-
-                        if (InvokeRequired)
-                        {
-                            Invoke(new VoidDelegate(TextInvoker));
-                        }
-                        else
-                        {
-                            TextInvoker();
-                        }
-
-
-                        playing = true;
-                        newSong = false;
+                        previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
                     }
 
-                    if ((calcMs % 100) == 0)
+                    if (MFile != null)
                     {
-                        if (FormSettings.IsQuietHour() && QuietHoursPause)
+                        if (!playing || newSong)
                         {
+                            CloseWaveOut();
+                            waveOutDevice = new WaveOut
+                            {
+                                DesiredLatency = LatencyMs, 
+                            };
+                            try
+                            {
+                                var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
+                                mainOutputStream = waveStream;
+                                mainMemoryStream = memoryStream;
+                            }
+                            catch
+                            {
+                                GetNextSong();
+                                continue;
+                            }
+
+                            if (mainOutputStream == null)
+                            {
+                                continue;
+                            }
+
+                            SecondsTotal = mainOutputStream.TotalTime.TotalSeconds;
+
+                            if (lbSong.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateSongName)));
+                            }
+                            else
+                            {
+                                UpdateSongName();
+                            }
+
+                            if (pnVol2.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateVolume)));
+                            }
+                            else
+                            {
+                                UpdateVolume();
+                            }
+
+                            if (pnStars1.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateStars)));
+                            }
+                            else
+                            {
+                                UpdateStars();
+                            }
+
+                            if (tbTool.InvokeRequired)
+                            {
+                                tbTool.Invoke(new VoidDelegate(SetPause));
+                            }
+                            else
+                            {
+                                SetPause();
+                            }
+
+
+                            waveOutDevice.Init(mainOutputStream);
+                            waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
+                            waveOutDevice.Play();
+                            if (FormSettings.IsQuietHour() && !QuietHoursPause)
+                            {
+                                volumeStream.Volume = MFile.Volume * (float) QuietHoursVolPercentage;
+                            }
+                            else
+                            {
+                                volumeStream.Volume = MFile.Volume;
+                            }
+
                             if (InvokeRequired)
                             {
-                                Invoke(new VoidDelegate(PauseInvoker));
                                 Invoke(new VoidDelegate(TextInvoker));
                             }
                             else
                             {
-                                PauseInvoker();
                                 TextInvoker();
                             }
+
+
+                            playing = true;
+                            newSong = false;
                         }
-                        else
+
+                        if ((calcMs % 100) == 0)
                         {
-                            if (InvokeRequired)
+                            if (FormSettings.IsQuietHour() && QuietHoursPause)
                             {
-                                Invoke(new VoidDelegate(PlayInvoker));
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new VoidDelegate(PauseInvoker));
+                                    Invoke(new VoidDelegate(TextInvoker));
+                                }
+                                else
+                                {
+                                    PauseInvoker();
+                                    TextInvoker();
+                                }
                             }
                             else
                             {
-                                PlayInvoker();
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new VoidDelegate(PlayInvoker));
+                                }
+                                else
+                                {
+                                    PlayInvoker();
+                                }
                             }
                         }
                     }
-                }
-                Thread.Sleep(100);
-                calcMs++; // 100 ms * 10 == second, lets make it ten seconds so 10 * 10 = 100;
+
+                    Thread.Sleep(100);
+                    calcMs++; // 100 ms * 10 == second, lets make it ten seconds so 10 * 10 = 100;
 
 
-                if (mainOutputStream == null)
-                {
-                    Seconds = 0;
-                    SecondsTotal = 0;
+                    if (mainOutputStream == null)
+                    {
+                        Seconds = 0;
+                        SecondsTotal = 0;
+                    }
+                    else
+                    {
+                        Seconds = mainOutputStream.CurrentTime.TotalSeconds;
+                    }
+
+                    playerThreadLoaded = true;
                 }
-                else
-                {
-                    Seconds = mainOutputStream.CurrentTime.TotalSeconds;
-                }
-                playerThreadLoaded = true;
+
+                CloseWaveOut();
+                // on thread stop allow total sleep/hibernate mode of the system..
+                ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
             }
-            CloseWaveOut();
-            // on thread stop allow total sleep/hibernate mode of the system..
-            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -1266,6 +1292,12 @@ namespace amp
         }
 
         /// <summary>
+        /// Gets a value indicating whether the stack queue is enabled.
+        /// </summary>
+        /// <value><c>true</c> if stack queue is enabled; otherwise, <c>false</c>.</value>
+        internal bool StackQueueEnabled => tsbQueueStack.Checked;
+
+        /// <summary>
         /// Sets a user given rating for a song to the database.
         /// </summary>
         /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
@@ -1654,46 +1686,7 @@ namespace amp
         public bool ScrambleQueue()
         {
             humanActivity.Enabled = false;
-            bool affected = false; // if any songs in the play list was affected..
-            List<int> queueIndices = new List<int>(); // the list of current queue indices..
-            List<int> newQueueIndices = new List<int>(); // the list of new current queue indices..
-
-            // get the current queue indices..
-            foreach (MusicFile mf in PlayList)
-            {
-                if (mf.QueueIndex > 0)
-                {
-                    queueIndices.Add(mf.QueueIndex);
-                }
-            }
-
-            // if there is nothing queued do not continue the method execution..
-            if (queueIndices.Count == 0)
-            {
-                humanActivity.Enabled = true;
-                return false;
-            }
-
-            // randomize the new indices..
-            for (int i = 0; i < queueIndices.Count; i++)
-            {
-                int newQueueIndex = Random.Next(queueIndices.Count) + 1;
-                while ((queueIndices[i] == newQueueIndex && i != queueIndices.Count - 1) || newQueueIndices.Exists(f => f == newQueueIndex))
-                {
-                    newQueueIndex = Random.Next(queueIndices.Count) + 1;
-                }
-                newQueueIndices.Add(newQueueIndex);
-                affected = true;
-            }
-
-            int nextIndex = 0;
-            foreach (MusicFile mf in PlayList)
-            {
-                if (mf.QueueIndex > 0)
-                {
-                    mf.QueueIndex = newQueueIndices[nextIndex++];
-                }
-            }
+            bool affected = MusicFile.ScrambleQueue(ref PlayList); // if any songs in the play list was affected..
 
             if (affected)
             {

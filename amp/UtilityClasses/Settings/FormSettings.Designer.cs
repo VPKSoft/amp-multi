@@ -66,6 +66,16 @@ namespace amp.UtilityClasses.Settings
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMain = new System.Windows.Forms.TabPage();
             this.tpAdditional = new System.Windows.Forms.TabPage();
+            this.gbStackQueue = new System.Windows.Forms.GroupBox();
+            this.tlpStackQueueRandomLabel = new System.Windows.Forms.TableLayoutPanel();
+            this.lbStackQueueRandom = new System.Windows.Forms.Label();
+            this.lbStackQueueRandomValue = new System.Windows.Forms.Label();
+            this.tbStackQueueRandom = new System.Windows.Forms.TrackBar();
+            this.gbMemoryBuffering = new System.Windows.Forms.GroupBox();
+            this.cbMemoryBuffering = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.nudMemoryBuffering = new System.Windows.Forms.NumericUpDown();
+            this.lbMemoryBuffer = new System.Windows.Forms.Label();
             this.gbAudioVisualizationStyle = new System.Windows.Forms.GroupBox();
             this.cbAudioVisualizationCombineChannels = new System.Windows.Forms.CheckBox();
             this.lbAudioVisualizationSizePercentage = new System.Windows.Forms.Label();
@@ -74,11 +84,6 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.gbMemoryBuffering = new System.Windows.Forms.GroupBox();
-            this.lbMemoryBuffer = new System.Windows.Forms.Label();
-            this.nudMemoryBuffering = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbMemoryBuffering = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -87,10 +92,13 @@ namespace amp.UtilityClasses.Settings
             this.tcMain.SuspendLayout();
             this.tpMain.SuspendLayout();
             this.tpAdditional.SuspendLayout();
-            this.gbAudioVisualizationStyle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
+            this.gbStackQueue.SuspendLayout();
+            this.tlpStackQueueRandomLabel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbStackQueueRandom)).BeginInit();
             this.gbMemoryBuffering.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).BeginInit();
+            this.gbAudioVisualizationStyle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
@@ -452,6 +460,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // tpAdditional
             // 
+            this.tpAdditional.Controls.Add(this.gbStackQueue);
             this.tpAdditional.Controls.Add(this.gbMemoryBuffering);
             this.tpAdditional.Controls.Add(this.gbAudioVisualizationStyle);
             this.tpAdditional.Location = new System.Drawing.Point(4, 22);
@@ -461,6 +470,134 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.TabIndex = 1;
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
+            // 
+            // gbStackQueue
+            // 
+            this.gbStackQueue.Controls.Add(this.tlpStackQueueRandomLabel);
+            this.gbStackQueue.Controls.Add(this.tbStackQueueRandom);
+            this.gbStackQueue.Location = new System.Drawing.Point(6, 269);
+            this.gbStackQueue.Name = "gbStackQueue";
+            this.gbStackQueue.Size = new System.Drawing.Size(246, 73);
+            this.gbStackQueue.TabIndex = 2;
+            this.gbStackQueue.TabStop = false;
+            this.gbStackQueue.Text = "Stack queue";
+            // 
+            // tlpStackQueueRandomLabel
+            // 
+            this.tlpStackQueueRandomLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpStackQueueRandomLabel.AutoSize = true;
+            this.tlpStackQueueRandomLabel.ColumnCount = 2;
+            this.tlpStackQueueRandomLabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpStackQueueRandomLabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpStackQueueRandomLabel.Controls.Add(this.lbStackQueueRandom, 0, 0);
+            this.tlpStackQueueRandomLabel.Controls.Add(this.lbStackQueueRandomValue, 1, 0);
+            this.tlpStackQueueRandomLabel.Location = new System.Drawing.Point(6, 19);
+            this.tlpStackQueueRandomLabel.Name = "tlpStackQueueRandomLabel";
+            this.tlpStackQueueRandomLabel.RowCount = 2;
+            this.tlpStackQueueRandomLabel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpStackQueueRandomLabel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpStackQueueRandomLabel.Size = new System.Drawing.Size(240, 19);
+            this.tlpStackQueueRandomLabel.TabIndex = 3;
+            // 
+            // lbStackQueueRandom
+            // 
+            this.lbStackQueueRandom.AutoSize = true;
+            this.lbStackQueueRandom.Location = new System.Drawing.Point(3, 0);
+            this.lbStackQueueRandom.Name = "lbStackQueueRandom";
+            this.lbStackQueueRandom.Size = new System.Drawing.Size(178, 13);
+            this.lbStackQueueRandom.TabIndex = 1;
+            this.lbStackQueueRandom.Text = "Randomize stack from top (percent):";
+            // 
+            // lbStackQueueRandomValue
+            // 
+            this.lbStackQueueRandomValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbStackQueueRandomValue.AutoSize = true;
+            this.lbStackQueueRandomValue.Location = new System.Drawing.Point(207, 0);
+            this.lbStackQueueRandomValue.Name = "lbStackQueueRandomValue";
+            this.lbStackQueueRandomValue.Size = new System.Drawing.Size(30, 13);
+            this.lbStackQueueRandomValue.TabIndex = 2;
+            this.lbStackQueueRandomValue.Text = "50 %";
+            this.lbStackQueueRandomValue.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // tbStackQueueRandom
+            // 
+            this.tbStackQueueRandom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbStackQueueRandom.AutoSize = false;
+            this.tbStackQueueRandom.Location = new System.Drawing.Point(6, 44);
+            this.tbStackQueueRandom.Maximum = 100;
+            this.tbStackQueueRandom.Name = "tbStackQueueRandom";
+            this.tbStackQueueRandom.Size = new System.Drawing.Size(240, 20);
+            this.tbStackQueueRandom.TabIndex = 0;
+            this.tbStackQueueRandom.TickFrequency = 10;
+            this.tbStackQueueRandom.Value = 50;
+            this.tbStackQueueRandom.ValueChanged += new System.EventHandler(this.tbStackQueueRandom_ValueChanged);
+            // 
+            // gbMemoryBuffering
+            // 
+            this.gbMemoryBuffering.Controls.Add(this.cbMemoryBuffering);
+            this.gbMemoryBuffering.Controls.Add(this.label2);
+            this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
+            this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
+            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 201);
+            this.gbMemoryBuffering.Name = "gbMemoryBuffering";
+            this.gbMemoryBuffering.Size = new System.Drawing.Size(246, 62);
+            this.gbMemoryBuffering.TabIndex = 1;
+            this.gbMemoryBuffering.TabStop = false;
+            this.gbMemoryBuffering.Text = "Memory buffering";
+            // 
+            // cbMemoryBuffering
+            // 
+            this.cbMemoryBuffering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbMemoryBuffering.AutoSize = true;
+            this.cbMemoryBuffering.Location = new System.Drawing.Point(225, 1);
+            this.cbMemoryBuffering.Name = "cbMemoryBuffering";
+            this.cbMemoryBuffering.Size = new System.Drawing.Size(15, 14);
+            this.cbMemoryBuffering.TabIndex = 3;
+            this.cbMemoryBuffering.UseVisualStyleBackColor = true;
+            this.cbMemoryBuffering.CheckedChanged += new System.EventHandler(this.cbMemoryBuffering_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(99, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "MB into the memory";
+            // 
+            // nudMemoryBuffering
+            // 
+            this.nudMemoryBuffering.Location = new System.Drawing.Point(6, 32);
+            this.nudMemoryBuffering.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudMemoryBuffering.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudMemoryBuffering.Name = "nudMemoryBuffering";
+            this.nudMemoryBuffering.Size = new System.Drawing.Size(87, 20);
+            this.nudMemoryBuffering.TabIndex = 1;
+            this.nudMemoryBuffering.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudMemoryBuffering.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // lbMemoryBuffer
+            // 
+            this.lbMemoryBuffer.AutoSize = true;
+            this.lbMemoryBuffer.Location = new System.Drawing.Point(6, 16);
+            this.lbMemoryBuffer.Name = "lbMemoryBuffer";
+            this.lbMemoryBuffer.Size = new System.Drawing.Size(118, 13);
+            this.lbMemoryBuffer.TabIndex = 0;
+            this.lbMemoryBuffer.Text = "Buffer files smaller than:";
             // 
             // gbAudioVisualizationStyle
             // 
@@ -561,71 +698,6 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // gbMemoryBuffering
-            // 
-            this.gbMemoryBuffering.Controls.Add(this.cbMemoryBuffering);
-            this.gbMemoryBuffering.Controls.Add(this.label2);
-            this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
-            this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
-            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 201);
-            this.gbMemoryBuffering.Name = "gbMemoryBuffering";
-            this.gbMemoryBuffering.Size = new System.Drawing.Size(246, 62);
-            this.gbMemoryBuffering.TabIndex = 1;
-            this.gbMemoryBuffering.TabStop = false;
-            this.gbMemoryBuffering.Text = "Memory buffering";
-            // 
-            // lbMemoryBuffer
-            // 
-            this.lbMemoryBuffer.AutoSize = true;
-            this.lbMemoryBuffer.Location = new System.Drawing.Point(6, 16);
-            this.lbMemoryBuffer.Name = "lbMemoryBuffer";
-            this.lbMemoryBuffer.Size = new System.Drawing.Size(118, 13);
-            this.lbMemoryBuffer.TabIndex = 0;
-            this.lbMemoryBuffer.Text = "Buffer files smaller than:";
-            // 
-            // nudMemoryBuffering
-            // 
-            this.nudMemoryBuffering.Location = new System.Drawing.Point(6, 32);
-            this.nudMemoryBuffering.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nudMemoryBuffering.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudMemoryBuffering.Name = "nudMemoryBuffering";
-            this.nudMemoryBuffering.Size = new System.Drawing.Size(87, 20);
-            this.nudMemoryBuffering.TabIndex = 1;
-            this.nudMemoryBuffering.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudMemoryBuffering.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(99, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "MB into the memory";
-            // 
-            // cbMemoryBuffering
-            // 
-            this.cbMemoryBuffering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbMemoryBuffering.AutoSize = true;
-            this.cbMemoryBuffering.Location = new System.Drawing.Point(225, 1);
-            this.cbMemoryBuffering.Name = "cbMemoryBuffering";
-            this.cbMemoryBuffering.Size = new System.Drawing.Size(15, 14);
-            this.cbMemoryBuffering.TabIndex = 3;
-            this.cbMemoryBuffering.UseVisualStyleBackColor = true;
-            this.cbMemoryBuffering.CheckedChanged += new System.EventHandler(this.cbMemoryBuffering_CheckedChanged);
-            // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
@@ -661,12 +733,17 @@ namespace amp.UtilityClasses.Settings
             this.tpMain.ResumeLayout(false);
             this.tpMain.PerformLayout();
             this.tpAdditional.ResumeLayout(false);
-            this.gbAudioVisualizationStyle.ResumeLayout(false);
-            this.gbAudioVisualizationStyle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
+            this.gbStackQueue.ResumeLayout(false);
+            this.gbStackQueue.PerformLayout();
+            this.tlpStackQueueRandomLabel.ResumeLayout(false);
+            this.tlpStackQueueRandomLabel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbStackQueueRandom)).EndInit();
             this.gbMemoryBuffering.ResumeLayout(false);
             this.gbMemoryBuffering.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).EndInit();
+            this.gbAudioVisualizationStyle.ResumeLayout(false);
+            this.gbAudioVisualizationStyle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -721,5 +798,10 @@ namespace amp.UtilityClasses.Settings
         private Label label2;
         private NumericUpDown nudMemoryBuffering;
         private Label lbMemoryBuffer;
+        private GroupBox gbStackQueue;
+        private TrackBar tbStackQueueRandom;
+        private Label lbStackQueueRandom;
+        private TableLayoutPanel tlpStackQueueRandomLabel;
+        private Label lbStackQueueRandomValue;
     }
 }

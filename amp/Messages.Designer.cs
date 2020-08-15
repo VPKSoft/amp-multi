@@ -277,6 +277,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} %|A message describing a percentage number value.
+        /// </summary>
+        public static string msgPercentageNumber {
+            get {
+                return ResourceManager.GetString("msgPercentageNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play|Play a song or resume paused.
         /// </summary>
         public static string msgPlay {

@@ -27,6 +27,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -412,6 +413,8 @@ namespace amp.UtilityClasses
         /// </summary>
         public long FileSize { get; }
 
+
+        #region Queue
         /// <summary>
         /// Gets or sets the queue index of the music file.
         /// </summary>
@@ -486,7 +489,7 @@ namespace amp.UtilityClasses
         {
             if (QueueIndex > 0)
             {
-                Queue(ref files);
+                Queue(ref files, false);
                 //return; // added return at 2019/07/22, might cause a bug or fix one..
             }
 
@@ -553,7 +556,8 @@ namespace amp.UtilityClasses
         /// Queues this music file to the end of the queue of given music file list.
         /// </summary>
         /// <param name="files">A reference to a list of <see cref="MusicFile"/> class instances to which this instance should be queued to the end of.</param>
-        public void Queue(ref List<MusicFile> files)
+        /// <param name="stackQueueEnabled">A value indicating whether the stack queue (continuous queue playback with randomization is enabled).</param>
+        public void Queue(ref List<MusicFile> files, bool stackQueueEnabled)
         {
             int iQueue = 0;
             foreach (MusicFile mf in files)
@@ -575,11 +579,133 @@ namespace amp.UtilityClasses
                         mf.QueueIndex--; //::QUEUE
                     }
                 }
+
+                if (stackQueueEnabled) // the stack queue randomization..
+                {
+                    QueueIndex = files.Max(f => f.QueueIndex) + 1;
+                    StackQueue(ref files, StackRandomPercentage);
+                }
+
                 return;
             }
             QueueIndex = iQueue + 1;
             //::QUEUE
         }
+
+        /// <summary>
+        /// Gets or sets the stack random percentage.
+        /// </summary>
+        /// <value>The stack random percentage.</value>
+        internal static int StackRandomPercentage { get; set; } = 0;
+
+        /// <summary>
+        /// Loops the current queue so that it will not be consumed in the process. The previous song is put to the bottom of the queue and the end of the queue is re-randomized.
+        /// </summary>
+        /// <param name="files">The files which queue to adjust.</param>
+        /// <param name="stackRandomPercentage">The stack random percentage.</param>
+        /// <returns><c>true</c> if changes were made to the play list, <c>false</c> otherwise.</returns>
+        internal bool StackQueue(ref List<MusicFile> files, int stackRandomPercentage)
+        {
+            // get the music files with a queue index value..
+            var musicFiles = 
+                files.Where(f => f.QueueIndex > 0).
+                    OrderByDescending(f => f.QueueIndex).ToList();
+
+
+            // get the amount of music files in the queue to randomize to a new order..
+            var randomizeCount = (int) (musicFiles.Count * (stackRandomPercentage / 100.0));
+
+            // zero or amount of the queue leads to do-nothing-condition..
+            if (randomizeCount == 0 || randomizeCount == musicFiles.Count || stackRandomPercentage == 0) 
+            {
+                return false; // no modifications were made..
+            }
+
+            // get the files which queue index to re-randomize..
+            var reRandomFiles = musicFiles.Take(randomizeCount).ToList();
+
+            List<int> usedQueueIndices = new List<int>();
+
+            // get the min-max range for the randomization..
+            var min = reRandomFiles.Min(f => f.QueueIndex);
+            var max = reRandomFiles.Max(f => f.QueueIndex);
+
+            // loop through the files which queue index is to be re-randomized..
+            foreach (var reRandomFile in reRandomFiles)
+            {
+                // the last music file won't be re-randomized..
+                if (reRandomFile.QueueIndex == max)
+                {
+                    continue;
+                }
+
+                // random new unique queue indices..
+                var newQueueIndex = Random.Next(min, max);
+                while (usedQueueIndices.Contains(newQueueIndex))
+                {
+                    newQueueIndex = Random.Next(min, max);
+                }
+
+                // add the new randomized queue index to the list..
+                usedQueueIndices.Add(newQueueIndex);
+
+                // save the queue index..
+                reRandomFile.QueueIndex = newQueueIndex;
+            }
+            
+            // modifications to the playlist were made..
+            return true;
+        }
+
+        /// <summary>
+        /// Scrambles the queue with randomization to a new order.
+        /// </summary>
+        /// <param name="files">The files in the playlist which queue to scramble.</param>
+        /// <returns><c>true</c> if the <paramref name="files"/> was affected, <c>false</c> otherwise.</returns>
+        internal static bool ScrambleQueue(ref List<MusicFile> files)
+        {
+            bool affected = false; // if any songs in the play list was affected..
+            List<int> queueIndices = new List<int>(); // the list of current queue indices..
+            List<int> newQueueIndices = new List<int>(); // the list of new current queue indices..
+
+            // get the current queue indices..
+            foreach (MusicFile mf in files)
+            {
+                if (mf.QueueIndex > 0)
+                {
+                    queueIndices.Add(mf.QueueIndex);
+                }
+            }
+
+            // if there is nothing queued do not continue the method execution..
+            if (queueIndices.Count == 0)
+            {
+                return false;
+            }
+
+            // randomize the new indices..
+            for (int i = 0; i < queueIndices.Count; i++)
+            {
+                int newQueueIndex = Random.Next(queueIndices.Count) + 1;
+                while ((queueIndices[i] == newQueueIndex && i != queueIndices.Count - 1) || newQueueIndices.Exists(f => f == newQueueIndex))
+                {
+                    newQueueIndex = Random.Next(queueIndices.Count) + 1;
+                }
+                newQueueIndices.Add(newQueueIndex);
+                affected = true;
+            }
+
+            int nextIndex = 0;
+            foreach (MusicFile mf in files)
+            {
+                if (mf.QueueIndex > 0)
+                {
+                    mf.QueueIndex = newQueueIndices[nextIndex++];
+                }
+            }
+            return affected;
+        }
+        #endregion
 
         #region AlternateQueue        
         /// <summary>

@@ -204,7 +204,7 @@ namespace amp
                 }
                 else
                 {
-                    mf.Queue(ref PlayList);
+                    mf.Queue(ref PlayList, StackQueueEnabled);
                 }
             }
 
@@ -253,7 +253,7 @@ namespace amp
                 }
                 else
                 {
-                    mf.Queue(ref PlayList);
+                    mf.Queue(ref PlayList, StackQueueEnabled);
                 }
             }
 

@@ -172,7 +172,7 @@ namespace amp
                     }
                     else
                     {
-                        mf.Queue(ref PlayList);
+                        mf.Queue(ref PlayList, false);
                     }
                 }
                 lbMusic.RefreshItems();

@@ -292,6 +292,7 @@
     <None Include="Resources\bar_teal.png" />
     <None Include="Resources\Toolbox.png" />
     <None Include="Resources\copy_all.png" />
+    <None Include="Resources\stack.png" />
     <Content Include="todo_list.txt" />
     <None Include="Resources\help.png" />
     <None Include="Resources\info1.png" />
@@ -420,7 +421,7 @@
       <Version>1.0.0.6</Version>
     </PackageReference>
     <PackageReference Include="VPKSoft.LangLib">
-      <Version>1.0.2.1</Version>
+      <Version>1.0.2.6</Version>
     </PackageReference>
     <PackageReference Include="VPKSoft.PosLib">
       <Version>1.0.1.1</Version>

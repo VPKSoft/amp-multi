@@ -98,6 +98,7 @@ namespace amp.UtilityClasses.Settings
             FormMain.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
             FormMain.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
             FormMain.AudioVisualizationCombineChannels = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
+            FormMain.StackRandomPercentage = Settings.StackRandomPercentage;
         }
 
 
@@ -182,6 +183,7 @@ namespace amp.UtilityClasses.Settings
             vnml.Save(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
 
             Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
+            Settings.StackRandomPercentage = tbStackQueueRandom.Value;
 
             if (cbMemoryBuffering.Checked)
             {
@@ -214,6 +216,8 @@ namespace amp.UtilityClasses.Settings
             tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
             nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
             cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+
+            tbStackQueueRandom.Value = Settings.StackRandomPercentage;
 
             switch (Convert.ToInt32(vnml["visualizeAudio", "type", 0]))
             {
@@ -371,6 +375,13 @@ namespace amp.UtilityClasses.Settings
             var checkBox = (CheckBox) sender;
             nudMemoryBuffering.Value = 100;
             nudMemoryBuffering.Enabled = checkBox.Checked;
+        }
+
+        private void tbStackQueueRandom_ValueChanged(object sender, EventArgs e)
+        {
+            var trackBar = (TrackBar) sender;
+            lbStackQueueRandomValue.Text = DBLangEngine.GetMessage("msgPercentageNumber",
+                "{0} %|A message describing a percentage number value", tbStackQueueRandom.Value);
         }
     }
 }
