@@ -1406,7 +1406,9 @@ namespace amp
         // a user wants to add a new album to the software..
         private void mnuNewAlbum_Click(object sender, EventArgs e)
         {
-            string name = FormAddAlbum.Execute();
+            string name =
+                FormAddAlbum.Execute(DBLangEngine.GetMessage("msgNewAlbum",
+                    "New album|A dialog title to add a new album"));
             if (name != string.Empty)
             {
                 ListAlbums(Database.AddNewAlbum(name, Connection));
@@ -2128,7 +2130,8 @@ namespace amp
         // saves the album as..
         private void MnuSaveAlbumAs_Click(object sender, EventArgs e)
         {
-            string name = FormAddAlbum.Execute();
+            string name = FormAddAlbum.Execute(DBLangEngine.GetMessage("msgSaveAlbumAs",
+                "Save album as|A dialog title to save an existing album with a new name"));
             if (name != string.Empty)
             {
                 int id;

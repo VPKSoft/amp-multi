@@ -224,6 +224,21 @@ namespace amp.WCFRemote
         [OperationContract]
         void SetRandomizing(bool value);
 
+
+        /// <summary>
+        /// Gets a value indicating whether the stack queue playback mode is enabled or disabled.
+        /// </summary>
+        /// <returns><c>true</c> if the stack queue playback mode is enabled, <c>false</c> otherwise.</returns>
+        [OperationContract]
+        bool StackQueue();
+
+        /// <summary>
+        /// Sets a value indicating whether the stack queue playback mode is enabled.
+        /// </summary>
+        /// <param name="value">A value indicating if the stack queue playback mode should be on or off.</param>
+        [OperationContract]
+        void SetStackQueue(bool value);
+
         /// <summary>
         /// Gets a value indicating if the playback "engine" is shuffling songs. Queued song do override shuffling.
         /// </summary>
@@ -368,6 +383,12 @@ namespace amp.WCFRemote
         /// </summary>
         [DataMember]
         public bool Random { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the stack queue playback mode is enabled.
+        /// </summary>
+        [DataMember]
+        public bool StackQueue { get; set; }
 
         /// <summary>
         /// Indicates if the player is in shuffle mode.

@@ -374,7 +374,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Localization\" />
-    <Folder Include="Wiki\Images\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetZip">

@@ -273,4 +273,10 @@
   <data name="msgPercentageNumber" xml:space="preserve">
     <value>{0} %|A message describing a percentage number value</value>
   </data>
+  <data name="msgNewAlbum" xml:space="preserve">
+    <value>New album|A dialog title to add a new album</value>
+  </data>
+  <data name="msgSaveAlbumAs" xml:space="preserve">
+    <value>Save album as|A dialog title to save an existing album with a new name</value>
+  </data>
 </root>

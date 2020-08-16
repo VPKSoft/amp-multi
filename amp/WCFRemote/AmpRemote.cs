@@ -221,6 +221,7 @@ namespace amp.WCFRemote
                 Paused = Paused(),
                 QueueCount = GetQueuedSongs().Count,
                 Random = Randomizing(),
+                StackQueue = StackQueue(),
                 Shuffle = Shuffle(),
                 QueueChangedFromPreviousQuery = MusicFile.QueueChanged,
                 CurrentSongID = currentSongId,
@@ -432,6 +433,24 @@ namespace amp.WCFRemote
         public bool Randomizing()
         {
             return MainWindow.Randomizing;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the stack queue playback mode is enabled or disabled.
+        /// </summary>
+        /// <returns><c>true</c> if the stack queue playback mode is enabled, <c>false</c> otherwise.</returns>
+        public bool StackQueue()
+        {
+            return MainWindow.StackQueue;
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether the stack queue playback mode is enabled.
+        /// </summary>
+        /// <param name="value">A value indicating if the stack queue playback mode should be on or off.</param>
+        public void SetStackQueue(bool value)
+        {
+            MainWindow.StackQueue = value;
         }
 
         /// <summary>

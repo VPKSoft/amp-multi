@@ -259,6 +259,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New album|A dialog title to add a new album.
+        /// </summary>
+        public static string msgNewAlbum {
+            get {
+                return ResourceManager.GetString("msgNewAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open playlist file|As in open a play list file (m3u).
         /// </summary>
         public static string msgOpenPlaylistFile {
@@ -435,6 +444,15 @@ namespace amp {
         public static string msgRemoveQueueSnapshot {
             get {
                 return ResourceManager.GetString("msgRemoveQueueSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save album as|A dialog title to save an existing album with a new name.
+        /// </summary>
+        public static string msgSaveAlbumAs {
+            get {
+                return ResourceManager.GetString("msgSaveAlbumAs", resourceCulture);
             }
         }
         

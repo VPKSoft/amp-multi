@@ -326,6 +326,16 @@ namespace amp
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the stack queue is enabled.
+        /// </summary>
+        public bool StackQueue
+        {
+            get => tsbQueueStack.Checked;
+
+            set => tsbQueueStack.Checked = value;
+        }
+
+        /// <summary>
         /// Gets or sets a value whether shuffling is enabled in the main form.
         /// </summary>
         public bool Shuffle

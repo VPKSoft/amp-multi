@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System;
 using System.Windows.Forms;
+using amp.SQLiteDatabase;
 using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.UserInteraction
@@ -51,17 +52,33 @@ namespace amp.FormsUtility.UserInteraction
             }
 
             DBLangEngine.InitializeLanguage("amp.Messages");
+
+            if (DefaultAlbumName == default)
+            {
+                DefaultAlbumName = Database.GetDefaultAlbumName(FormMain.Connection);
+            }
         }
+
+        /// <summary>
+        /// Gets or sets the default album name.
+        /// </summary>
+        private static string DefaultAlbumName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the previous name of the album in case of a rename situation.
+        /// </summary>
+        /// <value>The name of the previous.</value>
+        private string PreviousName { get; set; }
 
         /// <summary>
         /// Displays the dialog and with an optional album name.
         /// </summary>
         /// <param name="name">The optional name for the album.</param>
+        /// <param name="dialogTitle">The title (Text property) for the dialog.</param>
         /// <returns>A name for an album in case the user accepted the dialog; otherwise string.Empty.</returns>
-        public static string Execute(string name = "")
+        public static string Execute(string dialogTitle, string name = "")
         {
-            FormAddAlbum form = new FormAddAlbum();
-            form.tbAlbumName.Text = name;
+            FormAddAlbum form = new FormAddAlbum {tbAlbumName = {Text = name}, PreviousName = name, Text = dialogTitle};
             if (form.ShowDialog() == DialogResult.OK)
             {
                 return form.tbAlbumName.Text;
@@ -73,7 +90,8 @@ namespace amp.FormsUtility.UserInteraction
         private void tbAlbumName_TextChanged(object sender, EventArgs e)
         {
             // not ok if empty or only white space..
-            bOK.Enabled = tbAlbumName.Text.Trim().Length > 0;
+            bOK.Enabled = tbAlbumName.Text.Trim().Length > 0 && tbAlbumName.Text != DefaultAlbumName &&
+                          tbAlbumName.Text != PreviousName;
         }
     }
 }
