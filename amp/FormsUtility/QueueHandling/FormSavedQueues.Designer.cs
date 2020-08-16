@@ -265,6 +265,7 @@ namespace amp.FormsUtility.QueueHandling
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSavedQueues";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Saved queues";
             this.tlpMain.ResumeLayout(false);
