@@ -380,7 +380,7 @@
       <Version>1.13.8</Version>
     </PackageReference>
     <PackageReference Include="FftSharp">
-      <Version>1.0.6</Version>
+      <Version>1.0.7</Version>
     </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.2.4</Version>
