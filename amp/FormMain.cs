@@ -1346,6 +1346,12 @@ namespace amp
         // handles the key down events within the search text box to avoid a focus change..
         private void tbFind_KeyDown(object sender, KeyEventArgs e)
         {
+            // the media keys are handled in a separate method..
+            if (HandleMediaKey(ref e)) 
+            {
+                return;
+            }
+
             if (lbMusic.Items.Count > 0)
             {
                 if (e.KeyCode == Keys.Down)
@@ -1506,6 +1512,12 @@ namespace amp
 
         // the user wants to play the next song, so do obey..
         private void tbPlayNext_Click(object sender, EventArgs e)
+        {
+            TogglePause();
+        }
+
+        // the play/pause toggle to call within the main form..
+        private void TogglePause()
         {
             if (waveOutDevice != null)
             {

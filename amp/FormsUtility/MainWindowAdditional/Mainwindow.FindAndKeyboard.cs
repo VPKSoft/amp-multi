@@ -92,12 +92,56 @@ namespace amp
         }
 
         /// <summary>
+        /// Handles the media key presses (play, pause, next, previous, etc).
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        /// <returns><c>true</c> if the key was handled by this method, <c>false</c> otherwise.</returns>
+        private bool HandleMediaKey(ref KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.MediaPlayPause)
+            {
+                TogglePause();
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaNextTrack)
+            {
+                GetNextSong(true);
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaPreviousTrack)
+            {
+                GetPrevSong();
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaStop)
+            {
+                Pause(); // this software knows no stop..
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Handles the key down event with the playlist box which is the other focusable control on the form besides the search box.
         /// If the key is none of the control keys the key is send to the search box and the search box is then focused.
         /// </summary>
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void HandleKeyDown(ref KeyEventArgs e)
         {
+            // the media keys are handled in a separate method..
+            if (HandleMediaKey(ref e)) 
+            {
+                return;
+            }
+
             if (e.KeyCode == Keys.Return)
             {
                 if (lbMusic.SelectedItem != null)

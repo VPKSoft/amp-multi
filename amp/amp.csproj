@@ -1,42 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{744E53A2-A406-4412-B8A4-D50CCB0501E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>amp</RootNamespace>
-    <AssemblyName>amp</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>net47</TargetFramework>
+    <AssemblyTitle>amp#</AssemblyTitle>
+    <Company>VPKSoft</Company>
+    <Product>amp#</Product>
+    <Description>Music player for common audio formats.</Description>
+    <Copyright>Copyright © VPKSoft 2020</Copyright>
+    <AssemblyVersion>1.1.1.20</AssemblyVersion>
+    <FileVersion>1.1.1.20</FileVersion>
+    <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <PostBuildEvent />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;AMP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\amp.xml</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Release\amp.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -44,240 +29,228 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent />
+    <Authors>VPKSoft</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>music player vpksoft amp# amp mp3 ogg</PackageTags>
+    <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Channels" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataMigrate\DatabaseDataMigrate.cs" />
-    <Compile Include="DataMigrate\GUI\FormDatabaseMigrate.cs">
+    <Compile Update="DataMigrate\GUI\FormDatabaseMigrate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataMigrate\GUI\FormDatabaseMigrate.Designer.cs">
+    <Compile Update="DataMigrate\GUI\FormDatabaseMigrate.Designer.cs">
       <DependentUpon>FormDatabaseMigrate.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormProgressBackground.cs">
+    <Compile Update="FormsUtility\Progress\FormProgressBackground.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormProgressBackground.designer.cs">
+    <Compile Update="FormsUtility\Progress\FormProgressBackground.designer.cs">
       <DependentUpon>FormProgressBackground.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.cs">
+    <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
+    <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="SQLiteDatabase\DatabaseHelpers.cs" />
-    <Compile Include="SQLiteDatabase\Song.cs" />
-    <Compile Include="UtilityClasses\Settings\FormAlbumNaming.cs">
+    <Compile Update="UtilityClasses\Settings\FormAlbumNaming.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilityClasses\Settings\FormAlbumNaming.Designer.cs">
+    <Compile Update="UtilityClasses\Settings\FormAlbumNaming.Designer.cs">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Help\FormHelp.cs">
+    <Compile Update="FormsUtility\Help\FormHelp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Help\FormHelp.Designer.cs">
+    <Compile Update="FormsUtility\Help\FormHelp.Designer.cs">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Random\FormRandomizePriority.cs">
+    <Compile Update="FormsUtility\Random\FormRandomizePriority.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Random\FormRandomizePriority.Designer.cs">
+    <Compile Update="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Information\FormTagInfo.cs">
+    <Compile Update="FormsUtility\Information\FormTagInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Information\FormTagInfo.Designer.cs">
+    <Compile Update="FormsUtility\Information\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="SQLiteDatabase\DatabaseUtils\QueueUtilities.cs" />
-    <Compile Include="UtilityClasses\AudioConvert.cs" />
-    <Compile Include="UtilityClasses\Constants.cs" />
-    <Compile Include="UtilityClasses\Controls\ImageProgressBar.cs">
+    <Compile Update="UtilityClasses\Controls\ImageProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UtilityClasses\Controls\ImageProgressBar.Designer.cs">
+    <Compile Update="UtilityClasses\Controls\ImageProgressBar.Designer.cs">
       <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\WindowsPowerSave\ThreadExecutionState.cs" />
-    <Compile Include="WCFRemote\IampRemote.cs" />
-    <Compile Include="SQLiteDatabase\Database.cs" />
-    <Compile Include="FormsUtility\UserInteraction\FormAddAlbum.cs">
+    <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\UserInteraction\FormAddAlbum.Designer.cs">
+    <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.Designer.cs">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Visual\FormAlbumImage.cs">
+    <Compile Update="FormsUtility\Visual\FormAlbumImage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Visual\FormAlbumImage.Designer.cs">
+    <Compile Update="FormsUtility\Visual\FormAlbumImage.Designer.cs">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormPsycho.cs">
+    <Compile Update="FormsUtility\Progress\FormPsycho.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Progress\FormPsycho.Designer.cs">
+    <Compile Update="FormsUtility\Progress\FormPsycho.Designer.cs">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormQueueSnapshotName.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormQueueSnapshotName.Designer.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.Designer.cs">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\Songs\FormRename.cs">
+    <Compile Update="FormsUtility\Songs\FormRename.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\Songs\FormRename.designer.cs">
+    <Compile Update="FormsUtility\Songs\FormRename.designer.cs">
       <DependentUpon>FormRename.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormSavedQueues.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormSavedQueues.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormsUtility\QueueHandling\FormSavedQueues.Designer.cs">
+    <Compile Update="FormsUtility\QueueHandling\FormSavedQueues.Designer.cs">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\Settings\FormSettings.cs">
+    <Compile Update="UtilityClasses\Settings\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilityClasses\Settings\FormSettings.Designer.cs">
+    <Compile Update="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\KeySendList.ExcludeLicense.cs" />
-    <Compile Include="UtilityClasses\M3U.cs" />
-    <Compile Include="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs">
+    <Compile Update="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Update="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Update="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="WCFRemote\AmpRemote.cs" />
-    <Compile Include="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs">
+    <Compile Update="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WCFRemote\MainWindow.WCF.cs">
+    <Compile Update="WCFRemote\MainWindow.WCF.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Messages.Designer.cs">
+    <Compile Update="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\MusicFile.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs">
+    <Compile Update="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SQLiteDatabase\ScriptRunner.ExcludeLicense.cs" />
-    <Compile Include="UtilityClasses\Settings\Settings.cs" />
-    <EmbeddedResource Include="DataMigrate\GUI\FormDatabaseMigrate.resx">
+    <EmbeddedResource Update="DataMigrate\GUI\FormDatabaseMigrate.resx">
       <DependentUpon>FormDatabaseMigrate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Progress\FormProgressBackground.resx">
+    <EmbeddedResource Update="FormsUtility\Progress\FormProgressBackground.resx">
       <DependentUpon>FormProgressBackground.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Progress\FormDatabaseUpdatingProgress.resx">
+    <EmbeddedResource Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.resx">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\UserInteraction\FormAddAlbum.resx">
+    <EmbeddedResource Update="FormsUtility\UserInteraction\FormAddAlbum.resx">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Visual\FormAlbumImage.resx">
+    <EmbeddedResource Update="FormsUtility\Visual\FormAlbumImage.resx">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilityClasses\Settings\FormAlbumNaming.resx">
+    <EmbeddedResource Update="UtilityClasses\Settings\FormAlbumNaming.resx">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Help\FormHelp.resx">
+    <EmbeddedResource Update="FormsUtility\Help\FormHelp.resx">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\QueueHandling\FormModifySavedQueue.resx">
+    <EmbeddedResource Update="FormsUtility\QueueHandling\FormModifySavedQueue.resx">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Progress\FormPsycho.resx">
+    <EmbeddedResource Update="FormsUtility\Progress\FormPsycho.resx">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\QueueHandling\FormQueueSnapshotName.resx">
+    <EmbeddedResource Update="FormsUtility\QueueHandling\FormQueueSnapshotName.resx">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Random\FormRandomizePriority.resx">
+    <EmbeddedResource Update="FormsUtility\Random\FormRandomizePriority.resx">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Songs\FormRename.resx">
+    <EmbeddedResource Update="FormsUtility\Songs\FormRename.resx">
       <DependentUpon>FormRename.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\QueueHandling\FormSavedQueues.resx">
+    <EmbeddedResource Update="FormsUtility\QueueHandling\FormSavedQueues.resx">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilityClasses\Controls\ImageProgressBar.resx">
+    <EmbeddedResource Update="UtilityClasses\Controls\ImageProgressBar.resx">
       <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UtilityClasses\Settings\FormSettings.resx">
+    <EmbeddedResource Update="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormsUtility\Information\FormTagInfo.resx">
+    <EmbeddedResource Update="FormsUtility\Information\FormTagInfo.resx">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Update="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Messages.resx">
+    <EmbeddedResource Update="Messages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="amp.licenseheader" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Update="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SQLiteDatabase\Script.sql_script">
@@ -373,79 +346,31 @@
     <None Include="Resources\random.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Localization\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="DotNetZip">
-      <Version>1.13.8</Version>
-    </PackageReference>
-    <PackageReference Include="FftSharp">
-      <Version>1.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.2.5</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageReference Include="DotNetZip" Version="1.13.8" />
+    <PackageReference Include="FftSharp" Version="1.0.7" />
+    <PackageReference Include="Fody" Version="6.2.6">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="NAudio.Flac">
-      <Version>1.0.5702.29018</Version>
-    </PackageReference>
-    <PackageReference Include="NAudio.Vorbis">
-      <Version>1.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="NAudio.Wma">
-      <Version>1.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="NVorbis">
-      <Version>0.10.1</Version>
-    </PackageReference>
-    <PackageReference Include="Ookii.Dialogs.WinForms">
-      <Version>1.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.113.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Memory">
-      <Version>4.5.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>4.7.1</Version>
-    </PackageReference>
-    <PackageReference Include="taglib">
-      <Version>2.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.AudioVisualization">
-      <Version>1.0.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.ErrorLogger">
-      <Version>1.0.0.6</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.LangLib">
-      <Version>1.0.2.6</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.PosLib">
-      <Version>1.0.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.RandomizationUtils">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.Utils">
-      <Version>1.0.4.7</Version>
-    </PackageReference>
-    <PackageReference Include="VPKSoft.VersionCheck">
-      <Version>1.0.1.4</Version>
-    </PackageReference>
+    <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
+    <PackageReference Include="NAudio.Vorbis" Version="1.2.0" />
+    <PackageReference Include="NAudio.Wma" Version="1.0.1" />
+    <PackageReference Include="NVorbis" Version="0.10.1" />
+    <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.1.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+    <PackageReference Include="taglib" Version="2.1.0" />
+    <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.0.4" />
+    <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
+    <PackageReference Include="VPKSoft.LangLib" Version="1.0.3" />
+    <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />
+    <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
+    <PackageReference Include="VPKSoft.Utils" Version="1.0.4.7" />
+    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.1.4" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <Compile Remove="FlacFileReader.cs" />
+    <Compile Remove="FormAbout.cs" />
+    <Compile Remove="FormAbout.Designer.cs" />
+  </ItemGroup>
 </Project>
