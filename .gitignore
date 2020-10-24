@@ -332,3 +332,5 @@ ASALocalRun/
 *.exe
 /amp/Localization/AppDataBackup
 /MigrationBackup/76535f42/amp
+/amp/Properties/PublishProfiles/FolderProfile.pubxml
+*.msi

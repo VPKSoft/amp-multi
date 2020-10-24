@@ -98,6 +98,7 @@ namespace amp.UtilityClasses.Settings
             FormMain.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
             FormMain.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
             FormMain.AudioVisualizationCombineChannels = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
+            FormMain.BalancedBars = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
             FormMain.StackRandomPercentage = Settings.StackRandomPercentage;
         }
 
@@ -175,6 +176,7 @@ namespace amp.UtilityClasses.Settings
             vnml["visualizeAudio", "type"] = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
             vnml["visualizeAudio", "percentage"] = (int) nudAudioVisualizationSize.Value;
             vnml["visualizeAudio", "combineChannels"] = cbAudioVisualizationCombineChannels.Checked;
+            vnml["visualizeAudio", "balancedBars"] = cbBalancedBars.Checked;
 
             // the user decides if an internet request is allowed..
             vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
@@ -230,6 +232,7 @@ namespace amp.UtilityClasses.Settings
             nudAudioVisualizationSize.Value = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
 
             cbAudioVisualizationCombineChannels.Checked = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
+            cbBalancedBars.Checked = Convert.ToBoolean(vnml["visualizeAudio", "balancedBars", false]);
 
             // the user decides if an internet request is allowed..
             cbCheckUpdatesStartup.Checked = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);

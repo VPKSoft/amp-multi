@@ -159,6 +159,11 @@ namespace amp
         public static bool AudioVisualizationCombineChannels { get; set; } = false;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the audio visualization bar graph bars follow minimum and maximum intensity levels of the current song.
+        /// </summary>
+        public static bool BalancedBars { get; set; }
+
+        /// <summary>
         /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
         /// </summary>
         public static string QuietHoursTo { get; set; } = "23:00";
@@ -266,6 +271,7 @@ namespace amp
                 avBars.Start();
                 avLine.Stop();
                 avBars.CombineChannels = AudioVisualizationCombineChannels;
+                avBars.RelativeView = BalancedBars;
             }
             else if (AudioVisualizationStyle == 2)
             {
@@ -878,6 +884,9 @@ namespace amp
             {
                 UpdateNPlayed(MFile, false);
             }
+
+            Invoke(new MethodInvoker(() => { avBars.ResetRelativeView(); }));
+
             newSong = true;
             DisplayPlayingSong();
         }

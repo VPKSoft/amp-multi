@@ -8,8 +8,8 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.1.1.20</AssemblyVersion>
-    <FileVersion>1.1.1.20</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <PostBuildEvent />
@@ -42,6 +42,7 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
+    <Version>1.1.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -78,9 +79,7 @@
     <Compile Update="UtilityClasses\Settings\FormAlbumNaming.Designer.cs">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Help\FormHelp.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Help\FormHelp.cs" />
     <Compile Update="FormsUtility\Help\FormHelp.Designer.cs">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
@@ -90,9 +89,7 @@
     <Compile Update="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Information\FormTagInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Information\FormTagInfo.cs" />
     <Compile Update="FormsUtility\Information\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
@@ -120,15 +117,11 @@
     <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Progress\FormPsycho.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Progress\FormPsycho.cs" />
     <Compile Update="FormsUtility\Progress\FormPsycho.Designer.cs">
       <DependentUpon>FormPsycho.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.cs" />
     <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.Designer.cs">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </Compile>
@@ -159,9 +152,7 @@
     <Compile Update="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs" />
     <Compile Update="WCFRemote\MainWindow.WCF.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -348,11 +339,8 @@
     <None Include="Resources\random.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotNetZip" Version="1.13.8" />
+    <PackageReference Include="DotNetZip" Version="1.14.0" />
     <PackageReference Include="FftSharp" Version="1.0.7" />
-    <PackageReference Include="Fody" Version="6.2.6">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
     <PackageReference Include="NAudio.Vorbis" Version="1.2.0" />
     <PackageReference Include="NAudio.Wma" Version="1.0.1" />
@@ -362,7 +350,7 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
     <PackageReference Include="taglib" Version="2.1.0" />
-    <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.0.4" />
+    <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.5" />
     <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
     <PackageReference Include="VPKSoft.LangLib" Version="1.0.3" />
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />

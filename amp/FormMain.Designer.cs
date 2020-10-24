@@ -634,7 +634,9 @@ namespace amp
             this.avBars.MinorityCropPercentage = 3;
             this.avBars.MinorityPercentageStepping = 1000;
             this.avBars.Name = "avBars";
+            this.avBars.NoiseTolerance = 1D;
             this.avBars.RefreshRate = 30;
+            this.avBars.RelativeView = true;
             this.avBars.Size = new System.Drawing.Size(402, 10);
             this.avBars.TabIndex = 10;
             // 
@@ -647,11 +649,14 @@ namespace amp
             this.avLine.CustomWindowFunc = null;
             this.avLine.DisplayHertzLabels = false;
             this.avLine.FftWindowType = VPKSoft.AudioVisualization.WindowType.Hanning;
+            this.avLine.LineCurveTension = 1F;
+            this.avLine.LineDrawMode = VPKSoft.AudioVisualization.CommonClasses.BaseClasses.LineDrawMode.Line;
             this.avLine.Location = new System.Drawing.Point(34, 19);
             this.avLine.MinorityCropOnBarLevel = false;
             this.avLine.MinorityCropPercentage = 2;
             this.avLine.MinorityPercentageStepping = 1000;
             this.avLine.Name = "avLine";
+            this.avLine.NoiseTolerance = 1D;
             this.avLine.RefreshRate = 30;
             this.avLine.Size = new System.Drawing.Size(402, 10);
             this.avLine.TabIndex = 9;
