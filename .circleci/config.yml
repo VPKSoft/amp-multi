@@ -15,6 +15,7 @@
     
      steps:
        - checkout
+       - run: choco install wixtoolset
        - run: msbuild amp/amp.csproj /t:restore
        - run: msbuild amp/amp.csproj /p:Configuration=Release
        - run: msbuild InstallerBaseWixSharp/InstallerBaseWixSharp.csproj /t:restore
