@@ -363,4 +363,9 @@
     <Compile Remove="FormAbout.cs" />
     <Compile Remove="FormAbout.Designer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="DBLocalization.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
