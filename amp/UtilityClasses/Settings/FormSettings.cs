@@ -98,7 +98,8 @@ namespace amp.UtilityClasses.Settings
             FormMain.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
             FormMain.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
             FormMain.AudioVisualizationCombineChannels = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
-            FormMain.BalancedBars = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
+            FormMain.BalancedBars = Convert.ToBoolean(vnml["visualizeAudio", "balancedBars", false]);
+            FormMain.BarAmount = Convert.ToInt32(vnml["visualizeAudio", "hertzSpan", 92]);
             FormMain.StackRandomPercentage = Settings.StackRandomPercentage;
         }
 
@@ -177,6 +178,7 @@ namespace amp.UtilityClasses.Settings
             vnml["visualizeAudio", "percentage"] = (int) nudAudioVisualizationSize.Value;
             vnml["visualizeAudio", "combineChannels"] = cbAudioVisualizationCombineChannels.Checked;
             vnml["visualizeAudio", "balancedBars"] = cbBalancedBars.Checked;
+            vnml["visualizeAudio", "hertzSpan"] = (int) nudBarAmount.Value;
 
             // the user decides if an internet request is allowed..
             vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
@@ -218,6 +220,8 @@ namespace amp.UtilityClasses.Settings
             tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
             nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
             cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+
+            nudBarAmount.Value = Convert.ToInt32(vnml["visualizeAudio", "hertzSpan", 92]);
 
             tbStackQueueRandom.Value = Settings.StackRandomPercentage;
 

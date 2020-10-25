@@ -77,6 +77,7 @@ namespace amp.UtilityClasses.Settings
             this.nudMemoryBuffering = new System.Windows.Forms.NumericUpDown();
             this.lbMemoryBuffer = new System.Windows.Forms.Label();
             this.gbAudioVisualizationStyle = new System.Windows.Forms.GroupBox();
+            this.cbBalancedBars = new System.Windows.Forms.CheckBox();
             this.cbAudioVisualizationCombineChannels = new System.Windows.Forms.CheckBox();
             this.lbAudioVisualizationSizePercentage = new System.Windows.Forms.Label();
             this.nudAudioVisualizationSize = new System.Windows.Forms.NumericUpDown();
@@ -84,7 +85,8 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.cbBalancedBars = new System.Windows.Forms.CheckBox();
+            this.lbBarAmount = new System.Windows.Forms.Label();
+            this.nudBarAmount = new System.Windows.Forms.NumericUpDown();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -100,6 +102,7 @@ namespace amp.UtilityClasses.Settings
             ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).BeginInit();
             this.gbAudioVisualizationStyle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
@@ -476,7 +479,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.gbStackQueue.Controls.Add(this.tlpStackQueueRandomLabel);
             this.gbStackQueue.Controls.Add(this.tbStackQueueRandom);
-            this.gbStackQueue.Location = new System.Drawing.Point(6, 289);
+            this.gbStackQueue.Location = new System.Drawing.Point(6, 328);
             this.gbStackQueue.Name = "gbStackQueue";
             this.gbStackQueue.Size = new System.Drawing.Size(246, 73);
             this.gbStackQueue.TabIndex = 2;
@@ -541,7 +544,7 @@ namespace amp.UtilityClasses.Settings
             this.gbMemoryBuffering.Controls.Add(this.label2);
             this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
             this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
-            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 221);
+            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 260);
             this.gbMemoryBuffering.Name = "gbMemoryBuffering";
             this.gbMemoryBuffering.Size = new System.Drawing.Size(246, 62);
             this.gbMemoryBuffering.TabIndex = 1;
@@ -602,6 +605,8 @@ namespace amp.UtilityClasses.Settings
             // 
             // gbAudioVisualizationStyle
             // 
+            this.gbAudioVisualizationStyle.Controls.Add(this.nudBarAmount);
+            this.gbAudioVisualizationStyle.Controls.Add(this.lbBarAmount);
             this.gbAudioVisualizationStyle.Controls.Add(this.cbBalancedBars);
             this.gbAudioVisualizationStyle.Controls.Add(this.cbAudioVisualizationCombineChannels);
             this.gbAudioVisualizationStyle.Controls.Add(this.lbAudioVisualizationSizePercentage);
@@ -612,11 +617,21 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationOff);
             this.gbAudioVisualizationStyle.Location = new System.Drawing.Point(6, 6);
             this.gbAudioVisualizationStyle.Name = "gbAudioVisualizationStyle";
-            this.gbAudioVisualizationStyle.Size = new System.Drawing.Size(246, 209);
+            this.gbAudioVisualizationStyle.Size = new System.Drawing.Size(246, 248);
             this.gbAudioVisualizationStyle.TabIndex = 0;
             this.gbAudioVisualizationStyle.TabStop = false;
             this.gbAudioVisualizationStyle.Tag = "0";
             this.gbAudioVisualizationStyle.Text = "Audio visualization";
+            // 
+            // cbBalancedBars
+            // 
+            this.cbBalancedBars.AutoSize = true;
+            this.cbBalancedBars.Location = new System.Drawing.Point(6, 181);
+            this.cbBalancedBars.Name = "cbBalancedBars";
+            this.cbBalancedBars.Size = new System.Drawing.Size(141, 17);
+            this.cbBalancedBars.TabIndex = 7;
+            this.cbBalancedBars.Text = "Balanced bars (min-max)";
+            this.cbBalancedBars.UseVisualStyleBackColor = true;
             // 
             // cbAudioVisualizationCombineChannels
             // 
@@ -700,15 +715,37 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // cbBalancedBars
+            // lbBarAmount
             // 
-            this.cbBalancedBars.AutoSize = true;
-            this.cbBalancedBars.Location = new System.Drawing.Point(6, 181);
-            this.cbBalancedBars.Name = "cbBalancedBars";
-            this.cbBalancedBars.Size = new System.Drawing.Size(141, 17);
-            this.cbBalancedBars.TabIndex = 7;
-            this.cbBalancedBars.Text = "Balanced bars (min-max)";
-            this.cbBalancedBars.UseVisualStyleBackColor = true;
+            this.lbBarAmount.AutoSize = true;
+            this.lbBarAmount.Location = new System.Drawing.Point(6, 201);
+            this.lbBarAmount.Name = "lbBarAmount";
+            this.lbBarAmount.Size = new System.Drawing.Size(181, 13);
+            this.lbBarAmount.TabIndex = 8;
+            this.lbBarAmount.Text = "Amount of bars in audio visualization:";
+            // 
+            // nudBarAmount
+            // 
+            this.nudBarAmount.Location = new System.Drawing.Point(6, 217);
+            this.nudBarAmount.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.nudBarAmount.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.nudBarAmount.Name = "nudBarAmount";
+            this.nudBarAmount.Size = new System.Drawing.Size(50, 20);
+            this.nudBarAmount.TabIndex = 9;
+            this.nudBarAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudBarAmount.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             // 
             // FormSettings
             // 
@@ -756,6 +793,7 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.ResumeLayout(false);
             this.gbAudioVisualizationStyle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -816,5 +854,7 @@ namespace amp.UtilityClasses.Settings
         private TableLayoutPanel tlpStackQueueRandomLabel;
         private Label lbStackQueueRandomValue;
         private CheckBox cbBalancedBars;
+        private NumericUpDown nudBarAmount;
+        private Label lbBarAmount;
     }
 }

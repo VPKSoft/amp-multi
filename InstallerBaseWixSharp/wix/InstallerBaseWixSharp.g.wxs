@@ -634,7 +634,7 @@
     <Property Id="WixSharp_UIInitialized_Handlers" Value="WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.ProjectLocalizationHelper+&lt;&gt;c|&lt;Localize&gt;b__2_0" />
     <Property Id="WixSharp_Load_Handlers" Value="WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program|Msi_Load" />
     <Property Id="WixSharp_BeforeInstall_Handlers" Value="WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program|Msi_BeforeInstall" />
-    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program+&lt;&gt;c|&lt;Main&gt;b__5_1&#xD;&#xA;WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program|Msi_AfterInstall" />
+    <Property Id="WixSharp_AfterInstall_Handlers" Value="WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program+&lt;&gt;c|&lt;Main&gt;b__5_2&#xD;&#xA;WixSharpSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|InstallerBaseWixSharp.Program|Msi_AfterInstall" />
     <Property Id="ARPHELPLINK" Value="https://www.vpksoft.net" />
     <Property Id="ARPPRODUCTICON" Value="app_icon.ico" />
     <Property Id="ARPURLINFOABOUT" Value="https://www.vpksoft.net" />

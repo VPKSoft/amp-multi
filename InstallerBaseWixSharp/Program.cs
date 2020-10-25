@@ -53,6 +53,20 @@ namespace InstallerBaseWixSharp
 
         static void Main()
         {
+            string OutputFile()
+            {
+                try
+                {
+                    var info = FileVersionInfo.GetVersionInfo(@"..\amp\bin\Release\net47\win10-x64\amp.exe");
+                    return string.Concat(AppName, "_", info.FileMajorPart, ".", info.FileMinorPart, ".", info.FileBuildPart);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return AppName;
+                }
+            }
+
             var project = new ManagedProject("amp#",
                 new Dir(InstallDirectory,
                     new WixSharp.Files(@"..\amp\bin\Release\net47\win10-x64\*.*"),
@@ -82,6 +96,7 @@ namespace InstallerBaseWixSharp
                     HelpLink = "https://www.vpksoft.net", 
                 },
                 Platform = Platform.x64,
+                OutFileName = OutputFile(),
             };
 
             project.Package.Name = $"Installer for the {AppName} application";

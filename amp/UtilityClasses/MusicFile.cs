@@ -1004,6 +1004,18 @@ namespace amp.UtilityClasses
         public static string GetString(string formula, string artist, string album, int trackNo, 
             string title, string songName, int queueIndex, int alternateQueueIndex, string overrideName, string onError, out bool error)
         {
+            string FixPathExtension()
+            {
+                try
+                {
+                    return Path.GetFileNameWithoutExtension(title);
+                }
+                catch
+                {
+                    return title;
+                }
+            }
+
             try
             {
                 string formulaStr;
@@ -1023,7 +1035,7 @@ namespace amp.UtilityClasses
                     }
                     else if (formulaType == FormulaType.Title)
                     {
-                        formula = FormulaReplace(formula, title.Trim() == string.Empty ? songName : title, formulaStr);
+                        formula = FormulaReplace(formula, title.Trim() == string.Empty ? songName : FixPathExtension(), formulaStr);
                     }
                     else if (formulaType == FormulaType.QueueIndex)
                     {

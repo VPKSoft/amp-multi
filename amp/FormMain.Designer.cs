@@ -635,8 +635,9 @@ namespace amp
             this.avBars.MinorityPercentageStepping = 1000;
             this.avBars.Name = "avBars";
             this.avBars.NoiseTolerance = 1D;
-            this.avBars.RefreshRate = 30;
+            this.avBars.RefreshRate = 15;
             this.avBars.RelativeView = true;
+            this.avBars.RelativeViewTimeAdjust = 1.001D;
             this.avBars.Size = new System.Drawing.Size(402, 10);
             this.avBars.TabIndex = 10;
             // 

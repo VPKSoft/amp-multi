@@ -164,6 +164,11 @@ namespace amp
         public static bool BalancedBars { get; set; }
 
         /// <summary>
+        /// Gets or sets the bar amount to display in the audio visualization.
+        /// </summary>
+        public static int BarAmount { get; set; }
+
+        /// <summary>
         /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
         /// </summary>
         public static string QuietHoursTo { get; set; } = "23:00";
@@ -272,6 +277,7 @@ namespace amp
                 avLine.Stop();
                 avBars.CombineChannels = AudioVisualizationCombineChannels;
                 avBars.RelativeView = BalancedBars;
+                avBars.HertzSpan = BarAmount;
             }
             else if (AudioVisualizationStyle == 2)
             {
@@ -596,6 +602,7 @@ namespace amp
                     tbPlayNext.Image = Resources.amp_pause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                     waveOutDevice.Play();
+                    ResetAudioVisualizationBars();
                     lastPaused = false;
                 }
             }
@@ -717,6 +724,7 @@ namespace amp
                             waveOutDevice.Init(mainOutputStream);
                             waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
                             waveOutDevice.Play();
+                            ResetAudioVisualizationBars();
                             if (FormSettings.IsQuietHour() && !QuietHoursPause)
                             {
                                 volumeStream.Volume = MFile.Volume * (float) QuietHoursVolPercentage;
@@ -793,6 +801,30 @@ namespace amp
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Resets the audio visualization on the bar audio graph thread-safely.
+        /// </summary>
+        private void ResetAudioVisualizationBars()
+        {
+            if (!BalancedBars)
+            {
+                return;
+            }
+
+            Thread.Sleep(150); // wait for the playback to stabilize before resetting the view..
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() =>
+                {
+                    avBars.ResetRelativeView();
+                }));
+            }
+            else
+            {
+                avBars.ResetRelativeView();
             }
         }
 
@@ -884,8 +916,6 @@ namespace amp
             {
                 UpdateNPlayed(MFile, false);
             }
-
-            Invoke(new MethodInvoker(() => { avBars.ResetRelativeView(); }));
 
             newSong = true;
             DisplayPlayingSong();
@@ -1535,6 +1565,7 @@ namespace amp
                     tbPlayNext.Image = Resources.amp_pause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                     waveOutDevice.Play();
+                    ResetAudioVisualizationBars();
                 }
                 else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
