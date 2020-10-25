@@ -9,5 +9,6 @@ A music player for common audio formats with a simple and intuitive GUI.
 ### Thanks to
 * [NAudio](https://github.com/naudio/NAudio)
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
+* [![VPKSoft](https://circleci.com/gh/VPKSoft/amp.svg?style=shield)](https://app.circleci.com/pipelines/github/VPKSoft/amp)
 
 ![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
