@@ -49,7 +49,7 @@ $environment_cryptor = "CryptEnvVar.exe"
 $arguments = @("-s", $Env:SECRET_KEY, "-e", "CERT_1;CERT_2;CERT_3;CERT_4;CERT_5;CERT_6;CERT_7;CERT_8", "-f", "C:\vpksoft.pfx", "-w", "80", "-i", "-v")
 & (-join($application, "\", $environment_cryptor)) $arguments
 
-$signtool = (-join($application, "\", $output_file_signtool))
+$signtool = (-join(".\", $output_file_signtool))
 
 # register the certificate to the CI image..
 $certpw=ConvertTo-SecureString $Env:PFX_PASS –asplaintext –force 
