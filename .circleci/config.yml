@@ -23,4 +23,5 @@
        - run: 
           name: Release a tag
           command: |
+            go get github.com/tcnksm/ghr
             InstallerBaseWixSharp/github_release.ps1
