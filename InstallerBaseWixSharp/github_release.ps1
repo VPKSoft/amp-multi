@@ -41,6 +41,13 @@ Write-Output "Download file:  $output_file_signtool ..."
 (New-Object System.Net.WebClient).DownloadFile($download_url, $output_file_signtool)
 Write-Output "Download done."
 
+$output_file_ghr = "amp\ghr.exe"
+$download_url = "https://www.vpksoft.net/toolset/ghr.exe"
+Write-Output "Download file:  $output_file_ghr ..."
+# No need to remove this: Remove-Item $output_file
+(New-Object System.Net.WebClient).DownloadFile($download_url, $output_file_ghr)
+Write-Output "Download done."
+
 # application parameters..
 $application = "amp"
 $environment_cryptor = "CryptEnvVar.exe"
@@ -89,7 +96,7 @@ $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
         # After signing, clean up the temporary folder, if this helps with the multiple package signing..
         Remove-Item -Recurse -Force (-join($Env:LocalAppData, "\Temp\*.*"))
 
-	    Write-Output (-join("Publishing release:", $file, " ..."))
+	    Write-Output (-join("Publishing release: ", $file, " ..."))
         $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($release_exe)
         $versionString = (-join("v.", $version.FileMajorPart, ".", $version.FileMinorPart, ".", $version.FileBuildPart))
 
