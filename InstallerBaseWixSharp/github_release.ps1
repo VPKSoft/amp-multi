@@ -28,19 +28,17 @@ $output_file = "amp\CryptEnvVar.exe"
 
 $download_url = "https://www.vpksoft.net/toolset/CryptEnvVar.exe"
 
-$output_file_signtool = "signtool.exe"
-
 Write-Output "Download file:  $download_url ..."
 # No need to remove this: Remove-Item $output_file
 (New-Object System.Net.WebClient).DownloadFile($download_url, $output_file)
 Write-Output "Download done."
 
-$output_file_signtool = "amp\CryptEnvVar.exe"
+$output_file_signtool = "amp\signtool.exe"
 $download_url = "https://www.vpksoft.net/toolset/signtool.exe"
 
 Write-Output "Download file:  $output_file_signtool ..."
 # No need to remove this: Remove-Item $output_file
-(New-Object System.Net.WebClient).DownloadFile($output_file_signtool, $output_file_signtool)
+(New-Object System.Net.WebClient).DownloadFile($download_url, $output_file_signtool)
 Write-Output "Download done."
 
 # application parameters..
