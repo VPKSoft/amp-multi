@@ -49,7 +49,7 @@ $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
 
 # sign and release tags..
 #if ([string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
-{
+#{
     $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *amp*.msi # use the mask to discard possible third party packages..
     for ($i = 0; $i -lt $files.Count; $i++) 
     { 
@@ -88,7 +88,7 @@ $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
 	    Write-Output (-join("Package released:", $file, "."))
     }
     Write-Output "Release."
-}
+#}
 <#
 else
 {
