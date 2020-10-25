@@ -23,4 +23,4 @@
        - run: 
           name: Release a tag
           command: |
-            github_release.ps1
+            amp/github_release.ps1
