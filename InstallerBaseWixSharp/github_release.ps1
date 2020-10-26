@@ -65,22 +65,10 @@ if (![string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
     { 
         $file = $files[$i].FullName
 
-        # sign the MSI installer packages (SHA256).
-	    Write-Output (-join("Signing installer package (MSI, SHA256): ", $file, " ..."))
-
-        $arguments = @("sign", "/f", "C:\vpksoft.pfx", "/p", $Env:PFX_PASS, "/fd", "sha256", "/tr", "http://timestamp.comodoca.com/?td=sha256", "/td", "sha256", "/as", "/v", $file)
-
-	    # on the second time, something about 'Keyset does not exist'. TODO::Clean temp?
-        & $output_file_signtool $arguments # > null 2>&1
-	    Write-Output (-join("Installer package (MSI) signed: ", $file, "."))
-
-        # After signing, clean up the temporary folder, if this helps with the multiple package signing..
-        Remove-Item -Recurse -Force (-join($Env:LocalAppData, "\Temp\*.*"))
-
         # sign the MSI installer packages (SHA1).
 	    Write-Output (-join("Signing installer package (MSI, SHA1): ", $file, " ..."))
 
-        $arguments = @("sign", "/f", "C:\vpksoft.pfx", "/p", $Env:PFX_PASS, "/t", "http://timestamp.comodoca.com/?td=sha256", "/v", $file)
+        $arguments = @("sign", "/f", "C:\vpksoft.pfx", "/p", $Env:PFX_PASS, "/sha1", $Env:CERT_HASH, "/t", "http://timestamp.comodoca.com/authenticode", $file)
 
 	    # on the second time, something about 'Keyset does not exist'. TODO::Clean temp?
         & $output_file_signtool $arguments #> null 2>&1
