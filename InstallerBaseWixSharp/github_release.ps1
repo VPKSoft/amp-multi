@@ -55,7 +55,7 @@ $signtool = (-join(".\", $output_file_signtool))
 $certpw=ConvertTo-SecureString $Env:PFX_PASS –asplaintext –force 
 Import-PfxCertificate -FilePath "C:\vpksoft.pfx" -CertStoreLocation Cert:\LocalMachine\My -Password $certpw | Out-Null
 
-$release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
+# never used: $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
 
 $gitreleasemanager = "gitreleasemanager.exe"
 
@@ -92,11 +92,11 @@ if (![string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
         Remove-Item -Recurse -Force (-join($Env:LocalAppData, "\Temp\*.*"))
 
 	    Write-Output (-join("Publishing release: ", $file, " ..."))
-        $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($release_exe)
-        $versionString = (-join("v.", $version.FileMajorPart, ".", $version.FileMinorPart, ".", $version.FileBuildPart))
+        # Useless, as the tag contains the version: $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($release_exe)
+        # Useless, as the tag contains the version: $versionString = (-join("v.", $version.FileMajorPart, ".", $version.FileMinorPart, ".", $version.FileBuildPart))
 
         # the Github release (ghr)..
-        $arguments = @("addasset", "-t", $Env:CIRCLE_TAG, "--token", ${GITHUB_TOKEN}, "--owner", "VPKSoft", "-r", "${CIRCLE_PROJECT_REPONAME}", "-a", $file)
+        $arguments = @("addasset", "-t", $Env:CIRCLE_TAG, "--token", $Env:GITHUB_TOKEN, "-o", "VPKSoft", "-r", $Env:CIRCLE_PROJECT_REPONAME, "-a", $file)
         & $gitreleasemanager $arguments
 
 	    Write-Output (-join("Package released:", $file, "."))
