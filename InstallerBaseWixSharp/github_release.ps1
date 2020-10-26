@@ -100,7 +100,9 @@ $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
         $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($release_exe)
         $versionString = (-join("v.", $version.FileMajorPart, ".", $version.FileMinorPart, ".", $version.FileBuildPart))
 
-        ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $versionString ./
+        # the Github release (ghr)..
+        $arguments = @("-t", ${GITHUB_TOKEN}, "-u", ${CIRCLE_PROJECT_USERNAME}, "-r", "${CIRCLE_PROJECT_REPONAME}", "-c", "${CIRCLE_SHA1}", "-delete", $versionString, "./")
+        & $output_file_ghr $arguments
 
 	    Write-Output (-join("Package released:", $file, "."))
     }
