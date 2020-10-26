@@ -8,12 +8,7 @@
      jobs:
        - build:
           context: Common
-          filters:  # required since `deploy` has tag filters AND requires `build`
-            tags:
-              only: /.*/          
        - deploy:
-          requires:
-            - build       
           context: Common
           filters:
             tags:
@@ -29,7 +24,10 @@
        - run: msbuild amp/amp.csproj /p:Configuration=Release
    deploy:
      executor: win/default     
-     steps:
+       steps:
+       - checkout
+       - run: msbuild amp/amp.csproj /t:restore
+       - run: msbuild amp/amp.csproj /p:Configuration=Release     
        - run: choco install wixtoolset
        - run: msbuild InstallerBaseWixSharp/InstallerBaseWixSharp.csproj /t:restore
        - run: msbuild InstallerBaseWixSharp/InstallerBaseWixSharp.csproj /p:Configuration=Release       
