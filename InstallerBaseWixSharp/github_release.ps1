@@ -41,13 +41,6 @@ Write-Output "Download file:  $output_file_signtool ..."
 (New-Object System.Net.WebClient).DownloadFile($download_url, $output_file_signtool)
 Write-Output "Download done."
 
-$output_file_ghr = "amp\ghr.exe"
-$download_url = "https://www.vpksoft.net/toolset/ghr.exe"
-Write-Output "Download file:  $output_file_ghr ..."
-# No need to remove this: Remove-Item $output_file
-(New-Object System.Net.WebClient).DownloadFile($download_url, $output_file_ghr)
-Write-Output "Download done."
-
 # application parameters..
 $application = "amp"
 $environment_cryptor = "CryptEnvVar.exe"
@@ -64,9 +57,11 @@ Import-PfxCertificate -FilePath "C:\vpksoft.pfx" -CertStoreLocation Cert:\LocalM
 
 $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
 
+$gitreleasemanager = "gitreleasemanager.exe"
+
 # sign and release tags..
-#if ([string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
-#{
+if (![string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
+{
     $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *amp*.msi # use the mask to discard possible third party packages..
     for ($i = 0; $i -lt $files.Count; $i++) 
     { 
@@ -101,16 +96,14 @@ $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
         $versionString = (-join("v.", $version.FileMajorPart, ".", $version.FileMinorPart, ".", $version.FileBuildPart))
 
         # the Github release (ghr)..
-        $arguments = @("-t", ${GITHUB_TOKEN}, "-u", ${CIRCLE_PROJECT_USERNAME}, "-r", "${CIRCLE_PROJECT_REPONAME}", "-c", "${CIRCLE_SHA1}", "-delete", $versionString, "./")
-        & $output_file_ghr $arguments
+        $arguments = @("addasset", "-t", $Env:CIRCLE_TAG, "--token", ${GITHUB_TOKEN}, "--owner", "VPKSoft", "-r", "${CIRCLE_PROJECT_REPONAME}", "-a", $file)
+        & $gitreleasemanager $arguments
 
 	    Write-Output (-join("Package released:", $file, "."))
     }
     Write-Output "Release."
-#}
-<#
+}
 else
 {
-    Write-Output (-join("PR detected, no package publish: ", $Env:CIRCLE_PR_NUMBER))
+    Write-Output (-join("No TAG detected, no asset publish."))
 }
-#>
