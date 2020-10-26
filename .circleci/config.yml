@@ -21,8 +21,6 @@
        - run: msbuild InstallerBaseWixSharp/InstallerBaseWixSharp.csproj /t:restore
        - run: msbuild InstallerBaseWixSharp/InstallerBaseWixSharp.csproj /p:Configuration=Release       
        - deploy:
-           requires:
-             - build
            filters:
              tags:
                only: /^v.*/
