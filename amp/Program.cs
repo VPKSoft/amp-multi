@@ -61,6 +61,9 @@ namespace amp
         {
             string[] args = Environment.GetCommandLineArgs();
 
+            // wait for the possible install process to finnish..
+            VPKSoft.WaitForProcessUtil.WaitForProcess.WaitForProcessArguments(args, 30);
+
             foreach (var arg in args)
             {
                 if (arg.StartsWith("--restoreBackup"))

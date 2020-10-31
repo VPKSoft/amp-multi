@@ -49,7 +49,7 @@ namespace InstallerBaseWixSharp
         internal static readonly string Executable = $"{AppName.TrimEnd('#')}.exe";
         const string  Company = "VPKSoft";
         private static readonly string InstallDirectory = $@"%ProgramFiles%\{Company}\{AppName}";
-        const string  ApplicationIcon = @".\Files\FileResources\replace_this_ico.ico";
+        const string  ApplicationIcon = @".\Files\FileResources\icon.ico";
 
         static void Main()
         {

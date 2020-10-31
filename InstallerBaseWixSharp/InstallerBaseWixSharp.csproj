@@ -85,7 +85,6 @@
     <Content Include="Files\FileResources\replace_this_ico.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Files\FileResources\" />
     <Folder Include="ApplicationSide\" />
   </ItemGroup>
 </Project>
