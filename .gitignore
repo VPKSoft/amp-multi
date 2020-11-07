@@ -336,4 +336,4 @@ ASALocalRun/
 *.msi
 
 # generated Wix files
-*.g.wxs
+*.[g].wxs
