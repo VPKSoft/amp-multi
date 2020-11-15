@@ -658,6 +658,94 @@ namespace amp.UtilityClasses
         }
 
         /// <summary>
+        /// Moves the selected music files in the queue to the top of the queue.
+        /// </summary>
+        /// <param name="files">The music files.</param>
+        /// <param name="selectedFiles">The selected music files.</param>
+        /// <returns><c>true</c> if changes were made to the play list, <c>false</c> otherwise.</returns>
+        internal static bool MoveQueueTop(ref List<MusicFile> files, params MusicFile[] selectedFiles)
+        {
+            bool affected = false; // if any songs in the play list was affected..
+
+            var moveAmount = selectedFiles.Length;
+
+            // if there is nothing queued do not continue the method execution..
+            if (moveAmount == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < selectedFiles.Length; i++)
+            {
+                selectedFiles[i].QueueIndex = i + 1;
+                affected = true;
+            }
+
+            var leftFiles = files.Where(f => f.QueueIndex > 0 && !selectedFiles.Contains(f)).OrderBy(x => x.QueueIndex)
+                .ToList();
+
+            for (int i = 0; i < leftFiles.Count; i++)
+            {
+                leftFiles[i].QueueIndex = i + moveAmount + 1;
+                affected = true;
+            }
+
+            return affected;
+        }
+
+        /// <summary>
+        /// Scrambles the queue with randomization to a new order for the selected songs.
+        /// </summary>
+        /// <param name="selectedFiles">The files in the playlist which queue to scramble.</param>
+        /// <returns><c>true</c> if the <paramref name="selectedFiles"/> was affected, <c>false</c> otherwise.</returns>
+        internal static bool ScrambleQueueSelected(params MusicFile[] selectedFiles)
+        {
+            bool affected = false; // if any songs in the play list was affected..
+            List<int> queueIndices = new List<int>(); // the list of current queue indices..
+            List<MusicFile> selectedMusicFiles = new List<MusicFile>(); // the list of selected music files in the UI..
+
+            // get the current queue indices..
+            foreach (MusicFile mf in selectedFiles)
+            {
+                if (mf.QueueIndex > 0)
+                {
+                    queueIndices.Add(mf.queueIndex);
+                    selectedMusicFiles.Add(mf);
+                }
+            }
+
+            if (selectedMusicFiles.Count <= 1)
+            {
+                return false;
+            }
+
+            int index = 0;
+            var newIndex = queueIndices.Count == 1 ? 0 : Random.Next(queueIndices.Count);
+
+            while (queueIndices.Count > 0)
+            {
+                if (selectedMusicFiles[index].QueueIndex == queueIndices[newIndex])
+                {
+                    if (queueIndices.Count == 1)
+                    {
+                        return affected;
+                    }
+                    newIndex = queueIndices.Count == 1 ? 0 : Random.Next(queueIndices.Count);
+                    continue;
+                }
+
+                selectedMusicFiles[index].QueueIndex = queueIndices[newIndex];
+                queueIndices.Remove(queueIndices[newIndex]);
+                index++;
+                affected = true;
+
+                newIndex = queueIndices.Count == 1 ? 0 : Random.Next(queueIndices.Count);
+            }
+
+            return affected;
+        }
+
+        /// <summary>
         /// Scrambles the queue with randomization to a new order.
         /// </summary>
         /// <param name="files">The files in the playlist which queue to scramble.</param>

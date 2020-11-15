@@ -8,8 +8,8 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.1.6.0</AssemblyVersion>
-    <FileVersion>1.1.6.0</FileVersion>
+    <AssemblyVersion>1.1.7.0</AssemblyVersion>
+    <FileVersion>1.1.7.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <PostBuildEvent />
@@ -42,7 +42,7 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg aif aiff m4a aac wav wma</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
-    <Version>1.1.6</Version>
+    <Version>1.1.7</Version>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -356,12 +356,11 @@
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.4.7" />
-    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.2" />
+    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FlacFileReader.cs" />
     <Compile Remove="FormAbout.cs" />
-    <Compile Remove="FormAbout.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Update="DBLocalization.exe">

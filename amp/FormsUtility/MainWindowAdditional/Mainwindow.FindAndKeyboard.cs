@@ -285,7 +285,9 @@ namespace amp
                 e.KeyCode == Keys.F6 ||
                 e.KeyCode == Keys.F7 ||
                 e.KeyCode == Keys.F8 ||
-                e.KeyCode == Keys.F9)
+                e.KeyCode == Keys.F9 ||
+                e.Control && e.KeyCode == Keys.F7 && !e.Alt && !e.Shift ||
+                e.Control && e.KeyCode == Keys.PageUp && !e.Alt && !e.Shift)
             {
                 return;
             }

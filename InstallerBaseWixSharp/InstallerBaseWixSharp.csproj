@@ -22,9 +22,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://www.vpksoft.net</PackageProjectUrl>
     <PackageIcon>replace_this_logo.png</PackageIcon>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="*.msi" />
+    <None Remove="*.msi" />    
     <None Remove="InstallerBaseWixSharp.msi" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +86,7 @@
     <Content Include="Files\FileResources\replace_this_ico.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Files\FileResources\" />
     <Folder Include="ApplicationSide\" />
   </ItemGroup>
 </Project>

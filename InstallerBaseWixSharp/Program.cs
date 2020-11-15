@@ -24,17 +24,22 @@ SOFTWARE.
 */
 #endregion
 
+// define this to use start application dialog..
 #define UseRunProgramDialog
 // define this to use the custom association dialog..
 #define UseAssociationDialog
 // define this to use the local application data folder..
 #define InstallLocalAppData
+// define this to use the star(*) file registration..
+//#define ShellStarAssociate
 
 using System;
 using System.Diagnostics;
+// ReSharper disable once RedundantUsingDirective, this depends on a compiler directive..
 using System.IO;
 using System.Windows.Forms;
 using InstallerBaseWixSharp.Files.Dialogs;
+// ReSharper disable once RedundantUsingDirective, this depends on a compiler directive..
 using InstallerBaseWixSharp.Files.Localization.TabDeliLocalization;
 using InstallerBaseWixSharp.Registry;
 using WixSharp;
@@ -146,26 +151,52 @@ namespace InstallerBaseWixSharp
 
             project.AfterInstall += delegate(SetupEventArgs args)
             {
-                if (args.IsUninstalling)
+                string locale = "en-US";
+                if (args.IsInstalling)
                 {
-                    string locale = "en-US";
                     try
                     {
-                        locale = CommonCalls.GetKeyValue(Company, AppName, "LOCALE");
-                        CommonCalls.DeleteValue(Company, AppName, "LOCALE");
+                        locale = args.Session.Property("LANGNAME");
                     }
                     catch
                     {
-                        // ignored..
+                            // ignored..
                     }
+                }
 
+                try
+                {
+                    locale = CommonCalls.GetKeyValue(Company, AppName, "LOCALE");
+                    CommonCalls.DeleteValue(Company, AppName, "LOCALE");
+                }
+                catch
+                {
+                    // ignored..
+                }
+
+                var sideLocalization = new TabDeliLocalization();
+                sideLocalization.GetLocalizedTexts(Properties.Resources.tabdeli_messages);
+
+                if (args.IsUninstalling)
+                {
                     RegistryFileAssociation.UnAssociateFiles(Company, AppName);
                     CommonCalls.DeleteCompanyKeyIfEmpty(Company);
 
-                    #if InstallLocalAppData
-                    var sideLocalization = new TabDeliLocalization();
-                    sideLocalization.GetLocalizedTexts(Properties.Resources.tabdeli_messages);
+                    #if ShellStarAssociate
+                    try
+                    {
+                        var openWithMessage = sideLocalization.GetMessage("txtOpenWithShellMenu",
+                            "Open with amp#", locale);
 
+                        RegistryStarAssociation.UnRegisterStarAssociation(openWithMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    #endif
+
+                    #if InstallLocalAppData
                     var messageCaption = sideLocalization.GetMessage("txtDeleteLocalApplicationData",
                         "Delete application data", locale);
 
@@ -192,7 +223,33 @@ namespace InstallerBaseWixSharp
 
                 if (args.IsInstalling)
                 {
-                    RegistryFileAssociation.AssociateFiles(Company, AppName, args.Session.Property("RUNEXE"),
+                    #if ShellStarAssociate
+                    var messageCaption = sideLocalization.GetMessage("txtStarAssociation",
+                        "Add open with menu", locale);
+
+                    var messageText = sideLocalization.GetMessage("txtStarAssociationQuery",
+                        "Add an open with this application to the file explorer menu?", locale);
+
+                    if (MessageBox.Show(messageText,
+                        messageCaption, MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            var openWithMessage = sideLocalization.GetMessage("txtOpenWithShellMenu",
+                                "Open with amp#", locale);
+
+                            RegistryStarAssociation.RegisterStarAssociation(args.Session.Property("EXENAME"), AppName,
+                                openWithMessage);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }                                    
+                    #endif
+
+                    RegistryFileAssociation.AssociateFiles(Company, AppName, args.Session.Property("EXENAME"),
                         args.Session.Property("ASSOCIATIONS"), true);
 
                     try
@@ -216,7 +273,7 @@ namespace InstallerBaseWixSharp
 
             ValidateAssemblyCompatibility();
 
-            project.DefaultDeferredProperties += ",RUNEXE,PIDPARAM,ASSOCIATIONS,LANGNAME";
+            project.DefaultDeferredProperties += ",RUNEXE,PIDPARAM,ASSOCIATIONS,LANGNAME,EXENAME";
 
             project.Localize();
 
@@ -242,13 +299,8 @@ namespace InstallerBaseWixSharp
                 {
                     if (System.IO.File.Exists(e.Session.Property("RUNEXE")))
                     {
-                        var startInfo = new ProcessStartInfo(e.Session.Property("RUNEXE"),
+                        Files.PInvoke.ProcessExtensions.StartProcessAsCurrentUser(e.Session.Property("RUNEXE"),
                             $"--waitPid {e.Session.Property("PIDPARAM")}");
-
-                        // start the process as the current user..
-                        startInfo.UseShellExecute = false;
-                        startInfo.LoadUserProfile = true;
-                        Process.Start(startInfo);
                     }
                     else
                     {

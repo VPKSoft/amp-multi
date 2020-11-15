@@ -102,13 +102,13 @@ namespace InstallerBaseWixSharp.Registry
                         foreach (var innerExtension in innerExtensions)
                         {
                             result |= Associate(applicationExecutableFile, innerExtension, applicationName, rootDefault,
-                                associationData[1]);
+                                associationData[1], iconIndex);
                         }
                     }
                     else // format: .txt|Text files..
                     {
                         result |= Associate(applicationExecutableFile, associationData[0], applicationName, rootDefault,
-                            associationData[1]);
+                            associationData[1], iconIndex);
                     }
                 }
 
@@ -724,3 +724,4 @@ namespace InstallerBaseWixSharp.Registry
         #endregion
     }
 }
+

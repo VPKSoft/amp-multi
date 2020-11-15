@@ -183,6 +183,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap amp_dots {
+            get {
+                object obj = ResourceManager.GetObject("amp_dots", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap amp_forward {
             get {
                 object obj = ResourceManager.GetObject("amp_forward", resourceCulture);
@@ -666,6 +676,16 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap pause {
             get {
                 object obj = ResourceManager.GetObject("pause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pg_up {
+            get {
+                object obj = ResourceManager.GetObject("pg_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

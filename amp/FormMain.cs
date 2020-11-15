@@ -130,6 +130,11 @@ namespace amp
 
         // a flag indicating if the play back progress (the ProgressBar and the time left text) are changing via a user generated event..
         private readonly bool progressUpdating = false;
+
+        /// <summary>
+        /// A screen refresh counter for the playback thread to calculate "time".
+        /// </summary>
+        private volatile int calcMs;
         #endregion
 
         #region Settings
@@ -251,176 +256,640 @@ namespace amp
 
             MusicFile.StackRandomPercentage = StackRandomPercentage;
 
+            // no designer (!?)..
+            mnuQueueMoveToTop.ShortcutKeys = Keys.Control | Keys.PageUp;
+
             SetAudioVisualization();
         }
 
+        #region PrivateMethods
         /// <summary>
-        /// Sets the audio visualization based on the settings.
+        /// Displays the currently playing song.
         /// </summary>
-        private void SetAudioVisualization()
+        private void DisplayPlayingSong()
         {
-            // set the audio visualization panel row style if used..
-            tlpMain.RowStyles[5].Height = AudioVisualizationStyle == 0 ? 0 : AudioVisualizationVisualPercentage;
-            tlpMain.RowStyles[4].Height = AudioVisualizationStyle == 0 ? 100 : 100 - AudioVisualizationVisualPercentage;
-
-            if (AudioVisualizationStyle == 0)
+            if (humanActivity.Sleeping)
             {
-                avBars.Visible = false;
-                avLine.Visible = false;
-            }
-            else if (AudioVisualizationStyle == 1)
-            {
-                avBars.Visible = true;
-                avLine.Visible = false;
-                avBars.Dock = DockStyle.Fill;
-                avBars.Start();
-                avLine.Stop();
-                avBars.CombineChannels = AudioVisualizationCombineChannels;
-                avBars.RelativeView = BalancedBars;
-                avBars.HertzSpan = BarAmount;
-            }
-            else if (AudioVisualizationStyle == 2)
-            {
-                avBars.Visible = false;
-                avLine.Visible = true;
-                avLine.Dock = DockStyle.Fill;
-                avLine.Start();
-                avBars.Stop();
-                avLine.CombineChannels = AudioVisualizationCombineChannels;
-            }
-        }
-
-        /// <summary>
-        /// Checks the software arguments whether music files are passed as arguments to the software.
-        /// </summary>
-        private void CheckArguments()
-        {
-            var args = Environment.GetCommandLineArgs();
-
-            for (int i = 1; i < args.Length; i++)
-            {
-                string file = args[i];
-                        
-                ExceptionLogger.LogMessage($"Request file open: '{file}'.");
-                if (File.Exists(file))
+                if (InvokeRequired)
                 {
-                    ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
-                    OpenFileToTemporaryAlbum(file);
+                    Invoke(new VoidDelegate(ShowPlayingSong));
+                }
+                else
+                {
+                    ShowPlayingSong();
                 }
             }
         }
 
         /// <summary>
-        /// Opens a given file to the temporary album.
+        /// Gets or sets the selected music files within the play list.
         /// </summary>
-        /// <param name="file">The file name to add.</param>
-        private void OpenFileToTemporaryAlbum(string file)
+        private MusicFile[] SelectedMusicFiles
         {
-            if (CurrentAlbum != "tmp")
+            get
             {
-                CurrentAlbum = "tmp";
-                Database.ClearTmpAlbum(ref PlayList, Connection);
-                tbShuffle.Checked = true;
-                tbRand.Checked = false;
-                tbFind.Text = string.Empty;
-            }
-            CurrentAlbum = "tmp";
-            DoAddFileList(new List<string>(new [] {file}), false);
+                List<MusicFile> result = new List<MusicFile>();
+                for (int i = 0; i < lbMusic.Items.Count; i++)
+                {
+                    if (lbMusic.SelectedIndices.Contains(i))
+                    {
+                        result.Add((MusicFile)lbMusic.Items[i]);
+                    }
+                }
 
-            GetAlbum(CurrentAlbum, false);
-            ListAlbums(0);
+                return result.ToArray();
+            }
         }
 
-        // a user selected an album, so do open the album the user selected..
-        private void SelectAlbumClick(object sender, EventArgs e)
+        private void SelectMusicFiles(params MusicFile[] musicFiles)
         {
-            List<Album> albums = Database.GetAlbums(Connection);
-            foreach (Album album in albums)
+            //lbMusic.SelectedIndices.
+            foreach (var musicFile in musicFiles)
             {
-                ToolStripMenuItem item = (ToolStripMenuItem) sender;
-                if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
+                for (int i = 0; i < lbMusic.Items.Count; i++)
                 {
-                    DisableChecks();
-                    item.Checked = true;
-                    Database.SaveQueue(PlayList, Connection, CurrentAlbum);
-                    GetAlbum(album.AlbumName);
+                    if (((MusicFile)lbMusic.Items[i]).ID == musicFile.ID)
+                    {
+                        if (!lbMusic.SelectedIndices.Contains(i))
+                        {
+                            lbMusic.SelectedIndices.Add(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the visual indices of the current playlist within the playlist box.
+        /// </summary>
+        private void ReIndexVisual()
+        {
+            int iCount = 0;
+            foreach (MusicFile mf in PlayList)
+            {
+                mf.VisualIndex = iCount++;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current count of songs in the queue.
+        /// </summary>
+        /// <returns>The current count of songs in the queue.</returns>
+        private int GetQueueCountNum()
+        {
+            return PlayList.Count(f => f.QueueIndex > 0);
+        }
+
+        /// <summary>
+        /// Updates the status strip text with the current count of songs in the queue.
+        /// </summary>
+        private void GetQueueCount()
+        {
+            lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue", "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
+        }
+
+        /// <summary>
+        /// Updates the current playback volume to the GUI.
+        /// </summary>
+        private void UpdateVolume()
+        {
+            pnVol2.Left = (int)(MFile.Volume * 50F);
+        }
+
+
+        /// <summary>
+        /// Checks for new version of the application.
+        /// </summary>
+        private void CheckForNewVersion()
+        {
+            // no going to the internet if the user doesn't allow it..
+            if (AutoCheckUpdates)
+            {
+                FormCheckVersion.CheckForNewVersion("https://www.vpksoft.net/versions/version.php",
+                    Assembly.GetEntryAssembly(), UtilityClasses.Settings.Settings.Culture.Name);
+            }
+        }
+
+        // the play/pause toggle to call within the main form..
+        private void TogglePause()
+        {
+            if (waveOutDevice != null)
+            {
+                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                {
+                    tbPlayNext.Image = Resources.amp_pause;
+                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+                    waveOutDevice.Play();
+                    ResetAudioVisualizationBars();
+                }
+                else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    tbPlayNext.Image = Resources.amp_play;
+                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
+                    waveOutDevice.Pause();
+                }
+            }
+            else
+            {
+                humanActivity.Stop();
+                tbPlayNext.Image = Resources.amp_pause;
+                tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+                GetNextSong();
+            }
+        }
+
+        /// <summary>
+        /// Updates the current song rating to the GUI.
+        /// </summary>
+        private void UpdateStars()
+        {
+            pnStars1.Left = (int)(MFile.Rating / 1000.0 * 176.0);
+        }
+
+        /// <summary>
+        /// Gets an album with a given name and lists it to the playlist.
+        /// </summary>
+        /// <param name="name">The name of the album.</param>
+        /// <param name="usePsycho">A value indicating whether to use the progress dialog while loading the album to the playlist.</param>
+        private void GetAlbum(string name, bool usePsycho = true)
+        {
+            AlbumLoading = true;
+            if (usePsycho)
+            {
+                FormPsycho.Execute(this);
+                FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgLoadingAlbum", "Loading album '{0}'...|Text for loading an album (enumerating files and their tags)", name));
+            }
+            Database.GetAlbum(name, ref PlayList, Connection);
+            CurrentAlbum = name;
+            if (name == "tmp")
+            {
+                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
+            }
+            else
+            {
+                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
+            }
+
+            lbMusic.Items.Clear(); // LOCATION:NOT FILTERED
+
+            if (usePsycho)
+            {
+                foreach (MusicFile mf in PlayList)
+                {
+                    FormPsycho.SetStatusText(mf.GetFileName());
+                }
+            }
+
+            if (PlayList != null)
+            {
+                // ReSharper disable once CoVariantArrayConversion
+                lbMusic.Items.AddRange(PlayList.ToArray());
+            }
+            GetQueueCount();
+            if (usePsycho)
+            {
+                FormPsycho.UnExecute();
+            }
+            Filtered = FilterType.NoneFiltered;
+            AlbumLoading = false;
+            albumChanged = true;
+        }
+
+        /// <summary>
+        /// Updates the time of how many times the file has been played via randomization to the program database.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
+        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
+        private void UpdateRPlayed(MusicFile mf, bool skipped)
+        {
+            if (mf == null)
+            {
+                return;
+            }
+
+            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+            if (mfIdx != -1)
+            {
+                PlayList[mfIdx].NPLAYED_RAND++;
+                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
+            }
+
+            using (SQLiteCommand command = new SQLiteCommand(Connection))
+            {
+                command.CommandText = "UPDATE SONG SET NPLAYED_RAND = IFNULL(NPLAYED_RAND, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + " + (skipped ? "1" : "0") + " WHERE ID = " + mf.ID + " ";
+                command.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Adds a list of files to the album.
+        /// </summary>
+        /// <param name="musicFiles">A list of file names to add.</param>
+        /// <param name="usePsycho">A value indicating whether to use a funny-named "progress" dialog while adding the files.</param>
+        private void DoAddFileList(List<string> musicFiles, bool usePsycho = true)
+        {
+            lbMusic.SuspendLayout();
+            humanActivity.Enabled = false;
+            if (usePsycho)
+            {
+                FormPsycho.Execute(this);
+                FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgWorking", "Working...|The program is loading something"));
+            }
+             
+            List<MusicFile> addList = new List<MusicFile>();
+
+            foreach (string filePath in musicFiles)
+            {
+                if (Constants.Extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
+                {
+                    if (!File.Exists(filePath))
+                    {
+                        continue;
+                    }
+
+                    var mf = new MusicFile(filePath);
+                    addList.Add(mf);
+                }
+            }
+            Database.AddFileToDb(addList, Connection);
+
+            Database.GetIDsForSongs(ref addList, Connection);
+            Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
+            foreach (MusicFile mf in addList)
+            {
+                lbMusic.Items.Add(mf);
+                PlayList.Add(mf);
+            }
+
+            ReIndexVisual();
+
+            lbMusic.ResumeLayout();
+            if (usePsycho)
+            {
+                FormPsycho.UnExecute();
+            }
+            humanActivity.Enabled = true;
+        }
+
+        /// <summary>
+        /// Stops the playback, cleans and disposes of the objects used for the playback.
+        /// </summary>
+        private void CloseWaveOut()
+        {
+            if (waveOutDevice != null)
+            {
+                waveOutDevice.PlaybackStopped -= waveOutDevice_PlaybackStopped;
+                waveOutDevice.Stop();
+            }
+            if (mainOutputStream != null)
+            {
+                // this one really closes the file and ACM conversion
+                volumeStream.Close();
+                volumeStream = null;
+                // this one does the metering stream
+                mainOutputStream.Close();
+
+                // dispose the main memory stream in case one is assigned..
+                mainMemoryStream?.Dispose();
+
+                mainMemoryStream = null;
+                mainOutputStream = null;
+            }
+            if (waveOutDevice != null)
+            {
+                waveOutDevice.Dispose();
+                waveOutDevice = null;
+            }
+        }
+
+        /// <summary>
+        /// Plays a song with a given index.
+        /// </summary>
+        /// <param name="index">The index of the song to play.</param>
+        /// <param name="random">A value indicating whether the <paramref name="index"/> was gotten by randomizing.</param>
+        /// <param name="addPlayedSong">A value indicating whether to add this song to the played song list.</param>
+        private void PlaySong(int index, bool random, bool addPlayedSong = true)
+        {
+            if (random)
+            {
+                UpdateRPlayed(MFile, Skipped);
+            }
+            else
+            {
+                UpdateNPlayed(MFile, Skipped);
+            }
+
+            MFile = PlayList[index];
+            if (addPlayedSong)
+            {
+                playedSongs.Add(index);
+            }
+
+            if (random)
+            {
+                UpdateRPlayed(MFile, false);
+            }
+            else
+            {
+                UpdateNPlayed(MFile, false);
+            }
+
+            newSong = true;
+            DisplayPlayingSong();
+        }
+
+        /// <summary>
+        /// Gets a value whether the playlist box should be refreshed.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to use for comparison.</param>
+        /// <returns>True if the playlist box should be refreshed; otherwise false.</returns>
+        private bool ShouldRefreshList(MusicFile mf)
+        {
+            if (mf == null)
+            {
+                return false;
+            }
+            List<MusicFile> currentFiles = lbMusic.Items.Cast<MusicFile>().ToList();
+            return !currentFiles.Exists(f => f.ID == mf.ID);
+        }
+
+        /// <summary>
+        /// Displays the currently playing song and refreshes the playlist box if necessary.
+        /// </summary>
+        private void ShowPlayingSong()
+        {
+            for (int i = 0; i < lbMusic.Items.Count; i++ )
+            {
+                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
+                {
+                    lbMusic.SetIndex(i);
+                    return;
+                }
+            }
+
+            if (ShouldRefreshList(MFile)) // only do this "jump" if the list is filtered..
+            {
+                if (Filtered == FilterType.QueueFiltered && QueueCount > 0)
+                {
+                    ShowQueue();
+                }
+                else
+                {
+                    ShowAllSongs();
+                }
+            }
+
+            for (int i = 0; i < lbMusic.Items.Count; i++)
+            {
+                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
+                {
+                    lbMusic.SetIndex(i);
                     return;
                 }
             }
         }
 
-        // a class monitoring if the user is idle..
-        private HumanActivity humanActivity;
+        /// <summary>
+        /// List all to songs within the album to the playlist box.
+        /// </summary>
+        private void ShowAllSongs()
+        {
+            lbMusic.Items.Clear();
+            foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
+            {
+                lbMusic.Items.Add(mf);
+            }
+            Filtered = FilterType.NoneFiltered;
+        }
 
         /// <summary>
-        /// The current playback position in seconds.
+        /// A method for the playback thread.
         /// </summary>
-        public double Seconds;
+        private void PlayerThread()
+        {
+            var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+            // prevent total sleep/hibernate mode of the system..
+
+            try
+            {
+
+                ThreadExecutionState.SetThreadExecutionState(
+                    EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
+                while (!stopped)
+                {
+                    if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
+                    {
+                        // prevent total sleep/hibernate mode of the system..
+                        if (previousPaused)
+                        {
+                            ThreadExecutionState.SetThreadExecutionState(
+                                EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
+                        }
+                        else
+                        {
+                            // on pause allow total sleep/hibernate mode of the system..
+                            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
+                        }
+
+                        previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+                    }
+
+                    if (MFile != null)
+                    {
+                        if (!playing || newSong)
+                        {
+                            CloseWaveOut();
+                            waveOutDevice = new WaveOut
+                            {
+                                DesiredLatency = LatencyMs, 
+                            };
+                            try
+                            {
+                                var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
+                                mainOutputStream = waveStream;
+                                mainMemoryStream = memoryStream;
+                            }
+                            catch
+                            {
+                                GetNextSong();
+                                continue;
+                            }
+
+                            if (mainOutputStream == null)
+                            {
+                                continue;
+                            }
+
+                            SecondsTotal = mainOutputStream.TotalTime.TotalSeconds;
+
+                            if (lbSong.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateSongName)));
+                            }
+                            else
+                            {
+                                UpdateSongName();
+                            }
+
+                            if (pnVol2.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateVolume)));
+                            }
+                            else
+                            {
+                                UpdateVolume();
+                            }
+
+                            if (pnStars1.InvokeRequired)
+                            {
+                                lbSong.Invoke(new VoidDelegate((UpdateStars)));
+                            }
+                            else
+                            {
+                                UpdateStars();
+                            }
+
+                            if (tbTool.InvokeRequired)
+                            {
+                                tbTool.Invoke(new VoidDelegate(SetPause));
+                            }
+                            else
+                            {
+                                SetPause();
+                            }
+
+
+                            waveOutDevice.Init(mainOutputStream);
+                            waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
+                            waveOutDevice.Play();
+                            ResetAudioVisualizationBars();
+                            if (FormSettings.IsQuietHour() && !QuietHoursPause)
+                            {
+                                volumeStream.Volume = MFile.Volume * (float) QuietHoursVolPercentage;
+                            }
+                            else
+                            {
+                                volumeStream.Volume = MFile.Volume;
+                            }
+
+                            if (InvokeRequired)
+                            {
+                                Invoke(new VoidDelegate(TextInvoker));
+                            }
+                            else
+                            {
+                                TextInvoker();
+                            }
+
+
+                            playing = true;
+                            newSong = false;
+                        }
+
+                        if ((calcMs % 100) == 0)
+                        {
+                            if (FormSettings.IsQuietHour() && QuietHoursPause)
+                            {
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new VoidDelegate(PauseInvoker));
+                                    Invoke(new VoidDelegate(TextInvoker));
+                                }
+                                else
+                                {
+                                    PauseInvoker();
+                                    TextInvoker();
+                                }
+                            }
+                            else
+                            {
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new VoidDelegate(PlayInvoker));
+                                }
+                                else
+                                {
+                                    PlayInvoker();
+                                }
+                            }
+                        }
+                    }
+
+                    Thread.Sleep(100);
+                    // ReSharper disable once NonAtomicCompoundOperator, I don't care..
+                    calcMs++; // 100 ms * 10 == second, lets make it ten seconds so 10 * 10 = 100;
+
+
+                    if (mainOutputStream == null)
+                    {
+                        Seconds = 0;
+                        SecondsTotal = 0;
+                    }
+                    else
+                    {
+                        Seconds = mainOutputStream.CurrentTime.TotalSeconds;
+                    }
+
+                    playerThreadLoaded = true;
+                }
+
+                CloseWaveOut();
+                // on thread stop allow total sleep/hibernate mode of the system..
+                ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         /// <summary>
-        /// The current song's length in seconds.
+        /// Resets the audio visualization on the bar audio graph thread-safely.
         /// </summary>
-        public double SecondsTotal;
+        private void ResetAudioVisualizationBars()
+        {
+            if (!BalancedBars)
+            {
+                return;
+            }
 
-        #region NAudioPlayBack
-        /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
-        /// </summary>
-        private volatile WaveOut waveOutDevice;
-
-        /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveStream"/> class instance for the playback.
-        /// </summary>
-        private volatile WaveStream mainOutputStream;
-
-        /// <summary>
-        /// The current <see cref="MemoryStream"/> used by the <see cref="NAudio.Wave.WaveStream"/> class instance in case the file is entirely loaded into the memory.
-        /// </summary>
-        private volatile MemoryStream mainMemoryStream;
-
-        /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
-        /// </summary>
-        private volatile WaveChannel32 volumeStream;
-        #endregion
-
+            Thread.Sleep(150); // wait for the playback to stabilize before resetting the view..
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() =>
+                {
+                    avBars.ResetRelativeView();
+                }));
+            }
+            else
+            {
+                avBars.ResetRelativeView();
+            }
+        }
 
         /// <summary>
-        /// A flag indicating whether the playback is stopped.
+        /// Displays the main form title. From thread call with Invoke method; otherwise direct call.
         /// </summary>
-        private volatile bool stopped;
-
-        /// <summary>
-        /// A flag indicating if a song is currently playing.
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        internal volatile bool playing;
-
-        /// <summary>
-        /// A flag indicating whether a new song has been selected compared to previously playing song.
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        internal volatile bool newSong;
-
-        /// <summary>
-        /// The latest song index which was played or is being played.
-        /// </summary>
-        private volatile int latestSongIndex = -1;
-
-        /// <summary>
-        /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
-        /// </summary>
-        private bool pendNextSong; 
-
-        /// <summary>
-        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
-        /// </summary>
-        private delegate void VoidDelegate();
-
-        /// <summary>
-        /// A general randomization class instance.
-        /// </summary>
-        internal Random Random = new Random();
+        private void TextInvoker()
+        {
+            if (CurrentAlbum == "tmp")
+            {
+                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour()
+                           ? " " + DBLangEngine.GetMessage("msgQuietHours",
+                                 "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
+                                 QuietHoursFrom, QuietHoursTo)
+                           : string.Empty);
+            }
+            else
+            {
+                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour()
+                           ? " " + DBLangEngine.GetMessage("msgQuietHours",
+                                 "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
+                                 QuietHoursFrom, QuietHoursTo)
+                           : string.Empty);
+            }
+        }
 
         /// <summary>
         /// Creates a <see cref="NAudio.Wave.WaveStream"/> class instance from a give <paramref name="fileName"/>.
@@ -620,242 +1089,163 @@ namespace amp
         }
 
         /// <summary>
-        /// A screen refresh counter for the playback thread to calculate "time".
+        /// Sets the audio visualization based on the settings.
         /// </summary>
-        private volatile int calcMs;
+        private void SetAudioVisualization()
+        {
+            // set the audio visualization panel row style if used..
+            tlpMain.RowStyles[5].Height = AudioVisualizationStyle == 0 ? 0 : AudioVisualizationVisualPercentage;
+            tlpMain.RowStyles[4].Height = AudioVisualizationStyle == 0 ? 100 : 100 - AudioVisualizationVisualPercentage;
+
+            if (AudioVisualizationStyle == 0)
+            {
+                avBars.Visible = false;
+                avLine.Visible = false;
+            }
+            else if (AudioVisualizationStyle == 1)
+            {
+                avBars.Visible = true;
+                avLine.Visible = false;
+                avBars.Dock = DockStyle.Fill;
+                avBars.Start();
+                avLine.Stop();
+                avBars.CombineChannels = AudioVisualizationCombineChannels;
+                avBars.RelativeView = BalancedBars;
+                avBars.HertzSpan = BarAmount;
+            }
+            else if (AudioVisualizationStyle == 2)
+            {
+                avBars.Visible = false;
+                avLine.Visible = true;
+                avLine.Dock = DockStyle.Fill;
+                avLine.Start();
+                avBars.Stop();
+                avLine.CombineChannels = AudioVisualizationCombineChannels;
+            }
+        }
 
         /// <summary>
-        /// A method for the playback thread.
+        /// Checks the software arguments whether music files are passed as arguments to the software.
         /// </summary>
-        private void PlayerThread()
+        private void CheckArguments()
         {
-            var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
-            // prevent total sleep/hibernate mode of the system..
+            var args = Environment.GetCommandLineArgs();
 
-            try
+            for (int i = 1; i < args.Length; i++)
             {
-
-                ThreadExecutionState.SetThreadExecutionState(
-                    EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
-                while (!stopped)
+                string file = args[i];
+                        
+                ExceptionLogger.LogMessage($"Request file open: '{file}'.");
+                if (File.Exists(file))
                 {
-                    if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
-                    {
-                        // prevent total sleep/hibernate mode of the system..
-                        if (previousPaused)
-                        {
-                            ThreadExecutionState.SetThreadExecutionState(
-                                EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
-                        }
-                        else
-                        {
-                            // on pause allow total sleep/hibernate mode of the system..
-                            ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
-                        }
-
-                        previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
-                    }
-
-                    if (MFile != null)
-                    {
-                        if (!playing || newSong)
-                        {
-                            CloseWaveOut();
-                            waveOutDevice = new WaveOut
-                            {
-                                DesiredLatency = LatencyMs, 
-                            };
-                            try
-                            {
-                                var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
-                                mainOutputStream = waveStream;
-                                mainMemoryStream = memoryStream;
-                            }
-                            catch
-                            {
-                                GetNextSong();
-                                continue;
-                            }
-
-                            if (mainOutputStream == null)
-                            {
-                                continue;
-                            }
-
-                            SecondsTotal = mainOutputStream.TotalTime.TotalSeconds;
-
-                            if (lbSong.InvokeRequired)
-                            {
-                                lbSong.Invoke(new VoidDelegate((UpdateSongName)));
-                            }
-                            else
-                            {
-                                UpdateSongName();
-                            }
-
-                            if (pnVol2.InvokeRequired)
-                            {
-                                lbSong.Invoke(new VoidDelegate((UpdateVolume)));
-                            }
-                            else
-                            {
-                                UpdateVolume();
-                            }
-
-                            if (pnStars1.InvokeRequired)
-                            {
-                                lbSong.Invoke(new VoidDelegate((UpdateStars)));
-                            }
-                            else
-                            {
-                                UpdateStars();
-                            }
-
-                            if (tbTool.InvokeRequired)
-                            {
-                                tbTool.Invoke(new VoidDelegate(SetPause));
-                            }
-                            else
-                            {
-                                SetPause();
-                            }
-
-
-                            waveOutDevice.Init(mainOutputStream);
-                            waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
-                            waveOutDevice.Play();
-                            ResetAudioVisualizationBars();
-                            if (FormSettings.IsQuietHour() && !QuietHoursPause)
-                            {
-                                volumeStream.Volume = MFile.Volume * (float) QuietHoursVolPercentage;
-                            }
-                            else
-                            {
-                                volumeStream.Volume = MFile.Volume;
-                            }
-
-                            if (InvokeRequired)
-                            {
-                                Invoke(new VoidDelegate(TextInvoker));
-                            }
-                            else
-                            {
-                                TextInvoker();
-                            }
-
-
-                            playing = true;
-                            newSong = false;
-                        }
-
-                        if ((calcMs % 100) == 0)
-                        {
-                            if (FormSettings.IsQuietHour() && QuietHoursPause)
-                            {
-                                if (InvokeRequired)
-                                {
-                                    Invoke(new VoidDelegate(PauseInvoker));
-                                    Invoke(new VoidDelegate(TextInvoker));
-                                }
-                                else
-                                {
-                                    PauseInvoker();
-                                    TextInvoker();
-                                }
-                            }
-                            else
-                            {
-                                if (InvokeRequired)
-                                {
-                                    Invoke(new VoidDelegate(PlayInvoker));
-                                }
-                                else
-                                {
-                                    PlayInvoker();
-                                }
-                            }
-                        }
-                    }
-
-                    Thread.Sleep(100);
-                    calcMs++; // 100 ms * 10 == second, lets make it ten seconds so 10 * 10 = 100;
-
-
-                    if (mainOutputStream == null)
-                    {
-                        Seconds = 0;
-                        SecondsTotal = 0;
-                    }
-                    else
-                    {
-                        Seconds = mainOutputStream.CurrentTime.TotalSeconds;
-                    }
-
-                    playerThreadLoaded = true;
+                    ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
+                    OpenFileToTemporaryAlbum(file);
                 }
-
-                CloseWaveOut();
-                // on thread stop allow total sleep/hibernate mode of the system..
-                ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 
         /// <summary>
-        /// Resets the audio visualization on the bar audio graph thread-safely.
+        /// Opens a given file to the temporary album.
         /// </summary>
-        private void ResetAudioVisualizationBars()
+        /// <param name="file">The file name to add.</param>
+        private void OpenFileToTemporaryAlbum(string file)
         {
-            if (!BalancedBars)
+            if (CurrentAlbum != "tmp")
             {
-                return;
+                CurrentAlbum = "tmp";
+                Database.ClearTmpAlbum(ref PlayList, Connection);
+                tbShuffle.Checked = true;
+                tbRand.Checked = false;
+                tbFind.Text = string.Empty;
             }
+            CurrentAlbum = "tmp";
+            DoAddFileList(new List<string>(new [] {file}), false);
 
-            Thread.Sleep(150); // wait for the playback to stabilize before resetting the view..
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(() =>
-                {
-                    avBars.ResetRelativeView();
-                }));
-            }
-            else
-            {
-                avBars.ResetRelativeView();
-            }
+            GetAlbum(CurrentAlbum, false);
+            ListAlbums(0);
         }
+        #endregion
+
+        #region Fields
+        // a class monitoring if the user is idle..
+        private HumanActivity humanActivity;
 
         /// <summary>
-        /// Displays the main form title. From thread call with Invoke method; otherwise direct call.
+        /// The current playback position in seconds.
         /// </summary>
-        private void TextInvoker()
-        {
-            if (CurrentAlbum == "tmp")
-            {
-                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour()
-                           ? " " + DBLangEngine.GetMessage("msgQuietHours",
-                                 "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
-                                 QuietHoursFrom, QuietHoursTo)
-                           : string.Empty);
-            }
-            else
-            {
-                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour()
-                           ? " " + DBLangEngine.GetMessage("msgQuietHours",
-                                 "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
-                                 QuietHoursFrom, QuietHoursTo)
-                           : string.Empty);
-            }
-        }
+        public double Seconds;
 
-        // handles the playback stopped event..
-        void waveOutDevice_PlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            GetNextSong(true);
-        }
+        /// <summary>
+        /// The current song's length in seconds.
+        /// </summary>
+        public double SecondsTotal;
+
+        /// <summary>
+        /// A flag indicating whether the playback is stopped.
+        /// </summary>
+        private volatile bool stopped;
+
+        /// <summary>
+        /// A flag indicating if a song is currently playing.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool playing;
+
+        /// <summary>
+        /// A flag indicating whether a new song has been selected compared to previously playing song.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool newSong;
+
+        /// <summary>
+        /// The latest song index which was played or is being played.
+        /// </summary>
+        private volatile int latestSongIndex = -1;
+
+        /// <summary>
+        /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
+        /// </summary>
+        private bool pendNextSong; 
+
+        /// <summary>
+        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
+        /// </summary>
+        private delegate void VoidDelegate();
+
+        /// <summary>
+        /// A general randomization class instance.
+        /// </summary>
+        internal Random Random = new Random();
+        #endregion
+
+        #region NAudioPlayBack
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveOut waveOutDevice;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveStream"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveStream mainOutputStream;
+
+        /// <summary>
+        /// The current <see cref="MemoryStream"/> used by the <see cref="NAudio.Wave.WaveStream"/> class instance in case the file is entirely loaded into the memory.
+        /// </summary>
+        private volatile MemoryStream mainMemoryStream;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveChannel32 volumeStream;
+        #endregion
+
+        #region InternalProperties
+        /// <summary>
+        /// Gets a value indicating whether the stack queue is enabled.
+        /// </summary>
+        /// <value><c>true</c> if stack queue is enabled; otherwise, <c>false</c>.</value>
+        internal bool StackQueueEnabled => tsbQueueStack.Checked;
 
         /// <summary>
         /// Gets the value whether a playback is considered as skipped; Only 15 percentage of the song was played.
@@ -884,41 +1274,107 @@ namespace amp
                 return percentagePlayed < 15.0;
             }
         }
+        
+
+        #endregion
+
+        #region PrivateProperties
+        /// <summary>
+        /// Gets the count of currently queued songs.
+        /// </summary>
+        private int QueueCount
+        {
+            get
+            {
+                return PlayList.Count(f => f.QueueIndex > 0);
+            }
+        }
+        #endregion
+
+        #region PublicMethods
+        /// <summary>
+        /// Scrambles the queue between the selected songs within the queue.
+        /// </summary>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool ScrambleQueueSelected()
+        {
+            var selectedFiles = SelectedMusicFiles;
+            humanActivity.Enabled = false;
+            bool affected = MusicFile.ScrambleQueueSelected(SelectedMusicFiles); // if any songs in the play list was affected..
+
+            if (affected)
+            {
+                ShowQueue();
+                SelectMusicFiles(selectedFiles);
+            }
+
+            humanActivity.Enabled = true;
+            return affected;
+        }
 
         /// <summary>
-        /// Plays a song with a given index.
+        /// Moves the selected files to the top of the queue.
         /// </summary>
-        /// <param name="index">The index of the song to play.</param>
-        /// <param name="random">A value indicating whether the <paramref name="index"/> was gotten by randomizing.</param>
-        /// <param name="addPlayedSong">A value indicating whether to add this song to the played song list.</param>
-        private void PlaySong(int index, bool random, bool addPlayedSong = true)
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool MoveQueueTop()
         {
-            if (random)
+            var selectedFiles = SelectedMusicFiles;
+            humanActivity.Enabled = false;
+            bool affected = MusicFile.MoveQueueTop(ref PlayList, SelectedMusicFiles); // if any songs in the play list was affected..
+
+            if (affected)
             {
-                UpdateRPlayed(MFile, Skipped);
-            }
-            else
-            {
-                UpdateNPlayed(MFile, Skipped);
+                ShowQueue();
+                SelectMusicFiles(selectedFiles);
             }
 
-            MFile = PlayList[index];
-            if (addPlayedSong)
+            humanActivity.Enabled = true;
+            return affected;
+        }
+
+        /// <summary>
+        /// Scrambles the queue to have new random indices.
+        /// </summary>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool ScrambleQueue()
+        {
+            humanActivity.Enabled = false;
+            bool affected = MusicFile.ScrambleQueue(ref PlayList); // if any songs in the play list was affected..
+
+            if (affected)
             {
-                playedSongs.Add(index);
+                ShowQueue();
+            }
+            humanActivity.Enabled = true;
+            return affected;
+        }
+
+        /// <summary>
+        /// Sets a user given rating for a song to the database.
+        /// </summary>
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
+        public void SaveRating(MusicFile mf)
+        {
+            if (mf == null)
+            {
+                return;
             }
 
-            if (random)
+            if (mf.RatingChanged)
             {
-                UpdateRPlayed(MFile, false);
-            }
-            else
-            {
-                UpdateNPlayed(MFile, false);
-            }
+                int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+                if (mfIdx != -1)
+                {
+                    PlayList[mfIdx].Rating = mf.Rating;
+                }
 
-            newSong = true;
-            DisplayPlayingSong();
+                using (SQLiteCommand command = new SQLiteCommand(Connection))
+                {
+                    command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
+                    command.ExecuteNonQuery();
+                    mf.RatingChanged = false;
+                }
+            }
         }
 
         /// <summary>
@@ -938,41 +1394,32 @@ namespace amp
         }
 
         /// <summary>
-        /// Stops the playback, cleans and disposes of the objects used for the playback.
+        /// Updates the time of how many times the file has been played via user selection to the program database.
         /// </summary>
-        private void CloseWaveOut()
+        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
+        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
+        public void UpdateNPlayed(MusicFile mf, bool skipped)
         {
-            if (waveOutDevice != null)
+            if (mf == null)
             {
-                waveOutDevice.PlaybackStopped -= waveOutDevice_PlaybackStopped;
-                waveOutDevice.Stop();
+                return;
             }
-            if (mainOutputStream != null)
+
+            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
+            if (mfIdx != -1)
             {
-                // this one really closes the file and ACM conversion
-                volumeStream.Close();
-                volumeStream = null;
-                // this one does the metering stream
-                mainOutputStream.Close();
-
-                // dispose the main memory stream in case one is assigned..
-                mainMemoryStream?.Dispose();
-
-                mainMemoryStream = null;
-                mainOutputStream = null;
+                PlayList[mfIdx].NPLAYED_RAND++;
+                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
             }
-            if (waveOutDevice != null)
+
+            using (SQLiteCommand command = new SQLiteCommand(Connection))
             {
-                waveOutDevice.Dispose();
-                waveOutDevice = null;
+                command.CommandText =
+                    $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
+                command.ExecuteNonQuery();
             }
         }
-
-        // a user is dragging files and/or directories to the software..
-        private void lbMusic_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
-        }
+        #endregion
 
         // File drag drop operation hangs the Windows Explorer (the event duration) so do it in a thread..
         #region DragDropThread
@@ -1066,54 +1513,74 @@ namespace amp
         }
         #endregion
 
+        #region InternalMethods
         /// <summary>
-        /// Adds a list of files to the album.
+        /// Displays the queued songs within the playlist.
         /// </summary>
-        /// <param name="musicFiles">A list of file names to add.</param>
-        /// <param name="usePsycho">A value indicating whether to use a funny-named "progress" dialog while adding the files.</param>
-        private void DoAddFileList(List<string> musicFiles, bool usePsycho = true)
+        internal void ShowQueue()
         {
-            lbMusic.SuspendLayout();
-            humanActivity.Enabled = false;
-            if (usePsycho)
+            lbMusic.Invoke(new MethodInvoker(() =>
             {
-                FormPsycho.Execute(this);
-                FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgWorking", "Working...|The program is loading something"));
-            }
-             
-            List<MusicFile> addList = new List<MusicFile>();
-
-            foreach (string filePath in musicFiles)
-            {
-                if (Constants.Extensions.Contains(Path.GetExtension(filePath)?.ToUpper()))
+                if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
                 {
-                    if (!File.Exists(filePath))
-                    {
-                        continue;
-                    }
-
-                    var mf = new MusicFile(filePath);
-                    addList.Add(mf);
+                    return;
                 }
-            }
-            Database.AddFileToDb(addList, Connection);
+                lbMusic.Items.Clear();
+                List<MusicFile> queuedSongs = new List<MusicFile>();
+                foreach (MusicFile mf in PlayList)
+                {
+                    if (mf.QueueIndex > 0)
+                    {
+                        queuedSongs.Add(mf);
+                    }
+                }
+                queuedSongs = queuedSongs.OrderBy(f => f.QueueIndex).ToList();
 
-            Database.GetIDsForSongs(ref addList, Connection);
-            Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
-            foreach (MusicFile mf in addList)
+                foreach (MusicFile mf in queuedSongs)
+                {
+                    lbMusic.Items.Add(mf);
+                }
+            }));
+
+            Filtered = FilterType.QueueFiltered;
+        }
+
+        /// <summary>
+        /// Displays the alternate queue within the playlist.
+        /// </summary>
+        internal void ShowAlternateQueue()
+        {
+            lbMusic.Invoke(new MethodInvoker(() =>
             {
-                lbMusic.Items.Add(mf);
-                PlayList.Add(mf);
-            }
+                if (PlayList.Count(f => f.AlternateQueueIndex > 0) == 0) // don't show an empty queue..
+                {
+                    return;
+                }
+                lbMusic.Items.Clear();
+                List<MusicFile> queuedSongs = new List<MusicFile>();
+                foreach (MusicFile mf in PlayList)
+                {
+                    if (mf.AlternateQueueIndex > 0)
+                    {
+                        queuedSongs.Add(mf);
+                    }
+                }
+                queuedSongs = queuedSongs.OrderBy(f => f.AlternateQueueIndex).ToList();
 
-            ReIndexVisual();
+                foreach (MusicFile mf in queuedSongs)
+                {
+                    lbMusic.Items.Add(mf);
+                }
+                Filtered = FilterType.AlternateFiltered;
+            }));
+        }
+        #endregion
 
-            lbMusic.ResumeLayout();
-            if (usePsycho)
-            {
-                FormPsycho.UnExecute();
-            }
-            humanActivity.Enabled = true;
+        #region InternalEvents
+        // a user is dragging files and/or directories to the software..
+        private void lbMusic_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         // a user is dropped files and/or directories to the software, so handle it..
@@ -1228,152 +1695,10 @@ namespace amp
             }
         }
 
-        /// <summary>
-        /// Gets an album with a given name and lists it to the playlist.
-        /// </summary>
-        /// <param name="name">The name of the album.</param>
-        /// <param name="usePsycho">A value indicating whether to use the progress dialog while loading the album to the playlist.</param>
-        private void GetAlbum(string name, bool usePsycho = true)
+        // handles the playback stopped event..
+        void waveOutDevice_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            AlbumLoading = true;
-            if (usePsycho)
-            {
-                FormPsycho.Execute(this);
-                FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgLoadingAlbum", "Loading album '{0}'...|Text for loading an album (enumerating files and their tags)", name));
-            }
-            Database.GetAlbum(name, ref PlayList, Connection);
-            CurrentAlbum = name;
-            if (name == "tmp")
-            {
-                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
-            }
-            else
-            {
-                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
-            }
-
-            lbMusic.Items.Clear(); // LOCATION:NOT FILTERED
-
-            if (usePsycho)
-            {
-                foreach (MusicFile mf in PlayList)
-                {
-                    FormPsycho.SetStatusText(mf.GetFileName());
-                }
-            }
-
-            if (PlayList != null)
-            {
-                // ReSharper disable once CoVariantArrayConversion
-                lbMusic.Items.AddRange(PlayList.ToArray());
-            }
-            GetQueueCount();
-            if (usePsycho)
-            {
-                FormPsycho.UnExecute();
-            }
-            Filtered = FilterType.NoneFiltered;
-            AlbumLoading = false;
-            albumChanged = true;
-        }
-
-        /// <summary>
-        /// Updates the time of how many times the file has been played via randomization to the program database.
-        /// </summary>
-        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
-        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
-        private void UpdateRPlayed(MusicFile mf, bool skipped)
-        {
-            if (mf == null)
-            {
-                return;
-            }
-
-            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
-            if (mfIdx != -1)
-            {
-                PlayList[mfIdx].NPLAYED_RAND++;
-                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
-            }
-
-            using (SQLiteCommand command = new SQLiteCommand(Connection))
-            {
-                command.CommandText = "UPDATE SONG SET NPLAYED_RAND = IFNULL(NPLAYED_RAND, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + " + (skipped ? "1" : "0") + " WHERE ID = " + mf.ID + " ";
-                command.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Updates the time of how many times the file has been played via user selection to the program database.
-        /// </summary>
-        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
-        /// <param name="skipped">A value indicating whether the song was skipped; I.e. less than 15 percent played.</param>
-        public void UpdateNPlayed(MusicFile mf, bool skipped)
-        {
-            if (mf == null)
-            {
-                return;
-            }
-
-            int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
-            if (mfIdx != -1)
-            {
-                PlayList[mfIdx].NPLAYED_RAND++;
-                PlayList[mfIdx].SKIPPED_EARLY += skipped ? 1 : 0;
-            }
-
-            using (SQLiteCommand command = new SQLiteCommand(Connection))
-            {
-                command.CommandText =
-                    $"UPDATE SONG SET NPLAYED_USER = IFNULL(NPLAYED_USER, 0) + 1, SKIPPED_EARLY = IFNULL(SKIPPED_EARLY, 0) + {(skipped ? "1" : "0")} WHERE ID = {mf.ID} ";
-                command.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the stack queue is enabled.
-        /// </summary>
-        /// <value><c>true</c> if stack queue is enabled; otherwise, <c>false</c>.</value>
-        internal bool StackQueueEnabled => tsbQueueStack.Checked;
-
-        /// <summary>
-        /// Sets a user given rating for a song to the database.
-        /// </summary>
-        /// <param name="mf">A <see cref="MusicFile"/> class instance to update to the database.</param>
-        public void SaveRating(MusicFile mf)
-        {
-            if (mf == null)
-            {
-                return;
-            }
-
-            if (mf.RatingChanged)
-            {
-                int mfIdx = PlayList.FindIndex(f => f.ID == mf.ID);
-                if (mfIdx != -1)
-                {
-                    PlayList[mfIdx].Rating = mf.Rating;
-                }
-
-                using (SQLiteCommand command = new SQLiteCommand(Connection))
-                {
-                    command.CommandText = $"UPDATE SONG SET RATING = {mf.Rating} WHERE ID = {mf.ID} ";
-                    command.ExecuteNonQuery();
-                    mf.RatingChanged = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the visual indices of the current playlist within the playlist box.
-        /// </summary>
-        private void ReIndexVisual()
-        {
-            int iCount = 0;
-            foreach (MusicFile mf in PlayList)
-            {
-                mf.VisualIndex = iCount++;
-            }
+            GetNextSong(true);
         }
 
         // the search text was changed, so do the search thing..
@@ -1460,29 +1785,10 @@ namespace amp
             }
         }
 
-        /// <summary>
-        /// Gets the current count of songs in the queue.
-        /// </summary>
-        /// <returns>The current count of songs in the queue.</returns>
-        private int GetQueueCountNum()
+        // the user wants to play the next song, so do obey..
+        private void tbPlayNext_Click(object sender, EventArgs e)
         {
-            return PlayList.Count(f => f.QueueIndex > 0);
-        }
-
-        /// <summary>
-        /// Updates the status strip text with the current count of songs in the queue.
-        /// </summary>
-        private void GetQueueCount()
-        {
-            lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue", "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
-        }
-
-        /// <summary>
-        /// Updates the current playback volume to the GUI.
-        /// </summary>
-        private void UpdateVolume()
-        {
-            pnVol2.Left = (int)(MFile.Volume * 50F);
+            TogglePause();
         }
 
         // the main form is shown; enable few timers, update the database, possibly load the default album and create the necessary thread(s)..
@@ -1536,67 +1842,12 @@ namespace amp
             tmIPCFiles.Enabled = true;
         }
 
-        /// <summary>
-        /// Checks for new version of the application.
-        /// </summary>
-        private void CheckForNewVersion()
-        {
-            // no going to the internet if the user doesn't allow it..
-            if (AutoCheckUpdates)
-            {
-                FormCheckVersion.CheckForNewVersion("https://www.vpksoft.net/versions/version.php",
-                    Assembly.GetEntryAssembly(), UtilityClasses.Settings.Settings.Culture.Name);
-            }
-        }
-
-        // the user wants to play the next song, so do obey..
-        private void tbPlayNext_Click(object sender, EventArgs e)
-        {
-            TogglePause();
-        }
-
-        // the play/pause toggle to call within the main form..
-        private void TogglePause()
-        {
-            if (waveOutDevice != null)
-            {
-                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
-                {
-                    tbPlayNext.Image = Resources.amp_pause;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
-                    waveOutDevice.Play();
-                    ResetAudioVisualizationBars();
-                }
-                else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    tbPlayNext.Image = Resources.amp_play;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
-                    waveOutDevice.Pause();
-                }
-            }
-            else
-            {
-                humanActivity.Stop();
-                tbPlayNext.Image = Resources.amp_pause;
-                tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
-                GetNextSong();
-            }
-        }
-
         // a user scrolls the song playback position; set the position to the user given value..
         private void scProgress_Scroll(object sender, ScrollEventArgs e)
         {
             tmSeek.Stop();
             mainOutputStream.CurrentTime = new TimeSpan(0, 0, e.NewValue);
             tmSeek.Start();
-        }
-
-        /// <summary>
-        /// Updates the current song rating to the GUI.
-        /// </summary>
-        private void UpdateStars()
-        {
-            pnStars1.Left = (int)(MFile.Rating / 1000.0 * 176.0);
         }
 
         // a user changes the per-song based volume; set the volume and update it to the database..
@@ -1643,67 +1894,6 @@ namespace amp
             ShowQueue();
         }
 
-        /// <summary>
-        /// Displays the queued songs within the playlist.
-        /// </summary>
-        internal void ShowQueue()
-        {
-            lbMusic.Invoke(new MethodInvoker(() =>
-            {
-                if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
-                {
-                    return;
-                }
-                lbMusic.Items.Clear();
-                List<MusicFile> queuedSongs = new List<MusicFile>();
-                foreach (MusicFile mf in PlayList)
-                {
-                    if (mf.QueueIndex > 0)
-                    {
-                        queuedSongs.Add(mf);
-                    }
-                }
-                queuedSongs = queuedSongs.OrderBy(f => f.QueueIndex).ToList();
-
-                foreach (MusicFile mf in queuedSongs)
-                {
-                    lbMusic.Items.Add(mf);
-                }
-            }));
-
-            Filtered = FilterType.QueueFiltered;
-        }
-
-        /// <summary>
-        /// Displays the alternate queue within the playlist.
-        /// </summary>
-        internal void ShowAlternateQueue()
-        {
-            lbMusic.Invoke(new MethodInvoker(() =>
-            {
-                if (PlayList.Count(f => f.AlternateQueueIndex > 0) == 0) // don't show an empty queue..
-                {
-                    return;
-                }
-                lbMusic.Items.Clear();
-                List<MusicFile> queuedSongs = new List<MusicFile>();
-                foreach (MusicFile mf in PlayList)
-                {
-                    if (mf.AlternateQueueIndex > 0)
-                    {
-                        queuedSongs.Add(mf);
-                    }
-                }
-                queuedSongs = queuedSongs.OrderBy(f => f.AlternateQueueIndex).ToList();
-
-                foreach (MusicFile mf in queuedSongs)
-                {
-                    lbMusic.Items.Add(mf);
-                }
-                Filtered = FilterType.AlternateFiltered;
-            }));
-        }
-
         // a user wants to clear the queue..
         private void mnuDeQueue_Click(object sender, EventArgs e)
         {
@@ -1733,23 +1923,6 @@ namespace amp
             ScrambleQueue(); // scramble the queue to have new random indices..
         }
 
-        /// <summary>
-        /// Scrambles the queue to have new random indices.
-        /// </summary>
-        /// <returns>True if any songs were affected; otherwise false.</returns>
-        public bool ScrambleQueue()
-        {
-            humanActivity.Enabled = false;
-            bool affected = MusicFile.ScrambleQueue(ref PlayList); // if any songs in the play list was affected..
-
-            if (affected)
-            {
-                ShowQueue();
-            }
-            humanActivity.Enabled = true;
-            return affected;
-        }
-
         // a user wants to select all songs within the playlist box..
         private void mnuSelectAll_Click(object sender, EventArgs e)
         {
@@ -1769,99 +1942,6 @@ namespace amp
         {
             humanActivity = new HumanActivity(15);
             humanActivity.UserSleep += humanActivity_OnUserSleep;
-        }
-
-        /// <summary>
-        /// Displays the currently playing song.
-        /// </summary>
-        private void DisplayPlayingSong()
-        {
-            if (humanActivity.Sleeping)
-            {
-                if (InvokeRequired)
-                {
-                    Invoke(new VoidDelegate(ShowPlayingSong));
-                }
-                else
-                {
-                    ShowPlayingSong();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the count of currently queued songs.
-        /// </summary>
-        private int QueueCount
-        {
-            get
-            {
-                return PlayList.Count(f => f.QueueIndex > 0);
-            }
-        }
-
-        /// <summary>
-        /// Gets a value whether the playlist box should be refreshed.
-        /// </summary>
-        /// <param name="mf">A <see cref="MusicFile"/> class instance to use for comparison.</param>
-        /// <returns>True if the playlist box should be refreshed; otherwise false.</returns>
-        private bool ShouldRefreshList(MusicFile mf)
-        {
-            if (mf == null)
-            {
-                return false;
-            }
-            List<MusicFile> currentFiles = lbMusic.Items.Cast<MusicFile>().ToList();
-            return !currentFiles.Exists(f => f.ID == mf.ID);
-        }
-
-        /// <summary>
-        /// Displays the currently playing song and refreshes the playlist box if necessary.
-        /// </summary>
-        private void ShowPlayingSong()
-        {
-            for (int i = 0; i < lbMusic.Items.Count; i++ )
-            {
-                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
-                {
-                    lbMusic.SetIndex(i);
-                    return;
-                }
-            }
-
-            if (ShouldRefreshList(MFile)) // only do this "jump" if the list is filtered..
-            {
-                if (Filtered == FilterType.QueueFiltered && QueueCount > 0)
-                {
-                    ShowQueue();
-                }
-                else
-                {
-                    ShowAllSongs();
-                }
-            }
-
-            for (int i = 0; i < lbMusic.Items.Count; i++)
-            {
-                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
-                {
-                    lbMusic.SetIndex(i);
-                    return;
-                }
-            }
-        }
-
-        /// <summary>
-        /// List all to songs within the album to the playlist box.
-        /// </summary>
-        private void ShowAllSongs()
-        {
-            lbMusic.Items.Clear();
-            foreach (MusicFile mf in PlayList) // LOCATION:NOT FILTERED
-            {
-                lbMusic.Items.Add(mf);
-            }
-            Filtered = FilterType.NoneFiltered;
         }
 
         // the user is idle; update the GUI..
@@ -2225,5 +2305,36 @@ namespace amp
             mnuDeleteAlbum.Enabled = CurrentAlbum != "tmp" &&
                                      CurrentAlbum != Database.GetDefaultAlbumName(Connection);
         }
+
+        // move the selected song to the top of the queue..
+        private void mnuQueueMoveToTop_Click(object sender, EventArgs e)
+        {
+            MoveQueueTop();
+        }
+
+        // scramble the selected songs in the queue..
+        private void mnuScrambleQueueSelected_Click(object sender, EventArgs e)
+        {
+            ScrambleQueueSelected();
+        }
+
+        // a user selected an album, so do open the album the user selected..
+        private void SelectAlbumClick(object sender, EventArgs e)
+        {
+            List<Album> albums = Database.GetAlbums(Connection);
+            foreach (Album album in albums)
+            {
+                ToolStripMenuItem item = (ToolStripMenuItem) sender;
+                if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
+                {
+                    DisableChecks();
+                    item.Checked = true;
+                    Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                    GetAlbum(album.AlbumName);
+                    return;
+                }
+            }
+        }
+        #endregion
     }
 }

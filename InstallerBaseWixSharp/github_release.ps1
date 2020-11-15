@@ -22,9 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 #>
 
+# Replace the #APPLICATION# with the ACTUAL APPLICATION NAME!
+
 Write-Output "Init GitHub release..."
 
-$output_file = "amp\CryptEnvVar.exe"
+$output_file = "#APPLICATION#\CryptEnvVar.exe"
 
 $download_url = "https://www.vpksoft.net/toolset/CryptEnvVar.exe"
 
@@ -33,7 +35,7 @@ Write-Output "Download file:  $download_url ..."
 (New-Object System.Net.WebClient).DownloadFile($download_url, $output_file)
 Write-Output "Download done."
 
-$output_file_signtool = "amp\signtool.exe"
+$output_file_signtool = "#APPLICATION#\signtool.exe"
 $download_url = "https://www.vpksoft.net/toolset/signtool.exe"
 
 Write-Output "Download file:  $output_file_signtool ..."
@@ -42,7 +44,7 @@ Write-Output "Download file:  $output_file_signtool ..."
 Write-Output "Download done."
 
 # application parameters..
-$application = "amp"
+$application = "#APPLICATION#"
 $environment_cryptor = "CryptEnvVar.exe"
 
 # create the digital signature..
@@ -53,14 +55,12 @@ $arguments = @("-s", $Env:SECRET_KEY, "-e", "CERT_1;CERT_2;CERT_3;CERT_4;CERT_5;
 $certpw=ConvertTo-SecureString $Env:PFX_PASS –asplaintext –force 
 Import-PfxCertificate -FilePath "C:\vpksoft.pfx" -CertStoreLocation Cert:\LocalMachine\My -Password $certpw | Out-Null
 
-# never used: $release_exe = "..\amp\bin\Release\net47\win10-x64\amp.exe"
-
 $gitreleasemanager = "gitreleasemanager.exe"
 
 # sign and release tags..
 if (![string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
 {
-    $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *amp*.msi # use the mask to discard possible third party packages..
+    $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *#APPLICATION#*.msi # use the mask to discard possible third party packages..
     for ($i = 0; $i -lt $files.Count; $i++) 
     { 
         $file = $files[$i].FullName

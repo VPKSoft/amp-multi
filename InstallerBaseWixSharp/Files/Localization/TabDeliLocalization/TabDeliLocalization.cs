@@ -174,4 +174,3 @@ namespace InstallerBaseWixSharp.Files.Localization.TabDeliLocalization
     }
 }
 
-

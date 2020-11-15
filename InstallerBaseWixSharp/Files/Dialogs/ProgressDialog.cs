@@ -60,8 +60,10 @@ namespace InstallerBaseWixSharp.Files.Dialogs
 
         void ProgressDialog_Load(object sender, EventArgs e)
         {
-            // ReSharper disable once StringLiteralTypo
+            // ReSharper disable twice StringLiteralTypo
             MsiRuntime.Session["PIDPARAM"] = Process.GetCurrentProcess().Id.ToString();
+            MsiRuntime.Session["EXENAME"] = MsiRuntime.InstallDir.PathCombine(Program.Executable);
+
             banner.Image = Runtime.Session.GetResourceBitmap("WixUI_Bmp_Banner");
 
             if (!WindowsIdentity.GetCurrent().IsAdmin() && Uac.IsEnabled())
@@ -210,7 +212,6 @@ namespace InstallerBaseWixSharp.Files.Dialogs
         }
     }
 }
-
 
 
 
