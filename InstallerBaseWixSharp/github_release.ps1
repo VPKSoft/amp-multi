@@ -26,7 +26,7 @@ SOFTWARE.
 
 Write-Output "Init GitHub release..."
 
-$output_file = "#APPLICATION#\CryptEnvVar.exe"
+$output_file = "amp\CryptEnvVar.exe"
 
 $download_url = "https://www.vpksoft.net/toolset/CryptEnvVar.exe"
 
@@ -35,7 +35,7 @@ Write-Output "Download file:  $download_url ..."
 (New-Object System.Net.WebClient).DownloadFile($download_url, $output_file)
 Write-Output "Download done."
 
-$output_file_signtool = "#APPLICATION#\signtool.exe"
+$output_file_signtool = "amp\signtool.exe"
 $download_url = "https://www.vpksoft.net/toolset/signtool.exe"
 
 Write-Output "Download file:  $output_file_signtool ..."
@@ -44,7 +44,7 @@ Write-Output "Download file:  $output_file_signtool ..."
 Write-Output "Download done."
 
 # application parameters..
-$application = "#APPLICATION#"
+$application = "amp"
 $environment_cryptor = "CryptEnvVar.exe"
 
 # create the digital signature..
@@ -60,7 +60,7 @@ $gitreleasemanager = "gitreleasemanager.exe"
 # sign and release tags..
 if (![string]::IsNullOrEmpty($Env:CIRCLE_TAG)) # only release for tags..
 {
-    $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *#APPLICATION#*.msi # use the mask to discard possible third party packages..
+    $files = Get-ChildItem $Env:CIRCLE_WORKING_DIRECTORY -r -Filter *amp*.msi # use the mask to discard possible third party packages..
     for ($i = 0; $i -lt $files.Count; $i++) 
     { 
         $file = $files[$i].FullName
