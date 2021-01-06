@@ -923,36 +923,28 @@ namespace amp
                 // determine the file type by it's extension..
                 if (Constants.FileIsMp3(fileName))
                 {
-                    Mp3FileReader fr = memoryStream != null
-                        ? new Mp3FileReader(memoryStream)
-                        : new Mp3FileReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream mp3Reader = fr;
                     inputStream = new WaveChannel32(mp3Reader);
                 }
                 else if (Constants.FileIsOgg(fileName))
                 {
-                    VorbisWaveReader fr = memoryStream != null
-                        ? new VorbisWaveReader(memoryStream)
-                        : new VorbisWaveReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream oggReader = fr;
                     inputStream = new WaveChannel32(oggReader);
                 }
                 else if (Constants.FileIsWav(fileName))
                 {
-                    WaveFileReader fr = memoryStream != null
-                        ? new WaveFileReader(memoryStream)
-                        : new WaveFileReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
                 }
                 else if (Constants.FileIsFlac(fileName))
                 {
-                    FlacReader fr = memoryStream != null ? 
-                        new FlacReader(memoryStream) : 
-                        new FlacReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
@@ -963,7 +955,7 @@ namespace amp
                     memoryStream?.Dispose();
                     memoryStream = null;
 
-                    WMAFileReader fr = new WMAFileReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
@@ -980,9 +972,7 @@ namespace amp
                 }
                 else if (Constants.FileIsAif(fileName)) // Added: 01.02.2018
                 {
-                    AiffFileReader fr = memoryStream != null
-                        ? new AiffFileReader(memoryStream)
-                        : new AiffFileReader(fileName);
+                    AudioFileReader fr = new AudioFileReader(fileName);
 
                     WaveStream wavReader = fr;
                     inputStream = new WaveChannel32(wavReader);
