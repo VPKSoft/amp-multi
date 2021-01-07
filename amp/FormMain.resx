@@ -120,6 +120,9 @@
   <metadata name="tmSeek.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>112, 17</value>
   </metadata>
+  <metadata name="ssStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>291, 17</value>
+  </metadata>
   <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -251,9 +254,6 @@
   <metadata name="tbTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>204, 17</value>
   </metadata>
-  <metadata name="ssStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>291, 17</value>
-  </metadata>
   <metadata name="odM3U.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>386, 17</value>
   </metadata>
@@ -266,6 +266,34 @@
   <metadata name="tmIPCFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>717, 17</value>
   </metadata>
+  <metadata name="miniToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>825, 17</value>
+  </metadata>
+  <metadata name="imDrawerIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>949, 17</value>
+  </metadata>
+  <data name="imDrawerIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABi
+        AwAAAk1TRnQBSQFMAwEBAAHQAQAB0AEAARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMA
+        ARgDAAEBAQABIAYAAST/AP8A/wAxAAMEAQUDNQFVA1IBpANdAdcDcgHzA3IB8wNgAdYDUgGjAzQBVAME
+        AQX/AFUAAzIBUANfAdsg/wNhAdoDMQFP/wBJAAMBAQIDSgGJLP8D1AH+A0kBiAMBAQL/AEEAA0oBijj/
+        A0kBh/8APQADMgFRPP8D1AH+AzEBTv8ANQADBAEGA2EB3Bj/A1wByQNLAY4DTAGPA10Byhj/A2EB2gME
+        AQX/ADEAAzUBVhT/A2UB7wMwAUsQAAMwAUwDaAHwFP8DNAFU/wAxAANTAaUU/wMvAUoYAAMwAUwU/wNS
+        AaP/ADEAA14B2RD/A1kBxyAAA1wByRD/A14B2P8AMQADcgHyEP8DSgGMDAADWwHDA1kBwgwAA0sBjhD/
+        A3IB8v8AMQADcgHyEP8DSgGMDAADWgHFA1sBwwwAA0oBjRD/A3IB8v8AMQADXgHZEP8DWwHGIAADWwHI
+        EP8DXgHY/wAxAANUAaYU/wMuAUgYAAMwAUsU/wNSAaT/ADEAAzUBVxT/A2UB7wMuAUgQAAMvAUoDZQHv
+        FP8DNQFV/wAxAAMEAQYDXgHdGP8DWwHGA0oBjQNLAY4DWQHHGP8DXwHbAwQBBv8ANQADMwFTQP8DMgFQ
+        /wA9AANKAYw4/wNKAYn/AEEAAwIBAwNKAYww/wNKAYoDAQEC/wBJAAMzAVMDXgHdIP8DYQHcAzIBUf8A
+        VQADBAEGAzUBVwNUAaYDXgHYA3cB9AN3AfQDXgHYA1QBpgM1AVYDBAEG/wD/AP8A/wBAAAFCAU0BPgcA
+        AT4DAAEoAwABYAMAARgDAAEBAQABAQUAASABARYAA/8BAAP/CQAD/wkAAf4BAAF/CQAB/AEAAT8JAAHw
+        AQABDwkAAfABAAEPCQAB4AEAAQcJAAHAAQABAwkAAcABPAEDCQABwAF+AQMJAAHAAf8BAwkAAcAB5wED
+        CQABwAHnAQMJAAHAAf8BAwkAAcABfgEDCQABwAE8AQMJAAHAAQABAwkAAeABAAEHCQAB8AEAAQ8JAAHw
+        AQABDwkAAfwBAAE/CQAB/gEAAX8JAAP/CQAD/wkACw==
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAQEAAAAEAIAAoQgAAFgAAACgAAABAAAAAgAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

@@ -30,6 +30,7 @@ using System.Windows.Forms;
 using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
+using ReaLTaiizor.Controls;
 using Settings = amp.UtilityClasses.Settings.Settings;
 
 // ReSharper disable once CheckNamespace
@@ -74,23 +75,25 @@ namespace amp
         {
             mnuAlbum.DropDownItems.Clear();
             List<Album> albums = Database.GetAlbums(Connection);
-
             int aNum = 0;
-            foreach (Album album in albums)
+
+            foreach (var album in albums)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(album.AlbumName)
+                ToolStripMenuItem item = new ToolStripMenuItem
                 {
-                    Image = GetNextImg(aNum++), 
-                    Tag = album.Id
+                    Image = GetNextImg(aNum++),
+                    Tag = album.Id,
+                    Text = album.AlbumName,
+                    Width = mnuAlbum.Width,
                 };
+
+                item.Click += SelectAlbumClick;
+                mnuAlbum.DropDownItems.Add(item);
 
                 if (album.Id == checkAlbum)
                 {
                     item.Checked = true;
                 }
-
-                item.Click += SelectAlbumClick;
-                mnuAlbum.DropDownItems.Add(item);
             }
         }
 

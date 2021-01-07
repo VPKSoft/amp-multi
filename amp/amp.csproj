@@ -143,19 +143,13 @@
     <Compile Update="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs" />
+    <Compile Update="FormMain.cs" />
     <Compile Update="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Update="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs" />
-    <Compile Update="WCFRemote\MainWindow.WCF.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="WCFRemote\MainWindow.WCF.cs" />
     <Compile Update="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,9 +160,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs" />
     <EmbeddedResource Update="DataMigrate\GUI\FormDatabaseMigrate.resx">
       <DependentUpon>FormDatabaseMigrate.cs</DependentUpon>
     </EmbeddedResource>
@@ -353,7 +345,7 @@
     <PackageReference Include="taglib" Version="2.1.0" />
     <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.6" />
     <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
-    <PackageReference Include="VPKSoft.LangLib" Version="1.0.5" />
+    <PackageReference Include="VPKSoft.LangLib" Version="1.0.6" />
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.6" />

@@ -305,11 +305,5 @@ namespace amp
                 e.Handled = true;
             }
         }
-
-        // handle the key down of the playlist box..
-        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(ref e);
-        }
     }
 }

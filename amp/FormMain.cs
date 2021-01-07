@@ -25,17 +25,6 @@ SOFTWARE.
 #endregion
 
 #region Usings
-using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
 using amp.FormsUtility.Help;
 using amp.FormsUtility.Information;
 using amp.FormsUtility.Progress;
@@ -48,10 +37,26 @@ using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
 using amp.UtilityClasses.WindowsPowerSave;
 using amp.WCFRemote;
-using NAudio.Flac;
-using NAudio.Vorbis;
 using NAudio.Wave;
-using NAudio.WindowsMediaFormat;
+using ReaLTaiizor.Controls;
+using ReaLTaiizor.Forms;
+using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+using amp.UtilityClasses.Theme;
+using NAudio.Vorbis;
+using NVorbis;
+using ReaLTaiizor.Colors;
+using ReaLTaiizor.Helper;
+using ReaLTaiizor.Util;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
@@ -68,9 +73,9 @@ namespace amp
     /// The main form of the application.
     /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms"/>
     /// </summary>
-    public partial class FormMain : DBLangEngineWinforms
+    public partial class FormMain : CrownForm, IDBLangEngineWinforms
     {
-        #region Fields        
+        #region Fields                
         /// <summary>
         /// Gets or sets the files passed by the IPC channel.
         /// </summary>
@@ -224,6 +229,8 @@ namespace amp
 
             InitializeComponent();
 
+            InitFormLocalization(this);
+
             // ReSharper disable once StringLiteralTypo
             DBLangEngine.DBName = "lang.sqlite";
 
@@ -248,6 +255,23 @@ namespace amp
             sdM3U.Title = DBLangEngine.GetMessage("msgSavePlaylistFile", "Save playlist file|As in export an album to a playlist file (m3u)");
             odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile", "Open playlist file|As in open a play list file (m3u)");
 
+            
+            //*************************************
+            CrownHelper.ThemeProvider.Theme = new CrownHelper.LightTheme();
+            CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.Control;
+            ThemeSetter.FixMenuTheme(msMain);
+            base.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
+            tfMain.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
+            ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong, lbTime,
+                lbMusic, tbFind, ssStatus);
+            lbQueueCount.BackColor = base.BackColor;
+            lbQueueCount.ForeColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
+            scProgress.BackColor = base.BackColor;
+            scProgress.ForeColor = base.BackColor;
+            scProgress.SliderColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
+            scProgress.BaseColor = base.BackColor;
+            //*************************************
+            
             Database.DatabaseProgress += Database_DatabaseProgress;
 
             tmPendOperation.Enabled = true;
@@ -405,6 +429,20 @@ namespace amp
         private void UpdateStars()
         {
             pnStars1.Left = (int)(MFile.Rating / 1000.0 * 176.0);
+        }
+
+        /// <summary>
+        /// Gets or sets the text associated with this control.
+        /// </summary>
+        /// <value>The text.</value>
+        public override string Text
+        {
+            get => base.Text;
+            set
+            {
+                base.Text = value;
+                tfMain.Text = value;
+            }
         }
 
         /// <summary>
@@ -930,7 +968,8 @@ namespace amp
                 }
                 else if (Constants.FileIsOgg(fileName))
                 {
-                    AudioFileReader fr = new AudioFileReader(fileName);
+                    // special handling for ogg/vorbis..
+                    VorbisWaveReader fr = new VorbisWaveReader(fileName);
 
                     WaveStream oggReader = fr;
                     inputStream = new WaveChannel32(oggReader);
@@ -1640,7 +1679,7 @@ namespace amp
             {
                 if (!progressUpdating)
                 {
-                    scProgress.Maximum = (int)SecondsTotal;
+                    scProgress.Maximum = (int)SecondsTotal == 0 ? 1 : (int)SecondsTotal;
                     scProgress.Value = (int)Seconds;
                     TimeSpan ts = TimeSpan.FromSeconds(SecondsTotal - Seconds);
                     lbTime.Text = @"-" + ts.ToString(@"mm\:ss");
@@ -1835,8 +1874,17 @@ namespace amp
         // a user scrolls the song playback position; set the position to the user given value..
         private void scProgress_Scroll(object sender, ScrollEventArgs e)
         {
-            tmSeek.Stop();
             mainOutputStream.CurrentTime = new TimeSpan(0, 0, e.NewValue);
+        }
+
+
+        private void scProgress_Scroll(object sender)
+        {
+            tmSeek.Stop();
+            if (mainOutputStream != null)
+            {
+                mainOutputStream.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
+            }
             tmSeek.Start();
         }
 
@@ -2314,11 +2362,11 @@ namespace amp
             List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
-                ToolStripMenuItem item = (ToolStripMenuItem) sender;
+                MaterialButton item = (MaterialButton) sender;
                 if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
                 {
                     DisableChecks();
-                    item.Checked = true;
+// TODO::Indicate checked                    item.Checked = true;
                     Database.SaveQueue(PlayList, Connection, CurrentAlbum);
                     GetAlbum(album.AlbumName);
                     return;
@@ -2326,5 +2374,27 @@ namespace amp
             }
         }
         #endregion
+
+        /// <summary>
+        /// Initializes the <see cref="P:VPKSoft.LangLib.IDBLangEngineWinforms.DBLangEngine" /> property value.
+        /// </summary>
+        /// <param name="inheritForm">The class instance inherited from the <see cref="T:System.Windows.Forms.Form" /> class.</param>
+        public void InitFormLocalization(Form inheritForm)
+        {
+            DBLangEngine = DBLangEngineWinforms.InitializeInterfaceProperty(this);
+        }
+
+        /// <summary>
+        /// The actual localization engine (DBLangEngine) for
+        /// <para />wrapper class.
+        /// </summary>
+        /// <value>The database language engine.</value>
+        public DBLangEngine DBLangEngine { get; set; }
+
+        // handle the key down of the playlist box..
+        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
+        {
+            HandleKeyDown(ref e);
+        }
     }
 }
