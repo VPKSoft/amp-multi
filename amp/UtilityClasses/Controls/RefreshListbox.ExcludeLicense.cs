@@ -4,7 +4,9 @@ Public domain. Free to be used in any purpose.
 */
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace amp.UtilityClasses.Controls
@@ -22,6 +24,72 @@ namespace amp.UtilityClasses.Controls
         public void RefreshListBox()
         {
             DoubleBuffered = true;
+        }
+
+        // ReSharper disable four times InconsistentNaming, WinApi constant..
+        // ReSharper disable four times IdentifierTypo, WinApi constant..
+        private const int LB_ADDSTRING = 0x180;
+        private const int LB_INSERTSTRING = 0x181;
+        private const int LB_DELETESTRING = 0x182;
+        private const int LB_RESETCONTENT = 0x184;
+
+        /// <summary>
+        /// The list's window procedure.
+        /// </summary>
+        /// <param name="m">A Windows Message Object.</param>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == LB_ADDSTRING ||
+                m.Msg == LB_INSERTSTRING ||
+                m.Msg == LB_DELETESTRING ||
+                m.Msg == LB_RESETCONTENT)
+            {
+                ItemsChanged?.Invoke(this, new EventArgs());
+            }
+            base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// Occurs when the <see cref="ListBox.Items"/> collection changes.
+        /// </summary>
+        public event EventHandler ItemsChanged;
+
+        /// <summary>
+        /// Gets or sets the VScrollPosition property value.
+        /// </summary>
+        [Browsable(false)] // hide from the designer..
+        public int VScrollPosition
+        {
+            get
+            {
+                if (Items.Count == 0) // do nothing if there are no items..
+                {
+                    return 0; // .. except return zero..
+                }
+
+                return TopIndex;
+            }
+
+            set
+            {
+                if (value < 0) // do not handle stupid values..
+                {
+                    return;
+                }
+
+                if (Items.Count == 0) // do nothing if there are no items..
+                {
+                    TopIndex = 0; // .. except set the value to zero..
+                }
+                else if (value <= Items.Count) // set the TopIndex (VScrollPosition), if the value is valid..
+                {
+                    TopIndex = value;
+                }
+                else // ..otherwise complain via an exception..
+                {
+                    throw new ArgumentOutOfRangeException(nameof(VScrollPosition));
+                }
+            }
         }
 
         /// <summary>

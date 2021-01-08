@@ -222,7 +222,7 @@ namespace amp
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
-        public FormMain() 
+        public FormMain()
         {
             // Add this form to be positioned..
             PositionForms.Add(this);
@@ -244,26 +244,39 @@ namespace amp
 
             try // as this can be translated to a invalid format :-)
             {
-                sdM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u", "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
-                odM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u", "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+                sdM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
+                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+                odM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
+                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
             }
             catch
             {
                 // ignored..
             }
 
-            sdM3U.Title = DBLangEngine.GetMessage("msgSavePlaylistFile", "Save playlist file|As in export an album to a playlist file (m3u)");
-            odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile", "Open playlist file|As in open a play list file (m3u)");
+            sdM3U.Title = DBLangEngine.GetMessage("msgSavePlaylistFile",
+                "Save playlist file|As in export an album to a playlist file (m3u)");
+            odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile",
+                "Open playlist file|As in open a play list file (m3u)");
 
-            
+
             //*************************************
-            CrownHelper.ThemeProvider.Theme = new CrownHelper.LightTheme();
-            CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.Control;
+            if (true)
+            {
+                CrownHelper.ThemeProvider.Theme = new CrownHelper.LightTheme();
+//                CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.Control;
+            }
+            else
+            {
+                CrownHelper.ThemeProvider.Theme = new CrownHelper.DarkTheme();
+                //CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.ControlText;
+            }
             ThemeSetter.FixMenuTheme(msMain);
             base.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
             tfMain.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
-            ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong, lbTime,
-                lbMusic, tbFind, ssStatus);
+            ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong,
+                lbTime,
+                lbMusic, tbFind, ssStatus, pnMainVolume);
             lbQueueCount.BackColor = base.BackColor;
             lbQueueCount.ForeColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
             scProgress.BackColor = base.BackColor;
@@ -271,7 +284,7 @@ namespace amp
             scProgress.SliderColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
             scProgress.BaseColor = base.BackColor;
             //*************************************
-            
+
             Database.DatabaseProgress += Database_DatabaseProgress;
 
             tmPendOperation.Enabled = true;
@@ -282,6 +295,9 @@ namespace amp
 
             // no designer (!?)..
             mnuQueueMoveToTop.ShortcutKeys = Keys.Control | Keys.PageUp;
+
+            // set the custom scroll bar width..
+            lbMusicScroll.Width = SystemInformation.VerticalScrollBarWidth;
 
             SetAudioVisualization();
         }
@@ -428,7 +444,7 @@ namespace amp
         /// </summary>
         private void UpdateStars()
         {
-            pnStars1.Left = (int)(MFile.Rating / 1000.0 * 176.0);
+            sliderStars.CurrentValue = MFile.Rating;
         }
 
         /// <summary>
@@ -779,9 +795,9 @@ namespace amp
                                 UpdateVolume();
                             }
 
-                            if (pnStars1.InvokeRequired)
+                            if (sliderStars.InvokeRequired)
                             {
-                                lbSong.Invoke(new VoidDelegate((UpdateStars)));
+                                sliderStars.Invoke(new VoidDelegate((UpdateStars)));
                             }
                             else
                             {
@@ -1888,44 +1904,6 @@ namespace amp
             tmSeek.Start();
         }
 
-        // a user changes the per-song based volume; set the volume and update it to the database..
-        private void pnStars0_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (MFile != null || lbMusic.SelectedIndices.Count > 0)
-            {
-                int stars = 0;
-                if (sender == pnStars0)
-                {
-                    stars = (int)(500 * (e.X / 88.0));
-                    pnStars1.Left = e.X;
-                }
-                else if (sender == pnStars1)
-                {
-                    if (pnStars1 != null)
-                    {
-                        pnStars1.Left += e.X;
-                        stars = (int) (500 * (pnStars1.Left / 88.0));
-                    }
-                }
-
-                if (MFile != null)
-                {
-                    MFile.Rating = stars;
-                    MFile.RatingChanged = true;
-                    SaveRating(MFile);
-                }
-
-                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
-                {
-                    MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
-                    mf.Rating = stars;
-                    mf.RatingChanged = true;
-                    SaveRating(mf);
-                    lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
-                }
-            }
-        }
-
         // a user wants to see only queued songs..
         private void tbShowQueue_Click(object sender, EventArgs e)
         {
@@ -2395,6 +2373,45 @@ namespace amp
         private void lbMusic_KeyDown(object sender, KeyEventArgs e)
         {
             HandleKeyDown(ref e);
+        }
+
+        private void lbMusicScroll_ValueChanged(object sender, ScrollValueEventArgs e)
+        {
+            lbMusic.VScrollPosition = e.Value;
+        }
+
+        private void lbMusic_ItemsChanged(object sender, EventArgs e)
+        {
+            lbMusicScroll.Maximum = lbMusic.Items.Count;
+        }
+
+        private void tfMain_MouseLeave(object sender, EventArgs e)
+        {
+
+            Cursor = Cursors.Arrow;
+            tfMain.Cursor = Cursors.Arrow;
+        }
+
+        private void sliderStars_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if (MFile != null || lbMusic.SelectedIndices.Count > 0)
+            {
+                if (MFile != null)
+                {
+                    MFile.Rating = sliderStars.CurrentValue;
+                    MFile.RatingChanged = true;
+                    SaveRating(MFile);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
+                    mf.Rating = sliderStars.CurrentValue;
+                    mf.RatingChanged = true;
+                    SaveRating(mf);
+                    lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
+                }
+            }
         }
     }
 }

@@ -356,6 +356,9 @@
     <Compile Remove="FormAbout.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AmpControls\AmpControls.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="DBLocalization.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

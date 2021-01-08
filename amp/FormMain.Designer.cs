@@ -81,33 +81,38 @@ namespace amp
             this.tbShuffle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbQueueStack = new System.Windows.Forms.ToolStripButton();
-            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.lbSong = new ReaLTaiizor.Controls.CrownLabel();
             this.lbTime = new ReaLTaiizor.Controls.CrownLabel();
             this.tbFind = new ReaLTaiizor.Controls.CrownTextBox();
             this.pnTools = new System.Windows.Forms.Panel();
-            this.pnStars0 = new System.Windows.Forms.Panel();
-            this.pnStars1 = new System.Windows.Forms.Panel();
             this.pnVol1 = new System.Windows.Forms.Panel();
             this.pnVol2 = new System.Windows.Forms.Panel();
             this.pnAudioVisualizationMain = new System.Windows.Forms.Panel();
             this.avBars = new VPKSoft.AudioVisualization.AudioVisualizationBars();
             this.avLine = new VPKSoft.AudioVisualization.AudioVisualizationPlot();
             this.scProgress = new ReaLTaiizor.Controls.ForeverTrackBar();
+            this.pnListBox = new System.Windows.Forms.Panel();
+            this.lbMusicScroll = new ReaLTaiizor.Controls.CrownScrollBar();
+            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
+            this.pnMainVolume = new ReaLTaiizor.Controls.Panel();
+            this.pnMainVolumeRight = new System.Windows.Forms.Panel();
+            this.pnMainVolumeLeft = new System.Windows.Forms.Panel();
             this.miniToolStrip = new ReaLTaiizor.Controls.CrownMenuStrip();
             this.imDrawerIcons = new System.Windows.Forms.ImageList(this.components);
             this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
             this.foreverMinimize1 = new ReaLTaiizor.Controls.ForeverMinimize();
             this.foreverMaximize1 = new ReaLTaiizor.Controls.ForeverMaximize();
             this.tfMain = new ReaLTaiizor.Forms.ThemeForm();
+            this.sliderStars = new AmpControls.StarSlider();
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
             this.tbTool.SuspendLayout();
             this.pnTools.SuspendLayout();
-            this.pnStars0.SuspendLayout();
             this.pnVol1.SuspendLayout();
             this.pnAudioVisualizationMain.SuspendLayout();
+            this.pnListBox.SuspendLayout();
+            this.pnMainVolume.SuspendLayout();
             this.tfMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,10 +130,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 433);
+            this.ssStatus.Location = new System.Drawing.Point(0, 444);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(545, 43);
+            this.ssStatus.Size = new System.Drawing.Size(542, 29);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -137,7 +142,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 30);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 16);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -166,15 +171,16 @@ namespace amp
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpMain.Controls.Add(this.msMain, 0, 0);
-            this.tlpMain.Controls.Add(this.ssStatus, 0, 8);
+            this.tlpMain.Controls.Add(this.ssStatus, 0, 9);
             this.tlpMain.Controls.Add(this.tbTool, 0, 1);
-            this.tlpMain.Controls.Add(this.lbMusic, 0, 6);
             this.tlpMain.Controls.Add(this.lbSong, 0, 3);
             this.tlpMain.Controls.Add(this.lbTime, 1, 3);
             this.tlpMain.Controls.Add(this.tbFind, 0, 5);
             this.tlpMain.Controls.Add(this.pnTools, 0, 2);
             this.tlpMain.Controls.Add(this.pnAudioVisualizationMain, 0, 7);
             this.tlpMain.Controls.Add(this.scProgress, 0, 4);
+            this.tlpMain.Controls.Add(this.pnListBox, 0, 6);
+            this.tlpMain.Controls.Add(this.pnMainVolume, 0, 8);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(2, 70);
             this.tlpMain.Name = "tlpMain";
@@ -187,8 +193,9 @@ namespace amp
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.Size = new System.Drawing.Size(545, 476);
+            this.tlpMain.Size = new System.Drawing.Size(542, 473);
             this.tlpMain.TabIndex = 12;
             // 
             // msMain
@@ -205,7 +212,7 @@ namespace amp
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
             this.msMain.Padding = new System.Windows.Forms.Padding(3, 2, 0, 2);
-            this.msMain.Size = new System.Drawing.Size(545, 24);
+            this.msMain.Size = new System.Drawing.Size(542, 24);
             this.msMain.TabIndex = 5;
             this.msMain.Text = "menuStrip1";
             // 
@@ -496,7 +503,7 @@ namespace amp
             this.tbTool.Location = new System.Drawing.Point(0, 24);
             this.tbTool.Name = "tbTool";
             this.tbTool.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.tbTool.Size = new System.Drawing.Size(545, 37);
+            this.tbTool.Size = new System.Drawing.Size(542, 37);
             this.tbTool.TabIndex = 8;
             // 
             // tbPrevious
@@ -617,29 +624,6 @@ namespace amp
             this.tsbQueueStack.Size = new System.Drawing.Size(34, 34);
             this.tsbQueueStack.Text = "Stack queue";
             // 
-            // lbMusic
-            // 
-            this.lbMusic.AllowDrop = true;
-            this.lbMusic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.lbMusic.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tlpMain.SetColumnSpan(this.lbMusic, 2);
-            this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.lbMusic.ForeColor = System.Drawing.Color.White;
-            this.lbMusic.FormattingEnabled = true;
-            this.lbMusic.IntegralHeight = false;
-            this.lbMusic.ItemHeight = 18;
-            this.lbMusic.Location = new System.Drawing.Point(3, 186);
-            this.lbMusic.Name = "lbMusic";
-            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(539, 207);
-            this.lbMusic.TabIndex = 14;
-            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
-            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
-            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
-            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
-            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
-            // 
             // lbSong
             // 
             this.lbSong.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -650,7 +634,7 @@ namespace amp
             this.lbSong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.lbSong.Location = new System.Drawing.Point(3, 120);
             this.lbSong.Name = "lbSong";
-            this.lbSong.Size = new System.Drawing.Size(430, 13);
+            this.lbSong.Size = new System.Drawing.Size(427, 13);
             this.lbSong.TabIndex = 11;
             this.lbSong.Text = "-";
             // 
@@ -660,7 +644,7 @@ namespace amp
             this.lbTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbTime.Location = new System.Drawing.Point(439, 120);
+            this.lbTime.Location = new System.Drawing.Point(436, 120);
             this.lbTime.Name = "lbTime";
             this.lbTime.Size = new System.Drawing.Size(103, 13);
             this.lbTime.TabIndex = 10;
@@ -677,7 +661,7 @@ namespace amp
             this.tbFind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tbFind.Location = new System.Drawing.Point(3, 159);
             this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(539, 21);
+            this.tbFind.Size = new System.Drawing.Size(536, 21);
             this.tbFind.TabIndex = 13;
             this.tbFind.Click += new System.EventHandler(this.tbFind_Click);
             this.tbFind.TextChanged += new System.EventHandler(this.tbFind_TextChanged);
@@ -689,32 +673,12 @@ namespace amp
             this.pnTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.SetColumnSpan(this.pnTools, 2);
-            this.pnTools.Controls.Add(this.pnStars0);
+            this.pnTools.Controls.Add(this.sliderStars);
             this.pnTools.Controls.Add(this.pnVol1);
             this.pnTools.Location = new System.Drawing.Point(3, 64);
             this.pnTools.Name = "pnTools";
-            this.pnTools.Size = new System.Drawing.Size(539, 53);
+            this.pnTools.Size = new System.Drawing.Size(536, 53);
             this.pnTools.TabIndex = 11;
-            // 
-            // pnStars0
-            // 
-            this.pnStars0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnStars0.BackgroundImage = global::amp.Properties.Resources.stars;
-            this.pnStars0.Controls.Add(this.pnStars1);
-            this.pnStars0.Location = new System.Drawing.Point(360, 3);
-            this.pnStars0.Name = "pnStars0";
-            this.pnStars0.Size = new System.Drawing.Size(176, 35);
-            this.pnStars0.TabIndex = 1;
-            this.pnStars0.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnStars0_MouseClick);
-            // 
-            // pnStars1
-            // 
-            this.pnStars1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnStars1.Location = new System.Drawing.Point(88, 0);
-            this.pnStars1.Name = "pnStars1";
-            this.pnStars1.Size = new System.Drawing.Size(176, 35);
-            this.pnStars1.TabIndex = 0;
-            this.pnStars1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnStars0_MouseClick);
             // 
             // pnVol1
             // 
@@ -745,10 +709,10 @@ namespace amp
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 396);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 371);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
-            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(545, 37);
+            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 33);
             this.pnAudioVisualizationMain.TabIndex = 15;
             // 
             // avBars
@@ -818,13 +782,98 @@ namespace amp
             this.scProgress.MinimumSize = new System.Drawing.Size(47, 22);
             this.scProgress.Name = "scProgress";
             this.scProgress.ShowValue = false;
-            this.scProgress.Size = new System.Drawing.Size(545, 23);
+            this.scProgress.Size = new System.Drawing.Size(542, 23);
             this.scProgress.SliderColor = System.Drawing.Color.White;
             this.scProgress.Style = ReaLTaiizor.Controls.ForeverTrackBar._Style.Slider;
             this.scProgress.TabIndex = 16;
             this.scProgress.TrackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
             this.scProgress.Value = 0;
             this.scProgress.Scroll += new ReaLTaiizor.Controls.ForeverTrackBar.ScrollEventHandler(this.scProgress_Scroll);
+            // 
+            // pnListBox
+            // 
+            this.tlpMain.SetColumnSpan(this.pnListBox, 2);
+            this.pnListBox.Controls.Add(this.lbMusicScroll);
+            this.pnListBox.Controls.Add(this.lbMusic);
+            this.pnListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnListBox.Location = new System.Drawing.Point(0, 183);
+            this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
+            this.pnListBox.Name = "pnListBox";
+            this.pnListBox.Size = new System.Drawing.Size(542, 188);
+            this.pnListBox.TabIndex = 17;
+            // 
+            // lbMusicScroll
+            // 
+            this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
+            this.lbMusicScroll.Name = "lbMusicScroll";
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 188);
+            this.lbMusicScroll.TabIndex = 15;
+            this.lbMusicScroll.Text = "crownScrollBar1";
+            this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
+            // 
+            // lbMusic
+            // 
+            this.lbMusic.AllowDrop = true;
+            this.lbMusic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.lbMusic.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.lbMusic.ForeColor = System.Drawing.Color.White;
+            this.lbMusic.FormattingEnabled = true;
+            this.lbMusic.IntegralHeight = false;
+            this.lbMusic.ItemHeight = 18;
+            this.lbMusic.Location = new System.Drawing.Point(0, 0);
+            this.lbMusic.Name = "lbMusic";
+            this.lbMusic.ScrollAlwaysVisible = true;
+            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbMusic.Size = new System.Drawing.Size(542, 188);
+            this.lbMusic.TabIndex = 14;
+            this.lbMusic.VScrollPosition = 0;
+            this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
+            this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
+            this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
+            this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
+            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
+            this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
+            // 
+            // pnMainVolume
+            // 
+            this.pnMainVolume.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(51)))), ((int)(((byte)(63)))));
+            this.tlpMain.SetColumnSpan(this.pnMainVolume, 2);
+            this.pnMainVolume.Controls.Add(this.pnMainVolumeRight);
+            this.pnMainVolume.Controls.Add(this.pnMainVolumeLeft);
+            this.pnMainVolume.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnMainVolume.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
+            this.pnMainVolume.Location = new System.Drawing.Point(0, 404);
+            this.pnMainVolume.Margin = new System.Windows.Forms.Padding(0);
+            this.pnMainVolume.Name = "pnMainVolume";
+            this.pnMainVolume.Padding = new System.Windows.Forms.Padding(5);
+            this.pnMainVolume.Size = new System.Drawing.Size(542, 40);
+            this.pnMainVolume.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.pnMainVolume.TabIndex = 18;
+            this.pnMainVolume.Text = "panel1";
+            // 
+            // pnMainVolumeRight
+            // 
+            this.pnMainVolumeRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnMainVolumeRight.BackgroundImage = global::amp.Properties.Resources.volume_high;
+            this.pnMainVolumeRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnMainVolumeRight.Location = new System.Drawing.Point(504, 5);
+            this.pnMainVolumeRight.Margin = new System.Windows.Forms.Padding(0);
+            this.pnMainVolumeRight.Name = "pnMainVolumeRight";
+            this.pnMainVolumeRight.Size = new System.Drawing.Size(32, 32);
+            this.pnMainVolumeRight.TabIndex = 1;
+            // 
+            // pnMainVolumeLeft
+            // 
+            this.pnMainVolumeLeft.BackgroundImage = global::amp.Properties.Resources.volume_small;
+            this.pnMainVolumeLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnMainVolumeLeft.Location = new System.Drawing.Point(7, 5);
+            this.pnMainVolumeLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.pnMainVolumeLeft.Name = "pnMainVolumeLeft";
+            this.pnMainVolumeLeft.Size = new System.Drawing.Size(32, 32);
+            this.pnMainVolumeLeft.TabIndex = 0;
             // 
             // miniToolStrip
             // 
@@ -911,7 +960,7 @@ namespace amp
             this.tfMain.Location = new System.Drawing.Point(0, 0);
             this.tfMain.Margin = new System.Windows.Forms.Padding(0);
             this.tfMain.Name = "tfMain";
-            this.tfMain.Padding = new System.Windows.Forms.Padding(2, 70, 2, 2);
+            this.tfMain.Padding = new System.Windows.Forms.Padding(2, 70, 5, 5);
             this.tfMain.RoundCorners = true;
             this.tfMain.Sizable = true;
             this.tfMain.Size = new System.Drawing.Size(549, 548);
@@ -919,6 +968,21 @@ namespace amp
             this.tfMain.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.tfMain.TabIndex = 13;
             this.tfMain.Text = "amp#";
+            this.tfMain.MouseLeave += new System.EventHandler(this.tfMain_MouseLeave);
+            // 
+            // sliderStars
+            // 
+            this.sliderStars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sliderStars.Location = new System.Drawing.Point(357, 3);
+            this.sliderStars.Margin = new System.Windows.Forms.Padding(0);
+            this.sliderStars.MaximumSize = new System.Drawing.Size(176, 35);
+            this.sliderStars.MaximumValue = 1000;
+            this.sliderStars.MinimumSize = new System.Drawing.Size(176, 35);
+            this.sliderStars.MinimumValue = 0;
+            this.sliderStars.Name = "sliderStars";
+            this.sliderStars.Size = new System.Drawing.Size(176, 35);
+            this.sliderStars.TabIndex = 1;
+            this.sliderStars.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderStars_ValueChanged);
             // 
             // FormMain
             // 
@@ -946,9 +1010,10 @@ namespace amp
             this.tbTool.ResumeLayout(false);
             this.tbTool.PerformLayout();
             this.pnTools.ResumeLayout(false);
-            this.pnStars0.ResumeLayout(false);
             this.pnVol1.ResumeLayout(false);
             this.pnAudioVisualizationMain.ResumeLayout(false);
+            this.pnListBox.ResumeLayout(false);
+            this.pnMainVolume.ResumeLayout(false);
             this.tfMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1007,8 +1072,6 @@ namespace amp
         private ReaLTaiizor.Controls.CrownLabel lbTime;
         private ReaLTaiizor.Controls.CrownTextBox tbFind;
         private Panel pnTools;
-        private Panel pnStars0;
-        private Panel pnStars1;
         private Panel pnVol1;
         private Panel pnVol2;
         private Panel pnAudioVisualizationMain;
@@ -1021,6 +1084,12 @@ namespace amp
         private ReaLTaiizor.Controls.ForeverMinimize foreverMinimize1;
         private ReaLTaiizor.Controls.ForeverMaximize foreverMaximize1;
         private ReaLTaiizor.Forms.ThemeForm tfMain;
+        private Panel pnListBox;
+        private ReaLTaiizor.Controls.CrownScrollBar lbMusicScroll;
+        private ReaLTaiizor.Controls.Panel pnMainVolume;
+        private Panel pnMainVolumeRight;
+        private Panel pnMainVolumeLeft;
+        private AmpControls.StarSlider sliderStars;
     }
 }
 
