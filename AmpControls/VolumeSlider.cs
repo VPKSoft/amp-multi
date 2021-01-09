@@ -40,16 +40,17 @@ namespace AmpControls
 
             var rectWidth = width - (int) sliderPoint;
 
-            var rectangle = new Rectangle(e.ClipRectangle.X + rectWidth + imageHalf, e.ClipRectangle.Y,
-                e.ClipRectangle.Width - rectWidth - imageHalf, e.ClipRectangle.Bottom);
+            var rectangle = new Rectangle(e.ClipRectangle.X + rectWidth, e.ClipRectangle.Y,
+                e.ClipRectangle.Width - rectWidth, e.ClipRectangle.Bottom);
 
             e.Graphics.FillRectangle(backgroundBrush, rectangle);
 
-            sliderPoint += ImageSliderTracker.Width / 2f;
-            rectWidth = e.ClipRectangle.Width - (int) sliderPoint;
-            var positionMultiplier = ((double)(CurrentValue - MaximumValue) / MaximumValue);
-//            rectWidth += (int)(positionMultiplier * imageHalf);
             rectWidth -= imageHalf;
+
+            if (rectWidth < 0)
+            {
+                rectWidth = 0;
+            }
 
             rectangle = new Rectangle(rectWidth, e.ClipRectangle.Y,
                 ImageSliderTracker.Width, e.ClipRectangle.Height);
@@ -197,10 +198,10 @@ namespace AmpControls
 
         private void pnSlider_MouseMove(object sender, MouseEventArgs e)
         {
-            if (MouseIsDown && e.X >= pnSlider.ClientRectangle.X + imageHalf && e.X < pnSlider.ClientRectangle.Width - imageHalf)
+            if (MouseIsDown && e.X >= pnSlider.ClientRectangle.X && e.X < pnSlider.ClientRectangle.Width - imageHalf)
             {
-                var width = pnSlider.ClientRectangle.Width;
-                CurrentValue = MaximumValue - (int)((width - (double)(e.X + imageHalf)) * MaximumValue / width);
+                var width = pnSlider.ClientRectangle.Width - imageWidth;
+                CurrentValue = MaximumValue - (int)((width - (double)e.X) * MaximumValue / width);
             }
         }
 
