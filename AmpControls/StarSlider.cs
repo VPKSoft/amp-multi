@@ -1,13 +1,49 @@
-﻿using System;
+﻿#region License
+/*
+MIT License
+
+Copyright(c) 2021 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+#endregion
+
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace AmpControls
 {
+    /// <summary>
+    /// A limited slider control to allow a user to specify amount of stars (=points) to something within a scale of zero to five.
+    /// Implements the <see cref="System.Windows.Forms.UserControl" />
+    /// Implements the <see cref="AmpControls.ISliderBase" />
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.UserControl" />
+    /// <seealso cref="AmpControls.ISliderBase" />
     [DefaultEvent(nameof(ValueChanged))]
     public partial class StarSlider : UserControl, ISliderBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StarSlider"/> class.
+        /// </summary>
         public StarSlider()
         {
             InitializeComponent();
@@ -71,6 +107,7 @@ namespace AmpControls
         /// <value>The maximum value of the slider.</value>
         public int MaximumValue { get; set; }
 
+        // a field for the CurrentValueFractional property..
         private double currentValueFractional;
 
         /// <summary>
@@ -93,6 +130,7 @@ namespace AmpControls
         /// </summary>
         public event EventHandler<SliderValueChangedEventArgs> ValueChanged;
 
+        // ensure no scaling..
         private void StarSlider_SizeChanged(object sender, EventArgs e)
         {
             SizeChanged -= StarSlider_SizeChanged;
