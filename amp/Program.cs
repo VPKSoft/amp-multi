@@ -106,7 +106,11 @@ namespace amp
                 return;
             }
 
-            ExceptionLogger.Bind(); // bind before any visual objects are created
+            if (!Debugger.IsAttached)
+            {
+                ExceptionLogger.Bind(); // bind before any visual objects are created
+            }
+
             ExceptionLogger.ApplicationCrashData += ExceptionLogger_ApplicationCrashData;
 
 

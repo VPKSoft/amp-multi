@@ -394,7 +394,7 @@ namespace amp
         /// </summary>
         private void UpdateVolume()
         {
-            pnVol2.Left = (int)(MFile.Volume * 50F);
+            sliderVolume.CurrentValue = (int) (MFile.Volume);
         }
 
 
@@ -717,6 +717,8 @@ namespace amp
             Filtered = FilterType.NoneFiltered;
         }
 
+        private float VolumeStreamBaseVolume { get; set; }
+
         /// <summary>
         /// A method for the playback thread.
         /// </summary>
@@ -786,9 +788,9 @@ namespace amp
                                 UpdateSongName();
                             }
 
-                            if (pnVol2.InvokeRequired)
+                            if (sliderVolume.InvokeRequired)
                             {
-                                lbSong.Invoke(new VoidDelegate((UpdateVolume)));
+                                Invoke(new VoidDelegate((UpdateVolume)));
                             }
                             else
                             {
@@ -812,7 +814,6 @@ namespace amp
                             {
                                 SetPause();
                             }
-
 
                             waveOutDevice.Init(mainOutputStream);
                             waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
@@ -2078,53 +2079,7 @@ namespace amp
             Find(true);
         }
 
-        // the user adjusts the volume of currently playing song; save the user given volume to the database..
-        private void pnVol1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
-            {
-                float volume = 1;
-                if (sender == pnVol1)
-                {
-                    pnVol2.Left = e.X;
-                    volume = 1.0F * (e.X / 50F);
-                }
-                else if (sender == pnVol2)
-                {
-                    if (pnVol2 != null)
-                    {
-                        pnVol2.Left += e.X;
-                        volume = 1.0F * (pnVol2.Left / 50F);
-                    }
-                }
 
-                if (volumeStream != null)
-                {
-                    volumeStream.Volume = volume;
-                }
-
-                if (MFile != null)
-                {
-                    if (volumeStream != null)
-                    {
-                        MFile.Volume = volumeStream.Volume;
-                    }
-                    Database.SaveVolume(MFile, Connection);
-                }
-
-                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
-                {
-                    int idx = lbMusic.SelectedIndices[i];
-                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile)lbMusic.Items[idx]).ID);
-                    if (index >= 0)
-                    {
-                        PlayList[index].Volume = volume;
-                        lbMusic.Items[idx] = PlayList[index];
-                        Database.SaveVolume(PlayList[index], Connection);
-                    }
-                }
-            }
-        }
 
         // gets the next song if the flag is set and no new files
         // are currently being added to the database..
@@ -2411,6 +2366,49 @@ namespace amp
                     SaveRating(mf);
                     lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
                 }
+            }
+        }
+
+        // the user adjusts the volume of currently playing song; save the user given volume to the database..
+        private void sliderVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
+            {
+                if (volumeStream != null)
+                {
+                    volumeStream.Volume = (float) e.CurrentValueFractional *
+                                          ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
+                }
+
+                if (MFile != null)
+                {
+                    if (volumeStream != null)
+                    {
+                        MFile.Volume = volumeStream.Volume;
+                    }
+
+                    Database.SaveVolume(MFile, Connection);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    int idx = lbMusic.SelectedIndices[i];
+                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile) lbMusic.Items[idx]).ID);
+                    if (index >= 0)
+                    {
+                        PlayList[index].Volume = (float)e.CurrentValueFractional;
+                        lbMusic.Items[idx] = PlayList[index];
+                        Database.SaveVolume(PlayList[index], Connection);
+                    }
+                }
+            }
+        }
+
+        private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if (MFile != null)
+            {
+                volumeStream.Volume = MFile.Volume * ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
             }
         }
     }

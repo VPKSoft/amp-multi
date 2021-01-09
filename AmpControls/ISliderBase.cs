@@ -33,6 +33,13 @@ namespace AmpControls
         int MaximumValue { get; set; }
 
         /// <summary>
+        /// Gets or sets the current value with fractional value included.
+        /// </summary>
+        /// <value>The current value with fractional value included.</value>
+        [Browsable(false)]
+        double CurrentValueFractional { get; set; }
+
+        /// <summary>
         /// Occurs when the slider value has changed.
         /// </summary>
         [Category("Behaviour")]

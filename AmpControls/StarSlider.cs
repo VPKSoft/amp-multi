@@ -18,11 +18,12 @@ namespace AmpControls
         private void pnStars0_MouseClick(object sender, MouseEventArgs e)
         {
             var multiply = Width / 2d;
-            var value = MaximumValue / 2d;
+            currentValueFractional = MaximumValue / 2d;
 
             if (sender == pnStars0)
             {
-                CurrentValue = (int) (value * (e.X / multiply));
+                currentValueFractional = currentValueFractional * (e.X / multiply);
+                CurrentValue = (int) currentValueFractional;
                 pnStars1.Left = e.X;
             }
             else if (sender == pnStars1)
@@ -30,7 +31,8 @@ namespace AmpControls
                 if (pnStars1 != null)
                 {
                     pnStars1.Left += e.X;
-                    CurrentValue = (int) (value * (pnStars1.Left / multiply));
+                    currentValueFractional = currentValueFractional * (pnStars1.Left / multiply);
+                    CurrentValue = (int) (currentValueFractional);
                 }
             }
         }
@@ -46,6 +48,12 @@ namespace AmpControls
             set
             {
                 pnStars1.Left = (int)((double)value / MaximumValue * Width);
+
+                if ((int) CurrentValueFractional != value)
+                {
+                    currentValueFractional = value;
+                }
+
                 this.currentValue = value;
                 ValueChanged?.Invoke(this, new SliderValueChangedEventArgs(this));
             }
@@ -62,6 +70,23 @@ namespace AmpControls
         /// </summary>
         /// <value>The maximum value of the slider.</value>
         public int MaximumValue { get; set; }
+
+        private double currentValueFractional;
+
+        /// <summary>
+        /// Gets the current value with fractional value included.
+        /// </summary>
+        /// <value>The current value with fractional value included.</value>
+        public double CurrentValueFractional
+        {
+            get => currentValueFractional;
+
+            set
+            {
+                currentValueFractional = value;
+                CurrentValue = (int) value;
+            }
+        }
 
         /// <summary>
         /// Occurs when the slider value has changed.

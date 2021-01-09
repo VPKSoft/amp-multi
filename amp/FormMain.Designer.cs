@@ -84,9 +84,6 @@ namespace amp
             this.lbSong = new ReaLTaiizor.Controls.CrownLabel();
             this.lbTime = new ReaLTaiizor.Controls.CrownLabel();
             this.tbFind = new ReaLTaiizor.Controls.CrownTextBox();
-            this.pnTools = new System.Windows.Forms.Panel();
-            this.pnVol1 = new System.Windows.Forms.Panel();
-            this.pnVol2 = new System.Windows.Forms.Panel();
             this.pnAudioVisualizationMain = new System.Windows.Forms.Panel();
             this.avBars = new VPKSoft.AudioVisualization.AudioVisualizationBars();
             this.avLine = new VPKSoft.AudioVisualization.AudioVisualizationPlot();
@@ -95,24 +92,24 @@ namespace amp
             this.lbMusicScroll = new ReaLTaiizor.Controls.CrownScrollBar();
             this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
             this.pnMainVolume = new ReaLTaiizor.Controls.Panel();
-            this.pnMainVolumeRight = new System.Windows.Forms.Panel();
-            this.pnMainVolumeLeft = new System.Windows.Forms.Panel();
+            this.sliderMainVolume = new AmpControls.VolumeSlider();
+            this.pnTools = new System.Windows.Forms.Panel();
+            this.sliderVolume = new AmpControls.VolumeSliderStatic();
+            this.sliderStars = new AmpControls.StarSlider();
             this.miniToolStrip = new ReaLTaiizor.Controls.CrownMenuStrip();
             this.imDrawerIcons = new System.Windows.Forms.ImageList(this.components);
             this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
             this.foreverMinimize1 = new ReaLTaiizor.Controls.ForeverMinimize();
             this.foreverMaximize1 = new ReaLTaiizor.Controls.ForeverMaximize();
             this.tfMain = new ReaLTaiizor.Forms.ThemeForm();
-            this.sliderStars = new AmpControls.StarSlider();
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
             this.tbTool.SuspendLayout();
-            this.pnTools.SuspendLayout();
-            this.pnVol1.SuspendLayout();
             this.pnAudioVisualizationMain.SuspendLayout();
             this.pnListBox.SuspendLayout();
             this.pnMainVolume.SuspendLayout();
+            this.pnTools.SuspendLayout();
             this.tfMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,10 +127,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 444);
+            this.ssStatus.Location = new System.Drawing.Point(0, 443);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 29);
+            this.ssStatus.Size = new System.Drawing.Size(542, 30);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -142,7 +139,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 16);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 17);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -176,11 +173,11 @@ namespace amp
             this.tlpMain.Controls.Add(this.lbSong, 0, 3);
             this.tlpMain.Controls.Add(this.lbTime, 1, 3);
             this.tlpMain.Controls.Add(this.tbFind, 0, 5);
-            this.tlpMain.Controls.Add(this.pnTools, 0, 2);
             this.tlpMain.Controls.Add(this.pnAudioVisualizationMain, 0, 7);
             this.tlpMain.Controls.Add(this.scProgress, 0, 4);
             this.tlpMain.Controls.Add(this.pnListBox, 0, 6);
             this.tlpMain.Controls.Add(this.pnMainVolume, 0, 8);
+            this.tlpMain.Controls.Add(this.pnTools, 0, 2);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(2, 70);
             this.tlpMain.Name = "tlpMain";
@@ -668,48 +665,13 @@ namespace amp
             this.tbFind.Enter += new System.EventHandler(this.tbFind_Enter);
             this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
             // 
-            // pnTools
-            // 
-            this.pnTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpMain.SetColumnSpan(this.pnTools, 2);
-            this.pnTools.Controls.Add(this.sliderStars);
-            this.pnTools.Controls.Add(this.pnVol1);
-            this.pnTools.Location = new System.Drawing.Point(3, 64);
-            this.pnTools.Name = "pnTools";
-            this.pnTools.Size = new System.Drawing.Size(536, 53);
-            this.pnTools.TabIndex = 11;
-            // 
-            // pnVol1
-            // 
-            this.pnVol1.BackgroundImage = global::amp.Properties.Resources.volume_slider;
-            this.pnVol1.Controls.Add(this.pnVol2);
-            this.pnVol1.Location = new System.Drawing.Point(3, 3);
-            this.pnVol1.Name = "pnVol1";
-            this.pnVol1.Size = new System.Drawing.Size(100, 35);
-            this.pnVol1.TabIndex = 0;
-            this.pnVol1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnVol1_MouseClick);
-            // 
-            // pnVol2
-            // 
-            this.pnVol2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnVol2.BackColor = System.Drawing.Color.Transparent;
-            this.pnVol2.BackgroundImage = global::amp.Properties.Resources.volume_over;
-            this.pnVol2.ForeColor = System.Drawing.Color.Transparent;
-            this.pnVol2.Location = new System.Drawing.Point(50, 0);
-            this.pnVol2.Name = "pnVol2";
-            this.pnVol2.Size = new System.Drawing.Size(100, 35);
-            this.pnVol2.TabIndex = 0;
-            this.pnVol2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnVol1_MouseClick);
-            // 
             // pnAudioVisualizationMain
             // 
             this.tlpMain.SetColumnSpan(this.pnAudioVisualizationMain, 2);
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 371);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 370);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
             this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 33);
@@ -799,7 +761,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 183);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 188);
+            this.pnListBox.Size = new System.Drawing.Size(542, 187);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -807,7 +769,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 188);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 187);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -827,7 +789,7 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 188);
+            this.lbMusic.Size = new System.Drawing.Size(542, 187);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
@@ -841,11 +803,10 @@ namespace amp
             // 
             this.pnMainVolume.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(51)))), ((int)(((byte)(63)))));
             this.tlpMain.SetColumnSpan(this.pnMainVolume, 2);
-            this.pnMainVolume.Controls.Add(this.pnMainVolumeRight);
-            this.pnMainVolume.Controls.Add(this.pnMainVolumeLeft);
+            this.pnMainVolume.Controls.Add(this.sliderMainVolume);
             this.pnMainVolume.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnMainVolume.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
-            this.pnMainVolume.Location = new System.Drawing.Point(0, 404);
+            this.pnMainVolume.Location = new System.Drawing.Point(0, 403);
             this.pnMainVolume.Margin = new System.Windows.Forms.Padding(0);
             this.pnMainVolume.Name = "pnMainVolume";
             this.pnMainVolume.Padding = new System.Windows.Forms.Padding(5);
@@ -854,26 +815,68 @@ namespace amp
             this.pnMainVolume.TabIndex = 18;
             this.pnMainVolume.Text = "panel1";
             // 
-            // pnMainVolumeRight
+            // sliderMainVolume
             // 
-            this.pnMainVolumeRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnMainVolumeRight.BackgroundImage = global::amp.Properties.Resources.volume_high;
-            this.pnMainVolumeRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pnMainVolumeRight.Location = new System.Drawing.Point(504, 5);
-            this.pnMainVolumeRight.Margin = new System.Windows.Forms.Padding(0);
-            this.pnMainVolumeRight.Name = "pnMainVolumeRight";
-            this.pnMainVolumeRight.Size = new System.Drawing.Size(32, 32);
-            this.pnMainVolumeRight.TabIndex = 1;
+            this.sliderMainVolume.ColorMaximum = System.Drawing.Color.OrangeRed;
+            this.sliderMainVolume.ColorMinimum = System.Drawing.Color.Yellow;
+            this.sliderMainVolume.CurrentValue = 50;
+            this.sliderMainVolume.CurrentValueFractional = 50D;
+            this.sliderMainVolume.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sliderMainVolume.ImageSliderTracker = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageSliderTracker")));
+            this.sliderMainVolume.ImageVolumeLeft = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeLeft")));
+            this.sliderMainVolume.ImageVolumeRight = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeRight")));
+            this.sliderMainVolume.Location = new System.Drawing.Point(5, 5);
+            this.sliderMainVolume.MaximumSize = new System.Drawing.Size(100000, 32);
+            this.sliderMainVolume.MaximumValue = 100;
+            this.sliderMainVolume.MinimumSize = new System.Drawing.Size(100, 32);
+            this.sliderMainVolume.MinimumValue = 0;
+            this.sliderMainVolume.Name = "sliderMainVolume";
+            this.sliderMainVolume.Size = new System.Drawing.Size(532, 32);
+            this.sliderMainVolume.TabIndex = 2;
+            this.sliderMainVolume.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderMainVolume_ValueChanged);
             // 
-            // pnMainVolumeLeft
+            // pnTools
             // 
-            this.pnMainVolumeLeft.BackgroundImage = global::amp.Properties.Resources.volume_small;
-            this.pnMainVolumeLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pnMainVolumeLeft.Location = new System.Drawing.Point(7, 5);
-            this.pnMainVolumeLeft.Margin = new System.Windows.Forms.Padding(0);
-            this.pnMainVolumeLeft.Name = "pnMainVolumeLeft";
-            this.pnMainVolumeLeft.Size = new System.Drawing.Size(32, 32);
-            this.pnMainVolumeLeft.TabIndex = 0;
+            this.pnTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMain.SetColumnSpan(this.pnTools, 2);
+            this.pnTools.Controls.Add(this.sliderVolume);
+            this.pnTools.Controls.Add(this.sliderStars);
+            this.pnTools.Location = new System.Drawing.Point(3, 64);
+            this.pnTools.Name = "pnTools";
+            this.pnTools.Size = new System.Drawing.Size(536, 53);
+            this.pnTools.TabIndex = 11;
+            // 
+            // sliderVolume
+            // 
+            this.sliderVolume.CurrentValue = 0;
+            this.sliderVolume.CurrentValueFractional = 0D;
+            this.sliderVolume.Location = new System.Drawing.Point(3, 3);
+            this.sliderVolume.Margin = new System.Windows.Forms.Padding(0);
+            this.sliderVolume.MaximumSize = new System.Drawing.Size(100, 35);
+            this.sliderVolume.MaximumValue = 2;
+            this.sliderVolume.MinimumSize = new System.Drawing.Size(100, 35);
+            this.sliderVolume.MinimumValue = 0;
+            this.sliderVolume.Name = "sliderVolume";
+            this.sliderVolume.Size = new System.Drawing.Size(100, 35);
+            this.sliderVolume.TabIndex = 2;
+            this.sliderVolume.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderVolume_ValueChanged);
+            // 
+            // sliderStars
+            // 
+            this.sliderStars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sliderStars.CurrentValue = 0;
+            this.sliderStars.CurrentValueFractional = 0D;
+            this.sliderStars.Location = new System.Drawing.Point(357, 3);
+            this.sliderStars.Margin = new System.Windows.Forms.Padding(0);
+            this.sliderStars.MaximumSize = new System.Drawing.Size(176, 35);
+            this.sliderStars.MaximumValue = 1000;
+            this.sliderStars.MinimumSize = new System.Drawing.Size(176, 35);
+            this.sliderStars.MinimumValue = 0;
+            this.sliderStars.Name = "sliderStars";
+            this.sliderStars.Size = new System.Drawing.Size(176, 35);
+            this.sliderStars.TabIndex = 1;
+            this.sliderStars.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderStars_ValueChanged);
             // 
             // miniToolStrip
             // 
@@ -970,20 +973,6 @@ namespace amp
             this.tfMain.Text = "amp#";
             this.tfMain.MouseLeave += new System.EventHandler(this.tfMain_MouseLeave);
             // 
-            // sliderStars
-            // 
-            this.sliderStars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.sliderStars.Location = new System.Drawing.Point(357, 3);
-            this.sliderStars.Margin = new System.Windows.Forms.Padding(0);
-            this.sliderStars.MaximumSize = new System.Drawing.Size(176, 35);
-            this.sliderStars.MaximumValue = 1000;
-            this.sliderStars.MinimumSize = new System.Drawing.Size(176, 35);
-            this.sliderStars.MinimumValue = 0;
-            this.sliderStars.Name = "sliderStars";
-            this.sliderStars.Size = new System.Drawing.Size(176, 35);
-            this.sliderStars.TabIndex = 1;
-            this.sliderStars.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderStars_ValueChanged);
-            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1009,11 +998,10 @@ namespace amp
             this.msMain.PerformLayout();
             this.tbTool.ResumeLayout(false);
             this.tbTool.PerformLayout();
-            this.pnTools.ResumeLayout(false);
-            this.pnVol1.ResumeLayout(false);
             this.pnAudioVisualizationMain.ResumeLayout(false);
             this.pnListBox.ResumeLayout(false);
             this.pnMainVolume.ResumeLayout(false);
+            this.pnTools.ResumeLayout(false);
             this.tfMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1072,8 +1060,6 @@ namespace amp
         private ReaLTaiizor.Controls.CrownLabel lbTime;
         private ReaLTaiizor.Controls.CrownTextBox tbFind;
         private Panel pnTools;
-        private Panel pnVol1;
-        private Panel pnVol2;
         private Panel pnAudioVisualizationMain;
         private VPKSoft.AudioVisualization.AudioVisualizationBars avBars;
         private VPKSoft.AudioVisualization.AudioVisualizationPlot avLine;
@@ -1087,9 +1073,9 @@ namespace amp
         private Panel pnListBox;
         private ReaLTaiizor.Controls.CrownScrollBar lbMusicScroll;
         private ReaLTaiizor.Controls.Panel pnMainVolume;
-        private Panel pnMainVolumeRight;
-        private Panel pnMainVolumeLeft;
         private AmpControls.StarSlider sliderStars;
+        private AmpControls.VolumeSliderStatic sliderVolume;
+        private AmpControls.VolumeSlider sliderMainVolume;
     }
 }
 
