@@ -194,6 +194,8 @@ namespace amp
             odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile",
                 "Open playlist file|As in open a play list file (m3u)");
 
+            sliderMainVolume.CurrentValue = (int)Program.Settings.BaseVolumeMultiplier;
+
 
             //*************************************
             if (false)
@@ -753,14 +755,8 @@ namespace amp
                             waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
                             waveOutDevice.Play();
                             ResetAudioVisualizationBars();
-                            if (FormSettings.IsQuietHour() && !Program.Settings.QuietHoursPause)
-                            {
-                                volumeStream.Volume = MFile.Volume * (float) Program.Settings.QuietHoursVolPercentage;
-                            }
-                            else
-                            {
-                                volumeStream.Volume = MFile.Volume;
-                            }
+
+                            volumeStream.Volume = MusicFileVolume;
 
                             if (InvokeRequired)
                             {
@@ -1232,6 +1228,28 @@ namespace amp
         #endregion
 
         #region InternalProperties
+
+        /// <summary>
+        /// Gets the current music file volume.
+        /// </summary>
+        /// <value>The current music file volume.</value>
+        internal float MusicFileVolume
+        {
+            get
+            {
+                if (FormSettings.IsQuietHour() && !Program.Settings.QuietHoursPause && MFile != null)
+                {
+                    return MFile.Volume * (Program.Settings.BaseVolumeMultiplier / 50f) * (float) Program.Settings.QuietHoursVolPercentage;
+                }
+                else if (MFile != null)
+                {
+                    return MFile.Volume * (Program.Settings.BaseVolumeMultiplier / 50f);
+                }
+
+                return 1;
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether the stack queue is enabled.
         /// </summary>
@@ -1672,9 +1690,10 @@ namespace amp
 
         private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
         {
-            if (MFile != null)
+            Program.Settings.BaseVolumeMultiplier = e.CurrentValue;
+            if (volumeStream != null)
             {
-                volumeStream.Volume = MFile.Volume * ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
+                volumeStream.Volume = MusicFileVolume;
             }
         }
 
@@ -1794,6 +1813,8 @@ namespace amp
             {
                 Connection.Close();
             }
+
+            Program.Settings.SaveToFile();
         }
 
         // handles the playback stopped event..

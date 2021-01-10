@@ -66,6 +66,7 @@ namespace amp.UtilityClasses.Settings
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMain = new System.Windows.Forms.TabPage();
             this.tpAdditional = new System.Windows.Forms.TabPage();
+            this.cbDisplayVolumeAndPoints = new System.Windows.Forms.CheckBox();
             this.gbStackQueue = new System.Windows.Forms.GroupBox();
             this.tlpStackQueueRandomLabel = new System.Windows.Forms.TableLayoutPanel();
             this.lbStackQueueRandom = new System.Windows.Forms.Label();
@@ -87,7 +88,7 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.cbDisplayVolumeAndPoints = new System.Windows.Forms.CheckBox();
+            this.mnuThemeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -355,7 +356,8 @@ namespace amp.UtilityClasses.Settings
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.mnuThemeSettings});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(288, 24);
@@ -476,6 +478,16 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.TabIndex = 1;
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
+            // 
+            // cbDisplayVolumeAndPoints
+            // 
+            this.cbDisplayVolumeAndPoints.AutoSize = true;
+            this.cbDisplayVolumeAndPoints.Location = new System.Drawing.Point(7, 407);
+            this.cbDisplayVolumeAndPoints.Name = "cbDisplayVolumeAndPoints";
+            this.cbDisplayVolumeAndPoints.Size = new System.Drawing.Size(235, 17);
+            this.cbDisplayVolumeAndPoints.TabIndex = 3;
+            this.cbDisplayVolumeAndPoints.Text = "Display volume settings and points on the UI";
+            this.cbDisplayVolumeAndPoints.UseVisualStyleBackColor = true;
             // 
             // gbStackQueue
             // 
@@ -749,15 +761,12 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // cbDisplayVolumeAndPoints
+            // mnuThemeSettings
             // 
-            this.cbDisplayVolumeAndPoints.AutoSize = true;
-            this.cbDisplayVolumeAndPoints.Location = new System.Drawing.Point(7, 407);
-            this.cbDisplayVolumeAndPoints.Name = "cbDisplayVolumeAndPoints";
-            this.cbDisplayVolumeAndPoints.Size = new System.Drawing.Size(235, 17);
-            this.cbDisplayVolumeAndPoints.TabIndex = 3;
-            this.cbDisplayVolumeAndPoints.Text = "Display volume settings and points on the UI";
-            this.cbDisplayVolumeAndPoints.UseVisualStyleBackColor = true;
+            this.mnuThemeSettings.Name = "mnuThemeSettings";
+            this.mnuThemeSettings.Size = new System.Drawing.Size(99, 20);
+            this.mnuThemeSettings.Text = "Theme settings";
+            this.mnuThemeSettings.Click += new System.EventHandler(this.mnuThemeSettings_Click);
             // 
             // FormSettings
             // 
@@ -870,5 +879,6 @@ namespace amp.UtilityClasses.Settings
         private NumericUpDown nudBarAmount;
         private Label lbBarAmount;
         private CheckBox cbDisplayVolumeAndPoints;
+        private ToolStripMenuItem mnuThemeSettings;
     }
 }

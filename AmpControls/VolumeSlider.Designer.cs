@@ -58,7 +58,7 @@ namespace AmpControls
             // pnMainVolumeLeft
             // 
             this.pnMainVolumeLeft.BackgroundImage = global::AmpControls.Properties.Resources.volume_small;
-            this.pnMainVolumeLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnMainVolumeLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnMainVolumeLeft.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pnMainVolumeLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnMainVolumeLeft.Location = new System.Drawing.Point(0, 0);
@@ -71,7 +71,7 @@ namespace AmpControls
             // pnMainVolumeRight
             // 
             this.pnMainVolumeRight.BackgroundImage = global::AmpControls.Properties.Resources.volume_high;
-            this.pnMainVolumeRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pnMainVolumeRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnMainVolumeRight.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pnMainVolumeRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnMainVolumeRight.Location = new System.Drawing.Point(403, 0);

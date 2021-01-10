@@ -249,9 +249,15 @@ namespace amp.UtilityClasses.Settings
         /// Gets or sets a value indicating whether to display the volume and points selection in the GUI.
         /// </summary>
         /// <value><c>true</c> if to display the volume and points selection in the GUI; otherwise, <c>false</c>.</value>
+        [IsSetting]
         public bool DisplayVolumeAndPoints { get; set; } = true;
-        
 
+        /// <summary>
+        /// Gets or sets the base volume multiplier.
+        /// </summary>
+        /// <value>The base volume multiplier.</value>
+        [IsSetting] 
+        public float BaseVolumeMultiplier { get; set; } = 50;
         #endregion
         
         #region AudioVisualization

@@ -33,6 +33,7 @@ using System.IO;
 using System.Windows.Forms;
 using amp.DataMigrate.GUI;
 using amp.FormsUtility.Random;
+using ReaLTaiizor.Helper;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VU = VPKSoft.Utils;
@@ -350,6 +351,11 @@ namespace amp.UtilityClasses.Settings
         {
             lbStackQueueRandomValue.Text = DBLangEngine.GetMessage("msgPercentageNumber",
                 "{0} %|A message describing a percentage number value", tbStackQueueRandom.Value);
+        }
+
+        private void mnuThemeSettings_Click(object sender, EventArgs e)
+        {
+            new FormThemeSettings(new ThemeSettings(new CrownHelper.DarkTheme())).ShowDialog();
         }
     }
 }

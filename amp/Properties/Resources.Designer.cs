@@ -343,6 +343,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder_image {
+            get {
+                object obj = ResourceManager.GetObject("folder_image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap forward {
             get {
                 object obj = ResourceManager.GetObject("forward", resourceCulture);
@@ -906,6 +916,16 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap volume_over {
             get {
                 object obj = ResourceManager.GetObject("volume_over", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap volume_slide_2 {
+            get {
+                object obj = ResourceManager.GetObject("volume_slide_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

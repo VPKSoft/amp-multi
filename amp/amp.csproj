@@ -44,6 +44,7 @@
     <StartupObject>amp.Program</StartupObject>
     <Version>1.1.7</Version>
     <AssemblyName>amp#</AssemblyName>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -73,6 +74,12 @@
     </Compile>
     <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UtilityClasses\Settings\FormThemeSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UtilityClasses\Settings\FormAlbumNaming - Copy.Designer.cs">
+      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
     <Compile Update="UtilityClasses\Settings\FormAlbumNaming.cs">
       <SubType>Form</SubType>
@@ -176,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="FormsUtility\Visual\FormAlbumImage.resx">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UtilityClasses\Settings\FormAlbumNaming - Copy.resx">
+      <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="UtilityClasses\Settings\FormAlbumNaming.resx">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
@@ -332,6 +342,7 @@
     <None Include="Resources\random.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FftSharp" Version="1.0.8" />
     <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
