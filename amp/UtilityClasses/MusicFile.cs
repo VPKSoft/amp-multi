@@ -27,7 +27,6 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -1174,11 +1173,11 @@ namespace amp.UtilityClasses
         {
             if (overrideName != string.Empty)
             {
-                return GetString(Settings.Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
+                return GetString(Program.Settings.AlbumNamingRenamed, Artist, Album, TrackInt, Title,
                     songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
             }
 
-            return GetString(Settings.Settings.AlbumNaming, Artist, Album, TrackInt, Title,
+            return GetString(Program.Settings.AlbumNaming, Artist, Album, TrackInt, Title,
                 songName, queue ? queueIndex : 0, AlternateQueueIndex, overrideName, ToStringOld(queue), out _);
         }
 
@@ -1262,42 +1261,42 @@ namespace amp.UtilityClasses
             double valueMin = musicFiles.Min(f => f.Rating);
             double valueMax = musicFiles.Max(f => f.Rating);
 
-            double biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedRating);
+            double biased = BiasedRandom.RandomBiased(valueMin, valueMax, Program.Settings.BiasedRating);
 
-            if (Settings.Settings.BiasedRatingEnabled)
+            if (Program.Settings.BiasedRatingEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                    InRange(f.Rating, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
+                    InRange(f.Rating, biased, valueMin, valueMax, Program.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.NPLAYED_USER);
             valueMax = musicFiles.Max(f => f.NPLAYED_USER);
-            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedPlayedCount);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Program.Settings.BiasedPlayedCount);
 
-            if (Settings.Settings.BiasedPlayedCountEnabled)
+            if (Program.Settings.BiasedPlayedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                    InRange(f.NPLAYED_USER, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
+                    InRange(f.NPLAYED_USER, biased, valueMin, valueMax, Program.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.NPLAYED_RAND);
             valueMax = musicFiles.Max(f => f.NPLAYED_RAND);
-            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedRandomizedCount);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Program.Settings.BiasedRandomizedCount);
 
-            if (Settings.Settings.BiasedRandomizedCountEnabled)
+            if (Program.Settings.BiasedRandomizedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                   InRange(f.NPLAYED_RAND, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
+                   InRange(f.NPLAYED_RAND, biased, valueMin, valueMax, Program.Settings.Tolerance)));
             }
 
             valueMin = musicFiles.Min(f => f.SKIPPED_EARLY);
             valueMax = musicFiles.Max(f => f.SKIPPED_EARLY);
-            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Settings.Settings.BiasedSkippedCount);
+            biased = BiasedRandom.RandomBiased(valueMin, valueMax, Program.Settings.BiasedSkippedCount);
 
-            if (Settings.Settings.BiasedSkippedCountEnabled)
+            if (Program.Settings.BiasedSkippedCountEnabled)
             {
                 results.AddRange(musicFiles.FindAll(f =>
-                   InRange(f.SKIPPED_EARLY, biased, valueMin, valueMax, Settings.Settings.Tolerance)));
+                   InRange(f.SKIPPED_EARLY, biased, valueMin, valueMax, Program.Settings.Tolerance)));
             }
 
             int result = -1;

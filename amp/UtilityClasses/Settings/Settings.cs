@@ -1,347 +1,125 @@
-﻿#region License
-/*
-MIT License
-
-Copyright(c) 2020 Petteri Kautonen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-#endregion
-
+﻿using System;
+using System.Drawing.Printing;
 using System.Globalization;
+using System.Reflection;
+using NAudio.Wave;
 using VPKSoft.Utils;
+using VPKSoft.Utils.XmlSettingsMisc;
 
 namespace amp.UtilityClasses.Settings
 {
     /// <summary>
-    /// The settings class for the software.
+    /// Settings for the amp# software.
     /// </summary>
-    public static class Settings
+    public class Settings: XmlSettings
     {
-        private const string SettingsFileName = "settings.vnml";
-        // ReSharper disable once IdentifierTypo
-        private static VPKNml _vnml;
+        /// <summary>
+        /// Gets or sets the name of the setting file.
+        /// </summary>
+        /// <value>The name of the setting file.</value>
+        internal static string SettingFileName { get; set; } = PathHandler.GetSettingsFile(Assembly.GetEntryAssembly(), ".xml",
+            Environment.SpecialFolder.LocalApplicationData);
 
-        // an old "fossil" from the past..
-        private static int _dbUpdateRequiredLevel = -1;
+        /// <summary>
+        /// Saves the settings to a file specified by the <see cref="SettingFileName"/> property.
+        /// </summary>
+        public void SaveToFile()
+        {
+            Save(SettingFileName);
+        }
 
         /// <summary>
         /// Gets or sets a value of to which level the database is updated to.
         /// </summary>
-        public static int DbUpdateRequiredLevel
-        {
-            get
-            {
-                if (_dbUpdateRequiredLevel != -1)
-                {
-                    return _dbUpdateRequiredLevel;
-                }
+        [IsSetting]
+        [Obsolete("New database migration. Though must keep for history's sake.")]
+        public int DbUpdateRequiredLevel { get; set; } = 1;
 
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                int result = int.Parse(_vnml["DBUpdateLevel", "value", 0.ToString()].ToString());
+        #region MiscellaneousSettings
+        /// <summary>
+        /// The latency in milliseconds for the <see cref="WaveOut.DesiredLatency"/>.
+        /// </summary>
+        [IsSetting]
+        public int LatencyMs { get; set; } = 300;
 
-                if (_dbUpdateRequiredLevel != -1)
-                {
-                    _vnml["DBUpdateLevel", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                }
+        /// <summary>
+        /// A value indicating if the remote control WCF API is enabled.
+        /// </summary>
+        [IsSetting]
+        public bool RemoteControlApiWcf { get; set; } = false;
 
+        /// <summary>
+        /// The remote control WCF API address (URL).
+        /// </summary>
+        [IsSetting]
+        public string RemoteControlApiWcfAddress { get; set; } = "http://localhost:11316/ampRemote";
 
-                _dbUpdateRequiredLevel = result;
-                return result;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["DBUpdateLevel", "value"] = value;
-                _dbUpdateRequiredLevel = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
-
-        // a field for the LoadEntireFileSizeLimit property..
-        private static int? _loadEntireFileSizeLimit;
+        /// <summary>
+        /// A value indicating whether the software should check for updates automatically upon startup.
+        /// </summary>
+        [IsSetting]
+        public bool AutoCheckUpdates { get; set; }
 
         /// <summary>
         /// Gets or sets the limit of a file size to be loaded into the memory for smoother playback.
         /// </summary>
-        public static int LoadEntireFileSizeLimit
-        {
-            get
-            {
-                if (_loadEntireFileSizeLimit != null)
-                {
-                    return (int) _loadEntireFileSizeLimit;
-                }
-
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-
-                var result = int.Parse(_vnml["PlayBack", "loadToMemoryLimit", "-1"].ToString());
-
-
-                if (_loadEntireFileSizeLimit == null)
-                {
-                    _vnml["PlayBack", "loadToMemoryLimit"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    _loadEntireFileSizeLimit = result;
-                }
-
-                return result;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["PlayBack", "loadToMemoryLimit"] = value;
-                _loadEntireFileSizeLimit = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
+        [IsSetting]
+        public int LoadEntireFileSizeLimit { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets the stack random percentage.
         /// </summary>
         /// <value>The stack random percentage.</value>
-        public static int StackRandomPercentage
-        {
-            get
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+        [IsSetting]
+        public int StackRandomPercentage { get; set; }
+        #endregion
 
-                var result = int.Parse(_vnml["PlayBack", "stackRandomPercentage", "0"].ToString());
-                if (result < 0 || result > 100)
-                {
-                    result = 0;
-                }
-
-                return result;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["PlayBack", "stackRandomPercentage"] = value;
-                _loadEntireFileSizeLimit = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
-
-        // a field for the AlbumNaming property..
-        private static string _albumNaming = string.Empty;
-
+        #region AlbumNaming
         /// <summary>
         /// Gets or sets the album naming instructions.
         /// </summary>
-        public static string AlbumNaming
-        {
-            get
-            {
-                if (_albumNaming != string.Empty)
-                {
-                    return _albumNaming;
-                }
-
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                // ReSharper disable once StringLiteralTypo
-                string result = _vnml["AlbumNaming", "value", "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
-
-                if (_albumNaming == string.Empty)
-                {
-                    _vnml["AlbumNaming", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                }
-
-                _albumNaming = result;
-                return result;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["AlbumNaming", "value"] = value;
-                _albumNaming = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
-
-        // a field for the AlbumNamingRenamed property..
-        private static string _albumNamingRenamed = string.Empty;
+        [IsSetting]
+        public string AlbumNaming { get; set; } =
+            // ReSharper disable once StringLiteralTypo
+            @"    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
 
         /// <summary>
         /// Gets or sets the renamed album naming instructions.
         /// </summary>
-        public static string AlbumNamingRenamed
-        {
-            get
-            {
-                if (_albumNamingRenamed != string.Empty)
-                {
-                    return _albumNamingRenamed;
-                }
-
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                string result = _vnml["AlbumNamingRenamed", "value", "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
-
-                if (_albumNamingRenamed == string.Empty)
-                {
-                    _vnml["AlbumNamingRenamed", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                }
-
-                _albumNamingRenamed = result;
-                return result;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["AlbumNamingRenamed", "value"] = value;
-                _albumNamingRenamed = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
+        [IsSetting]
+        public string AlbumNamingRenamed { get; set; } = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
+        #endregion
 
         #region BiasedRandomization
-        // a field for the BiasedRandom property..
-        private static bool? _biasedRandom;
-
         /// <summary>
         /// Gets or sets a value indicating whether to use biased randomization with randomizing songs.
         /// </summary>
-        public static bool BiasedRandom
-        {
-            get
-            {
-                if (_biasedRandom == null)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    _biasedRandom = bool.Parse(_vnml["biasedRandom", "enabled", false.ToString()].ToString());
-                }
-                return (bool)_biasedRandom;
-            }
-
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "enabled"] = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _biasedRandom = value;
-            }
-        }
-
-        // a field for the Tolerance property..
-        private static double _tolerance = -1;
+        [IsSetting]
+        public bool BiasedRandom { get; set; }
 
         /// <summary>
         /// Gets or sets the tolerance for biased randomization.
         /// </summary>
-        public static double Tolerance
-        {
-            get
-            {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (_tolerance == -1)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    _tolerance =
-                        double.Parse(_vnml["biasedRandom", "tolerance", (10.0).ToString(CultureInfo.InvariantCulture)].ToString(),
-                        CultureInfo.InvariantCulture);
-                }
-                return _tolerance;
-            }
-
-            set
-            {
-                _tolerance = value;
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "tolerance"] = _tolerance.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
-
-        // a field for the BiasedRating property..
-        private static double _biasedRating = -1;
+        [IsSetting]
+        public double Tolerance { get; set; } = 10;
 
         /// <summary>
         /// Gets or sets the value for randomization with biased rating.
-        /// </summary>
-        public static double BiasedRating
-        {
-            get
-            {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (_biasedRating == -1)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    _biasedRating = 
-                        double.Parse(_vnml["biasedRandom", "biasedRating", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(), 
-                        CultureInfo.InvariantCulture);
-                }
-                return _biasedRating;
-            }
+        /// </summary>        
+        [IsSetting]
+        public double BiasedRating { get; set; } = 50;
 
-            set
-            {
-                _biasedRating = value;
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "biasedRating"] = _biasedRating.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
+        /// <summary>
+        /// Gets or sets the value for randomization with biased played count.
+        /// </summary>
+        [IsSetting]
+        public double BiasedPlayedCount { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets a value indicating whether the biased rating in randomization is enabled.
         /// </summary>
-        public static bool BiasedRatingEnabled
+        [IsSetting]
+        public bool BiasedRatingEnabled
         {
             get => BiasedRating >= 0;
 
@@ -354,46 +132,11 @@ namespace amp.UtilityClasses.Settings
             }
         }
 
-        // a field for the BiasedPlayedCount property..
-        private static double _biasedPlayedCount = -1;
-
-        /// <summary>
-        /// Gets or sets the value for randomization with biased played count.
-        /// </summary>
-        public static double BiasedPlayedCount
-        {
-            get
-            {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (_biasedPlayedCount == -1)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-
-                    _biasedPlayedCount =
-                        double.Parse(_vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
-                        CultureInfo.InvariantCulture);
-
-                }
-                return _biasedPlayedCount;
-            }
-
-            set
-            {
-                _biasedPlayedCount = value;
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "biasedPlayedCount"] = _biasedPlayedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
-
         /// <summary>
         /// Gets or sets a value indicating whether the biased played count in randomization is enabled.
         /// </summary>
-        public static bool BiasedPlayedCountEnabled
+        [IsSetting]
+        public bool BiasedPlayedCountEnabled
         {
             get => BiasedPlayedCount >= 0;
 
@@ -406,45 +149,17 @@ namespace amp.UtilityClasses.Settings
             }
         }
 
-        // a field for the BiasedRandomizedCount property..
-        private static double _biasedRandomizedCount = -1;
-
         /// <summary>
         /// Gets or sets the value for randomization with biased randomized count.
         /// </summary>
-        public static double BiasedRandomizedCount
-        {
-            get
-            {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (_biasedRandomizedCount == -1)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-
-                    _biasedRandomizedCount =
-                        double.Parse(_vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
-                        CultureInfo.InvariantCulture);
-                }
-                return _biasedRandomizedCount;
-            }
-
-            set
-            {
-                _biasedRandomizedCount = value;
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "biasedRandomizedCount"] = _biasedRandomizedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
+        [IsSetting]
+        public double BiasedRandomizedCount { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets a value indicating whether the biased randomized count in randomization is enabled.
         /// </summary>
-        public static bool BiasedRandomizedCountEnabled
+        [IsSetting]
+        public bool BiasedRandomizedCountEnabled
         {
             get => BiasedRandomizedCount >= 0;
 
@@ -457,46 +172,17 @@ namespace amp.UtilityClasses.Settings
             }
         }
 
-        // a field for the BiasedSkippedCount property..
-        private static double _biasedSkippedCount = -1;
-
         /// <summary>
         /// Gets or sets the value for randomization with biased skipped count.
         /// </summary>
-        public static double BiasedSkippedCount
-        {
-            get
-            {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (_biasedSkippedCount == -1)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-
-                    _biasedSkippedCount =
-                        double.Parse(_vnml["biasedRandom", "biasedSkippedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
-                        CultureInfo.InvariantCulture);
-
-                }
-                return _biasedSkippedCount;
-            }
-
-            set
-            {
-                _biasedSkippedCount = value;
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["biasedRandom", "biasedSkippedCount"] = _biasedSkippedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-            }
-        }
+        [IsSetting]
+        public double BiasedSkippedCount { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets a value indicating whether the biased skipped count in randomization is enabled.
         /// </summary>
-        public static bool BiasedSkippedCountEnabled
+        [IsSetting]
+        public bool BiasedSkippedCountEnabled
         {
             get => BiasedSkippedCount >= 0;
 
@@ -510,39 +196,94 @@ namespace amp.UtilityClasses.Settings
         }
         #endregion
 
-        // the current language (Culture) to be used with the software..
-        private static CultureInfo _culture;
-
+        #region Localization
         /// <summary>
         /// Gets or sets the current language (Culture) to be used with the software's localization.
         /// </summary>
-        public static CultureInfo Culture
-        {
-            get
-            {
-                if (_culture == null)
-                {
-                    _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    string culture = _vnml["culture", "value", "en-US"].ToString();
+        public CultureInfo Culture { get => new CultureInfo(CultureString); set => CultureString = value.Name; }
 
-                    _vnml["culture", "value"] = culture;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                    _culture = new CultureInfo(culture);
-                }
-                return _culture;
-            }
+        // ReSharper disable CommentTypo, Microsoft documentation, no typos..
+        /// <summary
+        /// >Gets or sets the culture name in the format languagecode2-country/regioncode2.
+        /// </summary>
+        /// <value>The culture name in the format languagecode2-country/regioncode2. languagecode2 is a lowercase two-letter code derived from ISO 639-1. country/regioncode2 is derived from ISO 3166 and usually consists of two uppercase letters, or a BCP-47 language tag.</value>
+        // ReSharper restore CommentTypo
+        [IsSetting]
+        public string CultureString { get; set; } = "en-US";
+        #endregion
 
-            set
-            {
-                _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _vnml["culture", "value"] = value.Name;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
-                _culture = value;
-            }
-        }
+        #region QuietHours
+        /// <summary>
+        /// A flag indicating whether the quiet hours is enabled in the settings.
+        /// </summary>
+        [IsSetting]
+        public bool QuietHours { get; set; }
+
+        /// <summary>
+        /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
+        [IsSetting]
+        public string QuietHoursFrom  { get; set; } = "08:00";
+
+        /// <summary>
+        /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
+        [IsSetting]
+        public string QuietHoursTo { get; set; } = "23:00";
+
+        /// <summary>
+        /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
+        [IsSetting]
+        public bool QuietHoursPause { get; set; }
+
+        /// <summary>
+        /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
+        /// </summary>
+        [IsSetting]
+        public double QuietHoursVolPercentage { get; set; } = 0.7;
+        #endregion
+
+        #region GUI        
+        /// <summary>
+        /// Gets or sets a value indicating whether to display the volume and points selection in the GUI.
+        /// </summary>
+        /// <value><c>true</c> if to display the volume and points selection in the GUI; otherwise, <c>false</c>.</value>
+        public bool DisplayVolumeAndPoints { get; set; } = true;
+        
+
+        #endregion
+        
+        #region AudioVisualization
+        /// <summary>
+        /// The audio visualization style.
+        /// </summary>
+        [IsSetting]
+        public int AudioVisualizationStyle { get; set; } = 0;
+
+        /// <summary>
+        /// The percentage the audio visualization should take from the main form's playlist area.
+        /// </summary>
+        [IsSetting]
+        public int AudioVisualizationVisualPercentage { get; set; } = 15;
+
+        /// <summary>
+        /// A value indicating whether the audio visualization should combine the channels into a single view.
+        /// </summary>
+        [IsSetting]
+        public bool AudioVisualizationCombineChannels { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the audio visualization bar graph bars follow minimum and maximum intensity levels of the current song.
+        /// </summary>
+        [IsSetting]
+        public bool BalancedBars { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bar amount to display in the audio visualization.
+        /// </summary>
+        [IsSetting]
+        public int BarAmount { get; set; } = 92;
+        #endregion
     }
 }

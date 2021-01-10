@@ -76,6 +76,18 @@ namespace AmpControls
         private int currentValue;
 
         /// <summary>
+        /// Gets or sets the image representing stars.
+        /// </summary>
+        /// <value>The the image representing stars.</value>
+        [Category("Appearance")]
+        [Description("The the image representing stars.")]
+        public Image ImageStars
+        {
+            get => pnStars0.BackgroundImage;
+            set => pnStars0.BackgroundImage = value;
+        }
+
+        /// <summary>
         /// Gets or sets the current value of the slider.
         /// </summary>
         /// <value>The current value of the slider.</value>

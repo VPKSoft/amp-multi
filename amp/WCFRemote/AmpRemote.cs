@@ -72,7 +72,7 @@ namespace amp.WCFRemote
         public bool InitAmpRemote()
         {
             // If not defined int the settings, we don't even try..
-            if (!FormMain.RemoteControlApiWcf)
+            if (!Program.Settings.RemoteControlApiWcf)
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace amp.WCFRemote
 
             try // try to create a self-hosted WCF HTTP binding..
             {
-                ampRemoteAddress = new Uri(FormMain.RemoteControlApiWcfAddress); // From the settings we get this..
+                ampRemoteAddress = new Uri(Program.Settings.RemoteControlApiWcfAddress); // From the settings we get this..
 
                 // A data transfer of information of possibly thousands of songs require large buffers/capacity..
                 ampRemoteHost.AddServiceEndpoint(typeof(IampRemote), new BasicHttpBinding { MaxReceivedMessageSize = 2147483647, MaxBufferPoolSize = 2147483647 }, string.Empty);
@@ -99,7 +99,7 @@ namespace amp.WCFRemote
             catch (Exception ex)
             {
                 // If the self-hosted WCF HTTP binding was defined in the settings, but failed, do inform the user
-                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", FormMain.RemoteControlApiWcfAddress, ex.Message),
+                MessageBox.Show(DBLangEngine.GetStatMessage("msgRemoteWCFFailed", "Remote control HTTP binding failed to initialize ({0}) with an exception {1}.|As in the WCF self-hosting web service failed to initialize.", Program.Settings.RemoteControlApiWcfAddress, ex.Message),
                                 DBLangEngine.GetStatMessage("msgError", "Error|A common error that should be defined in another message"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 // Do abort the host

@@ -43,6 +43,7 @@
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
     <Version>1.1.7</Version>
+    <AssemblyName>amp#</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -350,6 +351,7 @@
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.6" />
     <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.3" />
+    <PackageReference Include="VPKSoft.XmlSettings" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FlacFileReader.cs" />
@@ -362,5 +364,8 @@
     <None Update="DBLocalization.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SQLiteDatabase\Entity\" />
   </ItemGroup>
 </Project>

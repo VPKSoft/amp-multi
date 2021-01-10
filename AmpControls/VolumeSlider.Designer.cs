@@ -90,6 +90,7 @@ namespace AmpControls
             this.pnSlider.TabIndex = 4;
             this.pnSlider.Paint += new System.Windows.Forms.PaintEventHandler(this.pnSlider_Paint);
             this.pnSlider.Leave += new System.EventHandler(this.pnSlider_MouseLeave);
+            this.pnSlider.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnSlider_MouseMove);
             this.pnSlider.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnSlider_MouseDown);
             this.pnSlider.MouseLeave += new System.EventHandler(this.pnSlider_MouseLeave);
             this.pnSlider.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnSlider_MouseMove);

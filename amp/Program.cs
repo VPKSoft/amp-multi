@@ -61,6 +61,13 @@ namespace amp
         {
             string[] args = Environment.GetCommandLineArgs();
 
+            // not obsolete for the migration to the new settings..
+#pragma warning disable 618
+            SettingsOld.FromOldSettings(Settings);
+#pragma warning restore 618
+
+            Settings.Load(Settings.SettingFileName);
+
             // wait for the possible install process to finnish..
             VPKSoft.WaitForProcessUtil.WaitForProcess.WaitForProcessArguments(args, 30);
 
@@ -155,7 +162,10 @@ namespace amp
             // End save languages
 
 
+#pragma warning disable 618
+            // required for history reasons..
             if (Settings.DbUpdateRequiredLevel < 1)
+#pragma warning restore 618
             {
                 if (AppRunning.CheckIfRunningNoAdd("VPKSoft.amp.DBUpdate.sharp#"))
                 {
@@ -167,7 +177,10 @@ namespace amp
                 Application.Run(new FormDatabaseUpdatingProgress());
                 ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
+#pragma warning disable 618
+                // required for history reasons..
                 Settings.DbUpdateRequiredLevel = 1;
+#pragma warning restore 618
                 Process.Start(new ProcessStartInfo(Path.Combine(Paths.AppInstallDir, "amp.exe"))); // the database is updated..
                 return;
             }
@@ -308,5 +321,11 @@ namespace amp
         /// Gets or sets the arguments for the program to run upon an application exit.
         /// </summary>
         internal static string RunProgramOnExitArguments { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the program settings.
+        /// </summary>
+        /// <value>The program settings.</value>
+        internal static Settings Settings { get; set; } = new Settings();
     }
 }

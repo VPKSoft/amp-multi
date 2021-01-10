@@ -114,6 +114,18 @@ namespace AmpControls
         }
 
         /// <summary>
+        /// Gets or sets the image representing the audio volume.
+        /// </summary>
+        /// <value>The image representing the audio volume.</value>
+        [Category("Appearance")]
+        [Description("The image representing the audio volume.")]
+        public Image ImageVolume
+        {
+            get => pnVol1.BackgroundImage;
+            set => pnVol1.BackgroundImage = value;
+        }
+
+        /// <summary>
         /// Occurs when the slider value has changed.
         /// </summary>
         public event EventHandler<SliderValueChangedEventArgs> ValueChanged;

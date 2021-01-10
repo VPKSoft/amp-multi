@@ -143,7 +143,7 @@ namespace amp
                 {
                     if (tbRand.Checked)
                     {
-                        iSongIndex = Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
+                        iSongIndex = Program.Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
                         latestSongIndex = iSongIndex;
                         PlaySong(iSongIndex, true);
                     }

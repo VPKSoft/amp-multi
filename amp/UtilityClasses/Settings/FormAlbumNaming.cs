@@ -288,8 +288,8 @@ namespace amp.UtilityClasses.Settings
         private void bOK_Click(object sender, EventArgs e)
         {
             // save the settings..
-            Settings.AlbumNaming = tbAlbumNaming.Text;
-            Settings.AlbumNamingRenamed = tbAlbumNamingRenamed.Text;
+            Program.Settings.AlbumNaming = tbAlbumNaming.Text;
+            Program.Settings.AlbumNamingRenamed = tbAlbumNamingRenamed.Text;
             DialogResult = DialogResult.OK;
         }
 
@@ -317,8 +317,8 @@ namespace amp.UtilityClasses.Settings
         private void FormAlbumNaming_Shown(object sender, EventArgs e)
         {
             tbAlbumNaming.Focus();
-            tbAlbumNaming.Text = Settings.AlbumNaming;
-            tbAlbumNamingRenamed.Text = Settings.AlbumNamingRenamed;
+            tbAlbumNaming.Text = Program.Settings.AlbumNaming;
+            tbAlbumNamingRenamed.Text = Program.Settings.AlbumNamingRenamed;
         }
 
         // select the corresponding text from the active formula text box if the selected item 

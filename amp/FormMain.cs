@@ -35,11 +35,15 @@ using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
+using amp.UtilityClasses.Theme;
 using amp.UtilityClasses.WindowsPowerSave;
 using amp.WCFRemote;
+using NAudio.Vorbis;
 using NAudio.Wave;
 using ReaLTaiizor.Controls;
 using ReaLTaiizor.Forms;
+using ReaLTaiizor.Helper;
+using ReaLTaiizor.Util;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -51,12 +55,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using amp.UtilityClasses.Theme;
-using NAudio.Vorbis;
-using NVorbis;
-using ReaLTaiizor.Colors;
-using ReaLTaiizor.Helper;
-using ReaLTaiizor.Util;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
@@ -142,82 +140,19 @@ namespace amp
         private volatile int calcMs;
         #endregion
 
-        #region Settings
-        /// <summary>
-        /// A flag indicating whether the quiet hours is enabled in the settings.
-        /// </summary>
-        public static bool QuietHours { get; set; } = false;
-
-        /// <summary>
-        /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
-        /// </summary>
-        public static string QuietHoursFrom  { get; set; } = "08:00";
-
-        /// <summary>
-        /// The audio visualization style.
-        /// </summary>
-        public static int AudioVisualizationStyle { get; set; } = 0;
-
-        /// <summary>
-        /// The percentage the audio visualization should take from the main form's playlist area.
-        /// </summary>
-        public static int AudioVisualizationVisualPercentage { get; set; } = 15;
-
-        /// <summary>
-        /// A value indicating whether the audio visualization should combine the channels into a single view.
-        /// </summary>
-        public static bool AudioVisualizationCombineChannels { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the audio visualization bar graph bars follow minimum and maximum intensity levels of the current song.
-        /// </summary>
-        public static bool BalancedBars { get; set; }
-
-        /// <summary>
-        /// Gets or sets the bar amount to display in the audio visualization.
-        /// </summary>
-        public static int BarAmount { get; set; }
-
-        /// <summary>
-        /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
-        /// </summary>
-        public static string QuietHoursTo { get; set; } = "23:00";
-
-        /// <summary>
-        /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
-        /// </summary>
-        public static bool QuietHoursPause { get; set; } = false;
-
-        /// <summary>
-        /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
-        /// </summary>
-        public static double QuietHoursVolPercentage { get; set; } = 0.7;
-
-        /// <summary>
-        /// The latency in milliseconds for the <see cref="WaveOut.DesiredLatency"/>.
-        /// </summary>
-        public static int LatencyMs { get; set; } = 300;
-
-        /// <summary>
-        /// A value indicating if the remote control WCF API is enabled.
-        /// </summary>
-        public static bool RemoteControlApiWcf { get; set; } = false;
-
-        /// <summary>
-        /// The remote control WCF API address (URL).
-        /// </summary>
-        public static string RemoteControlApiWcfAddress { get; set; } = "http://localhost:11316/ampRemote";
-
-        /// <summary>
-        /// A value indicating whether the software should check for updates automatically upon startup.
-        /// </summary>
-        public static bool AutoCheckUpdates { get; set; } = false;
-
         /// <summary>
         /// Gets or sets the stack random percentage.
         /// </summary>
-        internal static int StackRandomPercentage { get => MusicFile.StackRandomPercentage; set => MusicFile.StackRandomPercentage = value; }
-        #endregion
+        internal static int StackRandomPercentage
+        {
+            get => Program.Settings.StackRandomPercentage;
+
+            set
+            {
+                MusicFile.StackRandomPercentage = value;
+                Program.Settings.StackRandomPercentage = value;
+            } 
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -261,7 +196,7 @@ namespace amp
 
 
             //*************************************
-            if (true)
+            if (false)
             {
                 CrownHelper.ThemeProvider.Theme = new CrownHelper.LightTheme();
 //                CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.Control;
@@ -276,7 +211,7 @@ namespace amp
             tfMain.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
             ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong,
                 lbTime,
-                lbMusic, tbFind, ssStatus, pnMainVolume);
+                lbMusic, tbFind, ssStatus);
             lbQueueCount.BackColor = base.BackColor;
             lbQueueCount.ForeColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
             scProgress.BackColor = base.BackColor;
@@ -288,7 +223,6 @@ namespace amp
             Database.DatabaseProgress += Database_DatabaseProgress;
 
             tmPendOperation.Enabled = true;
-            FormSettings.SetMainWindowSettings();
             AmpRemote.MainWindow = this;
 
             MusicFile.StackRandomPercentage = StackRandomPercentage;
@@ -300,6 +234,8 @@ namespace amp
             lbMusicScroll.Width = SystemInformation.VerticalScrollBarWidth;
 
             SetAudioVisualization();
+
+            SetAdditionalGuiProperties();
         }
 
         #region PrivateMethods
@@ -394,7 +330,7 @@ namespace amp
         /// </summary>
         private void UpdateVolume()
         {
-            sliderVolume.CurrentValue = (int) (MFile.Volume);
+            sliderVolumeSong.CurrentValueFractional = MFile.Volume * 250f;
         }
 
 
@@ -404,10 +340,10 @@ namespace amp
         private void CheckForNewVersion()
         {
             // no going to the internet if the user doesn't allow it..
-            if (AutoCheckUpdates)
+            if (Program.Settings.AutoCheckUpdates)
             {
                 FormCheckVersion.CheckForNewVersion("https://www.vpksoft.net/versions/version.php",
-                    Assembly.GetEntryAssembly(), UtilityClasses.Settings.Settings.Culture.Name);
+                    Assembly.GetEntryAssembly(), Program.Settings.Culture.Name);
             }
         }
 
@@ -478,11 +414,11 @@ namespace amp
             CurrentAlbum = name;
             if (name == "tmp")
             {
-                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
+                Text = @"amp#" + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty); 
             }
             else
             {
-                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", QuietHoursFrom, QuietHoursTo) : string.Empty); 
+                Text = @"amp# - " + CurrentAlbum + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty); 
             }
 
             lbMusic.Items.Clear(); // LOCATION:NOT FILTERED
@@ -717,8 +653,6 @@ namespace amp
             Filtered = FilterType.NoneFiltered;
         }
 
-        private float VolumeStreamBaseVolume { get; set; }
-
         /// <summary>
         /// A method for the playback thread.
         /// </summary>
@@ -758,7 +692,7 @@ namespace amp
                             CloseWaveOut();
                             waveOutDevice = new WaveOut
                             {
-                                DesiredLatency = LatencyMs, 
+                                DesiredLatency = Program.Settings.LatencyMs, 
                             };
                             try
                             {
@@ -788,7 +722,7 @@ namespace amp
                                 UpdateSongName();
                             }
 
-                            if (sliderVolume.InvokeRequired)
+                            if (sliderVolumeSong.InvokeRequired)
                             {
                                 Invoke(new VoidDelegate((UpdateVolume)));
                             }
@@ -819,9 +753,9 @@ namespace amp
                             waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
                             waveOutDevice.Play();
                             ResetAudioVisualizationBars();
-                            if (FormSettings.IsQuietHour() && !QuietHoursPause)
+                            if (FormSettings.IsQuietHour() && !Program.Settings.QuietHoursPause)
                             {
-                                volumeStream.Volume = MFile.Volume * (float) QuietHoursVolPercentage;
+                                volumeStream.Volume = MFile.Volume * (float) Program.Settings.QuietHoursVolPercentage;
                             }
                             else
                             {
@@ -844,7 +778,7 @@ namespace amp
 
                         if ((calcMs % 100) == 0)
                         {
-                            if (FormSettings.IsQuietHour() && QuietHoursPause)
+                            if (FormSettings.IsQuietHour() && Program.Settings.QuietHoursPause)
                             {
                                 if (InvokeRequired)
                                 {
@@ -904,7 +838,7 @@ namespace amp
         /// </summary>
         private void ResetAudioVisualizationBars()
         {
-            if (!BalancedBars)
+            if (!Program.Settings.BalancedBars)
             {
                 return;
             }
@@ -930,18 +864,18 @@ namespace amp
         {
             if (CurrentAlbum == "tmp")
             {
-                Text = @"amp#" + (QuietHours && FormSettings.IsQuietHour()
+                Text = @"amp#" + (Program.Settings.QuietHours && FormSettings.IsQuietHour()
                            ? " " + DBLangEngine.GetMessage("msgQuietHours",
                                  "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
-                                 QuietHoursFrom, QuietHoursTo)
+                                 Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo)
                            : string.Empty);
             }
             else
             {
-                Text = @"amp# - " + CurrentAlbum + (QuietHours && FormSettings.IsQuietHour()
+                Text = @"amp# - " + CurrentAlbum + (Program.Settings.QuietHours && FormSettings.IsQuietHour()
                            ? " " + DBLangEngine.GetMessage("msgQuietHours",
                                  "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(",
-                                 QuietHoursFrom, QuietHoursTo)
+                                 Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo)
                            : string.Empty);
             }
         }
@@ -961,8 +895,8 @@ namespace amp
 
                 try
                 {
-                    if (UtilityClasses.Settings.Settings.LoadEntireFileSizeLimit > 0 &&
-                        UtilityClasses.Settings.Settings.LoadEntireFileSizeLimit * 1000000 > new FileInfo(fileName).Length)
+                    if (Program.Settings.LoadEntireFileSizeLimit > 0 &&
+                        Program.Settings.LoadEntireFileSizeLimit * 1000000 > new FileInfo(fileName).Length)
                     {
                         // load the entire file into the memory..
                         memoryStream = new MemoryStream(File.ReadAllBytes(fileName));
@@ -1140,34 +1074,45 @@ namespace amp
         private void SetAudioVisualization()
         {
             // set the audio visualization panel row style if used..
-            tlpMain.RowStyles[5].Height = AudioVisualizationStyle == 0 ? 0 : AudioVisualizationVisualPercentage;
-            tlpMain.RowStyles[4].Height = AudioVisualizationStyle == 0 ? 100 : 100 - AudioVisualizationVisualPercentage;
+            tlpMain.RowStyles[7].Height = Program.Settings.AudioVisualizationStyle == 0 ? 0 : Program.Settings.AudioVisualizationVisualPercentage;
+            tlpMain.RowStyles[6].Height = Program.Settings.AudioVisualizationStyle == 0 ? 100 : 100 - Program.Settings.AudioVisualizationVisualPercentage;
 
-            if (AudioVisualizationStyle == 0)
+            if (Program.Settings.AudioVisualizationStyle == 0)
             {
+                pnAudioVisualizationMain.Visible = false;
                 avBars.Visible = false;
                 avLine.Visible = false;
             }
-            else if (AudioVisualizationStyle == 1)
+            else if (Program.Settings.AudioVisualizationStyle == 1)
             {
+                pnAudioVisualizationMain.Visible = true;
                 avBars.Visible = true;
                 avLine.Visible = false;
                 avBars.Dock = DockStyle.Fill;
                 avBars.Start();
                 avLine.Stop();
-                avBars.CombineChannels = AudioVisualizationCombineChannels;
-                avBars.RelativeView = BalancedBars;
-                avBars.HertzSpan = BarAmount;
+                avBars.CombineChannels = Program.Settings.AudioVisualizationCombineChannels;
+                avBars.RelativeView = Program.Settings.BalancedBars;
+                avBars.HertzSpan = Program.Settings.BarAmount;
             }
-            else if (AudioVisualizationStyle == 2)
+            else if (Program.Settings.AudioVisualizationStyle == 2)
             {
+                pnAudioVisualizationMain.Visible = true;
                 avBars.Visible = false;
                 avLine.Visible = true;
                 avLine.Dock = DockStyle.Fill;
                 avLine.Start();
                 avBars.Stop();
-                avLine.CombineChannels = AudioVisualizationCombineChannels;
+                avLine.CombineChannels = Program.Settings.AudioVisualizationCombineChannels;
             }
+        }
+
+        /// <summary>
+        /// Sets the additional GUI properties.
+        /// </summary>
+        internal void SetAdditionalGuiProperties()
+        {
+            tlpMain.RowStyles[2].Height = Program.Settings.DisplayVolumeAndPoints ? 120 : 0;
         }
 
         /// <summary>
@@ -1467,7 +1412,24 @@ namespace amp
         }
         #endregion
 
-        // File drag drop operation hangs the Windows Explorer (the event duration) so do it in a thread..
+        #region PublicProperties
+        /// <summary>
+        /// Initializes the <see cref="P:VPKSoft.LangLib.IDBLangEngineWinforms.DBLangEngine" /> property value.
+        /// </summary>
+        /// <param name="inheritForm">The class instance inherited from the <see cref="T:System.Windows.Forms.Form" /> class.</param>
+        public void InitFormLocalization(Form inheritForm)
+        {
+            DBLangEngine = DBLangEngineWinforms.InitializeInterfaceProperty(this);
+        }
+
+        /// <summary>
+        /// The actual localization engine (DBLangEngine) for
+        /// <para />wrapper class.
+        /// </summary>
+        /// <value>The database language engine.</value>
+        public DBLangEngine DBLangEngine { get; set; }
+        #endregion
+
         #region DragDropThread
         // the thread to handle the dropped files and/or directories..
         private Thread fileAddThread;
@@ -1623,6 +1585,99 @@ namespace amp
         #endregion
 
         #region InternalEvents
+        // handle the key down of the playlist box..
+        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
+        {
+            HandleKeyDown(ref e);
+        }
+
+        private void lbMusicScroll_ValueChanged(object sender, ScrollValueEventArgs e)
+        {
+            lbMusic.VScrollPosition = e.Value;
+        }
+
+        private void lbMusic_ItemsChanged(object sender, EventArgs e)
+        {
+            lbMusicScroll.Maximum = lbMusic.Items.Count;
+        }
+
+        private void tfMain_MouseLeave(object sender, EventArgs e)
+        {
+
+            Cursor = Cursors.Arrow;
+            tfMain.Cursor = Cursors.Arrow;
+        }
+
+        private void sliderStars_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if (MFile != null || lbMusic.SelectedIndices.Count > 0)
+            {
+                if (MFile != null)
+                {
+                    MFile.Rating = sliderStars.CurrentValue;
+                    MFile.RatingChanged = true;
+                    SaveRating(MFile);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
+                    mf.Rating = sliderStars.CurrentValue;
+                    mf.RatingChanged = true;
+                    SaveRating(mf);
+                    lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
+                }
+            }
+        }
+
+        // the user adjusts the volume of currently playing song; save the user given volume to the database..
+        private void sliderVolumeSong_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
+            {
+                var volume = e.CurrentValue / 250f;
+                if (volume > 2f)
+                {
+                    volume = 2f;
+                }
+
+                if (volumeStream != null)
+                {
+                    volumeStream.Volume = volume;
+                }
+
+                if (MFile != null)
+                {
+                    if (volumeStream != null)
+                    {
+                        MFile.Volume = volumeStream.Volume;
+                    }
+
+                    Database.SaveVolume(MFile, Connection);
+                }
+
+                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
+                {
+                    int idx = lbMusic.SelectedIndices[i];
+                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile) lbMusic.Items[idx]).ID);
+                    if (index >= 0)
+                    {
+                        PlayList[index].Volume = volume;
+                        lbMusic.Items[idx] = PlayList[index];
+                        Database.SaveVolume(PlayList[index], Connection);
+                    }
+                }
+            }
+        }
+
+        private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        {
+            if (MFile != null)
+            {
+                volumeStream.Volume = MFile.Volume * ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
+            }
+        }
+
         // a user is dragging files and/or directories to the software..
         private void lbMusic_DragEnter(object sender, DragEventArgs e)
         {
@@ -1889,12 +1944,6 @@ namespace amp
         }
 
         // a user scrolls the song playback position; set the position to the user given value..
-        private void scProgress_Scroll(object sender, ScrollEventArgs e)
-        {
-            mainOutputStream.CurrentTime = new TimeSpan(0, 0, e.NewValue);
-        }
-
-
         private void scProgress_Scroll(object sender)
         {
             tmSeek.Stop();
@@ -2166,6 +2215,7 @@ namespace amp
                 lbMusic.RefreshItems(); // the naming might have been changed..
                 TextInvoker();
                 SetAudioVisualization();
+                SetAdditionalGuiProperties();
             }
         }
 
@@ -2307,109 +2357,5 @@ namespace amp
             }
         }
         #endregion
-
-        /// <summary>
-        /// Initializes the <see cref="P:VPKSoft.LangLib.IDBLangEngineWinforms.DBLangEngine" /> property value.
-        /// </summary>
-        /// <param name="inheritForm">The class instance inherited from the <see cref="T:System.Windows.Forms.Form" /> class.</param>
-        public void InitFormLocalization(Form inheritForm)
-        {
-            DBLangEngine = DBLangEngineWinforms.InitializeInterfaceProperty(this);
-        }
-
-        /// <summary>
-        /// The actual localization engine (DBLangEngine) for
-        /// <para />wrapper class.
-        /// </summary>
-        /// <value>The database language engine.</value>
-        public DBLangEngine DBLangEngine { get; set; }
-
-        // handle the key down of the playlist box..
-        private void lbMusic_KeyDown(object sender, KeyEventArgs e)
-        {
-            HandleKeyDown(ref e);
-        }
-
-        private void lbMusicScroll_ValueChanged(object sender, ScrollValueEventArgs e)
-        {
-            lbMusic.VScrollPosition = e.Value;
-        }
-
-        private void lbMusic_ItemsChanged(object sender, EventArgs e)
-        {
-            lbMusicScroll.Maximum = lbMusic.Items.Count;
-        }
-
-        private void tfMain_MouseLeave(object sender, EventArgs e)
-        {
-
-            Cursor = Cursors.Arrow;
-            tfMain.Cursor = Cursors.Arrow;
-        }
-
-        private void sliderStars_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
-        {
-            if (MFile != null || lbMusic.SelectedIndices.Count > 0)
-            {
-                if (MFile != null)
-                {
-                    MFile.Rating = sliderStars.CurrentValue;
-                    MFile.RatingChanged = true;
-                    SaveRating(MFile);
-                }
-
-                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
-                {
-                    MusicFile mf = (MusicFile)lbMusic.Items[lbMusic.SelectedIndices[i]];
-                    mf.Rating = sliderStars.CurrentValue;
-                    mf.RatingChanged = true;
-                    SaveRating(mf);
-                    lbMusic.Items[lbMusic.SelectedIndices[i]] = mf;
-                }
-            }
-        }
-
-        // the user adjusts the volume of currently playing song; save the user given volume to the database..
-        private void sliderVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
-        {
-            if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
-            {
-                if (volumeStream != null)
-                {
-                    volumeStream.Volume = (float) e.CurrentValueFractional *
-                                          ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
-                }
-
-                if (MFile != null)
-                {
-                    if (volumeStream != null)
-                    {
-                        MFile.Volume = volumeStream.Volume;
-                    }
-
-                    Database.SaveVolume(MFile, Connection);
-                }
-
-                for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
-                {
-                    int idx = lbMusic.SelectedIndices[i];
-                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile) lbMusic.Items[idx]).ID);
-                    if (index >= 0)
-                    {
-                        PlayList[index].Volume = (float)e.CurrentValueFractional;
-                        lbMusic.Items[idx] = PlayList[index];
-                        Database.SaveVolume(PlayList[index], Connection);
-                    }
-                }
-            }
-        }
-
-        private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
-        {
-            if (MFile != null)
-            {
-                volumeStream.Volume = MFile.Volume * ((float) sliderMainVolume.CurrentValue / sliderMainVolume.MaximumValue / 2f);
-            }
-        }
     }
 }

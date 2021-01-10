@@ -146,6 +146,40 @@ namespace AmpControls
             set => pnMainVolumeRight.BackgroundImage = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the left image should be visible.
+        /// </summary>
+        /// <value><c>true</c> if the left image should be visible; otherwise, <c>false</c>.</value>
+        [Category("Appearance")]
+        [Description("A value indicating if the left image should be visible.")]
+        public bool LeftImageVisible
+        {
+            get => tlpVolumeSlider.ColumnStyles[0].Width > 0;
+            set
+            {
+                tlpVolumeSlider.ColumnStyles[0].Width = value ? 32 : 0;
+
+                pnMainVolumeLeft.Visible = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the right image should be visible.
+        /// </summary>
+        /// <value><c>true</c> if the right image should be visible; otherwise, <c>false</c>.</value>
+        [Category("Appearance")]
+        [Description("A value indicating if the left right should be visible.")]
+        public bool RightImageVisible
+        {
+            get => tlpVolumeSlider.ColumnStyles[2].Width > 0;
+            set
+            {
+                tlpVolumeSlider.ColumnStyles[2].Width = value ? 32 : 0;
+
+                pnMainVolumeRight.Visible = value;
+            }
+        }
+
         private Image imageSliderTracker = Properties.Resources.volume_slide_2;
         private int imageHalf;
         private int imageWidth;
@@ -239,6 +273,8 @@ namespace AmpControls
             {
                 var width = pnSlider.ClientRectangle.Width - imageWidth;
                 CurrentValue = MaximumValue - (int)((width - (double)e.X) * MaximumValue / width);
+                CurrentValueFractional = MaximumValue - (width - (double) e.X) * MaximumValue / width;
+
             }
         }
 

@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System;
 using System.Windows.Forms;
-using amp.UtilityClasses.Settings;
 using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.Random
@@ -57,12 +56,12 @@ namespace amp.FormsUtility.Random
             DBLangEngine.InitializeLanguage("amp.Messages");
 
             suspendCheckedChanged = true;
-            cbModifiedRandomizationEnabled.Checked = Settings.BiasedRandom;
-            SetBiasedRandomValue(tbRating, cbRatingEnabled, Settings.BiasedRating, Settings.BiasedRatingEnabled);
-            SetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, Settings.BiasedPlayedCount, Settings.BiasedPlayedCountEnabled);
-            SetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, Settings.BiasedRandomizedCount, Settings.BiasedRandomizedCountEnabled);
-            SetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, Settings.BiasedSkippedCount, Settings.BiasedSkippedCountEnabled);
-            tbTolerancePercentage.Value = Settings.Tolerance < 0 ? 10 : (int)Settings.Tolerance * 10;
+            cbModifiedRandomizationEnabled.Checked = Program.Settings.BiasedRandom;
+            SetBiasedRandomValue(tbRating, cbRatingEnabled, Program.Settings.BiasedRating, Program.Settings.BiasedRatingEnabled);
+            SetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, Program.Settings.BiasedPlayedCount, Program.Settings.BiasedPlayedCountEnabled);
+            SetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, Program.Settings.BiasedRandomizedCount, Program.Settings.BiasedRandomizedCountEnabled);
+            SetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, Program.Settings.BiasedSkippedCount, Program.Settings.BiasedSkippedCountEnabled);
+            tbTolerancePercentage.Value = Program.Settings.Tolerance < 0 ? 10 : (int)Program.Settings.Tolerance * 10;
             suspendCheckedChanged = false;
         }
 
@@ -105,21 +104,21 @@ namespace amp.FormsUtility.Random
         // the user accepted the settings, so save the settings and return from the dialog..
         private void btOK_Click(object sender, EventArgs e)
         {
-            Settings.BiasedRandom = cbModifiedRandomizationEnabled.Checked;
+            Program.Settings.BiasedRandom = cbModifiedRandomizationEnabled.Checked;
 
-            Settings.BiasedRating = GetBiasedRandomValue(tbRating, cbRatingEnabled, out bool enabled);
-            Settings.BiasedRatingEnabled = enabled;
+            Program.Settings.BiasedRating = GetBiasedRandomValue(tbRating, cbRatingEnabled, out bool enabled);
+            Program.Settings.BiasedRatingEnabled = enabled;
 
-            Settings.BiasedPlayedCount = GetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, out enabled);
-            Settings.BiasedPlayedCountEnabled = enabled;
+            Program.Settings.BiasedPlayedCount = GetBiasedRandomValue(tbPlayedCount, cbPlayedCountEnabled, out enabled);
+            Program.Settings.BiasedPlayedCountEnabled = enabled;
 
-            Settings.BiasedRandomizedCount = GetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, out enabled);
-            Settings.BiasedRandomizedCountEnabled = enabled;
+            Program.Settings.BiasedRandomizedCount = GetBiasedRandomValue(tbRandomizedCount, cbRandomizedCountEnabled, out enabled);
+            Program.Settings.BiasedRandomizedCountEnabled = enabled;
 
-            Settings.BiasedSkippedCount = GetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, out enabled);
-            Settings.BiasedSkippedCountEnabled = enabled;
+            Program.Settings.BiasedSkippedCount = GetBiasedRandomValue(tbSkippedCount, cbSkippedCountEnabled, out enabled);
+            Program.Settings.BiasedSkippedCountEnabled = enabled;
 
-            Settings.Tolerance = (double)tbTolerancePercentage.Value / 10;
+            Program.Settings.Tolerance = (double)tbTolerancePercentage.Value / 10;
 
             DialogResult = DialogResult.OK;
         }

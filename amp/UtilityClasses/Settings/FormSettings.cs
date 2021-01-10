@@ -69,40 +69,43 @@ namespace amp.UtilityClasses.Settings
 
         private void bOK_Click(object sender, EventArgs e)
         {
+            Program.Settings.QuietHours = cbQuietHours.Checked;
+            Program.Settings.QuietHoursFrom = dtpFrom.Value.ToString("HH':'mm");
+            Program.Settings.QuietHoursTo = dtpTo.Value.ToString("HH':'mm");
+
+            Program.Settings.QuietHoursVolPercentage = (int)nudQuietHourPercentage.Value;
+            Program.Settings.QuietHoursPause = rbPauseQuiet.Checked;
+            Program.Settings.RemoteControlApiWcfAddress = tbRemoteControlURI.Text;
+
+            Program.Settings.LatencyMs = (int)nudLatency.Value;
+            Program.Settings.RemoteControlApiWcf = cbRemoteControlEnabled.Checked;
+            Program.Settings.AudioVisualizationStyle = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
+
+            Program.Settings.AudioVisualizationVisualPercentage = (int) nudAudioVisualizationSize.Value;
+            Program.Settings.AudioVisualizationCombineChannels = cbAudioVisualizationCombineChannels.Checked;
+            Program.Settings.BalancedBars = cbBalancedBars.Checked;
+            Program.Settings.BarAmount = (int) nudBarAmount.Value;
+
+            // the user decides if an internet request is allowed..
+            Program.Settings.AutoCheckUpdates = cbCheckUpdatesStartup.Checked;
+
+            Program.Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
+            Program.Settings.StackRandomPercentage = tbStackQueueRandom.Value;
+
+            if (cbMemoryBuffering.Checked)
+            {
+                Program.Settings.LoadEntireFileSizeLimit = (int) nudMemoryBuffering.Value;
+            }
+            else
+            {
+                Program.Settings.LoadEntireFileSizeLimit = -1;
+            }
+
+            Program.Settings.DisplayVolumeAndPoints = cbDisplayVolumeAndPoints.Checked;
+
             SaveSettings();
             DialogResult = DialogResult.OK;
         }
-
-        /// <summary>
-        /// Get the main form settings.
-        /// </summary>
-        public static void SetMainWindowSettings()
-        {
-            // ReSharper disable once IdentifierTypo
-            VU.VPKNml vnml = new VU.VPKNml();
-            VU.Paths.MakeAppSettingsFolder();
-            // ReSharper disable once StringLiteralTypo
-            vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
-
-            FormMain.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
-
-            FormMain.QuietHoursFrom = vnml["quietHour", "start", "23:00"].ToString();
-            FormMain.QuietHoursTo = vnml["quietHour", "end", "08:00"].ToString();
-            FormMain.QuietHoursPause = Convert.ToBoolean(vnml["quietHour", "pause", true]);
-            FormMain.QuietHoursVolPercentage = (100.0 - Convert.ToDouble(vnml["quietHour", "percentage", 70])) / 100.0;
-            FormMain.LatencyMs = Convert.ToInt32(vnml["latency", "value", 300]);
-            FormMain.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
-            FormMain.AutoCheckUpdates = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
-            FormMain.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
-
-            FormMain.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
-            FormMain.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
-            FormMain.AudioVisualizationCombineChannels = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
-            FormMain.BalancedBars = Convert.ToBoolean(vnml["visualizeAudio", "balancedBars", false]);
-            FormMain.BarAmount = Convert.ToInt32(vnml["visualizeAudio", "hertzSpan", 92]);
-            FormMain.StackRandomPercentage = Settings.StackRandomPercentage;
-        }
-
 
         /// <summary>
         /// Calculates the quiet hour start and end based on the current time.
@@ -145,12 +148,12 @@ namespace amp.UtilityClasses.Settings
         public static bool IsQuietHour()
         {
             // if the setting is not enabled the return false..
-            if (!FormMain.QuietHours)
+            if (!Program.Settings.QuietHours)
             {
                 return false;
             }
 
-            KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(FormMain.QuietHoursFrom, FormMain.QuietHoursTo);
+            KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo);
             bool result = (DateTime.Now >= span.Key && DateTime.Now < span.Value);
             return result;
         }
@@ -161,71 +164,28 @@ namespace amp.UtilityClasses.Settings
         /// </summary>
         private void SaveSettings()
         {
-            // ReSharper disable once IdentifierTypo
-            VU.VPKNml vnml = new VU.VPKNml();
-            VU.Paths.MakeAppSettingsFolder();
-            // ReSharper disable once StringLiteralTypo
-            vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
-            vnml["quietHour", "enabled"] = cbQuietHours.Checked;
-            vnml["quietHour", "start"] = dtpFrom.Value.ToString("HH':'mm");
-            vnml["quietHour", "end"] = dtpTo.Value.ToString("HH':'mm");
-            vnml["quietHour", "percentage"] = (int)nudQuietHourPercentage.Value;
-            vnml["quietHour", "pause"] = rbPauseQuiet.Checked;
-            vnml["remote", "uri"] = tbRemoteControlURI.Text;
-            vnml["latency", "value"] = (int)nudLatency.Value;
-            vnml["remote", "enabled"] = cbRemoteControlEnabled.Checked;
-            vnml["visualizeAudio", "type"] = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
-            vnml["visualizeAudio", "percentage"] = (int) nudAudioVisualizationSize.Value;
-            vnml["visualizeAudio", "combineChannels"] = cbAudioVisualizationCombineChannels.Checked;
-            vnml["visualizeAudio", "balancedBars"] = cbBalancedBars.Checked;
-            vnml["visualizeAudio", "hertzSpan"] = (int) nudBarAmount.Value;
-
-            // the user decides if an internet request is allowed..
-            vnml["autoUpdate", "enabled"] = cbCheckUpdatesStartup.Checked;
-
-            // ReSharper disable once StringLiteralTypo
-            vnml.Save(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
-
-            Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
-            Settings.StackRandomPercentage = tbStackQueueRandom.Value;
-
-            if (cbMemoryBuffering.Checked)
-            {
-                Settings.LoadEntireFileSizeLimit = (int) nudMemoryBuffering.Value;
-            }
-            else
-            {
-                Settings.LoadEntireFileSizeLimit = -1;
-            }
-
-            SetMainWindowSettings();
+            Program.Settings.SaveToFile();
         }
 
         private void FormSettings_Shown(object sender, EventArgs e)
         {
-            // ReSharper disable once IdentifierTypo
-            VU.VPKNml vnml = new VU.VPKNml();
-            VU.Paths.MakeAppSettingsFolder();
-            // ReSharper disable once StringLiteralTypo
-            vnml.Load(VU.Paths.GetAppSettingsFolder() + "settings.vnml");
+            cbQuietHours.Checked = Program.Settings.QuietHours;
 
-            cbQuietHours.Checked = Convert.ToBoolean(vnml["quietHour", "enabled", false]);
-
-            dtpFrom.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "start", "23:00"]), "HH':'mm", CultureInfo.InvariantCulture);
-            dtpTo.Value = DateTime.ParseExact(Convert.ToString(vnml["quietHour", "end", "08:00"]), "HH':'mm", CultureInfo.InvariantCulture);
-            nudQuietHourPercentage.Value = Convert.ToInt32(vnml["quietHour", "percentage", 70]);
+            dtpFrom.Value = DateTime.ParseExact(Program.Settings.QuietHoursFrom, "HH':'mm", CultureInfo.InvariantCulture);
+            dtpTo.Value = DateTime.ParseExact(Program.Settings.QuietHoursTo, "HH':'mm", CultureInfo.InvariantCulture);
+            nudQuietHourPercentage.Value = (decimal) Program.Settings.QuietHoursVolPercentage;
             rbPauseQuiet.Checked = true;
-            rbPauseQuiet.Checked = Convert.ToBoolean(vnml["quietHour", "pause", true]);
+            rbPauseQuiet.Checked = Program.Settings.QuietHoursPause;
             rbDecreaseVolumeQuietHours.Checked = !rbPauseQuiet.Checked;
-            tbRemoteControlURI.Text = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
-            nudLatency.Value = Convert.ToInt32(vnml["latency", "value", 300]);
-            cbRemoteControlEnabled.Checked = Convert.ToBoolean(vnml["remote", "enabled", false]);
+            tbRemoteControlURI.Text = Program.Settings.RemoteControlApiWcfAddress;
+            nudLatency.Value = Program.Settings.LatencyMs;
+            cbRemoteControlEnabled.Checked = Program.Settings.RemoteControlApiWcf;
 
-            nudBarAmount.Value = Convert.ToInt32(vnml["visualizeAudio", "hertzSpan", 92]);
+            nudBarAmount.Value = Program.Settings.BarAmount < 20 ? 92 : Program.Settings.BarAmount;
 
-            tbStackQueueRandom.Value = Settings.StackRandomPercentage;
+            tbStackQueueRandom.Value = Program.Settings.StackRandomPercentage;
 
-            switch (Convert.ToInt32(vnml["visualizeAudio", "type", 0]))
+            switch (Program.Settings.AudioVisualizationStyle)
             {
                 case 0: rbAudioVisualizationOff.Checked = true; break;
                 case 1: rbAudioVisualizationBars.Checked = true; break;
@@ -233,18 +193,18 @@ namespace amp.UtilityClasses.Settings
                 default: rbAudioVisualizationOff.Checked = true; break;
             }
 
-            nudAudioVisualizationSize.Value = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);
+            nudAudioVisualizationSize.Value = Program.Settings.AudioVisualizationVisualPercentage;
 
-            cbAudioVisualizationCombineChannels.Checked = Convert.ToBoolean(vnml["visualizeAudio", "combineChannels", false]);
-            cbBalancedBars.Checked = Convert.ToBoolean(vnml["visualizeAudio", "balancedBars", false]);
+            cbAudioVisualizationCombineChannels.Checked = Program.Settings.AudioVisualizationCombineChannels;
+            cbBalancedBars.Checked = Program.Settings.BalancedBars;
 
             // the user decides if an internet request is allowed..
-            cbCheckUpdatesStartup.Checked = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
+            cbCheckUpdatesStartup.Checked = Program.Settings.AutoCheckUpdates;
 
-            cbMemoryBuffering.Checked = Settings.LoadEntireFileSizeLimit > 0;
-            if (Settings.LoadEntireFileSizeLimit > 0)
+            cbMemoryBuffering.Checked = Program.Settings.LoadEntireFileSizeLimit > 0;
+            if (Program.Settings.LoadEntireFileSizeLimit > 0)
             {
-                nudMemoryBuffering.Value = Settings.LoadEntireFileSizeLimit;
+                nudMemoryBuffering.Value = Program.Settings.LoadEntireFileSizeLimit;
                 nudMemoryBuffering.Enabled = true;
             }
             else
@@ -260,13 +220,15 @@ namespace amp.UtilityClasses.Settings
                 // ReSharper disable once CoVariantArrayConversion
                 cmbSelectLanguageValue.Items.AddRange(cultures.ToArray());
             }
-            cmbSelectLanguageValue.SelectedItem = Settings.Culture;
+            cmbSelectLanguageValue.SelectedItem = Program.Settings.Culture;
 
             bool? netShResult = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
             if (netShResult != null)
             {
                 btAssignRemoteControlURI.Enabled = netShResult == false;
             }
+
+            cbDisplayVolumeAndPoints.Checked = Program.Settings.DisplayVolumeAndPoints;
         }
 
         private void tbRemoteControlURI_TextChanged(object sender, EventArgs e)
@@ -313,7 +275,7 @@ namespace amp.UtilityClasses.Settings
 
             while (dt1 < dt2)
             {
-                KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(FormMain.QuietHoursFrom, FormMain.QuietHoursTo, dtCompare);
+                KeyValuePair<DateTime, DateTime> span = CalculateQuietHour(Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo, dtCompare);
                 dt1 = dt1.AddMinutes(1);
                 bool isQuietHour =(dt1 >= span.Key && dt1 < span.Value);
                 tbTestQuietHour.Text += isQuietHour + @": " + dt1.ToString("HH':'mm dd'.'MM'.'yyyy") + Environment.NewLine;
@@ -386,7 +348,6 @@ namespace amp.UtilityClasses.Settings
 
         private void tbStackQueueRandom_ValueChanged(object sender, EventArgs e)
         {
-            var trackBar = (TrackBar) sender;
             lbStackQueueRandomValue.Text = DBLangEngine.GetMessage("msgPercentageNumber",
                 "{0} %|A message describing a percentage number value", tbStackQueueRandom.Value);
         }
