@@ -21,11 +21,10 @@ namespace amp.UtilityClasses.Settings
         /// Gets or sets the name of the default theme file.
         /// </summary>
         /// <value>The name of the default theme file.</value>
-        internal static string DefaultFileName { get; set;
-        } = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            Assembly.GetExecutingAssembly()?.GetName().Name ?? @"amp#") + "\\" +
-            ((Assembly.GetExecutingAssembly()?.GetName().Name ?? @"amp#") + @"_theme.xml");
+        internal static string DefaultFileName { get; set; } =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                Assembly.GetExecutingAssembly().GetName().Name ?? @"amp#") + "\\" +
+            ((Assembly.GetExecutingAssembly().GetName().Name ?? @"amp#") + @"_theme.xml");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThemeSettings"/> class.
