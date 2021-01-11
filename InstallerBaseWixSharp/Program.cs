@@ -51,7 +51,7 @@ namespace InstallerBaseWixSharp
     class Program
     {
         const string AppName = "amp#";
-        internal static readonly string Executable = $"{AppName.TrimEnd('#')}.exe";
+        internal static readonly string Executable = $"{AppName}.exe";
         const string  Company = "VPKSoft";
         private static readonly string InstallDirectory = $@"%ProgramFiles%\{Company}\{AppName}";
         const string  ApplicationIcon = @".\Files\FileResources\icon.ico";
