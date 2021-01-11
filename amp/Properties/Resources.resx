@@ -157,9 +157,6 @@
   <data name="list_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\list_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="folder_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\folder_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="media_shuffle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\media_shuffle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -298,8 +295,14 @@
   <data name="volume_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\volume_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="tick_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="education-languages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\education-languages.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="keyboard_lctrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\keyboard_lctrl.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -319,8 +322,11 @@
   <data name="amp_repeat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\amp_repeat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="education-languages" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\education-languages.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tick_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="album_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\album_orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -349,14 +355,20 @@
   <data name="m3u2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\m3u2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="speed_forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\speed_forward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="volume_slide_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\volume_slide_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="keyboard_alphabet_d" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\keyboard_alphabet_d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tick_down_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_down_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="backward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\backward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -385,7 +397,7 @@
   <data name="amp_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\amp_play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="volume_slide_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\volume_slide_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tick_up_dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tick_up_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

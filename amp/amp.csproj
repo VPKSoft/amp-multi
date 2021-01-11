@@ -8,10 +8,11 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.1.7.0</AssemblyVersion>
-    <FileVersion>1.1.7.0</FileVersion>
+    <AssemblyVersion>1.1.8.0</AssemblyVersion>
+    <FileVersion>1.1.8.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <TargetName>amp</TargetName>
     <PostBuildEvent />
     <PostBuildEvent />
     <PostBuildEvent />
@@ -42,9 +43,10 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg aif aiff m4a aac wav wma</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
-    <Version>1.1.7</Version>
+    <Version>1.1.8</Version>
     <AssemblyName>amp#</AssemblyName>
     <LangVersion>8</LangVersion>
+    <PackageId>amp#</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -100,12 +102,6 @@
     <Compile Update="FormsUtility\Information\FormTagInfo.cs" />
     <Compile Update="FormsUtility\Information\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Update="UtilityClasses\Controls\ImageProgressBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="UtilityClasses\Controls\ImageProgressBar.Designer.cs">
-      <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </Compile>
     <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.cs">
       <SubType>Form</SubType>
@@ -168,7 +164,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="UtilityClasses\Controls\RefreshListbox.ExcludeLicense.cs" />
     <EmbeddedResource Update="DataMigrate\GUI\FormDatabaseMigrate.resx">
       <DependentUpon>FormDatabaseMigrate.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,9 +205,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="FormsUtility\QueueHandling\FormSavedQueues.resx">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UtilityClasses\Controls\ImageProgressBar.resx">
-      <DependentUpon>ImageProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="UtilityClasses\Settings\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
@@ -378,5 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SQLiteDatabase\Entity\" />
+    <Folder Include="UtilityClasses\Controls\" />
   </ItemGroup>
 </Project>

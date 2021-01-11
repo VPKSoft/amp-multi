@@ -57,6 +57,7 @@ namespace amp.UtilityClasses.Settings
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLoadTheme = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveThemeAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSetSavedDefaultTheme = new System.Windows.Forms.ToolStripMenuItem();
             this.pnColorSelection.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tabThemeColors.SuspendLayout();
@@ -173,13 +174,13 @@ namespace amp.UtilityClasses.Settings
             // bCancel
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.bCancel.Location = new System.Drawing.Point(12, 497);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 10;
             this.bCancel.Text = "Cancel";
             this.bCancel.UseVisualStyleBackColor = true;
+            this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
             // 
             // bOK
             // 
@@ -221,6 +222,7 @@ namespace amp.UtilityClasses.Settings
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuSetDefaultLightTheme,
             this.mnuSetDefalutDarkTheme,
+            this.mnuSetSavedDefaultTheme,
             this.toolStripMenuItem1,
             this.mnuSaveAsDefaultTheme,
             this.toolStripMenuItem2,
@@ -233,14 +235,14 @@ namespace amp.UtilityClasses.Settings
             // mnuSetDefaultLightTheme
             // 
             this.mnuSetDefaultLightTheme.Name = "mnuSetDefaultLightTheme";
-            this.mnuSetDefaultLightTheme.Size = new System.Drawing.Size(194, 22);
+            this.mnuSetDefaultLightTheme.Size = new System.Drawing.Size(200, 22);
             this.mnuSetDefaultLightTheme.Text = "Set default light theme";
             this.mnuSetDefaultLightTheme.Click += new System.EventHandler(this.mnuLightDarkTheme_Click);
             // 
             // mnuSetDefalutDarkTheme
             // 
             this.mnuSetDefalutDarkTheme.Name = "mnuSetDefalutDarkTheme";
-            this.mnuSetDefalutDarkTheme.Size = new System.Drawing.Size(194, 22);
+            this.mnuSetDefalutDarkTheme.Size = new System.Drawing.Size(200, 22);
             this.mnuSetDefalutDarkTheme.Text = "Set defalut dark theme";
             this.mnuSetDefalutDarkTheme.Click += new System.EventHandler(this.mnuLightDarkTheme_Click);
             // 
@@ -248,25 +250,25 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuSaveAsDefaultTheme.Image = global::amp.Properties.Resources.Save;
             this.mnuSaveAsDefaultTheme.Name = "mnuSaveAsDefaultTheme";
-            this.mnuSaveAsDefaultTheme.Size = new System.Drawing.Size(194, 22);
+            this.mnuSaveAsDefaultTheme.Size = new System.Drawing.Size(200, 22);
             this.mnuSaveAsDefaultTheme.Text = "Save as default theme";
             this.mnuSaveAsDefaultTheme.Click += new System.EventHandler(this.mnuSaveAsDefaultTheme_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(191, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(197, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(191, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(197, 6);
             // 
             // mnuLoadTheme
             // 
             this.mnuLoadTheme.Image = global::amp.Properties.Resources.open;
             this.mnuLoadTheme.Name = "mnuLoadTheme";
-            this.mnuLoadTheme.Size = new System.Drawing.Size(194, 22);
+            this.mnuLoadTheme.Size = new System.Drawing.Size(200, 22);
             this.mnuLoadTheme.Text = "Load theme";
             this.mnuLoadTheme.Click += new System.EventHandler(this.mnuLoadTheme_Click);
             // 
@@ -274,9 +276,16 @@ namespace amp.UtilityClasses.Settings
             // 
             this.mnuSaveThemeAs.Image = global::amp.Properties.Resources.Save_as32;
             this.mnuSaveThemeAs.Name = "mnuSaveThemeAs";
-            this.mnuSaveThemeAs.Size = new System.Drawing.Size(194, 22);
+            this.mnuSaveThemeAs.Size = new System.Drawing.Size(200, 22);
             this.mnuSaveThemeAs.Text = "Save theme as";
             this.mnuSaveThemeAs.Click += new System.EventHandler(this.mnuSaveThemeAs_Click);
+            // 
+            // mnuSetSavedDefaultTheme
+            // 
+            this.mnuSetSavedDefaultTheme.Name = "mnuSetSavedDefaultTheme";
+            this.mnuSetSavedDefaultTheme.Size = new System.Drawing.Size(200, 22);
+            this.mnuSetSavedDefaultTheme.Text = "Set saved default theme";
+            this.mnuSetSavedDefaultTheme.Click += new System.EventHandler(this.mnuSetSavedDefaultTheme_Click);
             // 
             // FormThemeSettings
             // 
@@ -337,5 +346,6 @@ namespace amp.UtilityClasses.Settings
         private ToolStripSeparator toolStripMenuItem2;
         private ToolStripMenuItem mnuLoadTheme;
         private ToolStripMenuItem mnuSaveThemeAs;
+        private ToolStripMenuItem mnuSetSavedDefaultTheme;
     }
 }

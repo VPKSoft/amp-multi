@@ -114,18 +114,18 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = Resources.amp_play;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
                 }
                 else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
-                    tbPlayNext.Image = Resources.amp_pause;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                 }
             }
             else
             {
-                tbPlayNext.Image = Resources.amp_play;
+                tbPlayNext.Image = ThemeSettings.PlaybackPlay;
                 tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
             }
         }

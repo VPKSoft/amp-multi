@@ -154,6 +154,8 @@ namespace amp
                 new FormRandomizePriority(); // 30.10.18
                 // ReSharper disable once ObjectCreationAsStatement
                 new FormDatabaseMigrate(); // 01.09.19
+                // ReSharper disable once ObjectCreationAsStatement
+                new FormThemeSettings();
 
                 ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully

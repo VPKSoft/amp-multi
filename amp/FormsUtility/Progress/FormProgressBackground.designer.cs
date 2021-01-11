@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Forms;
+using AmpControls;
 
 namespace amp.FormsUtility.Progress
 {
@@ -35,7 +36,7 @@ namespace amp.FormsUtility.Progress
             this.lbLoading = new System.Windows.Forms.Label();
             this.lbStatus = new System.Windows.Forms.Label();
             this.btCancel = new System.Windows.Forms.Button();
-            this.pbProgress = new amp.UtilityClasses.Controls.ImageProgressBar();
+            this.pbProgress = new ImageProgressBar();
             this.SuspendLayout();
             // 
             // lbLoading
@@ -112,6 +113,6 @@ namespace amp.FormsUtility.Progress
         private Label lbLoading;
         private Label lbStatus;
         private Button btCancel;
-        private UtilityClasses.Controls.ImageProgressBar pbProgress;
+        private ImageProgressBar pbProgress;
     }
 }

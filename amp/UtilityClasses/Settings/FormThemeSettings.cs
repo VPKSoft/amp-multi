@@ -28,7 +28,6 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Windows.Media.TextFormatting;
 using VPKSoft.LangLib;
 
 namespace amp.UtilityClasses.Settings
@@ -86,6 +85,8 @@ namespace amp.UtilityClasses.Settings
 
             var property = ThemeSettings.GetType().GetProperty(item.Name);
             property?.SetValue(ThemeSettings, item.Color);
+
+            FormMain.ThemeMainForm(ThemeSettings);
         }
 
         /// <summary>
@@ -259,23 +260,29 @@ namespace amp.UtilityClasses.Settings
                 property?.SetValue(ThemeSettings, item.Image);
 
                 pnImage.BackgroundImage = item.Image;
+
+                FormMain.ThemeMainForm(ThemeSettings);
             }
         }
 
+        // the user selected OK, so do save the default theme..
         private void bOK_Click(object sender, EventArgs e)
         {
-            ThemeSettings.Save(ThemeSettings.DefaultFileName);
+            ThemeSettings.SaveAsDefaultTheme();
             DialogResult = DialogResult.OK;
         }
 
+        // the user selected the default dark or light theme from the menu..
         private void mnuLightDarkTheme_Click(object sender, EventArgs e)
         {
             ThemeSettings = sender.Equals(mnuSetDefaultLightTheme)
                 ? ThemeSettings.DefaultThemeLight
                 : ThemeSettings.DefaultThemeDark;
             ListThemeData();
+            FormMain.ThemeMainForm(ThemeSettings);
         }
 
+        // saves the current theme as the default theme, same as the OK button press..
         private void mnuSaveAsDefaultTheme_Click(object sender, EventArgs e)
         {
             ThemeSettings.Save(ThemeSettings.DefaultFileName);
@@ -298,6 +305,21 @@ namespace amp.UtilityClasses.Settings
             {
                 ThemeSettings.Save(sdXmlTheme.FileName);
             }
+        }
+
+        // the user canceled the editing, reload the previous main form theme..
+        private void bCancel_Click(object sender, EventArgs e)
+        {
+            FormMain.DefaultTheme();
+            DialogResult = DialogResult.Cancel;
+        }
+
+        // the users selected the default theme settings to be shown..
+        private void mnuSetSavedDefaultTheme_Click(object sender, EventArgs e)
+        {
+            ThemeSettings = ThemeSettings.LoadDefaultTheme();
+            ListThemeData();
+            FormMain.ThemeMainForm(ThemeSettings);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
-using amp.UtilityClasses.Controls;
+using AmpControls;
 
 namespace amp
 {
@@ -81,6 +81,7 @@ namespace amp
             this.tbShuffle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbQueueStack = new System.Windows.Forms.ToolStripButton();
+            this.tsbToggleVolumeAndStars = new System.Windows.Forms.ToolStripButton();
             this.lbSong = new ReaLTaiizor.Controls.CrownLabel();
             this.lbTime = new ReaLTaiizor.Controls.CrownLabel();
             this.tbFind = new ReaLTaiizor.Controls.CrownTextBox();
@@ -90,7 +91,7 @@ namespace amp
             this.scProgress = new ReaLTaiizor.Controls.ForeverTrackBar();
             this.pnListBox = new System.Windows.Forms.Panel();
             this.lbMusicScroll = new ReaLTaiizor.Controls.CrownScrollBar();
-            this.lbMusic = new amp.UtilityClasses.Controls.RefreshListbox();
+            this.lbMusic = new AmpControls.RefreshListbox();
             this.pnTools = new System.Windows.Forms.Panel();
             this.lbSongPoints = new ReaLTaiizor.Controls.CrownLabel();
             this.lbVolume = new ReaLTaiizor.Controls.CrownLabel();
@@ -99,11 +100,10 @@ namespace amp
             this.lbSongVolume = new ReaLTaiizor.Controls.CrownLabel();
             this.sliderStars = new AmpControls.StarSlider();
             this.miniToolStrip = new ReaLTaiizor.Controls.CrownMenuStrip();
-            this.imDrawerIcons = new System.Windows.Forms.ImageList(this.components);
-            this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
+            this.tfMain = new ReaLTaiizor.Forms.ThemeForm();
             this.foreverMinimize1 = new ReaLTaiizor.Controls.ForeverMinimize();
             this.foreverMaximize1 = new ReaLTaiizor.Controls.ForeverMaximize();
-            this.tfMain = new ReaLTaiizor.Forms.ThemeForm();
+            this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -504,7 +504,8 @@ namespace amp
             this.tbRand,
             this.tbShuffle,
             this.toolStripSeparator3,
-            this.tsbQueueStack});
+            this.tsbQueueStack,
+            this.tsbToggleVolumeAndStars});
             this.tbTool.Location = new System.Drawing.Point(0, 24);
             this.tbTool.Name = "tbTool";
             this.tbTool.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
@@ -629,6 +630,19 @@ namespace amp
             this.tsbQueueStack.Name = "tsbQueueStack";
             this.tsbQueueStack.Size = new System.Drawing.Size(34, 34);
             this.tsbQueueStack.Text = "Stack queue";
+            // 
+            // tsbToggleVolumeAndStars
+            // 
+            this.tsbToggleVolumeAndStars.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbToggleVolumeAndStars.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tsbToggleVolumeAndStars.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbToggleVolumeAndStars.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.tsbToggleVolumeAndStars.Image = global::amp.Properties.Resources.tick_down;
+            this.tsbToggleVolumeAndStars.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbToggleVolumeAndStars.Name = "tsbToggleVolumeAndStars";
+            this.tsbToggleVolumeAndStars.Size = new System.Drawing.Size(34, 34);
+            this.tsbToggleVolumeAndStars.Text = "Toggle volume and points visibility";
+            this.tsbToggleVolumeAndStars.Click += new System.EventHandler(this.tsbToggleVolumeAndStars_Click);
             // 
             // lbSong
             // 
@@ -802,6 +816,7 @@ namespace amp
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
+            this.lbMusic.VScrollChanged += new System.EventHandler<AmpControls.VScrollChangedEventArgs>(this.lbMusic_VScrollChanged);
             this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
             this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
             this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
@@ -856,16 +871,16 @@ namespace amp
             this.sliderMainVolume.ColorMinimum = System.Drawing.Color.Yellow;
             this.sliderMainVolume.CurrentValue = 50;
             this.sliderMainVolume.CurrentValueFractional = 50D;
-            this.sliderMainVolume.ImageSliderTracker = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageSliderTracker")));
-            this.sliderMainVolume.ImageVolumeLeft = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeLeft")));
-            this.sliderMainVolume.ImageVolumeRight = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeRight")));
+            this.sliderMainVolume.ImageSliderTracker = null;
+            this.sliderMainVolume.ImageVolumeLeft = null;
+            this.sliderMainVolume.ImageVolumeRight = null;
             this.sliderMainVolume.LeftImageVisible = true;
-            this.sliderMainVolume.Location = new System.Drawing.Point(112, 36);
+            this.sliderMainVolume.Location = new System.Drawing.Point(131, 36);
             this.sliderMainVolume.MaximumValue = 100;
             this.sliderMainVolume.MinimumValue = 0;
             this.sliderMainVolume.Name = "sliderMainVolume";
             this.sliderMainVolume.RightImageVisible = true;
-            this.sliderMainVolume.Size = new System.Drawing.Size(420, 34);
+            this.sliderMainVolume.Size = new System.Drawing.Size(401, 34);
             this.sliderMainVolume.TabIndex = 2;
             this.sliderMainVolume.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderMainVolume_ValueChanged);
             // 
@@ -878,16 +893,16 @@ namespace amp
             this.sliderVolumeSong.ColorMinimum = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(21)))), ((int)(((byte)(164)))));
             this.sliderVolumeSong.CurrentValue = 250;
             this.sliderVolumeSong.CurrentValueFractional = 250D;
-            this.sliderVolumeSong.ImageSliderTracker = ((System.Drawing.Image)(resources.GetObject("sliderVolumeSong.ImageSliderTracker")));
-            this.sliderVolumeSong.ImageVolumeLeft = ((System.Drawing.Image)(resources.GetObject("sliderVolumeSong.ImageVolumeLeft")));
-            this.sliderVolumeSong.ImageVolumeRight = ((System.Drawing.Image)(resources.GetObject("sliderVolumeSong.ImageVolumeRight")));
+            this.sliderVolumeSong.ImageSliderTracker = null;
+            this.sliderVolumeSong.ImageVolumeLeft = null;
+            this.sliderVolumeSong.ImageVolumeRight = null;
             this.sliderVolumeSong.LeftImageVisible = true;
-            this.sliderVolumeSong.Location = new System.Drawing.Point(112, 3);
+            this.sliderVolumeSong.Location = new System.Drawing.Point(131, 3);
             this.sliderVolumeSong.MaximumValue = 500;
             this.sliderVolumeSong.MinimumValue = 0;
             this.sliderVolumeSong.Name = "sliderVolumeSong";
             this.sliderVolumeSong.RightImageVisible = true;
-            this.sliderVolumeSong.Size = new System.Drawing.Size(420, 34);
+            this.sliderVolumeSong.Size = new System.Drawing.Size(401, 34);
             this.sliderVolumeSong.TabIndex = 12;
             this.sliderVolumeSong.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderVolumeSong_ValueChanged);
             // 
@@ -907,8 +922,8 @@ namespace amp
             // 
             this.sliderStars.CurrentValue = 0;
             this.sliderStars.CurrentValueFractional = 0D;
-            this.sliderStars.ImageStars = ((System.Drawing.Image)(resources.GetObject("sliderStars.ImageStars")));
-            this.sliderStars.Location = new System.Drawing.Point(112, 73);
+            this.sliderStars.ImageStars = null;
+            this.sliderStars.Location = new System.Drawing.Point(131, 73);
             this.sliderStars.Margin = new System.Windows.Forms.Padding(0);
             this.sliderStars.MaximumSize = new System.Drawing.Size(176, 35);
             this.sliderStars.MaximumValue = 1000;
@@ -933,69 +948,11 @@ namespace amp
             this.miniToolStrip.Size = new System.Drawing.Size(543, 24);
             this.miniToolStrip.TabIndex = 0;
             // 
-            // imDrawerIcons
-            // 
-            this.imDrawerIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imDrawerIcons.ImageStream")));
-            this.imDrawerIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.imDrawerIcons.Images.SetKeyName(0, "album-24px.png");
-            // 
-            // foreverClose1
-            // 
-            this.foreverClose1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.foreverClose1.BackColor = System.Drawing.Color.White;
-            this.foreverClose1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
-            this.foreverClose1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.foreverClose1.DefaultLocation = true;
-            this.foreverClose1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.foreverClose1.Font = new System.Drawing.Font("Marlett", 10F);
-            this.foreverClose1.Location = new System.Drawing.Point(519, 16);
-            this.foreverClose1.Name = "foreverClose1";
-            this.foreverClose1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.foreverClose1.Size = new System.Drawing.Size(18, 18);
-            this.foreverClose1.TabIndex = 13;
-            this.foreverClose1.Text = "foreverClose1";
-            this.foreverClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            // 
-            // foreverMinimize1
-            // 
-            this.foreverMinimize1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.foreverMinimize1.BackColor = System.Drawing.Color.White;
-            this.foreverMinimize1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
-            this.foreverMinimize1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.foreverMinimize1.DefaultLocation = true;
-            this.foreverMinimize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.foreverMinimize1.Font = new System.Drawing.Font("Marlett", 12F);
-            this.foreverMinimize1.Location = new System.Drawing.Point(471, 16);
-            this.foreverMinimize1.Name = "foreverMinimize1";
-            this.foreverMinimize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.foreverMinimize1.Size = new System.Drawing.Size(18, 18);
-            this.foreverMinimize1.TabIndex = 14;
-            this.foreverMinimize1.Text = "foreverMinimize1";
-            this.foreverMinimize1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            // 
-            // foreverMaximize1
-            // 
-            this.foreverMaximize1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.foreverMaximize1.BackColor = System.Drawing.Color.White;
-            this.foreverMaximize1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
-            this.foreverMaximize1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.foreverMaximize1.DefaultLocation = true;
-            this.foreverMaximize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.foreverMaximize1.Enabled = false;
-            this.foreverMaximize1.Font = new System.Drawing.Font("Marlett", 12F);
-            this.foreverMaximize1.Location = new System.Drawing.Point(495, 16);
-            this.foreverMaximize1.Name = "foreverMaximize1";
-            this.foreverMaximize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.foreverMaximize1.Size = new System.Drawing.Size(18, 18);
-            this.foreverMaximize1.TabIndex = 15;
-            this.foreverMaximize1.Text = "foreverMaximize1";
-            this.foreverMaximize1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            // 
             // tfMain
             // 
             this.tfMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
-            this.tfMain.Controls.Add(this.foreverMaximize1);
             this.tfMain.Controls.Add(this.foreverMinimize1);
+            this.tfMain.Controls.Add(this.foreverMaximize1);
             this.tfMain.Controls.Add(this.foreverClose1);
             this.tfMain.Controls.Add(this.tlpMain);
             this.tfMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1013,6 +970,58 @@ namespace amp
             this.tfMain.TabIndex = 13;
             this.tfMain.Text = "amp#";
             this.tfMain.MouseLeave += new System.EventHandler(this.tfMain_MouseLeave);
+            // 
+            // foreverMinimize1
+            // 
+            this.foreverMinimize1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.foreverMinimize1.BackColor = System.Drawing.Color.White;
+            this.foreverMinimize1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
+            this.foreverMinimize1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.foreverMinimize1.DefaultLocation = true;
+            this.foreverMinimize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.foreverMinimize1.Font = new System.Drawing.Font("Marlett", 12F);
+            this.foreverMinimize1.Location = new System.Drawing.Point(471, 16);
+            this.foreverMinimize1.Name = "foreverMinimize1";
+            this.foreverMinimize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.foreverMinimize1.Size = new System.Drawing.Size(18, 18);
+            this.foreverMinimize1.TabIndex = 15;
+            this.foreverMinimize1.Text = "foreverMinimize1";
+            this.foreverMinimize1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            // 
+            // foreverMaximize1
+            // 
+            this.foreverMaximize1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.foreverMaximize1.BackColor = System.Drawing.Color.White;
+            this.foreverMaximize1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
+            this.foreverMaximize1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.foreverMaximize1.DefaultLocation = true;
+            this.foreverMaximize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.foreverMaximize1.Enabled = false;
+            this.foreverMaximize1.Font = new System.Drawing.Font("Marlett", 12F);
+            this.foreverMaximize1.Location = new System.Drawing.Point(495, 16);
+            this.foreverMaximize1.Name = "foreverMaximize1";
+            this.foreverMaximize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.foreverMaximize1.Size = new System.Drawing.Size(18, 18);
+            this.foreverMaximize1.TabIndex = 14;
+            this.foreverMaximize1.Text = "foreverMaximize1";
+            this.foreverMaximize1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            // 
+            // foreverClose1
+            // 
+            this.foreverClose1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.foreverClose1.BackColor = System.Drawing.Color.White;
+            this.foreverClose1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
+            this.foreverClose1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.foreverClose1.DefaultLocation = true;
+            this.foreverClose1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.foreverClose1.Font = new System.Drawing.Font("Marlett", 10F);
+            this.foreverClose1.Location = new System.Drawing.Point(519, 16);
+            this.foreverClose1.Name = "foreverClose1";
+            this.foreverClose1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.foreverClose1.Size = new System.Drawing.Size(18, 18);
+            this.foreverClose1.TabIndex = 13;
+            this.foreverClose1.Text = "foreverClose1";
+            this.foreverClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             // 
             // FormMain
             // 
@@ -1105,10 +1114,6 @@ namespace amp
         private VPKSoft.AudioVisualization.AudioVisualizationPlot avLine;
         private ReaLTaiizor.Controls.ForeverTrackBar scProgress;
         private ReaLTaiizor.Controls.CrownMenuStrip miniToolStrip;
-        private ImageList imDrawerIcons;
-        private ReaLTaiizor.Controls.ForeverClose foreverClose1;
-        private ReaLTaiizor.Controls.ForeverMinimize foreverMinimize1;
-        private ReaLTaiizor.Controls.ForeverMaximize foreverMaximize1;
         private ReaLTaiizor.Forms.ThemeForm tfMain;
         private Panel pnListBox;
         private ReaLTaiizor.Controls.CrownScrollBar lbMusicScroll;
@@ -1119,6 +1124,10 @@ namespace amp
         private ReaLTaiizor.Controls.CrownLabel lbSongVolume;
         private ReaLTaiizor.Controls.CrownLabel lbVolume;
         private ReaLTaiizor.Controls.CrownLabel lbSongPoints;
+        private ToolStripButton tsbToggleVolumeAndStars;
+        private ReaLTaiizor.Controls.ForeverMinimize foreverMinimize1;
+        private ReaLTaiizor.Controls.ForeverMaximize foreverMaximize1;
+        private ReaLTaiizor.Controls.ForeverClose foreverClose1;
     }
 }
 

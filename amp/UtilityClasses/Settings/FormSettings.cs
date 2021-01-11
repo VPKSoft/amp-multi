@@ -355,7 +355,7 @@ namespace amp.UtilityClasses.Settings
 
         private void mnuThemeSettings_Click(object sender, EventArgs e)
         {
-            new FormThemeSettings(new ThemeSettings(new CrownHelper.DarkTheme())).ShowDialog();
+            new FormThemeSettings(ThemeSettings.LoadDefaultTheme()).ShowDialog();
         }
     }
 }

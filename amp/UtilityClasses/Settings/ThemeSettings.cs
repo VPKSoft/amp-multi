@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -37,10 +36,81 @@ namespace amp.UtilityClasses.Settings
         }
 
         /// <summary>
+        /// Saves this instance as the default theme in to the program settings folder.
+        /// </summary>
+        public void SaveAsDefaultTheme()
+        {
+            Save(DefaultFileName);
+        }
+
+        /// <summary>
+        /// Loads the default theme from the program settings folder.
+        /// </summary>
+        /// <returns></returns>
+        public static ThemeSettings LoadDefaultTheme()
+        {
+            ThemeSettings result;
+            if (File.Exists(DefaultFileName))
+            {
+                try
+                {
+                    result = new ThemeSettings(DefaultFileName);
+                    result.Load(DefaultFileName);
+                    return result;
+                }
+                catch
+                {
+                    result = DefaultThemeLight;
+                    result.GreyBackground = Color.FromArgb(240, 240, 240);
+                    return result;
+                }
+            }
+
+            result = DefaultThemeLight;
+            result.GreyBackground = Color.FromArgb(240, 240, 240);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ITheme"/> representing the colors of this instance.
+        /// </summary>
+        public ITheme Theme
+        {
+            get
+            {
+                var result = new CrownHelper.DarkTheme();
+                RequestTypeConverter += themeSettings_RequestTypeConverter;
+                result.Colors.GreyBackground = GreyBackground;
+                result.Colors.HeaderBackground = HeaderBackground;
+                result.Colors.BlueBackground = BlueBackground;
+                result.Colors.DarkBlueBackground = DarkBlueBackground;
+                result.Colors.DarkBackground = DarkBackground;
+                result.Colors.LightBackground = LightBackground;
+                result.Colors.LighterBackground = LighterBackground;
+                result.Colors.LightestBackground = LightestBackground;
+                result.Colors.LightBorder = LightBorder;
+                result.Colors.MediumBackground = MediumBackground;
+                result.Colors.DarkBorder = DarkBorder;
+                result.Colors.LightText = LightText;
+                result.Colors.DisabledText = DisabledText;
+                result.Colors.BlueHighlight = BlueHighlight;
+                result.Colors.BlueSelection = BlueSelection;
+                result.Colors.GreyHighlight = GreyHighlight;
+                result.Colors.GreySelection = GreySelection;
+                result.Colors.DarkGreySelection = DarkGreySelection;
+                result.Colors.DarkBlueBorder = DarkBlueBorder;
+                result.Colors.LightBlueBorder = LightBlueBorder;
+                result.Colors.ActiveControl = ActiveControl;
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ThemeSettings"/> class.
         /// </summary>
         /// <param name="theme">The theme to use as a base for the class colors.</param>
-        public ThemeSettings(ITheme theme)
+        /// <param name="dark">A value indicating whether the specified theme could be described as dark.</param>
+        public ThemeSettings(ITheme theme, bool dark)
         {
             RequestTypeConverter += themeSettings_RequestTypeConverter;
             GreyBackground = theme.Colors.GreyBackground;
@@ -64,6 +134,10 @@ namespace amp.UtilityClasses.Settings
             DarkBlueBorder = theme.Colors.DarkBlueBorder;
             LightBlueBorder = theme.Colors.LightBlueBorder;
             ActiveControl = theme.Colors.ActiveControl;
+            MainVolumeStartColor = Color.Yellow;
+            MainVolumeEndColor = Color.OrangeRed;
+            SongVolumeStartColor = Color.FromArgb(110, 21, 164);
+            SongVolumeEndColor = Color.FromArgb(249, 1, 7);
             PlaybackPrevious = Properties.Resources.amp_back;
             PlaybackNext = Properties.Resources.amp_forward;
             PlaybackPause = Properties.Resources.amp_pause;
@@ -79,19 +153,21 @@ namespace amp.UtilityClasses.Settings
             PlaybackMainVolumeEnd = Properties.Resources.volume_high;
             PlaybackSongVolumeTracker = Properties.Resources.volume_slide_2;
             PlaybackMainVolumeTracker = Properties.Resources.volume_slide_2;
+            ToggleVolumeRatingHidden = dark ? Properties.Resources.tick_up : Properties.Resources.tick_up_dark;
+            ToggleVolumeRatingVisible = dark ? Properties.Resources.tick_down : Properties.Resources.tick_down_dark;
         }
 
         /// <summary>
         /// Gets the default light theme.
         /// </summary>
         /// <value>The default light theme.</value>
-        public static ThemeSettings DefaultThemeLight => new ThemeSettings(new CrownHelper.LightTheme());
+        public static ThemeSettings DefaultThemeLight => new ThemeSettings(new CrownHelper.LightTheme(), false);
 
         /// <summary>
         /// Gets the default dark theme.
         /// </summary>
         /// <value>The default dark theme.</value>
-        public static ThemeSettings DefaultThemeDark => new ThemeSettings(new CrownHelper.DarkTheme());
+        public static ThemeSettings DefaultThemeDark => new ThemeSettings(new CrownHelper.DarkTheme(), true);
 
         private void themeSettings_RequestTypeConverter(object sender, RequestTypeConverterEventArgs e)
         {
@@ -427,10 +503,22 @@ namespace amp.UtilityClasses.Settings
         /// </summary>
         /// <value>The playback main volume slider's tracker image data as a base64 encoded string.</value>
         [IsSetting]
-        public string PlaybackMainVolumeTrackerImageData { get; set; }   
+        public string PlaybackMainVolumeTrackerImageData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image data for a tool button to display the volume and rating sliders on the main form.
+        /// </summary>
+        [IsSetting]
+        public string ToggleVolumeRatingVisibleImageData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image data for a tool button to hide the volume and rating sliders on the main form.
+        /// </summary>
+        [IsSetting]
+        public string ToggleVolumeRatingHiddenImageData { get; set; }
         #endregion
 
-        #region Images        
+        #region Images
         /// <summary>
         /// Gets or sets the image for playback previous button.
         /// </summary>
@@ -579,6 +667,24 @@ namespace amp.UtilityClasses.Settings
         {
             get => ToImage(nameof(PlaybackMainVolumeTrackerImageData));
             set => FromImage(value, nameof(PlaybackMainVolumeTrackerImageData));
+        }
+
+        /// <summary>
+        /// Gets or sets the image for a tool button to display the volume and rating sliders on the main form.
+        /// </summary>
+        public Image ToggleVolumeRatingVisible
+        {
+            get => ToImage(nameof(ToggleVolumeRatingVisibleImageData));
+            set => FromImage(value, nameof(ToggleVolumeRatingVisibleImageData));
+        }
+
+        /// <summary>
+        /// Gets or sets the image for a tool button to hide the volume and rating sliders on the main form.
+        /// </summary>
+        public Image ToggleVolumeRatingHidden
+        {
+            get => ToImage(nameof(ToggleVolumeRatingHiddenImageData));
+            set => FromImage(value, nameof(ToggleVolumeRatingHiddenImageData));
         }
         #endregion
     }

@@ -89,10 +89,13 @@ namespace AmpControls
                 rectWidth = 0;
             }
 
-            rectangle = new Rectangle(rectWidth, e.ClipRectangle.Y,
-                ImageSliderTracker.Width, e.ClipRectangle.Height);
+            if (imageSliderTracker != null)
+            {
+                rectangle = new Rectangle(rectWidth, e.ClipRectangle.Y,
+                    ImageSliderTracker.Width, e.ClipRectangle.Height);
 
-            e.Graphics.DrawImage(ImageSliderTracker, rectangle);
+                e.Graphics.DrawImage(ImageSliderTracker, rectangle);
+            }
         }
 
         private int currentValue = 50;
@@ -109,6 +112,7 @@ namespace AmpControls
             {
                 if (value == currentValue)
                 {
+                    pnSlider.Invalidate();
                     return;
                 }
 
@@ -160,6 +164,7 @@ namespace AmpControls
                 tlpVolumeSlider.ColumnStyles[0].Width = value ? 32 : 0;
 
                 pnMainVolumeLeft.Visible = value;
+                pnSlider.Invalidate();
             }
         }
 
@@ -177,6 +182,7 @@ namespace AmpControls
                 tlpVolumeSlider.ColumnStyles[2].Width = value ? 32 : 0;
 
                 pnMainVolumeRight.Visible = value;
+                pnSlider.Invalidate();
             }
         }
 
@@ -197,6 +203,8 @@ namespace AmpControls
             set
             {
                 imageSliderTracker = value;
+                pnSlider.Invalidate();
+
                 if (imageSliderTracker != null)
                 {
                     imageHalf = (int) (value.Width / 2d);
@@ -207,13 +215,26 @@ namespace AmpControls
             }
         }
 
+        private Color colorMinimum = Color.Yellow;
+
         /// <summary>
         /// Gets or sets the color indicating the minimum value for the slider.
         /// </summary>
         /// <value>The color indicating the minimum value for the slider.</value>
         [Category("Appearance")]
         [Description("The color indicating the minimum value for the slider.")]
-        public Color ColorMinimum { get; set; } = Color.Yellow;
+        public Color ColorMinimum
+        {
+            get => colorMinimum;
+            set
+            {
+                colorMinimum = value;
+                pnSlider.Invalidate();
+            }
+        }
+
+        private Color colorMaximum = Color.OrangeRed;
+
 
         /// <summary>
         /// Gets or sets the color indicating the maximum value for the slider.
@@ -221,19 +242,47 @@ namespace AmpControls
         /// <value>The color indicating the maximum value for the slider.</value>
         [Category("Appearance")]
         [Description("The color indicating the maximum value for the slider.")]
-        public Color ColorMaximum { get; set; } = Color.OrangeRed;
+        public Color ColorMaximum
+        {
+            get => colorMaximum;
+            set
+            {
+                colorMaximum = value;
+                pnSlider.Invalidate();
+            }
+        }
+
+        private int minimumValue;
 
         /// <summary>
         /// Gets or sets the minimum value of the slider.
         /// </summary>
         /// <value>The minimum value of the slider.</value>
-        public int MinimumValue { get; set; } = 0;
+        public int MinimumValue
+        {
+            get => minimumValue;
+            set
+            {
+                minimumValue = value;
+                pnSlider.Invalidate();
+            }
+        }
+
+        private int maximumValue = 100;
 
         /// <summary>
         /// Gets or sets the maximum value of the slider.
         /// </summary>
         /// <value>The maximum value of the slider.</value>
-        public int MaximumValue { get; set; } = 100;
+        public int MaximumValue
+        {
+            get => maximumValue;
+            set
+            {
+                maximumValue = value;
+                pnSlider.Invalidate();
+            }
+        }
 
         private double currentValueFractional = 50;
 
@@ -248,6 +297,7 @@ namespace AmpControls
             {
                 currentValueFractional = value;
                 CurrentValue = (int) value;
+                pnSlider.Invalidate();
             }
         }
 
@@ -271,10 +321,17 @@ namespace AmpControls
         {
             if (MouseIsDown && e.X >= pnSlider.ClientRectangle.X && e.X < pnSlider.ClientRectangle.Width - imageHalf)
             {
-                var width = pnSlider.ClientRectangle.Width - imageWidth;
-                CurrentValue = MaximumValue - (int)((width - (double)e.X) * MaximumValue / width);
-                CurrentValueFractional = MaximumValue - (width - (double) e.X) * MaximumValue / width;
-
+                if (e.Button == MouseButtons.Right)
+                {
+                    CurrentValue = MaximumValue / 2;
+                    CurrentValueFractional = MaximumValue / 2.0;
+                }
+                else
+                {
+                    var width = pnSlider.ClientRectangle.Width - imageWidth;
+                    CurrentValue = MaximumValue - (int)((width - (double)e.X) * MaximumValue / width);
+                    CurrentValueFractional = MaximumValue - (width - (double) e.X) * MaximumValue / width;
+                }
             }
         }
 

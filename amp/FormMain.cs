@@ -73,6 +73,74 @@ namespace amp
     /// </summary>
     public partial class FormMain : CrownForm, IDBLangEngineWinforms
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormMain"/> class.
+        /// </summary>
+        public FormMain()
+        {
+            // Add this form to be positioned..
+            PositionForms.Add(this);
+
+            InitializeComponent();
+
+            InitFormLocalization(this);
+
+            DBLangEngine.NameSpaces.Add("ReaLTaiizor.");
+
+            // ReSharper disable once StringLiteralTypo
+            DBLangEngine.DBName = "lang.sqlite";
+
+            if (Utils.ShouldLocalize() != null)
+            {
+                DBLangEngine.InitializeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
+                return; // After localization don't do anything more.
+            }
+
+            DBLangEngine.InitializeLanguage("amp.Messages");
+
+            try // as this can be translated to a invalid format :-)
+            {
+                sdM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
+                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+                odM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
+                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+            }
+            catch
+            {
+                // ignored..
+            }
+
+            sdM3U.Title = DBLangEngine.GetMessage("msgSavePlaylistFile",
+                "Save playlist file|As in export an album to a playlist file (m3u)");
+            odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile",
+                "Open playlist file|As in open a play list file (m3u)");
+
+            sliderMainVolume.CurrentValue = (int)Program.Settings.BaseVolumeMultiplier;
+
+            Database.DatabaseProgress += Database_DatabaseProgress;
+
+            tmPendOperation.Enabled = true;
+            AmpRemote.MainWindow = this;
+
+            MusicFile.StackRandomPercentage = StackRandomPercentage;
+
+            // no designer (!?)..
+            mnuQueueMoveToTop.ShortcutKeys = Keys.Control | Keys.PageUp;
+
+            // set the custom scroll bar width..
+            lbMusicScroll.Width = SystemInformation.VerticalScrollBarWidth;
+
+            SetAudioVisualization();
+
+            SetTheme(ThemeSettings.LoadDefaultTheme());
+
+            SetAdditionalGuiProperties();
+
+            tsbToggleVolumeAndStars.Image = Program.Settings.DisplayVolumeAndPoints
+                ? ThemeSettings.ToggleVolumeRatingVisible
+                : ThemeSettings.ToggleVolumeRatingHidden;
+        }
+
         #region Fields                
         /// <summary>
         /// Gets or sets the files passed by the IPC channel.
@@ -138,107 +206,57 @@ namespace amp
         /// A screen refresh counter for the playback thread to calculate "time".
         /// </summary>
         private volatile int calcMs;
+
+        // a class monitoring if the user is idle..
+        private HumanActivity humanActivity;
+
+        /// <summary>
+        /// The current playback position in seconds.
+        /// </summary>
+        public double Seconds;
+
+        /// <summary>
+        /// The current song's length in seconds.
+        /// </summary>
+        public double SecondsTotal;
+
+        /// <summary>
+        /// A flag indicating whether the playback is stopped.
+        /// </summary>
+        private volatile bool stopped;
+
+        /// <summary>
+        /// A flag indicating if a song is currently playing.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool playing;
+
+        /// <summary>
+        /// A flag indicating whether a new song has been selected compared to previously playing song.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        internal volatile bool newSong;
+
+        /// <summary>
+        /// The latest song index which was played or is being played.
+        /// </summary>
+        private volatile int latestSongIndex = -1;
+
+        /// <summary>
+        /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
+        /// </summary>
+        private bool pendNextSong; 
+
+        /// <summary>
+        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
+        /// </summary>
+        private delegate void VoidDelegate();
+
+        /// <summary>
+        /// A general randomization class instance.
+        /// </summary>
+        internal Random Random = new Random();
         #endregion
-
-        /// <summary>
-        /// Gets or sets the stack random percentage.
-        /// </summary>
-        internal static int StackRandomPercentage
-        {
-            get => Program.Settings.StackRandomPercentage;
-
-            set
-            {
-                MusicFile.StackRandomPercentage = value;
-                Program.Settings.StackRandomPercentage = value;
-            } 
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FormMain"/> class.
-        /// </summary>
-        public FormMain()
-        {
-            // Add this form to be positioned..
-            PositionForms.Add(this);
-
-            InitializeComponent();
-
-            InitFormLocalization(this);
-
-            // ReSharper disable once StringLiteralTypo
-            DBLangEngine.DBName = "lang.sqlite";
-
-            if (Utils.ShouldLocalize() != null)
-            {
-                DBLangEngine.InitializeLanguage("amp.Messages", Utils.ShouldLocalize(), false);
-                return; // After localization don't do anything more.
-            }
-
-            DBLangEngine.InitializeLanguage("amp.Messages");
-
-            try // as this can be translated to a invalid format :-)
-            {
-                sdM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
-                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
-                odM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
-                    "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
-            }
-            catch
-            {
-                // ignored..
-            }
-
-            sdM3U.Title = DBLangEngine.GetMessage("msgSavePlaylistFile",
-                "Save playlist file|As in export an album to a playlist file (m3u)");
-            odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile",
-                "Open playlist file|As in open a play list file (m3u)");
-
-            sliderMainVolume.CurrentValue = (int)Program.Settings.BaseVolumeMultiplier;
-
-
-            //*************************************
-            if (false)
-            {
-                CrownHelper.ThemeProvider.Theme = new CrownHelper.LightTheme();
-//                CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.Control;
-            }
-            else
-            {
-                CrownHelper.ThemeProvider.Theme = new CrownHelper.DarkTheme();
-                //CrownHelper.ThemeProvider.Theme.Colors.GreyBackground = SystemColors.ControlText;
-            }
-            ThemeSetter.FixMenuTheme(msMain);
-            base.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
-            tfMain.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
-            ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong,
-                lbTime,
-                lbMusic, tbFind, ssStatus);
-            lbQueueCount.BackColor = base.BackColor;
-            lbQueueCount.ForeColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
-            scProgress.BackColor = base.BackColor;
-            scProgress.ForeColor = base.BackColor;
-            scProgress.SliderColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
-            scProgress.BaseColor = base.BackColor;
-            //*************************************
-
-            Database.DatabaseProgress += Database_DatabaseProgress;
-
-            tmPendOperation.Enabled = true;
-            AmpRemote.MainWindow = this;
-
-            MusicFile.StackRandomPercentage = StackRandomPercentage;
-
-            // no designer (!?)..
-            mnuQueueMoveToTop.ShortcutKeys = Keys.Control | Keys.PageUp;
-
-            // set the custom scroll bar width..
-            lbMusicScroll.Width = SystemInformation.VerticalScrollBarWidth;
-
-            SetAudioVisualization();
-
-            SetAdditionalGuiProperties();
-        }
 
         #region PrivateMethods
         /// <summary>
@@ -356,14 +374,14 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = Resources.amp_pause;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                     waveOutDevice.Play();
                     ResetAudioVisualizationBars();
                 }
                 else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
-                    tbPlayNext.Image = Resources.amp_play;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
                     waveOutDevice.Pause();
                 }
@@ -371,7 +389,7 @@ namespace amp
             else
             {
                 humanActivity.Stop();
-                tbPlayNext.Image = Resources.amp_pause;
+                tbPlayNext.Image = ThemeSettings.PlaybackPause;
                 tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                 GetNextSong();
             }
@@ -1027,7 +1045,7 @@ namespace amp
                 if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
                     lastPaused = true;
-                    tbPlayNext.Image = Resources.amp_play;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
                     waveOutDevice.Pause();
                 }
@@ -1044,7 +1062,7 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = Resources.amp_pause;
+                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                     waveOutDevice.Play();
                     ResetAudioVisualizationBars();
@@ -1060,7 +1078,7 @@ namespace amp
         /// </summary>
         private void SetPause()
         {
-            tbPlayNext.Image = Resources.amp_pause;
+            tbPlayNext.Image = ThemeSettings.PlaybackPause;
             tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
         }
 
@@ -1109,6 +1127,9 @@ namespace amp
         internal void SetAdditionalGuiProperties()
         {
             tlpMain.RowStyles[2].Height = Program.Settings.DisplayVolumeAndPoints ? 120 : 0;
+            tsbToggleVolumeAndStars.Image = Program.Settings.DisplayVolumeAndPoints
+                ? ThemeSettings.ToggleVolumeRatingVisible
+                : ThemeSettings.ToggleVolumeRatingHidden;
         }
 
         /// <summary>
@@ -1153,58 +1174,6 @@ namespace amp
         }
         #endregion
 
-        #region Fields
-        // a class monitoring if the user is idle..
-        private HumanActivity humanActivity;
-
-        /// <summary>
-        /// The current playback position in seconds.
-        /// </summary>
-        public double Seconds;
-
-        /// <summary>
-        /// The current song's length in seconds.
-        /// </summary>
-        public double SecondsTotal;
-
-        /// <summary>
-        /// A flag indicating whether the playback is stopped.
-        /// </summary>
-        private volatile bool stopped;
-
-        /// <summary>
-        /// A flag indicating if a song is currently playing.
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        internal volatile bool playing;
-
-        /// <summary>
-        /// A flag indicating whether a new song has been selected compared to previously playing song.
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        internal volatile bool newSong;
-
-        /// <summary>
-        /// The latest song index which was played or is being played.
-        /// </summary>
-        private volatile int latestSongIndex = -1;
-
-        /// <summary>
-        /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
-        /// </summary>
-        private bool pendNextSong; 
-
-        /// <summary>
-        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
-        /// </summary>
-        private delegate void VoidDelegate();
-
-        /// <summary>
-        /// A general randomization class instance.
-        /// </summary>
-        internal Random Random = new Random();
-        #endregion
-
         #region NAudioPlayBack
         /// <summary>
         /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
@@ -1228,6 +1197,19 @@ namespace amp
         #endregion
 
         #region InternalProperties
+        /// <summary>
+        /// Gets or sets the stack random percentage.
+        /// </summary>
+        internal static int StackRandomPercentage
+        {
+            get => Program.Settings.StackRandomPercentage;
+
+            set
+            {
+                MusicFile.StackRandomPercentage = value;
+                Program.Settings.StackRandomPercentage = value;
+            } 
+        }
 
         /// <summary>
         /// Gets the current music file volume.
@@ -1283,11 +1265,17 @@ namespace amp
                 return percentagePlayed < 15.0;
             }
         }
-        
+
 
         #endregion
 
-        #region PrivateProperties
+        #region PrivateProperties        
+        /// <summary>
+        /// Gets or sets the theme settings for the software.
+        /// </summary>
+        /// <value>The theme settings for the software.</value>
+        private ThemeSettings ThemeSettings { get; set; }
+
         /// <summary>
         /// Gets the count of currently queued songs.
         /// </summary>
@@ -1600,6 +1588,71 @@ namespace amp
                 Filtered = FilterType.AlternateFiltered;
             }));
         }
+
+        /// <summary>
+        /// Sets the theme specified theme settings to the main form.
+        /// </summary>
+        /// <param name="themeSettings">The theme settings.</param>
+        internal void SetTheme(ThemeSettings themeSettings)
+        {
+            CrownHelper.ThemeProvider.Theme = themeSettings.Theme;
+            ThemeSetter.FixMenuTheme(msMain);
+            base.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
+            tfMain.BackColor = CrownHelper.ThemeProvider.Theme.Colors.GreyBackground;
+            ThemeSetter.ColorControls(CrownHelper.ThemeProvider.Theme.Colors.LightText, base.BackColor, lbSong,
+                lbTime, lbMusic, tbFind, ssStatus, tbTool, lbVolume, lbSongVolume, lbSongPoints);
+            lbQueueCount.BackColor = base.BackColor;
+            lbQueueCount.ForeColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
+            scProgress.BackColor = base.BackColor;
+            scProgress.ForeColor = base.BackColor;
+            scProgress.SliderColor = CrownHelper.ThemeProvider.Theme.Colors.LightText;
+            scProgress.BaseColor = base.BackColor;
+
+            tbPrevious.Image = themeSettings.PlaybackPrevious;
+            tbPlayNext.Image = playing ? themeSettings.PlaybackPause : themeSettings.PlaybackPlay;
+            tbNext.Image = themeSettings.PlaybackNext;
+            tbShowQueue.Image = themeSettings.PlaybackShowQueue;
+            tbRand.Image = themeSettings.PlaybackShuffle;
+            tbShuffle.Image = themeSettings.PlaybackRepeat;
+            tsbQueueStack.Image = themeSettings.PlaybackStackQueue;
+            ThemeSettings = themeSettings;
+
+            sliderMainVolume.ColorMinimum = themeSettings.MainVolumeStartColor;
+            sliderMainVolume.ColorMaximum = themeSettings.MainVolumeEndColor;
+            sliderMainVolume.ImageVolumeLeft = themeSettings.PlaybackMainVolumeStart;
+            sliderMainVolume.ImageVolumeRight = themeSettings.PlaybackMainVolumeEnd;
+
+            sliderVolumeSong.ColorMinimum = themeSettings.SongVolumeStartColor;
+            sliderVolumeSong.ColorMaximum = themeSettings.SongVolumeEndColor;
+            sliderVolumeSong.ImageVolumeLeft = themeSettings.PlaybackSongVolumeStart;
+            sliderVolumeSong.ImageVolumeRight = themeSettings.PlaybackSongVolumeEnd;
+            sliderStars.ImageStars = themeSettings.SongStars;
+        }
+
+        /// <summary>
+        /// Loads the default theme to the main form.
+        /// </summary>
+        internal static void DefaultTheme()
+        {
+            if (Application.OpenForms.Count > 0)
+            {
+                var main = (FormMain) Application.OpenForms[0];
+                main.SetTheme(ThemeSettings.LoadDefaultTheme());
+            }
+        }
+
+        /// <summary>
+        /// Finds the main form instance and sets the specified theme settings to it.
+        /// </summary>
+        /// <param name="themeSettings">The theme settings.</param>
+        internal static void ThemeMainForm(ThemeSettings themeSettings)
+        {
+            if (Application.OpenForms.Count > 0)
+            {
+                var main = (FormMain) Application.OpenForms[0];
+                main.SetTheme(themeSettings);
+            }
+        }
         #endregion
 
         #region InternalEvents
@@ -1609,9 +1662,23 @@ namespace amp
             HandleKeyDown(ref e);
         }
 
+        private bool noScrollEvent;
+
         private void lbMusicScroll_ValueChanged(object sender, ScrollValueEventArgs e)
         {
+            if (noScrollEvent)
+            {
+                return;
+            }
+
             lbMusic.VScrollPosition = e.Value;
+        }
+
+        private void lbMusic_VScrollChanged(object sender, AmpControls.VScrollChangedEventArgs e)
+        {
+            noScrollEvent = true;
+            lbMusicScroll.Value = e.Value;
+            noScrollEvent = false;
         }
 
         private void lbMusic_ItemsChanged(object sender, EventArgs e)
@@ -1881,7 +1948,7 @@ namespace amp
         private void tbNext_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
-            tbPlayNext.Image = Resources.amp_pause;
+            tbPlayNext.Image = ThemeSettings.PlaybackPause;
             tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
             GetNextSong();
         }
@@ -1890,7 +1957,7 @@ namespace amp
         private void tbPrevious_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
-            tbPlayNext.Image = Resources.amp_pause;
+            tbPlayNext.Image = ThemeSettings.PlaybackPause;
             tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
             GetPrevSong();
         }
@@ -2376,6 +2443,12 @@ namespace amp
                     return;
                 }
             }
+        }
+
+        private void tsbToggleVolumeAndStars_Click(object sender, EventArgs e)
+        {
+            Program.Settings.DisplayVolumeAndPoints = !Program.Settings.DisplayVolumeAndPoints;
+            SetAdditionalGuiProperties();
         }
         #endregion
     }

@@ -29,7 +29,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace amp.UtilityClasses.Controls
+namespace AmpControls
 {
     /// <summary>
     /// A progress bar control using an image to indicate progress.
