@@ -63,7 +63,7 @@ namespace InstallerBaseWixSharp
             {
                 try
                 {
-                    var info = FileVersionInfo.GetVersionInfo(@"..\amp\bin\Release\net47\win10-x64\amp.exe");
+                    var info = FileVersionInfo.GetVersionInfo(@"..\amp\bin\Release\net47\win10-x64\amp#.exe");
                     appVersion = string.Concat(info.FileMajorPart, ".", info.FileMinorPart, ".", info.FileBuildPart);
                     return string.Concat(AppName, "_", info.FileMajorPart, ".", info.FileMinorPart, ".", info.FileBuildPart);
                 }
