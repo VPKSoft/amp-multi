@@ -163,8 +163,6 @@ namespace amp
             }
             // End save languages
 
-            MessageBox.Show(Settings.SettingFileName);
-
 #pragma warning disable 618
             // required for history reasons..
             if (Settings.DbUpdateRequiredLevel < 1)
