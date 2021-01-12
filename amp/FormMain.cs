@@ -2433,7 +2433,7 @@ namespace amp
             List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
-                MaterialButton item = (MaterialButton) sender;
+                ToolStripItem item = (ToolStripItem) sender;
                 if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
                 {
                     DisableChecks();
