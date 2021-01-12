@@ -1627,6 +1627,8 @@ namespace amp
             sliderVolumeSong.ImageVolumeLeft = themeSettings.PlaybackSongVolumeStart;
             sliderVolumeSong.ImageVolumeRight = themeSettings.PlaybackSongVolumeEnd;
             sliderStars.ImageStars = themeSettings.SongStars;
+            sliderMainVolume.ImageSliderTracker = themeSettings.PlaybackMainVolumeTracker;
+            sliderVolumeSong.ImageSliderTracker = themeSettings.PlaybackSongVolumeTracker;
         }
 
         /// <summary>
