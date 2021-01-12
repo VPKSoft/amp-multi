@@ -1832,6 +1832,8 @@ namespace amp
             e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
+        private bool noScProgressScrollEvent;
+
         // sets the scroll bar value indicating the current playback position..
         private void tmSeek_Tick(object sender, EventArgs e)
         {
@@ -1839,10 +1841,12 @@ namespace amp
             {
                 if (!progressUpdating)
                 {
+                    noScProgressScrollEvent = true;
                     scProgress.Maximum = (int)SecondsTotal == 0 ? 1 : (int)SecondsTotal;
                     scProgress.Value = (int)Seconds;
                     TimeSpan ts = TimeSpan.FromSeconds(SecondsTotal - Seconds);
                     lbTime.Text = @"-" + ts.ToString(@"mm\:ss");
+                    noScProgressScrollEvent = false;
                 }
             }
             catch
@@ -2036,6 +2040,10 @@ namespace amp
         // a user scrolls the song playback position; set the position to the user given value..
         private void scProgress_Scroll(object sender)
         {
+            if (noScProgressScrollEvent)
+            {
+                return;
+            }
             tmSeek.Stop();
             if (mainOutputStream != null)
             {
