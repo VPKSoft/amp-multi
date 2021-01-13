@@ -138,6 +138,20 @@ namespace amp.UtilityClasses.Settings
             MainVolumeEndColor = Color.OrangeRed;
             SongVolumeStartColor = Color.FromArgb(110, 21, 164);
             SongVolumeEndColor = Color.FromArgb(249, 1, 7);
+            BarAudioVisualizationLeftChannel = Color.Aqua;
+            BarAudioVisualizationRightChannel = Color.LimeGreen;
+            BarAudioVisualizationLeftChannelGradientStart = Color.SpringGreen;
+            BarAudioVisualizationLeftChannelGradientEnd = Color.DarkGreen;
+            BarAudioVisualizationRightChannelGradientStart = Color.LightSteelBlue;
+            BarAudioVisualizationRightChannelGradientEnd = Color.MidnightBlue;
+            PositionTrackColor = Color.FromArgb(35, 168, 109);
+            PositionHatchColor = Color.FromArgb(23, 148, 92);
+            BarAudioVisualization = Color.Black;
+            BarAudioVisualizationBackground = Color.Black;
+            LineAudioVisualizationLeft = Color.Aqua;
+            LineAudioVisualizationRight = Color.Aqua;
+            LineAudioVisualization = Color.Black;
+            LineAudioVisualizationBackground = Color.Black;
             PlaybackPrevious = Properties.Resources.amp_back;
             PlaybackNext = Properties.Resources.amp_forward;
             PlaybackPause = Properties.Resources.amp_pause;
@@ -177,7 +191,105 @@ namespace amp.UtilityClasses.Settings
             }
         }
 
-        #region Colors
+        #region Colors                
+        /// <summary>
+        /// Gets or sets the color of the bar audio visualization left channel.
+        /// </summary>
+        /// <value>The color of the bar audio visualization left channel.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationLeftChannel { get; set; } = Color.Aqua;
+
+        /// <summary>
+        /// Gets or sets the color of the bar audio visualization right channel.
+        /// </summary>
+        /// <value>The color of the bar audio visualization right channel.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationRightChannel { get; set; } = Color.LimeGreen;
+
+        /// <summary>
+        /// Gets or sets the start color of the bar audio visualization left channel gradient.
+        /// </summary>
+        /// <value>The start color of the bar audio visualization left channel gradient.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationLeftChannelGradientStart { get; set; } = Color.SpringGreen;
+
+        /// <summary>
+        /// Gets or sets the end color of the bar audio visualization left channel gradient.
+        /// </summary>
+        /// <value>The end color of the bar audio visualization left channel gradient.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationLeftChannelGradientEnd { get; set; } = Color.DarkGreen;
+
+        /// <summary>
+        /// Gets or sets the start color of the bar audio visualization right channel gradient.
+        /// </summary>
+        /// <value>The start color of the bar audio visualization right channel gradient.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationRightChannelGradientStart { get; set; } = Color.LightSteelBlue;
+
+        /// <summary>
+        /// Gets or sets the end color of the bar audio visualization right channel gradient.
+        /// </summary>
+        /// <value>The end color of the bar audio visualization right channel gradient.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationRightChannelGradientEnd { get; set; } = Color.MidnightBlue;
+
+        /// <summary>
+        /// Gets or sets the color of the position tracker line.
+        /// </summary>
+        /// <value>The color of the position tracker line.</value>
+        [IsSetting]
+        public Color PositionTrackColor { get; set; } = Color.FromArgb(35, 168, 109);
+
+        /// <summary>
+        /// Gets or sets the color of the position hatch.
+        /// </summary>
+        /// <value>The color of the position hatch.</value>
+        [IsSetting]
+        public Color PositionHatchColor { get; set; } = Color.FromArgb(23, 148, 92);
+
+        /// <summary>
+        /// Gets or sets the bar audio visualization foreground color.
+        /// </summary>
+        /// <value>The bar audio visualization foreground color.</value>
+        [IsSetting]
+        public Color BarAudioVisualization { get; set; } = Color.Black;
+
+        /// <summary>
+        /// Gets or sets the bar audio visualization background color.
+        /// </summary>
+        /// <value>The bar audio visualization background color.</value>
+        [IsSetting]
+        public Color BarAudioVisualizationBackground { get; set; } = Color.Black;
+
+        /// <summary>
+        /// Gets or sets the color of the line audio visualization left channel.
+        /// </summary>
+        /// <value>The color of the line audio visualization left channel.</value>
+        [IsSetting]
+        public Color LineAudioVisualizationLeft { get; set; } = Color.Aqua;
+
+        /// <summary>
+        /// Gets or sets the color of the line audio visualization right channel.
+        /// </summary>
+        /// <value>The color of the line audio visualization right channel.</value>
+        [IsSetting]
+        public Color LineAudioVisualizationRight { get; set; } = Color.Aqua;
+
+        /// <summary>
+        /// Gets or sets the foreground color of the line audio visualization.
+        /// </summary>
+        /// <value>The foreground color of the line audio visualization.</value>
+        [IsSetting]
+        public Color LineAudioVisualization { get; set; } = Color.Black;
+
+        /// <summary>
+        /// Gets or sets the background color of the line audio visualization.
+        /// </summary>
+        /// <value>The background color of the line audio visualization.</value>
+        [IsSetting]
+        public Color LineAudioVisualizationBackground { get; set; } = Color.Black;
+
         /// <summary>
         /// Gets or sets the grey background.
         /// </summary>

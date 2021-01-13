@@ -128,10 +128,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 517);
+            this.ssStatus.Location = new System.Drawing.Point(0, 520);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 28);
+            this.ssStatus.Size = new System.Drawing.Size(542, 25);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -140,7 +140,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 15);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 12);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -694,7 +694,7 @@ namespace amp
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 476);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 479);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
             this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 41);
@@ -784,7 +784,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 244);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 232);
+            this.pnListBox.Size = new System.Drawing.Size(542, 235);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -792,7 +792,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 232);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 235);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -812,7 +812,7 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 232);
+            this.lbMusic.Size = new System.Drawing.Size(542, 235);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
@@ -871,9 +871,9 @@ namespace amp
             this.sliderMainVolume.ColorMinimum = System.Drawing.Color.Yellow;
             this.sliderMainVolume.CurrentValue = 50;
             this.sliderMainVolume.CurrentValueFractional = 50D;
-            this.sliderMainVolume.ImageSliderTracker = null;
-            this.sliderMainVolume.ImageVolumeLeft = null;
-            this.sliderMainVolume.ImageVolumeRight = null;
+            this.sliderMainVolume.ImageSliderTracker = global::amp.Properties.Resources.volume_slide_2;
+            this.sliderMainVolume.ImageVolumeLeft = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeLeft")));
+            this.sliderMainVolume.ImageVolumeRight = ((System.Drawing.Image)(resources.GetObject("sliderMainVolume.ImageVolumeRight")));
             this.sliderMainVolume.LeftImageVisible = true;
             this.sliderMainVolume.Location = new System.Drawing.Point(131, 36);
             this.sliderMainVolume.MaximumValue = 100;
@@ -893,9 +893,9 @@ namespace amp
             this.sliderVolumeSong.ColorMinimum = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(21)))), ((int)(((byte)(164)))));
             this.sliderVolumeSong.CurrentValue = 250;
             this.sliderVolumeSong.CurrentValueFractional = 250D;
-            this.sliderVolumeSong.ImageSliderTracker = null;
-            this.sliderVolumeSong.ImageVolumeLeft = null;
-            this.sliderVolumeSong.ImageVolumeRight = null;
+            this.sliderVolumeSong.ImageSliderTracker = global::amp.Properties.Resources.volume_slide_2;
+            this.sliderVolumeSong.ImageVolumeLeft = ((System.Drawing.Image)(resources.GetObject("sliderVolumeSong.ImageVolumeLeft")));
+            this.sliderVolumeSong.ImageVolumeRight = ((System.Drawing.Image)(resources.GetObject("sliderVolumeSong.ImageVolumeRight")));
             this.sliderVolumeSong.LeftImageVisible = true;
             this.sliderVolumeSong.Location = new System.Drawing.Point(131, 3);
             this.sliderVolumeSong.MaximumValue = 500;

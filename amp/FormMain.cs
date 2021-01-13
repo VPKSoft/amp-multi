@@ -31,7 +31,6 @@ using amp.FormsUtility.Progress;
 using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.UserInteraction;
 using amp.FormsUtility.Visual;
-using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
@@ -40,7 +39,6 @@ using amp.UtilityClasses.WindowsPowerSave;
 using amp.WCFRemote;
 using NAudio.Vorbis;
 using NAudio.Wave;
-using ReaLTaiizor.Controls;
 using ReaLTaiizor.Forms;
 using ReaLTaiizor.Helper;
 using ReaLTaiizor.Util;
@@ -1629,6 +1627,21 @@ namespace amp
             sliderStars.ImageStars = themeSettings.SongStars;
             sliderMainVolume.ImageSliderTracker = themeSettings.PlaybackMainVolumeTracker;
             sliderVolumeSong.ImageSliderTracker = themeSettings.PlaybackSongVolumeTracker;
+
+            scProgress.HatchColor = themeSettings.PositionHatchColor;
+            scProgress.TrackColor = themeSettings.PositionTrackColor;
+
+            avBars.ColorGradientLeftStart = themeSettings.BarAudioVisualizationLeftChannelGradientStart;
+            avBars.ColorGradientLeftEnd = themeSettings.BarAudioVisualizationLeftChannelGradientEnd;
+            avBars.ColorGradientRightStart = themeSettings.BarAudioVisualizationRightChannelGradientStart;
+            avBars.ColorGradientRightEnd = themeSettings.BarAudioVisualizationRightChannelGradientEnd;
+            avBars.BackColor = themeSettings.BarAudioVisualizationBackground;
+            avBars.ForeColor = themeSettings.BarAudioVisualization;
+
+            avLine.ColorAudioChannelLeft = themeSettings.LineAudioVisualizationLeft;
+            avLine.ColorAudioChannelRight = themeSettings.LineAudioVisualizationRight;
+            avLine.BackColor = themeSettings.LineAudioVisualizationBackground;
+            avLine.ForeColor = themeSettings.LineAudioVisualization;
         }
 
         /// <summary>

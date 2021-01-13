@@ -8,8 +8,8 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.1.9.0</AssemblyVersion>
-    <FileVersion>1.1.9.0</FileVersion>
+    <AssemblyVersion>1.1.10.0</AssemblyVersion>
+    <FileVersion>1.1.10.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <PostBuildEvent />
@@ -42,7 +42,7 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg aif aiff m4a aac wav wma</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
-    <Version>1.1.9</Version>
+    <Version>1.1.10</Version>
     <AssemblyName>amp#</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>amp#</PackageId>
