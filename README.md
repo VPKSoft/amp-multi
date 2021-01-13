@@ -2,7 +2,14 @@
 A music player for common audio formats with a simple and intuitive GUI.
 
 ## Screenshots
-![image](https://user-images.githubusercontent.com/40712699/104469562-5222e600-55c1-11eb-91f0-9ea6232d241c.png)![image](https://user-images.githubusercontent.com/40712699/104469593-58b15d80-55c1-11eb-95ff-000c9d3f03fb.png)
+*White theme*
+
+![image](https://user-images.githubusercontent.com/40712699/104469562-5222e600-55c1-11eb-91f0-9ea6232d241c.png)
+
+
+*Dark theme*
+
+![image](https://user-images.githubusercontent.com/40712699/104469593-58b15d80-55c1-11eb-95ff-000c9d3f03fb.png)
 
 ### Thanks to
 * [NAudio](https://github.com/naudio/NAudio)
