@@ -1,8 +1,8 @@
 # amp#
 A music player for common audio formats with a simple and intuitive GUI.
 
-## Screenshot
-![image](https://user-images.githubusercontent.com/40712699/62694814-b65d7580-b9dd-11e9-82e0-cddc0335b603.png)
+## Screenshots
+![image](https://user-images.githubusercontent.com/40712699/104469562-5222e600-55c1-11eb-91f0-9ea6232d241c.png)![image](https://user-images.githubusercontent.com/40712699/104469593-58b15d80-55c1-11eb-95ff-000c9d3f03fb.png)
 
 ### Thanks to
 * [NAudio](https://github.com/naudio/NAudio)
