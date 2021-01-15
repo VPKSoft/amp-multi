@@ -8,8 +8,8 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2020</Copyright>
-    <AssemblyVersion>1.1.10.0</AssemblyVersion>
-    <FileVersion>1.1.10.0</FileVersion>
+    <AssemblyVersion>1.1.11.0</AssemblyVersion>
+    <FileVersion>1.1.11.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <PostBuildEvent />
@@ -42,7 +42,7 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg aif aiff m4a aac wav wma</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
-    <Version>1.1.10</Version>
+    <Version>1.1.11</Version>
     <AssemblyName>amp#</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>amp#</PackageId>
@@ -336,13 +336,17 @@
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FftSharp" Version="1.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
     <PackageReference Include="NAudio.Vorbis" Version="1.2.0" />
     <PackageReference Include="NAudio.Wma" Version="1.0.1" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
     <PackageReference Include="ReaLTaiizor" Version="3.7.8.1" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
+    <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.113" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="taglib" Version="2.1.0" />
@@ -361,6 +365,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AmpControls\AmpControls.csproj" />
+    <ProjectReference Include="..\DatabaseMigrations\DatabaseMigrations.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="DBLocalization.exe">
@@ -368,7 +373,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SQLiteDatabase\Entity\" />
     <Folder Include="UtilityClasses\Controls\" />
   </ItemGroup>
 </Project>

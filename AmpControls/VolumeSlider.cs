@@ -54,6 +54,14 @@ namespace AmpControls
         // the "main" area of the control as it is custom-drawn..
         private void pnSlider_Paint(object sender, PaintEventArgs e)
         {
+            bool ValidRectangle() => e.ClipRectangle.Width > 0 && e.ClipRectangle.Height > 0;
+
+            // some times a zero-sized rectangle caused a crash..
+            if (!ValidRectangle())
+            {
+                return;
+            }
+
             // set the SmoothingMode property to smooth the line..
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
@@ -62,7 +70,8 @@ namespace AmpControls
             e.Graphics.FillRectangle(backgroundBrush, e.ClipRectangle);
 
 
-            using var brush = new LinearGradientBrush(e.ClipRectangle, ColorMinimum, ColorMaximum, LinearGradientMode.Horizontal);
+            using var brush = new LinearGradientBrush(e.ClipRectangle, ColorMinimum, ColorMaximum,
+                LinearGradientMode.Horizontal);
 
             e.Graphics.FillPolygon(brush, new[]
             {
