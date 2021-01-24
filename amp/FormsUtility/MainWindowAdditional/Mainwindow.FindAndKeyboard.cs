@@ -71,11 +71,14 @@ namespace amp
         /// Finds the songs with the text in the search box.
         /// </summary>
         /// <param name="onlyIfText">if set to <c>true</c> an empty or white space in the search box doesn't affect the filtering.</param>
-        private void Find(bool onlyIfText = false)
+        /// <param name="alternateSearch">A search text to override the default search box text.</param>
+        private void Find(bool onlyIfText = false, string alternateSearch = null)
         {
+            var findText = alternateSearch ?? tbFind.Text;
+
             if (onlyIfText)
             {
-                if (tbFind.Text.Trim() == string.Empty)
+                if (findText.Trim() == string.Empty)
                 {
                     return;
                 }
@@ -83,12 +86,12 @@ namespace amp
             lbMusic.Items.Clear();
             foreach (MusicFile mf in PlayList)
             {
-                if (mf.Match(tbFind.Text))
+                if (mf.Match(findText))
                 {
                     lbMusic.Items.Add(mf);
                 }
             }
-            Filtered = tbFind.Text != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
+            Filtered = findText != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
         }
 
         /// <summary>

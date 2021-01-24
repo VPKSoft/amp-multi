@@ -60,6 +60,7 @@ namespace amp.UtilityClasses.Settings
             this.mnuLocalization = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDumpLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDatabaseMigration = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuThemeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.btnModifiedRandomization = new System.Windows.Forms.Button();
             this.btAlbumNaming = new System.Windows.Forms.Button();
             this.cbCheckUpdatesStartup = new System.Windows.Forms.CheckBox();
@@ -88,7 +89,7 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.mnuThemeSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbHideAlbumImage = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -204,7 +205,7 @@ namespace amp.UtilityClasses.Settings
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(13, 507);
+            this.bCancel.Location = new System.Drawing.Point(13, 519);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 8;
@@ -214,7 +215,7 @@ namespace amp.UtilityClasses.Settings
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(199, 507);
+            this.bOK.Location = new System.Drawing.Point(199, 519);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 7;
@@ -398,6 +399,13 @@ namespace amp.UtilityClasses.Settings
             this.mnuDatabaseMigration.Text = "Database management";
             this.mnuDatabaseMigration.Click += new System.EventHandler(this.MnuDatabaseMigration_Click);
             // 
+            // mnuThemeSettings
+            // 
+            this.mnuThemeSettings.Name = "mnuThemeSettings";
+            this.mnuThemeSettings.Size = new System.Drawing.Size(99, 20);
+            this.mnuThemeSettings.Text = "Theme settings";
+            this.mnuThemeSettings.Click += new System.EventHandler(this.mnuThemeSettings_Click);
+            // 
             // btnModifiedRandomization
             // 
             this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
@@ -434,12 +442,15 @@ namespace amp.UtilityClasses.Settings
             // 
             // tcMain
             // 
+            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpMain);
             this.tcMain.Controls.Add(this.tpAdditional);
             this.tcMain.Location = new System.Drawing.Point(12, 27);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(266, 474);
+            this.tcMain.Size = new System.Drawing.Size(266, 486);
             this.tcMain.TabIndex = 26;
             // 
             // tpMain
@@ -467,6 +478,7 @@ namespace amp.UtilityClasses.Settings
             // 
             // tpAdditional
             // 
+            this.tpAdditional.Controls.Add(this.cbHideAlbumImage);
             this.tpAdditional.Controls.Add(this.cbDisplayVolumeAndPoints);
             this.tpAdditional.Controls.Add(this.gbStackQueue);
             this.tpAdditional.Controls.Add(this.gbMemoryBuffering);
@@ -474,7 +486,7 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.Location = new System.Drawing.Point(4, 22);
             this.tpAdditional.Name = "tpAdditional";
             this.tpAdditional.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAdditional.Size = new System.Drawing.Size(258, 448);
+            this.tpAdditional.Size = new System.Drawing.Size(258, 460);
             this.tpAdditional.TabIndex = 1;
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
@@ -761,12 +773,15 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // mnuThemeSettings
+            // cbHideAlbumImage
             // 
-            this.mnuThemeSettings.Name = "mnuThemeSettings";
-            this.mnuThemeSettings.Size = new System.Drawing.Size(99, 20);
-            this.mnuThemeSettings.Text = "Theme settings";
-            this.mnuThemeSettings.Click += new System.EventHandler(this.mnuThemeSettings_Click);
+            this.cbHideAlbumImage.AutoSize = true;
+            this.cbHideAlbumImage.Location = new System.Drawing.Point(6, 430);
+            this.cbHideAlbumImage.Name = "cbHideAlbumImage";
+            this.cbHideAlbumImage.Size = new System.Drawing.Size(172, 17);
+            this.cbHideAlbumImage.TabIndex = 4;
+            this.cbHideAlbumImage.Text = "Auto-hide album image window";
+            this.cbHideAlbumImage.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
@@ -774,7 +789,7 @@ namespace amp.UtilityClasses.Settings
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(288, 547);
+            this.ClientSize = new System.Drawing.Size(288, 559);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnTestQuietHour);
             this.Controls.Add(this.tbTestQuietHour);
@@ -880,5 +895,6 @@ namespace amp.UtilityClasses.Settings
         private Label lbBarAmount;
         private CheckBox cbDisplayVolumeAndPoints;
         private ToolStripMenuItem mnuThemeSettings;
+        private CheckBox cbHideAlbumImage;
     }
 }

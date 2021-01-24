@@ -27,6 +27,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -122,6 +123,12 @@ namespace amp.UtilityClasses
         /// Gets or sets the pictures stored in the music file.
         /// </summary>
         public IPicture[] Pictures { get; set; }
+
+        /// <summary>
+        /// Gets or sets the song image stored in the database.
+        /// </summary>
+        /// <value>The song image stored in the database.</value>
+        public Image SongImage { get; set; }
 
         /// <summary>
         /// Gets the file name without a path of the music file.
@@ -232,7 +239,6 @@ namespace amp.UtilityClasses
             {
                 if (pi.PropertyType != typeof(string) &&
                     pi.PropertyType != typeof(uint) &&
-                    pi.PropertyType != typeof(UInt32) &&
                     pi.PropertyType != typeof(string[]) && 
                     pi.PropertyType != typeof(Tag[]))
                 {

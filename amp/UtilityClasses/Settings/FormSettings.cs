@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2020 Petteri Kautonen
+Copyright(c) 2021 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -89,6 +89,8 @@ namespace amp.UtilityClasses.Settings
 
             // the user decides if an internet request is allowed..
             Program.Settings.AutoCheckUpdates = cbCheckUpdatesStartup.Checked;
+
+            Program.Settings.AutoHideAlbumImage = cbHideAlbumImage.Checked;
 
             Program.Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
             Program.Settings.StackRandomPercentage = tbStackQueueRandom.Value;
@@ -201,6 +203,8 @@ namespace amp.UtilityClasses.Settings
 
             // the user decides if an internet request is allowed..
             cbCheckUpdatesStartup.Checked = Program.Settings.AutoCheckUpdates;
+
+            cbHideAlbumImage.Checked = Program.Settings.AutoHideAlbumImage;
 
             cbMemoryBuffering.Checked = Program.Settings.LoadEntireFileSizeLimit > 0;
             if (Program.Settings.LoadEntireFileSizeLimit > 0)

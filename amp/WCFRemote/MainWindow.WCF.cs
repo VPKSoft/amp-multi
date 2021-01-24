@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2020 Petteri Kautonen
+Copyright(c) 2021 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using amp.Properties;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using amp.WCFRemote;

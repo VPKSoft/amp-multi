@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2020 Petteri Kautonen
+Copyright(c) 2021 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using TagLib;
 using VPKSoft.LangLib;
@@ -131,9 +132,17 @@ namespace amp.FormsUtility.Information
 
                 tbLyrics.Text = tagFile.Tag.Lyrics;
 
-                ShowNextPic();
+                if (mf.SongImage != null)
+                {
+                    pbAlbum.Image = mf.SongImage;
+                }
+                else
+                {
+                    ShowNextPic();
+                }
             }
             btOK.Focus();
+            btRemoveImage.Enabled = mf.SongImage != null;
         }
 
         /// <summary>
@@ -212,6 +221,33 @@ namespace amp.FormsUtility.Information
             string argument = "/select, \"" + mf.FullFileName + "\"";
 
             Process.Start("explorer.exe", argument);
+        }
+
+        private void pbAlbum_Click(object sender, EventArgs e)
+        {
+            var formMain = (FormMain)Application.OpenForms[0];
+            if (mf != null)
+            {
+                if (odImageFile.ShowDialog() == DialogResult.OK)
+                {
+                    mf.SongImage = Image.FromFile(odImageFile.FileName);
+                    pbAlbum.Image = mf.SongImage;
+                    Database.SaveImage(mf, FormMain.Connection);
+                    formMain.UpdateSongName();
+                    btRemoveImage.Enabled = mf.SongImage != null;
+                }
+            }
+        }
+
+        private void btRemoveImage_Click(object sender, EventArgs e)
+        {
+            var formMain = (FormMain)Application.OpenForms[0];
+            mf.SongImage = null;
+            btRemoveImage.Enabled = mf.SongImage != null;
+            formMain.UpdateSongName();
+            pbAlbum.Image = mf.SongImage;
+            Database.SaveImage(mf, FormMain.Connection);
+            ShowNextPic();
         }
     }
 }

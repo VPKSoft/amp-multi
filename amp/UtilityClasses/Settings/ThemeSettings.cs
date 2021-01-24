@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using ReaLTaiizor.Helper;
 using ReaLTaiizor.Interface.Crown;
 using VPKSoft.Utils;
@@ -112,6 +113,8 @@ namespace amp.UtilityClasses.Settings
         /// <param name="dark">A value indicating whether the specified theme could be described as dark.</param>
         public ThemeSettings(ITheme theme, bool dark)
         {
+            theme.Colors.GreyBackground = dark ? Color.FromArgb(69, 73, 74) : Color.White;
+
             RequestTypeConverter += themeSettings_RequestTypeConverter;
             GreyBackground = theme.Colors.GreyBackground;
             HeaderBackground = theme.Colors.HeaderBackground;
@@ -169,6 +172,10 @@ namespace amp.UtilityClasses.Settings
             PlaybackMainVolumeTracker = Properties.Resources.volume_slide_2;
             ToggleVolumeRatingHidden = dark ? Properties.Resources.tick_up : Properties.Resources.tick_up_dark;
             ToggleVolumeRatingVisible = dark ? Properties.Resources.tick_down : Properties.Resources.tick_down_dark;
+            ColorSelected = dark ? Color.DarkGray : Color.Bisque;
+            ColorNormal = GreyBackground;
+            ColorSelectedBorder = dark ? Color.White : Color.Black;
+            ColorCheckedBorder = dark ? Color.White : Color.Black;
         }
 
         /// <summary>
@@ -464,6 +471,34 @@ namespace amp.UtilityClasses.Settings
         /// <value>The end color of the per-song volume slider.</value>
         [IsSetting]
         public Color SongVolumeEndColor { get; set; } = Color.FromArgb(249, 1, 7);
+
+        /// <summary>
+        /// Gets or sets the background color of a selected <see cref="ToolStripButton"/>.
+        /// </summary>
+        /// <value>The background color of a selected <see cref="ToolStripButton"/>.</value>
+        [IsSetting]
+        public Color ColorSelected { get; set; }
+
+        /// <summary>
+        /// Gets or sets the background color of a normal not selected <see cref="ToolStripButton"/>.
+        /// </summary>
+        /// <value>The background color of a normal not selected <see cref="ToolStripButton"/>.</value>
+        [IsSetting]
+        public Color ColorNormal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color of a selected <see cref="ToolStripButton"/>'s border.
+        /// </summary>
+        /// <value>The color of a selected <see cref="ToolStripButton"/>'s border.</value>
+        [IsSetting]
+        public Color ColorSelectedBorder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color of a checked <see cref="ToolStripButton"/>'s border.
+        /// </summary>
+        /// <value>The color of a checked <see cref="ToolStripButton"/>'s border.</value>
+        [IsSetting]
+        public Color ColorCheckedBorder { get; set; }
         #endregion
 
         #region ImageHelpers

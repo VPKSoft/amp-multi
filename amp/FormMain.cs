@@ -53,6 +53,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using amp.UtilityClasses.Controls;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
@@ -137,6 +138,8 @@ namespace amp
             tsbToggleVolumeAndStars.Image = Program.Settings.DisplayVolumeAndPoints
                 ? ThemeSettings.ToggleVolumeRatingVisible
                 : ThemeSettings.ToggleVolumeRatingHidden;
+
+            EnableDisableGui();
         }
 
         #region Fields                
@@ -256,7 +259,16 @@ namespace amp
         internal Random Random = new Random();
         #endregion
 
-        #region PrivateMethods
+        #region PrivateMethods        
+        /// <summary>
+        /// Toggles some items of the qui to enabled or disabled based on the state of other UI objects.
+        /// </summary>
+        private void EnableDisableGui()
+        {
+            mnuRemoveImages.Enabled = lbMusic.SelectedItems.Count > 0;
+            mnuChangeImage.Enabled = lbMusic.SelectedItems.Count > 0;
+        }
+
         /// <summary>
         /// Displays the currently playing song.
         /// </summary>
@@ -1017,8 +1029,13 @@ namespace amp
         /// <summary>
         /// Displays the currently playing song and a possible album image.
         /// </summary>
-        private void UpdateSongName()
+        internal void UpdateSongName()
         {
+            if (MFile == null)
+            {
+                return;
+            }
+
             lbSong.Text = MFile.SongName;
 
             FormAlbumImage.Show(this, MFile, tbFind.PointToScreen(Point.Empty).Y);
@@ -1531,10 +1548,17 @@ namespace amp
         /// </summary>
         internal void ShowQueue()
         {
+            if (Filtered == FilterType.QueueFiltered)
+            {
+                Find(false, "");
+                return;
+            }
+
             lbMusic.Invoke(new MethodInvoker(() =>
             {
                 if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
                 {
+                    tbShowQueue.Checked = false;
                     return;
                 }
                 lbMusic.Items.Clear();
@@ -1642,6 +1666,13 @@ namespace amp
             avLine.ColorAudioChannelRight = themeSettings.LineAudioVisualizationRight;
             avLine.BackColor = themeSettings.LineAudioVisualizationBackground;
             avLine.ForeColor = themeSettings.LineAudioVisualization;
+            tbTool.Renderer = new CustomToolStripRenderer
+            {
+                ColorCheckedBorder = themeSettings.ColorCheckedBorder, 
+                ColorNormal = themeSettings.ColorNormal,
+                ColorSelected = themeSettings.ColorSelected, 
+                ColorSelectedBorder = themeSettings.ColorSelectedBorder
+            };
         }
 
         /// <summary>
@@ -1881,6 +1912,7 @@ namespace amp
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             tmIPCFiles.Enabled = false;
+            tmAutoSave.Stop();
             tmSeek.Stop();
             tmPendOperation.Stop();
             CloseWaveOut();
@@ -1894,6 +1926,8 @@ namespace amp
             {
                 Database.SaveQueue(PlayList, Connection, CurrentAlbum);
             }
+
+            Program.Settings.PreviousAlbum = Database.GetAlbumIdentifierByName(Connection, CurrentAlbum);
 
             using (Connection)
             {
@@ -2032,12 +2066,17 @@ namespace amp
                 Thread.Sleep(500);
             }
 
-            ListAlbums(1);
+            ListAlbums(Program.Settings.PreviousAlbum <= 0 ? 1 : Program.Settings.PreviousAlbum);
 
             CheckArguments();
 
             if (CurrentAlbum != "tmp" && RemoteFiles.Count == 0)
             {
+                var loadAlbum = Database.GetAlbumByIdentifier(Connection,
+                    Program.Settings.PreviousAlbum <= 0 ? 1 : Program.Settings.PreviousAlbum);
+
+                CurrentAlbum = loadAlbum ?? CurrentAlbum;
+
                 GetAlbum(CurrentAlbum);
             }
 
@@ -2468,10 +2507,49 @@ namespace amp
             }
         }
 
+        private void mnuChangeImage_Click(object sender, EventArgs e)
+        {
+            if (odImageFile.ShowDialog() == DialogResult.OK)
+            {
+                var image = Image.FromFile(odImageFile.FileName);
+                foreach (MusicFile musicFile in lbMusic.SelectedItems)
+                {
+                    musicFile.SongImage = image;
+                    Database.SaveImage(musicFile, Connection);
+                }
+            }
+        }
+
+        private void mnuRemoveImages_Click(object sender, EventArgs e)
+        {
+            foreach (MusicFile musicFile in lbMusic.SelectedItems)
+            {
+                musicFile.SongImage = null;
+                Database.SaveImage(musicFile, Connection);
+            }
+        }
+
+        private void lbMusic_SelectedValueChanged(object sender, EventArgs e)
+        {
+            EnableDisableGui();
+        }
+
         private void tsbToggleVolumeAndStars_Click(object sender, EventArgs e)
         {
             Program.Settings.DisplayVolumeAndPoints = !Program.Settings.DisplayVolumeAndPoints;
             SetAdditionalGuiProperties();
+        }
+
+        private void tmAutoSave_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
         }
         #endregion
     }

@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2020 Petteri Kautonen
+Copyright(c) 2021 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -218,6 +220,32 @@ namespace amp.SQLiteDatabase
                     result.Add(new Album(reader.GetInt32(0), reader.GetString(1)));
                 }
             }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the album by it's identifier.
+        /// </summary>
+        /// <param name="connection">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="identifier">The album identifier.</param>
+        /// <returns>The name of the album.</returns>
+        public static string GetAlbumByIdentifier(SQLiteConnection connection, int identifier)
+        {
+            // ReSharper disable once StringLiteralTypo, database field..
+            var result = GetScalar<string>($"SELECT ALBUMNAME FROM ALBUM WHERE ID = {identifier}", connection);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the name of the album by it's identifier.
+        /// </summary>
+        /// <param name="connection">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        /// <param name="albumName">The name of the album.</param>
+        /// <returns>The identifier of the album.</returns>
+        public static int GetAlbumIdentifierByName(SQLiteConnection connection, string albumName)
+        {
+            // ReSharper disable once StringLiteralTypo, database field..
+            var result = (int)GetScalar<long>($"SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}", connection);
             return result;
         }
 
@@ -470,7 +498,9 @@ namespace amp.SQLiteDatabase
                         "IFNULL(S.TITLE, '') AS TITLE, ", // 13
                         "IFNULL(S.SKIPPED_EARLY, 0) AS SKIPPED_EARLY, ", // 14
                         "IFNULL(S.NPLAYED_RAND, 0) AS NPLAYED_RAND, ", // 15
-                        "IFNULL(S.NPLAYED_USER, 0) AS NPLAYED_USER ", // 16
+                        "IFNULL(S.NPLAYED_USER, 0) AS NPLAYED_USER, ", // 16
+                        "SongImage, ", // 17
+                        "(SELECT LENGTH(CAST(SongImage AS BLOB))) AS ImageSize ", // 18
                         "FROM ",
                         "SONG S, ALBUMSONGS A ",
                         "WHERE ",
@@ -533,6 +563,15 @@ namespace amp.SQLiteDatabase
                         mf.NPLAYED_RAND = reader.GetInt32(15);
                         mf.NPLAYED_USER = reader.GetInt32(16);
 
+                        if (!reader.IsDBNull(17))
+                        {
+                            byte[] imageData = new byte[reader.GetInt32(18)];
+                            reader.GetBytes(17, 0, imageData, 0, imageData.Length);
+
+                            using var memoryStream = new MemoryStream(imageData);
+                            mf.SongImage = Image.FromStream(memoryStream);
+                        }
+
                         mf.TagString = reader.GetInt32(8) != 0 ? reader.GetString(6) : string.Empty;
                         mf.VisualIndex = counter++;
                         if (reader.GetInt32(7) == 0)
@@ -575,6 +614,36 @@ namespace amp.SQLiteDatabase
                 command.CommandText = $"UPDATE SONG SET VOLUME = {DS(mf.Volume)} WHERE ID = {mf.ID} ";
                 command.ExecuteNonQuery();
             }
+        }
+
+        /// <summary>
+        /// Updates the image of a specified musing file into the database.
+        /// </summary>
+        /// <param name="mf">The <see cref="MusicFile"/> which image to update to the database.</param>
+        /// <param name="conn">An open <see cref="SQLiteConnection"/> class instance to be used with the database operation.</param>
+        public static void SaveImage(MusicFile mf, SQLiteConnection conn)
+        {
+            using var command = new SQLiteCommand(conn)
+            {
+                CommandText = $"UPDATE SONG SET SongImage = @IMAGE WHERE ID = {mf.ID} "
+            };
+
+            using var memoryStream = new MemoryStream();
+
+            if (mf.SongImage == null) // if null the DBNull..
+            {
+                command.Parameters.Add("@IMAGE", System.Data.DbType.Binary).Value = null;
+            }
+            else
+            {
+                // save the image to a memory stream..
+                mf.SongImage.Save(memoryStream, ImageFormat.Png); 
+
+                // ..and ad it's data to the parameter as a byte array..
+                command.Parameters.Add("@IMAGE", System.Data.DbType.Binary).Value = memoryStream.ToArray();
+            }
+
+            command.ExecuteNonQuery();
         }
 
         /// <summary>

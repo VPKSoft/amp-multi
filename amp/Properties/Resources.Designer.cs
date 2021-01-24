@@ -333,6 +333,16 @@ namespace amp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap edit_delete_6 {
+            get {
+                object obj = ResourceManager.GetObject("edit-delete-6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap education_languages {
             get {
                 object obj = ResourceManager.GetObject("education-languages", resourceCulture);
@@ -406,6 +416,16 @@ namespace amp.Properties {
         internal static System.Drawing.Bitmap icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap image_x_xcursor {
+            get {
+                object obj = ResourceManager.GetObject("image-x-xcursor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

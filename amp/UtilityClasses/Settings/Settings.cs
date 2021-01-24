@@ -35,7 +35,21 @@ namespace amp.UtilityClasses.Settings
         [Obsolete("New database migration. Though must keep for history's sake.")]
         public int DbUpdateRequiredLevel { get; set; } = 1;
 
-        #region MiscellaneousSettings
+        #region MiscellaneousSettings        
+        /// <summary>
+        /// Gets or sets a value indicating whether to automatically hide the album image window if no image is present.
+        /// </summary>
+        /// <value><c>true</c> if to automatically hide the album image window if no image is present; otherwise, <c>false</c>.</value>
+        [IsSetting]
+        public bool AutoHideAlbumImage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the previous album identifier.
+        /// </summary>
+        /// <value>The previous album identifier.</value>
+        [IsSetting] 
+        public int PreviousAlbum { get; set; } = 1;
+
         /// <summary>
         /// The latency in milliseconds for the <see cref="WaveOut.DesiredLatency"/>.
         /// </summary>

@@ -48,12 +48,13 @@ namespace amp.FormsUtility.Visual
             // 
             // pbAlbum
             // 
+            this.pbAlbum.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.pbAlbum.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbAlbum.Image = global::amp.Properties.Resources.music_note;
             this.pbAlbum.Location = new System.Drawing.Point(0, 0);
             this.pbAlbum.Name = "pbAlbum";
             this.pbAlbum.Size = new System.Drawing.Size(204, 204);
-            this.pbAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbAlbum.TabIndex = 1;
             this.pbAlbum.TabStop = false;
             // 
@@ -82,6 +83,5 @@ namespace amp.FormsUtility.Visual
 
         private Panel pnBorderSeparator;
         private PictureBox pbAlbum;
-
     }
 }

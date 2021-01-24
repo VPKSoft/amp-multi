@@ -82,6 +82,8 @@ namespace amp.FormsUtility.Information
             this.pbAlbum = new System.Windows.Forms.PictureBox();
             this.pnBottom = new System.Windows.Forms.Panel();
             this.btOK = new System.Windows.Forms.Button();
+            this.odImageFile = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
+            this.btRemoveImage = new System.Windows.Forms.Button();
             this.tlpSongInfo.SuspendLayout();
             this.pnPictures.SuspendLayout();
             this.tsChangePic.SuspendLayout();
@@ -613,6 +615,7 @@ namespace amp.FormsUtility.Information
             // 
             // pnPictures
             // 
+            this.pnPictures.Controls.Add(this.btRemoveImage);
             this.pnPictures.Controls.Add(this.tsChangePic);
             this.pnPictures.Controls.Add(this.pbAlbum);
             this.pnPictures.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -658,6 +661,7 @@ namespace amp.FormsUtility.Information
             // 
             // pbAlbum
             // 
+            this.pbAlbum.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbAlbum.Dock = System.Windows.Forms.DockStyle.Top;
             this.pbAlbum.Image = global::amp.Properties.Resources.music_note;
             this.pbAlbum.Location = new System.Drawing.Point(0, 0);
@@ -667,6 +671,7 @@ namespace amp.FormsUtility.Information
             this.pbAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAlbum.TabIndex = 21;
             this.pbAlbum.TabStop = false;
+            this.pbAlbum.Click += new System.EventHandler(this.pbAlbum_Click);
             // 
             // pnBottom
             // 
@@ -680,13 +685,30 @@ namespace amp.FormsUtility.Information
             // 
             // btOK
             // 
+            this.btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btOK.Location = new System.Drawing.Point(477, 5);
+            this.btOK.Location = new System.Drawing.Point(508, 3);
             this.btOK.Name = "btOK";
             this.btOK.Size = new System.Drawing.Size(75, 23);
             this.btOK.TabIndex = 0;
             this.btOK.Text = "OK";
             this.btOK.UseVisualStyleBackColor = true;
+            // 
+            // odImageFile
+            // 
+            this.odImageFile.Filter = "Image files|*.jpg;*.png;*.bmp;*.jpeg";
+            // 
+            // btRemoveImage
+            // 
+            this.btRemoveImage.Image = global::amp.Properties.Resources.Delete;
+            this.btRemoveImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btRemoveImage.Location = new System.Drawing.Point(3, 210);
+            this.btRemoveImage.Name = "btRemoveImage";
+            this.btRemoveImage.Size = new System.Drawing.Size(200, 28);
+            this.btRemoveImage.TabIndex = 23;
+            this.btRemoveImage.Text = "Remove image";
+            this.btRemoveImage.UseVisualStyleBackColor = true;
+            this.btRemoveImage.Click += new System.EventHandler(this.btRemoveImage_Click);
             // 
             // FormTagInfo
             // 
@@ -768,5 +790,7 @@ namespace amp.FormsUtility.Information
         private TextBox tbFileName;
         private Label lbFullFileName;
         private TextBox tbFullFileName;
+        private Ookii.Dialogs.WinForms.VistaOpenFileDialog odImageFile;
+        private Button btRemoveImage;
     }
 }

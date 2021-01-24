@@ -54,7 +54,6 @@ namespace amp
             this.mnuPlayListM3UNewAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlayListM3UToCurrentAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlaylistM3UExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSongInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShowAllSongs = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuQueue = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +66,11 @@ namespace amp
             this.mnuMore = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuScrambleQueueSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuQueueMoveToTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuChangeImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRemoveImages = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +108,8 @@ namespace amp
             this.foreverMinimize1 = new ReaLTaiizor.Controls.ForeverMinimize();
             this.foreverMaximize1 = new ReaLTaiizor.Controls.ForeverMaximize();
             this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
+            this.odImageFile = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
+            this.tmAutoSave = new System.Windows.Forms.Timer(this.components);
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -128,10 +134,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 520);
+            this.ssStatus.Location = new System.Drawing.Point(0, 512);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 25);
+            this.ssStatus.Size = new System.Drawing.Size(542, 33);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -140,7 +146,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 12);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 20);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -204,6 +210,7 @@ namespace amp
             this.msMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
             this.mnuQueue,
+            this.mnuTools,
             this.mnuHelp});
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
@@ -222,7 +229,6 @@ namespace amp
             this.mnuDeleteAlbum,
             this.mnuSelectAll,
             this.mnuPlayListM3U,
-            this.mnuSettings,
             this.mnuSongInfo,
             this.mnuShowAllSongs});
             this.mnuFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
@@ -314,16 +320,6 @@ namespace amp
             this.mnuPlaylistM3UExport.Size = new System.Drawing.Size(205, 22);
             this.mnuPlaylistM3UExport.Text = "Export current album";
             this.mnuPlaylistM3UExport.Click += new System.EventHandler(this.mnuPlaylistM3UExport_Click);
-            // 
-            // mnuSettings
-            // 
-            this.mnuSettings.BackColor = System.Drawing.Color.Transparent;
-            this.mnuSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.mnuSettings.Image = global::amp.Properties.Resources.settings;
-            this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(204, 36);
-            this.mnuSettings.Text = "Settings";
-            this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
             // mnuSongInfo
             // 
@@ -454,6 +450,57 @@ namespace amp
             this.mnuQueueMoveToTop.Text = "Move selected to the top of the queue";
             this.mnuQueueMoveToTop.Click += new System.EventHandler(this.mnuQueueMoveToTop_Click);
             // 
+            // mnuTools
+            // 
+            this.mnuTools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSettings,
+            this.toolStripMenuItem1,
+            this.mnuChangeImage,
+            this.mnuRemoveImages});
+            this.mnuTools.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuTools.Name = "mnuTools";
+            this.mnuTools.Size = new System.Drawing.Size(46, 20);
+            this.mnuTools.Text = "Tools";
+            // 
+            // mnuSettings
+            // 
+            this.mnuSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuSettings.Image = global::amp.Properties.Resources.settings;
+            this.mnuSettings.Name = "mnuSettings";
+            this.mnuSettings.Size = new System.Drawing.Size(281, 36);
+            this.mnuSettings.Text = "Settings";
+            this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.toolStripMenuItem1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(278, 6);
+            // 
+            // mnuChangeImage
+            // 
+            this.mnuChangeImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuChangeImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuChangeImage.Image = global::amp.Properties.Resources.image_x_xcursor;
+            this.mnuChangeImage.Name = "mnuChangeImage";
+            this.mnuChangeImage.Size = new System.Drawing.Size(281, 36);
+            this.mnuChangeImage.Text = "Change image for selected songs";
+            this.mnuChangeImage.Click += new System.EventHandler(this.mnuChangeImage_Click);
+            // 
+            // mnuRemoveImages
+            // 
+            this.mnuRemoveImages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuRemoveImages.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuRemoveImages.Image = global::amp.Properties.Resources.edit_delete_6;
+            this.mnuRemoveImages.Name = "mnuRemoveImages";
+            this.mnuRemoveImages.Size = new System.Drawing.Size(281, 36);
+            this.mnuRemoveImages.Text = "Remove images from selected songs";
+            this.mnuRemoveImages.Click += new System.EventHandler(this.mnuRemoveImages_Click);
+            // 
             // mnuHelp
             // 
             this.mnuHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
@@ -561,6 +608,7 @@ namespace amp
             // tbShowQueue
             // 
             this.tbShowQueue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tbShowQueue.CheckOnClick = true;
             this.tbShowQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tbShowQueue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tbShowQueue.Image = global::amp.Properties.Resources.amp_queue;
@@ -694,10 +742,10 @@ namespace amp
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 479);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 472);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
-            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 41);
+            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 40);
             this.pnAudioVisualizationMain.TabIndex = 15;
             // 
             // avBars
@@ -784,7 +832,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 244);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 235);
+            this.pnListBox.Size = new System.Drawing.Size(542, 228);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -792,7 +840,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 235);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 228);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -812,11 +860,12 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 235);
+            this.lbMusic.Size = new System.Drawing.Size(542, 228);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
             this.lbMusic.VScrollChanged += new System.EventHandler<AmpControls.VScrollChangedEventArgs>(this.lbMusic_VScrollChanged);
+            this.lbMusic.SelectedValueChanged += new System.EventHandler(this.lbMusic_SelectedValueChanged);
             this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
             this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
             this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
@@ -1023,6 +1072,16 @@ namespace amp
             this.foreverClose1.Text = "foreverClose1";
             this.foreverClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             // 
+            // odImageFile
+            // 
+            this.odImageFile.Filter = "Image files|*.jpg;*.png;*.bmp;*.jpeg";
+            // 
+            // tmAutoSave
+            // 
+            this.tmAutoSave.Enabled = true;
+            this.tmAutoSave.Interval = 300000;
+            this.tmAutoSave.Tick += new System.EventHandler(this.tmAutoSave_Tick);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1078,7 +1137,6 @@ namespace amp
         private ToolStripMenuItem mnuPlayListM3UNewAlbum;
         private ToolStripMenuItem mnuPlayListM3UToCurrentAlbum;
         private ToolStripMenuItem mnuPlaylistM3UExport;
-        private ToolStripMenuItem mnuSettings;
         private ToolStripMenuItem mnuSongInfo;
         private ToolStripMenuItem mnuShowAllSongs;
         private ToolStripMenuItem mnuQueue;
@@ -1128,6 +1186,13 @@ namespace amp
         private ReaLTaiizor.Controls.ForeverMinimize foreverMinimize1;
         private ReaLTaiizor.Controls.ForeverMaximize foreverMaximize1;
         private ReaLTaiizor.Controls.ForeverClose foreverClose1;
+        private ToolStripMenuItem mnuTools;
+        private ToolStripMenuItem mnuChangeImage;
+        private Ookii.Dialogs.WinForms.VistaOpenFileDialog odImageFile;
+        private ToolStripMenuItem mnuRemoveImages;
+        private Timer tmAutoSave;
+        private ToolStripMenuItem mnuSettings;
+        private ToolStripSeparator toolStripMenuItem1;
     }
 }
 

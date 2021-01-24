@@ -27,6 +27,7 @@ SOFTWARE.
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using amp.Properties;
 using amp.UtilityClasses;
 using TagLib;
@@ -92,7 +93,11 @@ namespace amp.FormsUtility.Visual
             mf.LoadPic();
             try
             {
-                if (mf.Pictures != null && mf.Pictures.Length > 0)
+                if (mf.SongImage != null)
+                {
+                    ThisInstance.pbAlbum.Image = mf.SongImage;
+                }
+                else if (mf.Pictures != null && mf.Pictures.Length > 0)
                 {
                     IPicture pic = mf.Pictures[0];
                     MemoryStream ms = new MemoryStream(pic.Data.Data) {Position = 0};
@@ -101,13 +106,24 @@ namespace amp.FormsUtility.Visual
                 }
                 else
                 {
+                    if (Program.Settings.AutoHideAlbumImage)
+                    {
+                        ThisInstance.Visible = false;
+                        return;
+                    }
                     ThisInstance.pbAlbum.Image = Resources.music_note;
                 }
             }
             catch
             {
+                if (Program.Settings.AutoHideAlbumImage)
+                {
+                    ThisInstance.Visible = false;
+                    return;
+                }
                 ThisInstance.pbAlbum.Image = Resources.music_note;
             }
+
             ThisInstance.Visible = ThisInstance.pbAlbum.Image != null;
             if (firstShow && ThisInstance.Visible)
             {
