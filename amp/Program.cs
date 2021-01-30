@@ -31,7 +31,6 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using amp.DataMigrate.GUI;
-using amp.FormsUtility;
 using amp.FormsUtility.Help;
 using amp.FormsUtility.Information;
 using amp.FormsUtility.Progress;
@@ -41,8 +40,8 @@ using amp.FormsUtility.Songs;
 using amp.FormsUtility.UserInteraction;
 using amp.UtilityClasses.Settings;
 using Ionic.Zip;
+using RpcSelf;
 using VPKSoft.ErrorLogger;
-using VPKSoft.IPC;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.Utils;
@@ -191,8 +190,7 @@ namespace amp
                 ExceptionLogger.LogMessage($"Application is running. Checking for open file requests. The current directory is: '{Environment.CurrentDirectory}'.");
                 try
                 {
-                    IpcClientServer ipcClient = new IpcClientServer();
-                    ipcClient.CreateClient("localhost", 50671);
+                    RpcSelfClient<string> ipcClient = new RpcSelfClient<string>(50671);
 
                     // only send the existing files to the running instance, don't send the executable
                     // file name thus the start from 1..
@@ -204,7 +202,7 @@ namespace amp
                         if (File.Exists(file))
                         {
                             ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
-                            ipcClient.SendMessage(file);
+                            ipcClient.SendData(file);
                         }
                     }
                 }
@@ -221,10 +219,10 @@ namespace amp
             AppRunning.CheckIfRunning("VPKSoft.amp.sharp#");
 
             // create an IPC server at localhost, the port was randomized in the development phase..
-            IpcServer.CreateServer("localhost", 50671);
+            IpcServer = new RpcSelfHost<string>(50671);
 
             // subscribe to the IPC event if the application receives a message from another instance of this application..
-            IpcClientServer.RemoteMessage.MessageReceived += RemoteMessage_MessageReceived;
+            IpcServer.MessageReceived += MessageReceived;
 
             PositionCore.Bind(); // attach the PosLib to the application
             Application.EnableVisualStyles();
@@ -236,7 +234,8 @@ namespace amp
             PositionCore.UnBind(); // release the event handlers used by the PosLib and save the default data
 
             // unsubscribe the IpcClientServer MessageReceived event handler..
-            IpcClientServer.RemoteMessage.MessageReceived -= RemoteMessage_MessageReceived;
+            IpcServer.MessageReceived -= MessageReceived;
+            IpcServer.Dispose();
 
             ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
             ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully        
@@ -253,38 +252,17 @@ namespace amp
             }
         }
 
-        // the application is crashing without exception handling..
-        private static void ExceptionLogger_ApplicationCrashData(ApplicationCrashEventArgs e)
-        {
-            // unsubscribe this event handler..
-            ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
-            IpcClientServer.RemoteMessage.MessageReceived -= RemoteMessage_MessageReceived;
-            ExceptionLogger.UnBind(); // unbind the exception logger..
-
-            AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
-
-            // kill self as the native inter-op libraries may have some issues of keeping the process alive..
-            Process.GetCurrentProcess().Kill();
-
-            // This is the end..
-        }
-
-        /// <summary>
-        /// The IPC channel pushes the existing files to be added to the the list to be added to the temporary album.
-        /// </summary>
-        private static readonly List<string> TemporaryRemoteFiles = new List<string>();
-
         // an event handler for the IPC channel to add files to the temporary album via user shell interaction..
-        private static void RemoteMessage_MessageReceived(object sender, MessageReceivedEventArgs e)
+        private static void MessageReceived(object sender, IpcExchangeEventArgs<string> e)
         {
             if (FormMain.RemoteFileBeingProcessed)
             {
-                TemporaryRemoteFiles.Add(e.Message);
+                TemporaryRemoteFiles.Add(e.Object);
             }
             else
             {
                 FormMain.StopIpcTimer = true;
-                FormMain.RemoteFiles.Add(e.Message);
+                FormMain.RemoteFiles.Add(e.Object);
                 FormMain.RemoteFiles.AddRange(TemporaryRemoteFiles);
                 TemporaryRemoteFiles.Clear();
                 FormMain.StopIpcTimer = false;
@@ -307,11 +285,32 @@ namespace amp
             }
         }
 
+        // the application is crashing without exception handling..
+        private static void ExceptionLogger_ApplicationCrashData(ApplicationCrashEventArgs e)
+        {
+            // unsubscribe this event handler..
+            ExceptionLogger.ApplicationCrashData -= ExceptionLogger_ApplicationCrashData;
+
+            if (IpcServer != null)
+            {
+                IpcServer.MessageReceived -= MessageReceived;
+                IpcServer.Dispose();
+            }
+
+            ExceptionLogger.UnBind(); // unbind the exception logger..
+
+            AppRunning.DisposeMutexByName("VPKSoft.amp.sharp#");
+
+            // kill self as the native inter-op libraries may have some issues of keeping the process alive..
+            Process.GetCurrentProcess().Kill();
+
+            // This is the end..
+        }
+
         /// <summary>
-        /// An IPC client / server to transmit Windows shell file open requests to the current process.
-        /// (C): VPKSoft: https://gist.github.com/VPKSoft/5d78f1c06ec51ebad34817b491fe6ac6
+        /// The IPC channel pushes the existing files to be added to the the list to be added to the temporary album.
         /// </summary>
-        private static readonly IpcClientServer IpcServer = new IpcClientServer();
+        private static readonly List<string> TemporaryRemoteFiles = new List<string>();
 
         /// <summary>
         /// Gets or sets the program to run upon an application exit.
@@ -328,5 +327,7 @@ namespace amp
         /// </summary>
         /// <value>The program settings.</value>
         internal static Settings Settings { get; set; } = new Settings();
+
+        internal static RpcSelfHost<string> IpcServer { get; set; }
     }
 }

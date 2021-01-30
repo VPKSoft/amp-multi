@@ -76,6 +76,7 @@ namespace amp.FormsUtility.Information
             this.lbAlbum = new System.Windows.Forms.Label();
             this.tbAlbum = new System.Windows.Forms.TextBox();
             this.pnPictures = new System.Windows.Forms.Panel();
+            this.btRemoveImage = new System.Windows.Forms.Button();
             this.tsChangePic = new System.Windows.Forms.ToolStrip();
             this.tsbPrevious = new System.Windows.Forms.ToolStripButton();
             this.tsbNext = new System.Windows.Forms.ToolStripButton();
@@ -83,7 +84,6 @@ namespace amp.FormsUtility.Information
             this.pnBottom = new System.Windows.Forms.Panel();
             this.btOK = new System.Windows.Forms.Button();
             this.odImageFile = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
-            this.btRemoveImage = new System.Windows.Forms.Button();
             this.tlpSongInfo.SuspendLayout();
             this.pnPictures.SuspendLayout();
             this.tsChangePic.SuspendLayout();
@@ -626,6 +626,18 @@ namespace amp.FormsUtility.Information
             this.pnPictures.Size = new System.Drawing.Size(215, 513);
             this.pnPictures.TabIndex = 20;
             // 
+            // btRemoveImage
+            // 
+            this.btRemoveImage.Image = global::amp.Properties.Resources.Delete;
+            this.btRemoveImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btRemoveImage.Location = new System.Drawing.Point(3, 210);
+            this.btRemoveImage.Name = "btRemoveImage";
+            this.btRemoveImage.Size = new System.Drawing.Size(200, 28);
+            this.btRemoveImage.TabIndex = 23;
+            this.btRemoveImage.Text = "Remove image";
+            this.btRemoveImage.UseVisualStyleBackColor = true;
+            this.btRemoveImage.Click += new System.EventHandler(this.btRemoveImage_Click);
+            // 
             // tsChangePic
             // 
             this.tsChangePic.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -697,18 +709,6 @@ namespace amp.FormsUtility.Information
             // odImageFile
             // 
             this.odImageFile.Filter = "Image files|*.jpg;*.png;*.bmp;*.jpeg";
-            // 
-            // btRemoveImage
-            // 
-            this.btRemoveImage.Image = global::amp.Properties.Resources.Delete;
-            this.btRemoveImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btRemoveImage.Location = new System.Drawing.Point(3, 210);
-            this.btRemoveImage.Name = "btRemoveImage";
-            this.btRemoveImage.Size = new System.Drawing.Size(200, 28);
-            this.btRemoveImage.TabIndex = 23;
-            this.btRemoveImage.Text = "Remove image";
-            this.btRemoveImage.UseVisualStyleBackColor = true;
-            this.btRemoveImage.Click += new System.EventHandler(this.btRemoveImage_Click);
             // 
             // FormTagInfo
             // 

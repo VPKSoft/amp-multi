@@ -2551,6 +2551,36 @@ namespace amp
                 ExceptionLogger.LogError(ex);
             }
         }
+
+        /// <summary>
+        /// Handles the DrawItem event of the lbMusic control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DrawItemEventArgs"/> instance containing the event data.</param>
+        private void lbMusic_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            var listBox = (ListBox) sender;
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected,
+                    e.ForeColor, ThemeSettings.ColorPlaylistSelection);
+            }
+
+            using var brush = new SolidBrush(listBox.ForeColor);
+
+            e.DrawBackground();
+
+            e.Graphics.DrawString(listBox.Items[e.Index].ToString(), e.Font, brush, e.Bounds,
+                StringFormat.GenericDefault);
+
+            e.DrawFocusRectangle();
+        }
         #endregion
     }
 }

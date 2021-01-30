@@ -499,6 +499,13 @@ namespace amp.UtilityClasses.Settings
         /// <value>The color of a checked <see cref="ToolStripButton"/>'s border.</value>
         [IsSetting]
         public Color ColorCheckedBorder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color for a selected item in the playlist.
+        /// </summary>
+        /// <value>The color for a selected item in the playlist.</value>
+        [IsSetting] 
+        public Color ColorPlaylistSelection { get; set; } = SystemColors.Highlight;
         #endregion
 
         #region ImageHelpers

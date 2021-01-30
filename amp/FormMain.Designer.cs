@@ -134,10 +134,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 512);
+            this.ssStatus.Location = new System.Drawing.Point(0, 519);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 33);
+            this.ssStatus.Size = new System.Drawing.Size(542, 26);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -146,7 +146,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 20);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 13);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -742,10 +742,10 @@ namespace amp
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 472);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 478);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
-            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 40);
+            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 41);
             this.pnAudioVisualizationMain.TabIndex = 15;
             // 
             // avBars
@@ -832,7 +832,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 244);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 228);
+            this.pnListBox.Size = new System.Drawing.Size(542, 234);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -840,7 +840,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 228);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 234);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -851,6 +851,7 @@ namespace amp
             this.lbMusic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
             this.lbMusic.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMusic.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.lbMusic.ForeColor = System.Drawing.Color.White;
             this.lbMusic.FormattingEnabled = true;
@@ -860,11 +861,12 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 228);
+            this.lbMusic.Size = new System.Drawing.Size(542, 234);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
             this.lbMusic.VScrollChanged += new System.EventHandler<AmpControls.VScrollChangedEventArgs>(this.lbMusic_VScrollChanged);
+            this.lbMusic.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbMusic_DrawItem);
             this.lbMusic.SelectedValueChanged += new System.EventHandler(this.lbMusic_SelectedValueChanged);
             this.lbMusic.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragDrop);
             this.lbMusic.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragEnter);
