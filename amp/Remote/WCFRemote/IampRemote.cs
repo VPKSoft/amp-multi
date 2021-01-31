@@ -28,11 +28,12 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
 // ReSharper disable All
 
-namespace amp.WCFRemote
+namespace amp.Remote.WCFRemote
 {
     // netsh http add urlacl url=http://+:11316/ampRemote/ user="%USERNAME%"
     // netsh http delete urlacl url=http://+:11316/ampRemote/
@@ -370,6 +371,14 @@ namespace amp.WCFRemote
         /// <returns>Always returns true.</returns>
         [OperationContract]
         bool ConnectionTest();
+
+        /// <summary>
+        /// Scrambles the queue between the specified selected songs.
+        /// </summary>
+        /// <param name="scrambleIdList">A list of selected music file identifiers to scramble.</param>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        [OperationContract]
+        bool ScrambleQueueSelected(List<int> scrambleIdList);
     }
 
     /// <summary>

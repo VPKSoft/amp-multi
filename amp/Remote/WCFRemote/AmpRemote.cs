@@ -26,21 +26,18 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Windows.Forms;
-using amp.SQLiteDatabase;
-using amp.UtilityClasses;
+using amp.UtilityClasses.Enumerations;
 using VPKSoft.LangLib;
 
 // for remote control..
 // for remote control..
 // for the database access..
 
-namespace amp.WCFRemote
+namespace amp.Remote.WCFRemote
 {
     /// <summary>
     /// An implementation for the remote control interface for the amp#.
@@ -61,16 +58,19 @@ namespace amp.WCFRemote
         ServiceHost ampRemoteHost;
 
         /// <summary>
-        /// Reference to the MainWindow class instance as the playback logic is (sadly) in there.
+        /// Gets or sets the remote control provider.
         /// </summary>
-        public static FormMain MainWindow = null;
+        /// <value>The remote control provider.</value>
+        public static RemoteProvider RemoteProvider { get; set; }
 
         /// <summary>
         /// Initializes a ServiceHost class instance for the self-hosted remote control basic HTTP binding WCF API.
         /// </summary>
         /// <returns>True if the initialization was a success, otherwise false.</returns>
-        public bool InitAmpRemote()
+        public bool InitAmpRemote(RemoteProvider remoteProvider)
         {
+            RemoteProvider = remoteProvider;
+
             // If not defined int the settings, we don't even try..
             if (!Program.Settings.RemoteControlApiWcf)
             {
@@ -120,7 +120,7 @@ namespace amp.WCFRemote
         /// <returns>The name of the current album</returns>
         public string GetAlbumName()
         {
-            return MainWindow.CurrentAlbum;
+            return RemoteProvider.CurrentAlbum;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace amp.WCFRemote
         /// </summary>
         public void NextSong()
         {
-            MainWindow.GetNextSong();
+            RemoteProvider.GetNextSong();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace amp.WCFRemote
         /// </summary>
         public void PreviousSong()
         {
-            MainWindow.GetPrevSong();
+            RemoteProvider.GetPrevSong();
         }
 
         /// <summary>
@@ -146,34 +146,7 @@ namespace amp.WCFRemote
         /// <returns>A list of songs in the current album.</returns>
         public List<AlbumSongWCF> GetAlbumSongs(bool queued = false)
         {
-            List<AlbumSongWCF> retList = new List<AlbumSongWCF>();
-            foreach (MusicFile mf in MainWindow.PlayList)
-            {
-                if (mf.QueueIndex == 0 && queued)
-                {
-                    continue; // if only queued songs..
-                }
-
-                retList.Add(new AlbumSongWCF
-                {
-                    ID = mf.ID,
-                    Duration = mf.Duration,
-                    Volume = mf.Volume,
-                    QueueIndex = mf.QueueIndex,
-                    Rating = mf.Rating,
-                    SongName = mf.SongName,
-                    Album = mf.Album,
-                    Artist = mf.Artist,
-                    SongNameNoQueue = mf.SongNameNoQueue,
-                    OverrideName = mf.OverrideName,
-                    TagStr = mf.TagString,
-                    Title = mf.Title,
-                    Track = mf.Track,
-                    Year = mf.Year,
-                    FullFileName = mf.FullFileName
-                }); // wow what a construct!
-            }
-            return retList;
+            return RemoteProvider.GetAlbumSongs(queued);
         }
 
         /// <summary>
@@ -182,7 +155,7 @@ namespace amp.WCFRemote
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> GetQueuedSongs()
         {
-            return GetAlbumSongs(true);
+            return RemoteProvider.GetAlbumSongs(true);
         }
 
         /// <summary>
@@ -191,7 +164,7 @@ namespace amp.WCFRemote
         /// <returns>A Tuple containing the ID, length and position of the currently playing song. If no song is playing the ID will be -1.</returns>
         public Tuple<int, double, double> GetPlayingSong()
         {
-            return MainWindow.MFile == null ? new Tuple<int, double, double>(-1, 0, 0) : new Tuple<int, double, double>(MainWindow.MFile.ID, MainWindow.Seconds, MainWindow.SecondsTotal);
+            return RemoteProvider.MFile == null ? new Tuple<int, double, double>(-1, 0, 0) : new Tuple<int, double, double>(RemoteProvider.MFile.ID, RemoteProvider.Seconds, RemoteProvider.SecondsTotal);
         }
 
         /// <summary>
@@ -200,42 +173,7 @@ namespace amp.WCFRemote
         /// <returns></returns>
         public PlayerState GetPlayerState()
         {
-            MusicFile musicFile = MainWindow.MFile;
-
-            int currentSongId = -1;
-            double currentSongPosition = 0, currentSongLength = 0;
-            string currentSongName = string.Empty;
-
-            bool albumChanged = MainWindow.AlbumChanged;
-
-            if (musicFile != null)
-            {
-                currentSongId = musicFile.ID;
-                currentSongPosition = MainWindow.Seconds;
-                currentSongLength = MainWindow.SecondsTotal;
-                currentSongName = musicFile.SongNameNoQueue;
-            }
-
-            return new PlayerState
-            {
-                Paused = Paused(),
-                QueueCount = GetQueuedSongs().Count,
-                Random = Randomizing(),
-                StackQueue = StackQueue(),
-                Shuffle = Shuffle(),
-                QueueChangedFromPreviousQuery = MusicFile.QueueChanged,
-                CurrentSongID = currentSongId,
-                CurrentSongLength = currentSongLength,
-                CurrentSongName = currentSongName,
-                CurrentSongPosition = currentSongPosition,
-                CurrentAlbumName = GetAlbumName(),
-                Stopped = Stopped(),
-                AlbumContentsChanged = albumChanged,
-                AlbumChanged = Database.AlbumChanged || albumChanged,
-                SongsChanged = MainWindow.SongsChanged,
-                CanGoPrevious = MainWindow.CanGoPrevious,
-                AlbumLoading = MainWindow.AlbumLoading
-            };
+            return RemoteProvider.GetPlayerState();
         }
 
         /// <summary>
@@ -244,7 +182,7 @@ namespace amp.WCFRemote
         /// <returns>True if the queue was changed from the previous query, otherwise false.</returns>
         public bool QueueChanged()
         {
-            return MusicFile.QueueChanged;
+            return RemoteProvider.QueueChanged();
         }
 
         /// <summary>
@@ -253,7 +191,7 @@ namespace amp.WCFRemote
         /// <returns>True if the play list of the current album was changed from the previous query, otherwise false.</returns>
         public bool AlbumPlayListChanged()
         {
-            return Database.AlbumChanged;
+            return RemoteProvider.AlbumPlayListChanged();
         }
 
         /// <summary>
@@ -262,7 +200,7 @@ namespace amp.WCFRemote
         /// <returns>True if current music album was changed, otherwise false.</returns>
         public bool AlbumChanged()
         {
-            return MainWindow.AlbumChanged;
+            return RemoteProvider.AlbumChanged;
         }
 
         /// <summary>
@@ -271,7 +209,7 @@ namespace amp.WCFRemote
         /// <param name="seconds">The position to jump the playback to.</param>
         public void SetPositionSeconds(double seconds)
         {
-            MainWindow.SetPositionSeconds(seconds);
+            RemoteProvider.SetPositionSeconds(seconds);
         }
 
         /// <summary>
@@ -282,10 +220,10 @@ namespace amp.WCFRemote
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
         {
-            MainWindow.Queue(insert, queueList);
-            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            RemoteProvider.Queue(insert, queueList);
+            if (RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                MainWindow.ShowQueue();
+                RemoteProvider.ShowQueue();
             }
 
             return GetQueuedSongs();
@@ -299,10 +237,10 @@ namespace amp.WCFRemote
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
         {
-            MainWindow.Queue(insert, songIDs);
-            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            RemoteProvider.Queue(insert, songIDs);
+            if (RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                MainWindow.ShowQueue();
+                RemoteProvider.ShowQueue();
             }
 
             return GetQueuedSongs();
@@ -314,7 +252,17 @@ namespace amp.WCFRemote
         /// <returns>True if any songs were affected; otherwise false.</returns>
         public bool ScrambleQueue()
         {
-            return MainWindow.ScrambleQueue();
+            return RemoteProvider.ScrambleQueue();
+        }
+
+        /// <summary>
+        /// Scrambles the queue between the specified selected songs.
+        /// </summary>
+        /// <param name="scrambleIdList">A list of selected music file identifiers to scramble.</param>
+        /// <returns>True if any songs were affected; otherwise false.</returns>
+        public bool ScrambleQueueSelected(List<int> scrambleIdList)
+        {
+            return RemoteProvider.ScrambleQueueSelected(scrambleIdList);
         }
 
         /// <summary>
@@ -323,36 +271,7 @@ namespace amp.WCFRemote
         /// <returns>A list of songs which properties have been changed in the current album.</returns>
         public List<AlbumSongWCF> GetChangedSongs()
         {
-            List<AlbumSongWCF> retList = new List<AlbumSongWCF>();
-            foreach (MusicFile mf in MainWindow.PlayList)
-            {
-                if (!mf.SongChanged)
-                {
-                    continue; // if only queued songs..
-                }
-
-                mf.SongChanged = false;
-
-                retList.Add(new AlbumSongWCF
-                {
-                    ID = mf.ID,
-                    Duration = mf.Duration,
-                    Volume = mf.Volume,
-                    QueueIndex = mf.QueueIndex,
-                    Rating = mf.Rating,
-                    SongName = mf.SongName,
-                    Album = mf.Album,
-                    Artist = mf.Artist,
-                    SongNameNoQueue = mf.SongNameNoQueue,
-                    OverrideName = mf.OverrideName,
-                    TagStr = mf.TagString,
-                    Title = mf.Title,
-                    Track = mf.Track,
-                    Year = mf.Year,
-                    FullFileName = mf.FullFileName
-                }); // wow what a construct!
-            }
-            return retList;
+            return RemoteProvider.GetChangedSongs();
         }
 
         /// <summary>
@@ -363,11 +282,11 @@ namespace amp.WCFRemote
         /// <returns>A list of queued songs in the current album.</returns>
         public List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs)
         {
-            MainWindow.Queue(insert, songIDs);
+            RemoteProvider.Queue(insert, songIDs);
 
-            if (MainWindow.Filtered == FormMain.FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            if (RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                MainWindow.ShowQueue();
+                RemoteProvider.ShowQueue();
             }
 
             return GetQueuedSongs();
@@ -379,7 +298,7 @@ namespace amp.WCFRemote
         /// <returns>Returns true if the playback is in a paused state, otherwise false.</returns>
         public bool Paused()
         {
-            return MainWindow.Paused();
+            return RemoteProvider.Paused();
         }
 
         /// <summary>
@@ -388,7 +307,7 @@ namespace amp.WCFRemote
         /// <returns>Returns true if the playback is in a stopped state, otherwise false.</returns>
         public bool Stopped()
         {
-            return MainWindow.Stopped();
+            return RemoteProvider.Stopped();
         }
 
         /// <summary>
@@ -397,7 +316,7 @@ namespace amp.WCFRemote
         /// <returns>Returns true if the playback is in a playing state, otherwise false.</returns>
         public bool Playing()
         {
-            return MainWindow.Playing();
+            return RemoteProvider.Playing();
         }
 
         /// <summary>
@@ -405,7 +324,7 @@ namespace amp.WCFRemote
         /// </summary>
         public void Play()
         {
-            MainWindow.Play();
+            RemoteProvider.Play();
         }
 
         /// <summary>
@@ -413,7 +332,7 @@ namespace amp.WCFRemote
         /// </summary>
         public void Pause()
         {
-            MainWindow.Pause();
+            RemoteProvider.Pause();
         }
 
 
@@ -423,7 +342,7 @@ namespace amp.WCFRemote
         /// <param name="id">An ID for the song which to play.</param>
         public void PlayID(int id)
         {
-            MainWindow.Play(id);
+            RemoteProvider.Play(id);
         }
 
         /// <summary>
@@ -432,7 +351,7 @@ namespace amp.WCFRemote
         /// <returns>Returns true if the playback "engine" is randomizing songs, otherwise false.</returns>
         public bool Randomizing()
         {
-            return MainWindow.Randomizing;
+            return RemoteProvider.Randomizing;
         }
 
         /// <summary>
@@ -441,7 +360,7 @@ namespace amp.WCFRemote
         /// <returns><c>true</c> if the stack queue playback mode is enabled, <c>false</c> otherwise.</returns>
         public bool StackQueue()
         {
-            return MainWindow.StackQueue;
+            return RemoteProvider.StackQueue;
         }
 
         /// <summary>
@@ -450,7 +369,7 @@ namespace amp.WCFRemote
         /// <param name="value">A value indicating if the stack queue playback mode should be on or off.</param>
         public void SetStackQueue(bool value)
         {
-            MainWindow.StackQueue = value;
+            RemoteProvider.StackQueue = value;
         }
 
         /// <summary>
@@ -459,7 +378,7 @@ namespace amp.WCFRemote
         /// <param name="value">A value indicating if the randomization should be on or off.</param>
         public void SetRandomizing(bool value)
         {
-            MainWindow.Randomizing = value;
+            RemoteProvider.Randomizing = value;
         }
 
         /// <summary>
@@ -468,7 +387,7 @@ namespace amp.WCFRemote
         /// <returns>Returns true if the playback "engine" is shuffling songs, otherwise false.</returns>
         public bool Shuffle()
         {
-            return MainWindow.Shuffle;
+            return RemoteProvider.Shuffle;
         }
 
         /// <summary>
@@ -477,7 +396,7 @@ namespace amp.WCFRemote
         /// <param name="value">A value indicating if the shuffling should be on or off.</param>
         public void SetShuffle(bool value)
         {
-            MainWindow.Shuffle = value;
+            RemoteProvider.Shuffle = value;
         }
 
         /// <summary>
@@ -488,7 +407,7 @@ namespace amp.WCFRemote
         // ReSharper disable once IdentifierTypo
         public bool Suffle()
         {
-            return MainWindow.Shuffle;
+            return RemoteProvider.Shuffle;
         }
 
         /// <summary>
@@ -499,7 +418,7 @@ namespace amp.WCFRemote
         // ReSharper disable once IdentifierTypo
         public void SetSuffle(bool value)
         {
-            MainWindow.Shuffle = value;
+            RemoteProvider.Shuffle = value;
         }
 
         /// <summary>
@@ -511,7 +430,7 @@ namespace amp.WCFRemote
         {
             try
             {
-                MainWindow.RemoveSongFromAlbum(song);
+                RemoteProvider.RemoveSongFromAlbum(song);
                 return true;
             }
             catch
@@ -527,7 +446,7 @@ namespace amp.WCFRemote
         /// <returns>True if a song was playing which volume to set and the given volume was within acceptable range, otherwise false.</returns>
         public bool SetVolume(float volume) // 0.0-2.0
         {
-            return MainWindow.SetVolume(volume);
+            return RemoteProvider.SetVolume(volume);
         }
 
         /// <summary>
@@ -538,7 +457,7 @@ namespace amp.WCFRemote
         /// <returns>True if the given list was valid and the and the given volume was within acceptable range, otherwise false.</returns>
         public bool SetVolumeMultiple(List<int> songIdList, float volume) // 0.0-2.0
         {
-            return MainWindow.SetVolume(songIdList, volume);
+            return RemoteProvider.SetVolume(songIdList, volume);
         }
 
 
@@ -549,7 +468,7 @@ namespace amp.WCFRemote
         /// <returns>True if a song was playing which rating to set and the given rating was within acceptable range, otherwise false.</returns>
         public bool SetRating(int rating) // 0-1000
         {
-            return MainWindow.SetRating(rating);
+            return RemoteProvider.SetRating(rating);
         }
 
         /// <summary>
@@ -560,7 +479,7 @@ namespace amp.WCFRemote
         /// <returns>True if a songs which rating to set was a valid list and the given rating was within acceptable range, otherwise false.</returns>
         public bool SetRatingMultiple(List<int> songIdList, int rating)
         {
-            return MainWindow.SetRating(songIdList, rating);
+            return RemoteProvider.SetRating(songIdList, rating);
         }
 
         /// <summary>
@@ -570,54 +489,7 @@ namespace amp.WCFRemote
         /// <returns>A list of QueueEntry class instances for the requested album.</returns>
         public List<QueueEntry> GetQueueList(string albumName)
         {
-            SQLiteConnection conn = FormMain.Connection; // there is sill a dependency for the MainWindow..
-            List<QueueEntry> queueList = new List<QueueEntry>();
-            using (SQLiteCommand command = new SQLiteCommand(conn))
-            {
-                command.CommandText = albumName != string.Empty
-                    ? string.Join(Environment.NewLine,
-                        "SELECT COUNT(DISTINCT ID) FROM",
-                        // ReSharper disable once StringLiteralTypo
-                        $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})")
-                    : string.Join(Environment.NewLine,
-                        "SELECT COUNT(DISTINCT ID) FROM",
-                        "QUEUE_SNAPSHOT");
-
-                if (Convert.ToInt32(command.ExecuteScalar()) == 0)
-                {
-                    return queueList;
-                }
-
-                command.CommandText = albumName == string.Empty
-                    ? command.CommandText =
-                        string.Join(Environment.NewLine,
-                            "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
-                            "FROM QUEUE_SNAPSHOT",
-                            "GROUP BY ID, SNAPSHOTNAME",
-                            "ORDER BY MAX(SNAPSHOT_DATE)")
-                    : command.CommandText =
-                        string.Join(Environment.NewLine,
-                            "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
-                            $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})",
-                            "GROUP BY ID, SNAPSHOTNAME",
-                            "ORDER BY MAX(SNAPSHOT_DATE)");
-
-
-                using (SQLiteDataReader dr = command.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        queueList.Add(new QueueEntry
-                        {
-                            CreteDate = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
-                            ID = dr.GetInt32(0),
-                            QueueName = dr.GetString(1)
-                        });
-                    }
-                }
-            }
-
-            return queueList;
+            return RemoteProvider.GetQueueList(albumName);
         }
 
         /// <summary>
@@ -626,7 +498,7 @@ namespace amp.WCFRemote
         /// <returns>A list of AlbumWCF class instances indicating the albums in the amp# database.</returns>
         public List<AlbumWCF> GetAlbums()
         {
-            return MainWindow.GetAlbums();
+            return RemoteProvider.GetAlbums();
         }
 
         /// <summary>
@@ -636,7 +508,7 @@ namespace amp.WCFRemote
         /// <returns>True if the album exists and was successfully changed, otherwise false.</returns>
         public bool SelectAlbum(string albumName)
         {
-            return MainWindow.SelectAlbum(albumName);
+            return RemoteProvider.SelectAlbum(albumName);
         }
 
         /// <summary>
@@ -645,7 +517,7 @@ namespace amp.WCFRemote
         /// <returns>A list of QueueEntry class instances for the current album.</returns>
         public List<QueueEntry> GetQueueListCurrentAlbum()
         {
-            return GetQueueList(MainWindow.CurrentAlbum);
+            return GetQueueList(RemoteProvider.CurrentAlbum);
         }
 
         /// <summary>
@@ -654,7 +526,7 @@ namespace amp.WCFRemote
         /// <param name="queueId">An index a queue to load for the playback for the current album.</param>
         public void LoadQueue(int queueId)
         {
-            MainWindow.RefreshLoadQueueStats(queueId, false);
+            RemoteProvider.RefreshLoadQueueStats(queueId, false);
         }
 
         /// <summary>
@@ -663,7 +535,7 @@ namespace amp.WCFRemote
         /// <param name="queueId">An index a queue to load for the playback for the current album.</param>
         public void AppendQueue(int queueId)
         {
-            MainWindow.RefreshLoadQueueStats(queueId, true);
+            RemoteProvider.RefreshLoadQueueStats(queueId, true);
         }
 
         /// <summary>
@@ -672,7 +544,7 @@ namespace amp.WCFRemote
         /// <returns>A value indicating if a previous song can be selected from the amp# play list.</returns>
         public bool CanGoPrevious()
         {
-            return MainWindow.CanGoPrevious;
+            return RemoteProvider.CanGoPrevious;
         }
 
         /// <summary>

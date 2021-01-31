@@ -36,7 +36,6 @@ using amp.UtilityClasses;
 using amp.UtilityClasses.Settings;
 using amp.UtilityClasses.Theme;
 using amp.UtilityClasses.WindowsPowerSave;
-using amp.WCFRemote;
 using NAudio.Vorbis;
 using NAudio.Wave;
 using ReaLTaiizor.Forms;
@@ -53,8 +52,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using amp.FormsUtility.Songs;
+using amp.Properties;
+using amp.Remote.RESTful;
+using amp.Remote.WCFRemote;
 using amp.UtilityClasses.Controls;
+using amp.UtilityClasses.Enumerations;
 using VPKSoft.ErrorLogger;
+using VPKSoft.KeySendList;
 using VPKSoft.LangLib;
 using VPKSoft.PosLib;
 using VPKSoft.ScriptRunner;
@@ -84,6 +89,7 @@ namespace amp
 
             InitFormLocalization(this);
 
+            // ReSharper disable once StringLiteralTypo, that is the real name
             DBLangEngine.NameSpaces.Add("ReaLTaiizor.");
 
             // ReSharper disable once StringLiteralTypo
@@ -118,8 +124,10 @@ namespace amp
 
             Database.DatabaseProgress += Database_DatabaseProgress;
 
+            // initialize the remote API provider event if it's not used..
+            InitializeRemoteProvider();
+
             tmPendOperation.Enabled = true;
-            AmpRemote.MainWindow = this;
 
             MusicFile.StackRandomPercentage = StackRandomPercentage;
 
@@ -140,6 +148,8 @@ namespace amp
                 : ThemeSettings.ToggleVolumeRatingHidden;
 
             EnableDisableGui();
+
+            RestInitializer.InitializeRest("http://localhost/", 12345, RemoteProvider);
         }
 
         #region Fields                
@@ -260,6 +270,65 @@ namespace amp
         #endregion
 
         #region PrivateMethods        
+        /// <summary>
+        /// Un-checks all the album menu drop down items.
+        /// </summary>
+        private void DisableChecks()
+        {
+            for (int i = 0; i < mnuAlbum.DropDownItems.Count; i++)
+            {
+                ((ToolStripMenuItem) mnuAlbum.DropDownItems[i]).Checked = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the next image for the album drop down menu.
+        /// </summary>
+        /// <param name="goNum">The index number.</param>
+        /// <returns>Bitmap.</returns>
+        private Bitmap GetNextImg(int goNum)
+        {
+            List<Bitmap> albumImages = new List<Bitmap>
+            {
+                Resources.album_blue,
+                Resources.album_byellow,
+                Resources.album_green,
+                Resources.album_red,
+                Resources.album_teal
+            };
+            return albumImages[goNum % 5];
+        }
+
+        /// <summary>
+        /// Lists the albums.
+        /// </summary>
+        /// <param name="checkAlbum">The album of which dropdown item to check from the GUI.</param>
+        private void ListAlbums(int checkAlbum = -1)
+        {
+            mnuAlbum.DropDownItems.Clear();
+            List<Album> albums = Database.GetAlbums(Connection);
+            int aNum = 0;
+
+            foreach (var album in albums)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem
+                {
+                    Image = GetNextImg(aNum++),
+                    Tag = album.Id,
+                    Text = album.AlbumName,
+                    Width = mnuAlbum.Width,
+                };
+
+                item.Click += SelectAlbumClick;
+                mnuAlbum.DropDownItems.Add(item);
+
+                if (album.Id == checkAlbum)
+                {
+                    item.Checked = true;
+                }
+            }
+        }
+
         /// <summary>
         /// Toggles some items of the qui to enabled or disabled based on the state of other UI objects.
         /// </summary>
@@ -426,6 +495,45 @@ namespace amp
                 tfMain.Text = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an album is loading.
+        /// </summary>
+        /// <value><c>true</c> if an album is loading; otherwise, <c>false</c>.</value>
+        public bool AlbumLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the album has been changed.
+        /// </summary>
+        /// <value><c>true</c> if the album has been changed; otherwise, <c>false</c>.</value>
+        public bool AlbumChanged
+        {
+            get
+            {
+                if (AlbumLoading)
+                {
+                    return false;
+                }
+
+                var tmp = albumChanged;
+                albumChanged = false;
+                return tmp;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the remote provider instance for RESTful/SOAP API use.
+        /// </summary>
+        /// <value>Gets or sets the remote provider instance for RESTful/SOAP API use.</value>
+        public static RemoteProvider RemoteProvider { get; set; }
+
+        // a field for the AlbumChanged property..
+        private bool albumChanged;
+
+        /// <summary>
+        /// Gets a value whether the album has changed.
+        /// Note: This is an auto-resetting property; after querying the value the property returns false.
+        /// </summary>
 
         /// <summary>
         /// Gets an album with a given name and lists it to the playlist.
@@ -1305,14 +1413,121 @@ namespace amp
 
         #region PublicMethods
         /// <summary>
+        /// Pauses the playback.
+        /// </summary>
+        public void Pause()
+        {
+            if (waveOutDevice == null)
+            {
+                VisualizePlaybackState();
+                return;
+            }
+
+            if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+            {
+                waveOutDevice.Pause();
+            }
+            VisualizePlaybackState();
+        }
+
+        /// <summary>
+        /// Gets the next song for playback.
+        /// </summary>
+        /// <param name="fromEvent">if set to <c>true</c> the request came from an event.</param>
+        public void GetNextSong(bool fromEvent = false)
+        {
+            if (addFiles)
+            {
+                pendNextSong = true;
+            }
+
+            if (pendNextSong)
+            {
+                return;
+            }
+
+            if (PlayList.Count > 0)
+            {
+                int iQueue = int.MaxValue;
+                int iSongIndex = -1;
+                for (int i = 0; i < PlayList.Count; i++)
+                {
+                    if (PlayList[i].QueueIndex >= 1)
+                    {
+                        if (iQueue > PlayList[i].QueueIndex)
+                        {
+                            iQueue = PlayList[i].QueueIndex;
+                            iSongIndex = i;
+                        }
+                    }
+                }
+                if (iSongIndex != -1)
+                {
+                    PlayList[iSongIndex].Queue(ref PlayList, StackQueueEnabled);
+                    if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+                    {
+                        ShowQueue();
+                    }
+
+                    latestSongIndex = iSongIndex;
+                    PlaySong(iSongIndex, false);
+                }
+                if (iSongIndex == -1)
+                {
+                    if (tbRand.Checked)
+                    {
+                        iSongIndex = Program.Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
+                        latestSongIndex = iSongIndex;
+                        PlaySong(iSongIndex, true);
+                    }
+                }
+
+                if (iSongIndex == -1)
+                {
+                    if (!fromEvent || tbShuffle.Checked)
+                    {
+                        latestSongIndex = latestSongIndex + 1;
+                        if (latestSongIndex >= PlayList.Count)
+                        {
+                            latestSongIndex = 0;
+                        }
+                    }
+                    PlaySong(latestSongIndex, false);
+                }
+                if (lbMusic.InvokeRequired)
+                {
+                    lbMusic.Invoke(new VoidDelegate(RefreshListboxFromThread));
+                }
+                else
+                {
+                    RefreshListboxFromThread();
+                }
+                if (ssStatus.InvokeRequired)
+                {
+                    ssStatus.Invoke(new VoidDelegate(GetQueueCount));
+                }
+                else
+                {
+                    GetQueueCount();
+                }
+
+                if (Filtered == FilterType.QueueFiltered)
+                {
+                    ShowQueue();
+                }
+            }
+        }
+
+        /// <summary>
         /// Scrambles the queue between the selected songs within the queue.
         /// </summary>
+        /// <param name="scrambleIdList">An optional list of music file identifiers to scramble instead.</param>
         /// <returns>True if any songs were affected; otherwise false.</returns>
-        public bool ScrambleQueueSelected()
+        public bool ScrambleQueueSelected(List<int> scrambleIdList = null)
         {
             var selectedFiles = SelectedMusicFiles;
             humanActivity.Enabled = false;
-            bool affected = MusicFile.ScrambleQueueSelected(SelectedMusicFiles); // if any songs in the play list was affected..
+            bool affected = MusicFile.ScrambleQueueSelected(scrambleIdList == null || scrambleIdList.Count == 0 ? SelectedMusicFiles : PlayList.Where(f => scrambleIdList.Contains(f.ID)).ToArray()); // if any songs in the play list was affected..
 
             if (affected)
             {
@@ -1543,6 +1758,419 @@ namespace amp
         #endregion
 
         #region InternalMethods
+
+        internal void InitializeRemoteProvider()
+        {
+            RemoteProvider = new RemoteProvider(
+                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused,
+                () =>
+                {
+                    if (waveOutDevice == null)
+                    {
+                        VisualizePlaybackState();
+                        return;
+                    }
+
+                    if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                    {
+                        waveOutDevice.Pause();
+                    }
+
+                    VisualizePlaybackState();
+                },
+                Play,
+                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped,
+                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Playing,
+                SetPositionSeconds,
+                Queue,
+                Queue,
+                (queueIndex, append) =>
+                {
+                    Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
+                    lbMusic.RefreshItems();
+                    GetQueueCount();
+                },
+                () => AlbumChanged,
+                () => AlbumLoading,
+                loading => AlbumLoading = loading,
+                () => PlayList.Count(f => f.SongChanged) > 0,
+                () => tbRand.Checked,
+                value => tbRand.Checked = value,
+                () => tsbQueueStack.Checked,
+                value => tsbQueueStack.Checked = value,
+                () => tbShuffle.Checked,
+                value => tbShuffle.Checked = value,
+                RemoveSongFromAlbum,
+                rating =>
+                {
+                    if (MFile != null && rating >= 0 && rating <= 1000)
+                    {
+                        MFile.Rating = rating;
+                        MFile.RatingChanged = true;
+                        SaveRating(MFile);
+                        return true;
+                    }
+
+                    return false;
+                },
+                volume =>
+                {
+                    if (volumeStream != null && volume >= 0F && volume <= 2.0F)
+                    {
+                        volumeStream.Volume = volume;
+
+                        if (MFile != null)
+                        {
+                            MFile.Volume = volumeStream.Volume;
+                            Database.SaveVolume(MFile, Connection);
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+                    return false;
+                },
+                SetVolume,
+                SetRating,
+                () =>
+                {
+                    List<Album> albums = Database.GetAlbums(Connection);
+                    List<AlbumWCF> albumsWcf = new List<AlbumWCF>();
+                    foreach (Album album in albums)
+                    {
+                        albumsWcf.Add(new AlbumWCF {Name = album.AlbumName});
+                    }
+
+                    return albumsWcf;
+                },
+                SelectAlbum,
+                () => playedSongs.Count >= 2,
+                (value) => MFile = value,
+                () => MFile,
+                (value) => value == null ? CurrentAlbum : CurrentAlbum = value,
+                () => GetNextSong(),
+                GetPrevSong,
+                (value) => value == null ? PlayList : PlayList = value,
+                () => Seconds,
+                () => SecondsTotal,
+                (value) => value == null ? Filtered : Filtered = (FilterType)value,
+                ShowQueue,
+                ScrambleQueue,
+                ScrambleQueueSelected);
+        }
+
+        /// <summary>
+        /// Selects an album with a given name.
+        /// </summary>
+        /// <param name="name">The name of the album to select.</param>
+        /// <returns><c>true</c> if the album was selected successfully; otherwise <c>false</c>.</returns>
+        internal bool SelectAlbum(string name)
+        {
+            List<Album> albums = Database.GetAlbums(Connection);
+            foreach (Album album in albums)
+            {
+                foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
+                {
+                    if ((album.AlbumName != CurrentAlbum && album.AlbumName == name) 
+                        && (int)(item).Tag == album.Id)
+                    {
+                        DisableChecks();
+                        item.Checked = true;
+                        Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                        GetAlbum(name);
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Sets a rating for multiple songs.
+        /// </summary>
+        /// <param name="songIdList">A list of song database ID numbers to set the rating for.</param>
+        /// <param name="rating"></param>
+        /// <returns><c>true</c> if the rating was set successfully; otherwise <c>false</c>.</returns>
+        internal bool SetRating(List<int> songIdList, int rating)
+        {
+            if (rating >= 0 && rating <= 1000 && songIdList != null && songIdList.Count > 0)
+            {
+                foreach (var item in PlayList)
+                {
+                    if (songIdList.Exists(f => f == item.ID))
+                    {
+                        item.Rating = rating;
+                        item.RatingChanged = true;
+                        SaveRating(item);
+                        int lbIdx = GetListBoxIndexById(item.ID);
+                        if (lbIdx >= 0)
+                        {
+                            lbMusic.Items[lbIdx] = item;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the index of the music file in the main form playlist box.
+        /// </summary>
+        /// <param name="id">A song database ID number to get the index for.</param>
+        /// <returns>An index if the operation was successful; otherwise -1.</returns>
+        internal int GetListBoxIndexById(int id)
+        {
+            for (int i = 0; i < lbMusic.Items.Count; i++)
+            {
+                if (((MusicFile)lbMusic.Items[i]).ID == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Sets a volume for multiple songs.
+        /// </summary>
+        /// <param name="songIdList">A list of song database ID numbers to set the volume for.</param>
+        /// <param name="volume">The new volume value.</param>
+        /// <returns><c>true</c> if the volume was set successfully; otherwise <c>false</c>.</returns>
+        internal bool SetVolume(List<int> songIdList, float volume)
+        {
+            if (volume >= 0F && volume <= 2.0F && songIdList != null && songIdList.Count > 0)
+            {
+                foreach (var item in PlayList)
+                {
+                    if (songIdList.Exists(f => f == item.ID))
+                    {
+                        item.Volume = volume;
+                        Database.SaveVolume(item, Connection);
+                        int lbIdx = GetListBoxIndexById(item.ID);
+                        if (lbIdx >= 0)
+                        {
+                            lbMusic.Items[lbIdx] = item;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Removes a song from the current album.
+        /// </summary>
+        /// <param name="asf">A <see cref="AlbumSongWCF"/> class instance to remove from the album.</param>
+        internal void RemoveSongFromAlbum(AlbumSongWCF asf)
+        {
+            lbMusic.SuspendLayout();
+            humanActivity.Enabled = false;
+            List<MusicFile> removeList = new List<MusicFile>();
+
+            for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
+            {
+                if (((MusicFile) lbMusic.Items[i]).ID == asf.ID)
+                {
+                    lbMusic.Items.RemoveAt(i);
+                    break;
+                }
+            }
+
+            MusicFile mf = PlayList.Find(f => f.ID == asf.ID);
+
+            if (mf != null)
+            {
+                removeList.Add(mf);
+                MusicFile.RemoveById(ref PlayList, mf.ID);
+            }
+
+            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
+            humanActivity.Enabled = true;
+            lbMusic.ResumeLayout();
+        }
+
+        /// <summary>
+        /// Queue a song.
+        /// </summary>
+        /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
+        /// <param name="songIDs">A list of song IDs which are to be queued from the remote GUI.</param>
+        internal void Queue(bool insert, List<int> songIDs)
+        {
+            List<MusicFile> qFiles = new List<MusicFile>();
+            foreach (int songId in songIDs)
+            {
+                foreach (MusicFile mf in lbMusic.Items)
+                {
+                    if (mf.ID == songId)
+                    {
+                        qFiles.Add(mf);
+                    }
+                }
+            }
+
+            foreach (MusicFile mf in qFiles)
+            {
+                if (insert)
+                {
+                    if (playing)
+                    {
+                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(MFile));
+                    }
+                    else
+                    {
+                        mf.QueueInsert(ref PlayList, false);
+                    }
+                }
+                else
+                {
+                    mf.Queue(ref PlayList, StackQueueEnabled);
+                }
+            }
+
+            if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            {
+                ShowQueue();
+            }
+
+            lbMusic.RefreshItems();
+            GetQueueCount();
+        }
+
+        /// <summary>
+        /// Queue a song.
+        /// </summary>
+        /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
+        /// <param name="queueList">A list of songs which are to be queued from the remote GUI.</param>
+        internal void Queue(bool insert, List<AlbumSongWCF> queueList)
+        {
+            List<MusicFile> qFiles = new List<MusicFile>();
+            foreach (AlbumSongWCF mfWcf in queueList)
+            {
+                foreach (MusicFile mf in lbMusic.Items)
+                {
+                    if (mf.ID == mfWcf.ID)
+                    {
+                        qFiles.Add(mf);
+                    }
+                }
+            }
+
+            foreach (MusicFile mf in qFiles)
+            {
+                if (insert)
+                {
+                    if (playing)
+                    {
+                        mf.QueueInsert(ref PlayList, false, PlayList.IndexOf(MFile));
+                    }
+                    else
+                    {
+                        mf.QueueInsert(ref PlayList, false);
+                    }
+                }
+                else
+                {
+                    mf.Queue(ref PlayList, StackQueueEnabled);
+                }
+            }
+
+            if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+            {
+                ShowQueue();
+            }
+
+            lbMusic.RefreshItems();
+            GetQueueCount();
+        }
+
+        /// <summary>
+        /// Sets the playback position in seconds.
+        /// </summary>
+        /// <param name="seconds">The playback position in seconds.</param>
+        public void SetPositionSeconds(double seconds)
+        {
+            if (mainOutputStream != null)
+            {
+                tmSeek.Stop();
+                try
+                {
+                    mainOutputStream.CurrentTime = new TimeSpan(0, 0, (int)seconds);
+                }
+                catch (Exception ex)
+                {
+                    // log the exception..
+                    ExceptionLogger.LogError(ex);
+                }
+                tmSeek.Start();
+            }
+        }
+
+        /// <summary>
+        /// Plays a song with a given database ID number or the next song if the given id is -1.
+        /// </summary>
+        /// <param name="id">The database ID number for the song to play.</param>
+        internal void Play(int id)
+        {
+            if (id != -1)
+            {
+                foreach (var item in lbMusic.Items)
+                {
+                    if (((MusicFile) item).ID == id)
+                    {
+                        UpdateNPlayed(MFile, Skipped);
+                        MFile = item as MusicFile;
+                        if (MFile != null)
+                        {
+                            latestSongIndex = MFile.VisualIndex;
+                            UpdateNPlayed(MFile, false);
+                        }
+
+                        newSong = true;
+                    }
+                }
+            }
+            else if (waveOutDevice == null)
+            {
+                GetNextSong();
+            }
+            else if (waveOutDevice.PlaybackState != PlaybackState.Playing)
+            {
+                waveOutDevice.Play();
+            }
+            VisualizePlaybackState();
+        }
+
+        /// <summary>
+        /// Displays the playback state in the main window.
+        /// </summary>
+        internal void VisualizePlaybackState()
+        {
+            if (waveOutDevice != null)
+            {
+                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                {
+                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
+                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
+                }
+                else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
+                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+                }
+            }
+            else
+            {
+                tbPlayNext.Image = ThemeSettings.PlaybackPlay;
+                tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
+            }
+        }
+
         /// <summary>
         /// Displays the queued songs within the playlist.
         /// </summary>
@@ -2081,7 +2709,7 @@ namespace amp
             }
 
             albumChanged = false;
-            remote.InitAmpRemote();
+            remote.InitAmpRemote(RemoteProvider);
 
             // check for a new version from the internet..
             CheckForNewVersion();
@@ -2580,6 +3208,255 @@ namespace amp
                 StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
+        }
+        #endregion
+
+        #region FindAndKeyboard
+        /// <summary>
+        /// Gets or sets the type of the playlist filtering.
+        /// </summary>
+        internal FilterType Filtered { get; set; } = FilterType.NoneFiltered; // if the list of files is somehow filtered..
+
+        /// <summary>
+        /// Finds the songs with the text in the search box.
+        /// </summary>
+        /// <param name="onlyIfText">if set to <c>true</c> an empty or white space in the search box doesn't affect the filtering.</param>
+        /// <param name="alternateSearch">A search text to override the default search box text.</param>
+        private void Find(bool onlyIfText = false, string alternateSearch = null)
+        {
+            var findText = alternateSearch ?? tbFind.Text;
+
+            if (onlyIfText)
+            {
+                if (findText.Trim() == string.Empty)
+                {
+                    return;
+                }
+            }
+            lbMusic.Items.Clear();
+            foreach (MusicFile mf in PlayList)
+            {
+                if (mf.Match(findText))
+                {
+                    lbMusic.Items.Add(mf);
+                }
+            }
+            Filtered = findText != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
+        }
+
+        /// <summary>
+        /// Handles the media key presses (play, pause, next, previous, etc).
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        /// <returns><c>true</c> if the key was handled by this method, <c>false</c> otherwise.</returns>
+        private bool HandleMediaKey(ref KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.MediaPlayPause)
+            {
+                TogglePause();
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaNextTrack)
+            {
+                GetNextSong(true);
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaPreviousTrack)
+            {
+                GetPrevSong();
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            if (e.KeyCode == Keys.MediaStop)
+            {
+                Pause(); // this software knows no stop..
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Handles the key down event with the playlist box which is the other focusable control on the form besides the search box.
+        /// If the key is none of the control keys the key is send to the search box and the search box is then focused.
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        private void HandleKeyDown(ref KeyEventArgs e)
+        {
+            // the media keys are handled in a separate method..
+            if (HandleMediaKey(ref e)) 
+            {
+                return;
+            }
+
+            if (e.KeyCode == Keys.Return)
+            {
+                if (lbMusic.SelectedItem != null)
+                {
+                    UpdateNPlayed(MFile, Skipped);
+                    MFile = lbMusic.SelectedItem as MusicFile;
+                    if (MFile != null)
+                    {
+                        latestSongIndex = MFile.VisualIndex;
+                        UpdateNPlayed(MFile, false);
+                    }
+
+                    newSong = true;
+                    e.Handled = true;
+                }
+
+                return;
+            }
+
+            if (e.KeyCode == Keys.Delete)
+            {
+                lbMusic.SuspendLayout();
+                humanActivity.Enabled = false;
+                List<MusicFile> removeList = new List<MusicFile>();
+                for (int i = lbMusic.SelectedItems.Count - 1; i >= 0; i--)
+                {
+                    MusicFile mf = (lbMusic.SelectedItems[i] as MusicFile);
+                    removeList.Add(mf);
+                    lbMusic.Items.RemoveAt(lbMusic.SelectedIndices[i]);
+                    if (mf != null)
+                    {
+                        MusicFile.RemoveById(ref PlayList, mf.ID);
+                    }
+                }
+                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
+                humanActivity.Enabled = true;
+                lbMusic.ResumeLayout();
+                return;
+            }
+
+            if (e.KeyCode == Keys.F2)
+            {
+                if (lbMusic.SelectedItem != null)
+                {
+                    humanActivity.Enabled = false;
+                    MusicFile mf = lbMusic.SelectedItem as MusicFile;
+                    string s = FormRename.Execute(mf);
+                    Database.SaveOverrideName(ref mf, s, Connection);
+                    lbMusic.RefreshItem(lbMusic.SelectedIndex);
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
+                    humanActivity.Enabled = true;
+                }
+
+                return;
+            }
+
+            if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
+            {
+                foreach (MusicFile mf in lbMusic.SelectedItems)
+                {
+                    if (e.Control)
+                    {
+                        if (playing || Filtered != FilterType.NoneFiltered)
+                        {
+                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(MFile));
+                        }
+                        else
+                        {
+                            mf.QueueInsert(ref PlayList, Filtered != FilterType.NoneFiltered);
+                        }
+                    }
+                    else
+                    {
+                        mf.Queue(ref PlayList, false);
+                    }
+                }
+                lbMusic.RefreshItems();
+                GetQueueCount();
+
+                if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+                {
+                    ShowQueue();
+                }
+
+                if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
+                {
+                    ShowPlayingSong();
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Multiply)
+            {
+                foreach (MusicFile mf in lbMusic.SelectedItems)
+                {
+                    if (e.Control)
+                    {
+                        if (playing || Filtered != FilterType.NoneFiltered)
+                        {
+                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered, PlayList.IndexOf(MFile));
+                        }
+                        else
+                        {
+                            mf.QueueInsertAlternate(ref PlayList, Filtered != FilterType.NoneFiltered);
+                        }
+                    }
+                    else
+                    {
+                        mf.QueueAlternate(ref PlayList);
+                    }
+                }
+                lbMusic.RefreshItems();
+
+                if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
+                {
+                    ShowQueue();
+                }
+
+                if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
+                {
+                    ShowPlayingSong();
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Up ||
+                e.KeyCode == Keys.Down ||
+                e.KeyCode == Keys.PageDown ||
+                e.KeyCode == Keys.PageUp ||
+                e.KeyCode == Keys.Shift ||
+                e.KeyCode == Keys.Control ||
+                e.KeyCode == Keys.Return ||
+                e.KeyCode == Keys.F1 ||
+                e.KeyCode == Keys.F2 ||
+                e.KeyCode == Keys.F4 ||
+                e.KeyCode == Keys.F6 ||
+                e.KeyCode == Keys.F7 ||
+                e.KeyCode == Keys.F8 ||
+                e.KeyCode == Keys.F9 ||
+                e.Control && e.KeyCode == Keys.F7 && !e.Alt && !e.Shift ||
+                e.Control && e.KeyCode == Keys.PageUp && !e.Alt && !e.Shift)
+            {
+                return;
+            }
+
+            if (char.IsLetterOrDigit((char)e.KeyValue) || KeySendList.HasKey(e.KeyCode))
+            {
+                tbFind.SelectAll();
+                tbFind.Focus();
+                char key = (char)e.KeyValue;
+
+                SendKeys.Send(
+                    char.IsLetterOrDigit(key) ? key.ToString().ToLower() : KeySendList.GetKeyString(e.KeyCode));
+
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
         }
         #endregion
     }

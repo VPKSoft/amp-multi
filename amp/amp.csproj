@@ -146,13 +146,11 @@
     <Compile Update="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\MainWindowAdditional\MainWindow.Additional.cs" />
     <Compile Update="FormMain.cs" />
     <Compile Update="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\MainWindowAdditional\Mainwindow.FindAndKeyboard.cs" />
-    <Compile Update="WCFRemote\MainWindow.WCF.cs" />
+    <Compile Update="Remote\WCFRemote\MainWindow.WCF.cs" />
     <Compile Update="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -336,10 +334,12 @@
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FftSharp" Version="1.0.8" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
     <PackageReference Include="NAudio.Vorbis" Version="1.2.0" />
     <PackageReference Include="NAudio.Wma" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
     <PackageReference Include="ReaLTaiizor" Version="3.7.8.1" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
@@ -371,5 +371,8 @@
     <None Update="DBLocalization.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WCFRemote\" />
   </ItemGroup>
 </Project>
