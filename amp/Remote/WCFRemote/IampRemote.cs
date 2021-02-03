@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using amp.Remote.DataClasses;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
@@ -79,14 +80,14 @@ namespace amp.Remote.WCFRemote
         /// <param name="queued">If true only the queued songs are returned.</param>
         /// <returns>A list of songs in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> GetAlbumSongs(bool queued = false);
+        List<AlbumSongRemote> GetAlbumSongs(bool queued = false);
 
         /// <summary>
         /// Gets the queued songs.
         /// </summary>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> GetQueuedSongs();
+        List<AlbumSongRemote> GetQueuedSongs();
 
         /// <summary>
         /// Gets the ID, length and position of the currently playing song.
@@ -137,7 +138,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="queueList">A list of songs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList);
+        List<AlbumSongRemote> Queue(bool insert, List<AlbumSongRemote> queueList);
 
         /// <summary>
         /// Inserts or appends to the queue the given song ID list.
@@ -146,14 +147,14 @@ namespace amp.Remote.WCFRemote
         /// <param name="songIDs">A list of songs ID's to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs);
+        List<AlbumSongRemote> QueueIDs(bool insert, List<int> songIDs);
 
         /// <summary>
         /// Gets a list of songs which properties were changed (name, volume, rating).
         /// </summary>
         /// <returns>A list of songs which properties have been changed in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> GetChangedSongs();
+        List<AlbumSongRemote> GetChangedSongs();
 
         /// <summary>
         /// Inserts or appends to the queue the given song ID list.
@@ -162,7 +163,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="songIDs">A list of song IDs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         [OperationContract]
-        List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs);
+        List<AlbumSongRemote> QueueID(bool insert, List<int> songIDs);
 
         /// <summary>
         /// Gets a value indicating if the playback is in a paused state.
@@ -277,7 +278,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="song">A song to remove from the current album.</param>
         /// <returns>True if the remove operation was successful, i.e. the song was found and removed, otherwise false.</returns>
         [OperationContract]
-        bool RemoveSongFromAlbum(AlbumSongWCF song);
+        bool RemoveSongFromAlbum(AlbumSongRemote song);
 
         /// <summary>
         /// Sets the volume of the currently playing song. Do note that this does not reflect anyhow to the actual music file, only the amp# database is affected.
@@ -318,16 +319,16 @@ namespace amp.Remote.WCFRemote
         /// Gets a list of saved queues for a given album ID.
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
-        /// <returns>A list of QueueEntry class instances for the requested album.</returns>
+        /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
         [OperationContract]
-        List<QueueEntry> GetQueueList(string albumName);
+        List<QueueEntryRemote> GetQueueList(string albumName);
 
         /// <summary>
         /// Gets a list of saved queues for the current album.
         /// </summary>
-        /// <returns>A list of QueueEntry class instances for the current album.</returns>
+        /// <returns>A list of QueueEntryRemote class instances for the current album.</returns>
         [OperationContract]
-        List<QueueEntry> GetQueueListCurrentAlbum();
+        List<QueueEntryRemote> GetQueueListCurrentAlbum();
 
         /// <summary>
         /// Loads a queue to the play list with a given unique ID.
@@ -346,9 +347,9 @@ namespace amp.Remote.WCFRemote
         /// <summary>
         /// Gets a list if albums stored in the amp# database.
         /// </summary>
-        /// <returns>A list of AlbumWCF class instances indicating the albums in the amp# database.</returns>
+        /// <returns>A list of AlbumRemote class instances indicating the albums in the amp# database.</returns>
         [OperationContract]
-        List<AlbumWCF> GetAlbums();
+        List<AlbumRemote> GetAlbums();
 
         /// <summary>
         /// Changes a playing album to a given album name.
@@ -488,155 +489,5 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         [DataMember]
         public bool AlbumLoading { get; set; }
-    }
-
-    /// <summary>
-    /// A class indicating a single saved queue in the amp# database.
-    /// </summary>
-    [DataContract]
-    public class QueueEntry
-    {
-        /// <summary>
-        /// Gets an unique database ID number for a saved queue.
-        /// </summary>
-        [DataMember]
-        public int ID { get; set; }
-
-        /// <summary>
-        /// Gets a name for a saved queue.
-        /// </summary>
-        [DataMember]
-        public string QueueName { get; set; }
-
-        /// <summary>
-        /// Gets date and time when the queue was created/modified.
-        /// </summary>
-        [DataMember]
-        public DateTime CreteDate { get; set; }
-    }
-
-    /// <summary>
-    /// Gets a list of albums stored in the amp# database.
-    /// </summary>
-    [DataContract]
-    public class AlbumWCF
-    {
-        /// <summary>
-        /// An album name in the amp# database.
-        /// </summary>
-        [DataMember]
-        public string Name { get; set; }
-    }
-
-    /// <summary>
-    /// A class indicating a single song in the amp# database.
-    /// </summary>
-    [DataContract]
-    public class AlbumSongWCF
-    {
-        /// <summary>
-        /// Gets an unique database ID number for the song.
-        /// </summary>
-        [DataMember]
-        public int ID { get; set; }
-
-        /// <summary>
-        /// Gets a queue index of a song. A zero value indicates that a song is not in the queue.
-        /// </summary>
-        [DataMember]
-        public int QueueIndex { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating the song's volume.
-        /// </summary>
-        [DataMember]
-        public float Volume { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating the song's rating.
-        /// </summary>
-        [DataMember]
-        public int Rating { get; set; }
-
-        /// <summary>
-        /// Gets a value of the song's duration in seconds.
-        /// </summary>
-        [DataMember]
-        public int Duration { get; set; }
-
-        /// <summary>
-        /// Gets the artist of the song.
-        /// </summary>
-        [DataMember]
-        public string Artist { get; set; }
-
-        /// <summary>
-        /// Gets the album of the song.
-        /// <note type="note">This is not an amp# album, this is an ID3vX Tag Album.</note>
-        /// </summary>
-        [DataMember]
-        public string Album { get; set; }
-
-        /// <summary>
-        /// Gets the title of the song.
-        /// <note type="note">This is not an amp# title, this is an ID3vX Tag Title.</note>
-        /// </summary>
-        [DataMember]
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets a song name combined with the song's ID3vX Tag values and it's queue index in square brackets if the queue index is larger than zero.
-        /// <note type="note">If the song is renamed via the amp# interface the value comes from the amp# database (as always, amp# does not reflect any changes to the file/file system).</note>
-        /// </summary>
-        [DataMember]
-        public string SongName { get; set; }
-
-        /// <summary>
-        /// Gets a song name combined with the song's ID3vX Tag values.
-        /// <note type="note">If the song is renamed via the amp# interface the value comes from the amp# database (as always, amp# does not reflect any changes to the file/file system).</note>
-        /// </summary>
-        [DataMember]
-        public string SongNameNoQueue { get; set; }
-
-        /// <summary>
-        /// Gets the publishing year of the song. This is an ID3vX Tag value.
-        /// </summary>
-        [DataMember]
-        public string Year { get; set; }
-
-        /// <summary>
-        /// Gets the track of the song. This is an ID3vX Tag value.
-        /// </summary>
-        [DataMember]
-        public string Track { get; set; }
-
-        /// <summary>
-        /// Gets the full file name of the underlying file of the song.
-        /// </summary>
-        [DataMember]
-        public string FullFileName { get; set; }
-
-        /// <summary>
-        /// Gets the name of the song if it was overridden via the amp#.
-        /// <note type="note">As always, amp# does not reflect any changes to the file/file system. All "modified" data is preserved in a database.</note>
-        /// </summary>
-        [DataMember]
-        public string OverrideName { get; set; }
-
-        /// <summary>
-        /// Gets a string combination of everything the ID3vX tag of the file contains. This is for search purposes and the information is in no way in readable format.
-        /// </summary>
-        [DataMember]
-        public string TagStr { get; set; }
-
-        /// <summary>
-        /// Gets a song name combined with the song's ID3vX Tag values and it's queue index in square brackets if the queue index is larger than zero.
-        /// <note type="note">If the song is renamed via the amp# interface the value comes from the amp# database (as always, amp# does not reflect any changes to the file/file system).</note>
-        /// </summary>
-        /// <returns>A song name combined with the song's ID3vX Tag values and it's queue index in square brackets if the queue index is larger than zero.</returns>
-        public override string ToString()
-        {
-            return SongName;
-        }
     }
 }

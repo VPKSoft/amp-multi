@@ -54,6 +54,8 @@ using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility.Songs;
 using amp.Properties;
+using amp.Remote;
+using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
 using amp.Remote.WCFRemote;
 using amp.UtilityClasses.Controls;
@@ -70,7 +72,6 @@ using Utils = VPKSoft.LangLib.Utils;
 
 namespace amp
 {
-    // ReSharper disable once RedundantExtendsListEntry
     /// <summary>
     /// The main form of the application.
     /// Implements the <see cref="VPKSoft.LangLib.DBLangEngineWinforms"/>
@@ -1836,10 +1837,10 @@ namespace amp
                 () =>
                 {
                     List<Album> albums = Database.GetAlbums(Connection);
-                    List<AlbumWCF> albumsWcf = new List<AlbumWCF>();
+                    List<AlbumRemote> albumsWcf = new List<AlbumRemote>();
                     foreach (Album album in albums)
                     {
-                        albumsWcf.Add(new AlbumWCF {Name = album.AlbumName});
+                        albumsWcf.Add(new AlbumRemote {Name = album.AlbumName});
                     }
 
                     return albumsWcf;
@@ -1966,8 +1967,8 @@ namespace amp
         /// <summary>
         /// Removes a song from the current album.
         /// </summary>
-        /// <param name="asf">A <see cref="AlbumSongWCF"/> class instance to remove from the album.</param>
-        internal void RemoveSongFromAlbum(AlbumSongWCF asf)
+        /// <param name="albumSongRemote">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
+        internal void RemoveSongFromAlbum(AlbumSongRemote albumSongRemote)
         {
             lbMusic.SuspendLayout();
             humanActivity.Enabled = false;
@@ -1975,14 +1976,14 @@ namespace amp
 
             for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
             {
-                if (((MusicFile) lbMusic.Items[i]).ID == asf.ID)
+                if (((MusicFile) lbMusic.Items[i]).ID == albumSongRemote.Id)
                 {
                     lbMusic.Items.RemoveAt(i);
                     break;
                 }
             }
 
-            MusicFile mf = PlayList.Find(f => f.ID == asf.ID);
+            MusicFile mf = PlayList.Find(f => f.ID == albumSongRemote.Id);
 
             if (mf != null)
             {
@@ -2047,14 +2048,14 @@ namespace amp
         /// </summary>
         /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
         /// <param name="queueList">A list of songs which are to be queued from the remote GUI.</param>
-        internal void Queue(bool insert, List<AlbumSongWCF> queueList)
+        internal void Queue(bool insert, List<AlbumSongRemote> queueList)
         {
             List<MusicFile> qFiles = new List<MusicFile>();
-            foreach (AlbumSongWCF mfWcf in queueList)
+            foreach (AlbumSongRemote mfWcf in queueList)
             {
                 foreach (MusicFile mf in lbMusic.Items)
                 {
-                    if (mf.ID == mfWcf.ID)
+                    if (mf.ID == mfWcf.Id)
                     {
                         qFiles.Add(mf);
                     }

@@ -30,6 +30,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Windows.Forms;
+using amp.Remote.DataClasses;
 using amp.UtilityClasses.Enumerations;
 using VPKSoft.LangLib;
 
@@ -144,7 +145,7 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         /// <param name="queued">If true only the queued songs are returned.</param>
         /// <returns>A list of songs in the current album.</returns>
-        public List<AlbumSongWCF> GetAlbumSongs(bool queued = false)
+        public List<AlbumSongRemote> GetAlbumSongs(bool queued = false)
         {
             return RemoteProvider.GetAlbumSongs(queued);
         }
@@ -153,7 +154,7 @@ namespace amp.Remote.WCFRemote
         /// Gets the queued songs.
         /// </summary>
         /// <returns>A list of queued songs in the current album.</returns>
-        public List<AlbumSongWCF> GetQueuedSongs()
+        public List<AlbumSongRemote> GetQueuedSongs()
         {
             return RemoteProvider.GetAlbumSongs(true);
         }
@@ -218,7 +219,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="insert">Whether to insert or append to the queue.</param>
         /// <param name="queueList">A list of songs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
-        public List<AlbumSongWCF> Queue(bool insert, List<AlbumSongWCF> queueList)
+        public List<AlbumSongRemote> Queue(bool insert, List<AlbumSongRemote> queueList)
         {
             RemoteProvider.Queue(insert, queueList);
             if (RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
@@ -235,7 +236,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="insert">Whether to insert or append to the queue.</param>
         /// <param name="songIDs">A list of songs ID's to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
-        public List<AlbumSongWCF> QueueIDs(bool insert, List<int> songIDs)
+        public List<AlbumSongRemote> QueueIDs(bool insert, List<int> songIDs)
         {
             RemoteProvider.Queue(insert, songIDs);
             if (RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
@@ -269,7 +270,7 @@ namespace amp.Remote.WCFRemote
         /// Gets a list of songs which properties were changed (name, volume, rating).
         /// </summary>
         /// <returns>A list of songs which properties have been changed in the current album.</returns>
-        public List<AlbumSongWCF> GetChangedSongs()
+        public List<AlbumSongRemote> GetChangedSongs()
         {
             return RemoteProvider.GetChangedSongs();
         }
@@ -280,7 +281,7 @@ namespace amp.Remote.WCFRemote
         /// <param name="insert">Whether to insert or append to the queue.</param>
         /// <param name="songIDs">A list of song IDs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
-        public List<AlbumSongWCF> QueueID(bool insert, List<int> songIDs)
+        public List<AlbumSongRemote> QueueID(bool insert, List<int> songIDs)
         {
             RemoteProvider.Queue(insert, songIDs);
 
@@ -426,7 +427,7 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         /// <param name="song">A song to remove from the current album.</param>
         /// <returns>True if the remove operation was successful, i.e. the song was found and removed, otherwise false.</returns>
-        public bool RemoveSongFromAlbum(AlbumSongWCF song)
+        public bool RemoveSongFromAlbum(AlbumSongRemote song)
         {
             try
             {
@@ -486,8 +487,8 @@ namespace amp.Remote.WCFRemote
         /// Gets a list of saved queues for a given album ID.
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
-        /// <returns>A list of QueueEntry class instances for the requested album.</returns>
-        public List<QueueEntry> GetQueueList(string albumName)
+        /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
+        public List<QueueEntryRemote> GetQueueList(string albumName)
         {
             return RemoteProvider.GetQueueList(albumName);
         }
@@ -495,8 +496,8 @@ namespace amp.Remote.WCFRemote
         /// <summary>
         /// Gets a list if albums stored in the amp# database.
         /// </summary>
-        /// <returns>A list of AlbumWCF class instances indicating the albums in the amp# database.</returns>
-        public List<AlbumWCF> GetAlbums()
+        /// <returns>A list of AlbumRemote class instances indicating the albums in the amp# database.</returns>
+        public List<AlbumRemote> GetAlbums()
         {
             return RemoteProvider.GetAlbums();
         }
@@ -514,8 +515,8 @@ namespace amp.Remote.WCFRemote
         /// <summary>
         /// Gets a list of saved queues for the current album.
         /// </summary>
-        /// <returns>A list of QueueEntry class instances for the current album.</returns>
-        public List<QueueEntry> GetQueueListCurrentAlbum()
+        /// <returns>A list of QueueEntryRemote class instances for the current album.</returns>
+        public List<QueueEntryRemote> GetQueueListCurrentAlbum()
         {
             return GetQueueList(RemoteProvider.CurrentAlbum);
         }
@@ -555,7 +556,6 @@ namespace amp.Remote.WCFRemote
         {
             return true;
         }
-
 
         /// <summary>
         /// Gets the descriptions of all the public members of a class implementing this interface.

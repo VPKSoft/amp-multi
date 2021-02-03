@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
+using amp.Remote;
+using amp.Remote.DataClasses;
 using amp.Remote.WCFRemote;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
@@ -92,7 +94,7 @@ namespace amp
             Func<bool> stoppedFunction,
             Func<bool> playingFunction,
             Action<double> setPositionSecondsAction,
-            Action<bool, List<AlbumSongWCF>> queueAction,
+            Action<bool, List<AlbumSongRemote>> queueAction,
             Action<bool, List<int>> queueIdAction,
             Action<int, bool> refreshLoadQueueStatsAction,
             Func<bool> albumChangedFunction,
@@ -105,12 +107,12 @@ namespace amp
             Action<bool> stackQueueAction,
             Func<bool> shuffleFunction,
             Action<bool> shuffleAction,
-            Action<AlbumSongWCF> removeSongFromAlbumAction,
+            Action<AlbumSongRemote> removeSongFromAlbumAction,
             Func<int, bool> setRatingFunction,
             Func<float, bool> setVolumeFunction,
             Func<List<int>, float, bool> setVolumeIdFunction,
             Func<List<int>, int, bool> setRatingIdFunction,
-            Func<List<AlbumWCF>> getAlbumsFunction,
+            Func<List<AlbumRemote>> getAlbumsFunction,
             Func<string, bool> selectAlbumFunction,
             Func<bool> canGoPreviousFunction,
             Action<MusicFile> musicFileAction,
@@ -207,7 +209,7 @@ namespace amp
         /// Gets or sets the queue action.
         /// </summary>
         /// <value>The queue action.</value>
-        internal Action<bool, List<AlbumSongWCF>> QueueAction { get; set; }
+        internal Action<bool, List<AlbumSongRemote>> QueueAction { get; set; }
 
         /// <summary>
         /// Gets or sets the queue identifier action.
@@ -285,7 +287,7 @@ namespace amp
         /// Gets or sets the remove song from album action.
         /// </summary>
         /// <value>The remove song from album action.</value>
-        internal Action<AlbumSongWCF> RemoveSongFromAlbumAction { get; set; }
+        internal Action<AlbumSongRemote> RemoveSongFromAlbumAction { get; set; }
 
         /// <summary>
         /// Gets or sets the set rating function.
@@ -315,7 +317,7 @@ namespace amp
         /// Gets or sets the get albums function.
         /// </summary>
         /// <value>The get albums function.</value>
-        internal Func<List<AlbumWCF>> GetAlbumsFunction { get; set; }
+        internal Func<List<AlbumRemote>> GetAlbumsFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the select album function.
@@ -450,7 +452,7 @@ namespace amp
         /// </summary>
         /// <param name="insert">The remote GUI is in insert into the queue mode.</param>
         /// <param name="queueList">A list of songs which are to be queued from the remote GUI.</param>
-        public void Queue(bool insert, List<AlbumSongWCF> queueList)
+        public void Queue(bool insert, List<AlbumSongRemote> queueList)
         {
             QueueAction(insert, queueList);
         }
@@ -524,8 +526,8 @@ namespace amp
         /// <summary>
         /// Removes a song from the current album.
         /// </summary>
-        /// <param name="asf">A <see cref="AlbumSongWCF"/> class instance to remove from the album.</param>
-        public void RemoveSongFromAlbum(AlbumSongWCF asf)
+        /// <param name="asf">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
+        public void RemoveSongFromAlbum(AlbumSongRemote asf)
         {
             RemoveSongFromAlbumAction(asf);
         }
@@ -575,8 +577,8 @@ namespace amp
         /// <summary>
         /// Gets the albums currently in the software database.
         /// </summary>
-        /// <returns>A list of <see cref="AlbumWCF"/> class instances containing the album data.</returns>
-        public List<AlbumWCF> GetAlbums()
+        /// <returns>A list of <see cref="AlbumRemote"/> class instances containing the album data.</returns>
+        public List<AlbumRemote> GetAlbums()
         {
             return GetAlbumsFunction();
         }
@@ -703,9 +705,9 @@ namespace amp
         /// </summary>
         /// <param name="queued">If true only the queued songs are returned.</param>
         /// <returns>A list of songs in the current album.</returns>
-        public List<AlbumSongWCF> GetAlbumSongs(bool queued = false)
+        public List<AlbumSongRemote> GetAlbumSongs(bool queued = false)
         {
-            List<AlbumSongWCF> retList = new List<AlbumSongWCF>();
+            List<AlbumSongRemote> retList = new List<AlbumSongRemote>();
             foreach (MusicFile mf in PlayList)
             {
                 if (mf.QueueIndex == 0 && queued)
@@ -713,9 +715,9 @@ namespace amp
                     continue; // if only queued songs..
                 }
 
-                retList.Add(new AlbumSongWCF
+                retList.Add(new AlbumSongRemote
                 {
-                    ID = mf.ID,
+                    Id = mf.ID,
                     Duration = mf.Duration,
                     Volume = mf.Volume,
                     QueueIndex = mf.QueueIndex,
@@ -739,7 +741,7 @@ namespace amp
         /// Gets the queued songs.
         /// </summary>
         /// <returns>A list of queued songs in the current album.</returns>
-        public List<AlbumSongWCF> GetQueuedSongs()
+        public List<AlbumSongRemote> GetQueuedSongs()
         {
             return GetAlbumSongs(true);
         }
@@ -810,9 +812,9 @@ namespace amp
         /// Gets a list of songs which properties were changed (name, volume, rating).
         /// </summary>
         /// <returns>A list of songs which properties have been changed in the current album.</returns>
-        public List<AlbumSongWCF> GetChangedSongs()
+        public List<AlbumSongRemote> GetChangedSongs()
         {
-            List<AlbumSongWCF> retList = new List<AlbumSongWCF>();
+            List<AlbumSongRemote> retList = new List<AlbumSongRemote>();
             foreach (MusicFile mf in PlayList)
             {
                 if (!mf.SongChanged)
@@ -822,9 +824,9 @@ namespace amp
 
                 mf.SongChanged = false;
 
-                retList.Add(new AlbumSongWCF
+                retList.Add(new AlbumSongRemote
                 {
-                    ID = mf.ID,
+                    Id = mf.ID,
                     Duration = mf.Duration,
                     Volume = mf.Volume,
                     QueueIndex = mf.QueueIndex,
@@ -848,11 +850,11 @@ namespace amp
         /// Gets a list of saved queues for a given album ID.
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
-        /// <returns>A list of QueueEntry class instances for the requested album.</returns>
-        public List<QueueEntry> GetQueueList(string albumName)
+        /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
+        public List<QueueEntryRemote> GetQueueList(string albumName)
         {
             SQLiteConnection conn = FormMain.Connection; // there is sill a dependency for the MainWindow..
-            List<QueueEntry> queueList = new List<QueueEntry>();
+            List<QueueEntryRemote> queueList = new List<QueueEntryRemote>();
             using SQLiteCommand command = new SQLiteCommand(conn)
             {
                 CommandText = albumName != string.Empty
@@ -888,10 +890,10 @@ namespace amp
             using SQLiteDataReader dr = command.ExecuteReader();
             while (dr.Read())
             {
-                queueList.Add(new QueueEntry
+                queueList.Add(new QueueEntryRemote
                 {
                     CreteDate = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
-                    ID = dr.GetInt32(0),
+                    Id = dr.GetInt32(0),
                     QueueName = dr.GetString(1)
                 });
             }
