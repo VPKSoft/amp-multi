@@ -750,7 +750,7 @@ namespace amp
         /// Gets the current state of the amp# music player.
         /// </summary>
         /// <returns></returns>
-        public PlayerState GetPlayerState()
+        public PlayerStateRemote GetPlayerState()
         {
             MusicFile musicFile = MFile;
 
@@ -768,7 +768,7 @@ namespace amp
                 currentSongName = musicFile.SongNameNoQueue;
             }
 
-            return new PlayerState
+            return new PlayerStateRemote
             {
                 Paused = Paused(),
                 QueueCount = GetQueuedSongs().Count,
@@ -776,7 +776,7 @@ namespace amp
                 StackQueue = StackQueue,
                 Shuffle = Shuffle,
                 QueueChangedFromPreviousQuery = MusicFile.QueueChanged,
-                CurrentSongID = currentSongId,
+                CurrentSongId = currentSongId,
                 CurrentSongLength = currentSongLength,
                 CurrentSongName = currentSongName,
                 CurrentSongPosition = currentSongPosition,

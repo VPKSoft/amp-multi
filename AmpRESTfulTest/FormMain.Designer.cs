@@ -29,6 +29,7 @@ namespace AmpRESTfulTest
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.lbRemoteUrl = new System.Windows.Forms.Label();
             this.tbRemoteUrl = new System.Windows.Forms.TextBox();
@@ -39,18 +40,26 @@ namespace AmpRESTfulTest
             this.tsbPrevious = new System.Windows.Forms.ToolStripButton();
             this.tsbPlayPause = new System.Windows.Forms.ToolStripButton();
             this.tsbNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.sp1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbShowQueue = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.sp2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbShuffle = new System.Windows.Forms.ToolStripButton();
+            this.tsbRepeat = new System.Windows.Forms.ToolStripButton();
+            this.sp3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbStackQueue = new System.Windows.Forms.ToolStripButton();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.lbSongs = new System.Windows.Forms.ListBox();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tlpMiddleControls = new System.Windows.Forms.TableLayoutPanel();
+            this.lbSongName = new System.Windows.Forms.Label();
+            this.lbMinusTime = new System.Windows.Forms.Label();
+            this.tbSongPosition = new System.Windows.Forms.TrackBar();
+            this.tmPlayerState = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudRemotePort)).BeginInit();
             this.tlpMain.SuspendLayout();
             this.tsMain.SuspendLayout();
+            this.tlpMiddleControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbSongPosition)).BeginInit();
             this.SuspendLayout();
             // 
             // lbRemoteUrl
@@ -115,21 +124,23 @@ namespace AmpRESTfulTest
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpMain.Controls.Add(this.tsMain, 0, 0);
             this.tlpMain.Controls.Add(this.tbLog, 0, 8);
-            this.tlpMain.Controls.Add(this.lbSongs, 0, 1);
+            this.tlpMain.Controls.Add(this.lbSongs, 0, 2);
+            this.tlpMain.Controls.Add(this.tlpMiddleControls, 0, 1);
+            this.tlpMain.Controls.Add(this.button1, 0, 6);
             this.tlpMain.Location = new System.Drawing.Point(12, 41);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tlpMain.Size = new System.Drawing.Size(447, 397);
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpMain.Size = new System.Drawing.Size(515, 473);
             this.tlpMain.TabIndex = 6;
             // 
             // tsMain
@@ -139,16 +150,16 @@ namespace AmpRESTfulTest
             this.tsbPrevious,
             this.tsbPlayPause,
             this.tsbNext,
-            this.toolStripSeparator1,
+            this.sp1,
             this.tsbShowQueue,
-            this.toolStripSeparator2,
-            this.toolStripButton5,
-            this.toolStripButton6,
-            this.toolStripSeparator3,
-            this.toolStripButton1});
+            this.sp2,
+            this.tsbShuffle,
+            this.tsbRepeat,
+            this.sp3,
+            this.tsbStackQueue});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(447, 25);
+            this.tsMain.Size = new System.Drawing.Size(515, 25);
             this.tsMain.TabIndex = 0;
             // 
             // tsbPrevious
@@ -158,6 +169,7 @@ namespace AmpRESTfulTest
             this.tsbPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPrevious.Name = "tsbPrevious";
             this.tsbPrevious.Size = new System.Drawing.Size(23, 22);
+            this.tsbPrevious.Text = "Previous song";
             this.tsbPrevious.Click += new System.EventHandler(this.tsbPrevious_Click);
             // 
             // tsbPlayPause
@@ -167,6 +179,7 @@ namespace AmpRESTfulTest
             this.tsbPlayPause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPlayPause.Name = "tsbPlayPause";
             this.tsbPlayPause.Size = new System.Drawing.Size(23, 22);
+            this.tsbPlayPause.Text = "Play";
             this.tsbPlayPause.Click += new System.EventHandler(this.tsbPlayPause_Click);
             // 
             // tsbNext
@@ -176,12 +189,13 @@ namespace AmpRESTfulTest
             this.tsbNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbNext.Name = "tsbNext";
             this.tsbNext.Size = new System.Drawing.Size(23, 22);
+            this.tsbNext.Text = "Next song";
             this.tsbNext.Click += new System.EventHandler(this.tsbNext_Click);
             // 
-            // toolStripSeparator1
+            // sp1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.sp1.Name = "sp1";
+            this.sp1.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbShowQueue
             // 
@@ -190,37 +204,58 @@ namespace AmpRESTfulTest
             this.tsbShowQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbShowQueue.Name = "tsbShowQueue";
             this.tsbShowQueue.Size = new System.Drawing.Size(23, 22);
+            this.tsbShowQueue.Text = "Show queue";
             // 
-            // toolStripButton5
+            // sp2
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "toolStripButton5";
+            this.sp2.Name = "sp2";
+            this.sp2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton6
+            // tsbShuffle
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "toolStripButton6";
+            this.tsbShuffle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbShuffle.Image = ((System.Drawing.Image)(resources.GetObject("tsbShuffle.Image")));
+            this.tsbShuffle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbShuffle.Name = "tsbShuffle";
+            this.tsbShuffle.Size = new System.Drawing.Size(23, 22);
+            this.tsbShuffle.Text = "Shuffle";
+            this.tsbShuffle.ToolTipText = "Shuffle";
+            // 
+            // tsbRepeat
+            // 
+            this.tsbRepeat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRepeat.Image = ((System.Drawing.Image)(resources.GetObject("tsbRepeat.Image")));
+            this.tsbRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRepeat.Name = "tsbRepeat";
+            this.tsbRepeat.Size = new System.Drawing.Size(23, 22);
+            this.tsbRepeat.Text = "Repeat";
+            // 
+            // sp3
+            // 
+            this.sp3.Name = "sp3";
+            this.sp3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbStackQueue
+            // 
+            this.tsbStackQueue.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbStackQueue.Image = ((System.Drawing.Image)(resources.GetObject("tsbStackQueue.Image")));
+            this.tsbStackQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStackQueue.Name = "tsbStackQueue";
+            this.tsbStackQueue.Size = new System.Drawing.Size(23, 22);
+            this.tsbStackQueue.Text = "Stack queue";
             // 
             // tbLog
             // 
             this.tlpMain.SetColumnSpan(this.tbLog, 5);
             this.tbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbLog.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tbLog.Location = new System.Drawing.Point(3, 315);
+            this.tbLog.Location = new System.Drawing.Point(3, 371);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tlpMain.SetRowSpan(this.tbLog, 2);
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbLog.Size = new System.Drawing.Size(441, 79);
+            this.tbLog.Size = new System.Drawing.Size(509, 99);
             this.tbLog.TabIndex = 1;
             this.tbLog.WordWrap = false;
             // 
@@ -230,37 +265,97 @@ namespace AmpRESTfulTest
             this.lbSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSongs.FormattingEnabled = true;
             this.lbSongs.ItemHeight = 15;
-            this.lbSongs.Location = new System.Drawing.Point(3, 28);
+            this.lbSongs.Location = new System.Drawing.Point(3, 59);
             this.lbSongs.Name = "lbSongs";
             this.tlpMain.SetRowSpan(this.lbSongs, 4);
             this.lbSongs.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbSongs.Size = new System.Drawing.Size(441, 158);
+            this.lbSongs.Size = new System.Drawing.Size(509, 202);
             this.lbSongs.TabIndex = 2;
             // 
-            // toolStripSeparator2
+            // tlpMiddleControls
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.tlpMiddleControls.AutoSize = true;
+            this.tlpMiddleControls.ColumnCount = 5;
+            this.tlpMain.SetColumnSpan(this.tlpMiddleControls, 5);
+            this.tlpMiddleControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMiddleControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMiddleControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMiddleControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMiddleControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpMiddleControls.Controls.Add(this.lbSongName, 0, 1);
+            this.tlpMiddleControls.Controls.Add(this.lbMinusTime, 4, 1);
+            this.tlpMiddleControls.Controls.Add(this.tbSongPosition, 0, 0);
+            this.tlpMiddleControls.Location = new System.Drawing.Point(0, 25);
+            this.tlpMiddleControls.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpMiddleControls.Name = "tlpMiddleControls";
+            this.tlpMiddleControls.RowCount = 4;
+            this.tlpMiddleControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMiddleControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMiddleControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpMiddleControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpMiddleControls.Size = new System.Drawing.Size(515, 31);
+            this.tlpMiddleControls.TabIndex = 3;
             // 
-            // toolStripSeparator3
+            // lbSongName
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.lbSongName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpMiddleControls.SetColumnSpan(this.lbSongName, 4);
+            this.lbSongName.Location = new System.Drawing.Point(3, 16);
+            this.lbSongName.Name = "lbSongName";
+            this.lbSongName.Size = new System.Drawing.Size(406, 14);
+            this.lbSongName.TabIndex = 5;
+            this.lbSongName.Text = "-";
             // 
-            // toolStripButton1
+            // lbMinusTime
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.lbMinusTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbMinusTime.Location = new System.Drawing.Point(415, 16);
+            this.lbMinusTime.Name = "lbMinusTime";
+            this.lbMinusTime.Size = new System.Drawing.Size(97, 15);
+            this.lbMinusTime.TabIndex = 6;
+            this.lbMinusTime.Text = "-00:00";
+            this.lbMinusTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // tbSongPosition
+            // 
+            this.tbSongPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSongPosition.AutoSize = false;
+            this.tlpMiddleControls.SetColumnSpan(this.tbSongPosition, 5);
+            this.tbSongPosition.Location = new System.Drawing.Point(0, 0);
+            this.tbSongPosition.Margin = new System.Windows.Forms.Padding(0);
+            this.tbSongPosition.Name = "tbSongPosition";
+            this.tbSongPosition.Size = new System.Drawing.Size(515, 16);
+            this.tbSongPosition.TabIndex = 4;
+            this.tbSongPosition.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.tbSongPosition.Scroll += new System.EventHandler(this.tbSongPosition_Scroll);
+            this.tbSongPosition.Leave += new System.EventHandler(this.tbSongPosition_MouseLeave);
+            this.tbSongPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbSongPosition_MouseDown);
+            this.tbSongPosition.MouseLeave += new System.EventHandler(this.tbSongPosition_MouseLeave);
+            this.tbSongPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbSongPosition_MouseUp);
+            // 
+            // tmPlayerState
+            // 
+            this.tmPlayerState.Interval = 1000;
+            this.tmPlayerState.Tick += new System.EventHandler(this.tmPlayerState_Tick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 267);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(84, 33);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 450);
+            this.ClientSize = new System.Drawing.Size(539, 526);
             this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.nudRemotePort);
             this.Controls.Add(this.lbRemotePort);
@@ -271,12 +366,15 @@ namespace AmpRESTfulTest
             this.MinimizeBox = false;
             this.Name = "FormMain";
             this.Text = "Sample remote amp# music player";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Shown += new System.EventHandler(this.FormMain_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.nudRemotePort)).EndInit();
             this.tlpMain.ResumeLayout(false);
             this.tlpMain.PerformLayout();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
+            this.tlpMiddleControls.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbSongPosition)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,18 +387,24 @@ namespace AmpRESTfulTest
         private System.Windows.Forms.NumericUpDown nudRemotePort;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.ToolStrip tsMain;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tsbStackQueue;
         private System.Windows.Forms.ToolStripButton tsbPlayPause;
         private System.Windows.Forms.ToolStripButton tsbNext;
         private System.Windows.Forms.ToolStripButton tsbShowQueue;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton tsbShuffle;
+        private System.Windows.Forms.ToolStripButton tsbRepeat;
         private System.Windows.Forms.ToolStripButton tsbPrevious;
         private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.ListBox lbSongs;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator sp1;
+        private System.Windows.Forms.ToolStripSeparator sp2;
+        private System.Windows.Forms.ToolStripSeparator sp3;
+        private System.Windows.Forms.Timer tmPlayerState;
+        private System.Windows.Forms.TableLayoutPanel tlpMiddleControls;
+        private System.Windows.Forms.Label lbSongName;
+        private System.Windows.Forms.Label lbMinusTime;
+        private System.Windows.Forms.TrackBar tbSongPosition;
+        private System.Windows.Forms.Button button1;
     }
 }
 

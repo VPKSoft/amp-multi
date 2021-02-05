@@ -128,7 +128,7 @@ namespace amp.Remote.RESTful
         /// <returns></returns>
         [HttpGet]
         [Route("api/state")]
-        public PlayerState GetPlayerState()
+        public PlayerStateRemote GetPlayerState()
         {
             return RestInitializer.RemoteProvider.GetPlayerState();
         }
@@ -194,6 +194,17 @@ namespace amp.Remote.RESTful
             {
                 RestInitializer.RemoteProvider.Play();
             }
+        }
+
+        /// <summary>
+        /// Sets the playback position in seconds.
+        /// </summary>
+        /// <param name="seconds">The playback position in seconds.</param>
+        [HttpPost]
+        [Route("api/control/setPositionSeconds")]
+        public void SetPositionSeconds([FromBody]double seconds)
+        {
+            RestInitializer.RemoteProvider.SetPositionSeconds(seconds);
         }
         #endregion
 

@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\amp\Remote\DataClasses\AlbumRemote.cs" Link="DataClasses\AlbumRemote.cs" />
+    <Compile Include="..\amp\Remote\DataClasses\AlbumSongRemote.cs" Link="DataClasses\AlbumSongRemote.cs" />
+    <Compile Include="..\amp\Remote\DataClasses\PlayerStateRemote.cs" Link="DataClasses\PlayerStateRemote.cs" />
+    <Compile Include="..\amp\Remote\DataClasses\QueueEntryRemote.cs" Link="DataClasses\QueueEntryRemote.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
@@ -33,6 +40,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataClasses\" />
   </ItemGroup>
 
 </Project>

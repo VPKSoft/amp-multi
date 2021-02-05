@@ -172,7 +172,7 @@ namespace amp.Remote.WCFRemote
         /// Gets the current state of the amp# music player.
         /// </summary>
         /// <returns></returns>
-        public PlayerState GetPlayerState()
+        public PlayerStateRemote GetPlayerState()
         {
             return RemoteProvider.GetPlayerState();
         }

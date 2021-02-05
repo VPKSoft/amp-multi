@@ -101,7 +101,7 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        PlayerState GetPlayerState();
+        PlayerStateRemote GetPlayerState();
 
         /// <summary>
         /// Seeks the current song to a given <paramref name="seconds"/>. This will not cause an error if the given position is out of range.
@@ -380,114 +380,5 @@ namespace amp.Remote.WCFRemote
         /// <returns>True if any songs were affected; otherwise false.</returns>
         [OperationContract]
         bool ScrambleQueueSelected(List<int> scrambleIdList);
-    }
-
-    /// <summary>
-    /// A class to present the player state all at once.
-    /// </summary>
-    [DataContract]
-    public class PlayerState
-    {
-        /// <summary>
-        /// Indicates if the player is in random mode.
-        /// </summary>
-        [DataMember]
-        public bool Random { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the stack queue playback mode is enabled.
-        /// </summary>
-        [DataMember]
-        public bool StackQueue { get; set; }
-
-        /// <summary>
-        /// Indicates if the player is in shuffle mode.
-        /// </summary>
-        [DataMember]
-        public bool Shuffle { get; set; }
-
-        /// <summary>
-        /// Indicates if the player is paused.
-        /// </summary>
-        [DataMember]
-        public bool Paused { get; set; }
-
-        /// <summary>
-        /// Indicates if the player neither paused or played, meaning it is stopped.
-        /// </summary>
-        [DataMember]
-        public bool Stopped { get; set; }
-
-        /// <summary>
-        /// Indicates if the queue has been changed from the previous query.
-        /// </summary>
-        [DataMember]
-        public bool QueueChangedFromPreviousQuery { get; set; }
-
-        /// <summary>
-        /// Gets a number of songs in the queue.
-        /// </summary>
-        [DataMember]
-        public int QueueCount { get; set; }
-
-        /// <summary>
-        /// Gets a an ID of the current song.
-        /// </summary>
-        [DataMember]
-        public int CurrentSongID { get; set; }
-
-        /// <summary>
-        /// Gets a name of the current song.
-        /// </summary>
-        [DataMember]
-        public string CurrentSongName { get; set; }
-
-        /// <summary>
-        /// Gets a position of the current song.
-        /// </summary>
-        [DataMember]
-        public double CurrentSongPosition { get; set; }
-
-        /// <summary>
-        /// Gets the length of the current song.
-        /// </summary>
-        [DataMember]
-        public double CurrentSongLength { get; set; }
-
-        /// <summary>
-        /// Gets the currently selected album name of the amp# audio player.
-        /// </summary>
-        [DataMember]
-        public string CurrentAlbumName { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if the album was changed from the previous query.
-        /// </summary>
-        [DataMember]
-        public bool AlbumChanged { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if the album's contents where changed from the previous query.
-        /// </summary>
-        [DataMember]
-        public bool AlbumContentsChanged { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if the album's song properties where changed.
-        /// </summary>
-        [DataMember]
-        public bool SongsChanged { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if a previous song can be selected from the amp# play list.
-        /// </summary>
-        [DataMember]
-        public bool CanGoPrevious { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether an album is loading.
-        /// </summary>
-        [DataMember]
-        public bool AlbumLoading { get; set; }
     }
 }

@@ -2510,8 +2510,14 @@ namespace amp
         // sets the scroll bar value indicating the current playback position..
         private void tmSeek_Tick(object sender, EventArgs e)
         {
+            tmSeek.Enabled = false;
             try
             {
+                if (InvokeRequired)
+                {
+
+                }
+
                 if (!progressUpdating)
                 {
                     noScProgressScrollEvent = true;
@@ -2526,6 +2532,7 @@ namespace amp
             {
                 // ignored..
             }
+            tmSeek.Enabled = true;
         }
 
         // a user double-clicked a file in the playlist, so do play it..

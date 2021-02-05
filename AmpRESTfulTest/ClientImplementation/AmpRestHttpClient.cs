@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using amp.Remote;
+using amp.Remote.DataClasses;
+using Newtonsoft.Json;
 
-namespace AmpRESTfulTest
+namespace AmpRESTfulTest.ClientImplementation
 {
     /// <summary>
     /// A simple client class for the amp# remote api.
     /// </summary>
-    public class AmpRestHttpClient
+    public class AmpRestHttpClient: LoggingBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AmpRestHttpClient"/> class.
@@ -24,6 +25,7 @@ namespace AmpRESTfulTest
             Port = port;
         }
 
+        #region PlayerCommands
         /// <summary>
         /// Plays the next song. The next song to be played depends on the queue, random and shuffle states of the program.
         /// </summary>
@@ -55,7 +57,9 @@ namespace AmpRESTfulTest
         {
             await PostApiCommand("api/control/pause");
         }
+        #endregion
 
+        #region SongData
         /// <summary>
         /// Gets the songs in the current album. This can take a while if there are thousands of songs in the album.
         /// </summary>
@@ -113,6 +117,77 @@ namespace AmpRESTfulTest
                 return new Tuple<int, double, double>(-1, 0, 0);
             }
         }
+        #endregion
+
+        #region Queue
+
+        /// <summary>
+        /// Inserts or appends to the queue the given song list.
+        /// </summary>
+        /// <param name="insert">Whether to insert or append to the queue.</param>
+        /// <param name="queueList">A list of songs to be appended or inserted into the queue.</param>
+        /// <returns>A list of queued songs in the current album.</returns>
+        public async Task<List<AlbumSongRemote>> Queue(bool insert, List<AlbumSongRemote> queueList)
+        {
+            var result = await HttpClient.HttpPost(ServiceUrl, $@"api/queue/{insert}", queueList);
+            try
+            {
+                result.EnsureSuccessStatusCode();
+                return JsonConvert.DeserializeObject<List<AlbumSongRemote>>((await result.Content.ReadAsStringAsync()));
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region PlayerState
+        /// <summary>
+        /// Sets the playback position in seconds.
+        /// </summary>
+        /// <param name="seconds">The playback position in seconds.</param>
+        public async Task SetPositionSeconds(double seconds)
+        {
+            await HttpClient.HttpPost(ServiceUrl, "api/control/setPositionSeconds", seconds);
+        }
+
+        /// <summary>
+        /// Gets the current state of the amp# music player.
+        /// </summary>
+        /// <returns>An instance to a <see cref="PlayerStateRemote"/> class.</returns>
+        public async Task<PlayerStateRemote> GetPlayerState()
+        {
+            return await HttpClient.HttpGet<PlayerStateRemote>(ServiceUrl, "api/state");
+        }
+
+        /// <summary>
+        /// Gets a value if the queue was changed from the previous query.
+        /// </summary>
+        /// <returns>True if the queue was changed from the previous query, otherwise false.</returns>
+        public async Task<bool> QueueChanged()
+        {
+            return await HttpClient.HttpGet<bool>(ServiceUrl, "api/queueChanged");
+        }
+
+        /// <summary>
+        /// Gets a value if the play list of the current album was changed from the previous query.
+        /// </summary>
+        /// <returns>True if the play list of the current album was changed from the previous query, otherwise false.</returns>
+        public async Task<bool> AlbumPlayListChanged()
+        {
+            return await HttpClient.HttpGet<bool>(ServiceUrl, "api/albumPlayListChanged");
+        }
+
+        /// <summary>
+        /// Gets a value if current music album was changed.
+        /// </summary>
+        /// <returns>True if current music album was changed, otherwise false.</returns>
+        public async Task<bool> AlbumChanged()
+        {
+            return await HttpClient.HttpGet<bool>(ServiceUrl, "api/albumChanged");
+        }
+        #endregion
 
         /// <summary>
         /// Gets the HTTP client to use with the RESTful service.
@@ -146,11 +221,6 @@ namespace AmpRESTfulTest
         }
 
         /// <summary>
-        /// The log message event.
-        /// </summary>
-        public EventHandler<AmpRestHttpClientLogEventArgs> LogMessage;
-
-        /// <summary>
         /// Posts an API command with no result or additional data.
         /// </summary>
         /// <param name="command">The command.</param>
@@ -169,25 +239,5 @@ namespace AmpRESTfulTest
             }
         }
 
-        private void Log(Exception exception, string method)
-        {
-            LogMessage?.Invoke(this, new AmpRestHttpClientLogEventArgs {LogMessage = $"Error ({method}): '{exception.Message}'."});
-        }
-
-        private void Log(string message, string method)
-        {
-            LogMessage?.Invoke(this, new AmpRestHttpClientLogEventArgs {LogMessage = $"Command ({method}): '{message}'."});
-        }
-    }
-
-    /// <summary>
-    /// Event arguments for the <see cref="AmpRestHttpClient.LogMessage"/> event.
-    /// </summary>
-    public class AmpRestHttpClientLogEventArgs : EventArgs
-    {
-        /// <summary>
-        /// The message sent by the class.
-        /// </summary>
-        public string LogMessage;
     }
 }
