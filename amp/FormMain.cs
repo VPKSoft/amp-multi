@@ -59,7 +59,7 @@ using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
 using amp.Remote.WCFRemote;
 using amp.UtilityClasses.Controls;
-using amp.UtilityClasses.Enumerations;
+using amp.UtilityClasses.Threads;
 using VPKSoft.ErrorLogger;
 using VPKSoft.KeySendList;
 using VPKSoft.LangLib;
@@ -379,21 +379,24 @@ namespace amp
 
         private void SelectMusicFiles(params MusicFile[] musicFiles)
         {
-            //lbMusic.SelectedIndices.
-            foreach (var musicFile in musicFiles)
+            this.Invoke(() =>
             {
-                for (int i = 0; i < lbMusic.Items.Count; i++)
+                //lbMusic.SelectedIndices.
+                foreach (var musicFile in musicFiles)
                 {
-                    if (((MusicFile)lbMusic.Items[i]).ID == musicFile.ID)
+                    for (int i = 0; i < lbMusic.Items.Count; i++)
                     {
-                        if (!lbMusic.SelectedIndices.Contains(i))
+                        if (((MusicFile) lbMusic.Items[i]).ID == musicFile.ID)
                         {
-                            lbMusic.SelectedIndices.Add(i);
-                            break;
+                            if (!lbMusic.SelectedIndices.Contains(i))
+                            {
+                                lbMusic.SelectedIndices.Add(i);
+                                break;
+                            }
                         }
                     }
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -422,7 +425,11 @@ namespace amp
         /// </summary>
         private void GetQueueCount()
         {
-            lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue", "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
+            this.Invoke(() =>
+            {
+                lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue",
+                    "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
+            });
         }
 
         /// <summary>
@@ -1156,7 +1163,7 @@ namespace amp
         /// </summary>
         private void RefreshListboxFromThread()
         {
-            lbMusic.RefreshItems();
+            this.Invoke(() => { lbMusic.RefreshItems(); });
         }
 
         /// <summary>
@@ -1360,7 +1367,7 @@ namespace amp
         /// Gets a value indicating whether the stack queue is enabled.
         /// </summary>
         /// <value><c>true</c> if stack queue is enabled; otherwise, <c>false</c>.</value>
-        internal bool StackQueueEnabled => tsbQueueStack.Checked;
+        internal bool StackQueueEnabled => this.Invoke(() => tsbQueueStack.Checked);
 
         /// <summary>
         /// Gets the value whether a playback is considered as skipped; Only 15 percentage of the song was played.
@@ -1475,7 +1482,7 @@ namespace amp
                 }
                 if (iSongIndex == -1)
                 {
-                    if (tbRand.Checked)
+                    if (this.Invoke(() => tbRand.Checked))
                     {
                         iSongIndex = Program.Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
                         latestSongIndex = iSongIndex;
@@ -1485,7 +1492,7 @@ namespace amp
 
                 if (iSongIndex == -1)
                 {
-                    if (!fromEvent || tbShuffle.Checked)
+                    if (!fromEvent || this.Invoke(() => tbShuffle.Checked))
                     {
                         latestSongIndex = latestSongIndex + 1;
                         if (latestSongIndex >= PlayList.Count)
@@ -1768,7 +1775,8 @@ namespace amp
                 {
                     if (waveOutDevice == null)
                     {
-                        VisualizePlaybackState();
+                        this.Invoke(VisualizePlaybackState);
+
                         return;
                     }
 
@@ -1777,7 +1785,7 @@ namespace amp
                         waveOutDevice.Pause();
                     }
 
-                    VisualizePlaybackState();
+                    this.Invoke(VisualizePlaybackState);
                 },
                 Play,
                 () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped,
@@ -1788,19 +1796,22 @@ namespace amp
                 (queueIndex, append) =>
                 {
                     Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
-                    lbMusic.RefreshItems();
-                    GetQueueCount();
+                    this.Invoke(() =>
+                    {
+                        lbMusic.RefreshItems();
+                        GetQueueCount();
+                    });
                 },
                 () => AlbumChanged,
                 () => AlbumLoading,
                 loading => AlbumLoading = loading,
                 () => PlayList.Count(f => f.SongChanged) > 0,
-                () => tbRand.Checked,
-                value => tbRand.Checked = value,
-                () => tsbQueueStack.Checked,
-                value => tsbQueueStack.Checked = value,
-                () => tbShuffle.Checked,
-                value => tbShuffle.Checked = value,
+                () => this.Invoke(() => tbRand.Checked),
+                value => this.Invoke(() => { return tbRand.Checked = value; }),
+                () => this.Invoke(() => tsbQueueStack.Checked),
+                value => this.Invoke(() => { return tsbQueueStack.Checked = value; }),
+                () => this.Invoke(() => tbShuffle.Checked),
+                value => this.Invoke(() => { return tbShuffle.Checked = value; }),
                 RemoveSongFromAlbum,
                 rating =>
                 {
@@ -1855,10 +1866,11 @@ namespace amp
                 (value) => value == null ? PlayList : PlayList = value,
                 () => Seconds,
                 () => SecondsTotal,
-                (value) => value == null ? Filtered : Filtered = (FilterType)value,
+                (value) => value == null ? Filtered : Filtered = (FilterType) value,
                 ShowQueue,
                 ScrambleQueue,
-                ScrambleQueueSelected);
+                ScrambleQueueSelected,
+                () => this.Invoke(() => { lbMusic.RefreshItems(); }));
         }
 
         /// <summary>
@@ -1871,18 +1883,27 @@ namespace amp
             List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
-                foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
+                var result = this.Invoke(() =>
                 {
-                    if ((album.AlbumName != CurrentAlbum && album.AlbumName == name) 
-                        && (int)(item).Tag == album.Id)
+                    foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
                     {
-                        DisableChecks();
-                        item.Checked = true;
-                        Database.SaveQueue(PlayList, Connection, CurrentAlbum);
-                        GetAlbum(name);
-                        return true;
+                        if ((album.AlbumName != CurrentAlbum && album.AlbumName == name)
+                            && (int) (item).Tag == album.Id)
+                        {
+                            DisableChecks();
+                            item.Checked = true;
+                            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                            GetAlbum(name);
+                            return true;
+                        }
                     }
 
+                    return false;
+                });
+
+                if (result)
+                {
+                    return true;
                 }
             }
             return false;
@@ -1908,7 +1929,7 @@ namespace amp
                         int lbIdx = GetListBoxIndexById(item.ID);
                         if (lbIdx >= 0)
                         {
-                            lbMusic.Items[lbIdx] = item;
+                            this.Invoke(() => { lbMusic.Items[lbIdx] = item; });
                         }
                     }
                 }
@@ -1925,14 +1946,17 @@ namespace amp
         /// <returns>An index if the operation was successful; otherwise -1.</returns>
         internal int GetListBoxIndexById(int id)
         {
-            for (int i = 0; i < lbMusic.Items.Count; i++)
+            return this.Invoke(() =>
             {
-                if (((MusicFile)lbMusic.Items[i]).ID == id)
+                for (int i = 0; i < lbMusic.Items.Count; i++)
                 {
-                    return i;
+                    if (((MusicFile) lbMusic.Items[i]).ID == id)
+                    {
+                        return i;
+                    }
                 }
-            }
-            return -1;
+                return -1;
+            });
         }
 
         /// <summary>
@@ -1970,18 +1994,21 @@ namespace amp
         /// <param name="albumSongRemote">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
         internal void RemoveSongFromAlbum(AlbumSongRemote albumSongRemote)
         {
-            lbMusic.SuspendLayout();
+            this.Invoke(() => { lbMusic.SuspendLayout(); });
             humanActivity.Enabled = false;
             List<MusicFile> removeList = new List<MusicFile>();
 
-            for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
+            this.Invoke(() =>
             {
-                if (((MusicFile) lbMusic.Items[i]).ID == albumSongRemote.Id)
+                for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
                 {
-                    lbMusic.Items.RemoveAt(i);
-                    break;
+                    if (((MusicFile) lbMusic.Items[i]).ID == albumSongRemote.Id)
+                    {
+                        lbMusic.Items.RemoveAt(i);
+                        break;
+                    }
                 }
-            }
+            });
 
             MusicFile mf = PlayList.Find(f => f.ID == albumSongRemote.Id);
 
@@ -1993,7 +2020,7 @@ namespace amp
 
             Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
             humanActivity.Enabled = true;
-            lbMusic.ResumeLayout();
+            this.Invoke(() => { lbMusic.ResumeLayout(); });
         }
 
         /// <summary>
@@ -2006,13 +2033,16 @@ namespace amp
             List<MusicFile> qFiles = new List<MusicFile>();
             foreach (int songId in songIDs)
             {
-                foreach (MusicFile mf in lbMusic.Items)
+                this.Invoke(() =>
                 {
-                    if (mf.ID == songId)
+                    foreach (MusicFile mf in lbMusic.Items)
                     {
-                        qFiles.Add(mf);
+                        if (mf.ID == songId)
+                        {
+                            qFiles.Add(mf);
+                        }
                     }
-                }
+                });
             }
 
             foreach (MusicFile mf in qFiles)
@@ -2036,11 +2066,14 @@ namespace amp
 
             if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                ShowQueue();
+                this.Invoke(ShowQueue);
             }
 
-            lbMusic.RefreshItems();
-            GetQueueCount();
+            this.Invoke(() =>
+            {
+                lbMusic.RefreshItems();
+                GetQueueCount();
+            });
         }
 
         /// <summary>
@@ -2053,13 +2086,16 @@ namespace amp
             List<MusicFile> qFiles = new List<MusicFile>();
             foreach (AlbumSongRemote mfWcf in queueList)
             {
-                foreach (MusicFile mf in lbMusic.Items)
+                this.Invoke(() =>
                 {
-                    if (mf.ID == mfWcf.Id)
+                    foreach (MusicFile mf in lbMusic.Items)
                     {
-                        qFiles.Add(mf);
+                        if (mf.ID == mfWcf.Id)
+                        {
+                            qFiles.Add(mf);
+                        }
                     }
-                }
+                });
             }
 
             foreach (MusicFile mf in qFiles)
@@ -2083,11 +2119,14 @@ namespace amp
 
             if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                ShowQueue();
+                this.Invoke(ShowQueue);
             }
 
-            lbMusic.RefreshItems();
-            GetQueueCount();
+            this.Invoke(() =>
+            {
+                lbMusic.RefreshItems();
+                GetQueueCount();
+            });
         }
 
         /// <summary>
@@ -2098,7 +2137,7 @@ namespace amp
         {
             if (mainOutputStream != null)
             {
-                tmSeek.Stop();
+                this.Invoke(() => { tmSeek.Stop(); });
                 try
                 {
                     mainOutputStream.CurrentTime = new TimeSpan(0, 0, (int)seconds);
@@ -2108,7 +2147,7 @@ namespace amp
                     // log the exception..
                     ExceptionLogger.LogError(ex);
                 }
-                tmSeek.Start();
+                this.Invoke(() => { tmSeek.Start(); });
             }
         }
 
@@ -2120,31 +2159,38 @@ namespace amp
         {
             if (id != -1)
             {
-                foreach (var item in lbMusic.Items)
+                this.Invoke(() =>
                 {
-                    if (((MusicFile) item).ID == id)
+                    foreach (var item in lbMusic.Items)
                     {
-                        UpdateNPlayed(MFile, Skipped);
-                        MFile = item as MusicFile;
-                        if (MFile != null)
+                        if (((MusicFile) item).ID == id)
                         {
-                            latestSongIndex = MFile.VisualIndex;
-                            UpdateNPlayed(MFile, false);
-                        }
+                            UpdateNPlayed(MFile, Skipped);
+                            MFile = item as MusicFile;
+                            if (MFile != null)
+                            {
+                                latestSongIndex = MFile.VisualIndex;
+                                UpdateNPlayed(MFile, false);
+                            }
 
-                        newSong = true;
+                            newSong = true;
+                        }
                     }
-                }
+                });
             }
             else if (waveOutDevice == null)
             {
-                GetNextSong();
+                this.Invoke(() =>
+                {
+                    GetNextSong();
+                });
             }
             else if (waveOutDevice.PlaybackState != PlaybackState.Playing)
             {
                 waveOutDevice.Play();
             }
-            VisualizePlaybackState();
+
+            this.Invoke(VisualizePlaybackState);
         }
 
         /// <summary>
@@ -2180,6 +2226,7 @@ namespace amp
             if (Filtered == FilterType.QueueFiltered)
             {
                 Find(false, "");
+                this.Invoke(() => { lbMusic.RefreshItems(); });
                 return;
             }
 
@@ -2188,6 +2235,7 @@ namespace amp
                 if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
                 {
                     tbShowQueue.Checked = false;
+                    lbMusic.RefreshItems();
                     return;
                 }
                 lbMusic.Items.Clear();
@@ -2207,6 +2255,7 @@ namespace amp
                 }
             }));
 
+            this.Invoke(() => { lbMusic.RefreshItems(); });
             Filtered = FilterType.QueueFiltered;
         }
 
@@ -3232,7 +3281,7 @@ namespace amp
         /// <param name="alternateSearch">A search text to override the default search box text.</param>
         private void Find(bool onlyIfText = false, string alternateSearch = null)
         {
-            var findText = alternateSearch ?? tbFind.Text;
+            var findText = this.Invoke(() => alternateSearch ?? tbFind.Text);
 
             if (onlyIfText)
             {
@@ -3241,14 +3290,20 @@ namespace amp
                     return;
                 }
             }
-            lbMusic.Items.Clear();
-            foreach (MusicFile mf in PlayList)
+
+            this.Invoke(() =>
             {
-                if (mf.Match(findText))
+                lbMusic.Items.Clear();
+
+                foreach (MusicFile mf in PlayList)
                 {
-                    lbMusic.Items.Add(mf);
+                    if (mf.Match(findText))
+                    {
+                        lbMusic.Items.Add(mf);
+                    }
                 }
-            }
+            });
+
             Filtered = findText != string.Empty ? FilterType.SearchFiltered : FilterType.NoneFiltered;
         }
 

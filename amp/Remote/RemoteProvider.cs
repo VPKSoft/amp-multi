@@ -28,17 +28,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
-using amp.Remote;
 using amp.Remote.DataClasses;
-using amp.Remote.WCFRemote;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
-using amp.UtilityClasses.Enumerations;
 
 // ReSharper disable IdentifierTypo
 
 // ReSharper disable once CheckNamespace
-namespace amp
+namespace amp.Remote
 {
     /// <summary>
     /// Provides access to the software using RESTful/SOAP API.
@@ -126,7 +123,8 @@ namespace amp
             Func<FilterType?, FilterType> getFilteredFunction,
             Action showQueueAction,
             Func<bool> scrambleQueueFunction,
-            Func<List<int>, bool> scrambleQueueSelectedFunction)
+            Func<List<int>, bool> scrambleQueueSelectedFunction,
+            Action refreshPlayListAction)
         {
             PausedFunction = pausedFunction;
             PauseAction = pauseAction;
@@ -167,6 +165,7 @@ namespace amp
             ShowQueueAction = showQueueAction;
             ScrambleQueueFunction = scrambleQueueFunction;
             ScrambleQueueSelectedFunction = scrambleQueueSelectedFunction;
+            RefreshPlayListAction = refreshPlayListAction;
         }
 
         /// <summary>
@@ -404,6 +403,12 @@ namespace amp
         internal Func<List<int>, bool> ScrambleQueueSelectedFunction { get; set; }
 
         /// <summary>
+        /// Gets or sets the refresh play list action.
+        /// </summary>
+        /// <value>The refresh play list action.</value>
+        internal Action RefreshPlayListAction { get; set; }
+
+        /// <summary>
         /// Gets a value whether the playback is paused.
         /// </summary>
         /// <returns><c>true</c> if the playback state is paused; otherwise <c>false</c>.</returns>
@@ -419,7 +424,15 @@ namespace amp
         {
             PauseAction();
         }
-        
+
+        /// <summary>
+        /// Refreshes the playlist.
+        /// </summary>
+        public void RefreshPlaylist()
+        {
+            RefreshPlayListAction();
+        }
+
         /// <summary>
         /// Gets a value whether the playback is stopped.
         /// </summary>
@@ -774,6 +787,8 @@ namespace amp
                 QueueCount = GetQueuedSongs().Count,
                 Random = Randomizing,
                 StackQueue = StackQueue,
+                Playing = Playing(),
+                Filtered = GetFilteredFunction(null),
                 Shuffle = Shuffle,
                 QueueChangedFromPreviousQuery = MusicFile.QueueChanged,
                 CurrentSongId = currentSongId,

@@ -1,4 +1,4 @@
-﻿namespace amp.UtilityClasses.Enumerations
+﻿namespace amp.Remote.DataClasses
 {
     /// <summary>
     /// An enumeration describing the filter status of the playlist.

@@ -125,6 +125,18 @@ namespace AmpRESTfulTest.ClientImplementation
         /// Inserts or appends to the queue the given song list.
         /// </summary>
         /// <param name="insert">Whether to insert or append to the queue.</param>
+        /// <param name="albumSong">A song to be appended or inserted into the queue.</param>
+        /// <returns>A list of queued songs in the current album.</returns>
+        public async Task<List<AlbumSongRemote>> Queue(bool insert, AlbumSongRemote albumSong)
+        {
+            return await Queue(insert, new List<AlbumSongRemote>(new[] {albumSong}));
+        }
+
+
+        /// <summary>
+        /// Inserts or appends to the queue the given song list.
+        /// </summary>
+        /// <param name="insert">Whether to insert or append to the queue.</param>
         /// <param name="queueList">A list of songs to be appended or inserted into the queue.</param>
         /// <returns>A list of queued songs in the current album.</returns>
         public async Task<List<AlbumSongRemote>> Queue(bool insert, List<AlbumSongRemote> queueList)

@@ -373,6 +373,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="UtilityClasses\Enumerations\" />
     <Folder Include="WCFRemote\" />
   </ItemGroup>
 </Project>

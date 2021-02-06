@@ -93,13 +93,20 @@ namespace AmpRESTfulTest
             }
         }
 
-        private async void FormMain_Shown(object sender, EventArgs e)
+        private List<AlbumSongRemote> PlayList { get; set; }
+
+        private async Task RefreshPlayList()
         {
             var songs = await ampRestClient.GetAlbumSongs();
             var songList = songs.ToArray();
+            PlayList = new List<AlbumSongRemote>(songList);
             lbSongs.Items.AddRange(songList.Cast<object>().ToArray());
             Log($"Fetch count: {songList.Length}");
+        }
 
+        private async void FormMain_Shown(object sender, EventArgs e)
+        {
+            await RefreshPlayList();
             var state = await GetPlayerState();
             SetUiState(state);
             tmPlayerState.Enabled = true;
@@ -107,6 +114,10 @@ namespace AmpRESTfulTest
 
         private async void tmPlayerState_Tick(object sender, EventArgs e)
         {
+            if (PlayList.Count == 0)
+            {
+                await RefreshPlayList();
+            }
             var state = await GetPlayerState();
             SetUiState(state);
         }
@@ -121,6 +132,7 @@ namespace AmpRESTfulTest
 
         private bool suspendPositionUpdate;
 
+        private PlayerStateRemote PlayerState { get; set; }
 
         /// <summary>
         /// Sets the state of the UI.
@@ -158,7 +170,6 @@ namespace AmpRESTfulTest
 
             var span = new TimeSpan(0, 0, 0, 0, songLength * 1000 - songPosition * 1000);
             lbMinusTime.Text = @"- " + span.ToString(@"hh\:mm\:ss");
-
         }
         #endregion
 
@@ -175,6 +186,39 @@ namespace AmpRESTfulTest
             Log(JsonConvert.SerializeObject(state));
 
             return state;
+        }
+        #endregion
+
+        #region Search
+        /// <summary>
+        /// Finds the songs with the text in the search box.
+        /// </summary>
+        /// <param name="onlyIfText">if set to <c>true</c> an empty or white space in the search box doesn't affect the filtering.</param>
+        /// <param name="alternateSearch">A search text to override the default search box text.</param>
+        private void Find(bool onlyIfText = false, string alternateSearch = null)
+        {
+            var findText = alternateSearch ?? tbFind.Text;
+
+            if (onlyIfText)
+            {
+                if (findText.Trim() == string.Empty)
+                {
+                    return;
+                }
+            }
+            lbSongs.Items.Clear();
+            foreach (var songRemote in PlayList)
+            {
+                if (songRemote.Match(findText))
+                {
+                    lbSongs.Items.Add(songRemote);
+                }
+            }
+        }
+        
+        private void tbFind_TextChanged(object sender, EventArgs e)
+        {
+            Find();
         }
         #endregion
 
@@ -196,6 +240,23 @@ namespace AmpRESTfulTest
         private async void tbSongPosition_Scroll(object sender, EventArgs e)
         {
             await ampRestClient.SetPositionSeconds((double) tbSongPosition.Value);
+        }
+
+        private async void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
+            {
+                var tasks = new List<Task<List<AlbumSongRemote>>>();
+                foreach (AlbumSongRemote songRemote in lbSongs.SelectedItems)
+                {
+                    tasks.Add(
+                        e.Control ? ampRestClient.Queue(false, songRemote) : ampRestClient.Queue(true, songRemote));
+                }
+
+                await Task.WhenAll(tasks.Cast<Task>().ToArray());
+
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }

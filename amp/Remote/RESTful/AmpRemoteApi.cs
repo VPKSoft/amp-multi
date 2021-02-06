@@ -29,7 +29,6 @@ using System.Collections.Generic;
 using System.Web.Http;
 using amp.Remote.DataClasses;
 using amp.Remote.WCFRemote;
-using amp.UtilityClasses.Enumerations;
 
 namespace amp.Remote.RESTful
 {
@@ -103,7 +102,7 @@ namespace amp.Remote.RESTful
         [HttpGet]
         public IEnumerable<AlbumSongRemote> GetAlbumSongs()
         {
-            return RestInitializer.RemoteProvider.GetAlbumSongs(false);
+            return RestInitializer.RemoteProvider.GetAlbumSongs();
         }
 
         /// <summary>
@@ -219,12 +218,13 @@ namespace amp.Remote.RESTful
         [Route("api/queue/{insert}")]
         public List<AlbumSongRemote> Queue(bool insert, [FromBody] List<AlbumSongRemote> queueList)
         {
-            // TODO::!!
             RestInitializer.RemoteProvider.Queue(insert, queueList);
             if (RestInitializer.RemoteProvider.Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
                 RestInitializer.RemoteProvider.ShowQueue();
             }
+
+            RestInitializer.RemoteProvider.RefreshPlaylist();
 
             return RestInitializer.RemoteProvider.GetQueuedSongs();
         }

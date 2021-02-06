@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{6BBA1FCA-5B7E-456A-8190-3CA6019AF4BA}</ProjectGuid>
-    <TargetFrameworks>net47;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net47;netcoreapp3.1;net5.0-windows</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>AmpControls</AssemblyTitle>
     <Product>AmpControls</Product>

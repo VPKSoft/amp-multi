@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="..\amp\Remote\DataClasses\AlbumRemote.cs" Link="DataClasses\AlbumRemote.cs" />
     <Compile Include="..\amp\Remote\DataClasses\AlbumSongRemote.cs" Link="DataClasses\AlbumSongRemote.cs" />
+    <Compile Include="..\amp\Remote\DataClasses\FilterType.cs" Link="DataClasses\FilterType.cs" />
     <Compile Include="..\amp\Remote\DataClasses\PlayerStateRemote.cs" Link="DataClasses\PlayerStateRemote.cs" />
     <Compile Include="..\amp\Remote\DataClasses\QueueEntryRemote.cs" Link="DataClasses\QueueEntryRemote.cs" />
   </ItemGroup>
@@ -44,6 +45,10 @@
 
   <ItemGroup>
     <Folder Include="DataClasses\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmpControls\AmpControls.csproj" />
   </ItemGroup>
 
 </Project>

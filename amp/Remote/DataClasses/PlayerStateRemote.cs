@@ -48,6 +48,20 @@ namespace amp.Remote.DataClasses
         public bool StackQueue { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the amp# is playing a song.
+        /// </summary>
+        /// <value><c>true</c> if the amp# is playing a song; otherwise, <c>false</c>.</value>
+        [DataMember]
+        public bool Playing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the filter type of the UI.
+        /// </summary>
+        /// <value>The filter type of the UI.</value>
+        [DataMember]
+        public FilterType Filtered { get; set; }
+
+        /// <summary>
         /// Indicates if the player is in shuffle mode.
         /// </summary>
         [DataMember]

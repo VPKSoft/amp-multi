@@ -31,7 +31,6 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Windows.Forms;
 using amp.Remote.DataClasses;
-using amp.UtilityClasses.Enumerations;
 using VPKSoft.LangLib;
 
 // for remote control..

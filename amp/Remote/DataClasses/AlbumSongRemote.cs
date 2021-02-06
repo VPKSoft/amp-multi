@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using System;
 using System.Runtime.Serialization;
 
 namespace amp.Remote.DataClasses
@@ -137,6 +138,48 @@ namespace amp.Remote.DataClasses
         public override string ToString()
         {
             return SongName;
+        }
+
+        /// <summary>
+        /// Checks if the properties of this music file instance matches the given search string.
+        /// </summary>
+        /// <param name="search">The search string.</param>
+        /// <returns><c>true</c> if one of the properties of this music file instance matches the search string, <c>false</c> otherwise.</returns>
+        public bool Match(string search)
+        {
+            if (search.Trim() == string.Empty)
+            {
+                return true;
+            }
+            search = search.ToUpper().Trim();
+            bool found1 = Artist.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Album.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Title.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Year.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Track.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          FullFileName.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          OverrideName.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          TagStr.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1;
+
+            string[] search2 = search.Split(' ');
+            if (search2.Length <= 1 || found1)
+            {
+                return found1;
+            }
+            bool found2 = true;
+            foreach(string str in search2)
+            {
+                var tmpStr = str.ToUpper();
+                found2 &= Artist.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Album.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Title.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Year.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          Track.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          FullFileName.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          OverrideName.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1 ||
+                          TagStr.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1;
+            }
+            return found2;
         }
     }
 }
