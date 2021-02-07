@@ -1870,7 +1870,8 @@ namespace amp
                 ShowQueue,
                 ScrambleQueue,
                 ScrambleQueueSelected,
-                () => this.Invoke(() => { lbMusic.RefreshItems(); }));
+                () => this.Invoke(() => { lbMusic.RefreshItems(); }),
+                (value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
         }
 
         /// <summary>

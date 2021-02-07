@@ -31,6 +31,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using amp.Remote.DataClasses;
 using TagLib;
 using VPKSoft.ErrorLogger;
 using VPKSoft.RandomizationUtils;
@@ -95,6 +96,68 @@ namespace amp.UtilityClasses
             FullFileName = mf.FullFileName;
             tTrack = mf.tTrack;
             Duration = mf.Duration;
+        }
+
+        /// <summary>
+        /// Converts this instance to a <see cref="AlbumSongRemote"/> instance.
+        /// </summary>
+        /// <returns>An instance to a <see cref="AlbumSongRemote"/> class.</returns>
+        public AlbumSongRemote ToAlbumSongRemote()
+        {
+            var musicFile = this;
+            return new AlbumSongRemote
+            {
+                Id = musicFile.ID,
+                Duration = musicFile.Duration,
+                Volume = musicFile.Volume,
+                QueueIndex = musicFile.QueueIndex,
+                Rating = musicFile.Rating,
+                SongName = musicFile.SongName,
+                Album = musicFile.Album,
+                Artist = musicFile.Artist,
+                SongNameNoQueue = musicFile.SongNameNoQueue,
+                OverrideName = musicFile.OverrideName,
+                TagStr = musicFile.TagString,
+                Title = musicFile.Title,
+                Track = musicFile.Track,
+                Year = musicFile.Year,
+                FullFileName = musicFile.FullFileName,
+            };
+        }
+
+        /// <summary>
+        /// Gets a new <see cref="MusicFile"/> instance from a specified <see cref="SQLiteDataReader"/> instance.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="visualIndex">Index the visual for the <see cref="MusicFile"/> instance.</param>
+        /// <returns>An instance to a <see cref="MusicFile"/>.</returns>
+        public static MusicFile FromDataReader(SQLiteDataReader reader, int visualIndex)
+        {
+            MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1))
+            {
+                Volume = reader.GetFloat(2),
+                Rating = reader.GetInt32(3),
+                QueueIndex = reader.GetInt32(4),
+                OverrideName = reader.GetString(5)
+            };
+            mf.GetTagFromDataReader(reader);
+
+            mf.SKIPPED_EARLY = reader.GetInt32(14);
+            mf.NPLAYED_RAND = reader.GetInt32(15);
+            mf.NPLAYED_USER = reader.GetInt32(16);
+
+            if (!reader.IsDBNull(17))
+            {
+                byte[] imageData = new byte[reader.GetInt32(18)];
+                reader.GetBytes(17, 0, imageData, 0, imageData.Length);
+
+                using var memoryStream = new MemoryStream(imageData);
+                mf.SongImage = Image.FromStream(memoryStream);
+            }
+
+            mf.TagString = reader.GetInt32(8) != 0 ? reader.GetString(6) : string.Empty;
+            mf.VisualIndex = visualIndex;
+            return mf;
         }
 
         private readonly string filePath;

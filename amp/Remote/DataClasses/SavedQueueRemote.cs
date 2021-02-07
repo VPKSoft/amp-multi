@@ -25,7 +25,9 @@ SOFTWARE.
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using amp.SQLiteDatabase.ContainerClasses;
 
 namespace amp.Remote.DataClasses
 {
@@ -33,24 +35,48 @@ namespace amp.Remote.DataClasses
     /// A class indicating a single saved queue in the amp# database.
     /// </summary>
     [DataContract]
-    public class QueueEntryRemote
+    public class SavedQueueRemote: SavedQueue
     {
         /// <summary>
-        /// Gets an unique database ID number for a saved queue.
+        /// Gets or sets the database identifier for the saved queue.
         /// </summary>
+        /// <value>The database identifier for the saved queue.</value>
         [DataMember]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         /// <summary>
-        /// Gets a name for a saved queue.
+        /// Gets or sets the name of the saved queue.
         /// </summary>
+        /// <value>The name of the saved queue.</value>
         [DataMember]
-        public string QueueName { get; set; }
+        public override string QueueName { get; set; }
 
         /// <summary>
-        /// Gets date and time when the queue was created/modified.
+        /// Gets or sets the date and time of the saved queue.
         /// </summary>
+        /// <value>The date and time of the saved queue.</value>
         [DataMember]
-        public DateTime CreteDate { get; set; }
+        public override DateTime CreteDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the album the saved queue belongs to.
+        /// </summary>
+        /// <value>The name of the album the saved queue belongs to</value>
+        [DataMember]
+        public override string AlbumName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total count of the queues belonging to this <see cref="AlbumName" /> album.
+        /// </summary>
+        /// <value>The total count of the queues belonging to this <see cref="AlbumName" /> album.</value>
+        [DataMember]
+        public override int CountTotal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the songs in the saved queue.
+        /// </summary>
+        /// <value>The  songs in the saved queue.</value>
+        [DataMember]
+        public new List<AlbumSongRemote> QueueSongs { get; set; }
     }
 }

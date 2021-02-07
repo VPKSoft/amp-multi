@@ -36,6 +36,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using amp.SQLiteDatabase.ContainerClasses;
 using amp.UtilityClasses;
 using VPKSoft.ErrorLogger;
 
@@ -482,9 +483,10 @@ namespace amp.SQLiteDatabase
         /// Generates a SQL sentence for getting an album with a given <paramref name="name"/> from the database.
         /// </summary>
         /// <param name="name">The name of the album.</param>
+        /// <param name="savedQueueId">An optional saved queue id to which the songs need to belong to.</param>
         /// <returns>A SQL sentence generated with the given parameters.</returns>
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public static string GetAlbumSql(string name)
+        public static string GetAlbumSql(string name, int savedQueueId = -1)
         {
             string result =
                 string.Join(Environment.NewLine,
@@ -506,17 +508,22 @@ namespace amp.SQLiteDatabase
                         "WHERE ",
                         "S.ID = A.SONG_ID");
 
-            if (name != string.Empty)
+            if (savedQueueId != -1)
+            {
+                result += " AND " +
+                          string.Join(Environment.NewLine,
+                              $"A.SONG_ID IN (SELECT SONG_ID FROM QUEUE_SNAPSHOT WHERE ID = {savedQueueId})");
+            }
+
+            if (!string.IsNullOrEmpty(name))
             {
                 result += " AND " + 
                     string.Join(Environment.NewLine,
                         $"A.SONG_ID IN(SELECT SONG_ID FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})) AND ",
-                        $"A.ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)}) GROUP BY S.ID");
+                        $"A.ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})");
             }
-            else
-            {
-                result += " GROUP BY S.ID ";
-            }
+            
+            result += " GROUP BY S.ID ";
 
             return result;
         }
@@ -550,30 +557,8 @@ namespace amp.SQLiteDatabase
                             continue;
                         }
 
-                        MusicFile mf = new MusicFile(reader.GetString(0), reader.GetInt32(1))
-                        {
-                            Volume = reader.GetFloat(2),
-                            Rating = reader.GetInt32(3),
-                            QueueIndex = reader.GetInt32(4),
-                            OverrideName = reader.GetString(5)
-                        };
-                        mf.GetTagFromDataReader(reader);
+                        MusicFile mf = MusicFile.FromDataReader(reader, counter++);
 
-                        mf.SKIPPED_EARLY = reader.GetInt32(14);
-                        mf.NPLAYED_RAND = reader.GetInt32(15);
-                        mf.NPLAYED_USER = reader.GetInt32(16);
-
-                        if (!reader.IsDBNull(17))
-                        {
-                            byte[] imageData = new byte[reader.GetInt32(18)];
-                            reader.GetBytes(17, 0, imageData, 0, imageData.Length);
-
-                            using var memoryStream = new MemoryStream(imageData);
-                            mf.SongImage = Image.FromStream(memoryStream);
-                        }
-
-                        mf.TagString = reader.GetInt32(8) != 0 ? reader.GetString(6) : string.Empty;
-                        mf.VisualIndex = counter++;
                         if (reader.GetInt32(7) == 0)
                         {
                             indices.Add(mf.VisualIndex);
@@ -1290,6 +1275,68 @@ namespace amp.SQLiteDatabase
                 }
             }
             return -1;
+        }
+
+        /// <summary>
+        /// Gets the saved queues belonging to a specified album.
+        /// </summary>
+        /// <param name="albumName">Name of the album.</param>
+        /// <param name="conn">The SQLite connection.</param>
+        /// <returns>A List&lt;SavedQueue&gt; class instances.</returns>
+        public static List<SavedQueue> GetAlbumQueues(string albumName, SQLiteConnection conn)
+        {
+            var result = new List<SavedQueue>();
+
+            using SQLiteCommand command = new SQLiteCommand(conn);
+            command.CommandText =
+                string.Join(Environment.NewLine,
+                    "SELECT COUNT(DISTINCT ID) FROM",
+                    // ReSharper disable once StringLiteralTypo
+                    $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)})");
+
+            var countTotal = Convert.ToInt32(command.ExecuteScalar());
+
+            if (countTotal == 0)
+            {
+                return result;
+            }
+
+            command.CommandText =
+                string.Join(Environment.NewLine,
+                    // ReSharper disable once StringLiteralTypo
+                    "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
+                    // ReSharper disable once StringLiteralTypo
+                    $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)})",
+                    // ReSharper disable once StringLiteralTypo
+                    "GROUP BY ID, SNAPSHOTNAME",
+                    "ORDER BY MAX(SNAPSHOT_DATE)");
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(new SavedQueue
+                {
+                    Id = reader.GetInt32(0), 
+                    AlbumName = albumName, 
+                    QueueName = reader.GetString(1), 
+                    CountTotal = countTotal,
+                    CreteDate = DateTime.ParseExact(reader.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
+                    QueueSongs = new List<MusicFile>(),
+                });
+            }
+
+
+            foreach (var savedQueue in result)
+            {
+                using var songCommand = new SQLiteCommand(GetAlbumSql(albumName, savedQueue.Id), conn);
+                using var songReader = songCommand.ExecuteReader();
+                while (songReader.Read())
+                {
+                    savedQueue.QueueSongs.Add(MusicFile.FromDataReader(songReader, 0));
+                }
+            }
+
+            return result;
         }
     }
 }

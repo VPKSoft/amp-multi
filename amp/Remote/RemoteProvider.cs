@@ -26,8 +26,11 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using amp.Remote.DataClasses;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;
@@ -66,7 +69,7 @@ namespace amp.Remote
         /// <param name="shuffleAction">The shuffle action.</param>
         /// <param name="removeSongFromAlbumAction">The remove song from album action.</param>
         /// <param name="setRatingFunction">The set rating function.</param>
-        /// <param name="setVolumeFunction">The set volume function.</param>
+        /// <param name="setSongVolumeFunction">The set song volume function.</param>
         /// <param name="setVolumeIdFunction">The set volume identifier function.</param>
         /// <param name="setRatingIdFunction">The set rating identifier function.</param>
         /// <param name="getAlbumsFunction">The get albums function.</param>
@@ -84,6 +87,8 @@ namespace amp.Remote
         /// <param name="showQueueAction">The show queue action.</param>
         /// <param name="scrambleQueueFunction">The scramble queue function.</param>
         /// <param name="scrambleQueueSelectedFunction">The scramble queue selected function.</param>
+        /// <param name="refreshPlayListAction">The refresh play list action.</param>
+        /// <param name="setProgramVolumeFunction">The set program volume function.</param>
         public RemoteProvider(
             Func<bool> pausedFunction,
             Action pauseAction,
@@ -106,7 +111,7 @@ namespace amp.Remote
             Action<bool> shuffleAction,
             Action<AlbumSongRemote> removeSongFromAlbumAction,
             Func<int, bool> setRatingFunction,
-            Func<float, bool> setVolumeFunction,
+            Func<float, bool> setSongVolumeFunction,
             Func<List<int>, float, bool> setVolumeIdFunction,
             Func<List<int>, int, bool> setRatingIdFunction,
             Func<List<AlbumRemote>> getAlbumsFunction,
@@ -124,7 +129,8 @@ namespace amp.Remote
             Action showQueueAction,
             Func<bool> scrambleQueueFunction,
             Func<List<int>, bool> scrambleQueueSelectedFunction,
-            Action refreshPlayListAction)
+            Action refreshPlayListAction,
+            Func<float?, float> setProgramVolumeFunction)
         {
             PausedFunction = pausedFunction;
             PauseAction = pauseAction;
@@ -147,7 +153,7 @@ namespace amp.Remote
             ShuffleAction = shuffleAction;
             RemoveSongFromAlbumAction = removeSongFromAlbumAction;
             SetRatingFunction = setRatingFunction;
-            SetVolumeFunction = setVolumeFunction;
+            SetSongVolumeFunction = setSongVolumeFunction;
             SetVolumeIdFunction = setVolumeIdFunction;
             SetRatingIdFunction = setRatingIdFunction;
             GetAlbumsFunction = getAlbumsFunction;
@@ -166,6 +172,7 @@ namespace amp.Remote
             ScrambleQueueFunction = scrambleQueueFunction;
             ScrambleQueueSelectedFunction = scrambleQueueSelectedFunction;
             RefreshPlayListAction = refreshPlayListAction;
+            SetProgramVolumeFunction = setProgramVolumeFunction;
         }
 
         /// <summary>
@@ -295,10 +302,16 @@ namespace amp.Remote
         internal Func<int, bool> SetRatingFunction { get; set; }
 
         /// <summary>
-        /// Gets or sets the set volume function.
+        /// Gets or sets the set song volume function.
         /// </summary>
-        /// <value>The set volume function.</value>
-        internal Func<float, bool> SetVolumeFunction { get; set; }
+        /// <value>The set song volume function.</value>
+        internal Func<float, bool> SetSongVolumeFunction { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set program volume action.
+        /// </summary>
+        /// <value>The set program volume action.</value>
+        internal Func<float?, float> SetProgramVolumeFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the set volume identifier function.
@@ -539,10 +552,10 @@ namespace amp.Remote
         /// <summary>
         /// Removes a song from the current album.
         /// </summary>
-        /// <param name="asf">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
-        public void RemoveSongFromAlbum(AlbumSongRemote asf)
+        /// <param name="albumSongRemote">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
+        public void RemoveSongFromAlbum(AlbumSongRemote albumSongRemote)
         {
-            RemoveSongFromAlbumAction(asf);
+            RemoveSongFromAlbumAction(albumSongRemote);
         }
 
         /// <summary>
@@ -560,9 +573,18 @@ namespace amp.Remote
         /// </summary>
         /// <param name="volume">The new volume value.</param>
         /// <returns><c>true</c> if there is a song to set a volume for; otherwise <c>false</c>.</returns>
-        public bool SetVolume(float volume)
+        public bool SetSongVolume(float volume)
         {
-            return SetVolumeFunction(volume);
+            return SetSongVolumeFunction(volume);
+        }
+
+        /// <summary>
+        /// Gets or sets the program volume.
+        /// </summary>
+        public float ProgramVolume
+        {
+            get => SetProgramVolumeFunction(null);
+            set => SetProgramVolumeFunction(value);
         }
 
         /// <summary>
@@ -571,7 +593,7 @@ namespace amp.Remote
         /// <param name="songIdList">A list of song database ID numbers to set the volume for.</param>
         /// <param name="volume">The new volume value.</param>
         /// <returns><c>true</c> if the volume was set successfully; otherwise <c>false</c>.</returns>
-        public bool SetVolume(List<int> songIdList, float volume)
+        public bool SetSongVolume(List<int> songIdList, float volume)
         {
             return SetVolumeIdFunction(songIdList, volume);
         }
@@ -728,24 +750,7 @@ namespace amp.Remote
                     continue; // if only queued songs..
                 }
 
-                retList.Add(new AlbumSongRemote
-                {
-                    Id = mf.ID,
-                    Duration = mf.Duration,
-                    Volume = mf.Volume,
-                    QueueIndex = mf.QueueIndex,
-                    Rating = mf.Rating,
-                    SongName = mf.SongName,
-                    Album = mf.Album,
-                    Artist = mf.Artist,
-                    SongNameNoQueue = mf.SongNameNoQueue,
-                    OverrideName = mf.OverrideName,
-                    TagStr = mf.TagString,
-                    Title = mf.Title,
-                    Track = mf.Track,
-                    Year = mf.Year,
-                    FullFileName = mf.FullFileName
-                }); // wow what a construct!
+                retList.Add(mf.ToAlbumSongRemote());
             }
             return retList;
         }
@@ -801,7 +806,8 @@ namespace amp.Remote
                 AlbumChanged = Database.AlbumChanged || albumChanged,
                 SongsChanged = SongsChanged,
                 CanGoPrevious = CanGoPrevious,
-                AlbumLoading = AlbumLoading
+                AlbumLoading = AlbumLoading,
+                AmpVolume = ProgramVolume,
             };
         }
 
@@ -866,55 +872,35 @@ namespace amp.Remote
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
         /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
-        public List<QueueEntryRemote> GetQueueList(string albumName)
+        public List<SavedQueueRemote> GetQueueList(string albumName)
         {
             SQLiteConnection conn = FormMain.Connection; // there is sill a dependency for the MainWindow..
-            List<QueueEntryRemote> queueList = new List<QueueEntryRemote>();
-            using SQLiteCommand command = new SQLiteCommand(conn)
+
+            var savedQueues = Database.GetAlbumQueues(albumName, conn);
+
+            var savedQueueRemotes = new List<SavedQueueRemote>();
+
+
+            foreach (var savedQueue in savedQueues)
             {
-                CommandText = albumName != string.Empty
-                    ? string.Join(Environment.NewLine,
-                        "SELECT COUNT(DISTINCT ID) FROM",
-                        // ReSharper disable once StringLiteralTypo
-                        $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {DatabaseHelpers.QS(albumName)})")
-                    : string.Join(Environment.NewLine,
-                        "SELECT COUNT(DISTINCT ID) FROM",
-                        "QUEUE_SNAPSHOT")
-            };
-
-            if (Convert.ToInt32(command.ExecuteScalar()) == 0)
-            {
-                return queueList;
-            }
-
-            command.CommandText = albumName == string.Empty
-                ? command.CommandText =
-                    string.Join(Environment.NewLine,
-                        "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
-                        "FROM QUEUE_SNAPSHOT",
-                        "GROUP BY ID, SNAPSHOTNAME",
-                        "ORDER BY MAX(SNAPSHOT_DATE)")
-                : command.CommandText =
-                    string.Join(Environment.NewLine,
-                        "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
-                        $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {DatabaseHelpers.QS(albumName)})",
-                        "GROUP BY ID, SNAPSHOTNAME",
-                        "ORDER BY MAX(SNAPSHOT_DATE)");
-
-
-            using SQLiteDataReader dr = command.ExecuteReader();
-            while (dr.Read())
-            {
-                queueList.Add(new QueueEntryRemote
+                var savedQueueRemote = new SavedQueueRemote
                 {
-                    CreteDate = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
-                    Id = dr.GetInt32(0),
-                    QueueName = dr.GetString(1)
-                });
+                    Id = savedQueue.Id,
+                    AlbumName = savedQueue.AlbumName,
+                    CountTotal = savedQueue.CountTotal,
+                    CreteDate = savedQueue.CreteDate,
+                    QueueName = savedQueue.QueueName,
+                    QueueSongs = new List<AlbumSongRemote>(),
+                };
+
+                foreach (var queueSong in savedQueue.QueueSongs)
+                {
+                    savedQueueRemote.QueueSongs.Add(queueSong.ToAlbumSongRemote());
+                }
+                savedQueueRemotes.Add(savedQueueRemote);
             }
 
-            return queueList;
+            return savedQueueRemotes;
         }
-
     }
 }

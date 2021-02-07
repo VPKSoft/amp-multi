@@ -444,9 +444,27 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         /// <param name="volume">The volume to set for the currently playing song. This value must be between 0 and 2 where 1 means original volume.</param>
         /// <returns>True if a song was playing which volume to set and the given volume was within acceptable range, otherwise false.</returns>
-        public bool SetVolume(float volume) // 0.0-2.0
+        public bool SetSongVolume(float volume) // 0.0-2.0
         {
-            return RemoteProvider.SetVolume(volume);
+            return RemoteProvider.SetSongVolume(volume);
+        }
+
+        /// <summary>
+        /// Sets the main volume of amp# software.
+        /// </summary>
+        /// <param name="volume">The volume to set for the amp# software.</param>
+        /// <returns>True if the volume was set within acceptable range, otherwise false.</returns>
+        public bool SetAmpVolume(float volume)
+        {
+            try
+            {
+                RemoteProvider.ProgramVolume = volume;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -457,7 +475,7 @@ namespace amp.Remote.WCFRemote
         /// <returns>True if the given list was valid and the and the given volume was within acceptable range, otherwise false.</returns>
         public bool SetVolumeMultiple(List<int> songIdList, float volume) // 0.0-2.0
         {
-            return RemoteProvider.SetVolume(songIdList, volume);
+            return RemoteProvider.SetSongVolume(songIdList, volume);
         }
 
 
@@ -487,7 +505,7 @@ namespace amp.Remote.WCFRemote
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
         /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
-        public List<QueueEntryRemote> GetQueueList(string albumName)
+        public List<SavedQueueRemote> GetQueueList(string albumName)
         {
             return RemoteProvider.GetQueueList(albumName);
         }
@@ -515,7 +533,7 @@ namespace amp.Remote.WCFRemote
         /// Gets a list of saved queues for the current album.
         /// </summary>
         /// <returns>A list of QueueEntryRemote class instances for the current album.</returns>
-        public List<QueueEntryRemote> GetQueueListCurrentAlbum()
+        public List<SavedQueueRemote> GetQueueListCurrentAlbum()
         {
             return GetQueueList(RemoteProvider.CurrentAlbum);
         }

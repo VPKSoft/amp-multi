@@ -286,7 +286,15 @@ namespace amp.Remote.WCFRemote
         /// <param name="volume">The volume to set for the currently playing song. This value must be between 0 and 2 where 1 means original volume.</param>
         /// <returns>True if a song was playing which volume to set and the given volume was within acceptable range, otherwise false.</returns>
         [OperationContract]
-        bool SetVolume(float volume);
+        bool SetSongVolume(float volume);
+
+        /// <summary>
+        /// Sets the main volume of amp# software.
+        /// </summary>
+        /// <param name="volume">The volume to set for the amp# software.</param>
+        /// <returns>True if the volume was set within acceptable range, otherwise false.</returns>
+        [OperationContract]
+        bool SetAmpVolume(float volume);
 
         /// <summary>
         /// Sets the volume for multiple songs with a given list of ID numbers.
@@ -314,21 +322,20 @@ namespace amp.Remote.WCFRemote
         [OperationContract]
         bool SetRatingMultiple(List<int> songIDList, int rating);
 
-
         /// <summary>
         /// Gets a list of saved queues for a given album ID.
         /// </summary>
         /// <param name="albumName">A name for of an album which queue list to get. A String.Empty returns saved queues for all albums.</param>
         /// <returns>A list of QueueEntryRemote class instances for the requested album.</returns>
         [OperationContract]
-        List<QueueEntryRemote> GetQueueList(string albumName);
+        List<SavedQueueRemote> GetQueueList(string albumName);
 
         /// <summary>
         /// Gets a list of saved queues for the current album.
         /// </summary>
         /// <returns>A list of QueueEntryRemote class instances for the current album.</returns>
         [OperationContract]
-        List<QueueEntryRemote> GetQueueListCurrentAlbum();
+        List<SavedQueueRemote> GetQueueListCurrentAlbum();
 
         /// <summary>
         /// Loads a queue to the play list with a given unique ID.

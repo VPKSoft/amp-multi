@@ -24,7 +24,6 @@ namespace AmpRESTfulTest
             HttpClientHelpers.LogMessages.LogMessage += LogMessage;
         }
 
-
         #region Log
         private void LogMessage(object sender, AmpRestHttpClientLogEventArgs e)
         {
@@ -129,7 +128,6 @@ namespace AmpRESTfulTest
         #endregion
 
         #region UIMethods
-
         private bool suspendPositionUpdate;
 
         private PlayerStateRemote PlayerState { get; set; }
@@ -222,6 +220,7 @@ namespace AmpRESTfulTest
         }
         #endregion
 
+        #region PlaybackPosition
         private void tbSongPosition_MouseDown(object sender, MouseEventArgs e)
         {
             suspendPositionUpdate = true;
@@ -241,10 +240,12 @@ namespace AmpRESTfulTest
         {
             await ampRestClient.SetPositionSeconds((double) tbSongPosition.Value);
         }
+        #endregion
 
+        #region Keyboard
         private async void FormMain_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
+            if (e.KeyCode == Keys.Add || e.KeyValue == 187)
             {
                 var tasks = new List<Task<List<AlbumSongRemote>>>();
                 foreach (AlbumSongRemote songRemote in lbSongs.SelectedItems)
@@ -258,5 +259,6 @@ namespace AmpRESTfulTest
                 e.SuppressKeyPress = true;
             }
         }
+        #endregion
     }
 }

@@ -150,5 +150,12 @@ namespace amp.Remote.DataClasses
         /// </summary>
         [DataMember]
         public bool AlbumLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets the amp# program's main volume.
+        /// </summary>
+        /// <value>The amp# program's main volume.</value>
+        [DataMember]
+        public float AmpVolume { get; set; }
     }
 }
