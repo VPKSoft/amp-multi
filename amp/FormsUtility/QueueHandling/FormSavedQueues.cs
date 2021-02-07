@@ -25,11 +25,14 @@ SOFTWARE.
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using amp.SQLiteDatabase;
+using amp.SQLiteDatabase.ContainerClasses;
 using amp.SQLiteDatabase.DatabaseUtils;
+using amp.UtilityClasses;
 using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.QueueHandling
@@ -110,43 +113,17 @@ namespace amp.FormsUtility.QueueHandling
             btAppendQueue.Enabled = false;
             tsbModifySavedQueue.Enabled = false;
             tsbExportQueue.Enabled = false;
-            using (SQLiteCommand command = new SQLiteCommand(conn))
+
+            var queues = Database.GetAlbumQueues(albumName, conn);
+
+            foreach (var queue in queues)
             {
-                command.CommandText =
-                    string.Join(Environment.NewLine,
-                        "SELECT COUNT(DISTINCT ID) FROM",
-                        // ReSharper disable once StringLiteralTypo
-                        $"QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})");
-
-                if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+                ListViewItem lvi = new ListViewItem(queue.QueueName)
                 {
-                    return;
-                }
-
-                command.CommandText =
-                    string.Join(Environment.NewLine,
-                        // ReSharper disable once StringLiteralTypo
-                        "SELECT ID, SNAPSHOTNAME, MAX(SNAPSHOT_DATE) AS SNAPSHOT_DATE",
-                        // ReSharper disable once StringLiteralTypo
-                        $"FROM QUEUE_SNAPSHOT WHERE ALBUM_ID = (SELECT ALBUM_ID FROM ALBUM WHERE ALBUMNAME = {Database.QS(albumName)})",
-                                // ReSharper disable once StringLiteralTypo
-                                "GROUP BY ID, SNAPSHOTNAME",
-                                "ORDER BY MAX(SNAPSHOT_DATE)");
-
-
-                using (SQLiteDataReader dr = command.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        ListViewItem lvi = new ListViewItem(dr.GetString(1))
-                        {
-                            Tag = dr.GetInt32(0)
-                        };
-                        DateTime dt = DateTime.ParseExact(dr.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture);
-                        lvi.SubItems.Add(dt.ToShortDateString() + " " + dt.ToShortTimeString());
-                        lvQueues.Items.Add(lvi);
-                    }
-                }
+                    Tag = queue
+                };
+                lvi.SubItems.Add(queue.CreteDate.ToShortDateString() + " " + queue.CreteDate.ToShortTimeString());
+                lvQueues.Items.Add(lvi);
             }
         }
 
@@ -175,7 +152,7 @@ namespace amp.FormsUtility.QueueHandling
                 append = frm.appendQueue;
                 if (frm.lvQueues.SelectedIndices.Count > 0)
                 {
-                    return Convert.ToInt32(frm.lvQueues.Items[frm.lvQueues.SelectedIndices[0]].Tag);
+                    return frm.QueueId;
                 }
                 return -1;
             }
@@ -188,6 +165,11 @@ namespace amp.FormsUtility.QueueHandling
         private void lvQueues_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView lv = (ListView)sender;
+
+            lbSongs.Items.Clear();
+
+            lbSongs.Items.AddRange(QueueSongs.Select(f => f.ToString(false)).Cast<object>().ToArray());
+
             bOK.Enabled = lv.SelectedIndices.Count > 0;
             tsbRemove.Enabled = lv.SelectedIndices.Count > 0;
             tsbModifySavedQueue.Enabled = lv.SelectedIndices.Count > 0;
@@ -208,7 +190,7 @@ namespace amp.FormsUtility.QueueHandling
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText =
-                        $"UPDATE QUEUE_SNAPSHOT SET SNAPSHOTNAME = '{lvi.Text}' WHERE ID = {lvi.Tag} ";
+                        $"UPDATE QUEUE_SNAPSHOT SET SNAPSHOTNAME = '{lvi.Text}' WHERE ID = {QueueId} ";
                     command.ExecuteNonQuery();
                     lvi.Name = string.Empty;
                 }
@@ -239,6 +221,43 @@ namespace amp.FormsUtility.QueueHandling
             lastText = e.Label;
         }
 
+        /// <summary>
+        /// Gets the selected saved queue identifier.
+        /// </summary>
+        /// <value>The selected saved queue identifier.</value>
+        private int QueueId
+        {
+            get
+            {
+                if (lvQueues.SelectedIndices.Count > 0)
+                {
+                    var queue = (SavedQueue) lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
+                    return queue.Id;
+                }
+
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of song names in the selected saved queue.
+        /// </summary>
+        /// <value>The list of song names in the selected saved queue.</value>
+        private List<MusicFile> QueueSongs
+        {
+            get
+            {
+                if (lvQueues.SelectedIndices.Count > 0)
+                {
+                    var queue = (SavedQueue) lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
+
+                    return queue.QueueSongs;
+                }
+
+                return new List<MusicFile>();
+            }
+        }
+
         // the user wants to remove a selected queue snapshot..
         private void tsbRemove_Click(object sender, EventArgs e)
         {
@@ -248,7 +267,7 @@ namespace amp.FormsUtility.QueueHandling
             {
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
-                    command.CommandText = "DELETE FROM QUEUE_SNAPSHOT WHERE ID = " + Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag) + " ";
+                    command.CommandText = "DELETE FROM QUEUE_SNAPSHOT WHERE ID = " + QueueId + " ";
                     command.ExecuteNonQuery();
                 }
                 RefreshList();
@@ -258,7 +277,7 @@ namespace amp.FormsUtility.QueueHandling
         // the user wants to modify the selected queue in detail..
         private void tsbModifySavedQueue_Click(object sender, EventArgs e)
         {
-            FormModifySavedQueue.Execute(ref conn, Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag));
+            FormModifySavedQueue.Execute(ref conn, QueueId);
         }
 
         // the user wants to export the queue into a file..
@@ -266,7 +285,7 @@ namespace amp.FormsUtility.QueueHandling
         {
             if (sdExportQueue.ShowDialog() == DialogResult.OK)
             {
-                Database.SaveQueueSnapshotToFile(conn, Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag), sdExportQueue.FileName);
+                Database.SaveQueueSnapshotToFile(conn, QueueId, sdExportQueue.FileName);
             }
         }
 
@@ -310,7 +329,7 @@ namespace amp.FormsUtility.QueueHandling
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button1) == DialogResult.Yes;
 
-                QueueUtilities.RunWithDialog(this, Convert.ToInt32(lvQueues.Items[lvQueues.SelectedIndices[0]].Tag),
+                QueueUtilities.RunWithDialog(this, QueueId,
                     fbdDirectory.SelectedPath, conn, convertToMp3,
                     DBLangEngine.GetMessage("msgProcessingFiles",
                         "Processing files...|A message describing a possible lengthy operation with files is running."),

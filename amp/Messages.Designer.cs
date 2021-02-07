@@ -160,6 +160,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error initializing the RESTful API with port: {0} with exception: &apos;{1}&apos;..
+        /// </summary>
+        public static string msgErrorRest {
+            get {
+                return ResourceManager.GetString("msgErrorRest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export queue to file|As in export a queue snapshot to a file.
         /// </summary>
         public static string msgExportQueueTo {

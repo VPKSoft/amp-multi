@@ -27,9 +27,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Results;
 using amp.Remote.DataClasses;
-using amp.Remote.WCFRemote;
 
 namespace amp.Remote.RESTful
 {
@@ -422,8 +420,12 @@ namespace amp.Remote.RESTful
         }
         #endregion
 
-        #region Queue
-
+        #region Queue        
+        /// <summary>
+        /// Gets the saved queues for a specified album.
+        /// </summary>
+        /// <param name="albumName">Name of the album.</param>
+        /// <returns>A list of <see cref="SavedQueueRemote"/> class instances.</returns>
         [HttpGet]
         [Route("api/getSavedQueues/{albumName}")]
         public List<SavedQueueRemote> GetSavedQueues(string albumName)
@@ -476,35 +478,6 @@ namespace amp.Remote.RESTful
             RestInitializer.RemoteProvider.RefreshLoadQueueStats(queueIndex, append);
             return Ok();
         }
-
         #endregion
-
-        public string Get()
-        {
-            return RestInitializer.RemoteProvider.CurrentAlbum;
-        }
-
-        public string Get(int id)
-        {
-            return Get();
-        }
-
-        // POST api/values 
-        public void Post([FromBody]string value)
-        {
-            Console.WriteLine("Post method called with value = " + value);
-        }
-
-        // PUT api/values/5 
-        public void Put(int id, [FromBody]string value)
-        {
-            Console.WriteLine("Put method called with value = " + value);
-        }
-
-        // DELETE api/values/5 
-        public void Delete(int id)
-        {
-            Console.WriteLine("Delete method called with id = " + id);
-        }
     }
 }

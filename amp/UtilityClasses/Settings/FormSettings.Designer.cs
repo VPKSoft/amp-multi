@@ -43,14 +43,8 @@ namespace amp.UtilityClasses.Settings
             this.rbPauseQuiet = new System.Windows.Forms.RadioButton();
             this.bCancel = new System.Windows.Forms.Button();
             this.bOK = new System.Windows.Forms.Button();
-            this.lbRemoteControlURIVValue = new System.Windows.Forms.Label();
-            this.btAssignRemoteControlURI = new System.Windows.Forms.Button();
             this.lbLatency = new System.Windows.Forms.Label();
             this.nudLatency = new System.Windows.Forms.NumericUpDown();
-            this.cbRemoteControlEnabled = new System.Windows.Forms.CheckBox();
-            this.gpRemoteControl = new System.Windows.Forms.GroupBox();
-            this.lbRemoteControlURI = new System.Windows.Forms.Label();
-            this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
             this.tbTestQuietHour = new System.Windows.Forms.TextBox();
             this.btnTestQuietHour = new System.Windows.Forms.Button();
             this.lbLanguage = new System.Windows.Forms.Label();
@@ -67,6 +61,7 @@ namespace amp.UtilityClasses.Settings
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMain = new System.Windows.Forms.TabPage();
             this.tpAdditional = new System.Windows.Forms.TabPage();
+            this.cbHideAlbumImage = new System.Windows.Forms.CheckBox();
             this.cbDisplayVolumeAndPoints = new System.Windows.Forms.CheckBox();
             this.gbStackQueue = new System.Windows.Forms.GroupBox();
             this.tlpStackQueueRandomLabel = new System.Windows.Forms.TableLayoutPanel();
@@ -89,11 +84,22 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationLines = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
-            this.cbHideAlbumImage = new System.Windows.Forms.CheckBox();
+            this.tabRemote = new System.Windows.Forms.TabPage();
+            this.gpRemoteControl = new System.Windows.Forms.GroupBox();
+            this.lbRemoteControlURI = new System.Windows.Forms.Label();
+            this.cbRemoteControlEnabled = new System.Windows.Forms.CheckBox();
+            this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
+            this.btAssignRemoteControlURI = new System.Windows.Forms.Button();
+            this.lbRemoteControlURIVValue = new System.Windows.Forms.Label();
+            this.lbWCFApi = new System.Windows.Forms.Label();
+            this.gbRestApi = new System.Windows.Forms.GroupBox();
+            this.lbRemoteControlPort = new System.Windows.Forms.Label();
+            this.cbRestEnabled = new System.Windows.Forms.CheckBox();
+            this.nudRestPort = new System.Windows.Forms.NumericUpDown();
+            this.lbRestApiHeader = new System.Windows.Forms.Label();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
-            this.gpRemoteControl.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpMain.SuspendLayout();
@@ -106,6 +112,10 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
+            this.tabRemote.SuspendLayout();
+            this.gpRemoteControl.SuspendLayout();
+            this.gbRestApi.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRestPort)).BeginInit();
             this.SuspendLayout();
             // 
             // cbQuietHours
@@ -223,26 +233,6 @@ namespace amp.UtilityClasses.Settings
             this.bOK.UseVisualStyleBackColor = true;
             this.bOK.Click += new System.EventHandler(this.bOK_Click);
             // 
-            // lbRemoteControlURIVValue
-            // 
-            this.lbRemoteControlURIVValue.AutoSize = true;
-            this.lbRemoteControlURIVValue.Location = new System.Drawing.Point(6, 76);
-            this.lbRemoteControlURIVValue.Name = "lbRemoteControlURIVValue";
-            this.lbRemoteControlURIVValue.Size = new System.Drawing.Size(55, 13);
-            this.lbRemoteControlURIVValue.TabIndex = 11;
-            this.lbRemoteControlURIVValue.Text = "http(s)://?";
-            // 
-            // btAssignRemoteControlURI
-            // 
-            this.btAssignRemoteControlURI.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAssignRemoteControlURI.Location = new System.Drawing.Point(6, 92);
-            this.btAssignRemoteControlURI.Name = "btAssignRemoteControlURI";
-            this.btAssignRemoteControlURI.Size = new System.Drawing.Size(229, 23);
-            this.btAssignRemoteControlURI.TabIndex = 12;
-            this.btAssignRemoteControlURI.Text = "Set Url";
-            this.btAssignRemoteControlURI.UseVisualStyleBackColor = true;
-            this.btAssignRemoteControlURI.Click += new System.EventHandler(this.btAssignRemoteControlURI_Click);
-            // 
             // lbLatency
             // 
             this.lbLatency.AutoSize = true;
@@ -273,49 +263,6 @@ namespace amp.UtilityClasses.Settings
             0,
             0,
             0});
-            // 
-            // cbRemoteControlEnabled
-            // 
-            this.cbRemoteControlEnabled.AutoSize = true;
-            this.cbRemoteControlEnabled.Location = new System.Drawing.Point(6, 19);
-            this.cbRemoteControlEnabled.Name = "cbRemoteControlEnabled";
-            this.cbRemoteControlEnabled.Size = new System.Drawing.Size(65, 17);
-            this.cbRemoteControlEnabled.TabIndex = 16;
-            this.cbRemoteControlEnabled.Text = "Enabled";
-            this.cbRemoteControlEnabled.UseVisualStyleBackColor = true;
-            // 
-            // gpRemoteControl
-            // 
-            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.cbRemoteControlEnabled);
-            this.gpRemoteControl.Controls.Add(this.tbRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.btAssignRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURIVValue);
-            this.gpRemoteControl.Location = new System.Drawing.Point(6, 157);
-            this.gpRemoteControl.Name = "gpRemoteControl";
-            this.gpRemoteControl.Size = new System.Drawing.Size(244, 125);
-            this.gpRemoteControl.TabIndex = 17;
-            this.gpRemoteControl.TabStop = false;
-            this.gpRemoteControl.Text = "Remote control API";
-            // 
-            // lbRemoteControlURI
-            // 
-            this.lbRemoteControlURI.AutoSize = true;
-            this.lbRemoteControlURI.Location = new System.Drawing.Point(6, 37);
-            this.lbRemoteControlURI.Name = "lbRemoteControlURI";
-            this.lbRemoteControlURI.Size = new System.Drawing.Size(122, 13);
-            this.lbRemoteControlURI.TabIndex = 9;
-            this.lbRemoteControlURI.Text = "Remote control address:";
-            // 
-            // tbRemoteControlURI
-            // 
-            this.tbRemoteControlURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRemoteControlURI.Location = new System.Drawing.Point(6, 53);
-            this.tbRemoteControlURI.Name = "tbRemoteControlURI";
-            this.tbRemoteControlURI.Size = new System.Drawing.Size(229, 20);
-            this.tbRemoteControlURI.TabIndex = 10;
-            this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControlURI_TextChanged);
             // 
             // tbTestQuietHour
             // 
@@ -447,6 +394,7 @@ namespace amp.UtilityClasses.Settings
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpMain);
             this.tcMain.Controls.Add(this.tpAdditional);
+            this.tcMain.Controls.Add(this.tabRemote);
             this.tcMain.Location = new System.Drawing.Point(12, 27);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
@@ -467,11 +415,10 @@ namespace amp.UtilityClasses.Settings
             this.tpMain.Controls.Add(this.lbLatency);
             this.tpMain.Controls.Add(this.nudLatency);
             this.tpMain.Controls.Add(this.btAlbumNaming);
-            this.tpMain.Controls.Add(this.gpRemoteControl);
             this.tpMain.Location = new System.Drawing.Point(4, 22);
             this.tpMain.Name = "tpMain";
             this.tpMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMain.Size = new System.Drawing.Size(258, 448);
+            this.tpMain.Size = new System.Drawing.Size(258, 460);
             this.tpMain.TabIndex = 0;
             this.tpMain.Text = "Main";
             this.tpMain.UseVisualStyleBackColor = true;
@@ -490,6 +437,16 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.TabIndex = 1;
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
+            // 
+            // cbHideAlbumImage
+            // 
+            this.cbHideAlbumImage.AutoSize = true;
+            this.cbHideAlbumImage.Location = new System.Drawing.Point(6, 430);
+            this.cbHideAlbumImage.Name = "cbHideAlbumImage";
+            this.cbHideAlbumImage.Size = new System.Drawing.Size(172, 17);
+            this.cbHideAlbumImage.TabIndex = 4;
+            this.cbHideAlbumImage.Text = "Auto-hide album image window";
+            this.cbHideAlbumImage.UseVisualStyleBackColor = true;
             // 
             // cbDisplayVolumeAndPoints
             // 
@@ -773,15 +730,156 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationOff.UseVisualStyleBackColor = true;
             this.rbAudioVisualizationOff.CheckedChanged += new System.EventHandler(this.RbAudioVisualization_CheckedChanged);
             // 
-            // cbHideAlbumImage
+            // tabRemote
             // 
-            this.cbHideAlbumImage.AutoSize = true;
-            this.cbHideAlbumImage.Location = new System.Drawing.Point(6, 430);
-            this.cbHideAlbumImage.Name = "cbHideAlbumImage";
-            this.cbHideAlbumImage.Size = new System.Drawing.Size(172, 17);
-            this.cbHideAlbumImage.TabIndex = 4;
-            this.cbHideAlbumImage.Text = "Auto-hide album image window";
-            this.cbHideAlbumImage.UseVisualStyleBackColor = true;
+            this.tabRemote.Controls.Add(this.lbRestApiHeader);
+            this.tabRemote.Controls.Add(this.gbRestApi);
+            this.tabRemote.Controls.Add(this.lbWCFApi);
+            this.tabRemote.Controls.Add(this.gpRemoteControl);
+            this.tabRemote.Location = new System.Drawing.Point(4, 22);
+            this.tabRemote.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
+            this.tabRemote.Name = "tabRemote";
+            this.tabRemote.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRemote.Size = new System.Drawing.Size(258, 460);
+            this.tabRemote.TabIndex = 2;
+            this.tabRemote.Text = "Remote control";
+            this.tabRemote.UseVisualStyleBackColor = true;
+            // 
+            // gpRemoteControl
+            // 
+            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURI);
+            this.gpRemoteControl.Controls.Add(this.cbRemoteControlEnabled);
+            this.gpRemoteControl.Controls.Add(this.tbRemoteControlURI);
+            this.gpRemoteControl.Controls.Add(this.btAssignRemoteControlURI);
+            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURIVValue);
+            this.gpRemoteControl.Location = new System.Drawing.Point(6, 132);
+            this.gpRemoteControl.Name = "gpRemoteControl";
+            this.gpRemoteControl.Size = new System.Drawing.Size(244, 125);
+            this.gpRemoteControl.TabIndex = 18;
+            this.gpRemoteControl.TabStop = false;
+            this.gpRemoteControl.Text = "Remote control API";
+            // 
+            // lbRemoteControlURI
+            // 
+            this.lbRemoteControlURI.AutoSize = true;
+            this.lbRemoteControlURI.Location = new System.Drawing.Point(6, 37);
+            this.lbRemoteControlURI.Name = "lbRemoteControlURI";
+            this.lbRemoteControlURI.Size = new System.Drawing.Size(122, 13);
+            this.lbRemoteControlURI.TabIndex = 9;
+            this.lbRemoteControlURI.Text = "Remote control address:";
+            // 
+            // cbRemoteControlEnabled
+            // 
+            this.cbRemoteControlEnabled.AutoSize = true;
+            this.cbRemoteControlEnabled.Location = new System.Drawing.Point(6, 19);
+            this.cbRemoteControlEnabled.Name = "cbRemoteControlEnabled";
+            this.cbRemoteControlEnabled.Size = new System.Drawing.Size(65, 17);
+            this.cbRemoteControlEnabled.TabIndex = 16;
+            this.cbRemoteControlEnabled.Text = "Enabled";
+            this.cbRemoteControlEnabled.UseVisualStyleBackColor = true;
+            // 
+            // tbRemoteControlURI
+            // 
+            this.tbRemoteControlURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbRemoteControlURI.Location = new System.Drawing.Point(6, 53);
+            this.tbRemoteControlURI.Name = "tbRemoteControlURI";
+            this.tbRemoteControlURI.Size = new System.Drawing.Size(229, 20);
+            this.tbRemoteControlURI.TabIndex = 10;
+            this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControlURI_TextChanged);
+            // 
+            // btAssignRemoteControlURI
+            // 
+            this.btAssignRemoteControlURI.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btAssignRemoteControlURI.Location = new System.Drawing.Point(6, 92);
+            this.btAssignRemoteControlURI.Name = "btAssignRemoteControlURI";
+            this.btAssignRemoteControlURI.Size = new System.Drawing.Size(229, 23);
+            this.btAssignRemoteControlURI.TabIndex = 12;
+            this.btAssignRemoteControlURI.Text = "Set Url";
+            this.btAssignRemoteControlURI.UseVisualStyleBackColor = true;
+            this.btAssignRemoteControlURI.Click += new System.EventHandler(this.btAssignRemoteControlURI_Click);
+            // 
+            // lbRemoteControlURIVValue
+            // 
+            this.lbRemoteControlURIVValue.AutoSize = true;
+            this.lbRemoteControlURIVValue.Location = new System.Drawing.Point(6, 76);
+            this.lbRemoteControlURIVValue.Name = "lbRemoteControlURIVValue";
+            this.lbRemoteControlURIVValue.Size = new System.Drawing.Size(55, 13);
+            this.lbRemoteControlURIVValue.TabIndex = 11;
+            this.lbRemoteControlURIVValue.Text = "http(s)://?";
+            // 
+            // lbWCFApi
+            // 
+            this.lbWCFApi.AutoSize = true;
+            this.lbWCFApi.Location = new System.Drawing.Point(9, 116);
+            this.lbWCFApi.Name = "lbWCFApi";
+            this.lbWCFApi.Size = new System.Drawing.Size(95, 13);
+            this.lbWCFApi.TabIndex = 19;
+            this.lbWCFApi.Text = "WCF (SOAP)  API:";
+            // 
+            // gbRestApi
+            // 
+            this.gbRestApi.Controls.Add(this.nudRestPort);
+            this.gbRestApi.Controls.Add(this.lbRemoteControlPort);
+            this.gbRestApi.Controls.Add(this.cbRestEnabled);
+            this.gbRestApi.Location = new System.Drawing.Point(6, 24);
+            this.gbRestApi.Name = "gbRestApi";
+            this.gbRestApi.Size = new System.Drawing.Size(244, 84);
+            this.gbRestApi.TabIndex = 20;
+            this.gbRestApi.TabStop = false;
+            this.gbRestApi.Text = "Remote control API";
+            // 
+            // lbRemoteControlPort
+            // 
+            this.lbRemoteControlPort.AutoSize = true;
+            this.lbRemoteControlPort.Location = new System.Drawing.Point(6, 37);
+            this.lbRemoteControlPort.Name = "lbRemoteControlPort";
+            this.lbRemoteControlPort.Size = new System.Drawing.Size(103, 13);
+            this.lbRemoteControlPort.TabIndex = 9;
+            this.lbRemoteControlPort.Text = "Remote control port:";
+            // 
+            // cbRestEnabled
+            // 
+            this.cbRestEnabled.AutoSize = true;
+            this.cbRestEnabled.Location = new System.Drawing.Point(6, 19);
+            this.cbRestEnabled.Name = "cbRestEnabled";
+            this.cbRestEnabled.Size = new System.Drawing.Size(65, 17);
+            this.cbRestEnabled.TabIndex = 16;
+            this.cbRestEnabled.Text = "Enabled";
+            this.cbRestEnabled.UseVisualStyleBackColor = true;
+            this.cbRestEnabled.CheckedChanged += new System.EventHandler(this.cbRestEnabled_CheckedChanged);
+            // 
+            // nudRestPort
+            // 
+            this.nudRestPort.Location = new System.Drawing.Point(9, 53);
+            this.nudRestPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudRestPort.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudRestPort.Name = "nudRestPort";
+            this.nudRestPort.Size = new System.Drawing.Size(120, 20);
+            this.nudRestPort.TabIndex = 17;
+            this.nudRestPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudRestPort.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lbRestApiHeader
+            // 
+            this.lbRestApiHeader.AutoSize = true;
+            this.lbRestApiHeader.Location = new System.Drawing.Point(6, 8);
+            this.lbRestApiHeader.Name = "lbRestApiHeader";
+            this.lbRestApiHeader.Size = new System.Drawing.Size(123, 13);
+            this.lbRestApiHeader.TabIndex = 21;
+            this.lbRestApiHeader.Text = "RESTful API with JSON:";
             // 
             // FormSettings
             // 
@@ -810,8 +908,6 @@ namespace amp.UtilityClasses.Settings
             this.gpVolumeSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).EndInit();
-            this.gpRemoteControl.ResumeLayout(false);
-            this.gpRemoteControl.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tcMain.ResumeLayout(false);
@@ -831,6 +927,13 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
+            this.tabRemote.ResumeLayout(false);
+            this.tabRemote.PerformLayout();
+            this.gpRemoteControl.ResumeLayout(false);
+            this.gpRemoteControl.PerformLayout();
+            this.gbRestApi.ResumeLayout(false);
+            this.gbRestApi.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRestPort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -849,14 +952,8 @@ namespace amp.UtilityClasses.Settings
         private RadioButton rbPauseQuiet;
         private Button bCancel;
         private Button bOK;
-        private Label lbRemoteControlURIVValue;
-        private Button btAssignRemoteControlURI;
         private Label lbLatency;
         private NumericUpDown nudLatency;
-        private CheckBox cbRemoteControlEnabled;
-        private GroupBox gpRemoteControl;
-        private Label lbRemoteControlURI;
-        private TextBox tbRemoteControlURI;
         private Button btAlbumNaming;
         private TextBox tbTestQuietHour;
         private Button btnTestQuietHour;
@@ -896,5 +993,18 @@ namespace amp.UtilityClasses.Settings
         private CheckBox cbDisplayVolumeAndPoints;
         private ToolStripMenuItem mnuThemeSettings;
         private CheckBox cbHideAlbumImage;
+        private TabPage tabRemote;
+        private GroupBox gpRemoteControl;
+        private Label lbRemoteControlURI;
+        private CheckBox cbRemoteControlEnabled;
+        private TextBox tbRemoteControlURI;
+        private Button btAssignRemoteControlURI;
+        private Label lbRemoteControlURIVValue;
+        private Label lbRestApiHeader;
+        private GroupBox gbRestApi;
+        private NumericUpDown nudRestPort;
+        private Label lbRemoteControlPort;
+        private CheckBox cbRestEnabled;
+        private Label lbWCFApi;
     }
 }

@@ -279,4 +279,7 @@
   <data name="msgSaveAlbumAs" xml:space="preserve">
     <value>Save album as|A dialog title to save an existing album with a new name</value>
   </data>
+  <data name="msgErrorRest" xml:space="preserve">
+    <value>Error initializing the RESTful API with port: {0} with exception: '{1}'.</value>
+  </data>
 </root>

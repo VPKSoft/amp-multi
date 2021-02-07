@@ -51,8 +51,14 @@ namespace amp.FormsUtility.QueueHandling
             this.odExportQueue = new System.Windows.Forms.OpenFileDialog();
             this.btAppendQueue = new System.Windows.Forms.Button();
             this.fbdDirectory = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
+            this.scQueue = new System.Windows.Forms.SplitContainer();
+            this.lbSongs = new System.Windows.Forms.ListBox();
             this.tlpMain.SuspendLayout();
             this.tsMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scQueue)).BeginInit();
+            this.scQueue.Panel1.SuspendLayout();
+            this.scQueue.Panel2.SuspendLayout();
+            this.scQueue.SuspendLayout();
             this.SuspendLayout();
             // 
             // lvQueues
@@ -65,10 +71,10 @@ namespace amp.FormsUtility.QueueHandling
             this.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvQueues.HideSelection = false;
             this.lvQueues.LabelEdit = true;
-            this.lvQueues.Location = new System.Drawing.Point(3, 3);
+            this.lvQueues.Location = new System.Drawing.Point(0, 0);
             this.lvQueues.MultiSelect = false;
             this.lvQueues.Name = "lvQueues";
-            this.lvQueues.Size = new System.Drawing.Size(523, 411);
+            this.lvQueues.Size = new System.Drawing.Size(523, 272);
             this.lvQueues.TabIndex = 5;
             this.lvQueues.UseCompatibleStateImageBehavior = false;
             this.lvQueues.View = System.Windows.Forms.View.Details;
@@ -94,12 +100,13 @@ namespace amp.FormsUtility.QueueHandling
             this.tlpMain.ColumnCount = 2;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlpMain.Controls.Add(this.lvQueues, 0, 0);
             this.tlpMain.Controls.Add(this.tsMain, 1, 0);
+            this.tlpMain.Controls.Add(this.scQueue, 0, 0);
             this.tlpMain.Location = new System.Drawing.Point(12, 12);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 1;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpMain.Size = new System.Drawing.Size(553, 417);
             this.tlpMain.TabIndex = 2;
             // 
@@ -250,6 +257,33 @@ namespace amp.FormsUtility.QueueHandling
             this.fbdDirectory.Description = "Copy songs into a single directory";
             this.fbdDirectory.UseDescriptionForTitle = true;
             // 
+            // scQueue
+            // 
+            this.scQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scQueue.Location = new System.Drawing.Point(3, 3);
+            this.scQueue.Name = "scQueue";
+            this.scQueue.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // scQueue.Panel1
+            // 
+            this.scQueue.Panel1.Controls.Add(this.lvQueues);
+            // 
+            // scQueue.Panel2
+            // 
+            this.scQueue.Panel2.Controls.Add(this.lbSongs);
+            this.scQueue.Size = new System.Drawing.Size(523, 411);
+            this.scQueue.SplitterDistance = 272;
+            this.scQueue.TabIndex = 7;
+            // 
+            // lbSongs
+            // 
+            this.lbSongs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbSongs.FormattingEnabled = true;
+            this.lbSongs.Location = new System.Drawing.Point(0, 0);
+            this.lbSongs.Name = "lbSongs";
+            this.lbSongs.Size = new System.Drawing.Size(523, 135);
+            this.lbSongs.TabIndex = 0;
+            // 
             // FormSavedQueues
             // 
             this.AcceptButton = this.bOK;
@@ -272,6 +306,10 @@ namespace amp.FormsUtility.QueueHandling
             this.tlpMain.PerformLayout();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
+            this.scQueue.Panel1.ResumeLayout(false);
+            this.scQueue.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scQueue)).EndInit();
+            this.scQueue.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -297,5 +335,7 @@ namespace amp.FormsUtility.QueueHandling
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton tsbCopyAllFlat;
         private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog fbdDirectory;
+        private SplitContainer scQueue;
+        private ListBox lbSongs;
     }
 }

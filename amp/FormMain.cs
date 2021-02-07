@@ -150,7 +150,19 @@ namespace amp
 
             EnableDisableGui();
 
-            RestInitializer.InitializeRest("http://localhost/", 12345, RemoteProvider);
+            // initialize the RESTful API if defined in the settings..
+            if (Program.Settings.RestApiEnabled)
+            {
+                try
+                {
+                    RestInitializer.InitializeRest("http://localhost/", Program.Settings.RestApiPort, RemoteProvider);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(DBLangEngine.GetMessage("msgErrorRest", "Error initializing the RESTful API with port: {0} with exception: '{1}'.", Program.Settings.RestApiPort, exception.Message), 
+                        DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         #region Fields                
@@ -533,7 +545,7 @@ namespace amp
         /// Gets or sets the remote provider instance for RESTful/SOAP API use.
         /// </summary>
         /// <value>Gets or sets the remote provider instance for RESTful/SOAP API use.</value>
-        public static RemoteProvider RemoteProvider { get; set; }
+        internal static RemoteProvider RemoteProvider { get; set; }
 
         // a field for the AlbumChanged property..
         private bool albumChanged;
@@ -2603,6 +2615,7 @@ namespace amp
             tmPendOperation.Stop();
             CloseWaveOut();
             stopped = true;
+            AmpRemoteController.Dispose();
             while (!thread.Join(1000))
             {
                 Application.DoEvents();

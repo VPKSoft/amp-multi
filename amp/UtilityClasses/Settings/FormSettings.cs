@@ -33,7 +33,7 @@ using System.IO;
 using System.Windows.Forms;
 using amp.DataMigrate.GUI;
 using amp.FormsUtility.Random;
-using ReaLTaiizor.Helper;
+using amp.Remote.RESTful;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
 using VU = VPKSoft.Utils;
@@ -62,6 +62,12 @@ namespace amp.UtilityClasses.Settings
             DBLangEngine.InitializeLanguage("amp.Messages");
             btAssignRemoteControlURI.Image = VU.SysIcons.GetSystemIconBitmap(VU.SysIcons.SystemIconType.Shield, new Size(16, 16));
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the settings are being loaded.
+        /// </summary>
+        /// <value><c>true</c> if the settings are being loaded; otherwise, <c>false</c>.</value>
+        internal bool SettingsLoading { get; set; }
 
         private void nudQuietHourPercentage_ValueChanged(object sender, EventArgs e)
         {
@@ -105,6 +111,9 @@ namespace amp.UtilityClasses.Settings
             }
 
             Program.Settings.DisplayVolumeAndPoints = cbDisplayVolumeAndPoints.Checked;
+
+            Program.Settings.RestApiPort = (int)nudRestPort.Value;
+            Program.Settings.RestApiEnabled = cbRestEnabled.Checked;
 
             SaveSettings();
             DialogResult = DialogResult.OK;
@@ -172,6 +181,7 @@ namespace amp.UtilityClasses.Settings
 
         private void FormSettings_Shown(object sender, EventArgs e)
         {
+            SettingsLoading = true;
             cbQuietHours.Checked = Program.Settings.QuietHours;
 
             dtpFrom.Value = DateTime.ParseExact(Program.Settings.QuietHoursFrom, "HH':'mm", CultureInfo.InvariantCulture);
@@ -234,6 +244,10 @@ namespace amp.UtilityClasses.Settings
             }
 
             cbDisplayVolumeAndPoints.Checked = Program.Settings.DisplayVolumeAndPoints;
+            cbRestEnabled.Checked = Program.Settings.RestApiEnabled;
+
+            nudRestPort.Value = Program.Settings.RestApiPort;
+            SettingsLoading = false;
         }
 
         private void tbRemoteControlURI_TextChanged(object sender, EventArgs e)
@@ -264,10 +278,8 @@ namespace amp.UtilityClasses.Settings
 
         private void btAlbumNaming_Click(object sender, EventArgs e)
         {
-            using (var formAlbumNaming = new FormAlbumNaming())
-            {
-                formAlbumNaming.ShowDialog();
-            }
+            using var formAlbumNaming = new FormAlbumNaming();
+            formAlbumNaming.ShowDialog();
         }
 
         private void btnTestQuietHour_Click(object sender, EventArgs e)
@@ -289,10 +301,8 @@ namespace amp.UtilityClasses.Settings
 
         private void btnModifiedRandomization_Click(object sender, EventArgs e)
         {
-            using (var formRandomizePriority = new FormRandomizePriority())
-            {
-                formRandomizePriority.ShowDialog();
-            }
+            using var formRandomizePriority = new FormRandomizePriority();
+            formRandomizePriority.ShowDialog();
         }
 
         private void MnuLocalization_Click(object sender, EventArgs e)
@@ -360,6 +370,40 @@ namespace amp.UtilityClasses.Settings
         private void mnuThemeSettings_Click(object sender, EventArgs e)
         {
             new FormThemeSettings(ThemeSettings.LoadDefaultTheme()).ShowDialog();
+        }
+
+        private void cbRestEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SettingsLoading)
+            {
+                return;
+            }
+
+            var checkBox = (CheckBox) sender;
+
+            if (checkBox.Checked)
+            {
+                try
+                {
+                    AmpRemoteController.Dispose();
+                    RestInitializer.InitializeRest("http://localhost/", (int)nudRestPort.Value,
+                        FormMain.RemoteProvider);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(
+                        DBLangEngine.GetMessage("msgErrorRest",
+                            "Error initializing the RESTful API with port: {0} with exception: '{1}'.",
+                            nudRestPort.Value, exception.Message),
+                        DBLangEngine.GetMessage("msgError",
+                            "Error|A message describing that some kind of error occurred."), MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                AmpRemoteController.Dispose();
+            }
         }
     }
 }

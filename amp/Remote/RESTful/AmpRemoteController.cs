@@ -52,6 +52,16 @@ namespace amp.Remote.RESTful
         }
 
         /// <summary>
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources of the <see cref="InstanceContext"/> instance.
+        /// </summary>
+        /// </summary>
+        public static void Dispose()
+        {
+            InstanceContext?.Dispose();
+        }
+
+        /// <summary>
         /// Gets or sets the instance context of this <see cref="AmpRemoteController"/> class.
         /// </summary>
         /// <value>The instance context of this <see cref="AmpRemoteController"/> class.</value>

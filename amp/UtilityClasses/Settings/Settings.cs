@@ -305,5 +305,21 @@ namespace amp.UtilityClasses.Settings
         [IsSetting]
         public int BarAmount { get; set; } = 92;
         #endregion
+
+        #region RESTful
+        /// <summary>
+        /// Gets or sets a value indicating whether RESTful remote control API is enabled.
+        /// </summary>
+        /// <value><c>true</c> if the RESTful remote control API is enabled; otherwise, <c>false</c>.</value>
+        [IsSetting]
+        public bool RestApiEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RESTful remote control API port.
+        /// </summary>
+        /// <value>The RESTful remote control API port.</value>
+        [IsSetting(DefaultValue = 11316)]
+        public int RestApiPort { get; set; }
+        #endregion
     }
 }
