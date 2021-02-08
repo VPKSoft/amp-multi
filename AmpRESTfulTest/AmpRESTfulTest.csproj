@@ -13,7 +13,7 @@
     <Compile Include="..\amp\Remote\DataClasses\AlbumSongRemote.cs" Link="DataClasses\AlbumSongRemote.cs" />
     <Compile Include="..\amp\Remote\DataClasses\FilterType.cs" Link="DataClasses\FilterType.cs" />
     <Compile Include="..\amp\Remote\DataClasses\PlayerStateRemote.cs" Link="DataClasses\PlayerStateRemote.cs" />
-    <Compile Include="..\amp\Remote\DataClasses\QueueEntryRemote.cs" Link="DataClasses\QueueEntryRemote.cs" />
+    <Compile Include="..\amp\Remote\DataClasses\SavedQueueRemote.cs" Link="DataClasses\SavedQueueRemote.cs" />
   </ItemGroup>
 
   <ItemGroup>
