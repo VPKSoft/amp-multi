@@ -341,7 +341,7 @@
     <PackageReference Include="NAudio.Wma" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
-    <PackageReference Include="ReaLTaiizor" Version="3.7.8.1" />
+    <PackageReference Include="ReaLTaiizor" Version="3.7.8.2" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
     <PackageReference Include="RpcSelf" Version="1.0.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
@@ -353,10 +353,10 @@
     <PackageReference Include="taglib" Version="2.1.0" />
     <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.6" />
     <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
-    <PackageReference Include="VPKSoft.LangLib" Version="1.0.6" />
+    <PackageReference Include="VPKSoft.LangLib" Version="1.0.7" />
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
-    <PackageReference Include="VPKSoft.Utils" Version="1.0.6" />
+    <PackageReference Include="VPKSoft.Utils" Version="1.0.7" />
     <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.3" />
     <PackageReference Include="VPKSoft.XmlSettings" Version="1.0.1" />
   </ItemGroup>

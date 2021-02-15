@@ -50,7 +50,7 @@ namespace amp.UtilityClasses.Settings
         /// <param name="settings">The settings.</param>
         public static void FromOldSettings(Settings settings)
         {
-            var file = Paths.GetAppSettingsFolder() + SettingsFileName;
+            var file = Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName;
 
             if (!File.Exists(file))
             {
@@ -77,9 +77,9 @@ namespace amp.UtilityClasses.Settings
 
             // ReSharper disable once IdentifierTypo
             VPKSoft.Utils.VPKNml vnml = new VPKSoft.Utils.VPKNml();
-            VPKSoft.Utils.Paths.MakeAppSettingsFolder();
+            VPKSoft.Utils.Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
             // ReSharper disable once StringLiteralTypo
-            vnml.Load(VPKSoft.Utils.Paths.GetAppSettingsFolder() + "settings.vnml");
+            vnml.Load(VPKSoft.Utils.Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + "settings.vnml");
 
             settings.QuietHours = Convert.ToBoolean(vnml["quietHour", "enabled", false]); // this is gotten from the settings
 
@@ -117,14 +117,14 @@ namespace amp.UtilityClasses.Settings
                 }
 
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 int result = int.Parse(_vnml["DBUpdateLevel", "value", 0.ToString()].ToString());
 
                 if (_dbUpdateRequiredLevel != -1)
                 {
                     _vnml["DBUpdateLevel", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 }
 
 
@@ -135,11 +135,11 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["DBUpdateLevel", "value"] = value;
                 _dbUpdateRequiredLevel = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -159,8 +159,8 @@ namespace amp.UtilityClasses.Settings
                 }
 
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
 
                 var result = int.Parse(_vnml["PlayBack", "loadToMemoryLimit", "-1"].ToString());
 
@@ -168,7 +168,7 @@ namespace amp.UtilityClasses.Settings
                 if (_loadEntireFileSizeLimit == null)
                 {
                     _vnml["PlayBack", "loadToMemoryLimit"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     _loadEntireFileSizeLimit = result;
                 }
 
@@ -178,11 +178,11 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["PlayBack", "loadToMemoryLimit"] = value;
                 _loadEntireFileSizeLimit = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -195,8 +195,8 @@ namespace amp.UtilityClasses.Settings
             get
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
 
                 var result = int.Parse(_vnml["PlayBack", "stackRandomPercentage", "0"].ToString());
                 if (result < 0 || result > 100)
@@ -210,11 +210,11 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["PlayBack", "stackRandomPercentage"] = value;
                 _loadEntireFileSizeLimit = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -234,15 +234,15 @@ namespace amp.UtilityClasses.Settings
                 }
 
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 // ReSharper disable once StringLiteralTypo
                 string result = _vnml["AlbumNaming", "value", "    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
 
                 if (_albumNaming == string.Empty)
                 {
                     _vnml["AlbumNaming", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 }
 
                 _albumNaming = result;
@@ -252,11 +252,11 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["AlbumNaming", "value"] = value;
                 _albumNaming = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -276,14 +276,14 @@ namespace amp.UtilityClasses.Settings
                 }
 
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 string result = _vnml["AlbumNamingRenamed", "value", "    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#"].ToString();
 
                 if (_albumNamingRenamed == string.Empty)
                 {
                     _vnml["AlbumNamingRenamed", "value"] = result;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 }
 
                 _albumNamingRenamed = result;
@@ -293,11 +293,11 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["AlbumNamingRenamed", "value"] = value;
                 _albumNamingRenamed = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -315,8 +315,8 @@ namespace amp.UtilityClasses.Settings
                 if (_biasedRandom == null)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     _biasedRandom = bool.Parse(_vnml["biasedRandom", "enabled", false.ToString()].ToString());
                 }
                 return (bool)_biasedRandom;
@@ -325,10 +325,10 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "enabled"] = value;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _biasedRandom = value;
             }
         }
@@ -347,8 +347,8 @@ namespace amp.UtilityClasses.Settings
                 if (_tolerance == -1)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     _tolerance =
                         double.Parse(_vnml["biasedRandom", "tolerance", (10.0).ToString(CultureInfo.InvariantCulture)].ToString(),
                         CultureInfo.InvariantCulture);
@@ -360,10 +360,10 @@ namespace amp.UtilityClasses.Settings
             {
                 _tolerance = value;
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "tolerance"] = _tolerance.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -381,8 +381,8 @@ namespace amp.UtilityClasses.Settings
                 if (_biasedRating == -1)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     _biasedRating = 
                         double.Parse(_vnml["biasedRandom", "biasedRating", (50.0).ToString(CultureInfo.InvariantCulture)].ToString(), 
                         CultureInfo.InvariantCulture);
@@ -394,10 +394,10 @@ namespace amp.UtilityClasses.Settings
             {
                 _biasedRating = value;
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "biasedRating"] = _biasedRating.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -431,8 +431,8 @@ namespace amp.UtilityClasses.Settings
                 if (_biasedPlayedCount == -1)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
 
                     _biasedPlayedCount =
                         double.Parse(_vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
@@ -446,10 +446,10 @@ namespace amp.UtilityClasses.Settings
             {
                 _biasedPlayedCount = value;
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "biasedPlayedCount"] = _biasedPlayedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -483,8 +483,8 @@ namespace amp.UtilityClasses.Settings
                 if (_biasedRandomizedCount == -1)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
 
                     _biasedRandomizedCount =
                         double.Parse(_vnml["biasedRandom", "biasedPlayedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
@@ -497,10 +497,10 @@ namespace amp.UtilityClasses.Settings
             {
                 _biasedRandomizedCount = value;
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "biasedRandomizedCount"] = _biasedRandomizedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -534,8 +534,8 @@ namespace amp.UtilityClasses.Settings
                 if (_biasedSkippedCount == -1)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
 
                     _biasedSkippedCount =
                         double.Parse(_vnml["biasedRandom", "biasedSkippedCount", (-1.0).ToString(CultureInfo.InvariantCulture)].ToString(),
@@ -549,10 +549,10 @@ namespace amp.UtilityClasses.Settings
             {
                 _biasedSkippedCount = value;
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["biasedRandom", "biasedSkippedCount"] = _biasedSkippedCount.ToString(CultureInfo.InvariantCulture);
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
             }
         }
 
@@ -586,12 +586,12 @@ namespace amp.UtilityClasses.Settings
                 if (_culture == null)
                 {
                     _vnml = new VPKNml();
-                    Paths.MakeAppSettingsFolder();
-                    _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                    _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     string culture = _vnml["culture", "value", "en-US"].ToString();
 
                     _vnml["culture", "value"] = culture;
-                    _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                    _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                     _culture = new CultureInfo(culture);
                 }
                 return _culture;
@@ -600,10 +600,10 @@ namespace amp.UtilityClasses.Settings
             set
             {
                 _vnml = new VPKNml();
-                Paths.MakeAppSettingsFolder();
-                _vnml.Load(Paths.GetAppSettingsFolder() + SettingsFileName);
+                Paths.MakeAppSettingsFolder(Misc.AppType.Winforms);
+                _vnml.Load(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _vnml["culture", "value"] = value.Name;
-                _vnml.Save(Paths.GetAppSettingsFolder() + SettingsFileName);
+                _vnml.Save(Paths.GetAppSettingsFolder(Misc.AppType.Winforms) + SettingsFileName);
                 _culture = value;
             }
         }

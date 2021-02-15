@@ -88,7 +88,7 @@ namespace amp
                             {
                                 using (ZipFile zip = ZipFile.Read(restoreParameters[1]))
                                 {
-                                    zip.ExtractAll(Paths.GetAppSettingsFolder(),
+                                    zip.ExtractAll(Paths.GetAppSettingsFolder(Misc.AppType.Winforms),
                                         ExtractExistingFileAction.OverwriteSilently);
                                 }
                             }

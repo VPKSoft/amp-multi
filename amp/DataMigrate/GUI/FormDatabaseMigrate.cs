@@ -146,14 +146,14 @@ namespace amp.DataMigrate.GUI
                 {
                     using (ZipFile zip = new ZipFile())
                     {
-                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "amp.sqlite"), "");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(Misc.AppType.Winforms), "amp.sqlite"), "");
                         // Removed as useless: if a new version is installed and a backup is restored the
                         // localization will revert to the moment of the backup:
                         // ReSharper disable once CommentTypo
                         // zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "lang.sqlite"),"");
 
-                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "settings.vnml"), "");
-                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(), "position.vnml"), "");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(Misc.AppType.Winforms), "settings.vnml"), "");
+                        zip.AddFile(Path.Combine(Paths.GetAppSettingsFolder(Misc.AppType.Winforms), "position.vnml"), "");
                         zip.Save(sdZip.FileName);
                     }
                 }
