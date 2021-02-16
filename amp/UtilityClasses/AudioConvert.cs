@@ -30,7 +30,6 @@ using NAudio.Flac;
 using NAudio.MediaFoundation;
 using NAudio.Vorbis;
 using NAudio.Wave;
-using NAudio.WindowsMediaFormat;
 using VPKSoft.ErrorLogger;
 using File = TagLib.File;
 
@@ -73,7 +72,7 @@ namespace amp.UtilityClasses
 
                 if (Constants.FileIsWma(fileName))
                 {
-                    return new WMAFileReader(fileName);
+                    return new MediaFoundationReader(fileName);
                 }
 
                 if (Constants.FileIsAacOrM4A(fileName))

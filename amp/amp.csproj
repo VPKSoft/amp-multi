@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>amp#</AssemblyTitle>
     <Company>VPKSoft</Company>
@@ -46,6 +46,7 @@
     <AssemblyName>amp#</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>amp#</PackageId>
+    <UserSecretsId>9dca6ac0-19ac-4b3c-a36d-639ac76692df</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Design" />
@@ -336,9 +337,8 @@
     <PackageReference Include="FftSharp" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
-    <PackageReference Include="NAudio.Flac" Version="1.0.5702.29018" />
-    <PackageReference Include="NAudio.Vorbis" Version="1.2.0" />
-    <PackageReference Include="NAudio.Wma" Version="1.0.1" />
+    <PackageReference Include="NAudio.Flac.Unknown" Version="1.0.2" />
+    <PackageReference Include="NAudio.Vorbis" Version="1.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
     <PackageReference Include="ReaLTaiizor" Version="3.7.8.2" />
@@ -351,11 +351,11 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="taglib" Version="2.1.0" />
-    <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.6" />
+    <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.7" />
     <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
     <PackageReference Include="VPKSoft.LangLib" Version="1.0.7" />
-    <PackageReference Include="VPKSoft.PosLib" Version="1.0.1.1" />
-    <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.0" />
+    <PackageReference Include="VPKSoft.PosLib" Version="1.0.2" />
+    <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.7" />
     <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.3" />
     <PackageReference Include="VPKSoft.XmlSettings" Version="1.0.1" />

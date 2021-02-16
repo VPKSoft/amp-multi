@@ -224,14 +224,14 @@ namespace amp
             // subscribe to the IPC event if the application receives a message from another instance of this application..
             IpcServer.MessageReceived += MessageReceived;
 
-            PositionCore.Bind(); // attach the PosLib to the application
+            PositionCore.Bind(ApplicationType.WinForms); // attach the PosLib to the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
             Application.Run(new FormMain());
             FormHelp.DisposeSingleton(); // release the help form if any..
-            PositionCore.UnBind(); // release the event handlers used by the PosLib and save the default data
+            PositionCore.UnBind(ApplicationType.WinForms); // release the event handlers used by the PosLib and save the default data
 
             // unsubscribe the IpcClientServer MessageReceived event handler..
             IpcServer.MessageReceived -= MessageReceived;

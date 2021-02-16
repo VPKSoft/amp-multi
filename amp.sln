@@ -9,12 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallerBaseWixSharp", "In
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AE80D4F-8338-40D9-83EA-EF349B96E32D}"
 	ProjectSection(SolutionItems) = preProject
+		amp\amp.licenseheader = amp\amp.licenseheader
 		GitReleaseManager.yaml = GitReleaseManager.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpControls", "AmpControls\AmpControls.csproj", "{6BBA1FCA-5B7E-456A-8190-3CA6019AF4BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpRESTfulTest", "AmpRESTfulTest\AmpRESTfulTest.csproj", "{55D916AC-F0CE-4BD1-A272-38F55F8E7312}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpRESTfulTest", "AmpRESTfulTest\AmpRESTfulTest.csproj", "{55D916AC-F0CE-4BD1-A272-38F55F8E7312}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
