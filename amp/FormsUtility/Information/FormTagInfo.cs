@@ -123,6 +123,11 @@ namespace amp.FormsUtility.Information
 
                 foreach (ICodec codec in tagFile.Properties.Codecs)
                 {
+                    if (codec == null)
+                    {
+                        continue;
+                    }
+
                     tbCodecs.Text += codec.Description + @", ";
                 }
 

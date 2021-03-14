@@ -123,6 +123,11 @@ namespace AmpControls
 
             set
             {
+                if (layoutSuspended)
+                {
+                    return;
+                }
+
                 if (value < 0) // do not handle stupid values..
                 {
                     return;
@@ -143,16 +148,41 @@ namespace AmpControls
             }
         }
 
+        private bool layoutSuspended;
+
+        /// <summary>
+        /// Temporarily suspends the layout logic for the control.
+        /// </summary>
+        public new void SuspendLayout()
+        {
+            layoutSuspended = true;
+            base.SuspendLayout();
+        }
+
+        /// <summary>
+        /// Resumes usual layout logic.
+        /// </summary>
+        public new void ResumeLayout()
+        {
+            layoutSuspended = false;
+            base.ResumeLayout();
+        }
+
         /// <summary>
         /// Refreshes the item contained at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the element to refresh.</param>
         public new void RefreshItem(int index)
         {
-            int t = TopIndex;
-            base.RefreshItem(index);
             try
             {
+                if (layoutSuspended)
+                {
+                    return;
+                }
+
+                int t = TopIndex;
+                base.RefreshItem(index);
                 TopIndex = t;
             }
             catch
@@ -169,6 +199,11 @@ namespace AmpControls
         {
             try
             {
+                if (layoutSuspended)
+                {
+                    return;
+                }
+
                 if (SelectedIndices.Count > 1 && SelectedIndex != index)
                 {
                     ClearSelected();
@@ -188,6 +223,11 @@ namespace AmpControls
         /// </summary>
         public void PushSelection()
         {
+            if (layoutSuspended)
+            {
+                return;
+            }
+
             pushedSelection.Clear();
             for (int i = 0; i < SelectedIndices.Count; i++)
             {
@@ -200,6 +240,11 @@ namespace AmpControls
         /// </summary>
         public void PopSelection()
         {
+            if (layoutSuspended)
+            {
+                return;
+            }
+
             for (int i = 0; i < Items.Count; i++)
             {
                 SetSelected(i, pushedSelection.IndexOf(i) != -1);
@@ -211,6 +256,11 @@ namespace AmpControls
         /// </summary>
         public new void RefreshItems()
         {
+            if (layoutSuspended)
+            {
+                return;
+            }
+
             int t = TopIndex;
             base.RefreshItems();
             try

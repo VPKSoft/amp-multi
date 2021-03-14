@@ -1,64 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+﻿<root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -117,20 +57,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="tmSeek.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>112, 17</value>
-  </metadata>
-  <metadata name="ssStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>291, 17</value>
-  </metadata>
-  <metadata name="msMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="mnuNewAlbum.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+  <data name="mnuNewAlbum.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAABJ
-        0gAASdIBqEWK+AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAadEVYdFNvdXJj
+        0QAASdEBBfyrlQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAadEVYdFNvdXJj
         ZQBUYW5nbyBoYXJtLW9uLWljb25zBTECsgAAC65JREFUWEeVlwd0U+cZhi8mLmE0gyQkTaFJSppRyIKE
         WSAUGpImZDSkTUkDhBHahEIIIwzbBAjQsKcRmBGI8cBD8h6yLcuWbUmWLUuyJWtZw5b31LKMwW+//9rG
         JB2n/c/5zvXRvb7v87/f+CXu/1lbNu3itm3bwe3YsZ0LDdnJ7QoL5cLCwrjQ0FD6bAfd28at/Wwfh16O
@@ -184,10 +115,10 @@
         djNmz57945j23HPPTQgODg7+J90wcJcrt03cAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="mnuSelectAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="mnuSelectAll.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAN
-        1wAADdcBQiibeAAAAAd0SU1FB98DGxI5O08pvZQAAAUCSURBVEhLvZdZSJVpGMczySUnE1xScalwTW1R
+        0AAADdABEGw9BwAAAAd0SU1FB98DGxI5O08pvZQAAAUCSURBVEhLvZdZSJVpGMczySUnE1xScalwTW1R
         c0+xcscMl0pFyaAuxpuuMlCU1MEpIg01rdAot8RlqksHZWYuhlARbEPLJfdcUixNy/Q/z/P2fZbnnAlt
         Rv/wvziHw/v73ud9/8/znU1xcXH3yfg3nzp1ClFRUYiIiEBoaCgCAgLg7+8PHx8fuLu7w8XFBXv37sWe
         PXtgbW2NnTt3wszMbNzY2Nhv0/dEi48pwr71yZMnERkZifDwcISEhODo0aPw8/ODt7c33Nzc4OzsDCcn
@@ -212,7 +143,7 @@
         ZvOJAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="mnuSaveQueue.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="mnuSaveQueue.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAB9BJREFUWEe1
         lgtUVNcVhm/SlaSNj6hYH4kNEcRHEDW+FXUUovVBjaYaH0WLqdikRnSp1ERQQBQllogoD0FlYAbEYWCA
@@ -251,13 +182,10 @@
         MZgYQDCv3ymVylf+C1Rl5OD4kREvAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="tbTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>204, 17</value>
-  </metadata>
-  <data name="sliderMainVolume.ImageVolumeLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="sliderMainVolume.ImageVolumeLeft" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
-        IwAALiMBeKU/dgAAAAd0SU1FB+UBCA4JBK64c5QAAAH9SURBVFhH7ZdLSwJhGIWlu0lFQUVUXkdats6g
+        IgAALiIBquLdkgAAAAd0SU1FB+UBCA4JBK64c5QAAAH9SURBVFhH7ZdLSwJhGIWlu0lFQUVUXkdats6g
         fkMQtG5XQYURWXbTVv2EoFUULSL6Ay2C6CLRlSKiFrVoUdFN0C5q2nmnb2wYJp1yZtx04ICecc77jHzz
         jRr+9SfVuAxOf7zFMf5SxRL95JxKFMOrcMIxHj4CTA47pL2cU3Eavk7DyfbRYBAABeywtpIO1xVAbrhu
         AE7/hwnDNqTDyZoDsOGb0sGCNQXAbVaCIbJXLlgzAJRXwzviYXJWBQBFfiyyPXj/24lb8aCfTACmFl8h
@@ -269,10 +197,10 @@
         4RMb1jymgg75iQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="sliderMainVolume.ImageVolumeRight" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="sliderMainVolume.ImageVolumeRight" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
-        IwAALiMBeKU/dgAAAAd0SU1FB+UBCAgiE1+Wd4gAAAPXSURBVFhH7VdZSFRRGJ4ZZ+49N8lIIqEMKoIg
+        IgAALiIBquLdkgAAAAd0SU1FB+UBCAgiE1+Wd4gAAAPXSURBVFhH7VdZSFRRGJ4ZZ+49N8lIIqEMKoIg
         iHrtxfKlNGg1CHoofKuMeglBCCrJCiOxMim3XCaXcVyihJaHFixFXLLC5aEdc81yG3Xc+v4z98g43Lnq
         zNCTP3zc+b/zn///7zn/f84dw5L4KtOVSsSIja1W1f8nM4+UZcALYAYJNIMyuUY0xag+AyPTruBvKDjh
         bxEbAC25RucKxncBDqxU+5idRam07wJHc4IT9BKYrFBi3W2d5cqduChjkDq8ONEKTtBL4Pkls2WwmF3B
@@ -292,10 +220,10 @@
         GKVz+gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="sliderVolumeSong.ImageVolumeLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="sliderVolumeSong.ImageVolumeLeft" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
-        IwAALiMBeKU/dgAAAAd0SU1FB+UBCA4JBK64c5QAAAH9SURBVFhH7ZdLSwJhGIWlu0lFQUVUXkdats6g
+        IgAALiIBquLdkgAAAAd0SU1FB+UBCA4JBK64c5QAAAH9SURBVFhH7ZdLSwJhGIWlu0lFQUVUXkdats6g
         fkMQtG5XQYURWXbTVv2EoFUULSL6Ay2C6CLRlSKiFrVoUdFN0C5q2nmnb2wYJp1yZtx04ICecc77jHzz
         jRr+9SfVuAxOf7zFMf5SxRL95JxKFMOrcMIxHj4CTA47pL2cU3Eavk7DyfbRYBAABeywtpIO1xVAbrhu
         AE7/hwnDNqTDyZoDsOGb0sGCNQXAbVaCIbJXLlgzAJRXwzviYXJWBQBFfiyyPXj/24lb8aCfTACmFl8h
@@ -307,10 +235,10 @@
         4RMb1jymgg75iQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="sliderVolumeSong.ImageVolumeRight" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="sliderVolumeSong.ImageVolumeRight" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
-        IwAALiMBeKU/dgAAAAd0SU1FB+UBCAgiE1+Wd4gAAAPXSURBVFhH7VdZSFRRGJ4ZZ+49N8lIIqEMKoIg
+        IgAALiIBquLdkgAAAAd0SU1FB+UBCAgiE1+Wd4gAAAPXSURBVFhH7VdZSFRRGJ4ZZ+49N8lIIqEMKoIg
         iHrtxfKlNGg1CHoofKuMeglBCCrJCiOxMim3XCaXcVyihJaHFixFXLLC5aEdc81yG3Xc+v4z98g43Lnq
         zNCTP3zc+b/zn///7zn/f84dw5L4KtOVSsSIja1W1f8nM4+UZcALYAYJNIMyuUY0xag+AyPTruBvKDjh
         bxEbAC25RucKxncBDqxU+5idRam07wJHc4IT9BKYrFBi3W2d5cqduChjkDq8ONEKTtBL4Pkls2WwmF3B
@@ -330,28 +258,10 @@
         GKVz+gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="odM3U.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>386, 17</value>
+  <metadata name="$this.TrayHeight" type="System.Int32, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>110</value>
   </metadata>
-  <metadata name="sdM3U.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>478, 17</value>
-  </metadata>
-  <metadata name="tmPendOperation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>568, 17</value>
-  </metadata>
-  <metadata name="tmIPCFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>717, 17</value>
-  </metadata>
-  <metadata name="miniToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>825, 17</value>
-  </metadata>
-  <metadata name="odImageFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>949, 17</value>
-  </metadata>
-  <metadata name="tmAutoSave.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1067, 17</value>
-  </metadata>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAQEAAAAEAIAAoQgAAFgAAACgAAABAAAAAgAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAA4Ni4VOTgvGzQyMCA/LighJkE1PBFMPXAKTj6bBlE/wgFTQPAAVEH/AFRB/wBUQf8AVEH/AFRB/wBU

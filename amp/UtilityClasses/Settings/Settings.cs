@@ -309,5 +309,21 @@ namespace amp.UtilityClasses.Settings
         [IsSetting(DefaultValue = 11316)]
         public int RestApiPort { get; set; }
         #endregion
+
+        #region Paths        
+        /// <summary>
+        /// Gets or sets the previous music file open dialog path from the main form.
+        /// </summary>
+        /// <value>The previous music file open dialog path from the main form.</value>
+        [IsSetting]
+        public string PreviousOpenMusicFileDialogPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the previous open music folder dialog path.
+        /// </summary>
+        /// <value>The the previous open music folder dialog path.</value>
+        [IsSetting]
+        public string PreviousOpenMusicFolderDialogPath { get; set; }
+        #endregion
     }
 }

@@ -107,8 +107,12 @@ namespace amp
             {
                 sdM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
                     "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+
                 odM3U.Filter = DBLangEngine.GetMessage("msgFileExt_m3u",
                     "M3U playlist files (*.m3u;*.m3u8)|*.m3u;*.m3u8|as in the combo box to select file type from a dialog");
+
+                odMusicFile.Filter = DBLangEngine.GetMessage("msgFileExtMusic",
+                    "Music files|*.mp3;*.ogg;*.wav;*.wma;*.m4a;*.aac;*.aif;*.aiff;*.flac");
             }
             catch
             {
@@ -119,6 +123,12 @@ namespace amp
                 "Save playlist file|As in export an album to a playlist file (m3u)");
             odM3U.Title = DBLangEngine.GetMessage("msgOpenPlaylistFile",
                 "Open playlist file|As in open a play list file (m3u)");
+
+            odMusicFile.Title = DBLangEngine.GetMessage("msgAddMusic",
+                "Add music|A dialog title to add music to the play list from a folder or from selected files");
+
+            fbMusicFolder.Description = DBLangEngine.GetMessage("msgAddMusic",
+                "Add music|A dialog title to add music to the play list from a folder or from selected files");
 
             sliderMainVolume.CurrentValue = (int)Program.Settings.BaseVolumeMultiplier;
 
@@ -148,6 +158,7 @@ namespace amp
                 : ThemeSettings.ToggleVolumeRatingHidden;
 
             EnableDisableGui();
+            FixLayout();
 
             // initialize the RESTful API if defined in the settings..
             if (Program.Settings.RestApiEnabled)
@@ -345,6 +356,21 @@ namespace amp
         {
             mnuRemoveImages.Enabled = lbMusic.SelectedItems.Count > 0;
             mnuChangeImage.Enabled = lbMusic.SelectedItems.Count > 0;
+        }
+
+        /// <summary>
+        /// Makes some fixes to the layout.
+        /// </summary>
+        private void FixLayout()
+        {
+            tbPrevious.Size = new Size(32, 32);
+            tbPlayNext.Size = new Size(32, 32);
+            tbNext.Size = new Size(32, 32);
+            tbShowQueue.Size = new Size(32, 32);
+            tbRand.Size = new Size(32, 32);
+            tbShuffle.Size = new Size(32, 32);
+            tsbQueueStack.Size = new Size(32, 32);
+            tsbToggleVolumeAndStars.Size = new Size(32, 32);
         }
 
         /// <summary>
@@ -1780,8 +1806,8 @@ namespace amp
         internal void InitializeRemoteProvider()
         {
             RemoteProvider = new RemoteProvider(
-                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused,
-                () =>
+                pausedFunction: () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused,
+                pauseAction: () =>
                 {
                     if (waveOutDevice == null)
                     {
@@ -1797,13 +1823,13 @@ namespace amp
 
                     this.Invoke(VisualizePlaybackState);
                 },
-                Play,
-                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped,
-                () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Playing,
-                SetPositionSeconds,
-                Queue,
-                Queue,
-                (queueIndex, append) =>
+                playAction: Play,
+                stoppedFunction:() => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped,
+                playingFunction:() => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Playing,
+                setPositionSecondsAction: SetPositionSeconds,
+                queueAction: Queue,
+                queueIdAction: Queue,
+                refreshLoadQueueStatsAction: (queueIndex, append) =>
                 {
                     Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
                     this.Invoke(() =>
@@ -1812,18 +1838,18 @@ namespace amp
                         GetQueueCount();
                     });
                 },
-                () => AlbumChanged,
-                () => AlbumLoading,
-                loading => AlbumLoading = loading,
-                () => PlayList.Count(f => f.SongChanged) > 0,
-                () => this.Invoke(() => tbRand.Checked),
-                value => this.Invoke(() => { return tbRand.Checked = value; }),
-                () => this.Invoke(() => tsbQueueStack.Checked),
-                value => this.Invoke(() => { return tsbQueueStack.Checked = value; }),
-                () => this.Invoke(() => tbShuffle.Checked),
-                value => this.Invoke(() => { return tbShuffle.Checked = value; }),
-                RemoveSongFromAlbum,
-                rating =>
+                albumChangedFunction: () => AlbumChanged,
+                albumLoadingFunction: () => AlbumLoading,
+                albumLoadingAction: loading => AlbumLoading = loading,
+                songsChangedFunction: () => PlayList.Count(f => f.SongChanged) > 0,
+                randomizingFunction: () => this.Invoke(() => tbRand.Checked),
+                randomizingAction: value => this.Invoke(() => { return tbRand.Checked = value; }),
+                stackQueueFunction: () => this.Invoke(() => tsbQueueStack.Checked),
+                stackQueueAction: value => this.Invoke(() => { return tsbQueueStack.Checked = value; }),
+                shuffleFunction: () => this.Invoke(() => tbShuffle.Checked),
+                shuffleAction: value => this.Invoke(() => { return tbShuffle.Checked = value; }),
+                removeSongFromAlbumAction: RemoveSongFromAlbum,
+                setRatingFunction: rating =>
                 {
                     if (MFile != null && rating >= 0 && rating <= 1000)
                     {
@@ -1835,7 +1861,7 @@ namespace amp
 
                     return false;
                 },
-                volume =>
+                setSongVolumeFunction: volume =>
                 {
                     if (volumeStream != null && volume >= 0F && volume <= 2.0F)
                     {
@@ -1853,9 +1879,9 @@ namespace amp
 
                     return false;
                 },
-                SetVolume,
-                SetRating,
-                () =>
+                setVolumeIdFunction: SetVolume,
+                setRatingIdFunction: SetRating,
+                getAlbumsFunction: () =>
                 {
                     List<Album> albums = Database.GetAlbums(Connection);
                     List<AlbumRemote> albumsWcf = new List<AlbumRemote>();
@@ -1866,22 +1892,22 @@ namespace amp
 
                     return albumsWcf;
                 },
-                SelectAlbum,
-                () => playedSongs.Count >= 2,
-                (value) => MFile = value,
-                () => MFile,
-                (value) => value == null ? CurrentAlbum : CurrentAlbum = value,
-                () => GetNextSong(),
-                GetPrevSong,
-                (value) => value == null ? PlayList : PlayList = value,
-                () => Seconds,
-                () => SecondsTotal,
-                (value) => value == null ? Filtered : Filtered = (FilterType) value,
-                ShowQueue,
-                ScrambleQueue,
-                ScrambleQueueSelected,
-                () => this.Invoke(() => { lbMusic.RefreshItems(); }),
-                (value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
+                selectAlbumFunction: SelectAlbum,
+                canGoPreviousFunction: () => playedSongs.Count >= 2,
+                musicFileAction: (value) => MFile = value,
+                musicFileFunction: () => MFile,
+                currentAlbumFunction: (value) => value == null ? CurrentAlbum : CurrentAlbum = value,
+                getNextSongAction: () => GetNextSong(),
+                getPrevSongAction: GetPrevSong,
+                getPlaylistFunction: (value) => value == null ? PlayList : PlayList = value,
+                getSecondsFunction: () => Seconds,
+                getSecondsTotalFunction: () => SecondsTotal,
+                getFilteredFunction: (value) => value == null ? Filtered : Filtered = (FilterType) value,
+                showQueueAction: ShowQueue,
+                scrambleQueueFunction: ScrambleQueue,
+                scrambleQueueSelectedFunction: ScrambleQueueSelected,
+                refreshPlayListAction: () => this.Invoke(() => { lbMusic.RefreshItems(); }),
+                setProgramVolumeFunction:(value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
         }
 
         /// <summary>
@@ -2508,23 +2534,36 @@ namespace amp
         // a user is dropped files and/or directories to the software, so handle it..
         private void lbMusic_DragDrop(object sender, DragEventArgs e)
         {            
-            List<string> musicFiles = new List<string>();
-            humanActivity.Enabled = false;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] dropFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
-                foreach (string filePath in dropFiles)
+                AddFilesAndFolders(dropFiles, true);
+            }
+        }
+
+        /// <summary>
+        /// Adds music files and folders containing music files.
+        /// </summary>
+        /// <param name="filesAndFolders">The files and folders.</param>
+        /// <param name="recursion">if set to <c>true</c> all the subdirectories of a folder are included in the search.</param>
+        private void AddFilesAndFolders(IEnumerable<string> filesAndFolders, bool recursion)
+        {
+            List<string> musicFiles = new List<string>();
+            foreach (string filePath in filesAndFolders)
+            {
+                if (Directory.Exists(filePath))
                 {
-                    if (Directory.Exists(filePath))
-                    {
-                        musicFiles.AddRange(Directory.GetFiles(filePath + "\\", "*.*", SearchOption.AllDirectories).ToArray());
-                    }
-                    else if (File.Exists(filePath))
-                    {
-                        musicFiles.Add(filePath);
-                    }
+                    musicFiles.AddRange(Directory
+                        .GetFiles(filePath + "\\", "*.*",
+                            recursion ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                        .ToArray());
+                }
+                else if (File.Exists(filePath))
+                {
+                    musicFiles.Add(filePath);
                 }
             }
+
             fileAddList = musicFiles;
             addFiles = true;
             StartFileAddThread();
@@ -2573,11 +2612,6 @@ namespace amp
             tmSeek.Enabled = false;
             try
             {
-                if (InvokeRequired)
-                {
-
-                }
-
                 if (!progressUpdating)
                 {
                     noScProgressScrollEvent = true;
@@ -3204,6 +3238,32 @@ namespace amp
                     GetAlbum(album.AlbumName);
                     return;
                 }
+            }
+        }
+
+        private void mnuAddFiles_Click(object sender, EventArgs e)
+        {
+            odMusicFile.InitialDirectory =
+                Program.Settings.PreviousOpenMusicFileDialogPath ?? odMusicFile.InitialDirectory;
+            if (odMusicFile.ShowDialog() == DialogResult.OK)
+            {
+                AddFilesAndFolders(odMusicFile.FileNames, false);
+
+                Program.Settings.PreviousOpenMusicFileDialogPath =
+                    Path.GetDirectoryName(odMusicFile.FileNames.FirstOrDefault());
+            }
+        }
+
+        private void mnuAddFilesFolders_Click(object sender, EventArgs e)
+        {
+            fbMusicFolder.SelectedPath =
+                Program.Settings.PreviousOpenMusicFolderDialogPath ?? fbMusicFolder.SelectedPath;
+            if (fbMusicFolder.ShowDialog() == DialogResult.OK)
+            {
+                AddFilesAndFolders(new []{fbMusicFolder.SelectedPath}, sender.Equals(mnuAddFoldersRecurse));
+
+                Program.Settings.PreviousOpenMusicFolderDialogPath =
+                    fbMusicFolder.SelectedPath;
             }
         }
 

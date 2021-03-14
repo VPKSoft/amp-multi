@@ -88,6 +88,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add music|A dialog title to add music to the play list from a folder or from selected files.
+        /// </summary>
+        public static string msgAddMusic {
+            get {
+                return ResourceManager.GetString("msgAddMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album|As in a name of an album of a music file.
         /// </summary>
         public static string msgAlbum {
@@ -192,6 +201,15 @@ namespace amp {
         public static string msgFileExt_m3u {
             get {
                 return ResourceManager.GetString("msgFileExt_m3u", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Music files|*.mp3;*.ogg;*.wav;*.wma;*.m4a;*.aac;*.aif;*.aiff;*.flac.
+        /// </summary>
+        public static string msgFileExtMusic {
+            get {
+                return ResourceManager.GetString("msgFileExtMusic", resourceCulture);
             }
         }
         

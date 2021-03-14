@@ -49,6 +49,10 @@ namespace amp
             this.mnuSaveAlbumAs = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDeleteAlbum = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddFilesFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddFiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddSingleFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddFoldersRecurse = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlayListM3U = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPlayListM3UNewAlbum = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,6 +114,8 @@ namespace amp
             this.foreverClose1 = new ReaLTaiizor.Controls.ForeverClose();
             this.odImageFile = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
             this.tmAutoSave = new System.Windows.Forms.Timer(this.components);
+            this.odMusicFile = new System.Windows.Forms.OpenFileDialog();
+            this.fbMusicFolder = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -134,10 +140,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 520);
+            this.ssStatus.Location = new System.Drawing.Point(0, 519);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 25);
+            this.ssStatus.Size = new System.Drawing.Size(542, 26);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -146,7 +152,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 12);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 13);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -227,6 +233,7 @@ namespace amp
             this.mnuSaveAlbumAs,
             this.mnuNewAlbum,
             this.mnuDeleteAlbum,
+            this.mnuAddFilesFolders,
             this.mnuSelectAll,
             this.mnuPlayListM3U,
             this.mnuSongInfo,
@@ -275,6 +282,46 @@ namespace amp
             this.mnuDeleteAlbum.Size = new System.Drawing.Size(204, 36);
             this.mnuDeleteAlbum.Text = "Delete current album";
             this.mnuDeleteAlbum.Click += new System.EventHandler(this.MnuDeleteAlbum_Click);
+            // 
+            // mnuAddFilesFolders
+            // 
+            this.mnuAddFilesFolders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuAddFilesFolders.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAddFiles,
+            this.mnuAddSingleFolder,
+            this.mnuAddFoldersRecurse});
+            this.mnuAddFilesFolders.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuAddFilesFolders.Image = global::amp.Properties.Resources.add_music;
+            this.mnuAddFilesFolders.Name = "mnuAddFilesFolders";
+            this.mnuAddFilesFolders.Size = new System.Drawing.Size(204, 36);
+            this.mnuAddFilesFolders.Text = "Add...";
+            // 
+            // mnuAddFiles
+            // 
+            this.mnuAddFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuAddFiles.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuAddFiles.Name = "mnuAddFiles";
+            this.mnuAddFiles.Size = new System.Drawing.Size(194, 22);
+            this.mnuAddFiles.Text = "Add files";
+            this.mnuAddFiles.Click += new System.EventHandler(this.mnuAddFiles_Click);
+            // 
+            // mnuAddSingleFolder
+            // 
+            this.mnuAddSingleFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuAddSingleFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuAddSingleFolder.Name = "mnuAddSingleFolder";
+            this.mnuAddSingleFolder.Size = new System.Drawing.Size(194, 22);
+            this.mnuAddSingleFolder.Text = "Add single folder";
+            this.mnuAddSingleFolder.Click += new System.EventHandler(this.mnuAddFilesFolders_Click);
+            // 
+            // mnuAddFoldersRecurse
+            // 
+            this.mnuAddFoldersRecurse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.mnuAddFoldersRecurse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.mnuAddFoldersRecurse.Name = "mnuAddFoldersRecurse";
+            this.mnuAddFoldersRecurse.Size = new System.Drawing.Size(194, 22);
+            this.mnuAddFoldersRecurse.Text = "Add folders recursively";
+            this.mnuAddFoldersRecurse.Click += new System.EventHandler(this.mnuAddFilesFolders_Click);
             // 
             // mnuSelectAll
             // 
@@ -540,6 +587,7 @@ namespace amp
             this.tlpMain.SetColumnSpan(this.tbTool, 2);
             this.tbTool.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbTool.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.tbTool.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tbTool.ImageScalingSize = new System.Drawing.Size(30, 30);
             this.tbTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbPrevious,
@@ -555,8 +603,8 @@ namespace amp
             this.tsbToggleVolumeAndStars});
             this.tbTool.Location = new System.Drawing.Point(0, 24);
             this.tbTool.Name = "tbTool";
-            this.tbTool.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
-            this.tbTool.Size = new System.Drawing.Size(542, 37);
+            this.tbTool.Padding = new System.Windows.Forms.Padding(0);
+            this.tbTool.Size = new System.Drawing.Size(542, 44);
             this.tbTool.TabIndex = 8;
             // 
             // tbPrevious
@@ -567,7 +615,7 @@ namespace amp
             this.tbPrevious.Image = global::amp.Properties.Resources.amp_back;
             this.tbPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPrevious.Name = "tbPrevious";
-            this.tbPrevious.Size = new System.Drawing.Size(34, 34);
+            this.tbPrevious.Size = new System.Drawing.Size(24, 24);
             this.tbPrevious.ToolTipText = "Previous song";
             this.tbPrevious.Click += new System.EventHandler(this.tbPrevious_Click);
             // 
@@ -579,7 +627,7 @@ namespace amp
             this.tbPlayNext.Image = global::amp.Properties.Resources.amp_play;
             this.tbPlayNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPlayNext.Name = "tbPlayNext";
-            this.tbPlayNext.Size = new System.Drawing.Size(34, 34);
+            this.tbPlayNext.Size = new System.Drawing.Size(24, 24);
             this.tbPlayNext.ToolTipText = "Play";
             this.tbPlayNext.Click += new System.EventHandler(this.tbPlayNext_Click);
             // 
@@ -591,7 +639,7 @@ namespace amp
             this.tbNext.Image = global::amp.Properties.Resources.amp_forward;
             this.tbNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbNext.Name = "tbNext";
-            this.tbNext.Size = new System.Drawing.Size(34, 34);
+            this.tbNext.Size = new System.Drawing.Size(24, 24);
             this.tbNext.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.tbNext.ToolTipText = "Next song";
             this.tbNext.Click += new System.EventHandler(this.tbNext_Click);
@@ -614,7 +662,7 @@ namespace amp
             this.tbShowQueue.Image = global::amp.Properties.Resources.amp_queue;
             this.tbShowQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbShowQueue.Name = "tbShowQueue";
-            this.tbShowQueue.Size = new System.Drawing.Size(34, 34);
+            this.tbShowQueue.Size = new System.Drawing.Size(24, 24);
             this.tbShowQueue.Text = "Show queue";
             this.tbShowQueue.ToolTipText = "Show queue";
             this.tbShowQueue.Click += new System.EventHandler(this.tbShowQueue_Click);
@@ -639,7 +687,7 @@ namespace amp
             this.tbRand.Image = global::amp.Properties.Resources.amp_shuffle;
             this.tbRand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbRand.Name = "tbRand";
-            this.tbRand.Size = new System.Drawing.Size(34, 34);
+            this.tbRand.Size = new System.Drawing.Size(24, 24);
             this.tbRand.Text = "tbRand";
             this.tbRand.ToolTipText = "Random";
             // 
@@ -654,7 +702,7 @@ namespace amp
             this.tbShuffle.Image = global::amp.Properties.Resources.amp_repeat;
             this.tbShuffle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbShuffle.Name = "tbShuffle";
-            this.tbShuffle.Size = new System.Drawing.Size(34, 34);
+            this.tbShuffle.Size = new System.Drawing.Size(24, 24);
             this.tbShuffle.Text = "tbSuffle";
             this.tbShuffle.ToolTipText = "Continous playback";
             // 
@@ -676,7 +724,7 @@ namespace amp
             this.tsbQueueStack.Image = global::amp.Properties.Resources.stack;
             this.tsbQueueStack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbQueueStack.Name = "tsbQueueStack";
-            this.tsbQueueStack.Size = new System.Drawing.Size(34, 34);
+            this.tsbQueueStack.Size = new System.Drawing.Size(24, 24);
             this.tsbQueueStack.Text = "Stack queue";
             // 
             // tsbToggleVolumeAndStars
@@ -688,7 +736,7 @@ namespace amp
             this.tsbToggleVolumeAndStars.Image = global::amp.Properties.Resources.tick_down;
             this.tsbToggleVolumeAndStars.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbToggleVolumeAndStars.Name = "tsbToggleVolumeAndStars";
-            this.tsbToggleVolumeAndStars.Size = new System.Drawing.Size(34, 34);
+            this.tsbToggleVolumeAndStars.Size = new System.Drawing.Size(24, 24);
             this.tsbToggleVolumeAndStars.Text = "Toggle volume and points visibility";
             this.tsbToggleVolumeAndStars.Click += new System.EventHandler(this.tsbToggleVolumeAndStars_Click);
             // 
@@ -698,9 +746,9 @@ namespace amp
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbSong.AutoEllipsis = true;
-            this.lbSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbSong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbSong.Location = new System.Drawing.Point(3, 181);
+            this.lbSong.Location = new System.Drawing.Point(3, 188);
             this.lbSong.Name = "lbSong";
             this.lbSong.Size = new System.Drawing.Size(427, 13);
             this.lbSong.TabIndex = 11;
@@ -710,9 +758,9 @@ namespace amp
             // 
             this.lbTime.AutoSize = true;
             this.lbTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbTime.Location = new System.Drawing.Point(436, 181);
+            this.lbTime.Location = new System.Drawing.Point(436, 188);
             this.lbTime.Name = "lbTime";
             this.lbTime.Size = new System.Drawing.Size(103, 13);
             this.lbTime.TabIndex = 10;
@@ -727,7 +775,7 @@ namespace amp
             this.tbFind.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tlpMain.SetColumnSpan(this.tbFind, 2);
             this.tbFind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.tbFind.Location = new System.Drawing.Point(3, 220);
+            this.tbFind.Location = new System.Drawing.Point(3, 227);
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(536, 21);
             this.tbFind.TabIndex = 13;
@@ -745,7 +793,7 @@ namespace amp
             this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 479);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
-            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 41);
+            this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 40);
             this.pnAudioVisualizationMain.TabIndex = 15;
             // 
             // avBars
@@ -764,6 +812,7 @@ namespace amp
             this.avBars.FftWindowType = VPKSoft.AudioVisualization.WindowType.Hanning;
             this.avBars.HertzSpan = 92;
             this.avBars.Location = new System.Drawing.Point(14, 3);
+            this.avBars.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.avBars.MinorityCropOnBarLevel = false;
             this.avBars.MinorityCropPercentage = 3;
             this.avBars.MinorityPercentageStepping = 1000;
@@ -787,6 +836,7 @@ namespace amp
             this.avLine.LineCurveTension = 1F;
             this.avLine.LineDrawMode = VPKSoft.AudioVisualization.CommonClasses.BaseClasses.LineDrawMode.Line;
             this.avLine.Location = new System.Drawing.Point(40, 22);
+            this.avLine.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.avLine.MinorityCropOnBarLevel = false;
             this.avLine.MinorityCropPercentage = 2;
             this.avLine.MinorityPercentageStepping = 1000;
@@ -805,10 +855,10 @@ namespace amp
             this.scProgress.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
             this.tlpMain.SetColumnSpan(this.scProgress, 2);
             this.scProgress.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.scProgress.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.scProgress.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.scProgress.ForeColor = System.Drawing.Color.White;
             this.scProgress.HatchColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(148)))), ((int)(((byte)(92)))));
-            this.scProgress.Location = new System.Drawing.Point(0, 194);
+            this.scProgress.Location = new System.Drawing.Point(0, 201);
             this.scProgress.Margin = new System.Windows.Forms.Padding(0);
             this.scProgress.Maximum = 100;
             this.scProgress.Minimum = 0;
@@ -829,10 +879,10 @@ namespace amp
             this.pnListBox.Controls.Add(this.lbMusicScroll);
             this.pnListBox.Controls.Add(this.lbMusic);
             this.pnListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnListBox.Location = new System.Drawing.Point(0, 244);
+            this.pnListBox.Location = new System.Drawing.Point(0, 251);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 235);
+            this.pnListBox.Size = new System.Drawing.Size(542, 228);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -840,7 +890,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 235);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 228);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -852,7 +902,7 @@ namespace amp
             this.lbMusic.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbMusic.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbMusic.ForeColor = System.Drawing.Color.White;
             this.lbMusic.FormattingEnabled = true;
             this.lbMusic.IntegralHeight = false;
@@ -861,7 +911,7 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 235);
+            this.lbMusic.Size = new System.Drawing.Size(542, 228);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
@@ -884,7 +934,7 @@ namespace amp
             this.pnTools.Controls.Add(this.lbSongVolume);
             this.pnTools.Controls.Add(this.sliderStars);
             this.pnTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnTools.Location = new System.Drawing.Point(3, 64);
+            this.pnTools.Location = new System.Drawing.Point(3, 71);
             this.pnTools.Name = "pnTools";
             this.pnTools.Size = new System.Drawing.Size(536, 114);
             this.pnTools.TabIndex = 11;
@@ -892,7 +942,7 @@ namespace amp
             // lbSongPoints
             // 
             this.lbSongPoints.AutoSize = true;
-            this.lbSongPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSongPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbSongPoints.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.lbSongPoints.Location = new System.Drawing.Point(8, 84);
             this.lbSongPoints.Name = "lbSongPoints";
@@ -904,7 +954,7 @@ namespace amp
             // lbVolume
             // 
             this.lbVolume.AutoSize = true;
-            this.lbVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbVolume.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.lbVolume.Location = new System.Drawing.Point(8, 45);
             this.lbVolume.Name = "lbVolume";
@@ -960,7 +1010,7 @@ namespace amp
             // lbSongVolume
             // 
             this.lbSongVolume.AutoSize = true;
-            this.lbSongVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSongVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbSongVolume.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.lbSongVolume.Location = new System.Drawing.Point(7, 12);
             this.lbSongVolume.Name = "lbSongVolume";
@@ -1007,7 +1057,7 @@ namespace amp
             this.tfMain.Controls.Add(this.foreverClose1);
             this.tfMain.Controls.Add(this.tlpMain);
             this.tfMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tfMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.tfMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tfMain.Image = global::amp.Properties.Resources.icon;
             this.tfMain.Location = new System.Drawing.Point(0, 0);
             this.tfMain.Margin = new System.Windows.Forms.Padding(0);
@@ -1030,7 +1080,7 @@ namespace amp
             this.foreverMinimize1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foreverMinimize1.DefaultLocation = true;
             this.foreverMinimize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.foreverMinimize1.Font = new System.Drawing.Font("Marlett", 12F);
+            this.foreverMinimize1.Font = new System.Drawing.Font("Marlett", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.foreverMinimize1.Location = new System.Drawing.Point(471, 16);
             this.foreverMinimize1.Name = "foreverMinimize1";
             this.foreverMinimize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -1048,7 +1098,7 @@ namespace amp
             this.foreverMaximize1.DefaultLocation = true;
             this.foreverMaximize1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.foreverMaximize1.Enabled = false;
-            this.foreverMaximize1.Font = new System.Drawing.Font("Marlett", 12F);
+            this.foreverMaximize1.Font = new System.Drawing.Font("Marlett", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.foreverMaximize1.Location = new System.Drawing.Point(495, 16);
             this.foreverMaximize1.Name = "foreverMaximize1";
             this.foreverMaximize1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -1065,7 +1115,7 @@ namespace amp
             this.foreverClose1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foreverClose1.DefaultLocation = true;
             this.foreverClose1.DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.foreverClose1.Font = new System.Drawing.Font("Marlett", 10F);
+            this.foreverClose1.Font = new System.Drawing.Font("Marlett", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.foreverClose1.Location = new System.Drawing.Point(519, 16);
             this.foreverClose1.Name = "foreverClose1";
             this.foreverClose1.OverColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -1083,6 +1133,15 @@ namespace amp
             this.tmAutoSave.Enabled = true;
             this.tmAutoSave.Interval = 300000;
             this.tmAutoSave.Tick += new System.EventHandler(this.tmAutoSave_Tick);
+            // 
+            // odMusicFile
+            // 
+            this.odMusicFile.Filter = "Music files|*.mp3;*.ogg;*.wav;*.wma;*.m4a;*.aac;*.aif;*.aiff;*.flac";
+            this.odMusicFile.Multiselect = true;
+            // 
+            // fbMusicFolder
+            // 
+            this.fbMusicFolder.UseDescriptionForTitle = true;
             // 
             // FormMain
             // 
@@ -1195,6 +1254,12 @@ namespace amp
         private Timer tmAutoSave;
         private ToolStripMenuItem mnuSettings;
         private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripMenuItem mnuAddFilesFolders;
+        private ToolStripMenuItem mnuAddFiles;
+        private ToolStripMenuItem mnuAddSingleFolder;
+        private ToolStripMenuItem mnuAddFoldersRecurse;
+        private OpenFileDialog odMusicFile;
+        private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog fbMusicFolder;
     }
 }
 

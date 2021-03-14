@@ -63,7 +63,7 @@ namespace InstallerBaseWixSharp
             {
                 try
                 {
-                    var info = FileVersionInfo.GetVersionInfo(@"..\amp\bin\Release\net47\win10-x64\amp#.exe");
+                    var info = FileVersionInfo.GetVersionInfo(@"..\amp\bin\Release\net5.0-windows\win10-x64\amp#.exe");
                     appVersion = string.Concat(info.FileMajorPart, ".", info.FileMinorPart, ".", info.FileBuildPart);
                     return string.Concat(AppName, "_", info.FileMajorPart, ".", info.FileMinorPart, ".", info.FileBuildPart);
                 }
@@ -76,7 +76,7 @@ namespace InstallerBaseWixSharp
 
             var project = new ManagedProject("amp#",
                 new Dir(InstallDirectory,
-                    new WixSharp.Files(@"..\amp\bin\Release\net47\win10-x64\*.*"),
+                    new WixSharp.Files(@"..\amp\bin\Release\net5.0-windows\win10-x64\*.*"),
                     new File("Program.cs")),
                 new Dir($@"%ProgramMenu%\{Company}\{AppName}",
                     // ReSharper disable three times StringLiteralTypo

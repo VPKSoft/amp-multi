@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="msgAddDB" xml:space="preserve">
     <value>Adding songs: {0} / {1}...|A conditional database add is in progress.</value>
@@ -281,5 +281,11 @@
   </data>
   <data name="msgErrorRest" xml:space="preserve">
     <value>Error initializing the RESTful API with port: {0} with exception: '{1}'.</value>
+  </data>
+  <data name="msgAddMusic" xml:space="preserve">
+    <value>Add music|A dialog title to add music to the play list from a folder or from selected files</value>
+  </data>
+  <data name="msgFileExtMusic" xml:space="preserve">
+    <value>Music files|*.mp3;*.ogg;*.wav;*.wma;*.m4a;*.aac;*.aif;*.aiff;*.flac</value>
   </data>
 </root>
