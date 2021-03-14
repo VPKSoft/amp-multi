@@ -57,7 +57,6 @@ using amp.Properties;
 using amp.Remote;
 using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
-using amp.Remote.WCFRemote;
 using amp.UtilityClasses.Controls;
 using amp.UtilityClasses.Threads;
 using VPKSoft.ErrorLogger;
@@ -185,9 +184,6 @@ namespace amp
         /// A flag to indicate for the <see cref="tmIPCFiles"/> timer whether to execute its code or not.
         /// </summary>
         internal static volatile bool StopIpcTimer = false;
-
-        // the self-hosted WCF remote control API for the software.
-        readonly AmpRemote remote = new AmpRemote();
 
         /// <summary>
         /// The currently playing musing file.
@@ -690,6 +686,7 @@ namespace amp
                 waveOutDevice.PlaybackStopped -= waveOutDevice_PlaybackStopped;
                 waveOutDevice.Stop();
             }
+
             if (mainOutputStream != null)
             {
                 // this one really closes the file and ACM conversion
@@ -704,6 +701,7 @@ namespace amp
                 mainMemoryStream = null;
                 mainOutputStream = null;
             }
+
             if (waveOutDevice != null)
             {
                 waveOutDevice.Dispose();
@@ -2614,7 +2612,11 @@ namespace amp
             tmSeek.Stop();
             tmPendOperation.Stop();
             CloseWaveOut();
+            humanActivity.Stop();
             stopped = true;
+            avBars.Stop();
+            avLine.Stop();
+
             AmpRemoteController.Dispose();
             while (!thread.Join(1000))
             {
@@ -2780,7 +2782,6 @@ namespace amp
             }
 
             albumChanged = false;
-            remote.InitAmpRemote(RemoteProvider);
 
             // check for a new version from the internet..
             CheckForNewVersion();

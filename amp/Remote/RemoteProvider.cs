@@ -30,7 +30,6 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using amp.Remote.DataClasses;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;

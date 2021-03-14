@@ -26,18 +26,20 @@ SOFTWARE.
 
 using System;
 using System.Linq;
-using System.Web.Http;
-using Microsoft.Owin.Extensions;
-using Microsoft.Owin.Hosting;
-using Owin;
+using System.Net;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace amp.Remote.RESTful
 {
     /// <summary>
     /// A remote REST API controller for the amp# software.
-    /// Implements the <see cref="System.Web.Http.ApiController" />
+    /// Implements the <see cref="Controller" />
     /// </summary>
-    /// <seealso cref="System.Web.Http.ApiController" />
+    /// <seealso cref="Controller" />
     public class AmpRemoteController
     {
         /// <summary>
@@ -48,7 +50,12 @@ namespace amp.Remote.RESTful
         {
             InstanceContext?.Dispose();
 
-            InstanceContext = WebApp.Start<Startup>(baseUrl);
+            WebHost.CreateDefaultBuilder()
+                .ConfigureServices(services => services.AddMvc(options => options.EnableEndpointRouting = false))
+                .Configure(app => app.UseMvc())
+                .UseUrls(baseUrl)
+                .Build()
+                .RunAsync();
         }
 
         /// <summary>
@@ -65,45 +72,6 @@ namespace amp.Remote.RESTful
         /// Gets or sets the instance context of this <see cref="AmpRemoteController"/> class.
         /// </summary>
         /// <value>The instance context of this <see cref="AmpRemoteController"/> class.</value>
-        public static IDisposable InstanceContext { get; set; }
-
-        /// <summary>
-        /// A startup class for the RESTful API.
-        /// Implements the <see cref="System.Web.Http.ApiController" />
-        /// </summary>
-        /// <seealso cref="System.Web.Http.ApiController" />
-        public class Startup: ApiController
-        {
-            /// <summary>
-            /// Configurations the specified application builder.
-            /// </summary>
-            /// <param name="appBuilder">The application builder.</param>
-#pragma warning disable CS0108 // Member hides inherited member; missing new keyword, NO IT DOES NOT..
-            public void Configuration(IAppBuilder appBuilder)
-#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
-            {
-                appBuilder.Use((context, next) =>
-                {
-                    context.Response.Headers.Remove("Server");
-                    return next.Invoke();
-                });
-                appBuilder.UseStageMarker(PipelineStage.PostAcquireState);
-
-                // Configure Web API for self-host. 
-                HttpConfiguration config = new HttpConfiguration();
-                //// Web API routes
-                config.MapHttpAttributeRoutes();
-                config.Routes.MapHttpRoute(
-                    name: "DefaultApi",
-                    routeTemplate: "api/{controller}/{id}",
-                    defaults: new { id = RouteParameter.Optional }
-                );   
-
-                config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(
-                    config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml"));
-
-                appBuilder.UseWebApi(config);
-            }
-        }
+        public static IWebHost InstanceContext { get; set; }
     }
 }

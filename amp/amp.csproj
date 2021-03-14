@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <AssemblyTitle>amp#</AssemblyTitle>
     <Company>VPKSoft</Company>
@@ -15,12 +15,16 @@
     <PostBuildEvent />
     <PostBuildEvent />
     <PostBuildEvent />
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <DefineConstants>TRACE;DEBUG;AMP</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
@@ -48,7 +52,7 @@
     <PackageId>amp#</PackageId>
     <UserSecretsId>9dca6ac0-19ac-4b3c-a36d-639ac76692df</UserSecretsId>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
     <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Security" />
@@ -59,33 +63,23 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DataMigrate\GUI\FormDatabaseMigrate.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="DataMigrate\GUI\FormDatabaseMigrate.cs" />
     <Compile Update="DataMigrate\GUI\FormDatabaseMigrate.Designer.cs">
       <DependentUpon>FormDatabaseMigrate.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Progress\FormProgressBackground.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Progress\FormProgressBackground.cs" />
     <Compile Update="FormsUtility\Progress\FormProgressBackground.designer.cs">
       <DependentUpon>FormProgressBackground.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.cs" />
     <Compile Update="FormsUtility\Progress\FormDatabaseUpdatingProgress.designer.cs">
       <DependentUpon>FormDatabaseUpdatingProgress.cs</DependentUpon>
     </Compile>
-    <Compile Update="UtilityClasses\Settings\FormThemeSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="UtilityClasses\Settings\FormThemeSettings.cs" />
     <Compile Update="UtilityClasses\Settings\FormAlbumNaming - Copy.Designer.cs">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
-    <Compile Update="UtilityClasses\Settings\FormAlbumNaming.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="UtilityClasses\Settings\FormAlbumNaming.cs" />
     <Compile Update="UtilityClasses\Settings\FormAlbumNaming.Designer.cs">
       <DependentUpon>FormAlbumNaming.cs</DependentUpon>
     </Compile>
@@ -93,9 +87,7 @@
     <Compile Update="FormsUtility\Help\FormHelp.Designer.cs">
       <DependentUpon>FormHelp.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Random\FormRandomizePriority.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Random\FormRandomizePriority.cs" />
     <Compile Update="FormsUtility\Random\FormRandomizePriority.Designer.cs">
       <DependentUpon>FormRandomizePriority.cs</DependentUpon>
     </Compile>
@@ -103,21 +95,15 @@
     <Compile Update="FormsUtility\Information\FormTagInfo.Designer.cs">
       <DependentUpon>FormTagInfo.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.cs" />
     <Compile Update="FormsUtility\UserInteraction\FormAddAlbum.Designer.cs">
       <DependentUpon>FormAddAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Visual\FormAlbumImage.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Visual\FormAlbumImage.cs" />
     <Compile Update="FormsUtility\Visual\FormAlbumImage.Designer.cs">
       <DependentUpon>FormAlbumImage.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.cs" />
     <Compile Update="FormsUtility\QueueHandling\FormModifySavedQueue.Designer.cs">
       <DependentUpon>FormModifySavedQueue.cs</DependentUpon>
     </Compile>
@@ -129,21 +115,15 @@
     <Compile Update="FormsUtility\QueueHandling\FormQueueSnapshotName.Designer.cs">
       <DependentUpon>FormQueueSnapshotName.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\Songs\FormRename.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\Songs\FormRename.cs" />
     <Compile Update="FormsUtility\Songs\FormRename.designer.cs">
       <DependentUpon>FormRename.cs</DependentUpon>
     </Compile>
-    <Compile Update="FormsUtility\QueueHandling\FormSavedQueues.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FormsUtility\QueueHandling\FormSavedQueues.cs" />
     <Compile Update="FormsUtility\QueueHandling\FormSavedQueues.Designer.cs">
       <DependentUpon>FormSavedQueues.cs</DependentUpon>
     </Compile>
-    <Compile Update="UtilityClasses\Settings\FormSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="UtilityClasses\Settings\FormSettings.cs" />
     <Compile Update="UtilityClasses\Settings\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
@@ -151,7 +131,6 @@
     <Compile Update="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Update="Remote\WCFRemote\MainWindow.WCF.cs" />
     <Compile Update="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -332,32 +311,30 @@
     <None Include="Resources\random.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="1.7.2" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FftSharp" Version="1.0.8" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost" Version="5.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="NAudio.Flac.Unknown" Version="1.0.2" />
     <PackageReference Include="NAudio.Vorbis" Version="1.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
-    <PackageReference Include="ReaLTaiizor" Version="3.7.8.2" />
+    <PackageReference Include="ReaLTaiizor" Version="3.7.8.3" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
     <PackageReference Include="RpcSelf" Version="1.0.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
     <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
-    <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.113" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
-    <PackageReference Include="taglib" Version="2.1.0" />
+    <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
+    <PackageReference Include="unofficial.Cyotek.Windows.Forms.ColorPicker" Version="1.9.0" />
     <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.7" />
-    <PackageReference Include="VPKSoft.ErrorLogger" Version="1.0.0.6" />
+    <PackageReference Include="VPKSoft.ErrorLogger" Version="1.1.0" />
     <PackageReference Include="VPKSoft.LangLib" Version="1.0.7" />
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.2" />
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.7" />
-    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.3" />
+    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.4" />
     <PackageReference Include="VPKSoft.XmlSettings" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>

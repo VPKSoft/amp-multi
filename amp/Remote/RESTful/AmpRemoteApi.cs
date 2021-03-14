@@ -26,8 +26,8 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Web.Http;
 using amp.Remote.DataClasses;
+using Microsoft.AspNetCore.Mvc;
 
 namespace amp.Remote.RESTful
 {
@@ -65,7 +65,7 @@ namespace amp.Remote.RESTful
     /// <summary>
     /// A remote REST API for the amp# software.
     /// </summary>
-    public class AlbumController: ApiController
+    public class AlbumController: Controller
     {
         #region Miscellaneous        
         /// <summary>
@@ -124,7 +124,7 @@ namespace amp.Remote.RESTful
         /// <param name="albumSongRemote">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
         [HttpPost]
         [Route("api/removeSongFromAlbum")]
-        public IHttpActionResult RemoveSongFromAlbum([FromBody] AlbumSongRemote albumSongRemote)
+        public IActionResult RemoveSongFromAlbum([FromBody] AlbumSongRemote albumSongRemote)
         {
             RestInitializer.RemoteProvider.RemoveSongFromAlbum(albumSongRemote);
             return Ok();
@@ -137,7 +137,7 @@ namespace amp.Remote.RESTful
         /// <returns>HTTP result.</returns>
         [HttpPost]
         [Route("api/control/setPositionSeconds")]
-        public IHttpActionResult SetPositionSeconds([FromBody]double seconds)
+        public IActionResult SetPositionSeconds([FromBody]double seconds)
         {
             RestInitializer.RemoteProvider.SetPositionSeconds(seconds);
             return Ok();
@@ -199,7 +199,7 @@ namespace amp.Remote.RESTful
         /// <param name="id">The database ID number for the song to play.</param>
         [HttpPost]
         [Route("api/play/{id}")]
-        public IHttpActionResult Play(int id)
+        public IActionResult Play(int id)
         {
             RestInitializer.RemoteProvider.Play(id);
             return Ok();
@@ -273,7 +273,7 @@ namespace amp.Remote.RESTful
         /// <returns>IHttpActionResult.</returns>
         [HttpPost]
         [Route("api/setAmpVolume/{floatValue}")]
-        public IHttpActionResult SetProgramVolume(float volume)
+        public IActionResult SetProgramVolume(float volume)
         {
             try
             {
@@ -390,7 +390,7 @@ namespace amp.Remote.RESTful
         /// <returns>HTTP result.</returns>
         [HttpPost]
         [Route("api/control/{command}")]
-        public IHttpActionResult RunCommand(string command)
+        public IActionResult RunCommand(string command)
         {
             if (command == "next")
             {
@@ -473,7 +473,7 @@ namespace amp.Remote.RESTful
         /// <returns>HTTP result.</returns>
         [HttpPost]
         [Route("api/queueLoad/{queueIndex}")]
-        public IHttpActionResult RefreshLoadQueueStats(int queueIndex, [FromBody] bool append)
+        public IActionResult RefreshLoadQueueStats(int queueIndex, [FromBody] bool append)
         {
             RestInitializer.RemoteProvider.RefreshLoadQueueStats(queueIndex, append);
             return Ok();
