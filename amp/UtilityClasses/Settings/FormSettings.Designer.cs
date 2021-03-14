@@ -85,18 +85,11 @@ namespace amp.UtilityClasses.Settings
             this.rbAudioVisualizationBars = new System.Windows.Forms.RadioButton();
             this.rbAudioVisualizationOff = new System.Windows.Forms.RadioButton();
             this.tabRemote = new System.Windows.Forms.TabPage();
-            this.gpRemoteControl = new System.Windows.Forms.GroupBox();
-            this.lbRemoteControlURI = new System.Windows.Forms.Label();
-            this.cbRemoteControlEnabled = new System.Windows.Forms.CheckBox();
-            this.tbRemoteControlURI = new System.Windows.Forms.TextBox();
-            this.btAssignRemoteControlURI = new System.Windows.Forms.Button();
-            this.lbRemoteControlURIVValue = new System.Windows.Forms.Label();
-            this.lbWCFApi = new System.Windows.Forms.Label();
+            this.lbRestApiHeader = new System.Windows.Forms.Label();
             this.gbRestApi = new System.Windows.Forms.GroupBox();
+            this.nudRestPort = new System.Windows.Forms.NumericUpDown();
             this.lbRemoteControlPort = new System.Windows.Forms.Label();
             this.cbRestEnabled = new System.Windows.Forms.CheckBox();
-            this.nudRestPort = new System.Windows.Forms.NumericUpDown();
-            this.lbRestApiHeader = new System.Windows.Forms.Label();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
@@ -113,7 +106,6 @@ namespace amp.UtilityClasses.Settings
             ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
             this.tabRemote.SuspendLayout();
-            this.gpRemoteControl.SuspendLayout();
             this.gbRestApi.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRestPort)).BeginInit();
             this.SuspendLayout();
@@ -121,9 +113,10 @@ namespace amp.UtilityClasses.Settings
             // cbQuietHours
             // 
             this.cbQuietHours.AutoSize = true;
-            this.cbQuietHours.Location = new System.Drawing.Point(6, 6);
+            this.cbQuietHours.Location = new System.Drawing.Point(7, 7);
+            this.cbQuietHours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbQuietHours.Name = "cbQuietHours";
-            this.cbQuietHours.Size = new System.Drawing.Size(120, 17);
+            this.cbQuietHours.Size = new System.Drawing.Size(131, 19);
             this.cbQuietHours.TabIndex = 0;
             this.cbQuietHours.Text = "Enabled quiet hours";
             this.cbQuietHours.UseVisualStyleBackColor = true;
@@ -131,9 +124,10 @@ namespace amp.UtilityClasses.Settings
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(121, 29);
+            this.label1.Location = new System.Drawing.Point(141, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
+            this.label1.Size = new System.Drawing.Size(12, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "_";
             // 
@@ -141,20 +135,22 @@ namespace amp.UtilityClasses.Settings
             // 
             this.dtpFrom.CustomFormat = "HH\':\'mm";
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(6, 29);
+            this.dtpFrom.Location = new System.Drawing.Point(7, 33);
+            this.dtpFrom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.ShowUpDown = true;
-            this.dtpFrom.Size = new System.Drawing.Size(92, 20);
+            this.dtpFrom.Size = new System.Drawing.Size(107, 23);
             this.dtpFrom.TabIndex = 1;
             // 
             // dtpTo
             // 
             this.dtpTo.CustomFormat = "HH\':\'mm";
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(158, 29);
+            this.dtpTo.Location = new System.Drawing.Point(184, 33);
+            this.dtpTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.ShowUpDown = true;
-            this.dtpTo.Size = new System.Drawing.Size(92, 20);
+            this.dtpTo.Size = new System.Drawing.Size(107, 23);
             this.dtpTo.TabIndex = 3;
             // 
             // gpVolumeSetting
@@ -165,35 +161,40 @@ namespace amp.UtilityClasses.Settings
             this.gpVolumeSetting.Controls.Add(this.nudQuietHourPercentage);
             this.gpVolumeSetting.Controls.Add(this.rbDecreaseVolumeQuietHours);
             this.gpVolumeSetting.Controls.Add(this.rbPauseQuiet);
-            this.gpVolumeSetting.Location = new System.Drawing.Point(6, 55);
+            this.gpVolumeSetting.Location = new System.Drawing.Point(7, 63);
+            this.gpVolumeSetting.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gpVolumeSetting.Name = "gpVolumeSetting";
-            this.gpVolumeSetting.Size = new System.Drawing.Size(244, 96);
+            this.gpVolumeSetting.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gpVolumeSetting.Size = new System.Drawing.Size(285, 111);
             this.gpVolumeSetting.TabIndex = 6;
             this.gpVolumeSetting.TabStop = false;
             // 
             // lbByPercent
             // 
             this.lbByPercent.AutoSize = true;
-            this.lbByPercent.Location = new System.Drawing.Point(6, 62);
+            this.lbByPercent.Location = new System.Drawing.Point(7, 72);
+            this.lbByPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbByPercent.Name = "lbByPercent";
-            this.lbByPercent.Size = new System.Drawing.Size(60, 13);
+            this.lbByPercent.Size = new System.Drawing.Size(66, 15);
             this.lbByPercent.TabIndex = 6;
             this.lbByPercent.Text = "by percent:";
             // 
             // nudQuietHourPercentage
             // 
-            this.nudQuietHourPercentage.Location = new System.Drawing.Point(110, 60);
+            this.nudQuietHourPercentage.Location = new System.Drawing.Point(128, 69);
+            this.nudQuietHourPercentage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudQuietHourPercentage.Name = "nudQuietHourPercentage";
-            this.nudQuietHourPercentage.Size = new System.Drawing.Size(70, 20);
+            this.nudQuietHourPercentage.Size = new System.Drawing.Size(82, 23);
             this.nudQuietHourPercentage.TabIndex = 5;
             this.nudQuietHourPercentage.ValueChanged += new System.EventHandler(this.nudQuietHourPercentage_ValueChanged);
             // 
             // rbDecreaseVolumeQuietHours
             // 
             this.rbDecreaseVolumeQuietHours.AutoSize = true;
-            this.rbDecreaseVolumeQuietHours.Location = new System.Drawing.Point(6, 42);
+            this.rbDecreaseVolumeQuietHours.Location = new System.Drawing.Point(7, 48);
+            this.rbDecreaseVolumeQuietHours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rbDecreaseVolumeQuietHours.Name = "rbDecreaseVolumeQuietHours";
-            this.rbDecreaseVolumeQuietHours.Size = new System.Drawing.Size(178, 17);
+            this.rbDecreaseVolumeQuietHours.Size = new System.Drawing.Size(195, 19);
             this.rbDecreaseVolumeQuietHours.TabIndex = 1;
             this.rbDecreaseVolumeQuietHours.TabStop = true;
             this.rbDecreaseVolumeQuietHours.Text = "Decrease volume on quiet hours";
@@ -203,9 +204,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.rbPauseQuiet.AutoSize = true;
             this.rbPauseQuiet.Checked = true;
-            this.rbPauseQuiet.Location = new System.Drawing.Point(6, 19);
+            this.rbPauseQuiet.Location = new System.Drawing.Point(7, 22);
+            this.rbPauseQuiet.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rbPauseQuiet.Name = "rbPauseQuiet";
-            this.rbPauseQuiet.Size = new System.Drawing.Size(125, 17);
+            this.rbPauseQuiet.Size = new System.Drawing.Size(136, 19);
             this.rbPauseQuiet.TabIndex = 0;
             this.rbPauseQuiet.TabStop = true;
             this.rbPauseQuiet.Text = "Pause on quiet hours";
@@ -215,9 +217,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(13, 519);
+            this.bCancel.Location = new System.Drawing.Point(15, 599);
+            this.bCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bCancel.Name = "bCancel";
-            this.bCancel.Size = new System.Drawing.Size(75, 23);
+            this.bCancel.Size = new System.Drawing.Size(88, 27);
             this.bCancel.TabIndex = 8;
             this.bCancel.Text = "Cancel";
             this.bCancel.UseVisualStyleBackColor = true;
@@ -225,9 +228,10 @@ namespace amp.UtilityClasses.Settings
             // bOK
             // 
             this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bOK.Location = new System.Drawing.Point(199, 519);
+            this.bOK.Location = new System.Drawing.Point(232, 599);
+            this.bOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bOK.Name = "bOK";
-            this.bOK.Size = new System.Drawing.Size(75, 23);
+            this.bOK.Size = new System.Drawing.Size(88, 27);
             this.bOK.TabIndex = 7;
             this.bOK.Text = "OK";
             this.bOK.UseVisualStyleBackColor = true;
@@ -236,15 +240,17 @@ namespace amp.UtilityClasses.Settings
             // lbLatency
             // 
             this.lbLatency.AutoSize = true;
-            this.lbLatency.Location = new System.Drawing.Point(3, 294);
+            this.lbLatency.Location = new System.Drawing.Point(4, 339);
+            this.lbLatency.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbLatency.Name = "lbLatency";
-            this.lbLatency.Size = new System.Drawing.Size(76, 13);
+            this.lbLatency.Size = new System.Drawing.Size(85, 15);
             this.lbLatency.TabIndex = 14;
             this.lbLatency.Text = "Lantency (ms):";
             // 
             // nudLatency
             // 
-            this.nudLatency.Location = new System.Drawing.Point(178, 292);
+            this.nudLatency.Location = new System.Drawing.Point(208, 337);
+            this.nudLatency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudLatency.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -256,7 +262,7 @@ namespace amp.UtilityClasses.Settings
             0,
             0});
             this.nudLatency.Name = "nudLatency";
-            this.nudLatency.Size = new System.Drawing.Size(70, 20);
+            this.nudLatency.Size = new System.Drawing.Size(82, 23);
             this.nudLatency.TabIndex = 15;
             this.nudLatency.Value = new decimal(new int[] {
             300,
@@ -266,17 +272,19 @@ namespace amp.UtilityClasses.Settings
             // 
             // tbTestQuietHour
             // 
-            this.tbTestQuietHour.Location = new System.Drawing.Point(298, 206);
+            this.tbTestQuietHour.Location = new System.Drawing.Point(348, 238);
+            this.tbTestQuietHour.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbTestQuietHour.Multiline = true;
             this.tbTestQuietHour.Name = "tbTestQuietHour";
-            this.tbTestQuietHour.Size = new System.Drawing.Size(269, 161);
+            this.tbTestQuietHour.Size = new System.Drawing.Size(313, 185);
             this.tbTestQuietHour.TabIndex = 19;
             // 
             // btnTestQuietHour
             // 
-            this.btnTestQuietHour.Location = new System.Drawing.Point(298, 177);
+            this.btnTestQuietHour.Location = new System.Drawing.Point(348, 204);
+            this.btnTestQuietHour.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnTestQuietHour.Name = "btnTestQuietHour";
-            this.btnTestQuietHour.Size = new System.Drawing.Size(269, 23);
+            this.btnTestQuietHour.Size = new System.Drawing.Size(314, 27);
             this.btnTestQuietHour.TabIndex = 20;
             this.btnTestQuietHour.Text = "Quiet hour test";
             this.btnTestQuietHour.UseVisualStyleBackColor = true;
@@ -285,9 +293,10 @@ namespace amp.UtilityClasses.Settings
             // lbLanguage
             // 
             this.lbLanguage.AutoSize = true;
-            this.lbLanguage.Location = new System.Drawing.Point(3, 319);
+            this.lbLanguage.Location = new System.Drawing.Point(4, 368);
+            this.lbLanguage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbLanguage.Name = "lbLanguage";
-            this.lbLanguage.Size = new System.Drawing.Size(136, 13);
+            this.lbLanguage.Size = new System.Drawing.Size(151, 15);
             this.lbLanguage.TabIndex = 21;
             this.lbLanguage.Text = "Language (requires restart):";
             // 
@@ -296,9 +305,10 @@ namespace amp.UtilityClasses.Settings
             this.cmbSelectLanguageValue.DisplayMember = "DisplayName";
             this.cmbSelectLanguageValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSelectLanguageValue.FormattingEnabled = true;
-            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(6, 340);
+            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(7, 392);
+            this.cmbSelectLanguageValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
-            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(244, 21);
+            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(284, 23);
             this.cmbSelectLanguageValue.TabIndex = 22;
             // 
             // menuStrip1
@@ -308,7 +318,8 @@ namespace amp.UtilityClasses.Settings
             this.mnuThemeSettings});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(288, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(336, 24);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -357,9 +368,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.btnModifiedRandomization.Image = global::amp.Properties.Resources.media_shuffle;
             this.btnModifiedRandomization.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModifiedRandomization.Location = new System.Drawing.Point(6, 368);
+            this.btnModifiedRandomization.Location = new System.Drawing.Point(7, 425);
+            this.btnModifiedRandomization.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnModifiedRandomization.Name = "btnModifiedRandomization";
-            this.btnModifiedRandomization.Size = new System.Drawing.Size(244, 23);
+            this.btnModifiedRandomization.Size = new System.Drawing.Size(285, 27);
             this.btnModifiedRandomization.TabIndex = 23;
             this.btnModifiedRandomization.Text = "Modified randomization";
             this.btnModifiedRandomization.UseVisualStyleBackColor = true;
@@ -369,9 +381,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.btAlbumNaming.Image = global::amp.Properties.Resources.Modify;
             this.btAlbumNaming.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAlbumNaming.Location = new System.Drawing.Point(6, 397);
+            this.btAlbumNaming.Location = new System.Drawing.Point(7, 458);
+            this.btAlbumNaming.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btAlbumNaming.Name = "btAlbumNaming";
-            this.btAlbumNaming.Size = new System.Drawing.Size(244, 23);
+            this.btAlbumNaming.Size = new System.Drawing.Size(285, 27);
             this.btAlbumNaming.TabIndex = 18;
             this.btAlbumNaming.Text = "Album naming";
             this.btAlbumNaming.UseVisualStyleBackColor = true;
@@ -380,9 +393,10 @@ namespace amp.UtilityClasses.Settings
             // cbCheckUpdatesStartup
             // 
             this.cbCheckUpdatesStartup.AutoSize = true;
-            this.cbCheckUpdatesStartup.Location = new System.Drawing.Point(6, 426);
+            this.cbCheckUpdatesStartup.Location = new System.Drawing.Point(7, 492);
+            this.cbCheckUpdatesStartup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbCheckUpdatesStartup.Name = "cbCheckUpdatesStartup";
-            this.cbCheckUpdatesStartup.Size = new System.Drawing.Size(175, 17);
+            this.cbCheckUpdatesStartup.Size = new System.Drawing.Size(193, 19);
             this.cbCheckUpdatesStartup.TabIndex = 25;
             this.cbCheckUpdatesStartup.Text = "Check for updates upon startup";
             this.cbCheckUpdatesStartup.UseVisualStyleBackColor = true;
@@ -395,10 +409,11 @@ namespace amp.UtilityClasses.Settings
             this.tcMain.Controls.Add(this.tpMain);
             this.tcMain.Controls.Add(this.tpAdditional);
             this.tcMain.Controls.Add(this.tabRemote);
-            this.tcMain.Location = new System.Drawing.Point(12, 27);
+            this.tcMain.Location = new System.Drawing.Point(14, 31);
+            this.tcMain.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(266, 486);
+            this.tcMain.Size = new System.Drawing.Size(310, 561);
             this.tcMain.TabIndex = 26;
             // 
             // tpMain
@@ -415,10 +430,11 @@ namespace amp.UtilityClasses.Settings
             this.tpMain.Controls.Add(this.lbLatency);
             this.tpMain.Controls.Add(this.nudLatency);
             this.tpMain.Controls.Add(this.btAlbumNaming);
-            this.tpMain.Location = new System.Drawing.Point(4, 22);
+            this.tpMain.Location = new System.Drawing.Point(4, 24);
+            this.tpMain.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tpMain.Name = "tpMain";
-            this.tpMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMain.Size = new System.Drawing.Size(258, 460);
+            this.tpMain.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tpMain.Size = new System.Drawing.Size(302, 533);
             this.tpMain.TabIndex = 0;
             this.tpMain.Text = "Main";
             this.tpMain.UseVisualStyleBackColor = true;
@@ -430,10 +446,11 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.Controls.Add(this.gbStackQueue);
             this.tpAdditional.Controls.Add(this.gbMemoryBuffering);
             this.tpAdditional.Controls.Add(this.gbAudioVisualizationStyle);
-            this.tpAdditional.Location = new System.Drawing.Point(4, 22);
+            this.tpAdditional.Location = new System.Drawing.Point(4, 24);
+            this.tpAdditional.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tpAdditional.Name = "tpAdditional";
-            this.tpAdditional.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAdditional.Size = new System.Drawing.Size(258, 460);
+            this.tpAdditional.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tpAdditional.Size = new System.Drawing.Size(302, 533);
             this.tpAdditional.TabIndex = 1;
             this.tpAdditional.Text = "Additional";
             this.tpAdditional.UseVisualStyleBackColor = true;
@@ -441,9 +458,10 @@ namespace amp.UtilityClasses.Settings
             // cbHideAlbumImage
             // 
             this.cbHideAlbumImage.AutoSize = true;
-            this.cbHideAlbumImage.Location = new System.Drawing.Point(6, 430);
+            this.cbHideAlbumImage.Location = new System.Drawing.Point(7, 496);
+            this.cbHideAlbumImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbHideAlbumImage.Name = "cbHideAlbumImage";
-            this.cbHideAlbumImage.Size = new System.Drawing.Size(172, 17);
+            this.cbHideAlbumImage.Size = new System.Drawing.Size(198, 19);
             this.cbHideAlbumImage.TabIndex = 4;
             this.cbHideAlbumImage.Text = "Auto-hide album image window";
             this.cbHideAlbumImage.UseVisualStyleBackColor = true;
@@ -451,9 +469,10 @@ namespace amp.UtilityClasses.Settings
             // cbDisplayVolumeAndPoints
             // 
             this.cbDisplayVolumeAndPoints.AutoSize = true;
-            this.cbDisplayVolumeAndPoints.Location = new System.Drawing.Point(7, 407);
+            this.cbDisplayVolumeAndPoints.Location = new System.Drawing.Point(8, 470);
+            this.cbDisplayVolumeAndPoints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbDisplayVolumeAndPoints.Name = "cbDisplayVolumeAndPoints";
-            this.cbDisplayVolumeAndPoints.Size = new System.Drawing.Size(235, 17);
+            this.cbDisplayVolumeAndPoints.Size = new System.Drawing.Size(261, 19);
             this.cbDisplayVolumeAndPoints.TabIndex = 3;
             this.cbDisplayVolumeAndPoints.Text = "Display volume settings and points on the UI";
             this.cbDisplayVolumeAndPoints.UseVisualStyleBackColor = true;
@@ -462,9 +481,11 @@ namespace amp.UtilityClasses.Settings
             // 
             this.gbStackQueue.Controls.Add(this.tlpStackQueueRandomLabel);
             this.gbStackQueue.Controls.Add(this.tbStackQueueRandom);
-            this.gbStackQueue.Location = new System.Drawing.Point(6, 328);
+            this.gbStackQueue.Location = new System.Drawing.Point(7, 378);
+            this.gbStackQueue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbStackQueue.Name = "gbStackQueue";
-            this.gbStackQueue.Size = new System.Drawing.Size(246, 73);
+            this.gbStackQueue.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gbStackQueue.Size = new System.Drawing.Size(287, 84);
             this.gbStackQueue.TabIndex = 2;
             this.gbStackQueue.TabStop = false;
             this.gbStackQueue.Text = "Stack queue";
@@ -479,20 +500,22 @@ namespace amp.UtilityClasses.Settings
             this.tlpStackQueueRandomLabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpStackQueueRandomLabel.Controls.Add(this.lbStackQueueRandom, 0, 0);
             this.tlpStackQueueRandomLabel.Controls.Add(this.lbStackQueueRandomValue, 1, 0);
-            this.tlpStackQueueRandomLabel.Location = new System.Drawing.Point(6, 19);
+            this.tlpStackQueueRandomLabel.Location = new System.Drawing.Point(7, 22);
+            this.tlpStackQueueRandomLabel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tlpStackQueueRandomLabel.Name = "tlpStackQueueRandomLabel";
             this.tlpStackQueueRandomLabel.RowCount = 2;
             this.tlpStackQueueRandomLabel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpStackQueueRandomLabel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpStackQueueRandomLabel.Size = new System.Drawing.Size(240, 19);
+            this.tlpStackQueueRandomLabel.Size = new System.Drawing.Size(280, 35);
             this.tlpStackQueueRandomLabel.TabIndex = 3;
             // 
             // lbStackQueueRandom
             // 
             this.lbStackQueueRandom.AutoSize = true;
-            this.lbStackQueueRandom.Location = new System.Drawing.Point(3, 0);
+            this.lbStackQueueRandom.Location = new System.Drawing.Point(4, 0);
+            this.lbStackQueueRandom.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStackQueueRandom.Name = "lbStackQueueRandom";
-            this.lbStackQueueRandom.Size = new System.Drawing.Size(178, 13);
+            this.lbStackQueueRandom.Size = new System.Drawing.Size(200, 15);
             this.lbStackQueueRandom.TabIndex = 1;
             this.lbStackQueueRandom.Text = "Randomize stack from top (percent):";
             // 
@@ -500,9 +523,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.lbStackQueueRandomValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbStackQueueRandomValue.AutoSize = true;
-            this.lbStackQueueRandomValue.Location = new System.Drawing.Point(207, 0);
+            this.lbStackQueueRandomValue.Location = new System.Drawing.Point(244, 0);
+            this.lbStackQueueRandomValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbStackQueueRandomValue.Name = "lbStackQueueRandomValue";
-            this.lbStackQueueRandomValue.Size = new System.Drawing.Size(30, 13);
+            this.lbStackQueueRandomValue.Size = new System.Drawing.Size(32, 15);
             this.lbStackQueueRandomValue.TabIndex = 2;
             this.lbStackQueueRandomValue.Text = "50 %";
             this.lbStackQueueRandomValue.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -512,10 +536,11 @@ namespace amp.UtilityClasses.Settings
             this.tbStackQueueRandom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbStackQueueRandom.AutoSize = false;
-            this.tbStackQueueRandom.Location = new System.Drawing.Point(6, 44);
+            this.tbStackQueueRandom.Location = new System.Drawing.Point(7, 51);
+            this.tbStackQueueRandom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbStackQueueRandom.Maximum = 100;
             this.tbStackQueueRandom.Name = "tbStackQueueRandom";
-            this.tbStackQueueRandom.Size = new System.Drawing.Size(240, 20);
+            this.tbStackQueueRandom.Size = new System.Drawing.Size(280, 23);
             this.tbStackQueueRandom.TabIndex = 0;
             this.tbStackQueueRandom.TickFrequency = 10;
             this.tbStackQueueRandom.Value = 50;
@@ -527,9 +552,11 @@ namespace amp.UtilityClasses.Settings
             this.gbMemoryBuffering.Controls.Add(this.label2);
             this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
             this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
-            this.gbMemoryBuffering.Location = new System.Drawing.Point(6, 260);
+            this.gbMemoryBuffering.Location = new System.Drawing.Point(7, 300);
+            this.gbMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbMemoryBuffering.Name = "gbMemoryBuffering";
-            this.gbMemoryBuffering.Size = new System.Drawing.Size(246, 62);
+            this.gbMemoryBuffering.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gbMemoryBuffering.Size = new System.Drawing.Size(287, 72);
             this.gbMemoryBuffering.TabIndex = 1;
             this.gbMemoryBuffering.TabStop = false;
             this.gbMemoryBuffering.Text = "Memory buffering";
@@ -538,7 +565,8 @@ namespace amp.UtilityClasses.Settings
             // 
             this.cbMemoryBuffering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbMemoryBuffering.AutoSize = true;
-            this.cbMemoryBuffering.Location = new System.Drawing.Point(225, 1);
+            this.cbMemoryBuffering.Location = new System.Drawing.Point(265, 1);
+            this.cbMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbMemoryBuffering.Name = "cbMemoryBuffering";
             this.cbMemoryBuffering.Size = new System.Drawing.Size(15, 14);
             this.cbMemoryBuffering.TabIndex = 3;
@@ -548,15 +576,17 @@ namespace amp.UtilityClasses.Settings
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(99, 34);
+            this.label2.Location = new System.Drawing.Point(115, 39);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 13);
+            this.label2.Size = new System.Drawing.Size(117, 15);
             this.label2.TabIndex = 2;
             this.label2.Text = "MB into the memory";
             // 
             // nudMemoryBuffering
             // 
-            this.nudMemoryBuffering.Location = new System.Drawing.Point(6, 32);
+            this.nudMemoryBuffering.Location = new System.Drawing.Point(7, 37);
+            this.nudMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudMemoryBuffering.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -568,7 +598,7 @@ namespace amp.UtilityClasses.Settings
             0,
             0});
             this.nudMemoryBuffering.Name = "nudMemoryBuffering";
-            this.nudMemoryBuffering.Size = new System.Drawing.Size(87, 20);
+            this.nudMemoryBuffering.Size = new System.Drawing.Size(102, 23);
             this.nudMemoryBuffering.TabIndex = 1;
             this.nudMemoryBuffering.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudMemoryBuffering.Value = new decimal(new int[] {
@@ -580,9 +610,10 @@ namespace amp.UtilityClasses.Settings
             // lbMemoryBuffer
             // 
             this.lbMemoryBuffer.AutoSize = true;
-            this.lbMemoryBuffer.Location = new System.Drawing.Point(6, 16);
+            this.lbMemoryBuffer.Location = new System.Drawing.Point(7, 18);
+            this.lbMemoryBuffer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbMemoryBuffer.Name = "lbMemoryBuffer";
-            this.lbMemoryBuffer.Size = new System.Drawing.Size(118, 13);
+            this.lbMemoryBuffer.Size = new System.Drawing.Size(134, 15);
             this.lbMemoryBuffer.TabIndex = 0;
             this.lbMemoryBuffer.Text = "Buffer files smaller than:";
             // 
@@ -598,9 +629,11 @@ namespace amp.UtilityClasses.Settings
             this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationLines);
             this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationBars);
             this.gbAudioVisualizationStyle.Controls.Add(this.rbAudioVisualizationOff);
-            this.gbAudioVisualizationStyle.Location = new System.Drawing.Point(6, 6);
+            this.gbAudioVisualizationStyle.Location = new System.Drawing.Point(7, 7);
+            this.gbAudioVisualizationStyle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbAudioVisualizationStyle.Name = "gbAudioVisualizationStyle";
-            this.gbAudioVisualizationStyle.Size = new System.Drawing.Size(246, 248);
+            this.gbAudioVisualizationStyle.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gbAudioVisualizationStyle.Size = new System.Drawing.Size(287, 286);
             this.gbAudioVisualizationStyle.TabIndex = 0;
             this.gbAudioVisualizationStyle.TabStop = false;
             this.gbAudioVisualizationStyle.Tag = "0";
@@ -608,7 +641,8 @@ namespace amp.UtilityClasses.Settings
             // 
             // nudBarAmount
             // 
-            this.nudBarAmount.Location = new System.Drawing.Point(6, 217);
+            this.nudBarAmount.Location = new System.Drawing.Point(7, 250);
+            this.nudBarAmount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudBarAmount.Maximum = new decimal(new int[] {
             300,
             0,
@@ -620,7 +654,7 @@ namespace amp.UtilityClasses.Settings
             0,
             0});
             this.nudBarAmount.Name = "nudBarAmount";
-            this.nudBarAmount.Size = new System.Drawing.Size(50, 20);
+            this.nudBarAmount.Size = new System.Drawing.Size(58, 23);
             this.nudBarAmount.TabIndex = 9;
             this.nudBarAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudBarAmount.Value = new decimal(new int[] {
@@ -632,18 +666,20 @@ namespace amp.UtilityClasses.Settings
             // lbBarAmount
             // 
             this.lbBarAmount.AutoSize = true;
-            this.lbBarAmount.Location = new System.Drawing.Point(6, 201);
+            this.lbBarAmount.Location = new System.Drawing.Point(7, 232);
+            this.lbBarAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbBarAmount.Name = "lbBarAmount";
-            this.lbBarAmount.Size = new System.Drawing.Size(181, 13);
+            this.lbBarAmount.Size = new System.Drawing.Size(207, 15);
             this.lbBarAmount.TabIndex = 8;
             this.lbBarAmount.Text = "Amount of bars in audio visualization:";
             // 
             // cbBalancedBars
             // 
             this.cbBalancedBars.AutoSize = true;
-            this.cbBalancedBars.Location = new System.Drawing.Point(6, 181);
+            this.cbBalancedBars.Location = new System.Drawing.Point(7, 209);
+            this.cbBalancedBars.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbBalancedBars.Name = "cbBalancedBars";
-            this.cbBalancedBars.Size = new System.Drawing.Size(141, 17);
+            this.cbBalancedBars.Size = new System.Drawing.Size(159, 19);
             this.cbBalancedBars.TabIndex = 7;
             this.cbBalancedBars.Text = "Balanced bars (min-max)";
             this.cbBalancedBars.UseVisualStyleBackColor = true;
@@ -651,9 +687,10 @@ namespace amp.UtilityClasses.Settings
             // cbAudioVisualizationCombineChannels
             // 
             this.cbAudioVisualizationCombineChannels.AutoSize = true;
-            this.cbAudioVisualizationCombineChannels.Location = new System.Drawing.Point(6, 158);
+            this.cbAudioVisualizationCombineChannels.Location = new System.Drawing.Point(7, 182);
+            this.cbAudioVisualizationCombineChannels.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbAudioVisualizationCombineChannels.Name = "cbAudioVisualizationCombineChannels";
-            this.cbAudioVisualizationCombineChannels.Size = new System.Drawing.Size(113, 17);
+            this.cbAudioVisualizationCombineChannels.Size = new System.Drawing.Size(125, 19);
             this.cbAudioVisualizationCombineChannels.TabIndex = 6;
             this.cbAudioVisualizationCombineChannels.Text = "Combine channels";
             this.cbAudioVisualizationCombineChannels.UseVisualStyleBackColor = true;
@@ -661,22 +698,24 @@ namespace amp.UtilityClasses.Settings
             // lbAudioVisualizationSizePercentage
             // 
             this.lbAudioVisualizationSizePercentage.AutoSize = true;
-            this.lbAudioVisualizationSizePercentage.Location = new System.Drawing.Point(108, 134);
+            this.lbAudioVisualizationSizePercentage.Location = new System.Drawing.Point(126, 155);
+            this.lbAudioVisualizationSizePercentage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbAudioVisualizationSizePercentage.Name = "lbAudioVisualizationSizePercentage";
-            this.lbAudioVisualizationSizePercentage.Size = new System.Drawing.Size(15, 13);
+            this.lbAudioVisualizationSizePercentage.Size = new System.Drawing.Size(17, 15);
             this.lbAudioVisualizationSizePercentage.TabIndex = 5;
             this.lbAudioVisualizationSizePercentage.Text = "%";
             // 
             // nudAudioVisualizationSize
             // 
-            this.nudAudioVisualizationSize.Location = new System.Drawing.Point(6, 132);
+            this.nudAudioVisualizationSize.Location = new System.Drawing.Point(7, 152);
+            this.nudAudioVisualizationSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudAudioVisualizationSize.Maximum = new decimal(new int[] {
             90,
             0,
             0,
             0});
             this.nudAudioVisualizationSize.Name = "nudAudioVisualizationSize";
-            this.nudAudioVisualizationSize.Size = new System.Drawing.Size(96, 20);
+            this.nudAudioVisualizationSize.Size = new System.Drawing.Size(112, 23);
             this.nudAudioVisualizationSize.TabIndex = 4;
             this.nudAudioVisualizationSize.Value = new decimal(new int[] {
             15,
@@ -686,18 +725,20 @@ namespace amp.UtilityClasses.Settings
             // 
             // lbVisualizationWindowSize
             // 
-            this.lbVisualizationWindowSize.Location = new System.Drawing.Point(6, 94);
+            this.lbVisualizationWindowSize.Location = new System.Drawing.Point(7, 108);
+            this.lbVisualizationWindowSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbVisualizationWindowSize.Name = "lbVisualizationWindowSize";
-            this.lbVisualizationWindowSize.Size = new System.Drawing.Size(234, 35);
+            this.lbVisualizationWindowSize.Size = new System.Drawing.Size(273, 40);
             this.lbVisualizationWindowSize.TabIndex = 3;
             this.lbVisualizationWindowSize.Text = "Visualization size in of the main window area:";
             // 
             // rbAudioVisualizationLines
             // 
             this.rbAudioVisualizationLines.AutoSize = true;
-            this.rbAudioVisualizationLines.Location = new System.Drawing.Point(6, 65);
+            this.rbAudioVisualizationLines.Location = new System.Drawing.Point(7, 75);
+            this.rbAudioVisualizationLines.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rbAudioVisualizationLines.Name = "rbAudioVisualizationLines";
-            this.rbAudioVisualizationLines.Size = new System.Drawing.Size(75, 17);
+            this.rbAudioVisualizationLines.Size = new System.Drawing.Size(81, 19);
             this.rbAudioVisualizationLines.TabIndex = 2;
             this.rbAudioVisualizationLines.Tag = "2";
             this.rbAudioVisualizationLines.Text = "Line graph";
@@ -707,9 +748,10 @@ namespace amp.UtilityClasses.Settings
             // rbAudioVisualizationBars
             // 
             this.rbAudioVisualizationBars.AutoSize = true;
-            this.rbAudioVisualizationBars.Location = new System.Drawing.Point(6, 42);
+            this.rbAudioVisualizationBars.Location = new System.Drawing.Point(7, 48);
+            this.rbAudioVisualizationBars.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rbAudioVisualizationBars.Name = "rbAudioVisualizationBars";
-            this.rbAudioVisualizationBars.Size = new System.Drawing.Size(71, 17);
+            this.rbAudioVisualizationBars.Size = new System.Drawing.Size(76, 19);
             this.rbAudioVisualizationBars.TabIndex = 1;
             this.rbAudioVisualizationBars.Tag = "1";
             this.rbAudioVisualizationBars.Text = "Bar graph";
@@ -720,9 +762,10 @@ namespace amp.UtilityClasses.Settings
             // 
             this.rbAudioVisualizationOff.AutoSize = true;
             this.rbAudioVisualizationOff.Checked = true;
-            this.rbAudioVisualizationOff.Location = new System.Drawing.Point(6, 19);
+            this.rbAudioVisualizationOff.Location = new System.Drawing.Point(7, 22);
+            this.rbAudioVisualizationOff.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.rbAudioVisualizationOff.Name = "rbAudioVisualizationOff";
-            this.rbAudioVisualizationOff.Size = new System.Drawing.Size(39, 17);
+            this.rbAudioVisualizationOff.Size = new System.Drawing.Size(42, 19);
             this.rbAudioVisualizationOff.TabIndex = 0;
             this.rbAudioVisualizationOff.TabStop = true;
             this.rbAudioVisualizationOff.Tag = "0";
@@ -734,124 +777,43 @@ namespace amp.UtilityClasses.Settings
             // 
             this.tabRemote.Controls.Add(this.lbRestApiHeader);
             this.tabRemote.Controls.Add(this.gbRestApi);
-            this.tabRemote.Controls.Add(this.lbWCFApi);
-            this.tabRemote.Controls.Add(this.gpRemoteControl);
-            this.tabRemote.Location = new System.Drawing.Point(4, 22);
-            this.tabRemote.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
+            this.tabRemote.Location = new System.Drawing.Point(4, 24);
+            this.tabRemote.Margin = new System.Windows.Forms.Padding(4, 9, 4, 3);
             this.tabRemote.Name = "tabRemote";
-            this.tabRemote.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRemote.Size = new System.Drawing.Size(258, 460);
+            this.tabRemote.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabRemote.Size = new System.Drawing.Size(302, 533);
             this.tabRemote.TabIndex = 2;
             this.tabRemote.Text = "Remote control";
             this.tabRemote.UseVisualStyleBackColor = true;
             // 
-            // gpRemoteControl
+            // lbRestApiHeader
             // 
-            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.cbRemoteControlEnabled);
-            this.gpRemoteControl.Controls.Add(this.tbRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.btAssignRemoteControlURI);
-            this.gpRemoteControl.Controls.Add(this.lbRemoteControlURIVValue);
-            this.gpRemoteControl.Location = new System.Drawing.Point(6, 132);
-            this.gpRemoteControl.Name = "gpRemoteControl";
-            this.gpRemoteControl.Size = new System.Drawing.Size(244, 125);
-            this.gpRemoteControl.TabIndex = 18;
-            this.gpRemoteControl.TabStop = false;
-            this.gpRemoteControl.Text = "Remote control API";
-            // 
-            // lbRemoteControlURI
-            // 
-            this.lbRemoteControlURI.AutoSize = true;
-            this.lbRemoteControlURI.Location = new System.Drawing.Point(6, 37);
-            this.lbRemoteControlURI.Name = "lbRemoteControlURI";
-            this.lbRemoteControlURI.Size = new System.Drawing.Size(122, 13);
-            this.lbRemoteControlURI.TabIndex = 9;
-            this.lbRemoteControlURI.Text = "Remote control address:";
-            // 
-            // cbRemoteControlEnabled
-            // 
-            this.cbRemoteControlEnabled.AutoSize = true;
-            this.cbRemoteControlEnabled.Location = new System.Drawing.Point(6, 19);
-            this.cbRemoteControlEnabled.Name = "cbRemoteControlEnabled";
-            this.cbRemoteControlEnabled.Size = new System.Drawing.Size(65, 17);
-            this.cbRemoteControlEnabled.TabIndex = 16;
-            this.cbRemoteControlEnabled.Text = "Enabled";
-            this.cbRemoteControlEnabled.UseVisualStyleBackColor = true;
-            // 
-            // tbRemoteControlURI
-            // 
-            this.tbRemoteControlURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRemoteControlURI.Location = new System.Drawing.Point(6, 53);
-            this.tbRemoteControlURI.Name = "tbRemoteControlURI";
-            this.tbRemoteControlURI.Size = new System.Drawing.Size(229, 20);
-            this.tbRemoteControlURI.TabIndex = 10;
-            this.tbRemoteControlURI.TextChanged += new System.EventHandler(this.tbRemoteControlURI_TextChanged);
-            // 
-            // btAssignRemoteControlURI
-            // 
-            this.btAssignRemoteControlURI.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAssignRemoteControlURI.Location = new System.Drawing.Point(6, 92);
-            this.btAssignRemoteControlURI.Name = "btAssignRemoteControlURI";
-            this.btAssignRemoteControlURI.Size = new System.Drawing.Size(229, 23);
-            this.btAssignRemoteControlURI.TabIndex = 12;
-            this.btAssignRemoteControlURI.Text = "Set Url";
-            this.btAssignRemoteControlURI.UseVisualStyleBackColor = true;
-            this.btAssignRemoteControlURI.Click += new System.EventHandler(this.btAssignRemoteControlURI_Click);
-            // 
-            // lbRemoteControlURIVValue
-            // 
-            this.lbRemoteControlURIVValue.AutoSize = true;
-            this.lbRemoteControlURIVValue.Location = new System.Drawing.Point(6, 76);
-            this.lbRemoteControlURIVValue.Name = "lbRemoteControlURIVValue";
-            this.lbRemoteControlURIVValue.Size = new System.Drawing.Size(55, 13);
-            this.lbRemoteControlURIVValue.TabIndex = 11;
-            this.lbRemoteControlURIVValue.Text = "http(s)://?";
-            // 
-            // lbWCFApi
-            // 
-            this.lbWCFApi.AutoSize = true;
-            this.lbWCFApi.Location = new System.Drawing.Point(9, 116);
-            this.lbWCFApi.Name = "lbWCFApi";
-            this.lbWCFApi.Size = new System.Drawing.Size(95, 13);
-            this.lbWCFApi.TabIndex = 19;
-            this.lbWCFApi.Text = "WCF (SOAP)  API:";
+            this.lbRestApiHeader.AutoSize = true;
+            this.lbRestApiHeader.Location = new System.Drawing.Point(7, 9);
+            this.lbRestApiHeader.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbRestApiHeader.Name = "lbRestApiHeader";
+            this.lbRestApiHeader.Size = new System.Drawing.Size(126, 15);
+            this.lbRestApiHeader.TabIndex = 21;
+            this.lbRestApiHeader.Text = "RESTful API with JSON:";
             // 
             // gbRestApi
             // 
             this.gbRestApi.Controls.Add(this.nudRestPort);
             this.gbRestApi.Controls.Add(this.lbRemoteControlPort);
             this.gbRestApi.Controls.Add(this.cbRestEnabled);
-            this.gbRestApi.Location = new System.Drawing.Point(6, 24);
+            this.gbRestApi.Location = new System.Drawing.Point(7, 28);
+            this.gbRestApi.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbRestApi.Name = "gbRestApi";
-            this.gbRestApi.Size = new System.Drawing.Size(244, 84);
+            this.gbRestApi.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.gbRestApi.Size = new System.Drawing.Size(285, 97);
             this.gbRestApi.TabIndex = 20;
             this.gbRestApi.TabStop = false;
             this.gbRestApi.Text = "Remote control API";
             // 
-            // lbRemoteControlPort
-            // 
-            this.lbRemoteControlPort.AutoSize = true;
-            this.lbRemoteControlPort.Location = new System.Drawing.Point(6, 37);
-            this.lbRemoteControlPort.Name = "lbRemoteControlPort";
-            this.lbRemoteControlPort.Size = new System.Drawing.Size(103, 13);
-            this.lbRemoteControlPort.TabIndex = 9;
-            this.lbRemoteControlPort.Text = "Remote control port:";
-            // 
-            // cbRestEnabled
-            // 
-            this.cbRestEnabled.AutoSize = true;
-            this.cbRestEnabled.Location = new System.Drawing.Point(6, 19);
-            this.cbRestEnabled.Name = "cbRestEnabled";
-            this.cbRestEnabled.Size = new System.Drawing.Size(65, 17);
-            this.cbRestEnabled.TabIndex = 16;
-            this.cbRestEnabled.Text = "Enabled";
-            this.cbRestEnabled.UseVisualStyleBackColor = true;
-            this.cbRestEnabled.CheckedChanged += new System.EventHandler(this.cbRestEnabled_CheckedChanged);
-            // 
             // nudRestPort
             // 
-            this.nudRestPort.Location = new System.Drawing.Point(9, 53);
+            this.nudRestPort.Location = new System.Drawing.Point(10, 61);
+            this.nudRestPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudRestPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -863,7 +825,7 @@ namespace amp.UtilityClasses.Settings
             0,
             0});
             this.nudRestPort.Name = "nudRestPort";
-            this.nudRestPort.Size = new System.Drawing.Size(120, 20);
+            this.nudRestPort.Size = new System.Drawing.Size(140, 23);
             this.nudRestPort.TabIndex = 17;
             this.nudRestPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudRestPort.Value = new decimal(new int[] {
@@ -872,22 +834,35 @@ namespace amp.UtilityClasses.Settings
             0,
             0});
             // 
-            // lbRestApiHeader
+            // lbRemoteControlPort
             // 
-            this.lbRestApiHeader.AutoSize = true;
-            this.lbRestApiHeader.Location = new System.Drawing.Point(6, 8);
-            this.lbRestApiHeader.Name = "lbRestApiHeader";
-            this.lbRestApiHeader.Size = new System.Drawing.Size(123, 13);
-            this.lbRestApiHeader.TabIndex = 21;
-            this.lbRestApiHeader.Text = "RESTful API with JSON:";
+            this.lbRemoteControlPort.AutoSize = true;
+            this.lbRemoteControlPort.Location = new System.Drawing.Point(7, 43);
+            this.lbRemoteControlPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbRemoteControlPort.Name = "lbRemoteControlPort";
+            this.lbRemoteControlPort.Size = new System.Drawing.Size(117, 15);
+            this.lbRemoteControlPort.TabIndex = 9;
+            this.lbRemoteControlPort.Text = "Remote control port:";
+            // 
+            // cbRestEnabled
+            // 
+            this.cbRestEnabled.AutoSize = true;
+            this.cbRestEnabled.Location = new System.Drawing.Point(7, 22);
+            this.cbRestEnabled.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.cbRestEnabled.Name = "cbRestEnabled";
+            this.cbRestEnabled.Size = new System.Drawing.Size(68, 19);
+            this.cbRestEnabled.TabIndex = 16;
+            this.cbRestEnabled.Text = "Enabled";
+            this.cbRestEnabled.UseVisualStyleBackColor = true;
+            this.cbRestEnabled.CheckedChanged += new System.EventHandler(this.cbRestEnabled_CheckedChanged);
             // 
             // FormSettings
             // 
             this.AcceptButton = this.bOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(288, 559);
+            this.ClientSize = new System.Drawing.Size(336, 645);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnTestQuietHour);
             this.Controls.Add(this.tbTestQuietHour);
@@ -897,6 +872,7 @@ namespace amp.UtilityClasses.Settings
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSettings";
@@ -929,8 +905,6 @@ namespace amp.UtilityClasses.Settings
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).EndInit();
             this.tabRemote.ResumeLayout(false);
             this.tabRemote.PerformLayout();
-            this.gpRemoteControl.ResumeLayout(false);
-            this.gpRemoteControl.PerformLayout();
             this.gbRestApi.ResumeLayout(false);
             this.gbRestApi.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRestPort)).EndInit();
@@ -994,17 +968,10 @@ namespace amp.UtilityClasses.Settings
         private ToolStripMenuItem mnuThemeSettings;
         private CheckBox cbHideAlbumImage;
         private TabPage tabRemote;
-        private GroupBox gpRemoteControl;
-        private Label lbRemoteControlURI;
-        private CheckBox cbRemoteControlEnabled;
-        private TextBox tbRemoteControlURI;
-        private Button btAssignRemoteControlURI;
-        private Label lbRemoteControlURIVValue;
         private Label lbRestApiHeader;
         private GroupBox gbRestApi;
         private NumericUpDown nudRestPort;
         private Label lbRemoteControlPort;
         private CheckBox cbRestEnabled;
-        private Label lbWCFApi;
     }
 }

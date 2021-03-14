@@ -88,9 +88,7 @@ namespace amp.UtilityClasses.Settings
             settings.QuietHoursPause = Convert.ToBoolean(vnml["quietHour", "pause", true]);
             settings.QuietHoursVolPercentage = (100.0 - Convert.ToDouble(vnml["quietHour", "percentage", 70])) / 100.0;
             settings.LatencyMs = Convert.ToInt32(vnml["latency", "value", 300]);
-            settings.RemoteControlApiWcf = Convert.ToBoolean(vnml["remote", "enabled", false]);
             settings.AutoCheckUpdates = Convert.ToBoolean(vnml["autoUpdate", "enabled", false]);
-            settings.RemoteControlApiWcfAddress = vnml["remote", "uri", "http://localhost:11316/ampRemote/"].ToString();
 
             settings.AudioVisualizationStyle = Convert.ToInt32(vnml["visualizeAudio", "type", 0]);
             settings.AudioVisualizationVisualPercentage = Convert.ToInt32(vnml["visualizeAudio", "percentage", 15]);

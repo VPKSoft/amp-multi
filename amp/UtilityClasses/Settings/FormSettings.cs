@@ -60,7 +60,6 @@ namespace amp.UtilityClasses.Settings
                 return; // After localization don't do anything more.
             }
             DBLangEngine.InitializeLanguage("amp.Messages");
-            btAssignRemoteControlURI.Image = VU.SysIcons.GetSystemIconBitmap(VU.SysIcons.SystemIconType.Shield, new Size(16, 16));
         }
 
         /// <summary>
@@ -82,10 +81,8 @@ namespace amp.UtilityClasses.Settings
 
             Program.Settings.QuietHoursVolPercentage = (int)nudQuietHourPercentage.Value;
             Program.Settings.QuietHoursPause = rbPauseQuiet.Checked;
-            Program.Settings.RemoteControlApiWcfAddress = tbRemoteControlURI.Text;
 
             Program.Settings.LatencyMs = (int)nudLatency.Value;
-            Program.Settings.RemoteControlApiWcf = cbRemoteControlEnabled.Checked;
             Program.Settings.AudioVisualizationStyle = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
 
             Program.Settings.AudioVisualizationVisualPercentage = (int) nudAudioVisualizationSize.Value;
@@ -190,9 +187,7 @@ namespace amp.UtilityClasses.Settings
             rbPauseQuiet.Checked = true;
             rbPauseQuiet.Checked = Program.Settings.QuietHoursPause;
             rbDecreaseVolumeQuietHours.Checked = !rbPauseQuiet.Checked;
-            tbRemoteControlURI.Text = Program.Settings.RemoteControlApiWcfAddress;
             nudLatency.Value = Program.Settings.LatencyMs;
-            cbRemoteControlEnabled.Checked = Program.Settings.RemoteControlApiWcf;
 
             nudBarAmount.Value = Program.Settings.BarAmount < 20 ? 92 : Program.Settings.BarAmount;
 
@@ -237,43 +232,11 @@ namespace amp.UtilityClasses.Settings
             }
             cmbSelectLanguageValue.SelectedItem = Program.Settings.Culture;
 
-            bool? netShResult = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
-            if (netShResult != null)
-            {
-                btAssignRemoteControlURI.Enabled = netShResult == false;
-            }
-
             cbDisplayVolumeAndPoints.Checked = Program.Settings.DisplayVolumeAndPoints;
             cbRestEnabled.Checked = Program.Settings.RestApiEnabled;
 
             nudRestPort.Value = Program.Settings.RestApiPort;
             SettingsLoading = false;
-        }
-
-        private void tbRemoteControlURI_TextChanged(object sender, EventArgs e)
-        {
-            if (!VU.UriUrlUtils.ValidHttpUrl(tbRemoteControlURI.Text, true))
-            {
-                tbRemoteControlURI.BackColor = Color.Red;
-            }
-            else
-            {
-
-                tbRemoteControlURI.BackColor = SystemColors.Window;
-                lbRemoteControlURIVValue.Text = VU.UriUrlUtils.MakeWildCardUrl(tbRemoteControlURI.Text, true);
-            }
-        }
-
-        private void btAssignRemoteControlURI_Click(object sender, EventArgs e)
-        {
-            // ReSharper disable once IdentifierTypo
-            bool? netshRet = VU.NetSH.IsNetShUrlReserved(lbRemoteControlURIVValue.Text);
-            if (netshRet != null && netshRet == false)
-            {
-                VU.NetSH.ReserveNetShUrl(
-                    lbRemoteControlURIVValue.Text, 
-                    VU.BuiltInWindowsAccountsLocalize.GetUserNameBySID(VU.BuiltInWindowsAccountsLocalize.Everyone));
-            }
         }
 
         private void btAlbumNaming_Click(object sender, EventArgs e)

@@ -57,18 +57,6 @@ namespace amp.UtilityClasses.Settings
         public int LatencyMs { get; set; } = 300;
 
         /// <summary>
-        /// A value indicating if the remote control WCF API is enabled.
-        /// </summary>
-        [IsSetting]
-        public bool RemoteControlApiWcf { get; set; } = false;
-
-        /// <summary>
-        /// The remote control WCF API address (URL).
-        /// </summary>
-        [IsSetting]
-        public string RemoteControlApiWcfAddress { get; set; } = "http://localhost:11316/ampRemote";
-
-        /// <summary>
         /// A value indicating whether the software should check for updates automatically upon startup.
         /// </summary>
         [IsSetting]
