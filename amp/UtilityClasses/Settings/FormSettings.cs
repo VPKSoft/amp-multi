@@ -235,7 +235,8 @@ namespace amp.UtilityClasses.Settings
             cbDisplayVolumeAndPoints.Checked = Program.Settings.DisplayVolumeAndPoints;
             cbRestEnabled.Checked = Program.Settings.RestApiEnabled;
 
-            nudRestPort.Value = Program.Settings.RestApiPort;
+            nudRestPort.Value = Program.Settings.RestApiPort == 0 ? 11316 : Program.Settings.RestApiPort;
+
             SettingsLoading = false;
         }
 
