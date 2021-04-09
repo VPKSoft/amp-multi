@@ -295,6 +295,15 @@ namespace amp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next song|A message describing an action to jump to next song in the playlist.
+        /// </summary>
+        public static string msgNextSong {
+            get {
+                return ResourceManager.GetString("msgNextSong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open playlist file|As in open a play list file (m3u).
         /// </summary>
         public static string msgOpenPlaylistFile {
@@ -327,6 +336,15 @@ namespace amp {
         public static string msgPlay {
             get {
                 return ResourceManager.GetString("msgPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous song|A message describing an action to jump to next song in the playlist.
+        /// </summary>
+        public static string msgPreviousSong {
+            get {
+                return ResourceManager.GetString("msgPreviousSong", resourceCulture);
             }
         }
         

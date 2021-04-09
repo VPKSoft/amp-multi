@@ -116,6 +116,7 @@ namespace amp
             this.tmAutoSave = new System.Windows.Forms.Timer(this.components);
             this.odMusicFile = new System.Windows.Forms.OpenFileDialog();
             this.fbMusicFolder = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
+            this.tmIPCPlayback = new System.Windows.Forms.Timer(this.components);
             this.ssStatus.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -1143,6 +1144,11 @@ namespace amp
             // 
             this.fbMusicFolder.UseDescriptionForTitle = true;
             // 
+            // tmIPCPlayback
+            // 
+            this.tmIPCPlayback.Interval = 1000;
+            this.tmIPCPlayback.Tick += new System.EventHandler(this.tmIPCPlayback_Tick);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1260,6 +1266,7 @@ namespace amp
         private ToolStripMenuItem mnuAddFoldersRecurse;
         private OpenFileDialog odMusicFile;
         private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog fbMusicFolder;
+        private Timer tmIPCPlayback;
     }
 }
 

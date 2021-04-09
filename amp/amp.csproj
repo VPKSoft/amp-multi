@@ -12,9 +12,6 @@
     <FileVersion>1.2.3.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <PostBuildEvent />
-    <PostBuildEvent />
-    <PostBuildEvent />
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,7 +32,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent />
+    <PostBuildEvent>copy $(SolutionDir)Release\PlaybackIcons.dll $(OutDir)</PostBuildEvent>
     <Authors>VPKSoft</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -314,6 +311,7 @@
     <PackageReference Include="DotNetZip" Version="1.15.0" />
     <PackageReference Include="FftSharp" Version="1.0.8" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.4" />
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="NAudio.Flac.Unknown" Version="1.0.2" />
     <PackageReference Include="NAudio.Vorbis" Version="1.3.0" />

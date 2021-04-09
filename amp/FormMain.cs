@@ -53,12 +53,14 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using amp.FormsUtility.Songs;
+using amp.IpcUtils;
 using amp.Properties;
 using amp.Remote;
 using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
 using amp.UtilityClasses.Controls;
 using amp.UtilityClasses.Threads;
+using Microsoft.WindowsAPICodePack.Shell;
 using VPKSoft.ErrorLogger;
 using VPKSoft.KeySendList;
 using VPKSoft.LangLib;
@@ -67,6 +69,7 @@ using VPKSoft.ScriptRunner;
 using VPKSoft.Utils;
 using VPKSoft.VersionCheck.Forms;
 using Utils = VPKSoft.LangLib.Utils;
+using Microsoft.WindowsAPICodePack.Taskbar;
 #endregion
 
 namespace amp
@@ -192,6 +195,11 @@ namespace amp
         internal static volatile bool RemoteFileBeingProcessed;
 
         /// <summary>
+        /// A playback command send by another instance of the software via IPC to do something with the playback.
+        /// </summary>
+        internal static volatile TaskBarPlaybackCommand TaskBarPlaybackCommand;
+
+        /// <summary>
         /// A flag to indicate for the <see cref="tmIPCFiles"/> timer whether to execute its code or not.
         /// </summary>
         internal static volatile bool StopIpcTimer = false;
@@ -287,9 +295,70 @@ namespace amp
         /// A general randomization class instance.
         /// </summary>
         internal Random Random = new Random();
+
+        /// <summary>
+        /// A task bar jum list task to play the next song.
+        /// </summary>
+        private JumpListLink playNextTask;
+
+        /// <summary>
+        /// A task bar jum list task to play the previous song.
+        /// </summary>
+        private JumpListLink playPreviousTask;
+
+        /// <summary>
+        /// A task bar jum list task to toggle play / pause state of the song.
+        /// </summary>
+        private JumpListLink togglePauseTask;
+
+        /// <summary>
+        /// The file name containing playback icons for the task bar jump list.
+        /// </summary>
+        private string iconDllFile;
+
+        /// <summary>
+        /// An instance to the the task bar jump list.
+        /// </summary>
+        private JumpList playBackJumpList;
         #endregion
 
-        #region PrivateMethods        
+        #region PrivateMethods
+        /// <summary>
+        /// Creates commands for the Windows jump list menu.
+        /// </summary>
+        private void CreateJumpListCommands()
+        {
+            playBackJumpList = JumpList.CreateJumpList();
+
+            var path = Application.ExecutablePath;
+
+            iconDllFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath) ?? string.Empty, @"PlaybackIcons.dll");
+
+            playNextTask = new JumpListLink(path, DBLangEngine.GetMessage("msgNextSong", "Next song|A message describing an action to jump to next song in the playlist"))
+            {
+                Arguments = Program.ArgumentNext,
+                IconReference = new IconReference(iconDllFile, 2)
+            };
+
+            playPreviousTask = new JumpListLink(path,
+                DBLangEngine.GetMessage("msgPreviousSong",
+                    "Previous song|A message describing an action to jump to previous song in the playlist"))
+            {
+                Arguments = Program.ArgumentPrevious,
+                IconReference = new IconReference(iconDllFile, 3)
+            };
+
+            togglePauseTask = new JumpListLink(path,
+                DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused"))
+            {
+                Arguments = Program.ArgumentPlayPause,
+                IconReference = new IconReference(iconDllFile, 0)
+            };
+
+            playBackJumpList.AddUserTasks(togglePauseTask, playNextTask, playPreviousTask, new JumpListSeparator());
+            playBackJumpList.Refresh();
+        }
+
         /// <summary>
         /// Un-checks all the album menu drop down items.
         /// </summary>
@@ -495,23 +564,19 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                     waveOutDevice.Play();
                     ResetAudioVisualizationBars();
+                    DisplayPlaybackPausePlay();
                 }
                 else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
                 {
-                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
                     waveOutDevice.Pause();
+                    DisplayPlaybackPausePlay();
                 }
             }
             else
             {
                 humanActivity.Stop();
-                tbPlayNext.Image = ThemeSettings.PlaybackPause;
-                tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
                 GetNextSong();
             }
         }
@@ -796,6 +861,7 @@ namespace amp
                 if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
                 {
                     lbMusic.SetIndex(i);
+                    DisplayPlaybackPausePlay();
                     return;
                 }
             }
@@ -817,9 +883,33 @@ namespace amp
                 if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
                 {
                     lbMusic.SetIndex(i);
+                    DisplayPlaybackPausePlay();
                     return;
                 }
             }
+        }
+
+        /// <summary>
+        /// Displays the playback pause / play state.
+        /// </summary>
+        private void DisplayPlaybackPausePlay()
+        {
+            // set the jump list icon..
+            togglePauseTask.IconReference =
+                new IconReference(iconDllFile, waveOutDevice?.PlaybackState == PlaybackState.Paused ? 0 : 1);
+            togglePauseTask.Title = waveOutDevice?.PlaybackState == PlaybackState.Paused
+                ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
+                : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+
+            tbPlayNext.Image = waveOutDevice?.PlaybackState == PlaybackState.Paused
+                ? ThemeSettings.PlaybackPlay
+                : ThemeSettings.PlaybackPause;
+
+            tbPlayNext.ToolTipText = waveOutDevice?.PlaybackState == PlaybackState.Paused
+                ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
+                : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+
+            playBackJumpList.Refresh();
         }
 
         /// <summary>
@@ -1229,8 +1319,7 @@ namespace amp
             {
                 if (waveOutDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+                    DisplayPlaybackPausePlay();
                     waveOutDevice.Play();
                     ResetAudioVisualizationBars();
                     lastPaused = false;
@@ -1245,8 +1334,7 @@ namespace amp
         /// </summary>
         private void SetPause()
         {
-            tbPlayNext.Image = ThemeSettings.PlaybackPause;
-            tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+            DisplayPlaybackPausePlay();
         }
 
         /// <summary>
@@ -1487,6 +1575,7 @@ namespace amp
 
             if (pendNextSong)
             {
+                DisplayPlaybackPausePlay();
                 return;
             }
 
@@ -1560,6 +1649,7 @@ namespace amp
                     ShowQueue();
                 }
             }
+            DisplayPlaybackPausePlay();
         }
 
         /// <summary>
@@ -2235,24 +2325,7 @@ namespace amp
         /// </summary>
         internal void VisualizePlaybackState()
         {
-            if (waveOutDevice != null)
-            {
-                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
-                {
-                    tbPlayNext.Image = ThemeSettings.PlaybackPlay;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
-                }
-                else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    tbPlayNext.Image = ThemeSettings.PlaybackPause;
-                    tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
-                }
-            }
-            else
-            {
-                tbPlayNext.Image = ThemeSettings.PlaybackPlay;
-                tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
-            }
+            DisplayPlaybackPausePlay();
         }
 
         /// <summary>
@@ -2617,6 +2690,11 @@ namespace amp
                     noScProgressScrollEvent = true;
                     scProgress.Maximum = (int)SecondsTotal == 0 ? 1 : (int)SecondsTotal;
                     scProgress.Value = (int)Seconds;
+
+                    // TODO::Make this a setting..
+                    TaskbarManager.Instance?.SetProgressState(TaskbarProgressBarState.Normal); 
+                    TaskbarManager.Instance?.SetProgressValue((int)Seconds, scProgress.Maximum);
+
                     TimeSpan ts = TimeSpan.FromSeconds(SecondsTotal - Seconds);
                     lbTime.Text = @"-" + ts.ToString(@"mm\:ss");
                     noScProgressScrollEvent = false;
@@ -2642,6 +2720,7 @@ namespace amp
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             tmIPCFiles.Enabled = false;
+            tmIPCPlayback.Enabled = false;
             tmAutoSave.Stop();
             tmSeek.Stop();
             tmPendOperation.Stop();
@@ -2736,8 +2815,6 @@ namespace amp
         private void tbNext_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
-            tbPlayNext.Image = ThemeSettings.PlaybackPause;
-            tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
             GetNextSong();
         }
 
@@ -2745,8 +2822,6 @@ namespace amp
         private void tbPrevious_Click(object sender, EventArgs e)
         {
             humanActivity.Stop();
-            tbPlayNext.Image = ThemeSettings.PlaybackPause;
-            tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
             GetPrevSong();
         }
 
@@ -2821,6 +2896,8 @@ namespace amp
             CheckForNewVersion();
 
             tmIPCFiles.Enabled = true;
+            tmIPCPlayback.Enabled = true;
+            CreateJumpListCommands();
         }
 
         // a user scrolls the song playback position; set the position to the user given value..
@@ -3129,6 +3206,22 @@ namespace amp
         private void mnuShowAllSongs_Click(object sender, EventArgs e)
         {
             ShowAllSongs();
+        }
+
+        // check if an IPC command to change the playback state was received
+        // and act accordingly..
+        private void tmIPCPlayback_Tick(object sender, EventArgs e)
+        {
+            tmIPCPlayback.Enabled = false;
+            switch (TaskBarPlaybackCommand)
+            {
+                case TaskBarPlaybackCommand.PausePlayToggle: TogglePause(); break;
+                case TaskBarPlaybackCommand.Next: GetNextSong(true); break;
+                case TaskBarPlaybackCommand.Previous: GetPrevSong(); break;
+            }
+
+            TaskBarPlaybackCommand = TaskBarPlaybackCommand.None;
+            tmIPCPlayback.Enabled = true;
         }
 
         // the IPC may start pushing songs in to the static list

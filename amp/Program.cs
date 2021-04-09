@@ -38,6 +38,7 @@ using amp.FormsUtility.QueueHandling;
 using amp.FormsUtility.Random;
 using amp.FormsUtility.Songs;
 using amp.FormsUtility.UserInteraction;
+using amp.IpcUtils;
 using amp.UtilityClasses.Settings;
 using Ionic.Zip;
 using RpcSelf;
@@ -199,9 +200,24 @@ namespace amp
                         string file = args[i];
                         
                         ExceptionLogger.LogMessage($"Request file open: '{file}'.");
-                        if (File.Exists(file))
+                        bool exists;
+
+                        if ((exists = File.Exists(file)) || 
+                            file == ArgumentNext ||
+                            file == ArgumentPrevious ||
+                            file == ArgumentPlayPause)
                         {
-                            ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
+                            if (exists)
+                            {
+                                ExceptionLogger.LogMessage($"File exists: '{file}'. Send open request.");
+                            }
+                            else
+                            {
+                                file = file.TrimStart('-');
+                                file = file[0].ToString().ToUpperInvariant() + file.Substring(1);
+                                ExceptionLogger.LogMessage($"Send playback request: '{file}'.");
+                            }
+
                             ipcClient.SendData(file);
                         }
                     }
@@ -255,6 +271,14 @@ namespace amp
         // an event handler for the IPC channel to add files to the temporary album via user shell interaction..
         private static void MessageReceived(object sender, IpcExchangeEventArgs<string> e)
         {
+            // if a playback command was received, perform different handling..
+            switch (e.Object)
+            {
+                case @"Next": FormMain.TaskBarPlaybackCommand = TaskBarPlaybackCommand.Next; return;
+                case @"PlayPause": FormMain.TaskBarPlaybackCommand = TaskBarPlaybackCommand.PausePlayToggle; return;
+                case @"Previous": FormMain.TaskBarPlaybackCommand = TaskBarPlaybackCommand.Previous; return;
+            }
+
             if (FormMain.RemoteFileBeingProcessed)
             {
                 TemporaryRemoteFiles.Add(e.Object);
@@ -328,6 +352,24 @@ namespace amp
         /// <value>The program settings.</value>
         internal static Settings Settings { get; set; } = new Settings();
 
+        /// <summary>
+        /// Gets or sets the IPC server to communicate between amp# application instances.
+        /// </summary>
         internal static RpcSelfHost<string> IpcServer { get; set; }
+
+        /// <summary>
+        /// An argument for IPC to play the next song.
+        /// </summary>
+        internal const string ArgumentNext = @"--next";
+
+        /// <summary>
+        /// An argument for IPC to play the previous song.
+        /// </summary>
+        internal const string ArgumentPrevious = @"--previous";
+
+        /// <summary>
+        /// An argument for IPC to toggle play / pause state of the song.
+        /// </summary>
+        internal const string ArgumentPlayPause = @"--playPause";
     }
 }

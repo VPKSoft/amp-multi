@@ -28,9 +28,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using amp.Remote.DataClasses;
 using TagLib;
 using VPKSoft.ErrorLogger;
@@ -1390,12 +1392,88 @@ namespace amp.UtilityClasses
         /// </summary>
         /// <param name="search">The search string.</param>
         /// <returns><c>true</c> if one of the properties of this music file instance matches the search string, <c>false</c> otherwise.</returns>
-                public bool Match(string search)
+        public bool Match(string search)
         {
             if (search.Trim() == string.Empty)
             {
                 return true;
             }
+
+            // a year match for the tag..
+            if (search.StartsWith("y:") || search.StartsWith("Y:"))
+            {
+                var match = Regex.Match(search, "^(Y|y):(>|<|>=|<=|=)(\\d){4,}").Success;
+                if (match)
+                {
+                    if (int.TryParse(Year, out var year))
+                    {
+                        var yearMatch = Regex.Matches(search, "\\d{4,}").FirstOrDefault()?.Value;
+                        if (int.TryParse(yearMatch, out var yearCompare))
+                        {
+                            search = search.TrimStart('y', 'Y', ':');
+                            if (search.StartsWith(">="))
+                            {
+                                return yearCompare >= year;
+                            }
+
+                            if (search.StartsWith(">"))
+                            {
+                                return yearCompare > year;
+                            }
+
+                            if (search.StartsWith("<="))
+                            {
+                                return yearCompare <= year;
+                            }
+
+                            if (search.StartsWith("<"))
+                            {
+                                return yearCompare < year;
+                            }
+
+                            if (search.StartsWith("="))
+                            {
+                                return yearCompare == year;
+                            }
+                        }
+
+                        return false;
+                    }
+                }
+            }
+
+            var digitMatch = search.StartsWith(">=") || search.StartsWith("<=") || search.StartsWith("<") ||
+                             search.StartsWith(">");
+
+            if (digitMatch)
+            {
+                if (search.Contains('&'))
+                {
+                    try
+                    {
+                        var searches = search.Split('&');
+                        var match1 = YearMatch(searches[0], FullFileName);
+                        var match2 = YearMatch(searches[1].TrimStart(), FullFileName);
+                        if (match1 != null && match2 != null)
+                        {
+                            return (bool)match1 && (bool)match2;
+                        }
+                    }
+                    catch
+                    {
+                        // allow the search to continue..
+                    }
+                }
+                else
+                {
+                    var match1 = YearMatch(search, FullFileName);
+                    if (match1 != null)
+                    {
+                        return (bool)match1;
+                    }
+                }
+            }
+
             search = search.ToUpper().Trim();
             bool found1 = Artist.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
                           Album.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1 ||
@@ -1425,6 +1503,46 @@ namespace amp.UtilityClasses
                           TagString.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) != -1;
             }
             return found2;
+        }
+
+        private static bool? YearMatch(string search, string fullFileName)
+        {
+            try
+            {
+                if (DateTime.TryParse(search.TrimStart('<', '>', '='),
+                    CultureInfo.CurrentUICulture.DateTimeFormat,
+                    DateTimeStyles.AllowInnerWhite | DateTimeStyles.AllowLeadingWhite |
+                    DateTimeStyles.AllowTrailingWhite | DateTimeStyles.AllowWhiteSpaces,
+                    out var resultDateTime))
+                {
+                    var info = new FileInfo(fullFileName);
+                    if (search.StartsWith(">="))
+                    {
+                        return info.CreationTime >= resultDateTime;
+                    }
+
+                    if (search.StartsWith(">"))
+                    {
+                        return info.CreationTime > resultDateTime;
+                    }
+
+                    if (search.StartsWith("<="))
+                    {
+                        return info.CreationTime <= resultDateTime;
+                    }
+
+                    if (search.StartsWith("<"))
+                    {
+                        return info.CreationTime < resultDateTime;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+            return false;
         }
     }
 }

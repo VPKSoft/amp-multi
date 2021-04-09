@@ -288,4 +288,10 @@
   <data name="msgFileExtMusic" xml:space="preserve">
     <value>Music files|*.mp3;*.ogg;*.wav;*.wma;*.m4a;*.aac;*.aif;*.aiff;*.flac</value>
   </data>
+  <data name="msgNextSong" xml:space="preserve">
+    <value>Next song|A message describing an action to jump to next song in the playlist</value>
+  </data>
+  <data name="msgPreviousSong" xml:space="preserve">
+    <value>Previous song|A message describing an action to jump to next song in the playlist</value>
+  </data>
 </root>
