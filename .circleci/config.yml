@@ -20,12 +20,14 @@
      executor: win/default         
      steps:
        - checkout
+       - run: msbuild PlaybackIcons/PlaybackIcons.vcxproj /p:Configuration=Release
        - run: msbuild amp/amp.csproj /t:restore
        - run: msbuild amp/amp.csproj /p:Configuration=Release
    deploy:
      executor: win/default     
      steps:
      - checkout
+     - run: msbuild PlaybackIcons/PlaybackIcons.vcxproj /p:Configuration=Release
      - run: msbuild amp/amp.csproj /t:restore
      - run: msbuild amp/amp.csproj /p:Configuration=Release     
      - run: choco install wixtoolset
