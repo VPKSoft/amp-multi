@@ -2520,11 +2520,12 @@ namespace amp
             lbMusicScroll.Maximum = lbMusic.Items.Count;
         }
 
-        private void tfMain_MouseLeave(object sender, EventArgs e)
+        private void cursorFix_MouseEnter(object sender, EventArgs e)
         {
-
-            Cursor = Cursors.Arrow;
-            tfMain.Cursor = Cursors.Arrow;
+            if (sender is Control control)
+            {
+                control.Cursor = Cursors.Arrow;
+            }
         }
 
         private void sliderStars_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)

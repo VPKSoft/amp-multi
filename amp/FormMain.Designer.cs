@@ -142,19 +142,20 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 517);
+            this.ssStatus.Location = new System.Drawing.Point(0, 519);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 28);
+            this.ssStatus.Size = new System.Drawing.Size(542, 26);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
+            this.ssStatus.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbQueueCount
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 15);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 13);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -226,6 +227,7 @@ namespace amp
             this.msMain.Size = new System.Drawing.Size(542, 24);
             this.msMain.TabIndex = 5;
             this.msMain.Text = "menuStrip1";
+            this.msMain.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // mnuFile
             // 
@@ -619,6 +621,7 @@ namespace amp
             this.tbTool.Padding = new System.Windows.Forms.Padding(0);
             this.tbTool.Size = new System.Drawing.Size(542, 44);
             this.tbTool.TabIndex = 8;
+            this.tbTool.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // tbPrevious
             // 
@@ -766,6 +769,7 @@ namespace amp
             this.lbSong.Size = new System.Drawing.Size(427, 13);
             this.lbSong.TabIndex = 11;
             this.lbSong.Text = "-";
+            this.lbSong.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbTime
             // 
@@ -779,6 +783,7 @@ namespace amp
             this.lbTime.TabIndex = 10;
             this.lbTime.Text = "00:00";
             this.lbTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbTime.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // tbFind
             // 
@@ -803,11 +808,12 @@ namespace amp
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 477);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 479);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
             this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 40);
             this.pnAudioVisualizationMain.TabIndex = 15;
+            this.pnAudioVisualizationMain.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // avBars
             // 
@@ -819,6 +825,7 @@ namespace amp
             this.avBars.ColorGradientRightStart = System.Drawing.Color.LightSteelBlue;
             this.avBars.ColorHertzLabels = System.Drawing.Color.Magenta;
             this.avBars.CombineChannels = false;
+            this.avBars.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.avBars.CustomWindowFunc = null;
             this.avBars.DisplayHertzLabels = false;
             this.avBars.DrawWithGradient = true;
@@ -836,6 +843,7 @@ namespace amp
             this.avBars.RelativeViewTimeAdjust = 1.001D;
             this.avBars.Size = new System.Drawing.Size(469, 12);
             this.avBars.TabIndex = 10;
+            this.avBars.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // avLine
             // 
@@ -843,6 +851,7 @@ namespace amp
             this.avLine.ColorAudioChannelRight = System.Drawing.Color.LimeGreen;
             this.avLine.ColorHertzLabels = System.Drawing.Color.Magenta;
             this.avLine.CombineChannels = false;
+            this.avLine.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.avLine.CustomWindowFunc = null;
             this.avLine.DisplayHertzLabels = false;
             this.avLine.FftWindowType = VPKSoft.AudioVisualization.WindowType.Hanning;
@@ -859,6 +868,7 @@ namespace amp
             this.avLine.Size = new System.Drawing.Size(469, 12);
             this.avLine.TabIndex = 9;
             this.avLine.UseAntiAliasing = true;
+            this.avLine.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // scProgress
             // 
@@ -895,7 +905,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 251);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 226);
+            this.pnListBox.Size = new System.Drawing.Size(542, 228);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -903,10 +913,11 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 226);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 228);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
+            this.lbMusicScroll.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbMusic
             // 
@@ -924,7 +935,7 @@ namespace amp
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 226);
+            this.lbMusic.Size = new System.Drawing.Size(542, 228);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
@@ -936,6 +947,7 @@ namespace amp
             this.lbMusic.DragOver += new System.Windows.Forms.DragEventHandler(this.lbMusic_DragOver);
             this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
             this.lbMusic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbMusic_KeyDown);
+            this.lbMusic.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // pnTools
             // 
@@ -951,6 +963,7 @@ namespace amp
             this.pnTools.Name = "pnTools";
             this.pnTools.Size = new System.Drawing.Size(536, 114);
             this.pnTools.TabIndex = 11;
+            this.pnTools.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbSongPoints
             // 
@@ -963,6 +976,7 @@ namespace amp
             this.lbSongPoints.TabIndex = 14;
             this.lbSongPoints.Text = "Points:";
             this.lbSongPoints.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbSongPoints.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbVolume
             // 
@@ -975,6 +989,7 @@ namespace amp
             this.lbVolume.TabIndex = 13;
             this.lbVolume.Text = "Volume:";
             this.lbVolume.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbVolume.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // sliderMainVolume
             // 
@@ -997,6 +1012,7 @@ namespace amp
             this.sliderMainVolume.Size = new System.Drawing.Size(401, 34);
             this.sliderMainVolume.TabIndex = 2;
             this.sliderMainVolume.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderMainVolume_ValueChanged);
+            this.sliderMainVolume.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // sliderVolumeSong
             // 
@@ -1019,6 +1035,7 @@ namespace amp
             this.sliderVolumeSong.Size = new System.Drawing.Size(401, 34);
             this.sliderVolumeSong.TabIndex = 12;
             this.sliderVolumeSong.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderVolumeSong_ValueChanged);
+            this.sliderVolumeSong.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // lbSongVolume
             // 
@@ -1031,6 +1048,7 @@ namespace amp
             this.lbSongVolume.TabIndex = 11;
             this.lbSongVolume.Text = "Volume (song):";
             this.lbSongVolume.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbSongVolume.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
             // sliderStars
             // 
@@ -1083,7 +1101,6 @@ namespace amp
             this.tfMain.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.tfMain.TabIndex = 13;
             this.tfMain.Text = "amp#";
-            this.tfMain.MouseLeave += new System.EventHandler(this.tfMain_MouseLeave);
             // 
             // foreverMinimize1
             // 
