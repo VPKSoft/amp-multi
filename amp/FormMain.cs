@@ -3196,10 +3196,25 @@ namespace amp
             ShowAlternateQueue();
         }
 
-        // displays the help..
+        // displays the help for the keyboard shortcuts..
         private void mnuHelpItem_Click(object sender, EventArgs e)
         {
             FormHelp.ShowSingleton();
+        }
+
+        // launch the browser to display the help..
+        private void mnuHelpBrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var path = Path.GetDirectoryName(Application.ExecutablePath);
+                var helpPath = Path.Combine(path ?? string.Empty, "Help", "index.html");
+                Process.Start(new ProcessStartInfo {FileName = new Uri(helpPath).AbsoluteUri, UseShellExecute = true});
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
         }
 
         // displays all the songs in the current album..

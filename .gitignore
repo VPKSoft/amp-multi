@@ -337,3 +337,16 @@ ASALocalRun/
 
 # generated Wix files
 *.[g].wxs
+/amp/Help
+/Help/amp_help/site
+/Help/amp_help/docs/Alternate-queue.md
+/Help/amp_help/docs/GUI.md
+/Help/amp_help/docs/Home.md
+/Help/amp_help/docs/index.md
+/Help/amp_help/docs/Keyboard-shortcuts.md
+/Help/amp_help/docs/Managing-saved-queues.md
+/Help/amp_help/docs/Music-catalog-structure.md
+/Help/amp_help/docs/Program-settings.md
+/Help/api/.swagger-codegen
+/Help/api/index.html
+/Help/api/.swagger-codegen-ignore

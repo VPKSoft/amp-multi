@@ -26,10 +26,7 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SQLite;
-using System.Globalization;
-using System.Linq;
 using amp.Remote.DataClasses;
 using amp.SQLiteDatabase;
 using amp.UtilityClasses;

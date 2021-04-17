@@ -92,13 +92,13 @@ namespace amp.Remote.DataClasses
         public int QueueCount { get; set; }
 
         /// <summary>
-        /// Gets a an ID of the current song.
+        /// Gets an ID of the current song.
         /// </summary>
         [DataMember]
         public int CurrentSongId { get; set; }
 
         /// <summary>
-        /// Gets a name of the current song.
+        /// Gets the name of the current song.
         /// </summary>
         [DataMember]
         public string CurrentSongName { get; set; }

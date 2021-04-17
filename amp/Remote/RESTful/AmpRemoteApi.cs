@@ -245,7 +245,7 @@ namespace amp.Remote.RESTful
         /// <summary>
         /// Gets the current album.
         /// </summary>
-        /// <returns>The current album name</returns>
+        /// <returns>The current album name.</returns>
         [HttpGet]
         [Route("api/getCurrentAlbum")]
         public string GetCurrentAlbum()
@@ -466,7 +466,7 @@ namespace amp.Remote.RESTful
         }
 
         /// <summary>
-        /// Refreshes the main window after loading a queue to it.
+        /// Loads the specified queue into the amp# playlist.
         /// </summary>
         /// <param name="queueIndex">The queue index (Database ID number) for the queue to load.</param>
         /// <param name="append">If set to <c>true</c> the queue is appended to the previous queue.</param>
