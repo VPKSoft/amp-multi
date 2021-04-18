@@ -328,7 +328,7 @@
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
-    <PackageReference Include="unofficial.Cyotek.Windows.Forms.ColorPicker" Version="1.9.0" />
+    <PackageReference Include="unofficial.Cyotek.Windows.Forms.ColorPicker" Version="1.9.2" />
     <PackageReference Include="VPKSoft.AudioVisualization" Version="1.0.7" />
     <PackageReference Include="VPKSoft.ErrorLogger" Version="1.1.0" />
     <PackageReference Include="VPKSoft.LangLib" Version="1.0.8" />

@@ -73,12 +73,13 @@ namespace amp.UtilityClasses.Settings
         // the color selection has changed, set the color to a possibly selected item..
         private void colorWheel_ColorChanged(object sender, EventArgs e)
         {
-            colorEditor.Color = colorWheel.Color;
-            pnColorDisplay.BackColor = colorWheel.Color;
             if (SuspendColorChange || listThemeColors.SelectedItem == null)
             {
                 return;
             }
+
+            colorEditor.Color = colorWheel.Color;
+            pnColorDisplay.BackColor = colorWheel.Color;
 
             var item = (ColorStringProperty) listThemeColors.SelectedItem;
             item.Color = colorWheel.Color;
@@ -97,8 +98,15 @@ namespace amp.UtilityClasses.Settings
         // the color has been changed, update the other controls..
         private void colorEditor_ColorChanged(object sender, EventArgs e)
         {
+            if (SuspendColorChange)
+            {
+                return;
+            }
+
+            SuspendColorChange = true;
             colorWheel.Color = colorEditor.Color;
             pnColorDisplay.BackColor = colorEditor.Color;
+            SuspendColorChange = false;
         }
 
         /// <summary>
@@ -190,6 +198,11 @@ namespace amp.UtilityClasses.Settings
         // display the color when the list box selection changes..
         private void listThemeColors_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (SuspendColorChange)
+            {
+                return;
+            }
+
             SuspendColorChange = true;
             var listBox = (ListBox) sender;
             var item = (ColorStringProperty) listBox.SelectedItem;
