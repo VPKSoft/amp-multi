@@ -24,19 +24,18 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Windows.Forms;
 using amp.DataMigrate.GUI;
 using amp.FormsUtility.Random;
 using amp.Remote.RESTful;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
+using VPKSoft.DBLocalization;
 using VPKSoft.ErrorLogger;
 using VPKSoft.LangLib;
-using VU = VPKSoft.Utils;
 
 namespace amp.UtilityClasses.Settings
 {
@@ -273,14 +272,11 @@ namespace amp.UtilityClasses.Settings
         {
             try
             {
-                string args = "--localize=\"" +
-                              Path.Combine(
-                                  Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                  "amp#",
-                                  // ReSharper disable once StringLiteralTypo
-                                  "lang.sqlite") + "\"";
-
-                Process.Start(Application.ExecutablePath, args);
+                LocalizeRunner.RunLocalizeWindow(Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "amp#",
+                    // ReSharper disable once StringLiteralTypo
+                    "lang.sqlite"));
             }
             catch (Exception ex)
             {

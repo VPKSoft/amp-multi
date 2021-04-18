@@ -4,8 +4,12 @@ nav:
     - Music catalog structure: Music-catalog-structure.md
     - Keyboard shortcuts: Keyboard-shortcuts.md
     - Program settings: Program-settings.md
+    - API definition: API-definition.md
 copyright: Copyright &copy; 2021 VPKSoft
 theme: readthedocs
 use_directory_urls: false
 extra_css:
     - css/kbd.css
+markdown_extensions:
+    - wikilinks:
+        end_url: '.html'
