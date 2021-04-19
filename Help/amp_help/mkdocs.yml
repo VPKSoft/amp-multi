@@ -10,6 +10,6 @@ theme: readthedocs
 use_directory_urls: false
 extra_css:
     - css/kbd.css
-markdown_extensions:
-    - wikilinks:
-        end_url: '.html'
+plugins:
+  - ezlinks        
+  - search
