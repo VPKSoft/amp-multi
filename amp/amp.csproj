@@ -32,8 +32,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>::echo $(MSBuildProjectDirectory)
-::copy $(MSBuildProjectDirectory)\..\PlaybackIcons\Release\PlaybackIcons.dll $(OutDir)
+    <PostBuildEvent>::echo $(ProjectDir)
+::copy $(ProjectDir)\..\PlaybackIcons\Release\PlaybackIcons.dll $(OutDir)
 ::xcopy /E /H $(MSBuildProjectDirectory)\Help $(OutDir)Help</PostBuildEvent>
     <Authors>VPKSoft</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
