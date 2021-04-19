@@ -26,7 +26,7 @@
        - run: pip install mkdocs
        - run: pip install mkdocs-ezlinks-plugin
        - run: |
-          amp/Help/amp_help/update_help.ps1
+          Help/amp_help/update_help.ps1
    deploy:
      executor: win/default     
      steps:
