@@ -1,5 +1,6 @@
 if ($Env:CIRCLECI -eq "true") {
-    Set-Location -Path "$Env:CIRCLE_WORKING_DIRECTORY/amp"
+    Write-Output "CircleCI detectected, set working directory to: $Env:CIRCLE_WORKING_DIRECTORY\amp"
+    Set-Location -Path "$Env:CIRCLE_WORKING_DIRECTORY\amp"
 }
 
 $wiki_folder = ".\amp.wiki"
