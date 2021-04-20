@@ -1,3 +1,7 @@
+if ($Env:CIRCLECI -eq "true") {
+    Set-Location -Path "$Env:CIRCLE_WORKING_DIRECTORY/amp"
+}
+
 $wiki_folder = ".\amp.wiki"
 Remove-Item -Path $wiki_folder -Recurse -Force -ErrorAction Ignore
 git clone https://github.com/VPKSoft/amp.wiki.git
