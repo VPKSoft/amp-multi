@@ -8,8 +8,8 @@
     <Product>amp#</Product>
     <Description>Music player for common audio formats.</Description>
     <Copyright>Copyright © VPKSoft 2021</Copyright>
-    <AssemblyVersion>1.2.4.0</AssemblyVersion>
-    <FileVersion>1.2.4.0</FileVersion>
+    <AssemblyVersion>1.2.5.0</AssemblyVersion>
+    <FileVersion>1.2.5.0</FileVersion>
     <DocumentationFile>bin\$(Configuration)\amp.xml</DocumentationFile>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <UseWindowsForms>true</UseWindowsForms>
