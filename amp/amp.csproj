@@ -32,9 +32,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>::echo $(ProjectDir)
-::copy $(ProjectDir)\..\PlaybackIcons\Release\PlaybackIcons.dll $(OutDir)
-::xcopy /E /H $(MSBuildProjectDirectory)\Help $(OutDir)Help</PostBuildEvent>
     <Authors>VPKSoft</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -45,7 +42,7 @@
     <PackageTags>music player vpksoft amp# amp mp3 ogg aif aiff m4a aac wav wma</PackageTags>
     <PackageReleaseNotes>Read the history at: https://www.vpksoft.net/2015-03-31-13-33-28/amp</PackageReleaseNotes>
     <StartupObject>amp.Program</StartupObject>
-    <Version>1.2.4</Version>
+    <Version>1.2.5</Version>
     <AssemblyName>amp#</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>amp#</PackageId>
