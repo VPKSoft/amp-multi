@@ -353,9 +353,4 @@
   <ItemGroup>
     <Folder Include="UtilityClasses\Enumerations\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Help\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>
