@@ -321,7 +321,7 @@
     <PackageReference Include="RpcSelf" Version="1.0.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.114" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.114" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
