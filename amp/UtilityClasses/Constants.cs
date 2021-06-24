@@ -25,8 +25,6 @@ SOFTWARE.
 #endregion
 
 using System.Collections.Generic;
-using System.IO;
-using VPKSoft.Utils;
 
 namespace amp.UtilityClasses
 {

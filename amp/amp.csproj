@@ -308,7 +308,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetZip" Version="1.15.0" />
-    <PackageReference Include="FftSharp" Version="1.0.8" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.4" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
@@ -319,9 +318,7 @@
     <PackageReference Include="ReaLTaiizor" Version="3.7.8.4" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
     <PackageReference Include="RpcSelf" Version="1.0.1" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.114.3" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.114" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
