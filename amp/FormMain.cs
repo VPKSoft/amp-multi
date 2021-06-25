@@ -1014,7 +1014,7 @@ namespace amp
 
                             ResetAudioVisualizationBars();
 
-                            outputDevice.Volume = MusicFileVolume;
+                            volumeStream.Volume = MusicFileVolume;
 
                             if (InvokeRequired)
                             {
@@ -1144,12 +1144,14 @@ namespace amp
             {
                 if (Path.GetExtension(fileName).Equals(".ogg", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    audioFile = new NAudio.Vorbis.VorbisWaveReader(fileName);
+                    audioFile = new VorbisWaveReader(fileName);
                 }
                 else
                 {
                     audioFile = new AudioFileReader(fileName);
                 }
+
+                volumeStream = new WaveChannel32(audioFile);
 
                 return audioFile;
             }
@@ -1348,6 +1350,11 @@ namespace amp
         /// The audio file
         /// </summary>
         private volatile WaveStream audioFile;
+
+        /// <summary>
+        /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
+        /// </summary>
+        private volatile WaveChannel32 volumeStream;
         #endregion
 
         #region InternalProperties
@@ -1854,11 +1861,11 @@ namespace amp
                 {
                     if (outputDevice != null && volume >= 0F && volume <= 2.0F)
                     {
-                        outputDevice.Volume = volume;
+                        volumeStream.Volume = volume;
 
                         if (MFile != null)
                         {
-                            MFile.Volume = outputDevice.Volume;
+                            MFile.Volume = volumeStream.Volume;
                             Database.SaveVolume(MFile, Connection);
                             return true;
                         }
@@ -2462,14 +2469,14 @@ namespace amp
 
                 if (outputDevice != null)
                 {
-                    outputDevice.Volume = volume;
+                    volumeStream.Volume = volume;
                 }
 
                 if (MFile != null)
                 {
                     if (outputDevice != null)
                     {
-                        MFile.Volume = outputDevice.Volume;
+                        MFile.Volume = volumeStream.Volume;
                     }
 
                     Database.SaveVolume(MFile, Connection);
@@ -2494,7 +2501,7 @@ namespace amp
             Program.Settings.BaseVolumeMultiplier = e.CurrentValue;
             if (outputDevice != null)
             {
-                outputDevice.Volume = MusicFileVolume;
+                volumeStream.Volume = MusicFileVolume;
             }
         }
 
@@ -2810,6 +2817,10 @@ namespace amp
             tmSeek.Stop();
             if (audioFile != null)
             {
+                if (audioFile is VorbisWaveReader vorbisWaveReader)
+                {
+                    // TODO::Special
+                }
                 audioFile.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
             }
             tmSeek.Start();
