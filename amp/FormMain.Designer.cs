@@ -93,7 +93,6 @@ namespace amp
             this.tsbToggleVolumeAndStars = new System.Windows.Forms.ToolStripButton();
             this.lbSong = new ReaLTaiizor.Controls.CrownLabel();
             this.lbTime = new ReaLTaiizor.Controls.CrownLabel();
-            this.tbFind = new ReaLTaiizor.Controls.CrownTextBox();
             this.pnAudioVisualizationMain = new System.Windows.Forms.Panel();
             this.avBars = new VPKSoft.AudioVisualization.AudioVisualizationBars();
             this.avLine = new VPKSoft.AudioVisualization.AudioVisualizationPlot();
@@ -108,6 +107,9 @@ namespace amp
             this.sliderVolumeSong = new AmpControls.VolumeSlider();
             this.lbSongVolume = new ReaLTaiizor.Controls.CrownLabel();
             this.sliderStars = new AmpControls.StarSlider();
+            this.tlpFindBox = new System.Windows.Forms.TableLayoutPanel();
+            this.tbFind = new ReaLTaiizor.Controls.CrownTextBox();
+            this.pnClearFindBox = new System.Windows.Forms.Panel();
             this.miniToolStrip = new ReaLTaiizor.Controls.CrownMenuStrip();
             this.tfMain = new ReaLTaiizor.Forms.ThemeForm();
             this.foreverMinimize1 = new ReaLTaiizor.Controls.ForeverMinimize();
@@ -125,6 +127,7 @@ namespace amp
             this.pnAudioVisualizationMain.SuspendLayout();
             this.pnListBox.SuspendLayout();
             this.pnTools.SuspendLayout();
+            this.tlpFindBox.SuspendLayout();
             this.tfMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,10 +145,10 @@ namespace amp
             this.ssStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbQueueCount});
-            this.ssStatus.Location = new System.Drawing.Point(0, 518);
+            this.ssStatus.Location = new System.Drawing.Point(0, 519);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Padding = new System.Windows.Forms.Padding(0, 5, 0, 3);
-            this.ssStatus.Size = new System.Drawing.Size(542, 27);
+            this.ssStatus.Size = new System.Drawing.Size(542, 26);
             this.ssStatus.SizingGrip = false;
             this.ssStatus.TabIndex = 11;
             this.ssStatus.Text = "statusStrip1";
@@ -155,7 +158,7 @@ namespace amp
             // 
             this.lbQueueCount.BackColor = System.Drawing.Color.DarkGray;
             this.lbQueueCount.Name = "lbQueueCount";
-            this.lbQueueCount.Size = new System.Drawing.Size(13, 14);
+            this.lbQueueCount.Size = new System.Drawing.Size(13, 13);
             this.lbQueueCount.Text = "0";
             // 
             // odM3U
@@ -188,11 +191,11 @@ namespace amp
             this.tlpMain.Controls.Add(this.tbTool, 0, 1);
             this.tlpMain.Controls.Add(this.lbSong, 0, 3);
             this.tlpMain.Controls.Add(this.lbTime, 1, 3);
-            this.tlpMain.Controls.Add(this.tbFind, 0, 5);
             this.tlpMain.Controls.Add(this.pnAudioVisualizationMain, 0, 7);
             this.tlpMain.Controls.Add(this.scProgress, 0, 4);
             this.tlpMain.Controls.Add(this.pnListBox, 0, 6);
             this.tlpMain.Controls.Add(this.pnTools, 0, 2);
+            this.tlpMain.Controls.Add(this.tlpFindBox, 0, 5);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(2, 70);
             this.tlpMain.Name = "tlpMain";
@@ -631,7 +634,7 @@ namespace amp
             this.tbPrevious.Image = global::amp.Properties.Resources.amp_back;
             this.tbPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPrevious.Name = "tbPrevious";
-            this.tbPrevious.Size = new System.Drawing.Size(24, 24);
+            this.tbPrevious.Size = new System.Drawing.Size(34, 41);
             this.tbPrevious.ToolTipText = "Previous song";
             this.tbPrevious.Click += new System.EventHandler(this.tbPrevious_Click);
             // 
@@ -643,7 +646,7 @@ namespace amp
             this.tbPlayNext.Image = global::amp.Properties.Resources.amp_play;
             this.tbPlayNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPlayNext.Name = "tbPlayNext";
-            this.tbPlayNext.Size = new System.Drawing.Size(24, 24);
+            this.tbPlayNext.Size = new System.Drawing.Size(34, 41);
             this.tbPlayNext.ToolTipText = "Play";
             this.tbPlayNext.Click += new System.EventHandler(this.tbPlayNext_Click);
             // 
@@ -655,7 +658,7 @@ namespace amp
             this.tbNext.Image = global::amp.Properties.Resources.amp_forward;
             this.tbNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbNext.Name = "tbNext";
-            this.tbNext.Size = new System.Drawing.Size(24, 24);
+            this.tbNext.Size = new System.Drawing.Size(34, 41);
             this.tbNext.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.tbNext.ToolTipText = "Next song";
             this.tbNext.Click += new System.EventHandler(this.tbNext_Click);
@@ -678,7 +681,7 @@ namespace amp
             this.tbShowQueue.Image = global::amp.Properties.Resources.amp_queue;
             this.tbShowQueue.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbShowQueue.Name = "tbShowQueue";
-            this.tbShowQueue.Size = new System.Drawing.Size(24, 24);
+            this.tbShowQueue.Size = new System.Drawing.Size(34, 41);
             this.tbShowQueue.Text = "Show queue";
             this.tbShowQueue.ToolTipText = "Show queue";
             this.tbShowQueue.Click += new System.EventHandler(this.tbShowQueue_Click);
@@ -703,7 +706,7 @@ namespace amp
             this.tbRand.Image = global::amp.Properties.Resources.amp_shuffle;
             this.tbRand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbRand.Name = "tbRand";
-            this.tbRand.Size = new System.Drawing.Size(24, 24);
+            this.tbRand.Size = new System.Drawing.Size(34, 41);
             this.tbRand.Text = "tbRand";
             this.tbRand.ToolTipText = "Random";
             // 
@@ -718,7 +721,7 @@ namespace amp
             this.tbShuffle.Image = global::amp.Properties.Resources.amp_repeat;
             this.tbShuffle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbShuffle.Name = "tbShuffle";
-            this.tbShuffle.Size = new System.Drawing.Size(24, 24);
+            this.tbShuffle.Size = new System.Drawing.Size(34, 41);
             this.tbShuffle.Text = "tbSuffle";
             this.tbShuffle.ToolTipText = "Continous playback";
             // 
@@ -740,7 +743,7 @@ namespace amp
             this.tsbQueueStack.Image = global::amp.Properties.Resources.stack;
             this.tsbQueueStack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbQueueStack.Name = "tsbQueueStack";
-            this.tsbQueueStack.Size = new System.Drawing.Size(24, 24);
+            this.tsbQueueStack.Size = new System.Drawing.Size(34, 41);
             this.tsbQueueStack.Text = "Stack queue";
             // 
             // tsbToggleVolumeAndStars
@@ -752,7 +755,7 @@ namespace amp
             this.tsbToggleVolumeAndStars.Image = global::amp.Properties.Resources.tick_down;
             this.tsbToggleVolumeAndStars.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbToggleVolumeAndStars.Name = "tsbToggleVolumeAndStars";
-            this.tsbToggleVolumeAndStars.Size = new System.Drawing.Size(24, 24);
+            this.tsbToggleVolumeAndStars.Size = new System.Drawing.Size(34, 41);
             this.tsbToggleVolumeAndStars.Text = "Toggle volume and points visibility";
             this.tsbToggleVolumeAndStars.Click += new System.EventHandler(this.tsbToggleVolumeAndStars_Click);
             // 
@@ -785,30 +788,13 @@ namespace amp
             this.lbTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lbTime.MouseEnter += new System.EventHandler(this.cursorFix_MouseEnter);
             // 
-            // tbFind
-            // 
-            this.tbFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFind.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.tbFind.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tlpMain.SetColumnSpan(this.tbFind, 2);
-            this.tbFind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.tbFind.Location = new System.Drawing.Point(3, 227);
-            this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(536, 21);
-            this.tbFind.TabIndex = 13;
-            this.tbFind.Click += new System.EventHandler(this.tbFind_Click);
-            this.tbFind.TextChanged += new System.EventHandler(this.tbFind_TextChanged);
-            this.tbFind.Enter += new System.EventHandler(this.tbFind_Enter);
-            this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
-            // 
             // pnAudioVisualizationMain
             // 
             this.tlpMain.SetColumnSpan(this.pnAudioVisualizationMain, 2);
             this.pnAudioVisualizationMain.Controls.Add(this.avBars);
             this.pnAudioVisualizationMain.Controls.Add(this.avLine);
             this.pnAudioVisualizationMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 478);
+            this.pnAudioVisualizationMain.Location = new System.Drawing.Point(0, 479);
             this.pnAudioVisualizationMain.Margin = new System.Windows.Forms.Padding(0);
             this.pnAudioVisualizationMain.Name = "pnAudioVisualizationMain";
             this.pnAudioVisualizationMain.Size = new System.Drawing.Size(542, 40);
@@ -895,6 +881,8 @@ namespace amp
             this.scProgress.TrackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
             this.scProgress.Value = 0;
             this.scProgress.Scroll += new ReaLTaiizor.Controls.ForeverTrackBar.ScrollEventHandler(this.scProgress_Scroll);
+            this.scProgress.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scProgress_MouseDown);
+            this.scProgress.MouseUp += new System.Windows.Forms.MouseEventHandler(this.scProgress_MouseUp);
             // 
             // pnListBox
             // 
@@ -905,7 +893,7 @@ namespace amp
             this.pnListBox.Location = new System.Drawing.Point(0, 251);
             this.pnListBox.Margin = new System.Windows.Forms.Padding(0);
             this.pnListBox.Name = "pnListBox";
-            this.pnListBox.Size = new System.Drawing.Size(542, 227);
+            this.pnListBox.Size = new System.Drawing.Size(542, 228);
             this.pnListBox.TabIndex = 17;
             // 
             // lbMusicScroll
@@ -913,7 +901,7 @@ namespace amp
             this.lbMusicScroll.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbMusicScroll.Location = new System.Drawing.Point(525, 0);
             this.lbMusicScroll.Name = "lbMusicScroll";
-            this.lbMusicScroll.Size = new System.Drawing.Size(17, 227);
+            this.lbMusicScroll.Size = new System.Drawing.Size(17, 228);
             this.lbMusicScroll.TabIndex = 15;
             this.lbMusicScroll.Text = "crownScrollBar1";
             this.lbMusicScroll.ValueChanged += new System.EventHandler<ReaLTaiizor.Util.ScrollValueEventArgs>(this.lbMusicScroll_ValueChanged);
@@ -929,13 +917,12 @@ namespace amp
             this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbMusic.ForeColor = System.Drawing.Color.White;
             this.lbMusic.FormattingEnabled = true;
-            this.lbMusic.IntegralHeight = false;
             this.lbMusic.ItemHeight = 18;
             this.lbMusic.Location = new System.Drawing.Point(0, 0);
             this.lbMusic.Name = "lbMusic";
             this.lbMusic.ScrollAlwaysVisible = true;
             this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(542, 227);
+            this.lbMusic.Size = new System.Drawing.Size(542, 228);
             this.lbMusic.TabIndex = 14;
             this.lbMusic.VScrollPosition = 0;
             this.lbMusic.ItemsChanged += new System.EventHandler(this.lbMusic_ItemsChanged);
@@ -1065,6 +1052,52 @@ namespace amp
             this.sliderStars.Size = new System.Drawing.Size(176, 35);
             this.sliderStars.TabIndex = 1;
             this.sliderStars.ValueChanged += new System.EventHandler<AmpControls.SliderValueChangedEventArgs>(this.sliderStars_ValueChanged);
+            // 
+            // tlpFindBox
+            // 
+            this.tlpFindBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpFindBox.AutoSize = true;
+            this.tlpFindBox.ColumnCount = 2;
+            this.tlpMain.SetColumnSpan(this.tlpFindBox, 2);
+            this.tlpFindBox.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpFindBox.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tlpFindBox.Controls.Add(this.tbFind, 0, 0);
+            this.tlpFindBox.Controls.Add(this.pnClearFindBox, 1, 0);
+            this.tlpFindBox.Location = new System.Drawing.Point(0, 224);
+            this.tlpFindBox.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpFindBox.Name = "tlpFindBox";
+            this.tlpFindBox.RowCount = 1;
+            this.tlpFindBox.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpFindBox.Size = new System.Drawing.Size(542, 27);
+            this.tlpFindBox.TabIndex = 18;
+            // 
+            // tbFind
+            // 
+            this.tbFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbFind.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.tbFind.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbFind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.tbFind.Location = new System.Drawing.Point(3, 3);
+            this.tbFind.Name = "tbFind";
+            this.tbFind.Size = new System.Drawing.Size(509, 21);
+            this.tbFind.TabIndex = 13;
+            this.tbFind.Click += new System.EventHandler(this.tbFind_Click);
+            this.tbFind.TextChanged += new System.EventHandler(this.tbFind_TextChanged);
+            this.tbFind.Enter += new System.EventHandler(this.tbFind_Enter);
+            this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
+            // 
+            // pnClearFindBox
+            // 
+            this.pnClearFindBox.BackgroundImage = global::amp.Properties.Resources.edit_clear_white;
+            this.pnClearFindBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnClearFindBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnClearFindBox.Location = new System.Drawing.Point(518, 3);
+            this.pnClearFindBox.Name = "pnClearFindBox";
+            this.pnClearFindBox.Size = new System.Drawing.Size(21, 21);
+            this.pnClearFindBox.TabIndex = 14;
+            this.pnClearFindBox.Click += new System.EventHandler(this.pnClearFindBox_Click);
             // 
             // miniToolStrip
             // 
@@ -1206,6 +1239,8 @@ namespace amp
             this.pnListBox.ResumeLayout(false);
             this.pnTools.ResumeLayout(false);
             this.pnTools.PerformLayout();
+            this.tlpFindBox.ResumeLayout(false);
+            this.tlpFindBox.PerformLayout();
             this.tfMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1296,6 +1331,8 @@ namespace amp
         private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog fbMusicFolder;
         private Timer tmIPCPlayback;
         private ToolStripMenuItem mnuHelpBrowse;
+        private TableLayoutPanel tlpFindBox;
+        private Panel pnClearFindBox;
     }
 }
 

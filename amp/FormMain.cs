@@ -58,8 +58,8 @@ using amp.Properties;
 using amp.Remote;
 using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
-using amp.UtilityClasses.Controls;
 using amp.UtilityClasses.Threads;
+using AmpControls;
 using Microsoft.WindowsAPICodePack.Shell;
 using VPKSoft.ErrorLogger;
 using VPKSoft.KeySendList;
@@ -783,6 +783,13 @@ namespace amp
                 // this one really closes the file and ACM conversion
                 audioFile.Close();
                 audioFile = null;
+            }
+
+            if (volumeStream != null)
+            {
+                volumeStream.Close();
+                volumeStream.Dispose();
+                volumeStream = null;
             }
 
             if (outputDevice != null)
@@ -1802,7 +1809,7 @@ namespace amp
         internal void InitializeRemoteProvider()
         {
             RemoteProvider = new RemoteProvider(
-                pausedFunction: () => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Paused,
+                pausedFunction: () => outputDevice is {PlaybackState: PlaybackState.Paused},
                 pauseAction: () =>
                 {
                     if (outputDevice == null)
@@ -2396,6 +2403,27 @@ namespace amp
         #endregion
 
         #region InternalEvents
+        // special handling for the track bar..
+        private bool scProgressMouseDown;
+
+        private void scProgress_MouseDown(object sender, MouseEventArgs e)
+        {
+            scProgressMouseDown = true;
+        }
+
+        private void scProgress_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (scProgressMouseDown)
+            {
+                scProgressMouseDown = false;
+                if (e.X >= 0 && e.X < scProgress.Width)
+                {
+                    var multiplier = e.X / (double)scProgress.Width;
+                    scProgress.Value = (int) (scProgress.Maximum * multiplier);
+                }
+            }
+        }
+
         // handle the key down of the playlist box..
         private void lbMusic_KeyDown(object sender, KeyEventArgs e)
         {
@@ -2414,7 +2442,7 @@ namespace amp
             lbMusic.VScrollPosition = e.Value;
         }
 
-        private void lbMusic_VScrollChanged(object sender, AmpControls.VScrollChangedEventArgs e)
+        private void lbMusic_VScrollChanged(object sender, VScrollChangedEventArgs e)
         {
             noScrollEvent = true;
             lbMusicScroll.Value = e.Value;
@@ -2434,7 +2462,7 @@ namespace amp
             }
         }
 
-        private void sliderStars_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        private void sliderStars_ValueChanged(object sender, SliderValueChangedEventArgs e)
         {
             if (MFile != null || lbMusic.SelectedIndices.Count > 0)
             {
@@ -2457,7 +2485,7 @@ namespace amp
         }
 
         // the user adjusts the volume of currently playing song; save the user given volume to the database..
-        private void sliderVolumeSong_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        private void sliderVolumeSong_ValueChanged(object sender, SliderValueChangedEventArgs e)
         {
             if ((MFile != null && outputDevice != null) || lbMusic.SelectedIndices.Count > 0)
             {
@@ -2496,7 +2524,7 @@ namespace amp
             }
         }
 
-        private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
+        private void sliderMainVolume_ValueChanged(object sender, SliderValueChangedEventArgs e)
         {
             Program.Settings.BaseVolumeMultiplier = e.CurrentValue;
             if (outputDevice != null)
@@ -2817,11 +2845,22 @@ namespace amp
             tmSeek.Stop();
             if (audioFile != null)
             {
-                if (audioFile is VorbisWaveReader vorbisWaveReader)
+                if (audioFile is VorbisWaveReader)
                 {
-                    // TODO::Special
+                    try
+                    {
+                        // NVorbis bug (Don't update!), NAudio.Vorbis == 1.3.0, NVorbis == 0.10.1
+                        audioFile.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLogger.LogError(ex);
+                    }
                 }
-                audioFile.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
+                else
+                {
+                    audioFile.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
+                }
             }
             tmSeek.Start();
         }
@@ -3616,5 +3655,10 @@ namespace amp
             }
         }
         #endregion
+
+        private void pnClearFindBox_Click(object sender, EventArgs e)
+        {
+            tbFind.Clear();
+        }
     }
 }

@@ -43,8 +43,6 @@ namespace amp.UtilityClasses.Settings
             this.rbPauseQuiet = new System.Windows.Forms.RadioButton();
             this.bCancel = new System.Windows.Forms.Button();
             this.bOK = new System.Windows.Forms.Button();
-            this.lbLatency = new System.Windows.Forms.Label();
-            this.nudLatency = new System.Windows.Forms.NumericUpDown();
             this.tbTestQuietHour = new System.Windows.Forms.TextBox();
             this.btnTestQuietHour = new System.Windows.Forms.Button();
             this.lbLanguage = new System.Windows.Forms.Label();
@@ -68,11 +66,6 @@ namespace amp.UtilityClasses.Settings
             this.lbStackQueueRandom = new System.Windows.Forms.Label();
             this.lbStackQueueRandomValue = new System.Windows.Forms.Label();
             this.tbStackQueueRandom = new System.Windows.Forms.TrackBar();
-            this.gbMemoryBuffering = new System.Windows.Forms.GroupBox();
-            this.cbMemoryBuffering = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nudMemoryBuffering = new System.Windows.Forms.NumericUpDown();
-            this.lbMemoryBuffer = new System.Windows.Forms.Label();
             this.gbAudioVisualizationStyle = new System.Windows.Forms.GroupBox();
             this.nudBarAmount = new System.Windows.Forms.NumericUpDown();
             this.lbBarAmount = new System.Windows.Forms.Label();
@@ -92,7 +85,6 @@ namespace amp.UtilityClasses.Settings
             this.cbRestEnabled = new System.Windows.Forms.CheckBox();
             this.gpVolumeSetting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpMain.SuspendLayout();
@@ -100,8 +92,6 @@ namespace amp.UtilityClasses.Settings
             this.gbStackQueue.SuspendLayout();
             this.tlpStackQueueRandomLabel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbStackQueueRandom)).BeginInit();
-            this.gbMemoryBuffering.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).BeginInit();
             this.gbAudioVisualizationStyle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAudioVisualizationSize)).BeginInit();
@@ -236,39 +226,6 @@ namespace amp.UtilityClasses.Settings
             this.bOK.Text = "OK";
             this.bOK.UseVisualStyleBackColor = true;
             this.bOK.Click += new System.EventHandler(this.bOK_Click);
-            // 
-            // lbLatency
-            // 
-            this.lbLatency.AutoSize = true;
-            this.lbLatency.Location = new System.Drawing.Point(4, 339);
-            this.lbLatency.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbLatency.Name = "lbLatency";
-            this.lbLatency.Size = new System.Drawing.Size(85, 15);
-            this.lbLatency.TabIndex = 14;
-            this.lbLatency.Text = "Lantency (ms):";
-            // 
-            // nudLatency
-            // 
-            this.nudLatency.Location = new System.Drawing.Point(208, 337);
-            this.nudLatency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.nudLatency.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.nudLatency.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.nudLatency.Name = "nudLatency";
-            this.nudLatency.Size = new System.Drawing.Size(82, 23);
-            this.nudLatency.TabIndex = 15;
-            this.nudLatency.Value = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
             // 
             // tbTestQuietHour
             // 
@@ -427,8 +384,6 @@ namespace amp.UtilityClasses.Settings
             this.tpMain.Controls.Add(this.dtpTo);
             this.tpMain.Controls.Add(this.lbLanguage);
             this.tpMain.Controls.Add(this.gpVolumeSetting);
-            this.tpMain.Controls.Add(this.lbLatency);
-            this.tpMain.Controls.Add(this.nudLatency);
             this.tpMain.Controls.Add(this.btAlbumNaming);
             this.tpMain.Location = new System.Drawing.Point(4, 24);
             this.tpMain.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -444,7 +399,6 @@ namespace amp.UtilityClasses.Settings
             this.tpAdditional.Controls.Add(this.cbHideAlbumImage);
             this.tpAdditional.Controls.Add(this.cbDisplayVolumeAndPoints);
             this.tpAdditional.Controls.Add(this.gbStackQueue);
-            this.tpAdditional.Controls.Add(this.gbMemoryBuffering);
             this.tpAdditional.Controls.Add(this.gbAudioVisualizationStyle);
             this.tpAdditional.Location = new System.Drawing.Point(4, 24);
             this.tpAdditional.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -545,77 +499,6 @@ namespace amp.UtilityClasses.Settings
             this.tbStackQueueRandom.TickFrequency = 10;
             this.tbStackQueueRandom.Value = 50;
             this.tbStackQueueRandom.ValueChanged += new System.EventHandler(this.tbStackQueueRandom_ValueChanged);
-            // 
-            // gbMemoryBuffering
-            // 
-            this.gbMemoryBuffering.Controls.Add(this.cbMemoryBuffering);
-            this.gbMemoryBuffering.Controls.Add(this.label2);
-            this.gbMemoryBuffering.Controls.Add(this.nudMemoryBuffering);
-            this.gbMemoryBuffering.Controls.Add(this.lbMemoryBuffer);
-            this.gbMemoryBuffering.Location = new System.Drawing.Point(7, 300);
-            this.gbMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbMemoryBuffering.Name = "gbMemoryBuffering";
-            this.gbMemoryBuffering.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbMemoryBuffering.Size = new System.Drawing.Size(287, 72);
-            this.gbMemoryBuffering.TabIndex = 1;
-            this.gbMemoryBuffering.TabStop = false;
-            this.gbMemoryBuffering.Text = "Memory buffering";
-            // 
-            // cbMemoryBuffering
-            // 
-            this.cbMemoryBuffering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbMemoryBuffering.AutoSize = true;
-            this.cbMemoryBuffering.Location = new System.Drawing.Point(265, 1);
-            this.cbMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.cbMemoryBuffering.Name = "cbMemoryBuffering";
-            this.cbMemoryBuffering.Size = new System.Drawing.Size(15, 14);
-            this.cbMemoryBuffering.TabIndex = 3;
-            this.cbMemoryBuffering.UseVisualStyleBackColor = true;
-            this.cbMemoryBuffering.CheckedChanged += new System.EventHandler(this.cbMemoryBuffering_CheckedChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(115, 39);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "MB into the memory";
-            // 
-            // nudMemoryBuffering
-            // 
-            this.nudMemoryBuffering.Location = new System.Drawing.Point(7, 37);
-            this.nudMemoryBuffering.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.nudMemoryBuffering.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nudMemoryBuffering.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudMemoryBuffering.Name = "nudMemoryBuffering";
-            this.nudMemoryBuffering.Size = new System.Drawing.Size(102, 23);
-            this.nudMemoryBuffering.TabIndex = 1;
-            this.nudMemoryBuffering.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudMemoryBuffering.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // lbMemoryBuffer
-            // 
-            this.lbMemoryBuffer.AutoSize = true;
-            this.lbMemoryBuffer.Location = new System.Drawing.Point(7, 18);
-            this.lbMemoryBuffer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbMemoryBuffer.Name = "lbMemoryBuffer";
-            this.lbMemoryBuffer.Size = new System.Drawing.Size(134, 15);
-            this.lbMemoryBuffer.TabIndex = 0;
-            this.lbMemoryBuffer.Text = "Buffer files smaller than:";
             // 
             // gbAudioVisualizationStyle
             // 
@@ -883,7 +766,6 @@ namespace amp.UtilityClasses.Settings
             this.gpVolumeSetting.ResumeLayout(false);
             this.gpVolumeSetting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuietHourPercentage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLatency)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tcMain.ResumeLayout(false);
@@ -896,9 +778,6 @@ namespace amp.UtilityClasses.Settings
             this.tlpStackQueueRandomLabel.ResumeLayout(false);
             this.tlpStackQueueRandomLabel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbStackQueueRandom)).EndInit();
-            this.gbMemoryBuffering.ResumeLayout(false);
-            this.gbMemoryBuffering.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMemoryBuffering)).EndInit();
             this.gbAudioVisualizationStyle.ResumeLayout(false);
             this.gbAudioVisualizationStyle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBarAmount)).EndInit();
@@ -926,8 +805,6 @@ namespace amp.UtilityClasses.Settings
         private RadioButton rbPauseQuiet;
         private Button bCancel;
         private Button bOK;
-        private Label lbLatency;
-        private NumericUpDown nudLatency;
         private Button btAlbumNaming;
         private TextBox tbTestQuietHour;
         private Button btnTestQuietHour;
@@ -951,11 +828,6 @@ namespace amp.UtilityClasses.Settings
         private Label lbAudioVisualizationSizePercentage;
         private CheckBox cbAudioVisualizationCombineChannels;
         private ToolStripMenuItem mnuDatabaseMigration;
-        private GroupBox gbMemoryBuffering;
-        private CheckBox cbMemoryBuffering;
-        private Label label2;
-        private NumericUpDown nudMemoryBuffering;
-        private Label lbMemoryBuffer;
         private GroupBox gbStackQueue;
         private TrackBar tbStackQueueRandom;
         private Label lbStackQueueRandom;

@@ -81,8 +81,7 @@ namespace amp.UtilityClasses.Settings
             Program.Settings.QuietHoursVolPercentage = (int)nudQuietHourPercentage.Value;
             Program.Settings.QuietHoursPause = rbPauseQuiet.Checked;
 
-            Program.Settings.LatencyMs = (int)nudLatency.Value;
-            Program.Settings.AudioVisualizationStyle = int.Parse(gbAudioVisualizationStyle.Tag.ToString());
+            Program.Settings.AudioVisualizationStyle = int.Parse(gbAudioVisualizationStyle.Tag.ToString() ?? "0");
 
             Program.Settings.AudioVisualizationVisualPercentage = (int) nudAudioVisualizationSize.Value;
             Program.Settings.AudioVisualizationCombineChannels = cbAudioVisualizationCombineChannels.Checked;
@@ -96,15 +95,6 @@ namespace amp.UtilityClasses.Settings
 
             Program.Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
             Program.Settings.StackRandomPercentage = tbStackQueueRandom.Value;
-
-            if (cbMemoryBuffering.Checked)
-            {
-                Program.Settings.LoadEntireFileSizeLimit = (int) nudMemoryBuffering.Value;
-            }
-            else
-            {
-                Program.Settings.LoadEntireFileSizeLimit = -1;
-            }
 
             Program.Settings.DisplayVolumeAndPoints = cbDisplayVolumeAndPoints.Checked;
 
@@ -186,7 +176,6 @@ namespace amp.UtilityClasses.Settings
             rbPauseQuiet.Checked = true;
             rbPauseQuiet.Checked = Program.Settings.QuietHoursPause;
             rbDecreaseVolumeQuietHours.Checked = !rbPauseQuiet.Checked;
-            nudLatency.Value = Program.Settings.LatencyMs;
 
             nudBarAmount.Value = Program.Settings.BarAmount < 20 ? 92 : Program.Settings.BarAmount;
 
@@ -209,18 +198,6 @@ namespace amp.UtilityClasses.Settings
             cbCheckUpdatesStartup.Checked = Program.Settings.AutoCheckUpdates;
 
             cbHideAlbumImage.Checked = Program.Settings.AutoHideAlbumImage;
-
-            cbMemoryBuffering.Checked = Program.Settings.LoadEntireFileSizeLimit > 0;
-            if (Program.Settings.LoadEntireFileSizeLimit > 0)
-            {
-                nudMemoryBuffering.Value = Program.Settings.LoadEntireFileSizeLimit;
-                nudMemoryBuffering.Enabled = true;
-            }
-            else
-            {
-                nudMemoryBuffering.Value = 100;
-                nudMemoryBuffering.Enabled = false;
-            }
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
@@ -312,13 +289,6 @@ namespace amp.UtilityClasses.Settings
             {
                 DialogResult = DialogResult.OK;
             }
-        }
-
-        private void cbMemoryBuffering_CheckedChanged(object sender, EventArgs e)
-        {
-            var checkBox = (CheckBox) sender;
-            nudMemoryBuffering.Value = 100;
-            nudMemoryBuffering.Enabled = checkBox.Checked;
         }
 
         private void tbStackQueueRandom_ValueChanged(object sender, EventArgs e)

@@ -27,7 +27,7 @@ SOFTWARE.
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace amp.UtilityClasses.Controls
+namespace AmpControls
 {
     /// <summary>
     /// A class to help change the colors of the tool strip buttons.
