@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using amp.UtilityClasses;
 using NAudio.Vorbis;
@@ -13,7 +14,32 @@ namespace AmpPlaybackTest
         public FormMain()
         {
             InitializeComponent();
+            playerThread = new Thread(PlayerThreadSimulation);
+            playerThread.Start();
         }
+
+        private readonly Thread playerThread;
+
+        private void PlayerThreadSimulation()
+        {
+            while (!stopped)
+            {
+                if (!string.IsNullOrWhiteSpace(fileName) && File.Exists(fileName))
+                {
+                    //Invoke(new MethodInvoker(StartPlayback));
+                    StartPlayback2();
+                    
+                    fileName = null;
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+
+        #region AlternateNAudioPlayBack
+        private volatile WaveOutEvent outputDevice;
+        private volatile WaveStream audioFile;
+        #endregion
 
         #region NAudioPlayBack
         /// <summary>
@@ -36,7 +62,15 @@ namespace AmpPlaybackTest
         /// </summary>
         private volatile WaveChannel32 volumeStream;
 
+        /// <summary>
+        /// The file name for the music file to play.
+        /// </summary>
         private volatile string fileName;
+
+        /// <summary>
+        /// A flag indicating whether the playback is stopped.
+        /// </summary>
+        private volatile bool stopped;
         #endregion
 
         /// <summary>
@@ -68,12 +102,26 @@ namespace AmpPlaybackTest
             }
         }
 
+        /// <summary>
+        /// Stops the playback, cleans and disposes of the objects used for the playback.
+        /// </summary>
+        private void CloseWaveOut2()
+        {
+            outputDevice?.Stop();
+            outputDevice?.Dispose();
+            outputDevice = null;
+            audioFile?.Dispose();
+            audioFile = null;
+        }
+
         private void StartPlayback()
         {
+            CloseWaveOut();
             waveOutDevice = new WaveOut
             {
-                DesiredLatency = Program.Settings.LatencyMs, 
+                //DesiredLatency = Program.Settings.LatencyMs,
             };
+
 
             try
             {
@@ -96,6 +144,26 @@ namespace AmpPlaybackTest
             waveOutDevice.Init(mainOutputStream);
             waveOutDevice.Play();
         }
+
+        private void StartPlayback2()
+        {
+            CloseWaveOut2();
+            outputDevice = new WaveOutEvent();
+
+            if (Path.GetExtension(fileName).Equals(".ogg", StringComparison.InvariantCultureIgnoreCase))
+            {
+                audioFile = new NAudio.Vorbis.VorbisWaveReader(fileName);
+            }
+            else
+            {
+                audioFile = new AudioFileReader(fileName);
+            }
+
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
+        }
+
+
 
         /// <summary>
         /// Creates a <see cref="NAudio.Wave.WaveStream"/> class instance from a give <paramref name="fileName"/>.
@@ -221,7 +289,16 @@ namespace AmpPlaybackTest
             if (odMusicFile.ShowDialog() == DialogResult.OK)
             {
                 fileName = odMusicFile.FileName;
-                StartPlayback();
+                //StartPlayback();
+            }
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            stopped = true;
+            while (!playerThread.Join(100))
+            {
+                Application.DoEvents();
             }
         }
     }

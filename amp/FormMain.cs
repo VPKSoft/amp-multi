@@ -560,17 +560,17 @@ namespace amp
         // the play/pause toggle to call within the main form..
         private void TogglePause()
         {
-            if (waveOutDevice != null)
+            if (outputDevice != null)
             {
-                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                if (outputDevice.PlaybackState == PlaybackState.Paused)
                 {
-                    waveOutDevice.Play();
+                    outputDevice.Play();
                     ResetAudioVisualizationBars();
                     DisplayPlaybackPausePlay();
                 }
-                else if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                else if (outputDevice.PlaybackState == PlaybackState.Playing)
                 {
-                    waveOutDevice.Pause();
+                    outputDevice.Pause();
                     DisplayPlaybackPausePlay();
                 }
             }
@@ -772,31 +772,23 @@ namespace amp
         /// </summary>
         private void CloseWaveOut()
         {
-            if (waveOutDevice != null)
+            if (outputDevice != null)
             {
-                waveOutDevice.PlaybackStopped -= waveOutDevice_PlaybackStopped;
-                waveOutDevice.Stop();
+                outputDevice.PlaybackStopped -= waveOutDevice_PlaybackStopped;
+                outputDevice.Stop();
             }
 
-            if (mainOutputStream != null)
+            if (audioFile != null)
             {
                 // this one really closes the file and ACM conversion
-                volumeStream.Close();
-                volumeStream = null;
-                // this one does the metering stream
-                mainOutputStream.Close();
-
-                // dispose the main memory stream in case one is assigned..
-                mainMemoryStream?.Dispose();
-
-                mainMemoryStream = null;
-                mainOutputStream = null;
+                audioFile.Close();
+                audioFile = null;
             }
 
-            if (waveOutDevice != null)
+            if (outputDevice != null)
             {
-                waveOutDevice.Dispose();
-                waveOutDevice = null;
+                outputDevice.Dispose();
+                outputDevice = null;
             }
         }
 
@@ -896,16 +888,16 @@ namespace amp
         {
             // set the jump list icon..
             togglePauseTask.IconReference =
-                new IconReference(iconDllFile, waveOutDevice?.PlaybackState == PlaybackState.Paused ? 0 : 1);
-            togglePauseTask.Title = waveOutDevice?.PlaybackState == PlaybackState.Paused
+                new IconReference(iconDllFile, outputDevice?.PlaybackState == PlaybackState.Paused ? 0 : 1);
+            togglePauseTask.Title = outputDevice?.PlaybackState == PlaybackState.Paused
                 ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
                 : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
 
-            tbPlayNext.Image = waveOutDevice?.PlaybackState == PlaybackState.Paused
+            tbPlayNext.Image = outputDevice?.PlaybackState == PlaybackState.Paused
                 ? ThemeSettings.PlaybackPlay
                 : ThemeSettings.PlaybackPause;
 
-            tbPlayNext.ToolTipText = waveOutDevice?.PlaybackState == PlaybackState.Paused
+            tbPlayNext.ToolTipText = outputDevice?.PlaybackState == PlaybackState.Paused
                 ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
                 : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
 
@@ -930,7 +922,7 @@ namespace amp
         /// </summary>
         private void PlayerThread()
         {
-            var previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+            var previousPaused = outputDevice?.PlaybackState == PlaybackState.Paused;
             // prevent total sleep/hibernate mode of the system..
 
             try
@@ -940,7 +932,7 @@ namespace amp
                     EsFlags.Continuous | EsFlags.SystemRequired | EsFlags.AwayModeRequired);
                 while (!stopped)
                 {
-                    if (previousPaused != (waveOutDevice?.PlaybackState == PlaybackState.Paused))
+                    if (previousPaused != (outputDevice?.PlaybackState == PlaybackState.Paused))
                     {
                         // prevent total sleep/hibernate mode of the system..
                         if (previousPaused)
@@ -954,7 +946,7 @@ namespace amp
                             ThreadExecutionState.SetThreadExecutionState(EsFlags.Continuous);
                         }
 
-                        previousPaused = waveOutDevice?.PlaybackState == PlaybackState.Paused;
+                        previousPaused = outputDevice?.PlaybackState == PlaybackState.Paused;
                     }
 
                     if (MFile != null)
@@ -962,15 +954,10 @@ namespace amp
                         if (!playing || newSong)
                         {
                             CloseWaveOut();
-                            waveOutDevice = new WaveOut
-                            {
-                                DesiredLatency = Program.Settings.LatencyMs, 
-                            };
                             try
                             {
-                                var (waveStream, memoryStream) = CreateInputStream(MFile.GetFileName());
-                                mainOutputStream = waveStream;
-                                mainMemoryStream = memoryStream;
+                                outputDevice = new WaveOutEvent();
+                                audioFile = CreateInputStream(MFile.GetFileName());
                             }
                             catch
                             {
@@ -978,12 +965,12 @@ namespace amp
                                 continue;
                             }
 
-                            if (mainOutputStream == null)
+                            if (outputDevice == null)
                             {
                                 continue;
                             }
 
-                            SecondsTotal = mainOutputStream.TotalTime.TotalSeconds;
+                            SecondsTotal = audioFile.TotalTime.TotalSeconds;
 
                             if (lbSong.InvokeRequired)
                             {
@@ -1021,12 +1008,13 @@ namespace amp
                                 SetPause();
                             }
 
-                            waveOutDevice.Init(mainOutputStream);
-                            waveOutDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
-                            waveOutDevice.Play();
+                            outputDevice.Init(audioFile);
+                            outputDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
+                            outputDevice.Play();
+
                             ResetAudioVisualizationBars();
 
-                            volumeStream.Volume = MusicFileVolume;
+                            outputDevice.Volume = MusicFileVolume;
 
                             if (InvokeRequired)
                             {
@@ -1075,15 +1063,14 @@ namespace amp
                     // ReSharper disable once NonAtomicCompoundOperator, I don't care..
                     calcMs++; // 100 ms * 10 == second, lets make it ten seconds so 10 * 10 = 100;
 
-
-                    if (mainOutputStream == null)
+                    if (audioFile == null)
                     {
                         Seconds = 0;
                         SecondsTotal = 0;
                     }
                     else
                     {
-                        Seconds = mainOutputStream.CurrentTime.TotalSeconds;
+                        Seconds = audioFile.CurrentTime.TotalSeconds;
                     }
 
                     playerThreadLoaded = true;
@@ -1151,98 +1138,20 @@ namespace amp
         /// </summary>
         /// <param name="fileName">A file name for a music file to create the <see cref="NAudio.Wave.WaveStream"/> for.</param>
         /// <returns>An instance to the <see cref="NAudio.Wave.WaveStream"/> class if the operation was successful; otherwise false.</returns>
-        private (WaveStream waveStream, MemoryStream memoryStream) CreateInputStream(string fileName)
+        private WaveStream CreateInputStream(string fileName)
         {
             try
             {
-                WaveChannel32 inputStream;
-
-                MemoryStream memoryStream = null;
-
-                try
+                if (Path.GetExtension(fileName).Equals(".ogg", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (Program.Settings.LoadEntireFileSizeLimit > 0 &&
-                        Program.Settings.LoadEntireFileSizeLimit * 1000000 > new FileInfo(fileName).Length)
-                    {
-                        // load the entire file into the memory..
-                        memoryStream = new MemoryStream(File.ReadAllBytes(fileName));
-                    }
+                    audioFile = new NAudio.Vorbis.VorbisWaveReader(fileName);
                 }
-                catch (Exception ex)
+                else
                 {
-                    // log the exception..
-                    ExceptionLogger.LogError(ex);
-                    memoryStream = null;
-                }
-                
-                // determine the file type by it's extension..
-                if (Constants.FileIsMp3(fileName))
-                {
-                    AudioFileReader fr = new AudioFileReader(fileName);
-
-                    WaveStream mp3Reader = fr;
-                    inputStream = new WaveChannel32(mp3Reader);
-                }
-                else if (Constants.FileIsOgg(fileName))
-                {
-                    // special handling for ogg/vorbis..
-                    VorbisWaveReader fr = new VorbisWaveReader(fileName);
-
-                    WaveStream oggReader = fr;
-                    inputStream = new WaveChannel32(oggReader);
-                }
-                else if (Constants.FileIsWav(fileName))
-                {
-                    AudioFileReader fr = new AudioFileReader(fileName);
-
-                    WaveStream wavReader = fr;
-                    inputStream = new WaveChannel32(wavReader);
-                }
-                else if (Constants.FileIsFlac(fileName))
-                {
-                    AudioFileReader fr = new AudioFileReader(fileName);
-
-                    WaveStream wavReader = fr;
-                    inputStream = new WaveChannel32(wavReader);
-                }
-                else if (Constants.FileIsWma(fileName))
-                {
-                    // now stream constructor on this one..
-                    memoryStream?.Dispose();
-                    memoryStream = null;
-
-                    AudioFileReader fr = new AudioFileReader(fileName);
-
-                    WaveStream wavReader = fr;
-                    inputStream = new WaveChannel32(wavReader);
-                }
-                else if (Constants.FileIsAacOrM4A(fileName)) // Added: 01.02.2018
-                {
-                    // now stream constructor on this one..
-                    memoryStream?.Dispose();
-                    memoryStream = null;
-
-                    MediaFoundationReader fr = new MediaFoundationReader(fileName);
-                    WaveStream wavReader = fr;
-                    inputStream = new WaveChannel32(wavReader);
-                }
-                else if (Constants.FileIsAif(fileName)) // Added: 01.02.2018
-                {
-                    AudioFileReader fr = new AudioFileReader(fileName);
-
-                    WaveStream wavReader = fr;
-                    inputStream = new WaveChannel32(wavReader);
-                }
-                else // throw for catching furthermore in the code..
-                {
-                    throw new InvalidOperationException(DBLangEngine.GetMessage("msgUnsupportedExt", "Unsupported file extension.|The file extension is not in the list of supported file types."));
+                    audioFile = new AudioFileReader(fileName);
                 }
 
-                inputStream.PadWithZeroes = false;
-                volumeStream = inputStream;
-
-                // if successful, return the WaveChannel32 instance..
-                return (volumeStream, memoryStream);
+                return audioFile;
             }
             catch (Exception ex)
             {
@@ -1297,14 +1206,14 @@ namespace amp
         /// </summary>
         private void PauseInvoker()
         {
-            if (waveOutDevice != null)
+            if (outputDevice != null)
             {
-                if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                if (outputDevice.PlaybackState == PlaybackState.Playing)
                 {
                     lastPaused = true;
                     tbPlayNext.Image = ThemeSettings.PlaybackPlay;
                     tbPlayNext.ToolTipText = DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused");
-                    waveOutDevice.Pause();
+                    outputDevice.Pause();
                 }
             }
             TextInvoker();
@@ -1315,12 +1224,12 @@ namespace amp
         /// </summary>
         private void PlayInvoker()
         {
-            if (waveOutDevice != null && lastPaused)
+            if (outputDevice != null && lastPaused)
             {
-                if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                if (outputDevice.PlaybackState == PlaybackState.Paused)
                 {
                     DisplayPlaybackPausePlay();
-                    waveOutDevice.Play();
+                    outputDevice.Play();
                     ResetAudioVisualizationBars();
                     lastPaused = false;
                 }
@@ -1431,24 +1340,14 @@ namespace amp
 
         #region NAudioPlayBack
         /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveOut"/> class instance for the playback.
+        /// The current <see cref="NAudio.Wave.WaveOutEvent"/> class instance for the playback.
         /// </summary>
-        private volatile WaveOut waveOutDevice;
+        private volatile WaveOutEvent outputDevice;
 
         /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveStream"/> class instance for the playback.
+        /// The audio file
         /// </summary>
-        private volatile WaveStream mainOutputStream;
-
-        /// <summary>
-        /// The current <see cref="MemoryStream"/> used by the <see cref="NAudio.Wave.WaveStream"/> class instance in case the file is entirely loaded into the memory.
-        /// </summary>
-        private volatile MemoryStream mainMemoryStream;
-
-        /// <summary>
-        /// The current <see cref="NAudio.Wave.WaveChannel32"/> class instance for the playback.
-        /// </summary>
-        private volatile WaveChannel32 volumeStream;
+        private volatile WaveStream audioFile;
         #endregion
 
         #region InternalProperties
@@ -1501,11 +1400,11 @@ namespace amp
             get
             {
                 double percentagePlayed;
-                if (mainOutputStream != null)
+                if (audioFile != null)
                 {
                     try
                     {
-                        percentagePlayed = 100.0 - ((mainOutputStream.TotalTime - mainOutputStream.CurrentTime).TotalSeconds / mainOutputStream.TotalTime.TotalSeconds * 100.0);
+                        percentagePlayed = 100.0 - ((audioFile.TotalTime - audioFile.CurrentTime).TotalSeconds / audioFile.TotalTime.TotalSeconds * 100.0);
                     }
                     catch
                     {
@@ -1549,15 +1448,15 @@ namespace amp
         /// </summary>
         public void Pause()
         {
-            if (waveOutDevice == null)
+            if (outputDevice == null)
             {
                 VisualizePlaybackState();
                 return;
             }
 
-            if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                waveOutDevice.Pause();
+                outputDevice.Pause();
             }
             VisualizePlaybackState();
         }
@@ -1896,26 +1795,26 @@ namespace amp
         internal void InitializeRemoteProvider()
         {
             RemoteProvider = new RemoteProvider(
-                pausedFunction: () => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused,
+                pausedFunction: () => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Paused,
                 pauseAction: () =>
                 {
-                    if (waveOutDevice == null)
+                    if (outputDevice == null)
                     {
                         this.Invoke(VisualizePlaybackState);
 
                         return;
                     }
 
-                    if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                    if (outputDevice.PlaybackState == PlaybackState.Playing)
                     {
-                        waveOutDevice.Pause();
+                        outputDevice.Pause();
                     }
 
                     this.Invoke(VisualizePlaybackState);
                 },
                 playAction: Play,
-                stoppedFunction:() => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Stopped,
-                playingFunction:() => waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Playing,
+                stoppedFunction:() => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Stopped,
+                playingFunction:() => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing,
                 setPositionSecondsAction: SetPositionSeconds,
                 queueAction: Queue,
                 queueIdAction: Queue,
@@ -1953,13 +1852,13 @@ namespace amp
                 },
                 setSongVolumeFunction: volume =>
                 {
-                    if (volumeStream != null && volume >= 0F && volume <= 2.0F)
+                    if (outputDevice != null && volume >= 0F && volume <= 2.0F)
                     {
-                        volumeStream.Volume = volume;
+                        outputDevice.Volume = volume;
 
                         if (MFile != null)
                         {
-                            MFile.Volume = volumeStream.Volume;
+                            MFile.Volume = outputDevice.Volume;
                             Database.SaveVolume(MFile, Connection);
                             return true;
                         }
@@ -2262,12 +2161,12 @@ namespace amp
         /// <param name="seconds">The playback position in seconds.</param>
         public void SetPositionSeconds(double seconds)
         {
-            if (mainOutputStream != null)
+            if (audioFile != null)
             {
                 this.Invoke(() => { tmSeek.Stop(); });
                 try
                 {
-                    mainOutputStream.CurrentTime = new TimeSpan(0, 0, (int)seconds);
+                    audioFile.CurrentTime = new TimeSpan(0, 0, (int)seconds);
                 }
                 catch (Exception ex)
                 {
@@ -2305,16 +2204,16 @@ namespace amp
                     }
                 });
             }
-            else if (waveOutDevice == null)
+            else if (outputDevice == null)
             {
                 this.Invoke(() =>
                 {
                     GetNextSong();
                 });
             }
-            else if (waveOutDevice.PlaybackState != PlaybackState.Playing)
+            else if (outputDevice.PlaybackState != PlaybackState.Playing)
             {
-                waveOutDevice.Play();
+                outputDevice.Play();
             }
 
             this.Invoke(VisualizePlaybackState);
@@ -2553,7 +2452,7 @@ namespace amp
         // the user adjusts the volume of currently playing song; save the user given volume to the database..
         private void sliderVolumeSong_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
         {
-            if ((MFile != null && volumeStream != null) || lbMusic.SelectedIndices.Count > 0)
+            if ((MFile != null && outputDevice != null) || lbMusic.SelectedIndices.Count > 0)
             {
                 var volume = e.CurrentValue / 250f;
                 if (volume > 2f)
@@ -2561,16 +2460,16 @@ namespace amp
                     volume = 2f;
                 }
 
-                if (volumeStream != null)
+                if (outputDevice != null)
                 {
-                    volumeStream.Volume = volume;
+                    outputDevice.Volume = volume;
                 }
 
                 if (MFile != null)
                 {
-                    if (volumeStream != null)
+                    if (outputDevice != null)
                     {
-                        MFile.Volume = volumeStream.Volume;
+                        MFile.Volume = outputDevice.Volume;
                     }
 
                     Database.SaveVolume(MFile, Connection);
@@ -2593,9 +2492,9 @@ namespace amp
         private void sliderMainVolume_ValueChanged(object sender, AmpControls.SliderValueChangedEventArgs e)
         {
             Program.Settings.BaseVolumeMultiplier = e.CurrentValue;
-            if (volumeStream != null)
+            if (outputDevice != null)
             {
-                volumeStream.Volume = MusicFileVolume;
+                outputDevice.Volume = MusicFileVolume;
             }
         }
 
@@ -2909,9 +2808,9 @@ namespace amp
                 return;
             }
             tmSeek.Stop();
-            if (mainOutputStream != null)
+            if (audioFile != null)
             {
-                mainOutputStream.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
+                audioFile.CurrentTime = new TimeSpan(0, 0, scProgress.Value);
             }
             tmSeek.Start();
         }

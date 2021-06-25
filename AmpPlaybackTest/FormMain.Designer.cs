@@ -63,7 +63,7 @@ namespace AmpPlaybackTest
             // 
             // odMusicFile
             // 
-            this.odMusicFile.Filter = "Music files|*.mp3;*.m4a;*.flac;*.ogg;*.wav;*.aif;*.aiff";
+            this.odMusicFile.Filter = "Music files|*.mp3;*.m4a;*.flac;*.ogg;*.wav;*.aif;*.aiff;*.wma";
             // 
             // FormMain
             // 
@@ -74,6 +74,7 @@ namespace AmpPlaybackTest
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "amp# NAudio playback test";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
