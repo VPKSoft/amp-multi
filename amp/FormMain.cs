@@ -58,8 +58,8 @@ using amp.Properties;
 using amp.Remote;
 using amp.Remote.DataClasses;
 using amp.Remote.RESTful;
-using amp.UtilityClasses.Threads;
 using AmpControls;
+using AmpControls.ControlExtensions;
 using Microsoft.WindowsAPICodePack.Shell;
 using VPKSoft.ErrorLogger;
 using VPKSoft.KeySendList;
@@ -159,6 +159,8 @@ namespace amp
             tsbToggleVolumeAndStars.Image = Program.Settings.DisplayVolumeAndPoints
                 ? ThemeSettings.ToggleVolumeRatingVisible
                 : ThemeSettings.ToggleVolumeRatingHidden;
+
+            pnClearFindBox.BackgroundImage = ThemeSettings.ClearSearchBoxImage;
 
             EnableDisableGui();
             FixLayout();
@@ -284,12 +286,7 @@ namespace amp
         /// <summary>
         /// A flag indicating if a next song should be selected with a call to the <see cref="GetNextSong(bool)"/> method.
         /// </summary>
-        private bool pendNextSong; 
-
-        /// <summary>
-        /// A delegate to be used for calling <see cref="System.Windows.Forms.Control.Invoke(Delegate)"/> method for thread safety.
-        /// </summary>
-        private delegate void VoidDelegate();
+        private bool pendNextSong;
 
         /// <summary>
         /// A general randomization class instance.
@@ -449,14 +446,7 @@ namespace amp
         {
             if (humanActivity.Sleeping)
             {
-                if (InvokeRequired)
-                {
-                    Invoke(new VoidDelegate(ShowPlayingSong));
-                }
-                else
-                {
-                    ShowPlayingSong();
-                }
+                this.InvokeAnonymous(ShowPlayingSong);
             }
         }
 
@@ -482,7 +472,7 @@ namespace amp
 
         private void SelectMusicFiles(params MusicFile[] musicFiles)
         {
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 //lbMusic.SelectedIndices.
                 foreach (var musicFile in musicFiles)
@@ -528,7 +518,7 @@ namespace amp
         /// </summary>
         private void GetQueueCount()
         {
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 lbQueueCount.Text = DBLangEngine.GetMessage("msgInQueue",
                     "In queue: {0}|How many songs are in the queue", GetQueueCountNum());
@@ -979,41 +969,13 @@ namespace amp
 
                             SecondsTotal = audioFile.TotalTime.TotalSeconds;
 
-                            if (lbSong.InvokeRequired)
-                            {
-                                lbSong.Invoke(new VoidDelegate((UpdateSongName)));
-                            }
-                            else
-                            {
-                                UpdateSongName();
-                            }
+                            lbSong.InvokeAnonymous(UpdateSongName);
 
-                            if (sliderVolumeSong.InvokeRequired)
-                            {
-                                Invoke(new VoidDelegate((UpdateVolume)));
-                            }
-                            else
-                            {
-                                UpdateVolume();
-                            }
+                            sliderVolumeSong.InvokeAnonymous(UpdateVolume);
 
-                            if (sliderStars.InvokeRequired)
-                            {
-                                sliderStars.Invoke(new VoidDelegate((UpdateStars)));
-                            }
-                            else
-                            {
-                                UpdateStars();
-                            }
+                            sliderStars.InvokeAnonymous(UpdateStars);
 
-                            if (tbTool.InvokeRequired)
-                            {
-                                tbTool.Invoke(new VoidDelegate(SetPause));
-                            }
-                            else
-                            {
-                                SetPause();
-                            }
+                            tbTool.InvokeAnonymous(SetPause);
 
                             outputDevice.Init(audioFile);
                             outputDevice.PlaybackStopped += waveOutDevice_PlaybackStopped;
@@ -1023,15 +985,7 @@ namespace amp
 
                             volumeStream.Volume = MusicFileVolume;
 
-                            if (InvokeRequired)
-                            {
-                                Invoke(new VoidDelegate(TextInvoker));
-                            }
-                            else
-                            {
-                                TextInvoker();
-                            }
-
+                            this.InvokeAnonymous(TextInvoker);
 
                             playing = true;
                             newSong = false;
@@ -1041,27 +995,12 @@ namespace amp
                         {
                             if (FormSettings.IsQuietHour() && Program.Settings.QuietHoursPause)
                             {
-                                if (InvokeRequired)
-                                {
-                                    Invoke(new VoidDelegate(PauseInvoker));
-                                    Invoke(new VoidDelegate(TextInvoker));
-                                }
-                                else
-                                {
-                                    PauseInvoker();
-                                    TextInvoker();
-                                }
+                                this.InvokeAnonymous(PauseInvoker);
+                                this.InvokeAnonymous(TextInvoker);
                             }
                             else
                             {
-                                if (InvokeRequired)
-                                {
-                                    Invoke(new VoidDelegate(PlayInvoker));
-                                }
-                                else
-                                {
-                                    PlayInvoker();
-                                }
+                                this.InvokeAnonymous(PlayInvoker);
                             }
                         }
                     }
@@ -1104,17 +1043,11 @@ namespace amp
             }
 
             Thread.Sleep(150); // wait for the playback to stabilize before resetting the view..
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(() =>
-                {
-                    avBars.ResetRelativeView();
-                }));
-            }
-            else
+
+            this.InvokeAnonymous(() =>
             {
                 avBars.ResetRelativeView();
-            }
+            });
         }
 
         /// <summary>
@@ -1207,7 +1140,7 @@ namespace amp
         /// </summary>
         private void RefreshListboxFromThread()
         {
-            this.Invoke(() => { lbMusic.RefreshItems(); });
+            this.InvokeAnonymous(() => { lbMusic.RefreshItems(); });
         }
 
         /// <summary>
@@ -1404,7 +1337,7 @@ namespace amp
         /// Gets a value indicating whether the stack queue is enabled.
         /// </summary>
         /// <value><c>true</c> if stack queue is enabled; otherwise, <c>false</c>.</value>
-        internal bool StackQueueEnabled => this.Invoke(() => tsbQueueStack.Checked);
+        internal bool StackQueueEnabled => this.InvokeAnonymous(() => tsbQueueStack.Checked);
 
         /// <summary>
         /// Gets the value whether a playback is considered as skipped; Only 15 percentage of the song was played.
@@ -1520,7 +1453,7 @@ namespace amp
                 }
                 if (iSongIndex == -1)
                 {
-                    if (this.Invoke(() => tbRand.Checked))
+                    if (this.InvokeAnonymous(() => tbRand.Checked))
                     {
                         iSongIndex = Program.Settings.BiasedRandom ? MusicFile.RandomWeighted(PlayList) : Random.Next(0, PlayList.Count);
                         latestSongIndex = iSongIndex;
@@ -1530,7 +1463,7 @@ namespace amp
 
                 if (iSongIndex == -1)
                 {
-                    if (!fromEvent || this.Invoke(() => tbShuffle.Checked))
+                    if (!fromEvent || this.InvokeAnonymous(() => tbShuffle.Checked))
                     {
                         latestSongIndex = latestSongIndex + 1;
                         if (latestSongIndex >= PlayList.Count)
@@ -1540,22 +1473,10 @@ namespace amp
                     }
                     PlaySong(latestSongIndex, false);
                 }
-                if (lbMusic.InvokeRequired)
-                {
-                    lbMusic.Invoke(new VoidDelegate(RefreshListboxFromThread));
-                }
-                else
-                {
-                    RefreshListboxFromThread();
-                }
-                if (ssStatus.InvokeRequired)
-                {
-                    ssStatus.Invoke(new VoidDelegate(GetQueueCount));
-                }
-                else
-                {
-                    GetQueueCount();
-                }
+
+                lbMusic.InvokeAnonymous(RefreshListboxFromThread);
+
+                ssStatus.InvokeAnonymous(GetQueueCount);
 
                 if (Filtered == FilterType.QueueFiltered)
                 {
@@ -1814,7 +1735,7 @@ namespace amp
                 {
                     if (outputDevice == null)
                     {
-                        this.Invoke(VisualizePlaybackState);
+                        this.InvokeAnonymous(VisualizePlaybackState);
 
                         return;
                     }
@@ -1824,7 +1745,7 @@ namespace amp
                         outputDevice.Pause();
                     }
 
-                    this.Invoke(VisualizePlaybackState);
+                    this.InvokeAnonymous(VisualizePlaybackState);
                 },
                 playAction: Play,
                 stoppedFunction:() => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Stopped,
@@ -1835,7 +1756,7 @@ namespace amp
                 refreshLoadQueueStatsAction: (queueIndex, append) =>
                 {
                     Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
-                    this.Invoke(() =>
+                    this.InvokeAnonymous(() =>
                     {
                         lbMusic.RefreshItems();
                         GetQueueCount();
@@ -1845,12 +1766,12 @@ namespace amp
                 albumLoadingFunction: () => AlbumLoading,
                 albumLoadingAction: loading => AlbumLoading = loading,
                 songsChangedFunction: () => PlayList.Count(f => f.SongChanged) > 0,
-                randomizingFunction: () => this.Invoke(() => tbRand.Checked),
-                randomizingAction: value => this.Invoke(() => { return tbRand.Checked = value; }),
-                stackQueueFunction: () => this.Invoke(() => tsbQueueStack.Checked),
-                stackQueueAction: value => this.Invoke(() => { return tsbQueueStack.Checked = value; }),
-                shuffleFunction: () => this.Invoke(() => tbShuffle.Checked),
-                shuffleAction: value => this.Invoke(() => { return tbShuffle.Checked = value; }),
+                randomizingFunction: () => this.InvokeAnonymous(() => tbRand.Checked),
+                randomizingAction: value => this.InvokeAnonymous(() => { return tbRand.Checked = value; }),
+                stackQueueFunction: () => this.InvokeAnonymous(() => tsbQueueStack.Checked),
+                stackQueueAction: value => this.InvokeAnonymous(() => { return tsbQueueStack.Checked = value; }),
+                shuffleFunction: () => this.InvokeAnonymous(() => tbShuffle.Checked),
+                shuffleAction: value => this.InvokeAnonymous(() => { return tbShuffle.Checked = value; }),
                 removeSongFromAlbumAction: RemoveSongFromAlbum,
                 setRatingFunction: rating =>
                 {
@@ -1909,7 +1830,7 @@ namespace amp
                 showQueueAction: ShowQueue,
                 scrambleQueueFunction: ScrambleQueue,
                 scrambleQueueSelectedFunction: ScrambleQueueSelected,
-                refreshPlayListAction: () => this.Invoke(() => { lbMusic.RefreshItems(); }),
+                refreshPlayListAction: () => this.InvokeAnonymous(() => { lbMusic.RefreshItems(); }),
                 setProgramVolumeFunction:(value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
         }
 
@@ -1923,7 +1844,7 @@ namespace amp
             List<Album> albums = Database.GetAlbums(Connection);
             foreach (Album album in albums)
             {
-                var result = this.Invoke(() =>
+                var result = this.InvokeAnonymous(() =>
                 {
                     foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
                     {
@@ -1969,7 +1890,7 @@ namespace amp
                         int lbIdx = GetListBoxIndexById(item.ID);
                         if (lbIdx >= 0)
                         {
-                            this.Invoke(() => { lbMusic.Items[lbIdx] = item; });
+                            this.InvokeAnonymous(() => { lbMusic.Items[lbIdx] = item; });
                         }
                     }
                 }
@@ -1986,7 +1907,7 @@ namespace amp
         /// <returns>An index if the operation was successful; otherwise -1.</returns>
         internal int GetListBoxIndexById(int id)
         {
-            return this.Invoke(() =>
+            return this.InvokeAnonymous(() =>
             {
                 for (int i = 0; i < lbMusic.Items.Count; i++)
                 {
@@ -2034,11 +1955,11 @@ namespace amp
         /// <param name="albumSongRemote">A <see cref="AlbumSongRemote"/> class instance to remove from the album.</param>
         internal void RemoveSongFromAlbum(AlbumSongRemote albumSongRemote)
         {
-            this.Invoke(() => { lbMusic.SuspendLayout(); });
+            this.InvokeAnonymous(() => { lbMusic.SuspendLayout(); });
             humanActivity.Enabled = false;
             List<MusicFile> removeList = new List<MusicFile>();
 
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
                 {
@@ -2060,7 +1981,7 @@ namespace amp
 
             Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
             humanActivity.Enabled = true;
-            this.Invoke(() => { lbMusic.ResumeLayout(); });
+            this.InvokeAnonymous(() => { lbMusic.ResumeLayout(); });
         }
 
         /// <summary>
@@ -2073,7 +1994,7 @@ namespace amp
             List<MusicFile> qFiles = new List<MusicFile>();
             foreach (int songId in songIDs)
             {
-                this.Invoke(() =>
+                this.InvokeAnonymous(() =>
                 {
                     foreach (MusicFile mf in lbMusic.Items)
                     {
@@ -2106,10 +2027,10 @@ namespace amp
 
             if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                this.Invoke(ShowQueue);
+                this.InvokeAnonymous(ShowQueue);
             }
 
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 lbMusic.RefreshItems();
                 GetQueueCount();
@@ -2126,7 +2047,7 @@ namespace amp
             List<MusicFile> qFiles = new List<MusicFile>();
             foreach (AlbumSongRemote mfWcf in queueList)
             {
-                this.Invoke(() =>
+                this.InvokeAnonymous(() =>
                 {
                     foreach (MusicFile mf in lbMusic.Items)
                     {
@@ -2159,10 +2080,10 @@ namespace amp
 
             if (Filtered == FilterType.QueueFiltered) // refresh the queue list if it's showing..
             {
-                this.Invoke(ShowQueue);
+                this.InvokeAnonymous(ShowQueue);
             }
 
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 lbMusic.RefreshItems();
                 GetQueueCount();
@@ -2177,7 +2098,7 @@ namespace amp
         {
             if (audioFile != null)
             {
-                this.Invoke(() => { tmSeek.Stop(); });
+                this.InvokeAnonymous(() => { tmSeek.Stop(); });
                 try
                 {
                     audioFile.CurrentTime = new TimeSpan(0, 0, (int)seconds);
@@ -2187,7 +2108,7 @@ namespace amp
                     // log the exception..
                     ExceptionLogger.LogError(ex);
                 }
-                this.Invoke(() => { tmSeek.Start(); });
+                this.InvokeAnonymous(() => { tmSeek.Start(); });
             }
         }
 
@@ -2199,7 +2120,7 @@ namespace amp
         {
             if (id != -1)
             {
-                this.Invoke(() =>
+                this.InvokeAnonymous(() =>
                 {
                     foreach (var item in lbMusic.Items)
                     {
@@ -2220,7 +2141,7 @@ namespace amp
             }
             else if (outputDevice == null)
             {
-                this.Invoke(() =>
+                this.InvokeAnonymous(() =>
                 {
                     GetNextSong();
                 });
@@ -2230,7 +2151,7 @@ namespace amp
                 outputDevice.Play();
             }
 
-            this.Invoke(VisualizePlaybackState);
+            this.InvokeAnonymous(VisualizePlaybackState);
         }
 
         /// <summary>
@@ -2249,11 +2170,11 @@ namespace amp
             if (Filtered == FilterType.QueueFiltered)
             {
                 Find(false, "");
-                this.Invoke(() => { lbMusic.RefreshItems(); });
+                this.InvokeAnonymous(() => { lbMusic.RefreshItems(); });
                 return;
             }
 
-            lbMusic.Invoke(new MethodInvoker(() =>
+            lbMusic.InvokeAnonymous(() =>
             {
                 if (PlayList.Count(f => f.QueueIndex > 0) == 0) // don't show an empty queue..
                 {
@@ -2276,9 +2197,9 @@ namespace amp
                 {
                     lbMusic.Items.Add(mf);
                 }
-            }));
+            });
 
-            this.Invoke(() => { lbMusic.RefreshItems(); });
+            this.InvokeAnonymous(() => { lbMusic.RefreshItems(); });
             Filtered = FilterType.QueueFiltered;
         }
 
@@ -2287,7 +2208,7 @@ namespace amp
         /// </summary>
         internal void ShowAlternateQueue()
         {
-            lbMusic.Invoke(new MethodInvoker(() =>
+            lbMusic.InvokeAnonymous(() =>
             {
                 if (PlayList.Count(f => f.AlternateQueueIndex > 0) == 0) // don't show an empty queue..
                 {
@@ -2309,7 +2230,7 @@ namespace amp
                     lbMusic.Items.Add(mf);
                 }
                 Filtered = FilterType.AlternateFiltered;
-            }));
+            });
         }
 
         /// <summary>
@@ -3414,7 +3335,7 @@ namespace amp
         /// <param name="alternateSearch">A search text to override the default search box text.</param>
         private void Find(bool onlyIfText = false, string alternateSearch = null)
         {
-            var findText = this.Invoke(() => alternateSearch ?? tbFind.Text);
+            var findText = this.InvokeAnonymous(() => alternateSearch ?? tbFind.Text);
 
             if (onlyIfText)
             {
@@ -3424,7 +3345,7 @@ namespace amp
                 }
             }
 
-            this.Invoke(() =>
+            this.InvokeAnonymous(() =>
             {
                 lbMusic.Items.Clear();
 

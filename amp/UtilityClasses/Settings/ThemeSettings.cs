@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Printing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -176,6 +177,7 @@ namespace amp.UtilityClasses.Settings
             ColorNormal = GreyBackground;
             ColorSelectedBorder = dark ? Color.White : Color.Black;
             ColorCheckedBorder = dark ? Color.White : Color.Black;
+            ClearSearchBoxImage = dark ? Properties.Resources.edit_clear_white : Properties.Resources.edit_clear;
         }
 
         /// <summary>
@@ -670,6 +672,12 @@ namespace amp.UtilityClasses.Settings
         /// </summary>
         [IsSetting]
         public string ToggleVolumeRatingHiddenImageData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the image data for a button to clear the search box contents on the main form.
+        /// </summary>
+        [IsSetting]
+        public string ClearSearchBoxImageData { get; set; }
         #endregion
 
         #region Images
@@ -839,6 +847,15 @@ namespace amp.UtilityClasses.Settings
         {
             get => ToImage(nameof(ToggleVolumeRatingHiddenImageData));
             set => FromImage(value, nameof(ToggleVolumeRatingHiddenImageData));
+        }
+
+        /// <summary>
+        /// Gets or sets the clear search box button image on the main form.
+        /// </summary>
+        public Image ClearSearchBoxImage
+        {
+            get => ToImage(nameof(ClearSearchBoxImageData));
+            set => FromImage(value, nameof(ClearSearchBoxImageData));
         }
         #endregion
     }
