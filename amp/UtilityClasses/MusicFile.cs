@@ -1489,6 +1489,7 @@ namespace amp.UtilityClasses
             {
                 return found1;
             }
+
             bool found2 = true;
             foreach(string str in search2)
             {
