@@ -1193,7 +1193,7 @@ namespace amp.UtilityClasses
                     }
                     else if (formulaType == FormulaType.Title)
                     {
-                        formula = FormulaReplace(formula, title.Trim() == string.Empty ? songName : FixPathExtension(), formulaStr);
+                        formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(title) ? songName : FixPathExtension(), formulaStr);
                     }
                     else if (formulaType == FormulaType.QueueIndex)
                     {
@@ -1394,7 +1394,7 @@ namespace amp.UtilityClasses
         /// <returns><c>true</c> if one of the properties of this music file instance matches the search string, <c>false</c> otherwise.</returns>
         public bool Match(string search)
         {
-            if (search.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(search))
             {
                 return true;
             }

@@ -278,7 +278,7 @@ namespace amp.UtilityClasses.Settings
 
 
             // indicate invalid naming formula..
-            textBox.ForeColor = (error || textBox.Text.Trim() == string.Empty) ? Color.Red : SystemColors.WindowText;
+            textBox.ForeColor = error || string.IsNullOrWhiteSpace(Text) ? Color.Red : SystemColors.WindowText;
                
 
             bOK.Enabled = !error && textBox.Text.Trim() != string.Empty;

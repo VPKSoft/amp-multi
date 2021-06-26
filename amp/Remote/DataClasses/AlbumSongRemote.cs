@@ -147,7 +147,7 @@ namespace amp.Remote.DataClasses
         /// <returns><c>true</c> if one of the properties of this music file instance matches the search string, <c>false</c> otherwise.</returns>
         public bool Match(string search)
         {
-            if (search.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(search))
             {
                 return true;
             }

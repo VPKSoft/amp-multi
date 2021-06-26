@@ -41,7 +41,7 @@ namespace AmpControls.ControlExtensions
         /// <param name="invokeAction">The invoke action.</param>
         public static void InvokeAnonymous(this Control control, Action invokeAction)
         {
-            if (!control.IsHandleCreated || !control.IsDisposed || !control.Disposing)
+            if (!control.IsHandleCreated || control.IsDisposed || control.Disposing)
             {
                 return;
             }
@@ -65,7 +65,7 @@ namespace AmpControls.ControlExtensions
         /// <returns>A value of <typeparamref name="T"/>.</returns>
         public static T InvokeAnonymous<T>(this Control control, Func<T> invokeAction)
         {
-            if (!control.IsHandleCreated || !control.IsDisposed || !control.Disposing)
+            if (!control.IsHandleCreated || control.IsDisposed || control.Disposing)
             {
                 return default;
             }

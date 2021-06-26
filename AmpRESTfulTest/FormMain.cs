@@ -199,7 +199,7 @@ namespace AmpRESTfulTest
 
             if (onlyIfText)
             {
-                if (findText.Trim() == string.Empty)
+                if (string.IsNullOrWhiteSpace(findText))
                 {
                     return;
                 }

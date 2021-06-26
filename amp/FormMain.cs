@@ -3339,7 +3339,7 @@ namespace amp
 
             if (onlyIfText)
             {
-                if (findText.Trim() == string.Empty)
+                if (string.IsNullOrWhiteSpace(findText))
                 {
                     return;
                 }
@@ -3467,6 +3467,13 @@ namespace amp
                 }
 
                 return;
+            }
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                tbFind.Clear();
+                tbFind.Focus();
+                e.SuppressKeyPress = true;
             }
 
             if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // Do the queue, LOCATION::QUEUE
