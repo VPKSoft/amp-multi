@@ -884,21 +884,57 @@ namespace amp
         private void DisplayPlaybackPausePlay()
         {
             // set the jump list icon..
-            togglePauseTask.IconReference =
-                new IconReference(iconDllFile, outputDevice?.PlaybackState == PlaybackState.Paused ? 0 : 1);
-            togglePauseTask.Title = outputDevice?.PlaybackState == PlaybackState.Paused
-                ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
-                : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+            try
+            {
+                togglePauseTask.IconReference =
+                    new IconReference(iconDllFile, outputDevice?.PlaybackState == PlaybackState.Paused ? 0 : 1);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
 
-            tbPlayNext.Image = outputDevice?.PlaybackState == PlaybackState.Paused
-                ? ThemeSettings.PlaybackPlay
-                : ThemeSettings.PlaybackPause;
+            try
+            {
+                togglePauseTask.Title = outputDevice?.PlaybackState == PlaybackState.Paused
+                    ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
+                    : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
 
-            tbPlayNext.ToolTipText = outputDevice?.PlaybackState == PlaybackState.Paused
-                ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
-                : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+            try
+            {
+                tbPlayNext.Image = outputDevice?.PlaybackState == PlaybackState.Paused
+                    ? ThemeSettings.PlaybackPlay
+                    : ThemeSettings.PlaybackPause;
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
 
-            playBackJumpList.Refresh();
+            try
+            {
+                tbPlayNext.ToolTipText = outputDevice?.PlaybackState == PlaybackState.Paused
+                    ? DBLangEngine.GetMessage("msgPlay", "Play|Play a song or resume paused")
+                    : DBLangEngine.GetMessage("msgPause", "Pause|Pause playback");
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
+
+            try
+            {
+                playBackJumpList.Refresh();
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogError(ex);
+            }
         }
 
         /// <summary>
@@ -963,6 +999,11 @@ namespace amp
                             }
 
                             if (outputDevice == null)
+                            {
+                                continue;
+                            }
+
+                            if (audioFile == null)
                             {
                                 continue;
                             }
