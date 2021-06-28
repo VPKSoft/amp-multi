@@ -328,7 +328,7 @@
     <PackageReference Include="VPKSoft.PosLib" Version="1.0.2" />
     <PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
     <PackageReference Include="VPKSoft.Utils" Version="1.0.7" />
-    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.7" />
+    <PackageReference Include="VPKSoft.VersionCheck" Version="1.0.8" />
     <PackageReference Include="VPKSoft.XmlSettings" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
