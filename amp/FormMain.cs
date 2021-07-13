@@ -178,6 +178,8 @@ namespace amp
                         DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            pnClearFindBox.Cursor = Cursors.Default;
         }
 
         #region Fields                
