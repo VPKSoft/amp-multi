@@ -315,7 +315,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NVorbis" Version="0.10.1" />
     <PackageReference Include="ReaLTaiizor" Version="3.7.8.5" />
-    <PackageReference Include="Ookii.Dialogs.WinForms" Version="1.2.0" />
+    <PackageReference Include="Ookii.Dialogs.WinForms" Version="3.0.0" />
     <PackageReference Include="RpcSelf" Version="1.0.1" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
