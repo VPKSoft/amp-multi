@@ -21,7 +21,8 @@ jobs:
       Solution_Name: amp.sln
       App_Project_Directory: amp
       App_Project_Path: amp\amp.csproj
-      Icon_Dll_Project_Path: PlaybackIcons\PlaybackIcons.vcxproj
+      Icon_Dll_Project_Path: PlaybackIcons\PlaybackIcons.vcxproj      
+      BUILD_CONFIGURATION: Release
 
     steps:
     - name: Checkout
@@ -47,7 +48,8 @@ jobs:
 
     # Build the Icon DLL project for the amp#
     - name: Build the Icon DLL project for the amp#
-      run: msbuild $env:Icon_Dll_Project_Path /p:Configuration=$env:Configuration
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.Icon_Dll_Project_Path}}
 
     # Build the amp# project
     - name: Build the amp# project
