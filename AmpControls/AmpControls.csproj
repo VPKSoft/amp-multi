@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{6BBA1FCA-5B7E-456A-8190-3CA6019AF4BA}</ProjectGuid>
-    <TargetFramewor>net6-windows</TargetFramewor>
+    <TargetFramework>net6-windows</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>AmpControls</AssemblyTitle>
     <Product>AmpControls</Product>
