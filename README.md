@@ -15,7 +15,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 * [NAudio](https://github.com/naudio/NAudio) for the audio-playback.
 * [ReaLTaiizor](https://github.com/Taiizor/ReaLTaiizor) for the great WinForms controls.
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
-* [![VPKSoft](https://circleci.com/gh/VPKSoft/amp.svg?style=shield)](https://app.circleci.com/pipelines/github/VPKSoft/amp)
+* [![.NET Desktop](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml)
 
 
 ![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
