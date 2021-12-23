@@ -77,7 +77,7 @@ namespace InstallerBaseWixSharp
             var project = new ManagedProject("amp#",
                 new Dir(InstallDirectory,
                     new WixSharp.Files(@"..\amp\bin\net6.0-windows\win10-x64\*.*"),
-                    new File(@"..\Release\PlaybackIcons.dll"),
+                    new File(@"..\PlaybackIcons\Release\PlaybackIcons.dll"),
                     new File("Program.cs")),
                 new Dir($@"%ProgramMenu%\{Company}\{AppName}",
                     // ReSharper disable three times StringLiteralTypo
