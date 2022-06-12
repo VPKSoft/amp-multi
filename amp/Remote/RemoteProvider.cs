@@ -253,37 +253,37 @@ namespace amp.Remote
         /// Gets or sets the randomizing function.
         /// </summary>
         /// <value>The randomizing function.</value>
-        internal Func<bool> RandomizingFunction {get; set; }
+        internal Func<bool> RandomizingFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the randomizing action.
         /// </summary>
         /// <value>The randomizing action.</value>
-        internal Action<bool> RandomizingAction {get; set; }
+        internal Action<bool> RandomizingAction { get; set; }
 
         /// <summary>
         /// Gets or sets the stack queue function.
         /// </summary>
         /// <value>The stack queue function.</value>
-        internal Func<bool> StackQueueFunction {get; set; }
+        internal Func<bool> StackQueueFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the stack queue action.
         /// </summary>
         /// <value>The stack queue action.</value>
-        internal Action<bool> StackQueueAction {get; set; }
+        internal Action<bool> StackQueueAction { get; set; }
 
         /// <summary>
         /// Gets or sets the shuffle function.
         /// </summary>
         /// <value>The shuffle function.</value>
-        internal Func<bool> ShuffleFunction {get; set; }
+        internal Func<bool> ShuffleFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the shuffle action.
         /// </summary>
         /// <value>The shuffle action.</value>
-        internal Action<bool> ShuffleAction {get; set; }
+        internal Action<bool> ShuffleAction { get; set; }
 
         /// <summary>
         /// Gets or sets the remove song from album action.
@@ -343,7 +343,7 @@ namespace amp.Remote
         /// Gets or sets the music file function.
         /// </summary>
         /// <value>The music file function.</value>
-        internal Func<MusicFile> MusicFileFunction {get; set; }
+        internal Func<MusicFile> MusicFileFunction { get; set; }
 
         /// <summary>
         /// Gets or sets the music file action.
@@ -799,7 +799,7 @@ namespace amp.Remote
                 CurrentAlbumName = CurrentAlbum,
                 Stopped = Stopped(),
                 AlbumContentsChanged = albumChanged,
-                AlbumChanged = Database.AlbumChanged || albumChanged,
+                AlbumChanged = amp.SQLiteDatabase.Database.AlbumChanged || albumChanged,
                 SongsChanged = SongsChanged,
                 CanGoPrevious = CanGoPrevious,
                 AlbumLoading = AlbumLoading,
@@ -822,7 +822,7 @@ namespace amp.Remote
         /// <returns>True if the play list of the current album was changed from the previous query, otherwise false.</returns>
         public bool AlbumPlayListChanged()
         {
-            return Database.AlbumChanged;
+            return amp.SQLiteDatabase.Database.AlbumChanged;
         }
 
         /// <summary>
@@ -872,7 +872,7 @@ namespace amp.Remote
         {
             SQLiteConnection conn = FormMain.Connection; // there is sill a dependency for the MainWindow..
 
-            var savedQueues = Database.GetAlbumQueues(albumName, conn);
+            var savedQueues = amp.SQLiteDatabase.Database.GetAlbumQueues(albumName, conn);
 
             var savedQueueRemotes = new List<SavedQueueRemote>();
 

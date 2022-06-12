@@ -52,6 +52,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using amp.Database;
 using amp.FormsUtility.Songs;
 using amp.IpcUtils;
 using amp.Properties;
@@ -70,6 +71,7 @@ using VPKSoft.Utils;
 using VPKSoft.VersionCheck.Forms;
 using Utils = VPKSoft.LangLib.Utils;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using AmpDatabase = amp.SQLiteDatabase.Database;
 #endregion
 
 namespace amp
@@ -135,7 +137,7 @@ namespace amp
 
             sliderMainVolume.CurrentValue = (int)Program.Settings.BaseVolumeMultiplier;
 
-            Database.DatabaseProgress += Database_DatabaseProgress;
+            AmpDatabase.DatabaseProgress += Database_DatabaseProgress;
 
             // initialize the remote API provider event if it's not used..
             InitializeRemoteProvider();
@@ -174,7 +176,7 @@ namespace amp
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(DBLangEngine.GetMessage("msgErrorRest", "Error initializing the RESTful API with port: {0} with exception: '{1}'.", Program.Settings.RestApiPort, exception.Message), 
+                    MessageBox.Show(DBLangEngine.GetMessage("msgErrorRest", "Error initializing the RESTful API with port: {0} with exception: '{1}'.", Program.Settings.RestApiPort, exception.Message),
                         DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -365,7 +367,7 @@ namespace amp
         {
             for (int i = 0; i < mnuAlbum.DropDownItems.Count; i++)
             {
-                ((ToolStripMenuItem) mnuAlbum.DropDownItems[i]).Checked = false;
+                ((ToolStripMenuItem)mnuAlbum.DropDownItems[i]).Checked = false;
             }
         }
 
@@ -394,7 +396,7 @@ namespace amp
         private void ListAlbums(int checkAlbum = -1)
         {
             mnuAlbum.DropDownItems.Clear();
-            List<Album> albums = Database.GetAlbums(Connection);
+            List<Album> albums = AmpDatabase.GetAlbums(Connection);
             int aNum = 0;
 
             foreach (var album in albums)
@@ -481,7 +483,7 @@ namespace amp
                 {
                     for (int i = 0; i < lbMusic.Items.Count; i++)
                     {
-                        if (((MusicFile) lbMusic.Items[i]).ID == musicFile.ID)
+                        if (((MusicFile)lbMusic.Items[i]).ID == musicFile.ID)
                         {
                             if (!lbMusic.SelectedIndices.Contains(i))
                             {
@@ -647,15 +649,15 @@ namespace amp
                 FormPsycho.Execute(this);
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgLoadingAlbum", "Loading album '{0}'...|Text for loading an album (enumerating files and their tags)", name));
             }
-            Database.GetAlbum(name, ref PlayList, Connection);
+            AmpDatabase.GetAlbum(name, ref PlayList, Connection);
             CurrentAlbum = name;
             if (name == "tmp")
             {
-                Text = @"amp#" + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty); 
+                Text = @"amp#" + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty);
             }
             else
             {
-                Text = @"amp# - " + CurrentAlbum + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty); 
+                Text = @"amp# - " + CurrentAlbum + (Program.Settings.QuietHours && FormSettings.IsQuietHour() ? " " + DBLangEngine.GetMessage("msgQuietHours", "[Quiet hours ({0} - {1})]|As in quiet hours defined in the settings are occurring now :-(", Program.Settings.QuietHoursFrom, Program.Settings.QuietHoursTo) : string.Empty);
             }
 
             lbMusic.Items.Clear(); // LOCATION:NOT FILTERED
@@ -723,7 +725,7 @@ namespace amp
                 FormPsycho.Execute(this);
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgWorking", "Working...|The program is loading something"));
             }
-             
+
             List<MusicFile> addList = new List<MusicFile>();
 
             foreach (string filePath in musicFiles)
@@ -739,10 +741,10 @@ namespace amp
                     addList.Add(mf);
                 }
             }
-            Database.AddFileToDb(addList, Connection);
+            AmpDatabase.AddFileToDb(addList, Connection);
 
-            Database.GetIDsForSongs(ref addList, Connection);
-            Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
+            AmpDatabase.GetIDsForSongs(ref addList, Connection);
+            AmpDatabase.AddSongToAlbum(CurrentAlbum, addList, Connection);
             foreach (MusicFile mf in addList)
             {
                 lbMusic.Items.Add(mf);
@@ -847,9 +849,9 @@ namespace amp
         /// </summary>
         private void ShowPlayingSong()
         {
-            for (int i = 0; i < lbMusic.Items.Count; i++ )
+            for (int i = 0; i < lbMusic.Items.Count; i++)
             {
-                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
+                if (MFile != null && MFile.ID == ((MusicFile)lbMusic.Items[i]).ID)
                 {
                     lbMusic.SetIndex(i);
                     DisplayPlaybackPausePlay();
@@ -871,7 +873,7 @@ namespace amp
 
             for (int i = 0; i < lbMusic.Items.Count; i++)
             {
-                if (MFile != null && MFile.ID == ((MusicFile) lbMusic.Items[i]).ID)
+                if (MFile != null && MFile.ID == ((MusicFile)lbMusic.Items[i]).ID)
                 {
                     lbMusic.SetIndex(i);
                     DisplayPlaybackPausePlay();
@@ -1140,7 +1142,7 @@ namespace amp
             }
             catch (Exception ex)
             {
-                try 
+                try
                 {
                     // log the exception..
                     ExceptionLogger.LogError(ex);
@@ -1291,7 +1293,7 @@ namespace amp
             for (int i = 1; i < args.Length; i++)
             {
                 string file = args[i];
-                        
+
                 ExceptionLogger.LogMessage($"Request file open: '{file}'.");
                 if (File.Exists(file))
                 {
@@ -1310,13 +1312,13 @@ namespace amp
             if (CurrentAlbum != "tmp")
             {
                 CurrentAlbum = "tmp";
-                Database.ClearTmpAlbum(ref PlayList, Connection);
+                AmpDatabase.ClearTmpAlbum(ref PlayList, Connection);
                 tbShuffle.Checked = true;
                 tbRand.Checked = false;
                 tbFind.Text = string.Empty;
             }
             CurrentAlbum = "tmp";
-            DoAddFileList(new List<string>(new [] {file}), false);
+            DoAddFileList(new List<string>(new[] { file }), false);
 
             GetAlbum(CurrentAlbum, false);
             ListAlbums(0);
@@ -1352,7 +1354,7 @@ namespace amp
             {
                 MusicFile.StackRandomPercentage = value;
                 Program.Settings.StackRandomPercentage = value;
-            } 
+            }
         }
 
         /// <summary>
@@ -1365,7 +1367,7 @@ namespace amp
             {
                 if (FormSettings.IsQuietHour() && !Program.Settings.QuietHoursPause && MFile != null)
                 {
-                    return MFile.Volume * (Program.Settings.BaseVolumeMultiplier / 50f) * (float) Program.Settings.QuietHoursVolPercentage;
+                    return MFile.Volume * (Program.Settings.BaseVolumeMultiplier / 50f) * (float)Program.Settings.QuietHoursVolPercentage;
                 }
                 else if (MFile != null)
                 {
@@ -1707,7 +1709,7 @@ namespace amp
             }
             lbMusic.ResumeLayout();
             ReIndexVisual();
-            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+            AmpDatabase.SaveQueue(PlayList, Connection, CurrentAlbum);
             GetAlbum(CurrentAlbum, false);
             FormPsycho.UnExecute();
             Enabled = true;
@@ -1757,10 +1759,10 @@ namespace amp
                     }
                 }
 
-                Database.AddFileToDb(addList, Connection);
+                AmpDatabase.AddFileToDb(addList, Connection);
 
-                Database.GetIDsForSongs(ref addList, Connection);
-                Database.AddSongToAlbum(CurrentAlbum, addList, Connection);
+                AmpDatabase.GetIDsForSongs(ref addList, Connection);
+                AmpDatabase.AddSongToAlbum(CurrentAlbum, addList, Connection);
                 context.Send(ListFiles, addList);
                 humanActivity.Enabled = true;
             }
@@ -1773,7 +1775,7 @@ namespace amp
         internal void InitializeRemoteProvider()
         {
             RemoteProvider = new RemoteProvider(
-                pausedFunction: () => outputDevice is {PlaybackState: PlaybackState.Paused},
+                pausedFunction: () => outputDevice is { PlaybackState: PlaybackState.Paused },
                 pauseAction: () =>
                 {
                     if (outputDevice == null)
@@ -1791,14 +1793,14 @@ namespace amp
                     this.InvokeAnonymous(VisualizePlaybackState);
                 },
                 playAction: Play,
-                stoppedFunction:() => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Stopped,
-                playingFunction:() => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing,
+                stoppedFunction: () => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Stopped,
+                playingFunction: () => outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing,
                 setPositionSecondsAction: SetPositionSeconds,
                 queueAction: Queue,
                 queueIdAction: Queue,
                 refreshLoadQueueStatsAction: (queueIndex, append) =>
                 {
-                    Database.LoadQueue(ref PlayList, Connection, queueIndex, append);
+                    AmpDatabase.LoadQueue(ref PlayList, Connection, queueIndex, append);
                     this.InvokeAnonymous(() =>
                     {
                         lbMusic.RefreshItems();
@@ -1837,7 +1839,7 @@ namespace amp
                         if (MFile != null)
                         {
                             MFile.Volume = volumeStream.Volume;
-                            Database.SaveVolume(MFile, Connection);
+                            AmpDatabase.SaveVolume(MFile, Connection);
                             return true;
                         }
 
@@ -1850,11 +1852,11 @@ namespace amp
                 setRatingIdFunction: SetRating,
                 getAlbumsFunction: () =>
                 {
-                    List<Album> albums = Database.GetAlbums(Connection);
+                    List<Album> albums = AmpDatabase.GetAlbums(Connection);
                     List<AlbumRemote> albumsWcf = new List<AlbumRemote>();
                     foreach (Album album in albums)
                     {
-                        albumsWcf.Add(new AlbumRemote {Name = album.AlbumName});
+                        albumsWcf.Add(new AlbumRemote { Name = album.AlbumName });
                     }
 
                     return albumsWcf;
@@ -1869,12 +1871,12 @@ namespace amp
                 getPlaylistFunction: (value) => value == null ? PlayList : PlayList = value,
                 getSecondsFunction: () => Seconds,
                 getSecondsTotalFunction: () => SecondsTotal,
-                getFilteredFunction: (value) => value == null ? Filtered : Filtered = (FilterType) value,
+                getFilteredFunction: (value) => value == null ? Filtered : Filtered = (FilterType)value,
                 showQueueAction: ShowQueue,
                 scrambleQueueFunction: ScrambleQueue,
                 scrambleQueueSelectedFunction: ScrambleQueueSelected,
                 refreshPlayListAction: () => this.InvokeAnonymous(() => { lbMusic.RefreshItems(); }),
-                setProgramVolumeFunction:(value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
+                setProgramVolumeFunction: (value) => value == null ? sliderMainVolume.CurrentValue : sliderMainVolume.CurrentValue = (int)value);
         }
 
         /// <summary>
@@ -1884,7 +1886,7 @@ namespace amp
         /// <returns><c>true</c> if the album was selected successfully; otherwise <c>false</c>.</returns>
         internal bool SelectAlbum(string name)
         {
-            List<Album> albums = Database.GetAlbums(Connection);
+            List<Album> albums = AmpDatabase.GetAlbums(Connection);
             foreach (Album album in albums)
             {
                 var result = this.InvokeAnonymous(() =>
@@ -1892,11 +1894,11 @@ namespace amp
                     foreach (ToolStripMenuItem item in mnuAlbum.DropDownItems)
                     {
                         if ((album.AlbumName != CurrentAlbum && album.AlbumName == name)
-                            && (int) (item).Tag == album.Id)
+                            && (int)(item).Tag == album.Id)
                         {
                             DisableChecks();
                             item.Checked = true;
-                            Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                            AmpDatabase.SaveQueue(PlayList, Connection, CurrentAlbum);
                             GetAlbum(name);
                             return true;
                         }
@@ -1954,7 +1956,7 @@ namespace amp
             {
                 for (int i = 0; i < lbMusic.Items.Count; i++)
                 {
-                    if (((MusicFile) lbMusic.Items[i]).ID == id)
+                    if (((MusicFile)lbMusic.Items[i]).ID == id)
                     {
                         return i;
                     }
@@ -1978,7 +1980,7 @@ namespace amp
                     if (songIdList.Exists(f => f == item.ID))
                     {
                         item.Volume = volume;
-                        Database.SaveVolume(item, Connection);
+                        AmpDatabase.SaveVolume(item, Connection);
                         int lbIdx = GetListBoxIndexById(item.ID);
                         if (lbIdx >= 0)
                         {
@@ -2006,7 +2008,7 @@ namespace amp
             {
                 for (int i = lbMusic.Items.Count - 1; i >= 0; i--)
                 {
-                    if (((MusicFile) lbMusic.Items[i]).ID == albumSongRemote.Id)
+                    if (((MusicFile)lbMusic.Items[i]).ID == albumSongRemote.Id)
                     {
                         lbMusic.Items.RemoveAt(i);
                         break;
@@ -2022,7 +2024,7 @@ namespace amp
                 MusicFile.RemoveById(ref PlayList, mf.ID);
             }
 
-            Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
+            AmpDatabase.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
             humanActivity.Enabled = true;
             this.InvokeAnonymous(() => { lbMusic.ResumeLayout(); });
         }
@@ -2167,7 +2169,7 @@ namespace amp
                 {
                     foreach (var item in lbMusic.Items)
                     {
-                        if (((MusicFile) item).ID == id)
+                        if (((MusicFile)item).ID == id)
                         {
                             UpdateNPlayed(MFile, Skipped);
                             MFile = item as MusicFile;
@@ -2333,9 +2335,9 @@ namespace amp
             avLine.ForeColor = themeSettings.LineAudioVisualization;
             tbTool.Renderer = new CustomToolStripRenderer
             {
-                ColorCheckedBorder = themeSettings.ColorCheckedBorder, 
+                ColorCheckedBorder = themeSettings.ColorCheckedBorder,
                 ColorNormal = themeSettings.ColorNormal,
-                ColorSelected = themeSettings.ColorSelected, 
+                ColorSelected = themeSettings.ColorSelected,
                 ColorSelectedBorder = themeSettings.ColorSelectedBorder
             };
         }
@@ -2347,7 +2349,7 @@ namespace amp
         {
             if (Application.OpenForms.Count > 0)
             {
-                var main = (FormMain) Application.OpenForms[0];
+                var main = (FormMain)Application.OpenForms[0];
                 main.SetTheme(ThemeSettings.LoadDefaultTheme());
             }
         }
@@ -2360,7 +2362,7 @@ namespace amp
         {
             if (Application.OpenForms.Count > 0)
             {
-                var main = (FormMain) Application.OpenForms[0];
+                var main = (FormMain)Application.OpenForms[0];
                 main.SetTheme(themeSettings);
             }
         }
@@ -2383,7 +2385,7 @@ namespace amp
                 if (e.X >= 0 && e.X < scProgress.Width)
                 {
                     var multiplier = e.X / (double)scProgress.Width;
-                    scProgress.Value = (int) (scProgress.Maximum * multiplier);
+                    scProgress.Value = (int)(scProgress.Maximum * multiplier);
                 }
             }
         }
@@ -2471,18 +2473,18 @@ namespace amp
                         MFile.Volume = volumeStream.Volume;
                     }
 
-                    Database.SaveVolume(MFile, Connection);
+                    AmpDatabase.SaveVolume(MFile, Connection);
                 }
 
                 for (int i = 0; i < lbMusic.SelectedIndices.Count; i++)
                 {
                     int idx = lbMusic.SelectedIndices[i];
-                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile) lbMusic.Items[idx]).ID);
+                    int index = PlayList.FindIndex(f => f.ID == ((MusicFile)lbMusic.Items[idx]).ID);
                     if (index >= 0)
                     {
                         PlayList[index].Volume = volume;
                         lbMusic.Items[idx] = PlayList[index];
-                        Database.SaveVolume(PlayList[index], Connection);
+                        AmpDatabase.SaveVolume(PlayList[index], Connection);
                     }
                 }
             }
@@ -2505,7 +2507,7 @@ namespace amp
 
         // a user is dropped files and/or directories to the software, so handle it..
         private void lbMusic_DragDrop(object sender, DragEventArgs e)
-        {            
+        {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] dropFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -2543,13 +2545,13 @@ namespace amp
         }
 
         /// <summary>
-        /// Gets the status message for the progress dialog in case of the <see cref="Database.DatabaseProgress"/> event.
+        /// Gets the status message for the progress dialog in case of the <see cref="amp.SQLiteDatabase.Database.DatabaseProgress"/> event.
         /// </summary>
         /// <param name="e">A DatabaseEventArgs instance containing the event data.</param>
         void Database_DatabaseProgress(DatabaseEventArgs e)
         {
             if (e.EventType == DatabaseEventType.UpdateSongDb)
-            {                
+            {
                 FormPsycho.SetStatusText(DBLangEngine.GetMessage("msgUpdateDB", "Updating song list: {0} / {1}...|A conditional database update is in progress.", e.Progress, e.ProgressEnd));
             }
             else if (e.EventType == DatabaseEventType.InsertSongDb)
@@ -2591,7 +2593,7 @@ namespace amp
                     scProgress.Value = (int)Seconds;
 
                     // TODO::Make this a setting..
-                    TaskbarManager.Instance?.SetProgressState(TaskbarProgressBarState.Normal); 
+                    TaskbarManager.Instance?.SetProgressState(TaskbarProgressBarState.Normal);
                     TaskbarManager.Instance?.SetProgressValue((int)Seconds, scProgress.Maximum);
 
                     TimeSpan ts = TimeSpan.FromSeconds(SecondsTotal - Seconds);
@@ -2611,7 +2613,7 @@ namespace amp
         {
             if (lbMusic.SelectedItem != null)
             {
-                PlaySong(((MusicFile) lbMusic.SelectedItem).VisualIndex, false);
+                PlaySong(((MusicFile)lbMusic.SelectedItem).VisualIndex, false);
             }
         }
 
@@ -2637,10 +2639,10 @@ namespace amp
 
             if (!RestartRequired)
             {
-                Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                AmpDatabase.SaveQueue(PlayList, Connection, CurrentAlbum);
             }
 
-            Program.Settings.PreviousAlbum = Database.GetAlbumIdentifierByName(Connection, CurrentAlbum);
+            Program.Settings.PreviousAlbum = AmpDatabase.GetAlbumIdentifierByName(Connection, CurrentAlbum);
 
             using (Connection)
             {
@@ -2666,7 +2668,7 @@ namespace amp
         private void tbFind_KeyDown(object sender, KeyEventArgs e)
         {
             // the media keys are handled in a separate method..
-            if (HandleMediaKey(ref e)) 
+            if (HandleMediaKey(ref e))
             {
                 return;
             }
@@ -2732,7 +2734,7 @@ namespace amp
                     "New album|A dialog title to add a new album"));
             if (name != string.Empty)
             {
-                ListAlbums(Database.AddNewAlbum(name, Connection));
+                ListAlbums(AmpDatabase.AddNewAlbum(name, Connection));
             }
         }
 
@@ -2749,6 +2751,11 @@ namespace amp
             Connection = new SQLiteConnection("Data Source=" + DBLangEngine.DataDir + "amp.sqlite;Pooling=true;FailIfMissing=false;Cache Size=10000;"); // PRAGMA synchronous=OFF;PRAGMA journal_mode=OFF
             Connection.Open();
 
+            // TODO::Migrate in a new project.
+            //var migrate = new amp.Database.Migrate($"Data Source={Path.Combine(DBLangEngine.DataDir, "amp_ef.sqlite")}");
+            //migrate.RunMigrateUp();
+            //Migrate.MigrateExistingData(Path.Combine(DBLangEngine.DataDir, "amp.sqlite"), Path.Combine(DBLangEngine.DataDir, "amp_ef.sqlite"));
+
             if (!ScriptRunner.RunScript(Path.Combine(DBLangEngine.DataDir, "amp.sqlite"), Path.Combine(Paths.AppInstallDir, "SQLiteDatabase", "Script.sql_script")))
             {
                 MessageBox.Show(
@@ -2763,7 +2770,7 @@ namespace amp
             }
 
             CurrentAlbum = DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album");
-            Database.AddDefaultAlbum(DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album"), Connection);
+            AmpDatabase.AddDefaultAlbum(DBLangEngine.GetMessage("msgDefault", "Default|Default as in default album"), Connection);
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -2781,7 +2788,7 @@ namespace amp
 
             if (CurrentAlbum != "tmp" && RemoteFiles.Count == 0)
             {
-                var loadAlbum = Database.GetAlbumByIdentifier(Connection,
+                var loadAlbum = AmpDatabase.GetAlbumByIdentifier(Connection,
                     Program.Settings.PreviousAlbum <= 0 ? 1 : Program.Settings.PreviousAlbum);
 
                 CurrentAlbum = loadAlbum ?? CurrentAlbum;
@@ -2850,7 +2857,7 @@ namespace amp
             if (affected)
             {
                 lbMusic.RefreshItems();
-                GetQueueCount();                
+                GetQueueCount();
                 if (!PlayList.Exists(f => f.QueueIndex > 0)) // no empty queue..
                 {
                     ShowPlayingSong();
@@ -2899,12 +2906,12 @@ namespace amp
                 string name = FormAddAlbum.Execute(Path.GetFileNameWithoutExtension(odM3U.FileName));
                 if (name != string.Empty)
                 {
-                    int albumIndex = Database.AddNewAlbum(name, Connection);
+                    int albumIndex = AmpDatabase.AddNewAlbum(name, Connection);
                     // ReSharper disable once InconsistentNaming
                     M3U m3u = new M3U(odM3U.FileName);
                     // ReSharper disable once InconsistentNaming
                     List<MusicFile> m3uAdd = new List<MusicFile>();
-                    foreach(M3UEntry m in m3u.M3UFiles)
+                    foreach (M3UEntry m in m3u.M3UFiles)
                     {
                         MusicFile addMusicFile = new MusicFile(m.FileName)
                         {
@@ -2913,9 +2920,9 @@ namespace amp
                         m3uAdd.Add(addMusicFile);
                     }
 
-                    Database.AddFileToDb(m3uAdd, Connection);
-                    Database.GetIDsForSongs(ref m3uAdd, Connection);
-                    Database.AddSongToAlbum(name, m3uAdd, Connection);
+                    AmpDatabase.AddFileToDb(m3uAdd, Connection);
+                    AmpDatabase.GetIDsForSongs(ref m3uAdd, Connection);
+                    AmpDatabase.AddSongToAlbum(name, m3uAdd, Connection);
                     ListAlbums(albumIndex);
                     GetAlbum(name);
                 }
@@ -2939,8 +2946,8 @@ namespace amp
                     };
                     m3uAdd.Add(addMusicFile);
                 }
-                Database.GetIDsForSongs(ref m3uAdd, Connection);
-                Database.AddSongToAlbum(CurrentAlbum, m3uAdd, Connection);
+                AmpDatabase.GetIDsForSongs(ref m3uAdd, Connection);
+                AmpDatabase.AddSongToAlbum(CurrentAlbum, m3uAdd, Connection);
                 GetAlbum(CurrentAlbum);
             }
         }
@@ -3021,7 +3028,7 @@ namespace amp
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             // ReSharper disable once ObjectCreationAsStatement
-            using (new FormAbout(this,  Assembly.GetEntryAssembly(), "MIT",
+            using (new FormAbout(this, Assembly.GetEntryAssembly(), "MIT",
                 "https://raw.githubusercontent.com/VPKSoft/amp/master/LICENSE",
                 "https://www.vpksoft.net/versions/version.php")) { }
         }
@@ -3046,7 +3053,7 @@ namespace amp
             string queueName = FormQueueSnapshotName.Execute(CurrentAlbum);
             if (queueName != string.Empty)
             {
-                Database.SaveQueueSnapshot(PlayList, Connection, CurrentAlbum, queueName);
+                AmpDatabase.SaveQueueSnapshot(PlayList, Connection, CurrentAlbum, queueName);
             }
 
             // the alternate queue must go away..
@@ -3067,7 +3074,7 @@ namespace amp
             int qId = FormSavedQueues.Execute(CurrentAlbum, Connection, out bool append);
             if (qId != -1)
             {
-                Database.LoadQueue(ref PlayList, Connection, qId, append);
+                AmpDatabase.LoadQueue(ref PlayList, Connection, qId, append);
             }
             lbMusic.RefreshItems();
             GetQueueCount();
@@ -3123,7 +3130,7 @@ namespace amp
             {
                 var path = Path.GetDirectoryName(Application.ExecutablePath);
                 var helpPath = Path.Combine(path ?? string.Empty, "Help", "index.html");
-                Process.Start(new ProcessStartInfo {FileName = new Uri(helpPath).AbsoluteUri, UseShellExecute = true});
+                Process.Start(new ProcessStartInfo { FileName = new Uri(helpPath).AbsoluteUri, UseShellExecute = true });
             }
             catch (Exception ex)
             {
@@ -3194,10 +3201,10 @@ namespace amp
             if (name != string.Empty)
             {
                 int id;
-                if ((id = Database.AddNewAlbum(name, Connection)) != -1)
+                if ((id = AmpDatabase.AddNewAlbum(name, Connection)) != -1)
                 {
                     ListAlbums(id);
-                    Database.AddSongToAlbum(name, PlayList, Connection);
+                    AmpDatabase.AddSongToAlbum(name, PlayList, Connection);
                     CurrentAlbum = name;
                     GetAlbum(CurrentAlbum);
                 }
@@ -3208,7 +3215,7 @@ namespace amp
         private void MnuDeleteAlbum_Click(object sender, EventArgs e)
         {
             if (CurrentAlbum != "tmp" &&
-                CurrentAlbum != Database.GetDefaultAlbumName(Connection))
+                CurrentAlbum != AmpDatabase.GetDefaultAlbumName(Connection))
             {
                 if (MessageBox.Show(
                         DBLangEngine.GetMessage("msgQueryDeleteAlbum",
@@ -3218,9 +3225,9 @@ namespace amp
                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) ==
                     DialogResult.Yes)
                 {
-                    Database.DeleteAlbum(CurrentAlbum, Connection);
+                    AmpDatabase.DeleteAlbum(CurrentAlbum, Connection);
                     ListAlbums();
-                    GetAlbum(Database.GetDefaultAlbumName(Connection));
+                    GetAlbum(AmpDatabase.GetDefaultAlbumName(Connection));
                 }
             }
         }
@@ -3230,7 +3237,7 @@ namespace amp
         private void MnuFile_DropDownOpening(object sender, EventArgs e)
         {
             mnuDeleteAlbum.Enabled = CurrentAlbum != "tmp" &&
-                                     CurrentAlbum != Database.GetDefaultAlbumName(Connection);
+                                     CurrentAlbum != AmpDatabase.GetDefaultAlbumName(Connection);
         }
 
         // move the selected song to the top of the queue..
@@ -3248,15 +3255,15 @@ namespace amp
         // a user selected an album, so do open the album the user selected..
         private void SelectAlbumClick(object sender, EventArgs e)
         {
-            List<Album> albums = Database.GetAlbums(Connection);
+            List<Album> albums = AmpDatabase.GetAlbums(Connection);
             foreach (Album album in albums)
             {
-                ToolStripItem item = (ToolStripItem) sender;
+                ToolStripItem item = (ToolStripItem)sender;
                 if (item != null && ((int)item.Tag == album.Id && album.AlbumName != CurrentAlbum))
                 {
                     DisableChecks();
-// TODO::Indicate checked                    item.Checked = true;
-                    Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                    // TODO::Indicate checked                    item.Checked = true;
+                    AmpDatabase.SaveQueue(PlayList, Connection, CurrentAlbum);
                     GetAlbum(album.AlbumName);
                     return;
                 }
@@ -3282,7 +3289,7 @@ namespace amp
                 Program.Settings.PreviousOpenMusicFolderDialogPath ?? fbMusicFolder.SelectedPath;
             if (fbMusicFolder.ShowDialog() == DialogResult.OK)
             {
-                AddFilesAndFolders(new []{fbMusicFolder.SelectedPath}, sender.Equals(mnuAddFoldersRecurse));
+                AddFilesAndFolders(new[] { fbMusicFolder.SelectedPath }, sender.Equals(mnuAddFoldersRecurse));
 
                 Program.Settings.PreviousOpenMusicFolderDialogPath =
                     fbMusicFolder.SelectedPath;
@@ -3297,7 +3304,7 @@ namespace amp
                 foreach (MusicFile musicFile in lbMusic.SelectedItems)
                 {
                     musicFile.SongImage = image;
-                    Database.SaveImage(musicFile, Connection);
+                    AmpDatabase.SaveImage(musicFile, Connection);
                 }
             }
         }
@@ -3307,7 +3314,7 @@ namespace amp
             foreach (MusicFile musicFile in lbMusic.SelectedItems)
             {
                 musicFile.SongImage = null;
-                Database.SaveImage(musicFile, Connection);
+                AmpDatabase.SaveImage(musicFile, Connection);
             }
         }
 
@@ -3326,7 +3333,7 @@ namespace amp
         {
             try
             {
-                Database.SaveQueue(PlayList, Connection, CurrentAlbum);
+                AmpDatabase.SaveQueue(PlayList, Connection, CurrentAlbum);
             }
             catch (Exception ex)
             {
@@ -3346,7 +3353,7 @@ namespace amp
                 return;
             }
 
-            var listBox = (ListBox) sender;
+            var listBox = (ListBox)sender;
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
@@ -3450,7 +3457,7 @@ namespace amp
         private void HandleKeyDown(ref KeyEventArgs e)
         {
             // the media keys are handled in a separate method..
-            if (HandleMediaKey(ref e)) 
+            if (HandleMediaKey(ref e))
             {
                 return;
             }
@@ -3489,7 +3496,7 @@ namespace amp
                         MusicFile.RemoveById(ref PlayList, mf.ID);
                     }
                 }
-                Database.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
+                AmpDatabase.RemoveSongFromAlbum(CurrentAlbum, removeList, Connection);
                 humanActivity.Enabled = true;
                 lbMusic.ResumeLayout();
                 return;
@@ -3502,7 +3509,7 @@ namespace amp
                     humanActivity.Enabled = false;
                     MusicFile mf = lbMusic.SelectedItem as MusicFile;
                     string s = FormRename.Execute(mf);
-                    Database.SaveOverrideName(ref mf, s, Connection);
+                    AmpDatabase.SaveOverrideName(ref mf, s, Connection);
                     lbMusic.RefreshItem(lbMusic.SelectedIndex);
                     e.SuppressKeyPress = true;
                     e.Handled = true;

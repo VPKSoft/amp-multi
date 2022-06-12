@@ -55,7 +55,7 @@ namespace amp.FormsUtility.UserInteraction
 
             if (DefaultAlbumName == default)
             {
-                DefaultAlbumName = Database.GetDefaultAlbumName(FormMain.Connection);
+                DefaultAlbumName = amp.SQLiteDatabase.Database.GetDefaultAlbumName(FormMain.Connection);
             }
         }
 
@@ -78,7 +78,7 @@ namespace amp.FormsUtility.UserInteraction
         /// <returns>A name for an album in case the user accepted the dialog; otherwise string.Empty.</returns>
         public static string Execute(string dialogTitle, string name = "")
         {
-            FormAddAlbum form = new FormAddAlbum {tbAlbumName = {Text = name}, PreviousName = name, Text = dialogTitle};
+            FormAddAlbum form = new FormAddAlbum { tbAlbumName = { Text = name }, PreviousName = name, Text = dialogTitle };
             if (form.ShowDialog() == DialogResult.OK)
             {
                 return form.tbAlbumName.Text;

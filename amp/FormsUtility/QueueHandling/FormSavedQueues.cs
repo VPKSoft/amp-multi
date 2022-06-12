@@ -114,7 +114,7 @@ namespace amp.FormsUtility.QueueHandling
             tsbModifySavedQueue.Enabled = false;
             tsbExportQueue.Enabled = false;
 
-            var queues = Database.GetAlbumQueues(albumName, conn);
+            var queues = amp.SQLiteDatabase.Database.GetAlbumQueues(albumName, conn);
 
             foreach (var queue in queues)
             {
@@ -231,7 +231,7 @@ namespace amp.FormsUtility.QueueHandling
             {
                 if (lvQueues.SelectedIndices.Count > 0)
                 {
-                    var queue = (SavedQueue) lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
+                    var queue = (SavedQueue)lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
                     return queue.Id;
                 }
 
@@ -249,7 +249,7 @@ namespace amp.FormsUtility.QueueHandling
             {
                 if (lvQueues.SelectedIndices.Count > 0)
                 {
-                    var queue = (SavedQueue) lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
+                    var queue = (SavedQueue)lvQueues.Items[lvQueues.SelectedIndices[0]].Tag;
 
                     return queue.QueueSongs;
                 }
@@ -285,7 +285,7 @@ namespace amp.FormsUtility.QueueHandling
         {
             if (sdExportQueue.ShowDialog() == DialogResult.OK)
             {
-                Database.SaveQueueSnapshotToFile(conn, QueueId, sdExportQueue.FileName);
+                amp.SQLiteDatabase.Database.SaveQueueSnapshotToFile(conn, QueueId, sdExportQueue.FileName);
             }
         }
 
@@ -293,14 +293,14 @@ namespace amp.FormsUtility.QueueHandling
         private void tsbImportQueue_Click(object sender, EventArgs e)
         {
             if (odExportQueue.ShowDialog() == DialogResult.OK)
-            {                
+            {
                 FormMain wnd = Application.OpenForms[0] as FormMain;
 
-                string queueName = Database.GetQueueSnapshotName(odExportQueue.FileName);
+                string queueName = amp.SQLiteDatabase.Database.GetQueueSnapshotName(odExportQueue.FileName);
 
                 queueName = FormQueueSnapshotName.Execute(queueName, true);
 
-                if (wnd != null && Database.RestoreQueueSnapshotFromFile(wnd.PlayList, conn, wnd.CurrentAlbum,
+                if (wnd != null && amp.SQLiteDatabase.Database.RestoreQueueSnapshotFromFile(wnd.PlayList, conn, wnd.CurrentAlbum,
                         odExportQueue.FileName, queueName))
                 {
                     RefreshList();

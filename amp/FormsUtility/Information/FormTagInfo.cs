@@ -162,7 +162,7 @@ namespace amp.FormsUtility.Information
             }
             if (pictures.Count > 0)
             {
-                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) {Position = 0};
+                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) { Position = 0 };
                 Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
@@ -180,7 +180,7 @@ namespace amp.FormsUtility.Information
             }
             if (pictures.Count > 0)
             {
-                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) {Position = 0};
+                MemoryStream ms = new MemoryStream(pictures[picIndex].Data.Data) { Position = 0 };
                 Image im = Image.FromStream(ms);
                 pbAlbum.Image = im;
             }
@@ -195,7 +195,7 @@ namespace amp.FormsUtility.Information
         {
             FormTagInfo frm = new FormTagInfo
             {
-                mf = musicFile, 
+                mf = musicFile,
                 Owner = parent
             };
             frm.ShowDialog();
@@ -237,7 +237,7 @@ namespace amp.FormsUtility.Information
                 {
                     mf.SongImage = Image.FromFile(odImageFile.FileName);
                     pbAlbum.Image = mf.SongImage;
-                    Database.SaveImage(mf, FormMain.Connection);
+                    amp.SQLiteDatabase.Database.SaveImage(mf, FormMain.Connection);
                     formMain.UpdateSongName();
                     btRemoveImage.Enabled = mf.SongImage != null;
                 }
@@ -251,7 +251,7 @@ namespace amp.FormsUtility.Information
             btRemoveImage.Enabled = mf.SongImage != null;
             formMain.UpdateSongName();
             pbAlbum.Image = mf.SongImage;
-            Database.SaveImage(mf, FormMain.Connection);
+            amp.SQLiteDatabase.Database.SaveImage(mf, FormMain.Connection);
             ShowNextPic();
         }
     }

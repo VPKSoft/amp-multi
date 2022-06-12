@@ -151,7 +151,7 @@ namespace amp.FormsUtility.Progress
                 if (mf != null)
                 {
                     mf.LoadTag(true);
-                    sql += $"UPDATE SONG SET TITLE = {Database.QS(mf.Title)} WHERE ID = {mf.ID}; " + Environment.NewLine;
+                    sql += $"UPDATE SONG SET TITLE = {amp.SQLiteDatabase.Database.QS(mf.Title)} WHERE ID = {mf.ID}; " + Environment.NewLine;
                 }
                 if ((currentValue % 100) == 0)
                 {

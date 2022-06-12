@@ -336,6 +336,7 @@
     <Compile Remove="FormAbout.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\amp.Database\amp.Database.csproj" />
     <ProjectReference Include="..\AmpControls\AmpControls.csproj" />
   </ItemGroup>
   <ItemGroup>
