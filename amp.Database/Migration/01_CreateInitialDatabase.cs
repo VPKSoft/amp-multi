@@ -50,6 +50,7 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(Song.Track)).AsString().Nullable()
             .WithColumn(nameof(Song.Year)).AsString().Nullable()
             .WithColumn(nameof(Song.Lyrics)).AsString().Nullable()
+            .WithColumn(nameof(Song.Rating)).AsInt32().Nullable()
             .WithColumn(nameof(Song.PlayedByRandomize)).AsInt32().Nullable()
             .WithColumn(nameof(Song.PlayedByUser)).AsInt32().Nullable()
             .WithColumn(nameof(Song.FileSizeBytes)).AsInt64().Nullable()

@@ -34,44 +34,222 @@ namespace amp.Database.LegacyConvert;
 /// <summary>
 /// A class to migrate data from the old format into the new EF Core database.
 /// </summary>
-public class MigrateOld
+public static class MigrateOld
 {
     /// <summary>
-    /// Migrates the existing data into the EF Core database.
+    /// Gets statistic numbers from the old database.
+    /// </summary>
+    /// <param name="fileNameOld">The old database file name.</param>
+    /// <returns>A value tuple with the statistics.</returns>
+    public static (int songs, int albums, int albumSongs, int queueSnaphots) OldDatabaseStatistics(string fileNameOld)
+    {
+        using var connectionOld = new SqliteConnection($"Data Source={fileNameOld}");
+        connectionOld.Open();
+        var songs = GetTableCount(connectionOld, "SONG");
+        var albums = GetTableCount(connectionOld, "ALBUM") - 1;
+        var albumSongs = GetTableCount(connectionOld, "ALBUMSONGS");
+        var queueSnapshots = GetQueueCountTotal(connectionOld);
+        return (songs, albums, albumSongs, queueSnapshots);
+    }
+
+    private static int GetTableCount(SqliteConnection connection, string tableName)
+    {
+        using var sqlCommand = new SqliteCommand($"SELECT COUNT(*) FROM {tableName}", connection);
+        return Convert.ToInt32(sqlCommand.ExecuteScalar());
+    }
+
+    private static int GetQueueCountTotal(SqliteConnection connection)
+    {
+        using var sqlCommand = new SqliteCommand("SELECT COUNT(*) + COUNT(DISTINCT ID) FROM QUEUE_SNAPSHOT", connection);
+        return Convert.ToInt32(sqlCommand.ExecuteScalar());
+    }
+
+
+    /// <summary>
+    /// Occurs when the database migration progress changes.
+    /// </summary>
+    public static event EventHandler<ConvertProgressArgs>? ReportProgress;
+
+    /// <summary>
+    /// Occurs when database migration thread has been stopped.
+    /// </summary>
+    public static event EventHandler<ConvertProgressArgs>? ThreadStopped;
+
+    private static volatile bool stopConvert;
+
+    /// <summary>
+    /// Creates a thread which converts the old database into the new EF Core format.
     /// </summary>
     /// <param name="fileNameOld">The old database file name.</param>
     /// <param name="fileNameNew">The new database file name.</param>
-    public static void MigrateExistingData(string fileNameOld, string fileNameNew)
+    /// <param name="transactionRowLimit">An amount of rows to insert in a single transaction into the database.</param>
+    public static void RunConvert(string fileNameOld, string fileNameNew, int transactionRowLimit = 100)
     {
+        var totals = OldDatabaseStatistics(fileNameOld);
+        var allCount = totals.albumSongs + totals.albums + totals.queueSnaphots + totals.songs;
+
+        var migrations = GenerateMigrationData(fileNameOld, fileNameNew, transactionRowLimit);
+
+        var songs = 0;
+        var albums = 0;
+        var albumEntries = 0;
+        var queueSnapshots = 0;
+
+        stopConvert = false;
+
+        var migrateDataThread = new Thread(new ThreadStart(delegate
+        {
+            void RiseThreadStopped()
+            {
+                ThreadStopped?.Invoke(null,
+                    new ConvertProgressArgs
+                    {
+                        SongsHandledCount = songs,
+                        SongsCountTotal = totals.songs,
+                        AlbumsHandledCount = albums,
+                        AlbumsCountTotal = totals.albums,
+                        AlbumEntriesHandledCount = albumEntries,
+                        AlbumEntryCountTotal = totals.albumSongs,
+                        QueueEntriesHandledCount = queueSnapshots,
+                        QueueEntryCountTotal = totals.queueSnaphots,
+                        CountTotal = allCount,
+                    });
+            }
+
+            using var connection = new SqliteConnection($"Data Source={fileNameNew}");
+            connection.Open();
+            foreach (var migration in migrations)
+            {
+                for (var i = 0; i < migration.Value.Count; i++)
+                {
+                    if (stopConvert)
+                    {
+                        RiseThreadStopped();
+                        stopConvert = true;
+                        return;
+                    }
+
+                    using var sqlCommand = new SqliteCommand(migration.Value[i], connection);
+                    var affected = sqlCommand.ExecuteNonQuery();
+
+                    switch (migration.Key)
+                    {
+                        case 0: songs += affected; break;
+                        case 1: albums += affected; break;
+                        case 2: albumEntries += affected; break;
+                        case 3: queueSnapshots += affected; break;
+                    }
+
+                    ReportProgress?.Invoke(null,
+                        new ConvertProgressArgs
+                        {
+                            SongsHandledCount = songs,
+                            SongsCountTotal = totals.songs,
+                            AlbumsHandledCount = albums,
+                            AlbumsCountTotal = totals.albums,
+                            AlbumEntriesHandledCount = albumEntries,
+                            AlbumEntryCountTotal = totals.albumSongs,
+                            QueueEntriesHandledCount = queueSnapshots,
+                            QueueEntryCountTotal = totals.queueSnaphots,
+                            CountTotal = allCount,
+                        });
+
+                    if (stopConvert)
+                    {
+                        RiseThreadStopped();
+                        stopConvert = true;
+                        return;
+                    }
+                }
+            }
+
+            stopConvert = true;
+            RiseThreadStopped();
+        }));
+
+        migrateDataThread.Start();
+    }
+
+    /// <summary>
+    /// Stops the database conversion thread.
+    /// </summary>
+    public static void AbortConversion()
+    {
+        stopConvert = true;
+    }
+
+    /// <summary>
+    /// Collects a SQL sentence collection which migrates the existing data into the EF Core database.
+    /// </summary>
+    /// <param name="fileNameOld">The old database file name.</param>
+    /// <param name="fileNameNew">The new database file name.</param>
+    /// <param name="transactionRowLimit">The amount of rows to insert in a single transaction.</param>
+    private static Dictionary<int, List<string>> GenerateMigrationData(string fileNameOld, string fileNameNew, int transactionRowLimit = 100)
+    {
+        var result = new Dictionary<int, List<string>>();
+
         string GetField<T>(SqliteDataReader r, int ordinal)
         {
-            if (r.IsDBNull(ordinal))
+            try
             {
-                return "NULL";
-            }
+                if (r.IsDBNull(ordinal))
+                {
+                    return "NULL";
+                }
 
-            if (typeof(T) == typeof(string))
+                if (typeof(T) == typeof(string))
+                {
+                    return $"'{r.GetFieldValue<string>(ordinal).Replace("'", "''")}'";
+                }
+
+                if (typeof(T) == typeof(double))
+                {
+                    return $"{r.GetFieldValue<double>(ordinal).ToString(CultureInfo.InvariantCulture)}";
+                }
+
+                if (typeof(T) == typeof(bool))
+                {
+                    return $"{(r.GetFieldValue<long>(ordinal) == 1 ? "1" : "0")}";
+                }
+
+                if (typeof(T) == typeof(DateTime))
+                {
+                    return $"'{r.GetFieldValue<DateTime>(ordinal):yyyy'-'MM'-'dd HH':'mm':'ss}'";
+                }
+
+                if (typeof(T) == typeof(long))
+                {
+                    return r.GetFieldValue<long>(ordinal).ToString();
+                }
+
+                return $"{r.GetFieldValue<T>(ordinal)}";
+            }
+            catch
             {
-                return $"'{r.GetFieldValue<string>(ordinal).Replace("'", "''")}'";
+                return string.Empty;
             }
-
-            if (typeof(T) == typeof(double))
-            {
-                return $"{r.GetFieldValue<double>(ordinal).ToString(CultureInfo.InvariantCulture)}";
-            }
-
-            if (typeof(T) == typeof(bool))
-            {
-                return $"{(r.GetFieldValue<bool>(ordinal) ? "1" : "0")}";
-            }
-
-            if (typeof(T) == typeof(DateTime))
-            {
-                return $"'{r.GetFieldValue<DateTime>(ordinal):yyyy'-'MM'-'dd HH':'mm':'ss}'";
-            }
-
-            return $"{r.GetFieldValue<T>(ordinal)}";
         }
+
+        void AppendBatch(StringBuilder sqlBatch, int key)
+        {
+            if (sqlBatch.Length == 0)
+            {
+                return;
+            }
+
+            if (result.ContainsKey(key))
+            {
+                result[key].Add(sqlBatch.ToString());
+                sqlBatch.Clear();
+            }
+            else
+            {
+                result.Add(key, new List<string>(new[] { sqlBatch.ToString(), }));
+            }
+
+            sqlBatch.Clear();
+        }
+
 
         using var connectionOld = new SqliteConnection($"Data Source={fileNameOld}");
         connectionOld.Open();
@@ -79,15 +257,33 @@ public class MigrateOld
         connection.Open();
 
         var sql = string.Join(Environment.NewLine,
-            "SELECT ID, FILENAME, ARTIST, ALBUM, TRACK, YEAR, LYRICS,",
-            "RATING, NPLAYED_RAND, NPLAYED_USER, FILESIZE, VOLUME, OVERRIDE_NAME,",
-            "TAGFINDSTR, TAGREAD, FILENAME_NOPATH, SKIPPED_EARLY, TITLE",
+            "SELECT",
+            "ID, ",                 // 0
+            "FILENAME, ",           // 1
+            "ARTIST, ",             // 2
+            "ALBUM, ",              // 3
+            "TRACK, ",              // 4
+            "YEAR, ",               // 5
+            "LYRICS,",              // 6
+            "RATING, ",             // 7
+            "NPLAYED_RAND, ",       // 8
+            "NPLAYED_USER, ",       // 9
+            "FILESIZE,",            // 10
+            "VOLUME, ",             // 11
+            "OVERRIDE_NAME,",       // 12
+            "TAGFINDSTR, ",         // 13
+            "TAGREAD, ",            // 14
+            "FILENAME_NOPATH, ",    // 15
+            "SKIPPED_EARLY, ",      // 16
+            "TITLE",                // 17
             "FROM",
             "SONG");
 
         var command = new SqliteCommand(sql, connectionOld);
         var reader = command.ExecuteReader();
 
+
+        var counter = 0;
 
         var sqlBatch = new StringBuilder();
 
@@ -113,44 +309,64 @@ public class MigrateOld
             };
 
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO Song (Id, FileName, Artist, Album, Track, Year, Lyrics,",
-                "PlayedByRandomize, PlayedByUser, FileSizeBytes, PlaybackVolume,",
-                "OverrideName, TagFindString, TagRead, FileNameNoPath, SkippedEarlyCount, Title, MusicFileType)",
+                "INSERT INTO Song (" +
+                "Id, ",                 // 0
+                "FileName, ",           // 1
+                "Artist, ",             // 2
+                "Album, ",              // 3
+                "Track, ",              // 4
+                "Year, ",               // 5
+                "Lyrics, ",             // 6
+                "Rating, ",             // 7
+                "PlayedByRandomize,",   // 8
+                "PlayedByUser, ",       // 9
+                "FileSizeBytes, ",      // 10
+                "PlaybackVolume,",      // 11
+                "OverrideName, ",       // 12
+                "TagFindString, ",      // 13
+                "TagRead, ",            // 14
+                "FileNameNoPath, ",     // 15
+                "SkippedEarlyCount, ",  // 16
+                "Title, ",              // 17
+                "MusicFileType)",       // 18
                 "SELECT",
-                $"{GetField<long>(reader, 0)},",
-                $"{GetField<string>(reader, 1)},",
-                $"{GetField<string>(reader, 2)},",
-                $"{GetField<string>(reader, 3)},",
-                $"{GetField<string>(reader, 4)},",
-                $"{GetField<string>(reader, 5)},",
-                $"{GetField<string>(reader, 6)},",
-
-                $"{GetField<int>(reader, 7)},",
-                $"{GetField<int>(reader, 8)},",
-                $"{GetField<long>(reader, 9)},",
-                $"{GetField<double>(reader, 10)},",
-
-                $"{GetField<string>(reader, 11)},",
-                $"{GetField<string>(reader, 12)},",
-                $"{GetField<bool>(reader, 13)},",
-                $"{GetField<string>(reader, 14)},",
-                $"{GetField<int>(reader, 15)},",
-                $"{GetField<string>(reader, 16)},",
-                $"{(int)fileType};");
+                $"{GetField<long>(reader, 0)},",    // 9
+                $"{GetField<string>(reader, 1)},",  // 1
+                $"{GetField<string>(reader, 2)},",  // 2
+                $"{GetField<string>(reader, 3)},",  // 3
+                $"{GetField<string>(reader, 4)},",  // 4
+                $"{GetField<string>(reader, 5)},",  // 5
+                $"{GetField<string>(reader, 6)},",  // 6
+                $"{GetField<long>(reader, 7)},",    // 7
+                $"{GetField<long>(reader, 8)},",    // 8
+                $"{GetField<long>(reader, 9)},",    // 9
+                $"{GetField<long>(reader, 10)},",   // 10
+                $"{GetField<double>(reader, 11)},", // 11
+                $"{GetField<string>(reader, 12)},", // 12
+                $"{GetField<string>(reader, 13)},", // 13
+                $"{GetField<bool>(reader, 14)},",   // 14
+                $"{GetField<string>(reader, 15)},", // 15
+                $"{GetField<long>(reader, 16)},",   // 16
+                $"{GetField<string>(reader, 17)},", // 17
+                $"{(int)fileType};");                      // 18
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
+            sqlBatch.AppendLine();
+
+            counter++;
+
+            if ((counter % transactionRowLimit) == 0)
+            {
+                AppendBatch(sqlBatch, 0);
+            }
         }
+
+        AppendBatch(sqlBatch, 0);
 
         reader.Dispose();
         command.Dispose();
-
-        var commandText = sqlBatch.ToString();
-        command = new SqliteCommand(commandText, connection);
-        command.ExecuteNonQuery();
-        command.Dispose();
-
-
+        counter = 0;
 
         sqlBatch = new StringBuilder();
         sql = "SELECT ID, ALBUMNAME FROM ALBUM WHERE ID > 0";
@@ -166,14 +382,19 @@ public class MigrateOld
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
+
+            counter++;
+
+            if ((counter % transactionRowLimit) == 0)
+            {
+                AppendBatch(sqlBatch, 1);
+            }
         }
+        AppendBatch(sqlBatch, 1);
 
-
-        commandText = sqlBatch.ToString();
-        command = new SqliteCommand(commandText, connection);
-        command.ExecuteNonQuery();
         reader.Dispose();
         command.Dispose();
+        counter = 0;
 
         sqlBatch = new StringBuilder();
         sql = "SELECT ALBUM_ID, SONG_ID, QUEUEINDEX FROM ALBUMSONGS";
@@ -186,24 +407,30 @@ public class MigrateOld
                 "SELECT",
                 $"{GetField<long>(reader, 0)},",
                 $"{GetField<long>(reader, 1)},",
-                $"{GetField<int>(reader, 2)};");
+                $"{GetField<long>(reader, 2)};");
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
-        }
 
-        commandText = sqlBatch.ToString();
-        command = new SqliteCommand(commandText, connection);
-        command.ExecuteNonQuery();
+
+            counter++;
+
+            if ((counter % transactionRowLimit) == 0)
+            {
+                AppendBatch(sqlBatch, 2);
+            }
+        }
+        AppendBatch(sqlBatch, 2);
+
         reader.Dispose();
         command.Dispose();
+        counter = 0;
 
 
         var snapshotId = 0;
         var previousSnapshotName = string.Empty;
 
         sqlBatch = new StringBuilder();
-        var sqlSubBatch = new StringBuilder();
         sql = "SELECT ID, ALBUM_ID, SONG_ID, QUEUEINDEX, SNAPSHOTNAME, SNAPSHOT_DATE FROM QUEUE_SNAPSHOT";
         command = new SqliteCommand(sql, connectionOld);
         reader = command.ExecuteReader();
@@ -230,21 +457,23 @@ public class MigrateOld
                 "SELECT",
                 $"{GetField<long>(reader, 2)},",
                 $"{snapshotId},",
-                $"{GetField<string>(reader, 3)};");
+                $"{GetField<long>(reader, 3)};");
 
-            sqlSubBatch.Append(sqlNew);
-            sqlSubBatch.AppendLine();
+            sqlBatch.Append(sqlNew);
+
+            counter++;
+
+            if ((counter % transactionRowLimit) == 0)
+            {
+                AppendBatch(sqlBatch, 3);
+            }
+
         }
 
-        commandText = sqlBatch.ToString();
-        command = new SqliteCommand(commandText, connection);
-        command.ExecuteNonQuery();
+        AppendBatch(sqlBatch, 3);
         reader.Dispose();
         command.Dispose();
 
-        commandText = sqlSubBatch.ToString();
-        command = new SqliteCommand(commandText, connection);
-        command.ExecuteNonQuery();
-        command.Dispose();
+        return result;
     }
 }

@@ -61,16 +61,6 @@ public class Migrate
     }
 
     /// <summary>
-    /// Migrates the existing data into the EF Core database.
-    /// </summary>
-    /// <param name="fileNameOld">The old database file name.</param>
-    /// <param name="fileNameNew">The new database file name.</param>
-    public static void MigrateExistingData(string fileNameOld, string fileNameNew)
-    {
-        MigrateOld.MigrateExistingData(fileNameOld, fileNameNew);
-    }
-
-    /// <summary>
     /// Performs the backward migration for the database.
     /// </summary>
     /// <param name="version">The version of the migration.</param>

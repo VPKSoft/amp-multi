@@ -1,0 +1,60 @@
+﻿<Project Sdk="Eto.Forms/2.7.0">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ApplicationIcon>Images/amp.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="Images/amp.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\amp\amp.licenseheader" Link="amp.licenseheader" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Localization\Messages.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Messages.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Localization\UI.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>UI.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Localization\Messages.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Messages.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\UI.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>UI.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>
