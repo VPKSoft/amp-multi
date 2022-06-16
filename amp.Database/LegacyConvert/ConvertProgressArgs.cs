@@ -92,4 +92,10 @@ public class ConvertProgressArgs : EventArgs
     /// </summary>
     /// <value>The count of total entries to handle in the conversion.</value>
     public int CountTotal { get; init; }
+
+    /// <summary>
+    /// Gets the ETA time of the conversion.
+    /// </summary>
+    /// <value>The ETA time of the conversion.</value>
+    public DateTime? Eta { get; init; }
 }

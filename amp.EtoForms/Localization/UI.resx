@@ -127,4 +127,7 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="TimeEstimateReady" xml:space="preserve">
+    <value>Time estimate (ready)</value>
+  </data>
 </root>

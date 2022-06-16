@@ -52,6 +52,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
         lbQueueEntryCount = new Label();
         lbTotalCount = new Label();
         lbTotalPercentage = new Label();
+        lbEtaValue = new Label();
         progressBar = new ProgressBar();
 
         Title = $"amp# - {UI.DatabaseConversion}";
@@ -61,53 +62,74 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
             Items =
             {
                 new StackLayoutItem(
-                new TableLayout
-                {
-                    Rows =
+                    new TableLayout
                     {
-                        new TableRow
+                        Rows =
                         {
-                            Cells =
+                            new TableRow
                             {
-                                new Label { Text = UI.Songs + ":", },
-                                new Panel { Width = 5, },
-                                lbSongCount,
-                                new Panel { Width = 10, },
-                                new Label { Text = UI.Albums + ":", },
-                                new Panel { Width = 5, },
-                                lbAlbumCount,
+                                Cells =
+                                {
+                                    new Label { Text = UI.Songs + ":", },
+                                    new Panel { Width = 5, },
+                                    lbSongCount,
+                                    new Panel { Width = 10, },
+                                    new Label { Text = UI.Albums + ":", },
+                                    new Panel { Width = 5, },
+                                    lbAlbumCount,
+                                },
+                            },
+                            new TableRow
+                            {
+                                Cells =
+                                {
+                                    new Label { Text = UI.AlbumEntries + ":", },
+                                    new Panel { Width = 5, },
+                                    lbAlbumEntryCount,
+                                    new Panel { Width = 10, },
+                                    new Label { Text = UI.QueueEntries + ":", },
+                                    new Panel { Width = 5, },
+                                    lbQueueEntryCount,
+                                },
+                            },
+                            new TableRow
+                            {
+                                Cells =
+                                {
+                                    new Label { Text = UI.Total + ":", },
+                                    new Panel { Width = 5, },
+                                    lbTotalCount,
+                                    new Panel { Width = 10, },
+                                    new Label { Text = UI.TotalPercentage + ":", },
+                                    new Panel { Width = 5, },
+                                    lbTotalPercentage,
+                                },
                             },
                         },
-                        new TableRow
-                        {
-                            Cells =
+                        Padding = 10,
+                    }, HorizontalAlignment.Center),
+                new StackLayoutItem(new Panel { Content = progressBar, Padding = new Padding(10, 2), },
+                    HorizontalAlignment.Stretch),
+                new StackLayoutItem(
+                    new Panel
+                    {
+                        Content =
+                            new TableLayout
                             {
-                                new Label { Text = UI.AlbumEntries + ":", },
-                                new Panel { Width = 5, },
-                                lbAlbumEntryCount,
-                                new Panel { Width = 10, },
-                                new Label { Text = UI.QueueEntries + ":", },
-                                new Panel { Width = 5, },
-                                lbQueueEntryCount,
-                            },
-                        },
-                        new TableRow
-                        {
-                            Cells =
-                            {
-                                new Label { Text = UI.Total + ":", },
-                                new Panel { Width = 5, },
-                                lbTotalCount,
-                                new Panel { Width = 10, },
-                                new Label { Text = UI.TotalPercentage + ":", },
-                                new Panel { Width = 5, },
-                                lbTotalPercentage,
-                            },
-                        },
+                                Rows =
+                                {
+                                    new TableRow
+                                    {
+                                        Cells =
+                                        {
+                                            new Label { Text = UI.TimeEstimateReady + ":", },
+                                            lbEtaValue,
+                                        },
+                                    },
+                                },
+                            }, Padding = new Padding(10, 2)
                     },
-                    Padding = 10,
-                }, HorizontalAlignment.Center),
-                new StackLayoutItem(new Panel { Content = progressBar, Padding = new Padding(10, 2),}, HorizontalAlignment.Stretch),
+                    HorizontalAlignment.Center),
             },
             Orientation = Orientation.Vertical,
         };
@@ -175,6 +197,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
             var totalPercentage = e.CountTotal == 0 ? 100.0 : (double)e.HandledCountTotal / e.CountTotal * 100.0;
             lbTotalPercentage.Text = $"{totalPercentage:F2}";
             progressBar.Value = (int)Math.Ceiling(totalPercentage);
+            lbEtaValue.Text = e.Eta == null ? "-" : $"{e.Eta.Value.ToShortDateString()} {e.Eta.Value.ToLongTimeString()}";
         });
     }
 
@@ -184,6 +207,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     private readonly Label lbQueueEntryCount;
     private readonly Label lbTotalCount;
     private readonly Label lbTotalPercentage;
+    private readonly Label lbEtaValue;
     private readonly Button btClose;
     private readonly Button btCancel;
     private readonly ProgressBar progressBar;

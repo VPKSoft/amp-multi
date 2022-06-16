@@ -75,10 +75,9 @@ public class FormMain : Form
                     migrate.RunMigrateUp();
 
                     new DialogDatabaseConvertProgress().ShowModal(this, oldDatabaseFileName, database);
-                    //// TODO:Splash the conversion progress && speedup!
-                    //Migrate.MigrateExistingData(oldDatabaseFileName, database);
-                    //Globals.Settings.MigrateDatabase = false;
-                    //Globals.SaveSettings();
+
+                    Globals.Settings.MigrateDatabase = false;
+                    Globals.SaveSettings();
                 }
             }
         }

@@ -28,6 +28,8 @@ using System.Globalization;
 using System.Text;
 using amp.Database.Enumerations;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using VPKSoft.DropOutStack;
 
 namespace amp.Database.LegacyConvert;
 
@@ -95,12 +97,16 @@ public static class MigrateOld
         var albumEntries = 0;
         var queueSnapshots = 0;
 
+        var timeStack = new DropOutStack<(DateTime start, DateTime end)>(10);
+        var secondsAverage = 0.0;
+
         stopConvert = false;
 
         var migrateDataThread = new Thread(new ThreadStart(delegate
         {
             void RiseThreadStopped()
             {
+                var entriesLeft = (double)allCount - (songs + albums + queueSnapshots + albumEntries);
                 ThreadStopped?.Invoke(null,
                     new ConvertProgressArgs
                     {
@@ -113,6 +119,7 @@ public static class MigrateOld
                         QueueEntriesHandledCount = queueSnapshots,
                         QueueEntryCountTotal = totals.queueSnaphots,
                         CountTotal = allCount,
+                        Eta = secondsAverage == 0 ? null : DateTime.Now.AddSeconds(entriesLeft * secondsAverage),
                     });
             }
 
@@ -130,7 +137,10 @@ public static class MigrateOld
                     }
 
                     using var sqlCommand = new SqliteCommand(migration.Value[i], connection);
+                    var start = DateTime.Now;
                     var affected = sqlCommand.ExecuteNonQuery();
+                    timeStack.Push((start, DateTime.Now));
+                    secondsAverage = affected == 0 ? 0 : timeStack.ToArray().Select(f => (f.end - f.start).TotalSeconds).Average() / affected;
 
                     switch (migration.Key)
                     {
@@ -140,6 +150,7 @@ public static class MigrateOld
                         case 3: queueSnapshots += affected; break;
                     }
 
+                    var entriesLeft = (double)allCount - (songs + albums + queueSnapshots + albumEntries);
                     ReportProgress?.Invoke(null,
                         new ConvertProgressArgs
                         {
@@ -152,6 +163,7 @@ public static class MigrateOld
                             QueueEntriesHandledCount = queueSnapshots,
                             QueueEntryCountTotal = totals.queueSnaphots,
                             CountTotal = allCount,
+                            Eta = secondsAverage == 0 ? null : DateTime.Now.AddSeconds(entriesLeft * secondsAverage),
                         });
 
                     if (stopConvert)

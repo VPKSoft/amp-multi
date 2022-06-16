@@ -127,4 +127,7 @@
   <data name="Close" xml:space="preserve">
     <value>Sulje</value>
   </data>
+  <data name="TimeEstimateReady" xml:space="preserve">
+    <value>Aika-arvio (valmis)</value>
+  </data>
 </root>

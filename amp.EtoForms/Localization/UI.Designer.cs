@@ -133,6 +133,15 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time estimate (ready).
+        /// </summary>
+        internal static string TimeEstimateReady {
+            get {
+                return ResourceManager.GetString("TimeEstimateReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         internal static string Total {
