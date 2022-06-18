@@ -37,13 +37,13 @@ public interface IQueueSong : IEntity
     /// Gets or sets the song reference identifier.
     /// </summary>
     /// <value>The song reference identifier.</value>
-    int SongId { get; set; }
+    long SongId { get; set; }
 
     /// <summary>
     /// Gets or sets the queue snapshot reference identifier.
     /// </summary>
     /// <value>The queue snapshot reference identifier.</value>
-    int QueueSnapshotId { get; set; }
+    long QueueSnapshotId { get; set; }
 
     /// <summary>
     /// Gets or sets the index of song in the queue.

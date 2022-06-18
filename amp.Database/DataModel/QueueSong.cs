@@ -38,18 +38,25 @@ namespace amp.Database.DataModel;
 [Table(nameof(QueueSong))]
 public class QueueSong : IQueueSong
 {
-    /// <inheritdoc cref="IEntity.Id"/>
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
     /// <inheritdoc cref="IQueueSong.SongId"/>
-    public int SongId { get; set; }
+    public long SongId { get; set; }
 
     /// <inheritdoc cref="IQueueSong.QueueSnapshotId"/>
-    public int QueueSnapshotId { get; set; }
+    public long QueueSnapshotId { get; set; }
 
     /// <inheritdoc cref="IQueueSong.QueueIndex"/>
     public int QueueIndex { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song of this queue song.
+    /// </summary>
+    /// <value>The song of this queue song.</value>
+    [ForeignKey(nameof(SongId))]
+    public Song? Song { get; set; }
 
     /// <summary>
     /// Gets or sets the queue snapshot reference.

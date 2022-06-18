@@ -72,19 +72,20 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(AlbumSong.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(AlbumSong.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(AlbumSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(AlbumSong.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0);
+            .WithColumn(nameof(AlbumSong.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0)
+            .WithColumn(nameof(AlbumSong.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0);
 
         Create.Table(nameof(QueueSnapshot))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(QueueSnapshot.AlbumId)).AsInt32().ForeignKey(nameof(Album), nameof(IEntity.Id))
+            .WithColumn(nameof(QueueSnapshot.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id))
             .NotNullable()
             .WithColumn(nameof(QueueSnapshot.SnapshotName)).AsString().NotNullable()
             .WithColumn(nameof(QueueSnapshot.SnapshotDate)).AsDateTime2().NotNullable();
 
         Create.Table(nameof(QueueSong))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(QueueSong.SongId)).AsInt32().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt32()
+            .WithColumn(nameof(QueueSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt64()
             .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(QueueSong.QueueIndex)).AsInt32().NotNullable();
     }

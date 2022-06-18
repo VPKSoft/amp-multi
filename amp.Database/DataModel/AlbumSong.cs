@@ -38,7 +38,7 @@ namespace amp.Database.DataModel;
 [Table(nameof(AlbumSong))]
 public class AlbumSong : IAlbumSong
 {
-    /// <inheritdoc cref="IEntity.Id"/>
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
@@ -50,6 +50,9 @@ public class AlbumSong : IAlbumSong
 
     /// <inheritdoc cref="IAlbumSong.QueueIndex"/>
     public int QueueIndex { get; set; }
+
+    /// <inheritdoc cref="IAlbumSong.QueueIndexAlternate"/>
+    public int QueueIndexAlternate { get; set; }
 
     /// <summary>
     /// Gets or sets the album this album song belongs to.

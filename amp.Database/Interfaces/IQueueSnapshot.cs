@@ -37,7 +37,7 @@ public interface IQueueSnapshot : IEntity
     /// Gets or sets the album reference identifier.
     /// </summary>
     /// <value>The album reference identifier.</value>
-    int AlbumId { get; set; }
+    long AlbumId { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the snapshot.

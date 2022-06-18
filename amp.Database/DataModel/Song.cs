@@ -39,7 +39,7 @@ namespace amp.Database.DataModel;
 [Table(nameof(Song))]
 public class Song : ISong
 {
-    /// <inheritdoc cref="IEntity.Id"/>
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 

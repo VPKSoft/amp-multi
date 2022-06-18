@@ -24,13 +24,10 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Threading;
-using amp.EtoForms;
+global using System;
 using Eto.Forms;
 
-namespace SampleApplication.EtoForms;
-
+namespace amp.EtoForms;
 
 /// <summary>
 /// The program main entry point.

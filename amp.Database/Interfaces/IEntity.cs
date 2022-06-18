@@ -29,11 +29,6 @@ namespace amp.Database.Interfaces;
 /// <summary>
 /// The base interface for database entities.
 /// </summary>
-public interface IEntity
+public interface IEntity : IEntityBase<long>
 {
-    /// <summary>
-    /// Gets or sets the entity reference identifier.
-    /// </summary>
-    /// <value>The identifier.</value>
-    long Id { get; set; }
 }

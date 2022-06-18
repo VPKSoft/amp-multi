@@ -24,12 +24,13 @@ SOFTWARE.
 */
 #endregion
 
-using System.Runtime.InteropServices;
 using amp.Database;
-using amp.Database.LegacyConvert;
-using amp.EtoForms.Dialogs;
+using amp.EtoForms.Utilities;
 using Eto.Drawing;
 using Eto.Forms;
+using Microsoft.EntityFrameworkCore;
+using Form = Eto.Forms.Form;
+using ListBox = Eto.Forms.ListBox;
 
 namespace amp.EtoForms;
 
@@ -41,48 +42,33 @@ public class FormMain : Form
     /// </summary>
     public FormMain()
     {
-        MinimumSize = new Size(500, 500);
+        MinimumSize = new Size(550, 650);
 
-        var database = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");
+        // ReSharper disable once StringLiteralTypo
+        var databaseFile = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");
 
-        // The WinForms version might be installed in this case.
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            var ampPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "amp#");
+        WindowsMigrateCheck.ConvertOldCommandLine(this);
+        WindowsMigrateCheck.ConvertOld(this, databaseFile);
 
-            var oldDatabaseFileName = Path.Combine(ampPath, "amp.sqlite");
-
-            if (Globals.Settings.MigrateDatabase &&
-                Directory.Exists(ampPath) &&
-                File.Exists(oldDatabaseFileName))
-            {
-                var statistics = MigrateOld.OldDatabaseStatistics(oldDatabaseFileName);
-
-                var statisticsMessage =
-                    string.Format(
-                        Localization.Messages.ConversionStatistics, Environment.NewLine,
-                        statistics.songs, statistics.albums, statistics.albumSongs, statistics.queueSnaphots);
-
-                if (MessageBox.Show(this,
-                        Localization.Messages
-                            .DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes + statisticsMessage,
-                        Localization.Messages.ConvertDatabase, MessageBoxButtons.YesNo,
-                        MessageBoxType.Question) == DialogResult.Yes)
-                {
-                    File.Delete(database);
-                    var migrate = new Migrate($"Data Source={database}");
-                    migrate.RunMigrateUp();
-
-                    new DialogDatabaseConvertProgress().ShowModal(this, oldDatabaseFileName, database);
-
-                    Globals.Settings.MigrateDatabase = false;
-                    Globals.SaveSettings();
-                }
-            }
-        }
-
-        var migration = new Migrate($"Data Source={database}");
+        var migration = new Migrate($"Data Source={databaseFile}");
         migration.RunMigrateUp();
+
+        Database.Globals.ConnectionString = $"Data Source={databaseFile}";
+
+        Content = new StackLayout
+        {
+            Items =
+            {
+                new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(6, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = lbSongs, Padding = new Padding(6, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
+            }
+        };
+
+        var context = new AmpContext();
+
+        lbSongs.Items.AddRange(context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).Select(f => new ListItem { Text = f.GetAlbumName(), Key = f.Id.ToString(), }));
     }
+
+    private readonly ListBox lbSongs = new() { Height = 650, Width = 550, };
+    private readonly TextBox tbSearch = new();
 }

@@ -38,18 +38,25 @@ namespace amp.Database.DataModel;
 [Table(nameof(QueueSnapshot))]
 public class QueueSnapshot : IQueueSnapshot
 {
-    /// <inheritdoc cref="IEntity.Id"/>
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
     /// <inheritdoc cref="IQueueSnapshot.AlbumId"/>
-    public int AlbumId { get; set; }
+    public long AlbumId { get; set; }
 
     /// <inheritdoc cref="IQueueSnapshot.SnapshotName"/>
     public string SnapshotName { get; set; } = string.Empty;
 
     /// <inheritdoc cref="IQueueSnapshot.SnapshotDate"/>
     public DateTime SnapshotDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the album of the song.
+    /// </summary>
+    /// <value>The album of the song.</value>
+    [ForeignKey(nameof(AlbumId))]
+    public Album? Album { get; set; }
 
     /// <summary>
     /// Gets or sets the queued songs.

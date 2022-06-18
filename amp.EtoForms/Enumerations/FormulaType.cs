@@ -24,24 +24,49 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Interfaces;
-
-namespace amp.Database.DataModel;
-
+namespace amp.EtoForms.Enumerations;
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// An enumeration describing a part of a song naming formula.
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-public class Album : IAlbum
+public enum FormulaType
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
+    /// <summary>
+    /// There is no formula.
+    /// </summary>
+    None,
 
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
+    /// <summary>
+    /// The artist part.
+    /// </summary>
+    Artist,
+
+    /// <summary>
+    /// The album part.
+    /// </summary>
+    Album,
+
+    /// <summary>
+    /// The track number part.
+    /// </summary>
+    TrackNo,
+
+    /// <summary>
+    /// The title part.
+    /// </summary>
+    Title,
+
+    /// <summary>
+    /// The queue index part.
+    /// </summary>
+    QueueIndex,
+
+    /// <summary>
+    /// The alternate queue index part.
+    /// </summary>
+    AlternateQueueIndex,
+
+    /// <summary>
+    /// The override (renamed) name part.
+    /// </summary>
+    Renamed
 }

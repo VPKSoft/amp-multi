@@ -50,4 +50,10 @@ public interface IAlbumSong : IEntity
     /// </summary>
     /// <value>The song index in the queue.</value>
     int QueueIndex { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song index in the alternate queue.
+    /// </summary>
+    /// <value>The song index in the alternate queue.</value>
+    int QueueIndexAlternate { get; set; }
 }

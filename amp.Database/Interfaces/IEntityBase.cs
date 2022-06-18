@@ -24,24 +24,16 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Interfaces;
-
-namespace amp.Database.DataModel;
+namespace amp.Database.Interfaces;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// The base interface for different types of identity for an entity.
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-public class Album : IAlbum
+public interface IEntityBase<T>
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets the entity reference identifier.
+    /// </summary>
+    /// <value>The identifier.</value>
+    T Id { get; set; }
 }
