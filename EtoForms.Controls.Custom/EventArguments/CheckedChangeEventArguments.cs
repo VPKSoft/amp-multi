@@ -24,32 +24,20 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
+using System;
 
-namespace amp.EtoForms;
+namespace EtoForms.Controls.Custom.EventArguments;
 
 /// <summary>
-/// The program main entry point.
+/// Event arguments for checked value change event.
+/// Implements the <see cref="System.EventArgs" />
 /// </summary>
-public class Program
+/// <seealso cref="System.EventArgs" />
+public class CheckedChangeEventArguments : EventArgs
 {
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Gets or sets a value indicating whether the control is checked.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger.Error((Exception)e.ExceptionObject, "");
-    }
+    /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
+    public bool Checked { get; set; }
 }

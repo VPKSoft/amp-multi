@@ -24,12 +24,14 @@ SOFTWARE.
 */
 #endregion
 
+using System;
+using System.IO;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.SvgColorization;
-using EtoForms.Controls.Custom.Utilities;
+using SvgElement = Svg.SvgElement;
 
-namespace amp.EtoForms.Utilities;
+namespace EtoForms.Controls.Custom.Utilities;
 
 /// <summary>
 /// Some helper methods for Eto.Forms.
@@ -295,8 +297,8 @@ public class EtoHelpers
     {
         var color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
         var svgData = SvgColorize.FromBytes(imageData)
-            .ColorizeElementsFill(SvgElement.All, color)
-            .ColorizeElementsStroke(SvgElement.All, color);
+            .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
+            .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
 
         return SvgToImage.ImageFromSvg(svgData.ToBytes(), size);
     }
@@ -331,8 +333,8 @@ public class EtoHelpers
 
         var color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
         var svgData = svgColorize
-            .ColorizeElementsFill(SvgElement.All, color)
-            .ColorizeElementsStroke(SvgElement.All, color);
+            .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
+            .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
         button.Image = SvgToImage.ImageFromSvg(svgData.ToBytes(), new Size(16, 16));
 
         var resizeCount = 0;
@@ -351,8 +353,8 @@ public class EtoHelpers
 
             color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
             svgData = svgColorize
-                .ColorizeElementsFill(SvgElement.All, color)
-                .ColorizeElementsStroke(SvgElement.All, color);
+                .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
+                .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
             button.Image = SvgToImage.ImageFromSvg(svgData.ToBytes(), new Size(sizeWh, sizeWh));
         };
 

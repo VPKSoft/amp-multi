@@ -24,6 +24,8 @@ SOFTWARE.
 */
 #endregion
 
+using Serilog;
+
 namespace amp.EtoForms;
 
 /// <summary>
@@ -31,7 +33,7 @@ namespace amp.EtoForms;
 /// </summary>
 internal static class Globals
 {
-    private static Settings? settings;
+    private static Settings.Settings? settings;
     private static string? dataFolder;
 
     /// <summary>
@@ -47,18 +49,32 @@ internal static class Globals
         }
     }
 
+    private static Serilog.Core.Logger? logger;
+
+    internal static Serilog.Core.Logger Logger
+    {
+        get
+        {
+            logger ??= new LoggerConfiguration()
+                .WriteTo.File(Path.Combine(DataFolder, "amp_log.txt"), rollOnFileSizeLimit: true, fileSizeLimitBytes: 20_000_000, retainedFileCountLimit: 10 )
+                .CreateLogger();
+
+            return logger;
+        }
+    }
+
     /// <summary>
     /// Gets the application settings.
     /// </summary>
     /// <value>The application settings.</value>
-    internal static Settings Settings
+    internal static Settings.Settings Settings
     {
         get
         {
             var reload = false;
             if (settings == null)
             {
-                settings = new Settings();
+                settings = new Settings.Settings();
                 reload = true;
             }
 

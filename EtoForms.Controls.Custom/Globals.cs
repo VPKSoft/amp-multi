@@ -24,45 +24,39 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Interfaces;
+using System.Globalization;
+using System.Threading;
+using Eto.Drawing;
 
-namespace amp.Database.DataModel;
+namespace EtoForms.Controls.Custom;
 
 /// <summary>
-/// An entity to save queues into the database.
-/// Implements the <see cref="IQueueSnapshot" />
+/// A class containing the global static parameters.
 /// </summary>
-/// <seealso cref="IQueueSnapshot" />
-[Table(nameof(QueueSnapshot))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class QueueSnapshot : IQueueSnapshot
+public static class Globals
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IQueueSnapshot.AlbumId"/>
-    public long AlbumId { get; set; }
-
-    /// <inheritdoc cref="IQueueSnapshot.SnapshotName"/>
-    public string SnapshotName { get; set; } = string.Empty;
-
-    /// <inheritdoc cref="IQueueSnapshot.SnapshotDate"/>
-    public DateTime SnapshotDate { get; set; }
+    private static Font? font;
 
     /// <summary>
-    /// Gets or sets the album of the song.
+    /// Gets or sets the <see cref="Font"/> to use with the controls of this library.
     /// </summary>
-    /// <value>The album of the song.</value>
-    [ForeignKey(nameof(AlbumId))]
-    public Album? Album { get; set; }
+    /// <value>The font.</value>
+    public static Font Font
+    {
+        get => font ?? new Font(FontFamilies.Sans.Name, 9);
+
+        set => font = value;
+    }
 
     /// <summary>
-    /// Gets or sets the queued songs.
+    /// Gets or sets the floating point comparison tolerance.
     /// </summary>
-    /// <value>The queued songs.</value>
-    [ForeignKey(nameof(Id))]
-    public IList<QueueSong> QueueSongs { get; set; } = new List<QueueSong>();
+    /// <value>The floating point comparison tolerance.</value>
+    public static double FloatingPointTolerance { get; set; } = 0.000000001;
+
+    /// <summary>
+    /// Gets or sets the floating point comparison tolerance for the single-precision floating point values.
+    /// </summary>
+    /// <value>The floating point comparison tolerance.</value>
+    public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
 }

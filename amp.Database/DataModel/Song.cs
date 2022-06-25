@@ -37,6 +37,7 @@ namespace amp.Database.DataModel;
 /// </summary>
 /// <seealso cref="ISong" />
 [Table(nameof(Song))]
+// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
 public class Song : ISong
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>

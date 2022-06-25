@@ -32,26 +32,27 @@ namespace amp.Database.DataModel;
 
 /// <summary>
 /// A link table to album songs.
-/// Implements the <see cref="IAlbumSong" />
+/// Implements the <see cref="IAlbumSong{T}" />
 /// </summary>
-/// <seealso cref="IAlbumSong" />
+/// <seealso cref="IAlbumSong{T}" />
 [Table(nameof(AlbumSong))]
-public class AlbumSong : IAlbumSong
+// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
+public class AlbumSong : IAlbumSong<Song>
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong.AlbumId"/>
+    /// <inheritdoc cref="IAlbumSong{T}.AlbumId"/>
     public long AlbumId { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong.SongId"/>
+    /// <inheritdoc cref="IAlbumSong{T}.SongId"/>
     public long SongId { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong.QueueIndex"/>
+    /// <inheritdoc cref="IAlbumSong{T}.QueueIndex"/>
     public int QueueIndex { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong.QueueIndexAlternate"/>
+    /// <inheritdoc cref="IAlbumSong{T}.QueueIndexAlternate"/>
     public int QueueIndexAlternate { get; set; }
 
     /// <summary>
@@ -61,10 +62,7 @@ public class AlbumSong : IAlbumSong
     [ForeignKey(nameof(AlbumId))]
     public Album? Album { get; set; }
 
-    /// <summary>
-    /// Gets or sets the song entity.
-    /// </summary>
-    /// <value>The song entity.</value>
+    /// <inheritdoc cref="IAlbumSong{T}.Song"/>
     [ForeignKey(nameof(SongId))]
     public Song? Song { get; set; }
 }

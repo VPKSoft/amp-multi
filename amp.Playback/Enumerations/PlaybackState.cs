@@ -24,32 +24,11 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
+namespace amp.Playback.Enumerations;
 
-namespace amp.EtoForms;
-
-/// <summary>
-/// The program main entry point.
-/// </summary>
-public class Program
+public enum PlaybackState
 {
-    /// <summary>
-    /// Defines the entry point of the application.
-    /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger.Error((Exception)e.ExceptionObject, "");
-    }
+    Stopped,
+    Paused,
+    Playing,
 }

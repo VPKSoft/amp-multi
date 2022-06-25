@@ -36,6 +36,7 @@ namespace amp.Database.DataModel;
 /// </summary>
 /// <seealso cref="IQueueSong" />
 [Table(nameof(QueueSong))]
+// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
 public class QueueSong : IQueueSong
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>

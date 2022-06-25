@@ -24,11 +24,12 @@ SOFTWARE.
 */
 #endregion
 
+using System.IO;
 using Eto.Drawing;
 using SkiaSharp;
 using Svg.Skia;
 
-namespace amp.EtoForms.Utilities;
+namespace EtoForms.Controls.Custom.Utilities;
 
 /// <summary>
 /// A platform-independent SVG to bitmap conversion class.

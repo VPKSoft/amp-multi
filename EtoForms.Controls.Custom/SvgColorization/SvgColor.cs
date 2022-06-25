@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.Globalization;
 
-namespace amp.EtoForms.Utilities.SvgColorization;
+namespace EtoForms.Controls.Custom.SvgColorization;
 
 /// <summary>
 /// A struct representing a HTML-styled SVG color.

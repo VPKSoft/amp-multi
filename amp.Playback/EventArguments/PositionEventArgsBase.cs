@@ -24,45 +24,38 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Interfaces;
+using amp.Playback.Enumerations;
 
-namespace amp.Database.DataModel;
+namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// An entity to save queues into the database.
-/// Implements the <see cref="IQueueSnapshot" />
+/// Event arguments base class for various playback events.
+/// Implements the <see cref="EventArgs" />
 /// </summary>
-/// <seealso cref="IQueueSnapshot" />
-[Table(nameof(QueueSnapshot))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class QueueSnapshot : IQueueSnapshot
+/// <seealso cref="EventArgs" />
+public abstract class PositionEventArgsBase : EventArgs
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IQueueSnapshot.AlbumId"/>
-    public long AlbumId { get; set; }
-
-    /// <inheritdoc cref="IQueueSnapshot.SnapshotName"/>
-    public string SnapshotName { get; set; } = string.Empty;
-
-    /// <inheritdoc cref="IQueueSnapshot.SnapshotDate"/>
-    public DateTime SnapshotDate { get; set; }
+    /// <summary>
+    /// Gets or sets the current playback position.
+    /// </summary>
+    /// <value>The current playback position.</value>
+    public virtual double CurrentPosition { get; set; }
 
     /// <summary>
-    /// Gets or sets the album of the song.
+    /// Gets or sets the length of the current playback item.
     /// </summary>
-    /// <value>The album of the song.</value>
-    [ForeignKey(nameof(AlbumId))]
-    public Album? Album { get; set; }
+    /// <value>The length of the current playback item.</value>
+    public virtual double PlaybackLength { get; set; }
 
     /// <summary>
-    /// Gets or sets the queued songs.
+    /// Gets or sets the state of the playback.
     /// </summary>
-    /// <value>The queued songs.</value>
-    [ForeignKey(nameof(Id))]
-    public IList<QueueSong> QueueSongs { get; set; } = new List<QueueSong>();
+    /// <value>The state of the playback.</value>
+    public virtual PlaybackState PlaybackState { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song identifier.
+    /// </summary>
+    /// <value>The song identifier.</value>
+    public virtual long SongId { get; set; }
 }

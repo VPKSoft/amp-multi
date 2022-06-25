@@ -31,7 +31,7 @@ namespace amp.Database.Interfaces;
 /// Implements the <see cref="amp.Database.Interfaces.IEntity" />
 /// </summary>
 /// <seealso cref="amp.Database.Interfaces.IEntity" />
-public interface IAlbumSong : IEntity
+public interface IAlbumSong<TSong> : IEntity where TSong : ISong
 {
     /// <summary>
     /// Gets or sets the album reference identifier.
@@ -56,4 +56,10 @@ public interface IAlbumSong : IEntity
     /// </summary>
     /// <value>The song index in the alternate queue.</value>
     int QueueIndexAlternate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song entity.
+    /// </summary>
+    /// <value>The song entity.</value>
+    TSong? Song { get; set; }
 }

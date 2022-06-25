@@ -24,32 +24,13 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
-
-namespace amp.EtoForms;
+namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// The program main entry point.
+/// Event arguments for a song change event.
+/// Implements the <see cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
 /// </summary>
-public class Program
+/// <seealso cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
+public class SongChangedArgs : PlaybackPositionChangedArgs
 {
-    /// <summary>
-    /// Defines the entry point of the application.
-    /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger.Error((Exception)e.ExceptionObject, "");
-    }
 }

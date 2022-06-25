@@ -24,11 +24,12 @@ SOFTWARE.
 */
 #endregion
 
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace amp.EtoForms.Utilities.SvgColorization;
+namespace EtoForms.Controls.Custom.SvgColorization;
 
 /// <summary>
 /// A class to change colors of SVG elements from SVG data.

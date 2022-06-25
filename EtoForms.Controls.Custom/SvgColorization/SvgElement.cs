@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.EtoForms.Utilities.SvgColorization;
+namespace EtoForms.Controls.Custom.SvgColorization;
 
 /// <summary>
 /// An enumeration of SVG element types.

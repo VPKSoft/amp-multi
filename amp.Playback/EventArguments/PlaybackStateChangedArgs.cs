@@ -24,32 +24,20 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
+using amp.Playback.Enumerations;
 
-namespace amp.EtoForms;
+namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// The program main entry point.
+/// Event argument for the playback state change event.
+/// Implements the <see cref="amp.Playback.EventArguments.PositionEventArgsBase" />
 /// </summary>
-public class Program
+/// <seealso cref="amp.Playback.EventArguments.PositionEventArgsBase" />
+public class PlaybackStateChangedArgs : PositionEventArgsBase
 {
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Gets or sets the previous playback state.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger.Error((Exception)e.ExceptionObject, "");
-    }
+    /// <value>The previous playback state.</value>
+    public PlaybackState PreviousPlaybackState { get; set; }
 }

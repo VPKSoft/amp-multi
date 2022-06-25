@@ -130,4 +130,7 @@
   <data name="TimeEstimateReady" xml:space="preserve">
     <value>Time estimate (ready)</value>
   </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
 </root>

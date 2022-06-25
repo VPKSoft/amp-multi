@@ -10,10 +10,23 @@
 		<Product>amp#</Product>
 		<Description>A database library for the amp# software.</Description>
 		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
+		<PackageIcon>amp.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="..\amp.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="..\amp\amp.licenseheader" Link="amp.licenseheader" />
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
