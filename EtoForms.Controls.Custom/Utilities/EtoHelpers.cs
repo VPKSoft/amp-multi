@@ -29,14 +29,13 @@ using System.IO;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.SvgColorization;
-using SvgElement = Svg.SvgElement;
 
 namespace EtoForms.Controls.Custom.Utilities;
 
 /// <summary>
 /// Some helper methods for Eto.Forms.
 /// </summary>
-public class EtoHelpers
+public static class EtoHelpers
 {
     /// <summary>
     /// Set an icon from specified bytes to a specified <see cref="Form"/>.
@@ -207,7 +206,7 @@ public class EtoHelpers
     }
 
     /// <summary>
-    /// Gets or sets the resize loop limit for the <see cref="CreateImageButton"/> method as some layouts
+    /// Gets or sets the resize loop limit for the <see cref="CreateImageButton(byte[], Color, int, EventHandler{EventArgs}, string?, ButtonImagePosition?, Size?)"/> method as some layouts
     /// may cause the button resize pixel by pixel causing heavy calculation loop.
     /// </summary>
     /// <value>The resize loop limit.</value>
@@ -297,8 +296,8 @@ public class EtoHelpers
     {
         var color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
         var svgData = SvgColorize.FromBytes(imageData)
-            .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
-            .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
+            .ColorizeElementsFill(SvgElement.All, color)
+            .ColorizeElementsStroke(SvgElement.All, color);
 
         return SvgToImage.ImageFromSvg(svgData.ToBytes(), size);
     }
@@ -306,19 +305,43 @@ public class EtoHelpers
     /// <summary>
     /// Creates a new instance of a <see cref="Button"/> control with auto-scaling SVG image.
     /// </summary>
-    /// <param name="svgColorize">An instance of the <see cref="SvgColorize"/> class containing the SVG data..</param>
+    /// <param name="svgData">The SVG image data as byte array.</param>
     /// <param name="svgColor">The <see cref="Color"/> for the SVG image color.</param>
     /// <param name="imagePadding">The amount of pixels the image should be smaller than the button height.</param>
     /// <param name="clickHandler">The click handler for the <see cref="Button"/>.</param>
     /// <param name="buttonText">The text for the button.</param>
     /// <param name="customPosition">An optional custom image position.</param>
+    /// <param name="buttonSize">An optional size for the image button.</param>
     /// <returns>A new instance to a <see cref="Button"/> control.</returns>
-    public static Button CreateImageButton(SvgColorize svgColorize, Color svgColor, int imagePadding, EventHandler<EventArgs> clickHandler, string? buttonText = null, ButtonImagePosition? customPosition = null)
+    public static Button CreateImageButton(byte[] svgData, Color svgColor, int imagePadding,
+        EventHandler<EventArgs> clickHandler, string? buttonText = null, ButtonImagePosition? customPosition = null, Size? buttonSize = null)
+    {
+        return CreateImageButton(SvgColorize.FromBytes(svgData), svgColor, imagePadding, clickHandler, buttonText,
+            customPosition);
+    }
+
+    /// <summary>
+    /// Creates a new instance of a <see cref="Button"/> control with auto-scaling SVG image.
+    /// </summary>
+    /// <param name="svgColorize">An instance of the <see cref="SvgColorize"/> class containing the SVG data.</param>
+    /// <param name="svgColor">The <see cref="Color"/> for the SVG image color.</param>
+    /// <param name="imagePadding">The amount of pixels the image should be smaller than the button height.</param>
+    /// <param name="clickHandler">The click handler for the <see cref="Button"/>.</param>
+    /// <param name="buttonText">The text for the button.</param>
+    /// <param name="customPosition">An optional custom image position.</param>
+    /// <param name="buttonSize">An optional size for the image button.</param>
+    /// <returns>A new instance to a <see cref="Button"/> control.</returns>
+    public static Button CreateImageButton(SvgColorize svgColorize, Color svgColor, int imagePadding, EventHandler<EventArgs> clickHandler, string? buttonText = null, ButtonImagePosition? customPosition = null, Size? buttonSize = null)
     {
         var button = new Button(clickHandler);
         button.ImagePosition = buttonText == null
             ? customPosition ?? ButtonImagePosition.Below
             : customPosition ?? ButtonImagePosition.Left;
+
+        if (buttonSize != null)
+        {
+            button.Size = buttonSize.Value;
+        }
 
         var allowImageDraw = false;
 
@@ -333,30 +356,33 @@ public class EtoHelpers
 
         var color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
         var svgData = svgColorize
-            .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
-            .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
+            .ColorizeElementsFill(SvgElement.All, color)
+            .ColorizeElementsStroke(SvgElement.All, color);
         button.Image = SvgToImage.ImageFromSvg(svgData.ToBytes(), new Size(16, 16));
 
         var resizeCount = 0;
 
-        button.SizeChanged += delegate
+        if (buttonSize == null)
         {
-            var newSize = Math.Min(button.Width, button.Height) - imagePadding;
-            if (!allowImageDraw || sizeWh == newSize || newSize < 1 || resizeCount >= ResizeLoopLimit)
+            button.SizeChanged += delegate
             {
-                return;
-            }
+                var newSize = Math.Min(button.Width, button.Height) - imagePadding;
+                if (!allowImageDraw || sizeWh == newSize || newSize < 1 || resizeCount >= ResizeLoopLimit)
+                {
+                    return;
+                }
 
-            resizeCount++;
+                resizeCount++;
 
-            sizeWh = newSize;
+                sizeWh = newSize;
 
-            color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
-            svgData = svgColorize
-                .ColorizeElementsFill(SvgColorization.SvgElement.All, color)
-                .ColorizeElementsStroke(SvgColorization.SvgElement.All, color);
-            button.Image = SvgToImage.ImageFromSvg(svgData.ToBytes(), new Size(sizeWh, sizeWh));
-        };
+                color = new SvgColor(svgColor.Rb, svgColor.Gb, svgColor.Bb);
+                svgData = svgColorize
+                    .ColorizeElementsFill(SvgElement.All, color)
+                    .ColorizeElementsStroke(SvgElement.All, color);
+                button.Image = SvgToImage.ImageFromSvg(svgData.ToBytes(), new Size(sizeWh, sizeWh));
+            };
+        }
 
         return button;
     }

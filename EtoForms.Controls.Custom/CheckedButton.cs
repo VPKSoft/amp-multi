@@ -43,7 +43,7 @@ public class CheckedButton : Button
     /// <summary>
     /// Initializes a new instance of the <see cref="CheckedButton"/> class.
     /// </summary>
-    public CheckedButton()
+    public CheckedButton() : base(OnClick)
     {
         Shown += CheckedButton_Shown;
         SizeChanged += CheckedButton_SizeChanged;
@@ -72,7 +72,10 @@ public class CheckedButton : Button
     {
         Shown += CheckedButton_Shown;
         SizeChanged += CheckedButton_SizeChanged;
-        CheckedChange += delegate { checkedChange.Invoke(this, new CheckedChangeEventArguments { Checked = @checked, }); };
+        CheckedChange += delegate
+        {
+            checkedChange.Invoke(this, new CheckedChangeEventArguments { Checked = @checked, });
+        };
     }
 
     /// <summary>
@@ -158,9 +161,18 @@ public class CheckedButton : Button
         {
             if (@checked != value)
             {
+                var previousValue = @checked;
                 @checked = value;
+                var args = new CheckedChangeEventArguments { Checked = @checked, };
+                CheckedChange?.Invoke(this, args);
+
+                if (args.Cancel)
+                {
+                    @checked = previousValue;
+                    return;
+                }
+
                 Image = @checked ? checkedImage : uncheckedImage;
-                CheckedChange?.Invoke(this, new CheckedChangeEventArguments { Checked = @checked, });
             }
         }
     }

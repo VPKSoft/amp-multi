@@ -24,31 +24,36 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Shared.Interfaces;
-
-namespace amp.Database.DataModel;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// An interface for song playback statistics with reference indentifier.
+/// Implements the <see cref="amp.Shared.Interfaces.IEntityBase{T}" />
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum
+/// <seealso cref="amp.Shared.Interfaces.IEntityBase{T}" />
+public interface ISongStatistics : IEntityBase<long>
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
+    /// <summary>
+    /// Gets or sets the rating for the song.
+    /// </summary>
+    /// <value>The rating.</value>
+    int? Rating { get; set; }
 
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets the amount the song was played by randomization.
+    /// </summary>
+    /// <value>The amount the song was played by randomization.</value>
+    int? PlayedByRandomize { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
+    /// <summary>
+    /// Gets or sets the amount the song was played by the user.
+    /// </summary>
+    /// <value>The amount the song was played by the user.</value>
+    int? PlayedByUser { get; set; }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
+    /// <summary>
+    /// Gets or sets the count the song was skipped by user interaction.
+    /// </summary>
+    /// <value>The skipped early count.</value>
+    int? SkippedEarlyCount { get; set; }
 }

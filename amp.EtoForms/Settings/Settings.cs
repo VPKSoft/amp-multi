@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-using amp.EtoForms.Settings.Interfaces;
+using amp.Playback.Interfaces;
 using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms.Settings;

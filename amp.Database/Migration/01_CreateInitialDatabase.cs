@@ -25,8 +25,8 @@ SOFTWARE.
 #endregion
 
 using amp.Database.DataModel;
-using amp.Database.Enumerations;
-using amp.Database.Interfaces;
+using amp.Shared.Enumerations;
+using amp.Shared.Interfaces;
 using FluentMigrator;
 
 namespace amp.Database.Migration;
@@ -62,32 +62,42 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(Song.SkippedEarlyCount)).AsInt32().Nullable()
             .WithColumn(nameof(Song.Title)).AsString().Nullable()
             .WithColumn(nameof(Song.SongImageData)).AsBinary().Nullable()
-            .WithColumn(nameof(Song.MusicFileType)).AsInt32().NotNullable().WithDefaultValue((int)MusicFileType.Unknown);
+            .WithColumn(nameof(Song.MusicFileType)).AsInt32().NotNullable().WithDefaultValue((int)MusicFileType.Unknown)
+            .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
         Create.Table(nameof(Album))
             .WithColumn(nameof(Album.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(Album.AlbumName)).AsString().NotNullable();
+            .WithColumn(nameof(Album.AlbumName)).AsString().NotNullable()
+            .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
         Create.Table(nameof(AlbumSong))
             .WithColumn(nameof(AlbumSong.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(AlbumSong.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(AlbumSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(AlbumSong.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0)
-            .WithColumn(nameof(AlbumSong.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0);
+            .WithColumn(nameof(AlbumSong.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0)
+            .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
         Create.Table(nameof(QueueSnapshot))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(QueueSnapshot.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id))
             .NotNullable()
             .WithColumn(nameof(QueueSnapshot.SnapshotName)).AsString().NotNullable()
-            .WithColumn(nameof(QueueSnapshot.SnapshotDate)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(QueueSnapshot.SnapshotDate)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
         Create.Table(nameof(QueueSong))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(QueueSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt64()
             .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueSong.QueueIndex)).AsInt32().NotNullable();
+            .WithColumn(nameof(QueueSong.QueueIndex)).AsInt32().NotNullable()
+            .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
     }
 
     /// <inheritdoc cref="MigrationBase.Down"/>

@@ -25,9 +25,9 @@ SOFTWARE.
 #endregion
 
 using System.ComponentModel;
-using amp.Database.Interfaces;
 using amp.Playback.Converters;
 using amp.Playback.EventArguments;
+using amp.Shared.Interfaces;
 using ManagedBass;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
@@ -37,19 +37,20 @@ namespace amp.Playback;
 /// A playback manager for the amp# software.
 /// </summary>
 /// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong}"/> <see cref="IAlbumSong{TSong}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
-public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong where TAlbum : IAlbumSong<TSong>
+/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
+public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
 {
     private readonly Serilog.Core.Logger logger;
 
     private volatile int currentSongHandle;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackManager{TSong, TAlbum}"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackManager{TSong, TAlbumSong}"/> class.
     /// </summary>
     /// <param name="logger">The logger to log exceptions, etc.</param>
-    /// <param name="getNextSongFunc">A <see cref="Func{TResult}"/>, which is executed when requesting a next song for playback.</param>
-    public PlaybackManager(Serilog.Core.Logger logger, Func<TAlbum?> getNextSongFunc)
+    /// <param name="getNextSongFunc">A Task&lt;<see cref="Func{TAlbumSong}"/>&gt;, which is executed when requesting a next song for playback.</param>
+    /// <remarks>The contents of the <paramref name="getNextSongFunc"/> must be thread safe as it gets called from another thread.</remarks>
+    public PlaybackManager(Serilog.Core.Logger logger, Func<Task<TAlbumSong?>> getNextSongFunc)
     {
         this.logger = logger;
         Bass.Init();
@@ -60,7 +61,8 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
     /// Plays the specified song.
     /// </summary>
     /// <param name="song">The song.</param>
-    public void PlaySong(IAlbumSong<TSong> song)
+    /// <param name="userChanged">A value indicating whether the user selected the song for playback.</param>
+    public void PlaySong(IAlbumSong<TSong> song, bool userChanged)
     {
         if (ManagerStopped)
         {
@@ -68,33 +70,44 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
         }
 
         DisposeCurrentChannel();
-
         currentSongHandle = Bass.CreateStream(song.Song?.FileName ??
                                               throw new InvalidOperationException(
                                                   "The IAlbumSong.Song must be not null."));
-        Bass.ChannelPlay(currentSongHandle);
-        songChanged = previousSongId != song.SongId;
-        PreviousSongId = song.SongId;
+
+
+        if (currentSongHandle != 0)
+        {
+            playedSongIds.Add(song.Id);
+            skipPlaybackStateChange = userChanged;
+            Bass.ChannelPlay(currentSongHandle);
+            songChanged = previousSongId != song.SongId;
+            PreviousSongId = song.SongId;
+        }
     }
 
     /// <summary>
     /// Occurs when the playback position changed.
     /// </summary>
+    /// <remarks>The event subscription code must be thread-safe as it gets invoked from another thread.</remarks>
     public event EventHandler<PlaybackPositionChangedArgs>? PlaybackPositionChanged;
 
     /// <summary>
     /// Occurs when the song changed.
     /// </summary>
+    /// <remarks>The event subscription code must be thread-safe as it gets invoked from another thread.</remarks>
     public event EventHandler<SongChangedArgs>? SongChanged;
 
     /// <summary>
     /// Occurs when the playback state changed.
     /// </summary>
+    /// <remarks>The event subscription code must be thread-safe as it gets invoked from another thread.</remarks>
     public event EventHandler<PlaybackStateChangedArgs>? PlaybackStateChanged;
 
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
+    private volatile bool skipPlaybackStateChange;
+    private volatile List<long> playedSongIds = new();
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     private double previousPosition;
@@ -104,14 +117,34 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
     private volatile bool songChanged;
 
     private Thread? playbackThread;
-    private readonly Func<TAlbum?> getNextSongFunc;
+    private readonly Func<Task<TAlbumSong?>> getNextSongFunc;
 
-    public void PlayNextSong()
+    public async Task PlayNextSong()
     {
-        var nextSong = getNextSongFunc();
+        var nextSong = await getNextSongFunc();
         if (nextSong != null)
         {
-            PlaySong(nextSong);
+            PlaySong(nextSong, false);
+        }
+    }
+
+    public async Task PlayOrResume()
+    {
+        if (previousPlaybackState == PlaybackState.Paused)
+        {
+            Bass.ChannelPlay(currentSongHandle);
+        }
+        else
+        {
+            await PlayNextSong();
+        }
+    }
+
+    public void Pause()
+    {
+        if (previousPlaybackState == PlaybackState.Playing)
+        {
+            Bass.ChannelPause(currentSongHandle);
         }
     }
 
@@ -162,6 +195,12 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
     }
 
     /// <summary>
+    /// Gets the state of the playback.
+    /// </summary>
+    /// <value>The state of the playback.</value>
+    public PlaybackState PlaybackState => previousPlaybackState;
+
+    /// <summary>
     /// Gets or sets a value indicating whether this <see cref="PlaybackManager{TSong, TAlbum}"/> thread is stopped.
     /// </summary>
     /// <value><c>true</c> if this <see cref="PlaybackManager{TSong, TAlbum}"/> thread is stopped; otherwise, <c>false</c>.</value>
@@ -208,7 +247,7 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
         }
     }
 
-    private void PlaybackThreadMethod()
+    private async void PlaybackThreadMethod()
     {
         while (!stopThread)
         {
@@ -264,9 +303,13 @@ public class PlaybackManager<TSong, TAlbum> : IDisposable where TSong : ISong wh
                         PreviousPlaybackState = previousPlaybackState,
                     });
 
-                if (previousPlaybackState == PlaybackState.Stopped)
+                if (!skipPlaybackStateChange && previousPlaybackState == PlaybackState.Stopped)
                 {
-                    PlayNextSong();
+                    await PlayNextSong();
+                }
+                else if (skipPlaybackStateChange)
+                {
+                    skipPlaybackStateChange = false;
                 }
             }
 

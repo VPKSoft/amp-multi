@@ -24,11 +24,56 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Database.Interfaces;
+namespace amp.Shared.Enumerations;
 
 /// <summary>
-/// The base interface for database entities.
+/// An enumeration of music file formats.
 /// </summary>
-public interface IEntity : IEntityBase<long>
+public enum MusicFileType
 {
+    /// <summary>
+    /// The audio file format is unknown.
+    /// </summary>
+    Unknown,
+
+    /// <summary>
+    /// The MPEG-[1, 2, 2.5] Audio Layer III music file format.
+    /// </summary>
+    Mp3,
+
+    /// <summary>
+    /// The Ogg Vorbis music file format.
+    /// </summary>
+    Ogg,
+
+    /// <summary>
+    /// The Waveform Audio file format.
+    /// </summary>
+    Wav,
+
+    /// <summary>
+    /// The Windows Media Audio file format.
+    /// </summary>
+    Wma,
+
+    /// <summary>
+    /// The MPEG-4 Audio file format.
+    /// </summary>
+    // ReSharper disable once InconsistentNaming
+    M4a,
+
+    /// <summary>
+    /// The Advanced Audio Coding file format.
+    /// </summary>
+    Aac,
+
+    /// <summary>
+    /// The Audio Interchange file Format.
+    /// </summary>
+    Aif,
+
+    /// <summary>
+    /// The Free Lossless Audio Codec file format.
+    /// </summary>
+    Flac,
 }

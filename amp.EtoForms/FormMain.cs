@@ -26,11 +26,13 @@ SOFTWARE.
 
 using amp.Database;
 using amp.Database.DataModel;
-using amp.EtoForms.Playback;
 using amp.EtoForms.Utilities;
 using amp.Playback;
+using amp.Playback.Enumerations;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom;
+using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Form = Eto.Forms.Form;
 using ListBox = Eto.Forms.ListBox;
@@ -42,7 +44,7 @@ namespace amp.EtoForms;
 /// Implements the <see cref="Form" />
 /// </summary>
 /// <seealso cref="Form" />
-public class FormMain : Form
+public partial class FormMain : Form
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -66,13 +68,32 @@ public class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
+        btnPlayPause = new CheckedButton
+        {
+            Size = new Size(32, 32),
+            CheckedSvgImage = FluentIcons.Resources.Filled.Size16.ic_fluent_pause_16_filled,
+            UncheckedSvgImage = FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled,
+            CheckedImageColor = Colors.Purple,
+            UncheckedImageColor = Colors.Purple,
+        };
+
+        btnPlayPause.CheckedChange += BtnPlayPause_CheckedChange;
+
         var toolBar = new StackLayout
         {
-            Orientation = Orientation.Vertical,
+            Orientation = Orientation.Horizontal,
             Items =
             {
-                new Button((_, _) => commandPlayPause.Execute()) { Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
-                new Button((_, _) => nextSongCommand.Execute()) { Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, FluentIcons.Resources.Filled.Size16.ic_fluent_arrow_circle_right_16_filled, new Size(32, 32)), Size = new Size(32, 32), }
+                new Button((_, _) => commandPlayPause.Execute()) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_previous_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
+                btnPlayPause,
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_next_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
+                new Panel {Width = 5,},
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), amp.EtoForms.Properties.Resources.queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
+                new Panel {Width = 5,},
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), amp.EtoForms.Properties.Resources.repeat_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
+                new Panel {Width = 5,},
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, amp.EtoForms.Properties.Resources.stack_queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
             },
         };
 
@@ -86,46 +107,61 @@ public class FormMain : Form
             }
         };
 
-        var context = new AmpContext();
+        context = new AmpContext();
 
-        var songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).ToList();
+        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).ToList();
 
-        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, () => songs[playbackOrder.NextSongIndex(songs)]);
+        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc);
+
+        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
 
         lbSongs.Items.AddRange(context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).Select(f => new ListItem { Text = f.GetAlbumName(), Key = f.Id.ToString(), }));
 
-        commandPlayPause.Executed += (_, _) =>
-        {
-            var song = context.AlbumSongs.First(f => f.Id == long.Parse(lbSongs.SelectedKey));
-            playbackManager.PlaySong(song);
-        };
+        commandPlayPause.Executed += CommandPlayPause_Executed;
 
         commandPlayPause.MenuText = Localization.UI.Play;
         commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, new Size(32, 32));
 
-        nextSongCommand.Executed += delegate
-        {
-            playbackManager.PlayNextSong();
-        };
+        nextSongCommand.Executed += NextSongCommand_Executed;
+
+        tbSearch.TextChanged += TbSearch_TextChanged;
+        lbSongs.MouseDoubleClick += LbSongs_MouseDoubleClick;
 
         playbackManager.ManagerStopped = false;
         Closing += FormMain_Closing;
+        KeyDown += FormMain_KeyDown;
+        lbSongs.KeyDown += FormMain_KeyDown;
     }
 
-    private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    private async void BtnPlayPause_CheckedChange(object? sender, global::EtoForms.Controls.Custom.EventArguments.CheckedChangeEventArguments e)
     {
-        playbackManager.Dispose();
+        btnPlayPause.CheckedChange -= BtnPlayPause_CheckedChange;
+        if (e.Checked)
+        {
+            await playbackManager.PlayOrResume();
+        }
+        else
+        {
+            if (playbackManager.PlaybackState == PlaybackState.Playing)
+            {
+                playbackManager.Pause();
+            }
+        }
+
+        btnPlayPause.CheckedChange += BtnPlayPause_CheckedChange;
     }
 
     private readonly ListBox lbSongs = new() { Height = 650, Width = 550, };
     private readonly TextBox tbSearch = new();
+    private readonly List<AlbumSong> songs;
+    private readonly CheckedButton btnPlayPause;
 
     #region MenuCommands
-
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
     private readonly Command commandPlayPause = new();
     private readonly Command nextSongCommand = new();
+    private readonly AmpContext context;
     #endregion
 }

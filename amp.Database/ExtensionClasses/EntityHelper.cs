@@ -24,31 +24,23 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using amp.Shared.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace amp.Database.DataModel;
+namespace amp.Database.ExtensionClasses;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// Some EF Core extension methods.
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum
+public static class EntityHelper
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
-
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
+    /// <summary>
+    /// Specifies the entity implementing the <see cref="IEntity"/> interface <see cref="DateTime"/> properties as <see cref="DateTimeKind.Utc"/>.
+    /// </summary>
+    /// <param name="typeBuilder">The <see cref="EntityTypeBuilder"/> instance.</param>
+    public static void SpecifyUtcKind<T>(this EntityTypeBuilder<T> typeBuilder) where T : class, IEntity
+    {
+        typeBuilder.Property(f => f.CreatedAtUtc).HasConversion((x) => x.ToUniversalTime(), (x) => DateTime.SpecifyKind(x, DateTimeKind.Utc));
+        typeBuilder.Property(f => f.ModifiedAtUtc).HasConversion((x) => x!.Value.ToUniversalTime(), (x) => DateTime.SpecifyKind(x, DateTimeKind.Utc));
+    }
 }

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<DocumentationFile>bin\$(Configuration)\amp.Shared.xml</DocumentationFile>
+		<AssemblyTitle>amp.Shared</AssemblyTitle>
+		<Company>VPKSoft</Company>
+		<Product>amp#</Product>
+		<Description>Shared interfaces and classes for the amp# software.</Description>
+		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
+		<PackageIcon>amp.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+</Project>

@@ -40,4 +40,10 @@ public class CheckedChangeEventArguments : EventArgs
     /// </summary>
     /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
     public bool Checked { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to cancel the checked state change.
+    /// </summary>
+    /// <value><c>true</c> if to cancel the checked state change; otherwise, <c>false</c>.</value>
+    public bool Cancel { get; set; }
 }

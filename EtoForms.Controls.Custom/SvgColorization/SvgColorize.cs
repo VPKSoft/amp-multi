@@ -188,6 +188,16 @@ public class SvgColorize
     }
 
     /// <summary>
+    /// Performs an implicit conversion from <see cref="T:byte[]"/> to <see cref="SvgColorize"/>.
+    /// </summary>
+    /// <param name="svgData">The SVG data bytes.</param>
+    /// <returns>An instance to a <see cref="SvgColorize"/> class.</returns>
+    public static implicit operator SvgColorize(byte[] svgData)
+    {
+        return FromBytes(svgData);
+    }
+
+    /// <summary>
     /// Colorizes the elements of the SVG document specified by the <see cref="SvgElement"/> element type.
     /// </summary>
     /// <param name="element">The element type which to colorize.</param>

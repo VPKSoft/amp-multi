@@ -24,26 +24,25 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.Interfaces;
-using amp.EtoForms.Settings.Interfaces;
+using amp.Playback.Interfaces;
+using amp.Shared.Interfaces;
 using BR = VPKSoft.RandomizationUtils.BiasedRandom;
-
-namespace amp.EtoForms.Playback;
+namespace amp.Playback;
 
 /// <summary>
 /// A class to generate songs from a specified playlist.
 /// Implements the <see cref="BiasedRandomSettingsBase" />
 /// </summary>
 /// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong}"/> <see cref="IAlbumSong{TSong}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
+/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
 /// <seealso cref="BiasedRandomSettingsBase" />
-internal class PlaybackOrder<TSong, TAlbum> : BiasedRandomSettingsBase where TSong : ISong where TAlbum : IAlbumSong<TSong>
+public class PlaybackOrder<TSong, TAlbumSong> : BiasedRandomSettingsBase where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbum}"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbumSong}"/> class.
     /// </summary>
     /// <param name="settings">The settings for biased randomization.</param>
-    internal PlaybackOrder(IBiasedRandomSettings settings)
+    public PlaybackOrder(IBiasedRandomSettings settings)
     {
         base.ApplyFrom(settings);
     }
@@ -53,7 +52,7 @@ internal class PlaybackOrder<TSong, TAlbum> : BiasedRandomSettingsBase where TSo
     /// </summary>
     /// <param name="albumSongs">The album songs.</param>
     /// <returns>System.Int32.</returns>
-    internal int NextSongIndex(List<TAlbum>? albumSongs)
+    public int NextSongIndex(List<TAlbumSong>? albumSongs)
     {
         if (albumSongs == null || albumSongs.Count == 0)
         {
@@ -78,7 +77,7 @@ internal class PlaybackOrder<TSong, TAlbum> : BiasedRandomSettingsBase where TSo
         return value <= randomValue + range && value >= randomValue - range;
     }
 
-    private int RandomWeighted(List<TAlbum>? albumSongs)
+    private int RandomWeighted(List<TAlbumSong>? albumSongs)
     {
 
         if (albumSongs == null || !albumSongs.Any())
@@ -86,7 +85,7 @@ internal class PlaybackOrder<TSong, TAlbum> : BiasedRandomSettingsBase where TSo
             return -1;
         }
 
-        var results = new List<TAlbum>();
+        var results = new List<TAlbumSong>();
 
         double valueMin = albumSongs.Min(f => f.Song?.Rating) ?? 0;
         double valueMax = albumSongs.Max(f => f.Song?.Rating) ?? 1000;

@@ -59,5 +59,55 @@ namespace amp.EtoForms.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] queue_three_dots {
+            get {
+                object obj = ResourceManager.GetObject("queue_three_dots", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] repeat_svgrepo_com_modified {
+            get {
+                object obj = ResourceManager.GetObject("repeat_svgrepo_com_modified", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] shuffle_random_svgrepo_com {
+            get {
+                object obj = ResourceManager.GetObject("shuffle_random_svgrepo_com", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] shuffle_random_svgrepo_com_modified {
+            get {
+                object obj = ResourceManager.GetObject("shuffle_random_svgrepo_com_modified", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] stack_queue_three_dots {
+            get {
+                object obj = ResourceManager.GetObject("stack_queue_three_dots", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

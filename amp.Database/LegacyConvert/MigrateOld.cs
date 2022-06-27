@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.Globalization;
 using System.Text;
-using amp.Database.Enumerations;
+using amp.Shared.Enumerations;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VPKSoft.DropOutStack;
@@ -340,7 +340,8 @@ public static class MigrateOld
                 "FileNameNoPath, ",     // 15
                 "SkippedEarlyCount, ",  // 16
                 "Title, ",              // 17
-                "MusicFileType)",       // 18
+                "MusicFileType," +      // 18
+                "CreatedAtUtc)",        // 19
                 "SELECT",
                 $"{GetField<long>(reader, 0)},",    // 9
                 $"{GetField<string>(reader, 1)},",  // 1
@@ -360,7 +361,8 @@ public static class MigrateOld
                 $"{GetField<string>(reader, 15)},", // 15
                 $"{GetField<long>(reader, 16)},",   // 16
                 $"{GetField<string>(reader, 17)},", // 17
-                $"{(int)fileType};");                      // 18
+                $"{(int)fileType},",                       // 18
+                $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
@@ -387,10 +389,11 @@ public static class MigrateOld
         while (reader.Read())
         {
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO Album (Id, AlbumName)",
+                "INSERT INTO Album (Id, AlbumName, CreatedAtUtc)",
                 "SELECT",
                 $"{GetField<long>(reader, 0)},",
-                $"{GetField<string>(reader, 1)};");
+                $"{GetField<string>(reader, 1)},",
+                $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
@@ -415,11 +418,12 @@ public static class MigrateOld
         while (reader.Read())
         {
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO AlbumSong (AlbumId, SongId, QueueIndex)",
+                "INSERT INTO AlbumSong (AlbumId, SongId, QueueIndex, CreatedAtUtc)",
                 "SELECT",
                 $"{GetField<long>(reader, 0)},",
                 $"{GetField<long>(reader, 1)},",
-                $"{GetField<long>(reader, 2)};");
+                $"{GetField<long>(reader, 2)},",
+                $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");
 
             sqlBatch.Append(sqlNew);
             sqlBatch.AppendLine();
@@ -452,12 +456,13 @@ public static class MigrateOld
             {
                 snapshotId++;
                 var sqlMain = string.Join(Environment.NewLine,
-                    "INSERT INTO QueueSnapshot (Id, AlbumId, SnapshotName, SnapshotDate)",
+                    "INSERT INTO QueueSnapshot (Id, AlbumId, SnapshotName, SnapshotDate, CreatedAtUtc)",
                     "SELECT",
                     $"{snapshotId},",
                     $"{GetField<long>(reader, 1)},",
                     $"{GetField<string>(reader, 4)},",
-                    $"{GetField<DateTime>(reader, 5)};");
+                    $"{GetField<DateTime>(reader, 5)},",
+                    $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");
 
                 sqlBatch.Append(sqlMain);
                 sqlBatch.AppendLine();
@@ -465,11 +470,12 @@ public static class MigrateOld
             }
 
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO QueueSong (SongId, QueueSnapshotId, QueueIndex)",
+                "INSERT INTO QueueSong (SongId, QueueSnapshotId, QueueIndex, CreatedAtUtc)",
                 "SELECT",
                 $"{GetField<long>(reader, 2)},",
                 $"{snapshotId},",
-                $"{GetField<long>(reader, 3)};");
+                $"{GetField<long>(reader, 3)},",
+                $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");
 
             sqlBatch.Append(sqlNew);
 

@@ -24,30 +24,30 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Database.Interfaces;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An interface for the queue snapshots.
-/// Implements the <see cref="amp.Database.Interfaces.IEntity" />
+/// An interface for the songs in a queue snapshot.
+/// Implements the <see cref="IEntity" />
 /// </summary>
-/// <seealso cref="amp.Database.Interfaces.IEntity" />
-public interface IQueueSnapshot : IEntity
+/// <seealso cref="IEntity" />
+public interface IQueueSong : IEntity
 {
     /// <summary>
-    /// Gets or sets the album reference identifier.
+    /// Gets or sets the song reference identifier.
     /// </summary>
-    /// <value>The album reference identifier.</value>
-    long AlbumId { get; set; }
+    /// <value>The song reference identifier.</value>
+    long SongId { get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the snapshot.
+    /// Gets or sets the queue snapshot reference identifier.
     /// </summary>
-    /// <value>The name of the snapshot.</value>
-    string SnapshotName { get; set; }
+    /// <value>The queue snapshot reference identifier.</value>
+    long QueueSnapshotId { get; set; }
 
     /// <summary>
-    /// Gets or sets the date and time the snapshot was taken.
+    /// Gets or sets the index of song in the queue.
     /// </summary>
-    /// <value>The date and time the snapshot was taken.</value>
-    DateTime SnapshotDate { get; set; }
+    /// <value>The index of song in the queue.</value>
+    int QueueIndex { get; set; }
 }

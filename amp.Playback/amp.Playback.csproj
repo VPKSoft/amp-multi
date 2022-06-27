@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\amp.Database\amp.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
 	  <PackageReference Include="ManagedBass" Version="3.1.1" />
 	  <PackageReference Include="ManagedBass.Flac" Version="3.1.1" />
 	  <PackageReference Include="Serilog" Version="2.11.0" />
@@ -71,6 +67,10 @@
 	</ContentWithTargetPath>
 	<None Include="BassNative/libbass.dylib" />
 	<None Include="BassNative/libbassflac.dylib" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\amp.Shared\amp.Shared.csproj" />
   </ItemGroup>
 
 </Project>

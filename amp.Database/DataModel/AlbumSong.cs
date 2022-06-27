@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Interfaces;
+using amp.Shared.Interfaces;
 
 namespace amp.Database.DataModel;
 
@@ -54,6 +54,12 @@ public class AlbumSong : IAlbumSong<Song>
 
     /// <inheritdoc cref="IAlbumSong{T}.QueueIndexAlternate"/>
     public int QueueIndexAlternate { get; set; }
+
+    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    public DateTime? ModifiedAtUtc { get; set; }
+
+    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    public DateTime CreatedAtUtc { get; set; }
 
     /// <summary>
     /// Gets or sets the album this album song belongs to.

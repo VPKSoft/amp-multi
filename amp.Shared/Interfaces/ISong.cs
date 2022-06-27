@@ -24,15 +24,15 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.Enumerations;
+using amp.Shared.Enumerations;
 
-namespace amp.Database.Interfaces;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
 /// An interface for the song data in the database.
-/// Implements the <see cref="amp.Database.Interfaces.IEntity" />
+/// Implements the <see cref="IEntity" />
 /// </summary>
-/// <seealso cref="amp.Database.Interfaces.IEntity" />
+/// <seealso cref="IEntity" />
 public interface ISong : IEntity
 {
     /// <summary>

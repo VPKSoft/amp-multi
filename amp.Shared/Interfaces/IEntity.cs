@@ -24,56 +24,22 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Database.Enumerations;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An enumeration of music file formats.
+/// The base interface for database entities.
 /// </summary>
-public enum MusicFileType
+public interface IEntity : IEntityBase<long>
 {
     /// <summary>
-    /// The audio file format is unknown.
+    /// Gets or sets the date and time the entity was modified at UTC time zone.
     /// </summary>
-    Unknown,
+    /// <value>The date and time the entity was modified at UTC.</value>
+    DateTime? ModifiedAtUtc { get; set; }
 
     /// <summary>
-    /// The MPEG-[1, 2, 2.5] Audio Layer III music file format.
+    /// Gets or sets the date and time the entity was created at UTC time zone.
     /// </summary>
-    Mp3,
-
-    /// <summary>
-    /// The Ogg Vorbis music file format.
-    /// </summary>
-    Ogg,
-
-    /// <summary>
-    /// The Waveform Audio file format.
-    /// </summary>
-    Wav,
-
-    /// <summary>
-    /// The Windows Media Audio file format.
-    /// </summary>
-    Wma,
-
-    /// <summary>
-    /// The MPEG-4 Audio file format.
-    /// </summary>
-    // ReSharper disable once InconsistentNaming
-    M4a,
-
-    /// <summary>
-    /// The Advanced Audio Coding file format.
-    /// </summary>
-    Aac,
-
-    /// <summary>
-    /// The Audio Interchange file Format.
-    /// </summary>
-    Aif,
-
-    /// <summary>
-    /// The Free Lossless Audio Codec file format.
-    /// </summary>
-    Flac,
+    /// <value>The date and time the entity was created at UTC.</value>
+    DateTime CreatedAtUtc { get; set; }
 }

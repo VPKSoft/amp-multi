@@ -24,18 +24,42 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Database.Interfaces;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// Am interface for the album data.
-/// Implements the <see cref="amp.Database.Interfaces.IEntity" />
+/// A ling between a song and an album.
+/// Implements the <see cref="IEntity" />
 /// </summary>
-/// <seealso cref="amp.Database.Interfaces.IEntity" />
-public interface IAlbum : IEntity
+/// <seealso cref="IEntity" />
+public interface IAlbumSong<TSong> : IEntity where TSong : ISong
 {
     /// <summary>
-    /// Gets or sets the name of the album.
+    /// Gets or sets the album reference identifier.
     /// </summary>
-    /// <value>The name of the album.</value>
-    string AlbumName { get; set; }
+    /// <value>The album reference identifier.</value>
+    long AlbumId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song reference identifier.
+    /// </summary>
+    /// <value>The song reference identifier.</value>
+    long SongId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song index in the queue.
+    /// </summary>
+    /// <value>The song index in the queue.</value>
+    int QueueIndex { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song index in the alternate queue.
+    /// </summary>
+    /// <value>The song index in the alternate queue.</value>
+    int QueueIndexAlternate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the song entity.
+    /// </summary>
+    /// <value>The song entity.</value>
+    TSong? Song { get; set; }
 }

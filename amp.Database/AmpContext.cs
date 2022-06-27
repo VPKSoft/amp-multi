@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.Database;
@@ -93,6 +94,12 @@ public class AmpContext : DbContext
     /// <inheritdoc cref="DbContext.OnModelCreating"/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Song>().SpecifyUtcKind();
+        modelBuilder.Entity<Album>().SpecifyUtcKind();
+        modelBuilder.Entity<AlbumSong>().SpecifyUtcKind();
+        modelBuilder.Entity<QueueSnapshot>().SpecifyUtcKind();
+        modelBuilder.Entity<QueueSong>().SpecifyUtcKind();
+
         base.OnModelCreating(modelBuilder);
     }
 }

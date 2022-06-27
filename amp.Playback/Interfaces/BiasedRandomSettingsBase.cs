@@ -24,16 +24,16 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.EtoForms.Settings.Interfaces;
+namespace amp.Playback.Interfaces;
 
 /// <summary>
 /// A class for biased randomization setting properties.
-/// Implements the <see cref="amp.EtoForms.Settings.Interfaces.IBiasedRandomSettings" />
+/// Implements the <see cref="IBiasedRandomSettings" />
 /// </summary>
-/// <seealso cref="amp.EtoForms.Settings.Interfaces.IBiasedRandomSettings" />
-internal abstract class BiasedRandomSettingsBase : IBiasedRandomSettings
+/// <seealso cref="IBiasedRandomSettings" />
+public abstract class BiasedRandomSettingsBase : IBiasedRandomSettings
 {
-    internal static void ApplyFromTo(IBiasedRandomSettings settingsFrom, IBiasedRandomSettings settingsTo)
+    public static void ApplyFromTo(IBiasedRandomSettings settingsFrom, IBiasedRandomSettings settingsTo)
     {
         settingsTo.BiasedRandom = settingsFrom.BiasedRandom;
         settingsTo.Tolerance = settingsFrom.Tolerance;
@@ -103,7 +103,7 @@ internal abstract class BiasedRandomSettingsBase : IBiasedRandomSettings
     /// Gets the random number generator.
     /// </summary>
     /// <value>The random number generator.</value>
-    internal static Random Random { get; } = new();
+    public static Random Random { get; } = new();
 
     /// <inheritdoc cref="IBiasedRandomSettings.BiasedRandomizedCount"/>
     public virtual double BiasedRandomizedCount { get; set; } = -1;

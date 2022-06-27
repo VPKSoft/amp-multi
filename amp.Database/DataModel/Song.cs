@@ -26,8 +26,8 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using amp.Database.Enumerations;
-using amp.Database.Interfaces;
+using amp.Shared.Enumerations;
+using amp.Shared.Interfaces;
 
 namespace amp.Database.DataModel;
 
@@ -100,4 +100,10 @@ public class Song : ISong
 
     /// <inheritdoc cref="ISong.MusicFileType"/>
     public MusicFileType MusicFileType { get; set; }
+
+    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    public DateTime? ModifiedAtUtc { get; set; }
+
+    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    public DateTime CreatedAtUtc { get; set; }
 }

@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Database.Interfaces;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
 /// The base interface for different types of identity for an entity.

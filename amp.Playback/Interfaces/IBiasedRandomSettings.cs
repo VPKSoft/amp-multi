@@ -24,9 +24,9 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.EtoForms.Settings.Interfaces;
+namespace amp.Playback.Interfaces;
 
-internal interface IBiasedRandomSettings
+public interface IBiasedRandomSettings
 {
     /// <summary>
     /// Applies the property values from the specified <see cref="IBiasedRandomSettings"/> implementation to this instance.
