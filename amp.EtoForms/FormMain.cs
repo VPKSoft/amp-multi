@@ -68,6 +68,8 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
+        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc, GetSongById);
+
         btnPlayPause = new CheckedButton
         {
             Size = new Size(32, 32),
@@ -77,7 +79,7 @@ public partial class FormMain : Form
             UncheckedImageColor = Colors.Purple,
         };
 
-        btnPlayPause.CheckedChange += BtnPlayPause_CheckedChange;
+        btnPlayPause.CheckedChange += PlayPauseToggle;
 
         var toolBar = new StackLayout
         {
@@ -86,36 +88,74 @@ public partial class FormMain : Form
             {
                 new Button((_, _) => commandPlayPause.Execute()) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_previous_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
                 btnPlayPause,
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_next_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width = 5,},
+                new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_next_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
+                new Panel {Width =  Globals.DefaultPadding,},
                 new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), amp.EtoForms.Properties.Resources.queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width = 5,},
+                new Panel {Width =  Globals.DefaultPadding,},
                 new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
                 new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), amp.EtoForms.Properties.Resources.repeat_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width = 5,},
+                new Panel {Width =  Globals.DefaultPadding,},
                 new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, amp.EtoForms.Properties.Resources.stack_queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
             },
         };
+
+        songVolumeSlider = new VolumeSlider((_, args) =>
+        {
+            playbackManager!.PlaybackVolume = args.Value / 100.0;
+        })
+        { Maximum = 300, };
+
+        var mainVolumeSlider =
+            new TableLayout
+            {
+                Rows =
+                {
+                    new TableRow
+                    {
+                        Cells =
+                        {
+                            new TableCell(new Label { Text = "Volume", VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                            new Panel { Width = Globals.DefaultPadding,},
+                            new TableCell(songVolumeSlider, true),
+                        },
+                    },
+                    new Panel {Height = Globals.DefaultPadding,},
+                    new TableRow
+                    {
+                        Cells =
+                        {
+                            new TableCell(new Label { Text = "Song volume", VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                            new Panel { Width = Globals.DefaultPadding,},
+                            new TableCell(new VolumeSlider(), true),
+                        },
+                    },
+                },
+                Height = 80 + Globals.DefaultPadding * 3,
+                Padding = Globals.DefaultPadding,
+            };
 
         Content = new StackLayout
         {
             Items =
             {
-                new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(6, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(6, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = lbSongs, Padding = new Padding(6, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
-            }
+                new StackLayoutItem(mainVolumeSlider, HorizontalAlignment.Stretch),
+//                new StackLayoutItem(new Panel { Height = 40, Content = new VolumeSlider(), Padding = new Padding(6, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(lbSongsTitle),
+                new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = lbSongs, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
+            },
+            Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
         };
 
         context = new AmpContext();
 
         songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).ToList();
 
-        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc);
-
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
+        playbackManager.SongChanged += PlaybackManager_SongChanged;
 
-        lbSongs.Items.AddRange(context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).Select(f => new ListItem { Text = f.GetAlbumName(), Key = f.Id.ToString(), }));
+        lbSongs.Items.AddRange(context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).Select(f => new ListItem { Text = f.GetSongName(), Key = f.Id.ToString(), }));
 
         commandPlayPause.Executed += CommandPlayPause_Executed;
 
@@ -134,28 +174,25 @@ public partial class FormMain : Form
         lbSongs.KeyDown += FormMain_KeyDown;
     }
 
-    private async void BtnPlayPause_CheckedChange(object? sender, global::EtoForms.Controls.Custom.EventArguments.CheckedChangeEventArguments e)
+    private async void PlayNextSongClick(object? sender, EventArgs e)
     {
-        btnPlayPause.CheckedChange -= BtnPlayPause_CheckedChange;
-        if (e.Checked)
-        {
-            await playbackManager.PlayOrResume();
-        }
-        else
-        {
-            if (playbackManager.PlaybackState == PlaybackState.Playing)
-            {
-                playbackManager.Pause();
-            }
-        }
+        await playbackManager.PlayNextSong();
+    }
 
-        btnPlayPause.CheckedChange += BtnPlayPause_CheckedChange;
+    private async Task<AlbumSong?> GetSongById(long songId)
+    {
+        return await Application.Instance.InvokeAsync(AlbumSong? () =>
+        {
+            return songs.FirstOrDefault(f => f.SongId == songId);
+        });
     }
 
     private readonly ListBox lbSongs = new() { Height = 650, Width = 550, };
     private readonly TextBox tbSearch = new();
     private readonly List<AlbumSong> songs;
     private readonly CheckedButton btnPlayPause;
+    private readonly Label lbSongsTitle = new();
+    private readonly VolumeSlider songVolumeSlider;
 
     #region MenuCommands
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;

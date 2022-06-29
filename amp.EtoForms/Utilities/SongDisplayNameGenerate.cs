@@ -29,6 +29,9 @@ using amp.EtoForms.Enumerations;
 
 namespace amp.EtoForms.Utilities;
 
+/// <summary>
+/// A class to generate display names for audio files.
+/// </summary>
 public static class SongDisplayNameGenerate
 {
     /// <summary>
@@ -240,6 +243,7 @@ public static class SongDisplayNameGenerate
     /// <summary>
     /// Returns a <see cref="System.String" /> that represents this instance (old version).
     /// </summary>
+    /// <param name="albumSong">The album song to use to generate the string representation.</param>
     /// <param name="queue">if set to <c>true</c> the possible queue index should also be included in the result.</param>
     /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
     private static string ToStringOld(AlbumSong albumSong, bool queue)
@@ -262,24 +266,38 @@ public static class SongDisplayNameGenerate
             (albumSong.QueueIndex >= 1 ? " [" + albumSong.QueueIndex + "]" : "") + alternateQueue;
     }
 
+    /// <summary>
+    /// Gets or sets the song naming formula.
+    /// </summary>
+    /// <value>The formula.</value>
     public static string Formula { get; set; } =
         // ReSharper disable once StringLiteralTypo
         @"    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
 
     /// <summary>
-    /// Gets or sets the renamed album naming instructions.
+    /// Gets or sets the renamed song naming formula.
     /// </summary>
     public static string FormulaSongRenamed { get; set; } = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
 
-    public static string GetAlbumName(this AlbumSong albumSong, bool queue)
+    /// <summary>
+    /// Gets the display name for the specified song.
+    /// </summary>
+    /// <param name="albumSong">The album song.</param>
+    /// <param name="queue">if set to <c>true</c> the song queue information is included into the display name.</param>
+    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
+    public static string GetSongName(this AlbumSong albumSong, bool queue)
     {
         var formula = string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName) ? Formula : FormulaSongRenamed;
         return GetString(formula, albumSong, queue, out _);
     }
 
-    public static string GetAlbumName(this AlbumSong albumSong)
+    /// <summary>
+    /// Gets the display name for the specified song.
+    /// </summary>
+    /// <param name="albumSong">The album song.</param>
+    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
+    public static string GetSongName(this AlbumSong albumSong)
     {
-        return GetAlbumName(albumSong, true);
+        return GetSongName(albumSong, true);
     }
-
 }

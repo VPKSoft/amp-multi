@@ -59,5 +59,25 @@ namespace EtoForms.Controls.Custom.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] slider_mark {
+            get {
+                object obj = ResourceManager.GetObject("slider_mark", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] volume_slider {
+            get {
+                object obj = ResourceManager.GetObject("volume_slider", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -42,6 +42,9 @@ namespace amp.EtoForms.Dialogs;
 /// <seealso cref="Eto.Forms.Dialog{T}" />
 public class DialogDatabaseConvertProgress : Dialog<bool>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DialogDatabaseConvertProgress"/> class.
+    /// </summary>
     public DialogDatabaseConvertProgress()
     {
         MinimumSize = new Size(500, 200);

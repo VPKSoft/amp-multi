@@ -33,6 +33,11 @@ namespace amp.Playback.Interfaces;
 /// <seealso cref="IBiasedRandomSettings" />
 public abstract class BiasedRandomSettingsBase : IBiasedRandomSettings
 {
+    /// <summary>
+    /// Applies the properties from specified <see cref="IBiasedRandomSettings"/> instance to another <see cref="IBiasedRandomSettings"/> instance.
+    /// </summary>
+    /// <param name="settingsFrom">The settings from.</param>
+    /// <param name="settingsTo">The settings to.</param>
     public static void ApplyFromTo(IBiasedRandomSettings settingsFrom, IBiasedRandomSettings settingsTo)
     {
         settingsTo.BiasedRandom = settingsFrom.BiasedRandom;

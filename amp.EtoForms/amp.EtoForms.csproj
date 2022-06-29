@@ -14,12 +14,13 @@
 		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
 		<Company>VPKSoft</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="NewFolder\**" />
-	  <EmbeddedResource Remove="NewFolder\**" />
-	  <None Remove="NewFolder\**" />
+		<Compile Remove="NewFolder\**" />
+		<EmbeddedResource Remove="NewFolder\**" />
+		<None Remove="NewFolder\**" />
 	</ItemGroup>
 
 	<ItemGroup>

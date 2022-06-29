@@ -29,6 +29,7 @@ using amp.Playback.Converters;
 using amp.Playback.EventArguments;
 using amp.Shared.Interfaces;
 using ManagedBass;
+using VPKSoft.DropOutStack;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
 namespace amp.Playback;
@@ -49,12 +50,15 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// </summary>
     /// <param name="logger">The logger to log exceptions, etc.</param>
     /// <param name="getNextSongFunc">A Task&lt;<see cref="Func{TAlbumSong}"/>&gt;, which is executed when requesting a next song for playback.</param>
+    /// <param name="getSongById">A Task&lt;<see cref="Func{TIdentity,TAlbumSong}"/>&gt;, which is executed when requesting song data by its reference identifier for playback.</param>
     /// <remarks>The contents of the <paramref name="getNextSongFunc"/> must be thread safe as it gets called from another thread.</remarks>
-    public PlaybackManager(Serilog.Core.Logger logger, Func<Task<TAlbumSong?>> getNextSongFunc)
+    /// <remarks>The contents of the <paramref name="getSongById"/> must be thread safe as it gets called from another thread.</remarks>
+    public PlaybackManager(Serilog.Core.Logger logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById)
     {
         this.logger = logger;
         Bass.Init();
         this.getNextSongFunc = getNextSongFunc;
+        this.getSongById = getSongById;
     }
 
     /// <summary>
@@ -64,10 +68,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="userChanged">A value indicating whether the user selected the song for playback.</param>
     public void PlaySong(IAlbumSong<TSong> song, bool userChanged)
     {
-        if (ManagerStopped)
-        {
-            throw new InvalidOperationException("The manager must be running by setting the ManagerStopped = false.");
-        }
+        CheckManagerRunning();
 
         DisposeCurrentChannel();
         currentSongHandle = Bass.CreateStream(song.Song?.FileName ??
@@ -77,11 +78,50 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
 
         if (currentSongHandle != 0)
         {
-            playedSongIds.Add(song.Id);
+            playedSongIds.Push(song.Id);
             skipPlaybackStateChange = userChanged;
+
             Bass.ChannelPlay(currentSongHandle);
+            PlaybackVolume = song.Song.PlaybackVolume;
             songChanged = previousSongId != song.SongId;
             PreviousSongId = song.SongId;
+        }
+    }
+
+
+    /// <summary>
+    /// Plays the previous song if one is available.
+    /// </summary>
+    /// <returns><c>true</c> if the previous song playback was started successfully, <c>false</c> otherwise.</returns>
+    public async Task<bool> PreviousSong()
+    {
+        CheckManagerRunning();
+        if (playedSongIds.Count == 0)
+        {
+            return false;
+        }
+
+        var id = playedSongIds.Pop();
+        var song = await getSongById(id);
+
+        if (song != null)
+        {
+            PlaySong(song, true);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the manager is running and throws an <see cref="InvalidOperationException"/> if not.
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>.
+    private void CheckManagerRunning()
+    {
+        if (ManagerStopped)
+        {
+            throw new InvalidOperationException("The manager must be running by setting the ManagerStopped = false.");
         }
     }
 
@@ -106,8 +146,10 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
+    private readonly object volumeLockObject = new();
     private volatile bool skipPlaybackStateChange;
-    private volatile List<long> playedSongIds = new();
+    private volatile DropOutStack<long> playedSongIds = new(100);
+    private double volume = 1;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     private double previousPosition;
@@ -118,7 +160,12 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
 
     private Thread? playbackThread;
     private readonly Func<Task<TAlbumSong?>> getNextSongFunc;
+    private readonly Func<long, Task<TAlbumSong?>> getSongById;
 
+
+    /// <summary>
+    /// Plays the next song.
+    /// </summary>
     public async Task PlayNextSong()
     {
         var nextSong = await getNextSongFunc();
@@ -128,6 +175,29 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
     }
 
+    public double PlaybackVolume
+    {
+        get
+        {
+            lock (volumeLockObject)
+            {
+                return Bass.ChannelGetAttribute(currentSongHandle, ChannelAttribute.Volume);
+            }
+        }
+
+        set
+        {
+            lock (volumeLockObject)
+            {
+                volume = value;
+                Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resumes the playback if paused, otherwise plays the next song.
+    /// </summary>
     public async Task PlayOrResume()
     {
         if (previousPlaybackState == PlaybackState.Paused)
@@ -140,6 +210,9 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
     }
 
+    /// <summary>
+    /// Pauses the playback.
+    /// </summary>
     public void Pause()
     {
         if (previousPlaybackState == PlaybackState.Playing)
@@ -230,6 +303,9 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
     }
 
+    /// <summary>
+    /// Disposes the current playback channel if any.
+    /// </summary>
     private void DisposeCurrentChannel()
     {
         try
@@ -247,6 +323,9 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
     }
 
+    /// <summary>
+    /// The thread method handling the audio playback.
+    /// </summary>
     private async void PlaybackThreadMethod()
     {
         while (!stopThread)
@@ -319,6 +398,9 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
     }
 
+    /// <summary>
+    /// Releases the resources used by the ManagedBass library.
+    /// </summary>
     private void FreeBass()
     {
         try

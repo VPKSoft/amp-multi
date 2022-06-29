@@ -56,7 +56,7 @@ internal static class Globals
         get
         {
             logger ??= new LoggerConfiguration()
-                .WriteTo.File(Path.Combine(DataFolder, "amp_log.txt"), rollOnFileSizeLimit: true, fileSizeLimitBytes: 20_000_000, retainedFileCountLimit: 10 )
+                .WriteTo.File(Path.Combine(DataFolder, "amp_log.txt"), rollOnFileSizeLimit: true, fileSizeLimitBytes: 20_000_000, retainedFileCountLimit: 10)
                 .CreateLogger();
 
             return logger;
@@ -88,6 +88,18 @@ internal static class Globals
             return settings;
         }
     }
+
+    /// <summary>
+    /// Gets or sets the width of the window border.
+    /// </summary>
+    /// <value>The width of the window border.</value>
+    internal static int WindowBorderWidth { get; set; } = 10;
+
+    /// <summary>
+    /// Gets or sets the default padding.
+    /// </summary>
+    /// <value>The default padding.</value>
+    internal static int DefaultPadding { get; set; } = 5;
 
     /// <summary>
     /// Saves the application settings.

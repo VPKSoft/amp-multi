@@ -90,7 +90,7 @@ partial class FormMain
         songs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
 
         var items = songs
-            .Select(f => new ListItem { Text = f.GetAlbumName(), Key = f.Id.ToString(), });
+            .Select(f => new ListItem { Text = f.GetSongName(), Key = f.Id.ToString(), });
 
         lbSongs.Items.AddRange(items);
     }
@@ -136,9 +136,41 @@ partial class FormMain
     {
         await Application.Instance.InvokeAsync(() =>
         {
-            btnPlayPause.CheckedChange -= BtnPlayPause_CheckedChange;
+            var song = songs.FirstOrDefault(f => f.SongId == e.SongId);
+            lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+            btnPlayPause.CheckedChange -= PlayPauseToggle;
             btnPlayPause.Checked = e.PlaybackState == PlaybackState.Playing;
-            btnPlayPause.CheckedChange += BtnPlayPause_CheckedChange;
+            btnPlayPause.CheckedChange += PlayPauseToggle;
         });
+    }
+
+    private void PlaybackManager_SongChanged(object? sender, Playback.EventArguments.SongChangedArgs e)
+    {
+        Application.Instance.Invoke(() =>
+        {
+            var song = songs.FirstOrDefault(f => f.SongId == e.SongId);
+            songVolumeSlider.SuspendEventInvocation = true;
+            songVolumeSlider.Value = song?.Song?.PlaybackVolume * 100 ?? 100;
+            songVolumeSlider.SuspendEventInvocation = false;
+            lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+        });
+    }
+
+    private async void PlayPauseToggle(object? sender, global::EtoForms.Controls.Custom.EventArguments.CheckedChangeEventArguments e)
+    {
+        btnPlayPause.CheckedChange -= PlayPauseToggle;
+        if (e.Checked)
+        {
+            await playbackManager.PlayOrResume();
+        }
+        else
+        {
+            if (playbackManager.PlaybackState == PlaybackState.Playing)
+            {
+                playbackManager.Pause();
+            }
+        }
+
+        btnPlayPause.CheckedChange += PlayPauseToggle;
     }
 }

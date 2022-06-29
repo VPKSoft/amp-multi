@@ -26,6 +26,9 @@ SOFTWARE.
 
 namespace amp.Playback.Interfaces;
 
+/// <summary>
+/// Common properties used by the biased randomization to randomize the playlist.
+/// </summary>
 public interface IBiasedRandomSettings
 {
     /// <summary>

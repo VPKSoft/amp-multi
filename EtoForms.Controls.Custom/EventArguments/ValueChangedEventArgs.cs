@@ -24,25 +24,20 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Playback.Enumerations;
+using System;
+
+namespace EtoForms.Controls.Custom.EventArguments;
 
 /// <summary>
-/// An enumeration for the audio playback state.
+/// Event arguments for an event where a <see cref="double"/> value has been changed.
+/// Implements the <see cref="EventArgs" />
 /// </summary>
-public enum PlaybackState
+/// <seealso cref="EventArgs" />
+public class ValueChangedEventArgs : EventArgs
 {
     /// <summary>
-    /// The playback is stopped.
+    /// Gets or sets the value.
     /// </summary>
-    Stopped,
-
-    /// <summary>
-    /// The playback is paused.
-    /// </summary>
-    Paused,
-
-    /// <summary>
-    /// The playback is playing.
-    /// </summary>
-    Playing,
+    /// <value>The value.</value>
+    public double Value { get; set; }
 }
