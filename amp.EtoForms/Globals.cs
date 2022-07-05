@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using Eto.Drawing;
 using Serilog;
 
 namespace amp.EtoForms;
@@ -49,15 +50,25 @@ internal static class Globals
         }
     }
 
+#pragma warning disable CS0649
     private static Serilog.Core.Logger? logger;
+#pragma warning restore CS0649
 
-    internal static Serilog.Core.Logger Logger
+    /// <summary>
+    /// Gets the <see cref="Serilog.Core.Logger"/> with not null value unless in debug mode.
+    /// </summary>
+    internal static Serilog.Core.Logger? Logger
     {
         get
         {
-            logger ??= new LoggerConfiguration()
-                .WriteTo.File(Path.Combine(DataFolder, "amp_log.txt"), rollOnFileSizeLimit: true, fileSizeLimitBytes: 20_000_000, retainedFileCountLimit: 10)
-                .CreateLogger();
+            if (logger == null)
+            {
+#if !DEBUG
+                logger = new LoggerConfiguration()
+                    .WriteTo.File(Path.Combine(DataFolder, "amp_log.txt"), rollOnFileSizeLimit: true, fileSizeLimitBytes: 20_000_000, retainedFileCountLimit: 10)
+                    .CreateLogger();
+#endif
+            }
 
             return logger;
         }
@@ -100,6 +111,12 @@ internal static class Globals
     /// </summary>
     /// <value>The default padding.</value>
     internal static int DefaultPadding { get; set; } = 5;
+
+    /// <summary>
+    /// Gets or sets the default size of a button.
+    /// </summary>
+    /// <value>The default size of a button.</value>
+    internal static Size ButtonDefaultSize { get; set; } = new(32, 32);
 
     /// <summary>
     /// Saves the application settings.

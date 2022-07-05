@@ -28,14 +28,12 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.EtoForms.Utilities;
 using amp.Playback;
-using amp.Playback.Enumerations;
+using amp.Shared.Interfaces;
 using Eto.Drawing;
 using Eto.Forms;
-using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Form = Eto.Forms.Form;
-using ListBox = Eto.Forms.ListBox;
 
 namespace amp.EtoForms;
 
@@ -55,7 +53,7 @@ public partial class FormMain : Form
 
         Application.Instance.UnhandledException += Program.Instance_UnhandledException;
 
-        playbackOrder = new PlaybackOrder<Song, AlbumSong>(Globals.Settings);
+        playbackOrder = new PlaybackOrder<Song, AlbumSong>(Globals.Settings, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
         var databaseFile = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");
@@ -68,137 +66,53 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc, GetSongById);
+        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc, GetSongById,
+            () => Application.Instance.RunIteration());
 
-        btnPlayPause = new CheckedButton
-        {
-            Size = new Size(32, 32),
-            CheckedSvgImage = FluentIcons.Resources.Filled.Size16.ic_fluent_pause_16_filled,
-            UncheckedSvgImage = FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled,
-            CheckedImageColor = Colors.Purple,
-            UncheckedImageColor = Colors.Purple,
-        };
-
-        btnPlayPause.CheckedChange += PlayPauseToggle;
-
-        var toolBar = new StackLayout
-        {
-            Orientation = Orientation.Horizontal,
-            Items =
-            {
-                new Button((_, _) => commandPlayPause.Execute()) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_previous_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
-                btnPlayPause,
-                new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_next_16_filled, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), amp.EtoForms.Properties.Resources.queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), amp.EtoForms.Properties.Resources.repeat_svgrepo_com_modified, new Size(32, 32)), Size = new Size(32, 32), },
-                new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, amp.EtoForms.Properties.Resources.stack_queue_three_dots, new Size(32, 32)), Size = new Size(32, 32), },
-            },
-        };
-
-        songVolumeSlider = new VolumeSlider((_, args) =>
-        {
-            playbackManager!.PlaybackVolume = args.Value / 100.0;
-        })
-        { Maximum = 300, };
-
-        var mainVolumeSlider =
-            new TableLayout
-            {
-                Rows =
-                {
-                    new TableRow
-                    {
-                        Cells =
-                        {
-                            new TableCell(new Label { Text = "Volume", VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
-                            new Panel { Width = Globals.DefaultPadding,},
-                            new TableCell(songVolumeSlider, true),
-                        },
-                    },
-                    new Panel {Height = Globals.DefaultPadding,},
-                    new TableRow
-                    {
-                        Cells =
-                        {
-                            new TableCell(new Label { Text = "Song volume", VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
-                            new Panel { Width = Globals.DefaultPadding,},
-                            new TableCell(new VolumeSlider(), true),
-                        },
-                    },
-                },
-                Height = 80 + Globals.DefaultPadding * 3,
-                Padding = Globals.DefaultPadding,
-            };
-
-        Content = new StackLayout
-        {
-            Items =
-            {
-                new StackLayoutItem(mainVolumeSlider, HorizontalAlignment.Stretch),
-//                new StackLayoutItem(new Panel { Height = 40, Content = new VolumeSlider(), Padding = new Padding(6, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(lbSongsTitle),
-                new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = lbSongs, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
-            },
-            Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
-        };
+        CreateButtons();
+        toolBar = CreateToolbar();
+        mainVolumeSlider = CreateVolumeSliders();
+        Content = CreateMainContent();
 
         context = new AmpContext();
 
-        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).ToList();
+        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).AsNoTracking().ToList();
+
+        ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);
+
+        songs = songs.OrderBy(f => f.GetSongName()).ToList();
 
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
         playbackManager.SongChanged += PlaybackManager_SongChanged;
+        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
 
-        lbSongs.Items.AddRange(context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).Select(f => new ListItem { Text = f.GetSongName(), Key = f.Id.ToString(), }));
-
-        commandPlayPause.Executed += CommandPlayPause_Executed;
+        gvSongs.DataStore = songs;
 
         commandPlayPause.MenuText = Localization.UI.Play;
         commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
-            FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, new Size(32, 32));
-
-        nextSongCommand.Executed += NextSongCommand_Executed;
-
-        tbSearch.TextChanged += TbSearch_TextChanged;
-        lbSongs.MouseDoubleClick += LbSongs_MouseDoubleClick;
+            FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
 
         playbackManager.ManagerStopped = false;
-        Closing += FormMain_Closing;
-        KeyDown += FormMain_KeyDown;
-        lbSongs.KeyDown += FormMain_KeyDown;
+        AssignEventListeners();
     }
 
-    private async void PlayNextSongClick(object? sender, EventArgs e)
+    private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData)
     {
-        await playbackManager.PlayNextSong();
-    }
-
-    private async Task<AlbumSong?> GetSongById(long songId)
-    {
-        return await Application.Instance.InvokeAsync(AlbumSong? () =>
+        var modifySongs = songs.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
+        //        var selectedIndex = gvSongs.SelectedIndex;
+        foreach (var albumSong in modifySongs)
         {
-            return songs.FirstOrDefault(f => f.SongId == songId);
-        });
+            var newIndex = updateQueueData.First(f => f.Key == albumSong.Id).Value;
+            albumSong.QueueIndex = newIndex;
+            albumSong.ModifiedAtUtc = DateTime.UtcNow;
+            context.AlbumSongs.Update(albumSong);
+        }
+
+        await context.SaveChangesAsync();
     }
 
-    private readonly ListBox lbSongs = new() { Height = 650, Width = 550, };
-    private readonly TextBox tbSearch = new();
     private readonly List<AlbumSong> songs;
-    private readonly CheckedButton btnPlayPause;
-    private readonly Label lbSongsTitle = new();
-    private readonly VolumeSlider songVolumeSlider;
-
-    #region MenuCommands
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
-    private readonly Command commandPlayPause = new();
-    private readonly Command nextSongCommand = new();
     private readonly AmpContext context;
-    #endregion
 }

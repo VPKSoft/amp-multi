@@ -24,32 +24,22 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
-
-namespace amp.EtoForms;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The program main entry point.
+/// An interface to provide custom <see cref="ToString"/> function for a class.
 /// </summary>
-public class Program
+public abstract class ToStringFunc<T> where T : class
 {
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Returns a <see cref="System.String" /> that represents this instance.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
+    /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+    public abstract override string? ToString();
 
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger?.Error((Exception)e.ExceptionObject, "");
-    }
+    /// <summary>
+    /// Gets or sets the func to convert this instance to string.
+    /// </summary>
+    /// <value>To string function.</value>
+    public static Func<T, string?>? StringFunc { get; set; }
 }

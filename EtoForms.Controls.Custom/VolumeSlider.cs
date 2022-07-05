@@ -27,8 +27,8 @@ SOFTWARE.
 using System;
 using System.Linq;
 using Eto.Drawing;
-using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
+using EtoForms.Controls.Custom.Interfaces.BaseClasses;
 using EtoForms.Controls.Custom.Properties;
 using EtoForms.Controls.Custom.Utilities;
 
@@ -36,28 +36,21 @@ namespace EtoForms.Controls.Custom;
 
 /// <summary>
 /// A volume slider control for <see cref="Eto.Forms"/>.
-/// Implements the <see cref="Drawable" />
+/// Implements the <see cref="SliderBase" />
 /// </summary>
-/// <seealso cref="Drawable" />
-public class VolumeSlider : Drawable
+/// <seealso cref="SliderBase" />
+public class VolumeSlider : SliderBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VolumeSlider"/> class.
     /// </summary>
     public VolumeSlider()
     {
-        Paint += VolumeSlider_Paint;
-        SizeChanged += VolumeSlider_SizeChanged;
-        MouseDown += VolumeSlider_MouseDown;
-        MouseUp += VolumeSlider_MouseUp;
-        MouseLeave += VolumeSlider_MouseUp;
-        MouseMove += OnMouseMove;
-        previousSize = base.Size;
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VolumeSlider"/> class.
-    /// <param name="valueChanged">Event handler for the <see cref="ValueChanged"/> event.</param>
+    /// <param name="valueChanged">Event handler for the <see cref="SliderBase.ValueChanged"/> event.</param>
     /// </summary>
     public VolumeSlider(EventHandler<ValueChangedEventArgs> valueChanged) : this()
     {
@@ -65,163 +58,12 @@ public class VolumeSlider : Drawable
     }
 
     #region PrivateFields
-    private double minimum;
-    private double maximum = 100;
-    private double currentValue;
-    private Padding sliderPadding = new(10, 5);
-    private bool mouseDown;
-    private int sliderWidth = 10;
     private Color colorSpeaker = Colors.SteelBlue;
-    private Color colorSlider = Colors.Teal;
-    private Color colorSliderMarker = Colors.Navy;
     private byte[]? speakerImageSvg;
-    private byte[]? sliderImageSvg;
-    private byte[]? sliderMarkerImageSvg;
-    private Size previousSize;
     private Image? speakerImage;
-    private Image? sliderImage;
-    private Image? sliderMarkImage;
     #endregion
 
-    /// <summary>
-    /// Occurs when the <see cref="Value"/> property value has been changed.
-    /// </summary>
-    public event EventHandler<ValueChangedEventArgs>? ValueChanged;
-
     #region PublicProperties
-    /// <summary>
-    /// Gets or sets the minimum value for the slider.
-    /// </summary>
-    /// <value>The minimum value for the slider.</value>
-    public double Minimum
-    {
-        get => minimum;
-
-        set
-        {
-            if (Math.Abs(value - minimum) > Globals.FloatingPointTolerance)
-            {
-                if (maximum < value)
-                {
-                    maximum = value + maximum - minimum;
-                }
-
-                minimum = value;
-                if (minimum < currentValue)
-                {
-                    currentValue = minimum;
-                }
-
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the maximum value for the slider.
-    /// </summary>
-    /// <value>The maximum value for the slider.</value>
-    public double Maximum
-    {
-        get => maximum;
-
-        set
-        {
-            if (Math.Abs(maximum - value) > Globals.FloatingPointTolerance)
-            {
-                if (value < minimum)
-                {
-                    minimum -= maximum - minimum;
-                    if (currentValue > maximum)
-                    {
-                        currentValue = maximum;
-                    }
-
-                    currentValue = value;
-                }
-
-                maximum = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether suspend raising the <see cref="ValueChanged"/> event.
-    /// </summary>
-    /// <value><c>true</c> if suspend the <see cref="ValueChanged"/> event invocation; otherwise, <c>false</c>.</value>
-    public bool SuspendEventInvocation { get; set; }
-
-    /// <summary>
-    /// Gets or sets the current slider position value.
-    /// </summary>
-    /// <value>The current slider position value.</value>
-    public double Value
-    {
-        get => currentValue;
-
-        set
-        {
-            if (Math.Abs(currentValue - value) > Globals.FloatingPointTolerance)
-            {
-                if (value < minimum)
-                {
-                    currentValue = minimum;
-                }
-
-                if (value > maximum)
-                {
-                    currentValue = maximum;
-                }
-
-                currentValue = value;
-
-                Invalidate();
-
-                if (!SuspendEventInvocation)
-                {
-                    ValueChanged?.Invoke(this, new ValueChangedEventArgs { Value = Value, });
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the slider padding.
-    /// </summary>
-    /// <value>The slider padding.</value>
-    public Padding SliderPadding
-    {
-        get => sliderPadding;
-
-        set
-        {
-            if (!sliderPadding.Equals(value))
-            {
-                sliderPadding = value;
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the width of the value slider.
-    /// </summary>
-    /// <value>The width of the value slider.</value>
-    public int SliderWidth
-    {
-        get => sliderWidth;
-
-        set
-        {
-            if (value != sliderWidth)
-            {
-                sliderWidth = value;
-                CreateSliderMark();
-                Invalidate();
-            }
-        }
-    }
-
     /// <summary>
     /// Gets or sets the speaker image color.
     /// </summary>
@@ -236,44 +78,6 @@ public class VolumeSlider : Drawable
             {
                 colorSpeaker = value;
                 speakerImage = null;
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the slider image color.
-    /// </summary>
-    /// <value>The slider image color.</value>
-    public Color ColorSlider
-    {
-        get => colorSlider;
-
-        set
-        {
-            if (value != colorSlider)
-            {
-                colorSlider = value;
-                sliderImage = null;
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the slider marker image color.
-    /// </summary>
-    /// <value>The slider marker image color.</value>
-    public Color ColorSliderMarker
-    {
-        get => colorSliderMarker;
-
-        set
-        {
-            if (value != colorSliderMarker)
-            {
-                colorSliderMarker = value;
-                sliderMarkImage = null;
                 Invalidate();
             }
         }
@@ -297,86 +101,16 @@ public class VolumeSlider : Drawable
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets the SVG image for the slide area.
-    /// </summary>
-    /// <value>The SVG image for the slide area.</value>
-    public byte[] SliderImageSvg
-    {
-        get => sliderImageSvg ?? Resources.volume_slider;
-
-        set
-        {
-            if (sliderImageSvg?.SequenceEqual(value) != true)
-            {
-                sliderImageSvg = value;
-                sliderImage = null;
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the SVG image for the slider marker.
-    /// </summary>
-    /// <value>The SVG image for the slider marker.</value>
-    public byte[] SliderMarkerImageSvg
-    {
-        get => sliderMarkerImageSvg ?? Resources.slider_mark;
-
-        set
-        {
-            if (sliderMarkerImageSvg?.SequenceEqual(value) != true)
-            {
-                sliderMarkerImageSvg = value;
-                sliderMarkImage = null;
-                Invalidate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the color of the background.
-    /// </summary>
-    /// <value>The color of the background.</value>
-    /// <remarks>Note that on some platforms (e.g. Mac), setting the background color of a control can change the performance
-    /// characteristics of the control and its children, since it must enable layers to do so.</remarks>
-    public new Color BackgroundColor
-    {
-        get => base.BackgroundColor;
-
-        set
-        {
-            if (value != base.BackgroundColor)
-            {
-                base.BackgroundColor = value;
-                Invalidate();
-            }
-        }
-    }
     #endregion
 
-    #region PrivateProperties
-    private RectangleF MouseArea =>
-        new(SquareSize.Width + sliderPadding.Left, sliderPadding.Top, RestAreaSize.Width,
-            RestAreaSize.Height);
-
-    private Size SquareSize
+    #region PrivateProperties    
+    /// <inheritdoc cref="SliderBase.SquareSize"/>
+    protected override Size SquareSize
     {
         get
         {
             var wh = Math.Min(Width, Height);
             return new Size(wh, wh);
-        }
-    }
-
-    private Size RestAreaSize
-    {
-        get
-        {
-            var wh = Math.Min(Width, Height);
-            return new Size(Width - wh - sliderPadding.Size.Width, Height - sliderPadding.Size.Height);
         }
     }
 
@@ -393,45 +127,15 @@ public class VolumeSlider : Drawable
             return speakerImage;
         }
     }
-
-    private Image SliderImage
-    {
-        get
-        {
-            if (sliderImage == null)
-            {
-                sliderImage = EtoHelpers.ImageFromSvg(colorSlider,
-                    Resources.volume_slider, RestAreaSize);
-            }
-
-            return sliderImage;
-        }
-    }
-
-    private Image SliderMarkImage
-    {
-        get
-        {
-            if (sliderMarkImage == null)
-            {
-                CreateSliderMark();
-            }
-
-            return sliderMarkImage!;
-        }
-    }
     #endregion
 
-    #region PrivateMethods
-    private void CreateSliderMark()
-    {
-        var width = sliderPadding.Size.Width < sliderWidth ? sliderPadding.Size.Width : sliderWidth;
-
-        sliderMarkImage =
-            EtoHelpers.ImageFromSvg(colorSliderMarker, Resources.slider_mark, new Size(width, Height));
-    }
-
-    private void PaintControl(Graphics graphics, RectangleF paintRectangle)
+    #region PrivateMethods    
+    /// <summary>
+    /// Paints the control.
+    /// </summary>
+    /// <param name="graphics">The graphics.</param>
+    /// <param name="paintRectangle">The paint rectangle.</param>
+    protected override void PaintControl(Graphics graphics, RectangleF paintRectangle)
     {
         graphics.FillRectangle(BackgroundColor, paintRectangle);
         var wh = Math.Min(Width, Height);
@@ -447,32 +151,7 @@ public class VolumeSlider : Drawable
     #endregion
 
     #region InternalEvents
-    private void OnMouseMove(object? sender, MouseEventArgs e)
-    {
-        UpdateValueFromPoint(e.Location);
-    }
-
-    private void UpdateValueFromPoint(PointF location)
-    {
-        if (mouseDown && MouseArea.Contains(location))
-        {
-            var value = (location.X - MouseArea.Left) / MouseArea.Width * (maximum - minimum);
-            Value = value;
-        }
-    }
-
-    private void VolumeSlider_MouseUp(object? sender, MouseEventArgs e)
-    {
-        mouseDown = false;
-    }
-
-    private void VolumeSlider_MouseDown(object? sender, MouseEventArgs e)
-    {
-        mouseDown = e.Buttons == MouseButtons.Primary;
-        UpdateValueFromPoint(e.Location);
-    }
-
-    private void VolumeSlider_SizeChanged(object? sender, EventArgs e)
+    internal override void Slider_SizeChanged(object? sender, EventArgs e)
     {
         var sizeChanged = previousSize.Equals(base.Size);
         if (sizeChanged)
@@ -486,11 +165,6 @@ public class VolumeSlider : Drawable
 
             CreateSliderMark();
         }
-    }
-
-    private void VolumeSlider_Paint(object? sender, PaintEventArgs e)
-    {
-        PaintControl(e.Graphics, e.ClipRectangle);
     }
     #endregion
 }

@@ -29,16 +29,32 @@ using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Utilities;
 using amp.Playback.Enumerations;
 using Eto.Forms;
+using EtoForms.Controls.Custom.EventArguments;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
 
 partial class FormMain
 {
-    private void FormMain_KeyDown(object? sender, KeyEventArgs e)
+    private async void FormMain_KeyDown(object? sender, KeyEventArgs e)
     {
         if (Equals(sender, tbSearch))
         {
+            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal)
+            {
+                gvSongs.Focus();
+            }
+            return;
+        }
+
+        if (e.Key == Keys.Add)
+        {
+            var song = songs.First(f => f.Id == SelectedAlbumSongId);
+            await playbackOrder.ToggleQueue(songs, song.Id);
+
+            gvSongs.Invalidate();
+
+            e.Handled = true;
             return;
         }
 
@@ -54,45 +70,62 @@ partial class FormMain
         }
     }
 
+    private long SelectedAlbumSongId
+    {
+        get
+        {
+            if (gvSongs.SelectedItem != null)
+            {
+                var songId = ((AlbumSong)gvSongs.SelectedItem).Id;
+                return songId;
+            }
+
+            return 0;
+        }
+    }
+
     private async void NextSongCommand_Executed(object? sender, EventArgs e)
     {
-        await playbackManager.PlayNextSong();
+        await playbackManager.PlayNextSong(true);
     }
 
     private void CommandPlayPause_Executed(object? sender, EventArgs e)
     {
-        if (long.TryParse(lbSongs.SelectedKey, out var songId))
+        if (SelectedAlbumSongId != 0)
         {
-            var song = context.AlbumSongs.First(f => f.Id == songId);
+            var song = songs.First(f => f.Id == SelectedAlbumSongId);
             playbackManager.PlaySong(song, true);
         }
     }
 
-    private async void LbSongs_MouseDoubleClick(object? sender, MouseEventArgs e)
+    private void PlaybackPosition_ValueChanged(object? sender, global::EtoForms.Controls.Custom.EventArguments.ValueChangedEventArgs e)
     {
-        var song = context.AlbumSongs.First(f => f.Id == long.Parse(lbSongs.SelectedKey));
+        playbackManager.PlaybackPositionPercentage = e.Value;
+    }
+
+    private async void GvSongsMouseDoubleClick(object? sender, MouseEventArgs e)
+    {
+        var song = songs.First(f => f.Id == SelectedAlbumSongId);
         if (song.Song?.PlayedByUser != null)
         {
             song.Song.PlayedByUser++;
             song.Song.ModifiedAtUtc = DateTime.UtcNow;
+            context.AlbumSongs.Update(song);
             await context.SaveChangesAsync();
         }
         playbackManager.PlaySong(song, true);
     }
 
-    private async void TbSearch_TextChanged(object? sender, EventArgs e)
+    private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        lbSongs.Items.Clear();
+        var albumSongs = songs;
 
-        var songs = await context.AlbumSongs.Include(f => f.Song)
-            .Where(f => f.AlbumId == 1).ToListAsync();
+        albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
 
-        songs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
-
-        var items = songs
+        var items = albumSongs
             .Select(f => new ListItem { Text = f.GetSongName(), Key = f.Id.ToString(), });
 
-        lbSongs.Items.AddRange(items);
+        gvSongs.DataStore = items;
     }
 
     private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -105,26 +138,16 @@ partial class FormMain
         AlbumSong? result = null;
         await Application.Instance.InvokeAsync(async () =>
         {
-            if (songs.Any(f => f.QueueIndex > 0))
-            {
-                result = songs.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex).First();
-                result.QueueIndex = 0;
-                result.ModifiedAtUtc = DateTime.UtcNow;
-                foreach (var song in songs.Where(f => f.QueueIndex > 0))
-                {
-                    song.QueueIndex--;
-                    song.ModifiedAtUtc = DateTime.UtcNow;
-                }
-
-                await context.SaveChangesAsync();
-                return;
-            }
-
-            result = songs[playbackOrder.NextSongIndex(songs)];
+            var nextSongData = await playbackOrder.NextSong(songs);
+            result = songs[nextSongData.NextSongIndex];
             if (result.Song != null)
             {
-                result.Song.PlayedByRandomize++;
+                result.Song.PlayedByRandomize += nextSongData.PlayedByRandomize;
+                result.Song.PlayedByUser += nextSongData.PlayedByUser;
                 result.Song.ModifiedAtUtc = DateTime.UtcNow;
+
+                context.Update(result);
+
                 await context.SaveChangesAsync();
             }
         });
@@ -172,5 +195,35 @@ partial class FormMain
         }
 
         btnPlayPause.CheckedChange += PlayPauseToggle;
+    }
+
+    private void BtnShuffleToggle_CheckedChange(object? sender, CheckedChangeEventArguments e)
+    {
+        playbackManager.Shuffle = e.Checked;
+    }
+
+    private async void PlayNextSongClick(object? sender, EventArgs e)
+    {
+        await playbackManager.PlayNextSong(true);
+    }
+
+    private async Task<AlbumSong?> GetSongById(long songId)
+    {
+        return await Application.Instance.InvokeAsync(AlbumSong? () =>
+        {
+            return songs.FirstOrDefault(f => f.SongId == songId);
+        });
+    }
+
+    private void PlaybackManager_PlaybackPositionChanged(object? sender, Playback.EventArguments.PlaybackPositionChangedArgs e)
+    {
+        Application.Instance.Invoke(() =>
+        {
+            playbackPosition.SuspendEventInvocation = true;
+            playbackPosition.Value = e.CurrentPosition / e.PlaybackLength * 100;
+            playbackPosition.SuspendEventInvocation = false;
+            lbPlaybackPosition.Text =
+                "-" + TimeSpan.FromSeconds(e.PlaybackLength - e.CurrentPosition).ToString(@"hh\:mm\:ss");
+        });
     }
 }

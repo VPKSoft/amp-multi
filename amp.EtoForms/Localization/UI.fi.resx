@@ -133,4 +133,10 @@
   <data name="Play" xml:space="preserve">
     <value>Toista</value>
   </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Äänenvoimakkuus</value>
+  </data>
+  <data name="SongVolume" xml:space="preserve">
+    <value>Kappaleen äänenvoimakkuus</value>
+  </data>
 </root>

@@ -49,6 +49,41 @@ public class CheckedButton : Button
         SizeChanged += CheckedButton_SizeChanged;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CheckedButton"/> class.
+    /// </summary>
+    /// <param name="image">The SVG image to use both checked and unchecked states.</param>
+    /// <param name="checkedImageColor">Color of the image when button is checked.</param>
+    /// <param name="uncheckedImageColor">Color of the image when the button is unchecked.</param>
+    /// <param name="size">The size of the button.</param>
+    /// <param name="checked">if set to <c>true</c> the initial button state is checked.</param>
+    public CheckedButton(byte[] image, Color checkedImageColor, Color uncheckedImageColor, Size size, bool @checked = false) : this()
+    {
+        CheckedSvgImage = image;
+        CheckedImageColor = checkedImageColor;
+        UncheckedSvgImage = image;
+        UncheckedImageColor = uncheckedImageColor;
+        base.Size = size;
+        this.@checked = @checked;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CheckedButton"/> class.
+    /// </summary>
+    /// <param name="checkedSvgImage">The SVG image to used to indicate the checked state.</param>
+    /// <param name="uncheckedSvgImage">The SVG image to used to indicate the unchecked state.</param>
+    /// <param name="checkedImageColor">Color of the image when button is checked.</param>
+    /// <param name="uncheckedImageColor">Color of the image when the button is unchecked.</param>
+    /// <param name="size">The size of the button.</param>
+    /// <param name="checked">if set to <c>true</c> the initial button state is checked.</param>
+    public CheckedButton(byte[] checkedSvgImage, byte[] uncheckedSvgImage, Color checkedImageColor,
+        Color uncheckedImageColor, Size size, bool @checked = false) : this(checkedSvgImage, checkedImageColor,
+        uncheckedImageColor, size, @checked)
+    {
+        UncheckedSvgImage = uncheckedSvgImage;
+    }
+
+
     private void CheckedButton_SizeChanged(object? sender, EventArgs e)
     {
         if (shown)

@@ -37,7 +37,7 @@ namespace amp.Database.DataModel;
 /// <seealso cref="IAlbumSong{T}" />
 [Table(nameof(AlbumSong))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class AlbumSong : IAlbumSong<Song>
+public class AlbumSong : ToStringFunc<AlbumSong>, IAlbumSong<Song>
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
@@ -71,4 +71,20 @@ public class AlbumSong : IAlbumSong<Song>
     /// <inheritdoc cref="IAlbumSong{T}.Song"/>
     [ForeignKey(nameof(SongId))]
     public Song? Song { get; set; }
+
+    /// <summary>
+    /// Gets the display name for the album song.
+    /// </summary>
+    /// <value>The display name.</value>
+    [NotMapped]
+    public string DisplayName => ToString();
+
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+    public override string ToString()
+    {
+        return StringFunc?.Invoke(this) ?? "";
+    }
 }

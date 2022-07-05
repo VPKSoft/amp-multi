@@ -41,7 +41,7 @@ namespace amp.Playback;
 /// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
 public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
 {
-    private readonly Serilog.Core.Logger logger;
+    private readonly Serilog.Core.Logger? logger;
 
     private volatile int currentSongHandle;
 
@@ -51,22 +51,24 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="logger">The logger to log exceptions, etc.</param>
     /// <param name="getNextSongFunc">A Task&lt;<see cref="Func{TAlbumSong}"/>&gt;, which is executed when requesting a next song for playback.</param>
     /// <param name="getSongById">A Task&lt;<see cref="Func{TIdentity,TAlbumSong}"/>&gt;, which is executed when requesting song data by its reference identifier for playback.</param>
+    /// <param name="doEventsCallback">An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).</param>
     /// <remarks>The contents of the <paramref name="getNextSongFunc"/> must be thread safe as it gets called from another thread.</remarks>
     /// <remarks>The contents of the <paramref name="getSongById"/> must be thread safe as it gets called from another thread.</remarks>
-    public PlaybackManager(Serilog.Core.Logger logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById)
+    public PlaybackManager(Serilog.Core.Logger? logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById, Action doEventsCallback)
     {
         this.logger = logger;
         Bass.Init();
         this.getNextSongFunc = getNextSongFunc;
         this.getSongById = getSongById;
+        DoEventsCallback = doEventsCallback;
     }
 
     /// <summary>
     /// Plays the specified song.
     /// </summary>
     /// <param name="song">The song.</param>
-    /// <param name="userChanged">A value indicating whether the user selected the song for playback.</param>
-    public void PlaySong(IAlbumSong<TSong> song, bool userChanged)
+    /// <param name="skipStateChange">A value indicating whether to ignore the playback state change caused by this call.</param>
+    public void PlaySong(IAlbumSong<TSong> song, bool skipStateChange)
     {
         CheckManagerRunning();
 
@@ -75,19 +77,22 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                                               throw new InvalidOperationException(
                                                   "The IAlbumSong.Song must be not null."));
 
-
         if (currentSongHandle != 0)
         {
             playedSongIds.Push(song.Id);
-            skipPlaybackStateChange = userChanged;
+            skipPlaybackStateChange = skipStateChange;
 
-            Bass.ChannelPlay(currentSongHandle);
+            if (!Bass.ChannelPlay(currentSongHandle))
+            {
+                DisposeCurrentChannel();
+                playbackFailed = true;
+                return;
+            }
             PlaybackVolume = song.Song.PlaybackVolume;
             songChanged = previousSongId != song.SongId;
             PreviousSongId = song.SongId;
         }
     }
-
 
     /// <summary>
     /// Plays the previous song if one is available.
@@ -146,10 +151,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
-    private readonly object volumeLockObject = new();
     private volatile bool skipPlaybackStateChange;
     private volatile DropOutStack<long> playedSongIds = new(100);
     private double volume = 1;
+    private volatile bool shuffle = true;
+    private volatile bool playbackFailed;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     private double previousPosition;
@@ -166,33 +172,64 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <summary>
     /// Plays the next song.
     /// </summary>
-    public async Task PlayNextSong()
+    /// <param name="skipStateChange">A value indicating whether to ignore the playback state change caused by this call.</param>
+    public async Task PlayNextSong(bool skipStateChange)
     {
         var nextSong = await getNextSongFunc();
         if (nextSong != null)
         {
-            PlaySong(nextSong, false);
+            PlaySong(nextSong, skipStateChange);
         }
     }
 
+    /// <summary>
+    /// Gets or sets the playback volume. <c>0</c> is mute, <c>1</c> if full.
+    /// </summary>
+    /// <value>The playback volume.</value>
     public double PlaybackVolume
     {
         get
         {
-            lock (volumeLockObject)
+            lock (lockObject)
             {
-                return Bass.ChannelGetAttribute(currentSongHandle, ChannelAttribute.Volume);
+                try
+                {
+                    return Bass.ChannelGetAttribute(currentSongHandle, ChannelAttribute.Volume);
+                }
+                catch (Exception ex)
+                {
+                    logger?.Error(ex, "");
+                    return volume;
+                }
             }
         }
 
         set
         {
-            lock (volumeLockObject)
+            lock (lockObject)
             {
                 volume = value;
-                Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value);
+                try
+                {
+                    Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value);
+                }
+                catch (Exception ex)
+                {
+                    logger?.Error(ex, "");
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether shuffle mode is enabled for this <see cref="PlaybackManager{TSong, TAlbumSong}"/>.
+    /// </summary>
+    /// <value><c>true</c> if shuffle mode is enabled; otherwise, <c>false</c>.</value>
+    public bool Shuffle
+    {
+        get => shuffle;
+
+        set => shuffle = value;
     }
 
     /// <summary>
@@ -206,7 +243,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
         else
         {
-            await PlayNextSong();
+            await PlayNextSong(true);
         }
     }
 
@@ -268,6 +305,95 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     }
 
     /// <summary>
+    /// Gets or sets the playback position in percentage.
+    /// </summary>
+    /// <value>The playback position in percentage.</value>
+    public double PlaybackPositionPercentage
+    {
+        get => PlaybackLength == 0 ? 0 : PlaybackPosition / PlaybackLength * 100;
+
+        set => PlaybackPosition = value == 0 ? 0 : PlaybackLength * value / 100;
+    }
+
+    /// <summary>
+    /// Gets or sets the playback position in seconds.
+    /// </summary>
+    /// <value>The playback position.</value>
+    public double PlaybackPosition
+    {
+        get
+        {
+            try
+            {
+                if (currentSongHandle != 0)
+                {
+                    var positionBytes = Bass.ChannelGetPosition(currentSongHandle);
+                    return Bass.ChannelBytes2Seconds(currentSongHandle, positionBytes);
+                }
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                logger?.Error(ex, "");
+                return 0;
+            }
+        }
+
+        set
+        {
+            try
+            {
+                if (currentSongHandle != 0)
+                {
+                    var lengthTotalBytes = Bass.ChannelGetLength(currentSongHandle);
+                    var lengthTotal = Bass.ChannelBytes2Seconds(currentSongHandle, lengthTotalBytes);
+
+                    var positionBytes = (long)(value / lengthTotal * lengthTotalBytes);
+
+                    if (positionBytes > lengthTotalBytes)
+                    {
+                        positionBytes = lengthTotalBytes;
+                    }
+
+                    Bass.ChannelSetPosition(currentSongHandle, positionBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger?.Error(ex, "");
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Gets the length of the playback in seconds.
+    /// </summary>
+    /// <value>The length of the playback.</value>
+    public double PlaybackLength
+    {
+        get
+        {
+            try
+            {
+                if (currentSongHandle != 0)
+                {
+                    var positionBytes = Bass.ChannelGetLength(currentSongHandle);
+                    return Bass.ChannelBytes2Seconds(currentSongHandle, positionBytes);
+                }
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                logger?.Error(ex, "");
+                return 0;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the state of the playback.
     /// </summary>
     /// <value>The state of the playback.</value>
@@ -289,7 +415,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
 
                 if (stopThread && playbackThread != null)
                 {
-                    playbackThread.Join();
+                    while (!playbackThread.Join(1000))
+                    {
+                        DoEventsCallback?.Invoke();
+                    }
+
                     FreeBass();
                     playbackThread = null;
                 }
@@ -302,6 +432,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
             }
         }
     }
+
+    /// <summary>
+    /// An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).
+    /// </summary>
+    public Action DoEventsCallback { get; set; }
 
     /// <summary>
     /// Disposes the current playback channel if any.
@@ -319,7 +454,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
         catch (Exception ex)
         {
-            logger.Error(ex, "");
+            logger?.Error(ex, "");
         }
     }
 
@@ -331,7 +466,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         while (!stopThread)
         {
             double position = 0, duration = 0;
-            var playbackState = ManagedBass.PlaybackState.Stopped;
+            var playbackState = AmpPlaybackStateConverter.ConvertFrom(ManagedBass.PlaybackState.Stopped);
 
             if (currentSongHandle != 0)
             {
@@ -339,7 +474,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 duration = Bass.ChannelBytes2Seconds(currentSongHandle, bytes);
                 var positionBytes = Bass.ChannelGetPosition(currentSongHandle);
                 position = Bass.ChannelBytes2Seconds(currentSongHandle, positionBytes);
-                playbackState = Bass.ChannelIsActive(currentSongHandle);
+                playbackState = AmpPlaybackStateConverter.ConvertFrom(Bass.ChannelIsActive(currentSongHandle));
 
                 if (Math.Abs(PreviousPosition - position) > Globals.FloatingPointTolerance || songChanged)
                 {
@@ -348,7 +483,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                         {
                             CurrentPosition = position,
                             PlaybackLength = duration,
-                            PlaybackState = AmpPlaybackStateConverter.ConvertFrom(playbackState),
+                            PlaybackState = playbackState,
                             SongId = PreviousSongId,
                         });
                 }
@@ -365,34 +500,42 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                     {
                         CurrentPosition = position,
                         PlaybackLength = duration,
-                        PlaybackState = AmpPlaybackStateConverter.ConvertFrom(playbackState),
+                        PlaybackState = playbackState,
                         SongId = PreviousSongId,
                     });
             }
 
-            if (previousPlaybackState != AmpPlaybackStateConverter.ConvertFrom(playbackState))
+            if (previousPlaybackState != playbackState)
             {
                 PlaybackStateChanged?.Invoke(this,
                     new PlaybackStateChangedArgs
                     {
                         CurrentPosition = position,
                         PlaybackLength = duration,
-                        PlaybackState = AmpPlaybackStateConverter.ConvertFrom(playbackState),
+                        PlaybackState = playbackState,
                         SongId = PreviousSongId,
                         PreviousPlaybackState = previousPlaybackState,
                     });
 
-                if (!skipPlaybackStateChange && previousPlaybackState == PlaybackState.Stopped)
+                if (playbackFailed)
                 {
-                    await PlayNextSong();
+                    await PlayNextSong(false);
                 }
-                else if (skipPlaybackStateChange)
+                else
                 {
+                    if (!skipPlaybackStateChange)
+                    {
+                        if (previousPlaybackState == PlaybackState.Playing && playbackState == PlaybackState.Stopped)
+                        {
+                            await PlayNextSong(false);
+                        }
+                    }
+
                     skipPlaybackStateChange = false;
                 }
             }
 
-            previousPlaybackState = AmpPlaybackStateConverter.ConvertFrom(playbackState);
+            previousPlaybackState = playbackState;
 
             Thread.Sleep(100);
         }
@@ -410,7 +553,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         }
         catch (Exception ex)
         {
-            logger.Error(ex, "");
+            logger?.Error(ex, "");
         }
     }
 

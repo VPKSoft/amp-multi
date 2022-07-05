@@ -33,7 +33,7 @@ namespace amp.Shared.Interfaces;
 /// Implements the <see cref="IEntity" />
 /// </summary>
 /// <seealso cref="IEntity" />
-public interface ISong : IEntity
+public interface ISong : IEntity, IPlayBackStatistics
 {
     /// <summary>
     /// Gets or sets the name of the file of the song.
@@ -78,18 +78,6 @@ public interface ISong : IEntity
     int? Rating { get; set; }
 
     /// <summary>
-    /// Gets or sets the amount the song was played by randomization.
-    /// </summary>
-    /// <value>The amount the song was played by randomization.</value>
-    int? PlayedByRandomize { get; set; }
-
-    /// <summary>
-    /// Gets or sets the amount the song was played by the user.
-    /// </summary>
-    /// <value>The amount the song was played by the user.</value>
-    int? PlayedByUser { get; set; }
-
-    /// <summary>
     /// Gets or sets the file size in bytes of the song.
     /// </summary>
     /// <value>The file size in bytes.</value>
@@ -124,12 +112,6 @@ public interface ISong : IEntity
     /// </summary>
     /// <value>The name of the file without the path.</value>
     string? FileNameNoPath { get; set; }
-
-    /// <summary>
-    /// Gets or sets the count the song was skipped by user interaction.
-    /// </summary>
-    /// <value>The skipped early count.</value>
-    int? SkippedEarlyCount { get; set; }
 
     /// <summary>
     /// Gets or sets the title of the song.

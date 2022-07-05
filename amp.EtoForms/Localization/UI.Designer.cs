@@ -142,6 +142,15 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Song volume.
+        /// </summary>
+        internal static string SongVolume {
+            get {
+                return ResourceManager.GetString("SongVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time estimate (ready).
         /// </summary>
         internal static string TimeEstimateReady {
@@ -165,6 +174,15 @@ namespace amp.EtoForms.Localization {
         internal static string TotalPercentage {
             get {
                 return ResourceManager.GetString("TotalPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        internal static string Volume {
+            get {
+                return ResourceManager.GetString("Volume", resourceCulture);
             }
         }
     }

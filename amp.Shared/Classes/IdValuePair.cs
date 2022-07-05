@@ -24,32 +24,24 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
+using amp.Shared.Interfaces;
 
-namespace amp.EtoForms;
+namespace amp.Shared.Classes;
 
 /// <summary>
-/// The program main entry point.
+/// A class to pair entity identifiers combined with data value.
+/// Implements the <see cref="amp.Shared.Interfaces.IEntityBase{T}" />
 /// </summary>
-public class Program
+/// <typeparam name="T">The type of the <see cref="IdValuePair{T}.Value"/>.</typeparam>
+/// <seealso cref="amp.Shared.Interfaces.IEntityBase{T}" />
+public class IdValuePair<T> : IEntityBase<long>
 {
+    /// <inheritdoc cref="IEntityBase{T}"/>
+    public long Id { get; set; }
+
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Gets or sets the value part of the pair.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger?.Error((Exception)e.ExceptionObject, "");
-    }
+    /// <value>The value part of the pair.</value>
+    public T? Value { get; set; }
 }

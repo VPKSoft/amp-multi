@@ -24,32 +24,28 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using Eto.Forms;
-using Serilog.Events;
-
-namespace amp.EtoForms;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The program main entry point.
+/// An interface for common song related statistics.
 /// </summary>
-public class Program
+public interface IPlayBackStatistics
 {
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Gets or sets the amount the song was played by randomization.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
+    /// <value>The amount the song was played by randomization.</value>
+    int? PlayedByRandomize { get; set; }
 
-        new Application().Run(new FormMain());
-    }
+    /// <summary>
+    /// Gets or sets the amount the song was played by the user.
+    /// </summary>
+    /// <value>The amount the song was played by the user.</value>
+    int? PlayedByUser { get; set; }
 
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger?.Error((Exception)e.ExceptionObject, "");
-    }
+    /// <summary>
+    /// Gets or sets the count the song was skipped by user interaction.
+    /// </summary>
+    /// <value>The skipped early count.</value>
+    int? SkippedEarlyCount { get; set; }
 }
