@@ -49,8 +49,8 @@ partial class FormMain
 
         if (e.Key == Keys.Add)
         {
-            var song = songs.First(f => f.Id == SelectedAlbumSongId);
-            await playbackOrder.ToggleQueue(songs, song.Id);
+            var selectedSongs = songs.Where(f => SelectedAlbumSongIds.Contains(f.Id)).Select(f => f.Id);
+            await playbackOrder.ToggleQueue(songs, selectedSongs.ToArray());
 
             gvSongs.Invalidate();
 
@@ -81,6 +81,18 @@ partial class FormMain
             }
 
             return 0;
+        }
+    }
+
+    private IEnumerable<long> SelectedAlbumSongIds
+    {
+        get
+        {
+            foreach (var gvSongsSelectedItem in gvSongs.SelectedItems)
+            {
+                var songId = ((AlbumSong)gvSongsSelectedItem).Id;
+                yield return songId;
+            }
         }
     }
 

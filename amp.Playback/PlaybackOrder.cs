@@ -24,12 +24,12 @@ SOFTWARE.
 */
 #endregion
 
-using System.Runtime.InteropServices;
 using amp.Playback.Classes;
 using amp.Playback.Interfaces;
 using amp.Shared.Classes;
 using amp.Shared.Interfaces;
 using BR = VPKSoft.RandomizationUtils.BiasedRandom;
+
 namespace amp.Playback;
 
 /// <summary>
@@ -63,63 +63,49 @@ public class PlaybackOrder<TSong, TAlbumSong> : BiasedRandomSettingsBase where T
     private readonly Func<Dictionary<long, int>, Task> updateQueueFunc;
 
     /// <summary>
-    /// Toggles the queue of the album song specified by the <paramref name="albumSongId"/>.
+    /// Toggles the queue of the album songs specified by the <paramref name="albumSongIds"/>.
     /// </summary>
     /// <param name="albumSongs">The album songs.</param>
-    /// <param name="albumSongId">The song identifier.</param>
-    public async Task ToggleQueue(List<TAlbumSong>? albumSongs, long albumSongId)
+    /// <param name="albumSongIds">The song identifiers which queue to toggle.</param>
+    public async Task ToggleQueue(List<TAlbumSong>? albumSongs, params long[] albumSongIds)
     {
         if (albumSongs == null)
         {
             return;
         }
 
-        if (albumSongs.Any(f => f.QueueIndex > 0))
+        var toUpdate = new Dictionary<long, int>();
+
+        var maxQueueIndex = albumSongs.DefaultIfEmpty().Max(f => f?.QueueIndex) + 1 ?? 1;
+
+        foreach (var albumSong in albumSongs.Where(f => albumSongIds.Contains(f.Id)))
         {
-            var result = albumSongs.Where(f => f.QueueIndex > 0).Select(f => new IdValuePair<int> { Id = f.Id, Value = f.QueueIndex, }).ToList();
+            albumSong.QueueIndex = albumSong.QueueIndex > 0 ? 0 : maxQueueIndex++;
 
-            var index = result.FindIndex(f => f.Id == albumSongId);
-
-            if (index != -1)
-            {
-                var decrease = result[index].Value;
-                result[index].Value = 0;
-
-                foreach (var pair in result)
-                {
-                    if (pair.Value == decrease)
-                    {
-                        pair.Value = 0;
-                    }
-
-                    if (pair.Value > decrease)
-                    {
-                        pair.Value--;
-                    }
-                }
-            }
-            else
-            {
-                var song = albumSongs.First(f => f.Id == albumSongId);
-
-                foreach (var pair in result)
-                {
-                    pair.Value++;
-                }
-
-                result.Add(new IdValuePair<int> { Id = song.Id, Value = 1, });
-            }
-
-            var toUpdate = new Dictionary<long, int>(result.Select(f => new KeyValuePair<long, int>(f.Id, f.Value)));
-
-            await updateQueueFunc(toUpdate);
+            toUpdate.Add(albumSong.Id, albumSong.QueueIndex);
         }
-        else
-        {
-            var song = albumSongs.First(f => f.Id == albumSongId);
-            var newQueueIndex = song.QueueIndex < 1 ? 1 : 0;
 
-            var toUpdate = new Dictionary<long, int> { { albumSongId, newQueueIndex }, };
+        var newIndex = 1;
+
+        foreach (var albumSong in albumSongs.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex))
+        {
+            if (albumSong.QueueIndex != newIndex)
+            {
+                albumSong.QueueIndex = newIndex;
+                if (toUpdate.ContainsKey(albumSong.Id))
+                {
+                    toUpdate[albumSong.Id] = newIndex;
+                }
+                else
+                {
+                    toUpdate.Add(albumSong.Id, newIndex);
+                }
+            }
+            newIndex++;
+        }
+
+        if (toUpdate.Any())
+        {
             await updateQueueFunc(toUpdate);
         }
     }

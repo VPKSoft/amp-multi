@@ -149,6 +149,7 @@ partial class FormMain
             ShowHeader = false,
             Height = 650,
             Width = 550,
+            AllowMultipleSelection = true,
         };
 
         var result = new StackLayout
