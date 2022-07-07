@@ -103,6 +103,12 @@ public partial class FormMain : Form
         playbackManager.ManagerStopped = false;
         AssignEventListeners();
         CreateMenu();
+        LocationChanged += FormMain_LocationChanged;
+    }
+
+    private void FormMain_LocationChanged(object? sender, EventArgs e)
+    {
+        formAlbumImage.Reposition(this);
     }
 
     private void TestStuff_Executed(object? sender, EventArgs e)

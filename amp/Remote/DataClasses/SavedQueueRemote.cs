@@ -28,54 +28,53 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace amp.Remote.DataClasses
+namespace amp.Remote.DataClasses;
+
+/// <summary>
+/// A class indicating a single saved queue in the amp# database.
+/// </summary>
+[DataContract]
+public class SavedQueueRemote
 {
     /// <summary>
-    /// A class indicating a single saved queue in the amp# database.
+    /// Gets or sets the database identifier for the saved queue.
     /// </summary>
-    [DataContract]
-    public class SavedQueueRemote
-    {
-        /// <summary>
-        /// Gets or sets the database identifier for the saved queue.
-        /// </summary>
-        /// <value>The database identifier for the saved queue.</value>
-        [DataMember]
-        public int Id { get; set; }
+    /// <value>The database identifier for the saved queue.</value>
+    [DataMember]
+    public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the saved queue.
-        /// </summary>
-        /// <value>The name of the saved queue.</value>
-        [DataMember]
-        public string QueueName { get; set; }
+    /// <summary>
+    /// Gets or sets the name of the saved queue.
+    /// </summary>
+    /// <value>The name of the saved queue.</value>
+    [DataMember]
+    public string QueueName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the date and time of the saved queue.
-        /// </summary>
-        /// <value>The date and time of the saved queue.</value>
-        [DataMember]
-        public DateTime CreteDate { get; set; }
+    /// <summary>
+    /// Gets or sets the date and time of the saved queue.
+    /// </summary>
+    /// <value>The date and time of the saved queue.</value>
+    [DataMember]
+    public DateTime CreteDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the album the saved queue belongs to.
-        /// </summary>
-        /// <value>The name of the album the saved queue belongs to</value>
-        [DataMember]
-        public string AlbumName { get; set; }
+    /// <summary>
+    /// Gets or sets the name of the album the saved queue belongs to.
+    /// </summary>
+    /// <value>The name of the album the saved queue belongs to</value>
+    [DataMember]
+    public string AlbumName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the total count of the queues belonging to this <see cref="AlbumName" /> album.
-        /// </summary>
-        /// <value>The total count of the queues belonging to this <see cref="AlbumName" /> album.</value>
-        [DataMember]
-        public int CountTotal { get; set; }
+    /// <summary>
+    /// Gets or sets the total count of the queues belonging to this <see cref="AlbumName" /> album.
+    /// </summary>
+    /// <value>The total count of the queues belonging to this <see cref="AlbumName" /> album.</value>
+    [DataMember]
+    public int CountTotal { get; set; }
 
-        /// <summary>
-        /// Gets or sets the songs in the saved queue.
-        /// </summary>
-        /// <value>The  songs in the saved queue.</value>
-        [DataMember]
-        public List<AlbumSongRemote> QueueSongs { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the songs in the saved queue.
+    /// </summary>
+    /// <value>The  songs in the saved queue.</value>
+    [DataMember]
+    public List<AlbumSongRemote> QueueSongs { get; set; }
 }

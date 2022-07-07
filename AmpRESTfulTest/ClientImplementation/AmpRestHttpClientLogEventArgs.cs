@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace AmpRESTfulTest.ClientImplementation
+namespace AmpRESTfulTest.ClientImplementation;
+
+/// <summary>
+/// Event arguments for the <see cref="ILogInterface.LogMessage"/> event.
+/// </summary>
+public class AmpRestHttpClientLogEventArgs : EventArgs
 {
     /// <summary>
-    /// Event arguments for the <see cref="ILogInterface.LogMessage"/> event.
+    /// The message sent by the class.
     /// </summary>
-    public class AmpRestHttpClientLogEventArgs : EventArgs
-    {
-        /// <summary>
-        /// The message sent by the class.
-        /// </summary>
-        public string LogMessage;
-    }
+    public string LogMessage;
 }

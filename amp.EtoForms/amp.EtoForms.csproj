@@ -18,12 +18,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="NewFolder\**" />
-		<EmbeddedResource Remove="NewFolder\**" />
-		<None Remove="NewFolder\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Include="Images/amp.ico" />
 	</ItemGroup>
 

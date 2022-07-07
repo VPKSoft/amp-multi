@@ -42,7 +42,7 @@
     <StartupObject>amp.Program</StartupObject>
     <Version>1.2.7</Version>
     <AssemblyName>amp#</AssemblyName>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
     <PackageId>amp#</PackageId>
     <UserSecretsId>9dca6ac0-19ac-4b3c-a36d-639ac76692df</UserSecretsId>
   </PropertyGroup>

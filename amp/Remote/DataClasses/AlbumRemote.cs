@@ -26,18 +26,17 @@ SOFTWARE.
 
 using System.Runtime.Serialization;
 
-namespace amp.Remote.DataClasses
+namespace amp.Remote.DataClasses;
+
+/// <summary>
+/// Gets a list of albums stored in the amp# database.
+/// </summary>
+[DataContract]
+public class AlbumRemote
 {
     /// <summary>
-    /// Gets a list of albums stored in the amp# database.
+    /// An album name in the amp# database.
     /// </summary>
-    [DataContract]
-    public class AlbumRemote
-    {
-        /// <summary>
-        /// An album name in the amp# database.
-        /// </summary>
-        [DataMember]
-        public string Name { get; set; }
-    }
+    [DataMember]
+    public string Name { get; set; }
 }

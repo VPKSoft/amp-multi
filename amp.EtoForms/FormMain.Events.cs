@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Database.DataModel;
 using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback.Enumerations;
 using Eto.Forms;
@@ -189,8 +190,11 @@ partial class FormMain
             songVolumeSlider.Value = song?.Song?.PlaybackVolume * 100 ?? 100;
             songVolumeSlider.SuspendEventInvocation = false;
             lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+            formAlbumImage.Show(this, song);
         });
     }
+
+    private FormAlbumImage formAlbumImage = new();
 
     private async void PlayPauseToggle(object? sender, CheckedChangeEventArguments e)
     {
@@ -249,7 +253,7 @@ partial class FormMain
             "&File" => Localization.EtoForms.File,
             "&Help" => Localization.EtoForms.Help,
             "About" => Localization.EtoForms.About,
-            _ => throw new ArgumentOutOfRangeException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
         };
     }
 
