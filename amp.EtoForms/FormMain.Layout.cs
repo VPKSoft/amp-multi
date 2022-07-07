@@ -64,7 +64,7 @@ partial class FormMain
     }
 
     [MemberNotNull(nameof(songVolumeSlider))]
-    private TableLayout CreateVolumeSliders()
+    private TableLayout CreateValueSliders()
     {
         songVolumeSlider = new VolumeSlider((_, args) =>
             {
@@ -95,8 +95,18 @@ partial class FormMain
                         new TableCell(songVolumeSlider, true),
                     },
                 },
+                new Panel {Height = Globals.DefaultPadding,},
+                new TableRow
+                {
+                    Cells =
+                    {
+                        new TableCell(new Label { Text = UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new Panel { Width = Globals.DefaultPadding,},
+                        new TableCell(new RatingSlider() { Value = 50,}, true),
+                    },
+                },
             },
-            Height = 80 + Globals.DefaultPadding * 3,
+            Height = 120 + Globals.DefaultPadding * 4,
             Padding = Globals.DefaultPadding,
         };
 

@@ -42,6 +42,7 @@ namespace EtoForms.Controls.Custom.Interfaces.BaseClasses;
 public abstract class SliderBase : Drawable
 {
     #region PrivateFields
+    // ReSharper disable four times InconsistentNaming
     internal double minimum;
     internal double maximum = 100;
     internal double currentValue;
@@ -50,7 +51,7 @@ public abstract class SliderBase : Drawable
     internal int sliderWidth = 10;
     private Color colorSlider = Colors.Teal;
     private Color colorSliderMarker = Colors.Navy;
-    private byte[]? sliderImageSvg;
+    internal byte[]? sliderImageSvg;
     private byte[]? sliderMarkerImageSvg;
     internal Size previousSize;
     internal Image? sliderImage;

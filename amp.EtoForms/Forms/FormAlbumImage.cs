@@ -62,7 +62,10 @@ public class FormAlbumImage : Form
     public void Reposition(FormMain main)
     {
         Location = new Point(main.Location.X + main.Width, main.Location.Y + 200);
-        BringToFront();
+        if (Visible)
+        {
+            BringToFront();
+        }
     }
 
     private readonly ImageView imageView = new();
