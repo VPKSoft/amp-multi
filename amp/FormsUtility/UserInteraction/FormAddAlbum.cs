@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System;
 using System.Windows.Forms;
-using amp.SQLiteDatabase;
 using VPKSoft.LangLib;
 
 namespace amp.FormsUtility.UserInteraction

@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Database.DataModel;
 using amp.EtoForms.Enumerations;
+using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.Utilities;
 
@@ -105,7 +106,7 @@ public static class SongDisplayNameGenerate
     /// <param name="value">The value to replace the <paramref name="formula"/> part with.</param>
     /// <param name="formulaStr">The formula part to replace from the <paramref name="formula"/> string.</param>
     /// <returns>The <paramref name="formula"/> with replacements.</returns>
-    private static string FormulaReplace(string formula, string value, string formulaStr)
+    private static string FormulaReplace(string formula, string? value, string formulaStr)
     {
         var formulaStart = formula.IndexOf(formulaStr, StringComparison.Ordinal);
 
@@ -168,9 +169,8 @@ public static class SongDisplayNameGenerate
     /// <param name="formula">The formula to create string from.</param>
     /// <param name="albumSong">The album song to get a display name for.</param>
     /// <param name="queue">A value indicating whether to include queue information into the song display name.</param>
-    /// <param name="error">A value indicating if an error occurred while parsing the formula.</param>
     /// <returns>A string parsed from the given parameters.</returns>
-    private static string GetString(string formula, AlbumSong albumSong, bool queue, out bool error)
+    private static string GetString(string formula, AlbumSong albumSong, bool queue)
     {
         var song = albumSong.Song;
         var artist = song?.Artist;
@@ -183,7 +183,7 @@ public static class SongDisplayNameGenerate
         var overrideName = song?.OverrideName;
         var onError = ToStringOld(albumSong, queue);
 
-        string FixPathExtension()
+        string? FixPathExtension()
         {
             try
             {
@@ -214,7 +214,7 @@ public static class SongDisplayNameGenerate
                 }
                 else if (formulaType == FormulaType.Title)
                 {
-                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(title) ? songName ?? string.Empty : FixPathExtension(), formulaStr);
+                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(title) ? songName ?? FixPathExtension() : title, formulaStr);
                 }
                 else if (formulaType == FormulaType.QueueIndex)
                 {
@@ -230,12 +230,86 @@ public static class SongDisplayNameGenerate
                 }
             }
 
-            error = false;
             return formula;
         }
         catch
         {
-            error = true;
+            return onError;
+        }
+    }
+
+    /// <summary>
+    /// Gets a string based on a given formula and a the given parameters.
+    /// </summary>
+    /// <param name="formula">The formula to create string from.</param>
+    /// <param name="song">The song to get a display name for.</param>
+    /// <returns>A string parsed from the given parameters.</returns>
+    private static string GetString(string formula, ISong song)
+    {
+        var artist = song.Artist;
+        var album = song.Album;
+        _ = int.TryParse(song.Track, out var trackNo);
+        var title = song.Title;
+        var songName = Path.GetFileNameWithoutExtension(song.FileName);
+        var overrideName = song.OverrideName;
+        var onError = ToStringOld(song);
+
+        string? FixPathExtension()
+        {
+            try
+            {
+                return Path.GetFileNameWithoutExtension(title);
+            }
+            catch
+            {
+                return title;
+            }
+        }
+
+        try
+        {
+            string formulaStr;
+            while ((formulaStr = GetNextFormula(formula, out var formulaType)) != string.Empty)
+            {
+                if (formulaType == FormulaType.Artist)
+                {
+                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(artist) ? string.Empty : artist,
+                        formulaStr);
+                }
+                else if (formulaType == FormulaType.Album)
+                {
+                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(album) ? string.Empty : album,
+                        formulaStr);
+                }
+                else if (formulaType == FormulaType.TrackNo)
+                {
+                    formula = FormulaReplace(formula, trackNo <= 0 ? string.Empty : trackNo.ToString(), formulaStr);
+                }
+                else if (formulaType == FormulaType.Title)
+                {
+                    formula = FormulaReplace(formula,
+                        string.IsNullOrWhiteSpace(title) ? songName ?? FixPathExtension() : title, formulaStr);
+                }
+                else if (formulaType == FormulaType.QueueIndex)
+                {
+                    formula = FormulaReplace(formula, string.Empty, formulaStr);
+                }
+                else if (formulaType == FormulaType.AlternateQueueIndex)
+                {
+                    formula = FormulaReplace(formula, string.Empty, formulaStr);
+                }
+                else if (formulaType == FormulaType.Renamed)
+                {
+                    formula = FormulaReplace(formula,
+                        (string.IsNullOrWhiteSpace(overrideName) ? songName : overrideName) ?? string.Empty,
+                        formulaStr);
+                }
+            }
+
+            return formula;
+        }
+        catch
+        {
             return onError;
         }
     }
@@ -267,6 +341,26 @@ public static class SongDisplayNameGenerate
     }
 
     /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance (old version).
+    /// </summary>
+    /// <param name="song">The song to use to generate the string representation.</param>
+    /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
+    private static string ToStringOld(ISong song)
+    {
+        if (!string.IsNullOrWhiteSpace(song.OverrideName))
+        {
+            return song.OverrideName;
+        }
+
+        var songName = Path.GetFileNameWithoutExtension(song.FileName);
+        var songTitle = (string.IsNullOrWhiteSpace(song.Title) ? song.Title : songName) ?? string.Empty;
+
+        return
+            (string.IsNullOrWhiteSpace(song.Artist) ? string.Empty : song.Artist + " - ") +
+            songTitle;
+    }
+
+    /// <summary>
     /// Gets or sets the song naming formula.
     /// </summary>
     /// <value>The formula.</value>
@@ -288,8 +382,22 @@ public static class SongDisplayNameGenerate
     public static string GetSongName(this AlbumSong albumSong, bool queue)
     {
         var formula = string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName) ? Formula : FormulaSongRenamed;
-        return GetString(formula, albumSong, queue, out _);
+        var result = GetString(formula, albumSong, queue);
+        return result;
     }
+
+    /// <summary>
+    /// Gets the display name for the specified song.
+    /// </summary>
+    /// <param name="song">The album song.</param>
+    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
+    public static string GetSongName(ISong song)
+    {
+        var formula = string.IsNullOrWhiteSpace(song.OverrideName) ? Formula : FormulaSongRenamed;
+        var result = GetString(formula, song);
+        return result;
+    }
+
 
     /// <summary>
     /// Gets the display name for the specified song.

@@ -52,7 +52,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using amp.Database;
 using amp.FormsUtility.Songs;
 using amp.IpcUtils;
 using amp.Properties;

@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Globalization;
 using System.Text.RegularExpressions;
+using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.ExtensionClasses;
@@ -128,7 +129,8 @@ internal static class SongFilters
                       song.Track?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       song.FileName.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       song.OverrideName?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      song.TagFindString?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1;
+                      SongDisplayNameGenerate.GetSongName(song)?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      MatchTagFindString(song.TagFindString, search);
 
         string[] search2 = search.Split(' ');
         if (search2.Length <= 1 || found1)
@@ -147,10 +149,39 @@ internal static class SongFilters
                       song.Track?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       song.FileName.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       song.OverrideName?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      song.TagFindString?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1;
+                      SongDisplayNameGenerate.GetSongName(song)?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      MatchTagFindString(song.TagFindString, tmpStr);
         }
 
         return found2;
+    }
+
+    private static bool MatchTagFindString(string? value, string match)
+    {
+        if (value == null)
+        {
+            return false;
+        }
+
+        using var reader = new StringReader(value);
+
+        while (reader.ReadLine() is { } line)
+        {
+            // The new tag find string is in line format and the lines are [value name: value] format.
+            if (line.IndexOf(':') != -1)
+            {
+                if (line.Split(':')[1].Contains(match, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            else if (line.Contains(match, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool? YearMatch(string search, string fullFileName)

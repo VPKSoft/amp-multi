@@ -29,7 +29,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Windows.Forms;
-using amp.SQLiteDatabase;
 using amp.SQLiteDatabase.ContainerClasses;
 using amp.SQLiteDatabase.DatabaseUtils;
 using amp.UtilityClasses;

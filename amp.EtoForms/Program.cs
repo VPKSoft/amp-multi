@@ -26,7 +26,6 @@ SOFTWARE.
 
 global using System;
 using Eto.Forms;
-using Serilog.Events;
 
 namespace amp.EtoForms;
 

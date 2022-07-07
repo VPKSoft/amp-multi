@@ -97,103 +97,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Songs" xml:space="preserve">
-    <value>Kappaleet</value>
+  <data name="File" xml:space="preserve">
+    <value>&amp;File</value>
   </data>
-  <data name="Albums" xml:space="preserve">
-    <value>Albumit</value>
-  </data>
-  <data name="AlbumEntries" xml:space="preserve">
-    <value>Albumimerkinnät</value>
-  </data>
-  <data name="QueueEntries" xml:space="preserve">
-    <value>Jonomerkinnät</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Peruuta</value>
-  </data>
-  <data name="DatabaseConversion" xml:space="preserve">
-    <value>Tietokannan muunnos</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Yhteensä</value>
-  </data>
-  <data name="TotalPercentage" xml:space="preserve">
-    <value>Yhteensä prosenttia (%)</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Sulje</value>
-  </data>
-  <data name="TimeEstimateReady" xml:space="preserve">
-    <value>Aika-arvio (valmis)</value>
-  </data>
-  <data name="Play" xml:space="preserve">
-    <value>Toista</value>
-  </data>
-  <data name="Volume" xml:space="preserve">
-    <value>Äänenvoimakkuus</value>
-  </data>
-  <data name="SongVolume" xml:space="preserve">
-    <value>Kappaleen äänenvoimakkuus</value>
-  </data>
-  <data name="Quit" xml:space="preserve">
-    <value>Lopeta</value>
+  <data name="Help" xml:space="preserve">
+    <value>&amp;Help</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Tietoja</value>
-  </data>
-  <data name="TestStuff" xml:space="preserve">
-    <value>Testaa asioita</value>
-  </data>
-  <data name="AddMusicFiles" xml:space="preserve">
-    <value>Lisää musiikkitiedostoja...</value>
-  </data>
-  <data name="MusicFiles" xml:space="preserve">
-    <value>Musiikkitiedostot</value>
-  </data>
-  <data name="DirectoriesCrawled" xml:space="preserve">
-    <value>Hakemistoja etsitty</value>
-  </data>
-  <data name="_" xml:space="preserve">
-    <value>-</value>
-  </data>
-  <data name="ColonDelimiter" xml:space="preserve">
-    <value>:</value>
-  </data>
-  <data name="FilesFound" xml:space="preserve">
-    <value>Tiedostoja löydetty</value>
-  </data>
-  <data name="DatabaseUpdated" xml:space="preserve">
-    <value>Tietokantaan päivitetty</value>
-  </data>
-  <data name="NoOfNo" xml:space="preserve">
-    <value>{0} / {1}</value>
-  </data>
-  <data name="SongsAddedToAlbum" xml:space="preserve">
-    <value>Kappaleita lisätty albumiin</value>
-  </data>
-  <data name="AddMusicToAlbum0" xml:space="preserve">
-    <value>Lisää musiikkia albumiin: '{0}'...</value>
-  </data>
-  <data name="AddMusic" xml:space="preserve">
-    <value>Lisää musiikkia...</value>
-  </data>
-  <data name="AddFiles" xml:space="preserve">
-    <value>Lisää tiedostoja...</value>
-  </data>
-  <data name="AddFilesToAlbum" xml:space="preserve">
-    <value>Lisää tiedostoja albumiin...</value>
-  </data>
-  <data name="AddFolderContents" xml:space="preserve">
-    <value>Lisää hakemiston sisältö...</value>
-  </data>
-  <data name="AddFolderContentsToAlbum" xml:space="preserve">
-    <value>Lisää hakemiston sisältö albumiin...</value>
-  </data>
-  <data name="SelectMusicFolder" xml:space="preserve">
-    <value>Valitse musiikkikansio...</value>
+    <value>About</value>
   </data>
 </root>

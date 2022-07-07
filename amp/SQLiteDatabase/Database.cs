@@ -28,14 +28,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
 using amp.SQLiteDatabase.ContainerClasses;
 using amp.UtilityClasses;
 using VPKSoft.ErrorLogger;
@@ -128,7 +126,7 @@ namespace amp.SQLiteDatabase
     /// Implements the <see cref="System.EventArgs" />
     /// </summary>
     /// <seealso cref="System.EventArgs" />
-    public class DatabaseEventArgs: EventArgs
+    public class DatabaseEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the progress of the database operation.
@@ -164,7 +162,7 @@ namespace amp.SQLiteDatabase
     /// A class for most of the database handling for the software.
     /// Implements the <see cref="T:amp.SQLiteDatabase.DatabaseHelpers"/>
     /// </summary>
-    public class Database: DatabaseHelpers
+    public class Database : DatabaseHelpers
     {
         // initialize a System.Windows.Forms SynchronizationContext..
         private static readonly SynchronizationContext Context = SynchronizationContext.Current ?? new SynchronizationContext();
@@ -208,7 +206,7 @@ namespace amp.SQLiteDatabase
         public static List<Album> GetAlbums(SQLiteConnection conn)
         {
             List<Album> result = new List<Album>();
-            using (SQLiteCommand command = new SQLiteCommand (conn))
+            using (SQLiteCommand command = new SQLiteCommand(conn))
             {
                 command.CommandText =
                     string.Join(Environment.NewLine,
@@ -264,7 +262,7 @@ namespace amp.SQLiteDatabase
 
             using (SQLiteCommand command = new SQLiteCommand(sql, conn))
             {
-                return (string) command.ExecuteScalar();
+                return (string)command.ExecuteScalar();
             }
         }
 
@@ -283,7 +281,7 @@ namespace amp.SQLiteDatabase
 
             using (SQLiteCommand command = new SQLiteCommand(sql, conn))
             {
-                if ((long) command.ExecuteScalar() == 0)
+                if ((long)command.ExecuteScalar() == 0)
                 {
                     return false;
                 }
@@ -517,12 +515,12 @@ namespace amp.SQLiteDatabase
 
             if (!string.IsNullOrEmpty(name))
             {
-                result += " AND " + 
+                result += " AND " +
                     string.Join(Environment.NewLine,
                         $"A.SONG_ID IN(SELECT SONG_ID FROM ALBUMSONGS WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})) AND ",
                         $"A.ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(name)})");
             }
-            
+
             result += " GROUP BY S.ID ";
 
             return result;
@@ -622,7 +620,7 @@ namespace amp.SQLiteDatabase
             else
             {
                 // save the image to a memory stream..
-                mf.SongImage.Save(memoryStream, ImageFormat.Png); 
+                mf.SongImage.Save(memoryStream, ImageFormat.Png);
 
                 // ..and ad it's data to the parameter as a byte array..
                 command.Parameters.Add("@IMAGE", System.Data.DbType.Binary).Value = memoryStream.ToArray();
@@ -675,7 +673,7 @@ namespace amp.SQLiteDatabase
                             $"UPDATE ALBUMSONGS SET QUEUEINDEX = {mf.QueueIndex} WHERE ALBUM_ID = (SELECT ID FROM ALBUM WHERE ALBUMNAME = {QS(albumName)}) AND SONG_ID = {mf.ID}";
                         command.ExecuteNonQuery();
                     }
-                }                
+                }
             }
         }
 
@@ -1002,7 +1000,7 @@ namespace amp.SQLiteDatabase
                     queueIndices.RemoveAt(matches[0].Item1);
                 }
             }
-            
+
             foundSongs.Sort((x, y) => x.QueueIndex.CompareTo(y.QueueIndex));
 
             if (overrideName.Trim() != string.Empty)
@@ -1108,7 +1106,7 @@ namespace amp.SQLiteDatabase
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         private static string UpdateSongSql(MusicFile mf)
         {
-            string sql = 
+            string sql =
                 $"UPDATE SONG SET FILENAME = {QS(mf.FullFileName)} WHERE FILENAME <> {QS(mf.FullFileName)} AND " +
                 $"FILENAME_NOPATH = {QS(mf.FileNameNoPath)} AND FILESIZE = {mf.FileSize}; ";
 
@@ -1174,7 +1172,7 @@ namespace amp.SQLiteDatabase
             try
             {
                 using (SQLiteTransaction trans = conn.BeginTransaction())
-                {                   
+                {
                     using (SQLiteCommand command = new SQLiteCommand(conn))
                     {
                         command.CommandText = sql;
@@ -1260,13 +1258,13 @@ namespace amp.SQLiteDatabase
 
                 using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    try 
+                    try
                     {
                         if (reader.Read())
                         {
                             return reader.GetInt32(0);
                         }
-                    } 
+                    }
                     catch (Exception ex)
                     {
                         // log the exception..
@@ -1316,9 +1314,9 @@ namespace amp.SQLiteDatabase
             {
                 result.Add(new SavedQueue
                 {
-                    Id = reader.GetInt32(0), 
-                    AlbumName = albumName, 
-                    QueueName = reader.GetString(1), 
+                    Id = reader.GetInt32(0),
+                    AlbumName = albumName,
+                    QueueName = reader.GetString(1),
                     CountTotal = countTotal,
                     CreteDate = DateTime.ParseExact(reader.GetString(2), "yyyy-MM-dd HH':'mm':'ss", CultureInfo.InvariantCulture),
                     QueueSongs = new List<MusicFile>(),

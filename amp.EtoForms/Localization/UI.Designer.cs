@@ -61,6 +61,87 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -.
+        /// </summary>
+        internal static string _ {
+            get {
+                return ResourceManager.GetString("_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add files....
+        /// </summary>
+        internal static string AddFiles {
+            get {
+                return ResourceManager.GetString("AddFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add files to album....
+        /// </summary>
+        internal static string AddFilesToAlbum {
+            get {
+                return ResourceManager.GetString("AddFilesToAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add folder contents....
+        /// </summary>
+        internal static string AddFolderContents {
+            get {
+                return ResourceManager.GetString("AddFolderContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add folder contents to album....
+        /// </summary>
+        internal static string AddFolderContentsToAlbum {
+            get {
+                return ResourceManager.GetString("AddFolderContentsToAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add music....
+        /// </summary>
+        internal static string AddMusic {
+            get {
+                return ResourceManager.GetString("AddMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add music files....
+        /// </summary>
+        internal static string AddMusicFiles {
+            get {
+                return ResourceManager.GetString("AddMusicFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add music to album: &apos;{0}&apos;....
+        /// </summary>
+        internal static string AddMusicToAlbum0 {
+            get {
+                return ResourceManager.GetString("AddMusicToAlbum0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album entries.
         /// </summary>
         internal static string AlbumEntries {
@@ -97,11 +178,65 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to :.
+        /// </summary>
+        internal static string ColonDelimiter {
+            get {
+                return ResourceManager.GetString("ColonDelimiter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database conversion.
         /// </summary>
         internal static string DatabaseConversion {
             get {
                 return ResourceManager.GetString("DatabaseConversion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database updated.
+        /// </summary>
+        internal static string DatabaseUpdated {
+            get {
+                return ResourceManager.GetString("DatabaseUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directories searched.
+        /// </summary>
+        internal static string DirectoriesCrawled {
+            get {
+                return ResourceManager.GetString("DirectoriesCrawled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files found.
+        /// </summary>
+        internal static string FilesFound {
+            get {
+                return ResourceManager.GetString("FilesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Music files.
+        /// </summary>
+        internal static string MusicFiles {
+            get {
+                return ResourceManager.GetString("MusicFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} / {1}.
+        /// </summary>
+        internal static string NoOfNo {
+            get {
+                return ResourceManager.GetString("NoOfNo", resourceCulture);
             }
         }
         
@@ -133,6 +268,24 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        internal static string Quit {
+            get {
+                return ResourceManager.GetString("Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select music folder....
+        /// </summary>
+        internal static string SelectMusicFolder {
+            get {
+                return ResourceManager.GetString("SelectMusicFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Songs.
         /// </summary>
         internal static string Songs {
@@ -142,11 +295,29 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Songs added to album.
+        /// </summary>
+        internal static string SongsAddedToAlbum {
+            get {
+                return ResourceManager.GetString("SongsAddedToAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Song volume.
         /// </summary>
         internal static string SongVolume {
             get {
                 return ResourceManager.GetString("SongVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test stuff.
+        /// </summary>
+        internal static string TestStuff {
+            get {
+                return ResourceManager.GetString("TestStuff", resourceCulture);
             }
         }
         

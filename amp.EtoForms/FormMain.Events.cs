@@ -30,7 +30,6 @@ using amp.EtoForms.Utilities;
 using amp.Playback.Enumerations;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
-using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
 
@@ -42,7 +41,12 @@ partial class FormMain
         {
             if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal)
             {
+                if (gvSongs.SelectedItem == null && gvSongs.DataStore.Any())
+                {
+                    gvSongs.SelectedRow = 0;
+                }
                 gvSongs.Focus();
+                e.Handled = true;
             }
             return;
         }
@@ -110,7 +114,7 @@ partial class FormMain
         }
     }
 
-    private void PlaybackPosition_ValueChanged(object? sender, global::EtoForms.Controls.Custom.EventArguments.ValueChangedEventArgs e)
+    private void PlaybackPosition_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         playbackManager.PlaybackPositionPercentage = e.Value;
     }
@@ -134,10 +138,7 @@ partial class FormMain
 
         albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
 
-        var items = albumSongs
-            .Select(f => new ListItem { Text = f.GetSongName(), Key = f.Id.ToString(), });
-
-        gvSongs.DataStore = items;
+        gvSongs.DataStore = albumSongs;
     }
 
     private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -167,7 +168,7 @@ partial class FormMain
         return result;
     }
 
-    private async void PlaybackManager_PlaybackStateChanged(object? sender, amp.Playback.EventArguments.PlaybackStateChangedArgs e)
+    private async void PlaybackManager_PlaybackStateChanged(object? sender, Playback.EventArguments.PlaybackStateChangedArgs e)
     {
         await Application.Instance.InvokeAsync(() =>
         {
@@ -191,7 +192,7 @@ partial class FormMain
         });
     }
 
-    private async void PlayPauseToggle(object? sender, global::EtoForms.Controls.Custom.EventArguments.CheckedChangeEventArguments e)
+    private async void PlayPauseToggle(object? sender, CheckedChangeEventArguments e)
     {
         btnPlayPause.CheckedChange -= PlayPauseToggle;
         if (e.Checked)
@@ -237,5 +238,28 @@ partial class FormMain
             lbPlaybackPosition.Text =
                 "-" + TimeSpan.FromSeconds(e.PlaybackLength - e.CurrentPosition).ToString(@"hh\:mm\:ss");
         });
+    }
+
+    // Eto.Forms localization.
+    private void Instance_LocalizeString(object? sender, LocalizeEventArgs e)
+    {
+        e.LocalizedText = e.Text switch
+        {
+            null => null,
+            "&File" => Localization.EtoForms.File,
+            "&Help" => Localization.EtoForms.Help,
+            "About" => Localization.EtoForms.About,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
+
+    private void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)
+    {
+        AddDirectory(sender?.Equals(addDirectoryToAlbum) == true);
+    }
+
+    private void AddFilesToDatabase_Executed(object? sender, EventArgs e)
+    {
+        AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
     }
 }

@@ -68,5 +68,5 @@ public enum FormulaType
     /// <summary>
     /// The override (renamed) name part.
     /// </summary>
-    Renamed
+    Renamed,
 }

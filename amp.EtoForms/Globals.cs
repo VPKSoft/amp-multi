@@ -25,7 +25,6 @@ SOFTWARE.
 #endregion
 
 using Eto.Drawing;
-using Serilog;
 
 namespace amp.EtoForms;
 
@@ -97,6 +96,25 @@ internal static class Globals
             }
 
             return settings;
+        }
+    }
+
+    /// <summary>
+    /// Invokes the action with exception handling and logs the possible exception.
+    /// </summary>
+    /// <param name="action">The action to invoke.</param>
+    /// <returns><c>true</c> if the action was invoked without an exception, <c>false</c> otherwise.</returns>
+    public static bool LoggerSafeInvoke(Action action)
+    {
+        try
+        {
+            action();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, "");
+            return false;
         }
     }
 

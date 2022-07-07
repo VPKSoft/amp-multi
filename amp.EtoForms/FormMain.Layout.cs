@@ -24,12 +24,16 @@ SOFTWARE.
 */
 #endregion
 
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using amp.Database.DataModel;
+using amp.EtoForms.Localization;
+using amp.EtoForms.Properties;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
+using FluentIcons.Resources.Filled;
 
 namespace amp.EtoForms;
 
@@ -42,17 +46,17 @@ partial class FormMain
             Orientation = Orientation.Horizontal,
             Items =
             {
-                new Button((_, _) => {  }) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_previous_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button((_, _) => {  }) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_previous_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 btnPlayPause,
-                new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, FluentIcons.Resources.Filled.Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), amp.EtoForms.Properties.Resources.queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), Resources.queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
 //                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 btnShuffleToggle,
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), amp.EtoForms.Properties.Resources.repeat_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), Resources.repeat_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, amp.EtoForms.Properties.Resources.stack_queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, Resources.stack_queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
             },
         };
 
@@ -64,7 +68,7 @@ partial class FormMain
     {
         songVolumeSlider = new VolumeSlider((_, args) =>
             {
-                playbackManager!.PlaybackVolume = args.Value / 100.0;
+                playbackManager.PlaybackVolume = args.Value / 100.0;
             })
         { Maximum = 300, };
 
@@ -76,7 +80,7 @@ partial class FormMain
                 {
                     Cells =
                     {
-                        new TableCell(new Label { Text = amp.EtoForms.Localization.UI.Volume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new TableCell(new Label { Text = UI.Volume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
                         new TableCell(new VolumeSlider(), true),
                     },
@@ -86,7 +90,7 @@ partial class FormMain
                 {
                     Cells =
                     {
-                        new TableCell(new Label { Text = amp.EtoForms.Localization.UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new TableCell(new Label { Text = UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
                         new TableCell(songVolumeSlider, true),
                     },
@@ -172,12 +176,52 @@ partial class FormMain
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle))]
     private void CreateButtons()
     {
-        btnPlayPause = new CheckedButton(FluentIcons.Resources.Filled.Size16.ic_fluent_pause_16_filled,
-            FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, Colors.Purple, Colors.Purple,
+        btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
+            Size16.ic_fluent_play_16_filled, Colors.Purple, Colors.Purple,
             Globals.ButtonDefaultSize);
 
-        btnShuffleToggle = new CheckedButton(amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified,
+        btnShuffleToggle = new CheckedButton(Resources.shuffle_random_svgrepo_com_modified,
             Color.Parse("#D4AA00"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
+    }
+
+    private void CreateMenu()
+    {
+        // create menu
+        base.Menu = new MenuBar
+        {
+            Items =
+            {
+                // File submenu
+                new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached,},
+            },
+            ApplicationItems =
+            {
+                // application (OS X) or file menu (others)
+                new SubMenuItem
+                {
+                    Text = UI.AddMusicFiles,
+                    Items =
+                    {
+                        addFilesToDatabase,
+                        addFilesToAlbum,
+                        addDirectoryToDatabase,
+                        addDirectoryToAlbum,
+                    },
+                },
+            },
+            QuitItem = quitCommand,
+            AboutItem = aboutCommand,
+        };
+
+        //        base.Menu.a
+
+        testStuff.Executed += TestStuff_Executed;
+        aboutCommand.Executed += (_, _) => new AboutDialog().ShowDialog(this);
+        quitCommand.Executed += (_, _) => Application.Instance.Quit();
+        addFilesToDatabase.Executed += AddFilesToDatabase_Executed;
+        addFilesToAlbum.Executed += AddFilesToDatabase_Executed;
+        addDirectoryToDatabase.Executed += AddDirectoryToDatabase_Executed;
+        addDirectoryToAlbum.Executed += AddDirectoryToDatabase_Executed;
     }
 
     private GridView gvSongs;
@@ -192,4 +236,11 @@ partial class FormMain
     private readonly TableLayout mainVolumeSlider;
     private PositionSlider playbackPosition;
     private Label lbPlaybackPosition;
+    private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };
+    private readonly Command aboutCommand = new() { MenuText = UI.About, };
+    private readonly Command testStuff = new() { MenuText = UI.TestStuff, };
+    private readonly Command addFilesToDatabase = new() { MenuText = UI.AddFiles, };
+    private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };
+    private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
+    private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
 }

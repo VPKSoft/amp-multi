@@ -24,37 +24,39 @@ SOFTWARE.
 */
 #endregion
 
-using Eto.Drawing;
+using amp.Shared.Enumerations;
 
-namespace EtoForms.Controls.Custom;
+namespace amp.Shared.Classes;
 
 /// <summary>
-/// A class containing the global static parameters.
+/// A class to convert file extension to <see cref="MusicFileType"/> enumeration values and vice-versa.
 /// </summary>
-public static class Globals
+public static class FileExtensionConvert
 {
-    private static Font? font;
-
     /// <summary>
-    /// Gets or sets the <see cref="Font"/> to use with the controls of this library.
+    /// Files the type from the file extension.
     /// </summary>
-    /// <value>The font.</value>
-    public static Font Font
+    /// <param name="fileName">Name of the file.</param>
+    /// <returns>A <see cref="MusicFileType"/> enumeration value.</returns>
+    public static MusicFileType FileNameToFileType(string fileName)
     {
-        get => font ?? new Font(FontFamilies.Sans.Name, 9);
+        var extension = Path.GetExtension(fileName).ToLowerInvariant();
+        extension = extension.TrimStart('.');
 
-        set => font = value;
+        var fileType = extension switch
+        {
+            "mp3" => MusicFileType.Mp3,
+            "ogg" => MusicFileType.Ogg,
+            "wav" => MusicFileType.Wav,
+            "wma" => MusicFileType.Wma,
+            "m4a" => MusicFileType.M4a,
+            "aac" => MusicFileType.Aac,
+            "aif" => MusicFileType.Aif,
+            "aiff" => MusicFileType.Aif,
+            "flac" => MusicFileType.Flac,
+            _ => MusicFileType.Unknown,
+        };
+
+        return fileType;
     }
-
-    /// <summary>
-    /// Gets or sets the floating point comparison tolerance.
-    /// </summary>
-    /// <value>The floating point comparison tolerance.</value>
-    public static double FloatingPointTolerance { get; set; } = 0.000000001;
-
-    /// <summary>
-    /// Gets or sets the floating point comparison tolerance for the single-precision floating point values.
-    /// </summary>
-    /// <value>The floating point comparison tolerance.</value>
-    public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
 }

@@ -28,7 +28,6 @@ using System.Globalization;
 using System.Text;
 using amp.Shared.Enumerations;
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VPKSoft.DropOutStack;
 
 namespace amp.Database.LegacyConvert;

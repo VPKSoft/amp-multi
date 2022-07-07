@@ -24,7 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.LegacyConvert;
 using amp.Database.Migration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentMigrator.Runner;

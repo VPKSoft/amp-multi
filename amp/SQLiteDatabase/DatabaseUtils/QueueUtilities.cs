@@ -31,7 +31,6 @@ using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
-using amp.FormsUtility;
 using amp.FormsUtility.Progress;
 using amp.UtilityClasses;
 using VPKSoft.ErrorLogger;
@@ -114,7 +113,7 @@ namespace amp.SQLiteDatabase.DatabaseUtils
             SQLiteConnection connection, bool convertToMp3, string staticStatusText, string statusLabelText,
             int outputBitRate = 256000)
         {
-            worker = new BackgroundWorker {WorkerReportsProgress = true, WorkerSupportsCancellation = true};
+            worker = new BackgroundWorker { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
             queueIndex = queueIdentifier;
             toPath = toFolder;
             conn = connection;

@@ -28,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using amp.Remote.DataClasses;
-using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 
 // ReSharper disable IdentifierTypo

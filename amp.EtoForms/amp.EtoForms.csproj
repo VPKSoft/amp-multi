@@ -47,6 +47,7 @@
 		<PackageReference Include="Svg.Skia" Version="0.5.14" />
 		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.0" />
 		<PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
+		<PackageReference Include="z440.atl.core" Version="4.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -56,6 +57,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectCapability Include="ConfigurableFileNesting" />
+		<ProjectCapability Include="ConfigurableFileNestingFeatureEnabled" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Localization\EtoForms.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>EtoForms.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Localization\Messages.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -74,6 +85,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Localization\EtoForms.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>EtoForms.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Localization\Messages.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Messages.Designer.cs</LastGenOutput>

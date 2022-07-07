@@ -139,4 +139,61 @@
   <data name="SongVolume" xml:space="preserve">
     <value>Song volume</value>
   </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="TestStuff" xml:space="preserve">
+    <value>Test stuff</value>
+  </data>
+  <data name="AddMusicFiles" xml:space="preserve">
+    <value>Add music files...</value>
+  </data>
+  <data name="MusicFiles" xml:space="preserve">
+    <value>Music files</value>
+  </data>
+  <data name="DirectoriesCrawled" xml:space="preserve">
+    <value>Directories searched</value>
+  </data>
+  <data name="_" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="ColonDelimiter" xml:space="preserve">
+    <value>:</value>
+  </data>
+  <data name="FilesFound" xml:space="preserve">
+    <value>Files found</value>
+  </data>
+  <data name="DatabaseUpdated" xml:space="preserve">
+    <value>Database updated</value>
+  </data>
+  <data name="NoOfNo" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="SongsAddedToAlbum" xml:space="preserve">
+    <value>Songs added to album</value>
+  </data>
+  <data name="AddMusicToAlbum0" xml:space="preserve">
+    <value>Add music to album: '{0}'...</value>
+  </data>
+  <data name="AddMusic" xml:space="preserve">
+    <value>Add music...</value>
+  </data>
+  <data name="AddFiles" xml:space="preserve">
+    <value>Add files...</value>
+  </data>
+  <data name="AddFilesToAlbum" xml:space="preserve">
+    <value>Add files to album...</value>
+  </data>
+  <data name="AddFolderContents" xml:space="preserve">
+    <value>Add folder contents...</value>
+  </data>
+  <data name="AddFolderContentsToAlbum" xml:space="preserve">
+    <value>Add folder contents to album...</value>
+  </data>
+  <data name="SelectMusicFolder" xml:space="preserve">
+    <value>Select music folder...</value>
+  </data>
 </root>

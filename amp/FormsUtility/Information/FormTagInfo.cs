@@ -30,7 +30,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using TagLib;
 using VPKSoft.LangLib;

@@ -25,7 +25,6 @@ SOFTWARE.
 #endregion
 
 using System;
-using System.IO;
 using NAudio.Flac;
 using NAudio.MediaFoundation;
 using NAudio.Vorbis;
@@ -249,7 +248,7 @@ namespace amp.UtilityClasses
             {
                 return false;
             }
-            
+
             var reader = GetFileReader(fromFile);
             if (reader == null)
             {

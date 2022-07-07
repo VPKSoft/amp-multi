@@ -17,4 +17,8 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="z440.atl.core" Version="4.8.0" />
+	</ItemGroup>
+
 </Project>

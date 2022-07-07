@@ -30,7 +30,6 @@ using System.ComponentModel;
 using System.Data.SQLite;
 using System.IO;
 using System.Windows.Forms;
-using amp.SQLiteDatabase;
 using amp.UtilityClasses;
 using VPKSoft.LangLib;
 using VPKSoft.ScriptRunner;

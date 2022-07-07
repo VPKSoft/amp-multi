@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing.Printing;
 using System.Globalization;
 using System.Reflection;
 using NAudio.Wave;

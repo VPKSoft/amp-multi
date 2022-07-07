@@ -49,6 +49,8 @@ public partial class FormMain : Form
     /// </summary>
     public FormMain()
     {
+        Application.Instance.LocalizeString += Instance_LocalizeString;
+
         MinimumSize = new Size(550, 650);
 
         Application.Instance.UnhandledException += Program.Instance_UnhandledException;
@@ -75,6 +77,12 @@ public partial class FormMain : Form
         Content = CreateMainContent();
 
         context = new AmpContext();
+        // There must always be the default album.
+        if (!context.Albums.Any(f => f.Id == 1))
+        {
+            context.Albums.Add(new Album { Id = 1, AlbumName = "Default", CreatedAtUtc = DateTime.UtcNow, });
+            context.SaveChanges();
+        }
 
         songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).AsNoTracking().ToList();
 
@@ -94,23 +102,16 @@ public partial class FormMain : Form
 
         playbackManager.ManagerStopped = false;
         AssignEventListeners();
+        CreateMenu();
     }
 
-    private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData)
+    private void TestStuff_Executed(object? sender, EventArgs e)
     {
-        var modifySongs = songs.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
-        //        var selectedIndex = gvSongs.SelectedIndex;
-        foreach (var albumSong in modifySongs)
-        {
-            var newIndex = updateQueueData.First(f => f.Key == albumSong.Id).Value;
-            albumSong.QueueIndex = newIndex;
-            albumSong.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumSongs.Update(albumSong);
-        }
-
-        await context.SaveChangesAsync();
+        // Test stuff here:
+        Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
+    private long currentAlbumId = 1;
     private readonly List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;

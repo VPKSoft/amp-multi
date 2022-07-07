@@ -24,37 +24,51 @@ SOFTWARE.
 */
 #endregion
 
-using Eto.Drawing;
-
-namespace EtoForms.Controls.Custom;
+namespace amp.Shared.Classes;
 
 /// <summary>
-/// A class containing the global static parameters.
+/// Some try...catch patterns for <see cref="CancellationToken"/> use in tasks.
 /// </summary>
-public static class Globals
+public static class TaskExecutionCatchPatterns
 {
-    private static Font? font;
-
     /// <summary>
-    /// Gets or sets the <see cref="Font"/> to use with the controls of this library.
+    /// Try catch pattern for an operation with task cancellation.
     /// </summary>
-    /// <value>The font.</value>
-    public static Font Font
+    /// <param name="action">The action to perform.</param>
+    public static void TryCatchPattern(Action action)
     {
-        get => font ?? new Font(FontFamilies.Sans.Name, 9);
-
-        set => font = value;
+        try
+        {
+            action();
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 
     /// <summary>
-    /// Gets or sets the floating point comparison tolerance.
+    /// Try catch pattern for an asynchronous operation with task cancellation.
     /// </summary>
-    /// <value>The floating point comparison tolerance.</value>
-    public static double FloatingPointTolerance { get; set; } = 0.000000001;
-
-    /// <summary>
-    /// Gets or sets the floating point comparison tolerance for the single-precision floating point values.
-    /// </summary>
-    /// <value>The floating point comparison tolerance.</value>
-    public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
+    /// <param name="action">The action to perform.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
+    public static async Task TryCatchPatternAsync(Func<Task> action)
+    {
+        try
+        {
+            await action();
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+    }
 }

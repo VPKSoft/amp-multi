@@ -130,7 +130,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                                         },
                                     },
                                 },
-                            }, Padding = new Padding(10, 2)
+                            }, Padding = new Padding(10, 2),
                     },
                     HorizontalAlignment.Center),
             },

@@ -98,6 +98,11 @@ public static class WindowsMigrateCheck
                     Globals.Settings.MigrateDatabase = false;
                     Globals.SaveSettings();
                 }
+                else
+                {
+                    Globals.Settings.MigrateDatabase = false;
+                    Globals.SaveSettings();
+                }
             }
         }
     }
