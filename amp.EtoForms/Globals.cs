@@ -119,6 +119,25 @@ internal static class Globals
     }
 
     /// <summary>
+    /// Invokes the action with exception handling and logs the possible exception.
+    /// </summary>
+    /// <param name="action">The action to invoke.</param>
+    /// <returns><c>true</c> if the action was invoked without an exception, <c>false</c> otherwise.</returns>
+    public static bool LoggerSafeInvoke(Func<Task> action)
+    {
+        try
+        {
+            action();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, "");
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the width of the window border.
     /// </summary>
     /// <value>The width of the window border.</value>

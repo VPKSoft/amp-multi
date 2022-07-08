@@ -93,6 +93,7 @@ public partial class FormMain : Form
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
         playbackManager.SongChanged += PlaybackManager_SongChanged;
         playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
+        playbackManager.SongSkipped += PlaybackManager_SongSkipped;
 
         gvSongs.DataStore = songs;
 
@@ -106,11 +107,6 @@ public partial class FormMain : Form
         LocationChanged += FormMain_LocationChanged;
     }
 
-    private void FormMain_LocationChanged(object? sender, EventArgs e)
-    {
-        formAlbumImage.Reposition(this);
-    }
-
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
         // Test stuff here:
@@ -118,7 +114,7 @@ public partial class FormMain : Form
     }
 
     private long currentAlbumId = 1;
-    private readonly List<AlbumSong> songs;
+    private List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
     private readonly AmpContext context;

@@ -90,6 +90,16 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
             }
             PlaybackVolume = song.Song.PlaybackVolume;
             songChanged = previousSongId != song.SongId;
+
+            if (songChanged)
+            {
+                var playbackPercentage = PreviousPosition / PreviousDuration * 100;
+                if (playbackPercentage < SkippedEarlyPercentage)
+                {
+                    SongSkipped?.Invoke(this, new SongSkippedEventArgs { SongId = PreviousSongId, SkippedAtPercentage = playbackPercentage, });
+                }
+            }
+
             PreviousSongId = song.SongId;
         }
     }
@@ -148,6 +158,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <remarks>The event subscription code must be thread-safe as it gets invoked from another thread.</remarks>
     public event EventHandler<PlaybackStateChangedArgs>? PlaybackStateChanged;
 
+    /// <summary>
+    /// Occurs when song playback is skipped early.
+    /// </summary>
+    public event EventHandler<SongSkippedEventArgs>? SongSkipped;
+
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
@@ -168,6 +183,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private readonly Func<Task<TAlbumSong?>> getNextSongFunc;
     private readonly Func<long, Task<TAlbumSong?>> getSongById;
     private double previousDuration;
+    private double skippedEarlyPercentage = 65;
 
 
     /// <summary>
@@ -218,6 +234,30 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 {
                     logger?.Error(ex, "");
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the skipped early percentage.
+    /// E.g. the song is considered to be skipped if playback is changed below specified position percentage.
+    /// </summary>
+    /// <value>The skipped early percentage.</value>
+    public double SkippedEarlyPercentage
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return skippedEarlyPercentage;
+            }
+        }
+
+        set
+        {
+            lock (lockObject)
+            {
+                skippedEarlyPercentage = value;
             }
         }
     }
@@ -513,11 +553,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 }
 
                 PreviousPosition = position;
-
-                if (!songChanged)
-                {
-                    PreviousDuration = duration;
-                }
+                PreviousDuration = duration;
             }
 
             if (songChanged)

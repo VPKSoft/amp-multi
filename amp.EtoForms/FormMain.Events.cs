@@ -144,11 +144,19 @@ partial class FormMain
         playbackManager.PlaySong(song, true);
     }
 
+    private void FormMain_LocationChanged(object? sender, EventArgs e)
+    {
+        formAlbumImage.Reposition(this);
+    }
+
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
         var albumSongs = songs;
 
-        albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+        if (!string.IsNullOrWhiteSpace(tbSearch.Text))
+        {
+            albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+        }
 
         gvSongs.DataStore = albumSongs;
     }
@@ -167,6 +175,9 @@ partial class FormMain
             result = songs[nextSongData.NextSongIndex];
             if (result.Song != null)
             {
+                result.Song.PlayedByRandomize ??= 0;
+                result.Song.PlayedByUser ??= 0;
+
                 result.Song.PlayedByRandomize += nextSongData.PlayedByRandomize;
                 result.Song.PlayedByUser += nextSongData.PlayedByUser;
                 result.Song.ModifiedAtUtc = DateTime.UtcNow;
@@ -201,11 +212,31 @@ partial class FormMain
             songVolumeSlider.Value = song?.Song?.PlaybackVolume * 100 ?? 100;
             songVolumeSlider.SuspendEventInvocation = false;
             lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
-            formAlbumImage.Show(this, song);
+            if (song != null)
+            {
+                formAlbumImage.Show(this, song);
+            }
         });
     }
 
-    private FormAlbumImage formAlbumImage = new();
+    private void PlaybackManager_SongSkipped(object? sender, Playback.EventArguments.SongSkippedEventArgs e)
+    {
+        Globals.LoggerSafeInvoke(async () =>
+        {
+            var albumSong = songs.FirstOrDefault(f => f.SongId == e.SongId);
+            if (albumSong != null)
+            {
+                albumSong.Song!.SkippedEarlyCount = albumSong.Song.SkippedEarlyCount == null
+                    ? 1
+                    : albumSong.Song.SkippedEarlyCount + 1;
+                albumSong.Song.ModifiedAtUtc = DateTime.UtcNow;
+                context.Update(albumSong);
+                await context.SaveChangesAsync();
+            }
+        });
+    }
+
+    private readonly FormAlbumImage formAlbumImage = new();
 
     private async void PlayPauseToggle(object? sender, CheckedChangeEventArguments e)
     {
@@ -268,13 +299,13 @@ partial class FormMain
         };
     }
 
-    private void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)
+    private async void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)
     {
-        AddDirectory(sender?.Equals(addDirectoryToAlbum) == true);
+        await AddDirectory(sender?.Equals(addDirectoryToAlbum) == true);
     }
 
-    private void AddFilesToDatabase_Executed(object? sender, EventArgs e)
+    private async void AddFilesToDatabase_Executed(object? sender, EventArgs e)
     {
-        AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
+        await AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
     }
 }

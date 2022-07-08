@@ -25,14 +25,16 @@ SOFTWARE.
 #endregion
 
 using amp.EtoForms.Dialogs;
+using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Localization;
 using amp.Shared.Constants;
 using Eto.Forms;
+using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
 partial class FormMain
 {
-    private void AddAudioFiles(bool toAlbum)
+    private async Task AddAudioFiles(bool toAlbum)
     {
         using var dialog = new OpenFileDialog { MultiSelect = true, };
         dialog.Filters.Add(new FileFilter(UI.MusicFiles, MusicConstants.SupportedExtensionArray));
@@ -40,15 +42,19 @@ partial class FormMain
         {
             DialogAddFilesProgress.ShowModal(this, context, toAlbum ? currentAlbumId : 0, dialog.Filenames.ToArray());
         }
+
+        await RefreshCurrentAlbum();
     }
 
-    private void AddDirectory(bool toAlbum)
+    private async Task AddDirectory(bool toAlbum)
     {
         using var dialog = new SelectFolderDialog { Title = UI.SelectMusicFolder, };
         if (dialog.ShowDialog(this) == DialogResult.Ok)
         {
             DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? currentAlbumId : 0);
         }
+
+        await RefreshCurrentAlbum();
     }
 
     private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData)
@@ -64,5 +70,23 @@ partial class FormMain
         }
 
         await context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Refreshes the current album.
+    /// </summary>
+    private async Task RefreshCurrentAlbum()
+    {
+        songs = await context.AlbumSongs.Where(f => f.AlbumId == currentAlbumId).Include(f => f.Song).AsNoTracking()
+            .ToListAsync();
+
+        var albumSongs = songs;
+
+        if (!string.IsNullOrWhiteSpace(tbSearch.Text))
+        {
+            albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+        }
+
+        gvSongs.DataStore = albumSongs;
     }
 }

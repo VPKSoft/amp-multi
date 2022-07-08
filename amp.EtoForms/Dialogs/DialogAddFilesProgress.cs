@@ -51,6 +51,8 @@ public class DialogAddFilesProgress : Dialog<bool>
     private DialogAddFilesProgress(AmpContext context, string directory, long albumId) : this(context, albumId)
     {
         this.directory = directory;
+        singeFileBatch = false;
+        saveDatabaseThread.Start();
     }
 
     /// <summary>
@@ -62,7 +64,9 @@ public class DialogAddFilesProgress : Dialog<bool>
     private DialogAddFilesProgress(AmpContext context, long albumId, params string[] files) : this(context, albumId)
     {
         directoryCrawled = true;
+        singeFileBatch = true;
         this.files = files;
+        saveDatabaseThread.Start();
     }
 
     /// <summary>
@@ -150,7 +154,6 @@ public class DialogAddFilesProgress : Dialog<bool>
 
         userAbortToken = source.Token;
         saveDatabaseThread = new Thread(ThreadMethod);
-        saveDatabaseThread.Start();
 
         base.Size = new Size(500, 200);
         Shown += DialogAddFilesProgress_Shown;
@@ -254,6 +257,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     private int databaseCounter;
     private bool closedViaButton;
     private long albumId;
+    private volatile bool singeFileBatch;
     private readonly AmpContext context;
     private readonly string? directory;
     private readonly string[]? files;
@@ -296,8 +300,17 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     var fileInfos = fileUpdateQueue.Dequeue();
                     await HandleFiles(fileInfos);
+                    if (singeFileBatch)
+                    {
+                        threadStopped = true;
+                        await Application.Instance.InvokeAsync(() =>
+                        {
+                            btnOk.Enabled = true;
+                            btnCancel.Enabled = false;
+                        });
+                    }
                 }
-                else
+                else if (!singeFileBatch)
                 {
                     if (directoryCrawled)
                     {
