@@ -167,6 +167,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private Thread? playbackThread;
     private readonly Func<Task<TAlbumSong?>> getNextSongFunc;
     private readonly Func<long, Task<TAlbumSong?>> getSongById;
+    private double previousDuration;
 
 
     /// <summary>
@@ -300,6 +301,29 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
             lock (lockObject)
             {
                 previousPosition = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the duration of the previous played track (Thread safe).
+    /// </summary>
+    /// <value>The duration of the previous played track (Thread safe).</value>
+    private double PreviousDuration
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return previousDuration;
+            }
+        }
+
+        set
+        {
+            lock (lockObject)
+            {
+                previousDuration = value;
             }
         }
     }
@@ -489,6 +513,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 }
 
                 PreviousPosition = position;
+
+                if (!songChanged)
+                {
+                    PreviousDuration = duration;
+                }
             }
 
             if (songChanged)

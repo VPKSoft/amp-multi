@@ -196,4 +196,13 @@
   <data name="SelectMusicFolder" xml:space="preserve">
     <value>Select music folder...</value>
   </data>
+  <data name="Stars" xml:space="preserve">
+    <value>Stars</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="SoundRating" xml:space="preserve">
+    <value>Sound &amp;&amp; rating</value>
+  </data>
 </root>

@@ -277,6 +277,15 @@ namespace amp.EtoForms.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rating.
+        /// </summary>
+        internal static string Rating {
+            get {
+                return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select music folder....
         /// </summary>
         internal static string SelectMusicFolder {
@@ -309,6 +318,24 @@ namespace amp.EtoForms.Localization {
         internal static string SongVolume {
             get {
                 return ResourceManager.GetString("SongVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound &amp;&amp; rating.
+        /// </summary>
+        internal static string SoundRating {
+            get {
+                return ResourceManager.GetString("SoundRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stars.
+        /// </summary>
+        internal static string Stars {
+            get {
+                return ResourceManager.GetString("Stars", resourceCulture);
             }
         }
         

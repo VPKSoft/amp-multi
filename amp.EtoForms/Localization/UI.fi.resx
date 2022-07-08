@@ -196,4 +196,13 @@
   <data name="SelectMusicFolder" xml:space="preserve">
     <value>Valitse musiikkikansio...</value>
   </data>
+  <data name="Stars" xml:space="preserve">
+    <value>Tähdet</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Arvostelu</value>
+  </data>
+  <data name="SoundRating" xml:space="preserve">
+    <value>Ääni &amp;&amp; arvostelu</value>
+  </data>
 </root>

@@ -73,7 +73,7 @@ public partial class FormMain : Form
 
         CreateButtons();
         toolBar = CreateToolbar();
-        mainVolumeSlider = CreateValueSliders();
+        songAdjustControls = CreateValueSliders();
         Content = CreateMainContent();
 
         context = new AmpContext();

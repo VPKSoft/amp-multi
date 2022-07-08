@@ -134,7 +134,14 @@ internal static class Globals
     /// Gets or sets the default size of a button.
     /// </summary>
     /// <value>The default size of a button.</value>
-    internal static Size ButtonDefaultSize { get; set; } = new(32, 32);
+    internal static Size ButtonDefaultSize { get; set; } = new(40, 40);
+
+    /// <summary>
+    /// Gets or sets the default size of the menu item images.
+    /// </summary>
+    /// <value>The default size of the menu item images.</value>
+    internal static Size MenuImageDefaultSize { get; set; } = new(16, 16);
+
 
     /// <summary>
     /// Saves the application settings.

@@ -64,7 +64,7 @@ partial class FormMain
     }
 
     [MemberNotNull(nameof(songVolumeSlider))]
-    private TableLayout CreateValueSliders()
+    private Control CreateValueSliders()
     {
         songVolumeSlider = new VolumeSlider((_, args) =>
             {
@@ -72,7 +72,7 @@ partial class FormMain
             })
         { Maximum = 300, };
 
-        var result = new TableLayout
+        var tableLayout = new TableLayout
         {
             Rows =
             {
@@ -100,7 +100,7 @@ partial class FormMain
                 {
                     Cells =
                     {
-                        new TableCell(new Label { Text = UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new TableCell(new Label { Text = UI.Rating, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
                         new TableCell(new RatingSlider() { Value = 50,}, true),
                     },
@@ -108,6 +108,12 @@ partial class FormMain
             },
             Height = 120 + Globals.DefaultPadding * 4,
             Padding = Globals.DefaultPadding,
+        };
+
+        var result = new Expander
+        {
+            Content = tableLayout,
+            Header = new Label { Text = UI.SoundRating, },
         };
 
         return result;
@@ -171,7 +177,7 @@ partial class FormMain
             Items =
             {
                 new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = mainVolumeSlider, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = songAdjustControls, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = stackLayout,}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = lbSongsTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
@@ -196,19 +202,26 @@ partial class FormMain
 
     private void CreateMenu()
     {
+        quitCommand.Image =
+            EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
+
+        aboutCommand.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_question_circle_20_filled,
+            Globals.MenuImageDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
             Items =
             {
                 // File submenu
-                new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached,},
+                new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
             },
             ApplicationItems =
             {
                 // application (OS X) or file menu (others)
                 new SubMenuItem
                 {
+                    Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_collections_add_20_filled, Globals.MenuImageDefaultSize),
                     Text = UI.AddMusicFiles,
                     Items =
                     {
@@ -222,8 +235,6 @@ partial class FormMain
             QuitItem = quitCommand,
             AboutItem = aboutCommand,
         };
-
-        //        base.Menu.a
 
         testStuff.Executed += TestStuff_Executed;
         aboutCommand.Executed += (_, _) => new AboutDialog().ShowDialog(this);
@@ -243,7 +254,7 @@ partial class FormMain
     private readonly Command nextSongCommand = new();
     private CheckedButton btnShuffleToggle;
     private readonly StackLayout toolBar;
-    private readonly TableLayout mainVolumeSlider;
+    private readonly Control songAdjustControls;
     private PositionSlider playbackPosition;
     private Label lbPlaybackPosition;
     private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };

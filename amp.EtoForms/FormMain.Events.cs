@@ -63,6 +63,17 @@ partial class FormMain
             return;
         }
 
+        if (e.Key == Keys.Enter)
+        {
+            if (gvSongs.SelectedItem != null)
+            {
+                var albumSong = (AlbumSong)gvSongs.SelectedItem;
+                playbackManager.PlaySong(albumSong, true);
+                e.Handled = true;
+                return;
+            }
+        }
+
         if (e.Modifiers == Keys.None)
         {
             if (e.IsChar)
