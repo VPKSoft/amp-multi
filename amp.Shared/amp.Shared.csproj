@@ -18,6 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Include="..\amp.licenseheader" Link="amp.licenseheader" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="z440.atl.core" Version="4.8.0" />
 	</ItemGroup>
 

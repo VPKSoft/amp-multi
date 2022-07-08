@@ -23,6 +23,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Include="..\amp.licenseheader" Link="amp.licenseheader" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="FluentIcons.Resources" Version="1.0.1" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.0" />
 		<PackageReference Include="Svg.Skia" Version="0.5.14" />
