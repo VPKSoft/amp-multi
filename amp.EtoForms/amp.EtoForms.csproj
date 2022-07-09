@@ -56,21 +56,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Localization\EtoForms.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>EtoForms.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Localization\Messages.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Messages.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Localization\UI.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>UI.resx</DependentUpon>
-		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -79,18 +64,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Localization\EtoForms.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>EtoForms.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Localization\Messages.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Messages.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Localization\UI.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>UI.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>

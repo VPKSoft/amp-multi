@@ -29,6 +29,7 @@ using amp.Database.DataModel;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Shared.Interfaces;
+using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
@@ -100,7 +101,7 @@ public partial class FormMain : Form
 
         gvSongs.DataStore = songs;
 
-        commandPlayPause.MenuText = Localization.UI.Play;
+        commandPlayPause.MenuText = UI.Play;
         commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
 

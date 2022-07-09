@@ -38,7 +38,7 @@ public static class AmpPlaybackStateConverter
     /// </summary>
     /// <param name="playbackState">State of the playback.</param>
     /// <returns>The converted value.</returns>
-    public static ManagedBass.PlaybackState ConvertTo(amp.Playback.Enumerations.PlaybackState playbackState)
+    public static ManagedBass.PlaybackState ConvertTo(PlaybackState playbackState)
     {
         return playbackState switch
         {
@@ -54,7 +54,7 @@ public static class AmpPlaybackStateConverter
     /// </summary>
     /// <param name="playbackState">State of the playback.</param>
     /// <returns>The converted value.</returns>
-    public static amp.Playback.Enumerations.PlaybackState ConvertFrom(ManagedBass.PlaybackState playbackState)
+    public static PlaybackState ConvertFrom(ManagedBass.PlaybackState playbackState)
     {
         return playbackState switch
         {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace amp.EtoForms.Localization {
+namespace amp.Shared.Localization {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace amp.EtoForms.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EtoForms {
+    public class EtoForms {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace amp.EtoForms.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.EtoForms.Localization.EtoForms", typeof(EtoForms).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.Shared.Localization.EtoForms", typeof(EtoForms).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace amp.EtoForms.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        internal static string About {
+        public static string About {
             get {
                 return ResourceManager.GetString("About", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to &amp;File.
         /// </summary>
-        internal static string File {
+        public static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to &amp;Help.
         /// </summary>
-        internal static string Help {
+        public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
             }

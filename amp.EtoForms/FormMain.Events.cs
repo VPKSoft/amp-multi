@@ -291,38 +291,45 @@ partial class FormMain
     // Eto.Forms localization.
     private void Instance_LocalizeString(object? sender, LocalizeEventArgs e)
     {
-        e.LocalizedText = e.Text switch
+        try
         {
-            null => null,
-            "&File" => Localization.EtoForms.File,
-            "&Help" => Localization.EtoForms.Help,
-            "About" => Localization.EtoForms.About,
-            "Hide amp.EtoForms" => "TODO::Localize",
-            "Hide" => "TODO::Localize",
-            "Hides the main amp.EtoForms window" => "TODO::Localize",
-            "Hide Others" => "TODO::Localize",
-            "Hides all other application windows" => "TODO::Localize",
-            "Show All" => "TODO::Localize",
-            "Show All Windows" => "TODO::Localize",
-            "Minimize" => "TODO::Localize",
-            "Zoom" => "TODO::Localize",
-            "Close" => "TODO::Localize",
-            "Bring All To Front" => "TODO::Localize",
-            "Cut" => "TODO::Localize",
-            "Copy" => "TODO::Localize",
-            "Paste" => "TODO::Localize",
-            "Paste and Match Style" => "TODO::Localize",
-            "Delete" => "TODO::Localize",
-            "Select All" => "TODO::Localize",
-            "Undo" => "TODO::Localize",
-            "Redo" => "TODO::Localize",
-            "Enter Full Screen" => "TODO::Localize",
-            "Page Setup..." => "TODO::Localize",
-            "Print..." => "TODO::Localize",
-            "&Edit" => "TODO::Localize",
-            "&Window" => "TODO::Localize",
-            _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
-        };
+            e.LocalizedText = e.Text switch
+            {
+                null => null,
+                "&File" => Shared.Localization.EtoForms.File,
+                "&Help" => Shared.Localization.EtoForms.Help,
+                "About" => Shared.Localization.EtoForms.About,
+                "Hide amp.EtoForms" => Shared.Localization.Mac.HideAmpEtoForms,
+                "Hide" => Shared.Localization.UI.Hide,
+                "Hides the main amp.EtoForms window" => Shared.Localization.Mac.HidesTheMainAmpEtoFormsWindow,
+                "Hide Others" => Shared.Localization.Mac.HideOthers,
+                "Hides all other application windows" => Shared.Localization.Mac.HidesAllOtherApplicationWindows,
+                "Show All" => Shared.Localization.Mac.ShowAll,
+                "Show All Windows" => Shared.Localization.Mac.ShowAllWindows,
+                "Minimize" => Shared.Localization.UI.Minimize,
+                "Zoom" => Shared.Localization.UI.Zoom,
+                "Close" => Shared.Localization.UI.Close,
+                "Bring All To Front" => Shared.Localization.Mac.BringAllToFront,
+                "Cut" => Shared.Localization.UI.Cut,
+                "Copy" => Shared.Localization.UI.Copy,
+                "Paste" => Shared.Localization.UI.Paste,
+                "Paste and Match Style" => Shared.Localization.Mac.PasteAndMatchStyle,
+                "Delete" => Shared.Localization.UI.Delete,
+                "Select All" => Shared.Localization.UI.SelectAll,
+                "Undo" => Shared.Localization.UI.Undo,
+                "Redo" => Shared.Localization.UI.Redo,
+                "Enter Full Screen" => Shared.Localization.Mac.EnterFullScreen,
+                "Page Setup..." => Shared.Localization.UI.PageSetup,
+                "Print..." => Shared.Localization.UI.Print,
+                "&Edit" => Shared.Localization.UI.Edit,
+                "&Window" => Shared.Localization.UI.Window,
+                _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
+            };
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            Globals.Logger?.Information("Localization needed: '{text}'.", e.Text);
+        }
     }
 
     private async void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)

@@ -25,7 +25,7 @@ SOFTWARE.
 #endregion
 
 using amp.Database.LegacyConvert;
-using amp.EtoForms.Localization;
+using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using Button = Eto.Forms.Button;

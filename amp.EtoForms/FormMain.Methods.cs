@@ -27,8 +27,8 @@ SOFTWARE.
 using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
-using amp.EtoForms.Localization;
 using amp.Shared.Constants;
+using amp.Shared.Localization;
 using Eto.Forms;
 using Microsoft.EntityFrameworkCore;
 

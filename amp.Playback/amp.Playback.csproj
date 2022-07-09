@@ -49,6 +49,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<TargetPath>bassflac.dll</TargetPath>
 		</ContentWithTargetPath>
+		<None Include="BassNative/bass.dll" />
+		<None Include="BassNative/basswma.dll" />
+		<None Include="BassNative/bassflac.dll" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">

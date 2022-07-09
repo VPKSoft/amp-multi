@@ -28,10 +28,13 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
-using Eto.Drawing;
+using amp.Shared.Localization;
 using Eto.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Application = Eto.Forms.Application;
+using HorizontalAlignment = Eto.Forms.HorizontalAlignment;
+using Size = Eto.Drawing.Size;
 
 namespace amp.EtoForms.Dialogs;
 
@@ -78,12 +81,12 @@ public class DialogAddFilesProgress : Dialog<bool>
     {
         if (albumId == 0)
         {
-            Title = "amp# - " + Localization.UI.AddMusic;
+            Title = "amp# - " + UI.AddMusic;
         }
         else
         {
             var album = context.Albums.FirstOrDefault(f => f.Id == albumId)?.AlbumName;
-            Title = "amp# - " + string.Format(Localization.UI.AddMusicToAlbum0, album);
+            Title = "amp# - " + string.Format(UI.AddMusicToAlbum0, album);
         }
 
         this.context = context;
@@ -97,7 +100,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = Localization.UI.DirectoriesCrawled + Localization.UI.ColonDelimiter, },
+                        new Label { Text = UI.DirectoriesCrawled + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbDirectoryCount,
                     },
@@ -106,7 +109,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = Localization.UI.FilesFound + Localization.UI.ColonDelimiter, },
+                        new Label { Text = UI.FilesFound + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbFilesCount,
                     },
@@ -115,7 +118,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = Localization.UI.DatabaseUpdated + Localization.UI.ColonDelimiter, },
+                        new Label { Text = UI.DatabaseUpdated + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbDatabaseUpdatedCount,
                     },
@@ -124,7 +127,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = albumId == 0 ? Localization.UI.ColonDelimiter : Localization.UI.SongsAddedToAlbum + Localization.UI.ColonDelimiter, },
+                        new Label { Text = albumId == 0 ? UI.ColonDelimiter : UI.SongsAddedToAlbum + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbSongAddedToAlbumCount,
                     },
@@ -133,7 +136,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = Localization.UI.TimeEstimateReady + Localization.UI.ColonDelimiter, },
+                        new Label { Text = UI.TimeEstimateReady + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbTimeEstimateReady,
                     },
@@ -237,14 +240,14 @@ public class DialogAddFilesProgress : Dialog<bool>
     #endregion
 
     #region UiElements
-    private readonly Label lbDirectoryCount = new() { Text = Localization.UI._, };
-    private readonly Label lbFilesCount = new() { Text = Localization.UI._, };
-    private readonly Label lbDatabaseUpdatedCount = new() { Text = Localization.UI._, };
-    private readonly Label lbSongAddedToAlbumCount = new() { Text = Localization.UI._, };
-    private readonly Label lbTimeEstimateReady = new() { Text = Localization.UI._, };
+    private readonly Label lbDirectoryCount = new() { Text = UI._, };
+    private readonly Label lbFilesCount = new() { Text = UI._, };
+    private readonly Label lbDatabaseUpdatedCount = new() { Text = UI._, };
+    private readonly Label lbSongAddedToAlbumCount = new() { Text = UI._, };
+    private readonly Label lbTimeEstimateReady = new() { Text = UI._, };
     private readonly ProgressBar progressDbUpdate = new();
-    private readonly Button btnOk = new() { Text = Localization.UI.OK, Enabled = false, };
-    private readonly Button btnCancel = new() { Text = Localization.UI.Cancel, };
+    private readonly Button btnOk = new() { Text = UI.OK, Enabled = false, };
+    private readonly Button btnCancel = new() { Text = UI.Cancel, };
     #endregion
 
     #region PrivateFields
@@ -409,16 +412,16 @@ public class DialogAddFilesProgress : Dialog<bool>
         await Application.Instance.InvokeAsync(() =>
         {
             lbDatabaseUpdatedCount.Text =
-                    string.Format(Localization.UI.NoOfNo, databaseCounter, fileCounter);
+                    string.Format(UI.NoOfNo, databaseCounter, fileCounter);
 
             if (albumId != 0)
             {
                 lbSongAddedToAlbumCount.Text =
-                    string.Format(Localization.UI.NoOfNo, databaseCounter, fileCounter);
+                    string.Format(UI.NoOfNo, databaseCounter, fileCounter);
             }
 
             var eta = estimateCalculator.Estimate(fileCounter);
-            lbTimeEstimateReady.Text = eta == null ? Localization.UI._ : $"{eta.Value.ToShortDateString()} {eta.Value.ToLongTimeString()}";
+            lbTimeEstimateReady.Text = eta == null ? UI._ : $"{eta.Value.ToShortDateString()} {eta.Value.ToLongTimeString()}";
 
             progressDbUpdate.MaxValue = fileCounter;
             progressDbUpdate.Value = databaseCounter;

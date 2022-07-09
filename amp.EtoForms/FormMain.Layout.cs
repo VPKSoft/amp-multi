@@ -27,15 +27,13 @@ SOFTWARE.
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using amp.Database.DataModel;
-using amp.EtoForms.Localization;
 using amp.EtoForms.Properties;
+using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Button = Eto.Forms.Button;
 using ComboBox = Eto.Forms.ComboBox;
 using Control = Eto.Forms.Control;
@@ -56,7 +54,7 @@ partial class FormMain
         cmbAlbumSelect = new ComboBox { ReadOnly = false, AutoComplete = true, };
         cmbAlbumSelect.ItemTextBinding = new PropertyBinding<string>(nameof(Album.AlbumName));
 
-        cmbAlbumSelect.SelectedValueChanged += async (sender, args) =>
+        cmbAlbumSelect.SelectedValueChanged += async (_, _) =>
         {
             var id = ((Album?)cmbAlbumSelect.SelectedValue)?.Id;
 
@@ -82,7 +80,8 @@ partial class FormMain
             Items =
             {
                 imageView,
-                new Label { Text = "Album", },
+                new Panel { Width = Globals.DefaultPadding, },
+                new StackLayoutItem(new Label { Text = UI.Album, }, VerticalAlignment.Center),
                 new Panel { Width = Globals.DefaultPadding, },
                 new StackLayoutItem(cmbAlbumSelect, true),
             },

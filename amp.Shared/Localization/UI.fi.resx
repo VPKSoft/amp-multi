@@ -205,4 +205,49 @@
   <data name="SoundRating" xml:space="preserve">
     <value>Ääni &amp;&amp; arvostelu</value>
   </data>
+  <data name="Album" xml:space="preserve">
+    <value>Albumi</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Piilota</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimoi</value>
+  </data>
+  <data name="Zoom" xml:space="preserve">
+    <value>Zoomaa</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Leikkaa</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopioi</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Liitä</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Valitse kaikki</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Tee uudelleen</value>
+  </data>
+  <data name="PageSetup" xml:space="preserve">
+    <value>Sivun asetukset...</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>&amp;Tulosta...</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>&amp;Muokkaa</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>&amp;Ikkuna</value>
+  </data>
 </root>

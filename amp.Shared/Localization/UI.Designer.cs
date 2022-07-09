@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace amp.EtoForms.Localization {
+namespace amp.Shared.Localization {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace amp.EtoForms.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class UI {
+    public class UI {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace amp.EtoForms.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.EtoForms.Localization.UI", typeof(UI).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.Shared.Localization.UI", typeof(UI).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace amp.EtoForms.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to -.
         /// </summary>
-        internal static string _ {
+        public static string _ {
             get {
                 return ResourceManager.GetString("_", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        internal static string About {
+        public static string About {
             get {
                 return ResourceManager.GetString("About", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add files....
         /// </summary>
-        internal static string AddFiles {
+        public static string AddFiles {
             get {
                 return ResourceManager.GetString("AddFiles", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add files to album....
         /// </summary>
-        internal static string AddFilesToAlbum {
+        public static string AddFilesToAlbum {
             get {
                 return ResourceManager.GetString("AddFilesToAlbum", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add folder contents....
         /// </summary>
-        internal static string AddFolderContents {
+        public static string AddFolderContents {
             get {
                 return ResourceManager.GetString("AddFolderContents", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add folder contents to album....
         /// </summary>
-        internal static string AddFolderContentsToAlbum {
+        public static string AddFolderContentsToAlbum {
             get {
                 return ResourceManager.GetString("AddFolderContentsToAlbum", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add music....
         /// </summary>
-        internal static string AddMusic {
+        public static string AddMusic {
             get {
                 return ResourceManager.GetString("AddMusic", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add music files....
         /// </summary>
-        internal static string AddMusicFiles {
+        public static string AddMusicFiles {
             get {
                 return ResourceManager.GetString("AddMusicFiles", resourceCulture);
             }
@@ -135,16 +135,25 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Add music to album: &apos;{0}&apos;....
         /// </summary>
-        internal static string AddMusicToAlbum0 {
+        public static string AddMusicToAlbum0 {
             get {
                 return ResourceManager.GetString("AddMusicToAlbum0", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album.
+        /// </summary>
+        public static string Album {
+            get {
+                return ResourceManager.GetString("Album", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album entries.
         /// </summary>
-        internal static string AlbumEntries {
+        public static string AlbumEntries {
             get {
                 return ResourceManager.GetString("AlbumEntries", resourceCulture);
             }
@@ -153,7 +162,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Albums.
         /// </summary>
-        internal static string Albums {
+        public static string Albums {
             get {
                 return ResourceManager.GetString("Albums", resourceCulture);
             }
@@ -162,7 +171,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -171,7 +180,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        internal static string Close {
+        public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
             }
@@ -180,16 +189,34 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to :.
         /// </summary>
-        internal static string ColonDelimiter {
+        public static string ColonDelimiter {
             get {
                 return ResourceManager.GetString("ColonDelimiter", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database conversion.
         /// </summary>
-        internal static string DatabaseConversion {
+        public static string DatabaseConversion {
             get {
                 return ResourceManager.GetString("DatabaseConversion", resourceCulture);
             }
@@ -198,34 +225,70 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Database updated.
         /// </summary>
-        internal static string DatabaseUpdated {
+        public static string DatabaseUpdated {
             get {
                 return ResourceManager.GetString("DatabaseUpdated", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directories searched.
         /// </summary>
-        internal static string DirectoriesCrawled {
+        public static string DirectoriesCrawled {
             get {
                 return ResourceManager.GetString("DirectoriesCrawled", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Files found.
         /// </summary>
-        internal static string FilesFound {
+        public static string FilesFound {
             get {
                 return ResourceManager.GetString("FilesFound", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        public static string Hide {
+            get {
+                return ResourceManager.GetString("Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize.
+        /// </summary>
+        public static string Minimize {
+            get {
+                return ResourceManager.GetString("Minimize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Music files.
         /// </summary>
-        internal static string MusicFiles {
+        public static string MusicFiles {
             get {
                 return ResourceManager.GetString("MusicFiles", resourceCulture);
             }
@@ -234,7 +297,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to {0} / {1}.
         /// </summary>
-        internal static string NoOfNo {
+        public static string NoOfNo {
             get {
                 return ResourceManager.GetString("NoOfNo", resourceCulture);
             }
@@ -243,25 +306,52 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string OK {
+        public static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page Setup....
+        /// </summary>
+        public static string PageSetup {
+            get {
+                return ResourceManager.GetString("PageSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
-        internal static string Play {
+        public static string Play {
             get {
                 return ResourceManager.GetString("Play", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print....
+        /// </summary>
+        public static string Print {
+            get {
+                return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue entries.
         /// </summary>
-        internal static string QueueEntries {
+        public static string QueueEntries {
             get {
                 return ResourceManager.GetString("QueueEntries", resourceCulture);
             }
@@ -270,7 +360,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
-        internal static string Quit {
+        public static string Quit {
             get {
                 return ResourceManager.GetString("Quit", resourceCulture);
             }
@@ -279,16 +369,34 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Rating.
         /// </summary>
-        internal static string Rating {
+        public static string Rating {
             get {
                 return ResourceManager.GetString("Rating", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        public static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select music folder....
         /// </summary>
-        internal static string SelectMusicFolder {
+        public static string SelectMusicFolder {
             get {
                 return ResourceManager.GetString("SelectMusicFolder", resourceCulture);
             }
@@ -297,7 +405,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Songs.
         /// </summary>
-        internal static string Songs {
+        public static string Songs {
             get {
                 return ResourceManager.GetString("Songs", resourceCulture);
             }
@@ -306,7 +414,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Songs added to album.
         /// </summary>
-        internal static string SongsAddedToAlbum {
+        public static string SongsAddedToAlbum {
             get {
                 return ResourceManager.GetString("SongsAddedToAlbum", resourceCulture);
             }
@@ -315,7 +423,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Song volume.
         /// </summary>
-        internal static string SongVolume {
+        public static string SongVolume {
             get {
                 return ResourceManager.GetString("SongVolume", resourceCulture);
             }
@@ -324,7 +432,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Sound &amp;&amp; rating.
         /// </summary>
-        internal static string SoundRating {
+        public static string SoundRating {
             get {
                 return ResourceManager.GetString("SoundRating", resourceCulture);
             }
@@ -333,7 +441,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Stars.
         /// </summary>
-        internal static string Stars {
+        public static string Stars {
             get {
                 return ResourceManager.GetString("Stars", resourceCulture);
             }
@@ -342,7 +450,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Test stuff.
         /// </summary>
-        internal static string TestStuff {
+        public static string TestStuff {
             get {
                 return ResourceManager.GetString("TestStuff", resourceCulture);
             }
@@ -351,7 +459,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Time estimate (ready).
         /// </summary>
-        internal static string TimeEstimateReady {
+        public static string TimeEstimateReady {
             get {
                 return ResourceManager.GetString("TimeEstimateReady", resourceCulture);
             }
@@ -360,7 +468,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
-        internal static string Total {
+        public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
             }
@@ -369,18 +477,45 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Total percentage (%).
         /// </summary>
-        internal static string TotalPercentage {
+        public static string TotalPercentage {
             get {
                 return ResourceManager.GetString("TotalPercentage", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        public static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Volume.
         /// </summary>
-        internal static string Volume {
+        public static string Volume {
             get {
                 return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Window.
+        /// </summary>
+        public static string Window {
+            get {
+                return ResourceManager.GetString("Window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom.
+        /// </summary>
+        public static string Zoom {
+            get {
+                return ResourceManager.GetString("Zoom", resourceCulture);
             }
         }
     }

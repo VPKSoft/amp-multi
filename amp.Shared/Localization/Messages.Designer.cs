@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace amp.EtoForms.Localization {
+namespace amp.Shared.Localization {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace amp.EtoForms.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Messages {
+    public class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace amp.EtoForms.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.EtoForms.Localization.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.Shared.Localization.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace amp.EtoForms.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to {0}{1} songs, {2} albums, {3} album entries and {4} queue snapshot entries will be converted..
         /// </summary>
-        internal static string ConversionStatistics {
+        public static string ConversionStatistics {
             get {
                 return ResourceManager.GetString("ConversionStatistics", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Convert database.
         /// </summary>
-        internal static string ConvertDatabase {
+        public static string ConvertDatabase {
             get {
                 return ResourceManager.GetString("ConvertDatabase", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace amp.EtoForms.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Do you want to convert the old database into the new format? The operation might take few minutes..
         /// </summary>
-        internal static string DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes {
+        public static string DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes {
             get {
                 return ResourceManager.GetString("DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes", resourceCulture);
             }
