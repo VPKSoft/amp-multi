@@ -163,7 +163,7 @@ internal static class Globals
             defaultButtonSize ??= UtilityOS.GetValueForOSNotNull(
                 new Size(40, 40),
                 new Size(20, 20),
-                new Size(40, 40),
+                new Size(50, 50),
                 new Size(40, 40));
 
             return defaultButtonSize.Value;
