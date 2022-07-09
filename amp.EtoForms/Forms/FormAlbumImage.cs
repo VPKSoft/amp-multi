@@ -52,6 +52,7 @@ public class FormAlbumImage : Form
         {
             Content = imageView,
             Padding = 20,
+            Size = new Size(300, 300),
         };
     }
 

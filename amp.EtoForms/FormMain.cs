@@ -113,7 +113,7 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private long currentAlbumId = 2;
+    private long currentAlbumId = 1;
     private List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;

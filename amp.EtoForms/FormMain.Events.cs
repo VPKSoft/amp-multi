@@ -164,6 +164,8 @@ partial class FormMain
     private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         playbackManager.Dispose();
+        formAlbumImage.Close();
+        formAlbumImage.Dispose();
     }
 
     private async Task<AlbumSong?> GetNextSongFunc()
