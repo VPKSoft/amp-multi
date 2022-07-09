@@ -38,8 +38,13 @@ public static class FileExtensionConvert
     /// </summary>
     /// <param name="fileName">Name of the file.</param>
     /// <returns>A <see cref="MusicFileType"/> enumeration value.</returns>
-    public static MusicFileType FileNameToFileType(string fileName)
+    public static MusicFileType FileNameToFileType(string? fileName)
     {
+        if (fileName == null)
+        {
+            return MusicFileType.Unknown;
+        }
+
         var extension = Path.GetExtension(fileName).ToLowerInvariant();
         extension = extension.TrimStart('.');
 

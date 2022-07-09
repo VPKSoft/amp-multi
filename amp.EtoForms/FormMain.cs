@@ -84,7 +84,7 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == 1).AsNoTracking().ToList();
+        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == currentAlbumId).AsNoTracking().ToList();
 
         ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);
 
@@ -113,7 +113,7 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private long currentAlbumId = 1;
+    private long currentAlbumId = 2;
     private List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;

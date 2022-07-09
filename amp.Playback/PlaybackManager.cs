@@ -27,8 +27,11 @@ SOFTWARE.
 using System.ComponentModel;
 using amp.Playback.Converters;
 using amp.Playback.EventArguments;
+using amp.Shared.Classes;
+using amp.Shared.Enumerations;
 using amp.Shared.Interfaces;
 using ManagedBass;
+using ManagedBass.Flac;
 using VPKSoft.DropOutStack;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
@@ -73,9 +76,20 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         CheckManagerRunning();
 
         DisposeCurrentChannel();
-        currentSongHandle = Bass.CreateStream(song.Song?.FileName ??
-                                              throw new InvalidOperationException(
-                                                  "The IAlbumSong.Song must be not null."));
+
+        if (FileExtensionConvert.FileNameToFileType(song.Song?.FileName) == MusicFileType.Flac)
+        {
+            currentSongHandle = BassFlac.CreateStream(song.Song?.FileName ??
+                                                      throw new InvalidOperationException(
+                                                          "The IAlbumSong.Song must be not null."));
+
+        }
+        else
+        {
+            currentSongHandle = Bass.CreateStream(song.Song?.FileName ??
+                                                  throw new InvalidOperationException(
+                                                      "The IAlbumSong.Song must be not null."));
+        }
 
         if (currentSongHandle != 0)
         {
@@ -509,6 +523,8 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     {
         try
         {
+            previousPlaybackState = PlaybackState.Stopped;
+
             if (currentSongHandle != 0)
             {
                 Bass.ChannelStop(currentSongHandle);
@@ -596,8 +612,8 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                         }
                     }
 
-                    skipPlaybackStateChange = false;
                 }
+                skipPlaybackStateChange = false;
             }
 
             previousPlaybackState = playbackState;

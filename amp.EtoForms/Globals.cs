@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.Shared.Classes;
 using Eto.Drawing;
 
 namespace amp.EtoForms;
@@ -149,18 +150,49 @@ internal static class Globals
     /// <value>The default padding.</value>
     internal static int DefaultPadding { get; set; } = 5;
 
+    private static Size? defaultButtonSize;
+
     /// <summary>
     /// Gets or sets the default size of a button.
     /// </summary>
     /// <value>The default size of a button.</value>
-    internal static Size ButtonDefaultSize { get; set; } = new(40, 40);
+    internal static Size ButtonDefaultSize
+    {
+        get
+        {
+            defaultButtonSize ??= UtilityOS.GetValueForOSNotNull(
+                new Size(40, 40),
+                new Size(20, 20),
+                new Size(40, 40),
+                new Size(40, 40));
+
+            return defaultButtonSize.Value;
+        }
+
+        set => defaultButtonSize = value;
+    }
+
+    private static Size? menuImageDefaultSize;
 
     /// <summary>
     /// Gets or sets the default size of the menu item images.
     /// </summary>
     /// <value>The default size of the menu item images.</value>
-    internal static Size MenuImageDefaultSize { get; set; } = new(16, 16);
+    internal static Size MenuImageDefaultSize
+    {
+        get
+        {
+            menuImageDefaultSize ??= UtilityOS.GetValueForOSNotNull(
+                new Size(16, 16),
+                new Size(16, 16),
+                new Size(16, 16),
+                new Size(16, 16));
 
+            return menuImageDefaultSize.Value;
+        }
+
+        set => menuImageDefaultSize = value;
+    }
 
     /// <summary>
     /// Saves the application settings.
