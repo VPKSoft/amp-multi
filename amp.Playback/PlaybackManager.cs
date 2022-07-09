@@ -32,6 +32,7 @@ using amp.Shared.Enumerations;
 using amp.Shared.Interfaces;
 using ManagedBass;
 using ManagedBass.Flac;
+using ManagedBass.Wma;
 using VPKSoft.DropOutStack;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
@@ -83,6 +84,13 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                                                       throw new InvalidOperationException(
                                                           "The IAlbumSong.Song must be not null."));
 
+        }
+
+        if (FileExtensionConvert.FileNameToFileType(song.Song?.FileName) == MusicFileType.Wma && UtilityOS.IsWindowsOS)
+        {
+            currentSongHandle = BassWma.CreateStream(song.Song?.FileName ??
+                                                     throw new InvalidOperationException(
+                                                         "The IAlbumSong.Song must be not null."));
         }
         else
         {

@@ -167,7 +167,7 @@ public class CheckedButton : Button
     private void PaintBothImages()
     {
         PaintUncheckedImage();
-        PaintUncheckedImage();
+        PaintCheckedImage();
     }
 
     // Weird button size increasing occurs on GTK if the button image size resizes along with the button size, Thus: Platform.IsGtk --> 16px.
