@@ -34,11 +34,63 @@ using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Button = Eto.Forms.Button;
+using ComboBox = Eto.Forms.ComboBox;
+using Control = Eto.Forms.Control;
+using Expander = Eto.Forms.Expander;
+using GridView = Eto.Forms.GridView;
+using Label = Eto.Forms.Label;
+using Orientation = Eto.Forms.Orientation;
+using Panel = Eto.Forms.Panel;
+using TextBox = Eto.Forms.TextBox;
 
 namespace amp.EtoForms;
 
 partial class FormMain
 {
+    [MemberNotNull(nameof(cmbAlbumSelect))]
+    private StackLayout CreateAlbumSelector()
+    {
+        cmbAlbumSelect = new ComboBox { ReadOnly = false, AutoComplete = true, };
+        cmbAlbumSelect.ItemTextBinding = new PropertyBinding<string>(nameof(Album.AlbumName));
+
+        cmbAlbumSelect.SelectedValueChanged += async (sender, args) =>
+        {
+            var id = ((Album?)cmbAlbumSelect.SelectedValue)?.Id;
+
+            if (id != null)
+            {
+                CurrentAlbumId = id.Value;
+                await RefreshCurrentAlbum();
+            }
+        };
+
+        var imageView = new ImageView { Width = 20, Height = 20, };
+        imageView.SizeChanged += delegate
+        {
+            var wh = Math.Min(imageView.Width, imageView.Height);
+            var size = new Size(wh, wh);
+            imageView.Image = EtoHelpers.ImageFromSvg(Colors.Orange, Size16.ic_fluent_music_note_2_16_filled,
+                size);
+        };
+
+        var result = new StackLayout
+        {
+            Orientation = Orientation.Horizontal,
+            Items =
+            {
+                imageView,
+                new Label { Text = "Album", },
+                new Panel { Width = Globals.DefaultPadding, },
+                new StackLayoutItem(cmbAlbumSelect, true),
+            },
+        };
+
+        return result;
+    }
+
     private StackLayout CreateToolbar()
     {
         var result = new StackLayout
@@ -63,7 +115,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(songVolumeSlider))]
+    [MemberNotNull(nameof(songVolumeSlider), nameof(totalVolumeSlider))]
     private Control CreateValueSliders()
     {
         songVolumeSlider = new VolumeSlider((_, args) =>
@@ -71,6 +123,15 @@ partial class FormMain
                 playbackManager.PlaybackVolume = args.Value / 100.0;
             })
         { Maximum = 300, };
+
+        totalVolumeSlider = new VolumeSlider((_, args) =>
+            {
+                var volume = args.Value / 100.0;
+                playbackManager.MasterVolume = volume;
+                Globals.Settings.MasterVolume = volume;
+                Globals.SaveSettings();
+            })
+        { Maximum = 100, ColorSlider = Colors.CornflowerBlue, };
 
         var tableLayout = new TableLayout
         {
@@ -82,7 +143,7 @@ partial class FormMain
                     {
                         new TableCell(new Label { Text = UI.Volume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
-                        new TableCell(new VolumeSlider(), true),
+                        new TableCell(totalVolumeSlider, true),
                     },
                 },
                 new Panel {Height = Globals.DefaultPadding,},
@@ -102,7 +163,7 @@ partial class FormMain
                     {
                         new TableCell(new Label { Text = UI.Rating, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
-                        new TableCell(new RatingSlider() { Value = 50,}, true),
+                        new TableCell(new RatingSlider { Value = 50,}, true),
                     },
                 },
             },
@@ -132,7 +193,7 @@ partial class FormMain
         tbSearch.KeyDown += FormMain_KeyDown;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvSongs))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvSongs), nameof(cmbAlbumSelect))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider { Height = 20, };
@@ -177,6 +238,7 @@ partial class FormMain
             Items =
             {
                 new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = CreateAlbumSelector(), Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = songAdjustControls, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = stackLayout,}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = lbSongsTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
@@ -250,6 +312,7 @@ partial class FormMain
     private CheckedButton btnPlayPause;
     private readonly Label lbSongsTitle = new();
     private VolumeSlider songVolumeSlider;
+    private VolumeSlider totalVolumeSlider;
     private readonly Command commandPlayPause = new();
     private readonly Command nextSongCommand = new();
     private CheckedButton btnShuffleToggle;
@@ -264,4 +327,5 @@ partial class FormMain
     private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };
     private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
+    private ComboBox cmbAlbumSelect;
 }

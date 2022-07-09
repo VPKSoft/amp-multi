@@ -191,6 +191,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private volatile bool skipPlaybackStateChange;
     private volatile DropOutStack<long> playedSongIds = new(100);
     private double volume = 1;
+    private double masterVolume = 1;
     private volatile bool shuffle = true;
     private volatile bool playbackFailed;
 
@@ -218,6 +219,37 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
         if (nextSong != null)
         {
             PlaySong(nextSong, skipStateChange);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the master volume for this <see cref="PlaybackManager{TSong,TAlbumSong}"/>.
+    /// </summary>
+    /// <value>The master volume.</value>
+    public double MasterVolume
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return masterVolume;
+            }
+        }
+
+        set
+        {
+            lock (lockObject)
+            {
+                masterVolume = value;
+                try
+                {
+                    Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value * masterVolume);
+                }
+                catch (Exception ex)
+                {
+                    logger?.Error(ex, "");
+                }
+            }
         }
     }
 
@@ -250,7 +282,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 volume = value;
                 try
                 {
-                    Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value);
+                    Bass.ChannelSetAttribute(currentSongHandle, ChannelAttribute.Volume, value * masterVolume);
                 }
                 catch (Exception ex)
                 {

@@ -76,6 +76,8 @@ public partial class FormMain : Form
         songAdjustControls = CreateValueSliders();
         Content = CreateMainContent();
 
+        totalVolumeSlider.Value = Globals.Settings.MasterVolume * 100;
+
         context = new AmpContext();
         // There must always be the default album.
         if (!context.Albums.Any(f => f.Id == 1))
@@ -84,7 +86,8 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == currentAlbumId).AsNoTracking().ToList();
+        UpdateAlbumDataSource();
+        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().ToList();
 
         ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);
 
@@ -113,7 +116,26 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private long currentAlbumId = 1;
+    /// <summary>
+    /// Gets or sets the current album identifier.
+    /// </summary>
+    /// <value>The current album identifier.</value>
+    private long CurrentAlbumId
+    {
+        get => Globals.Settings.SelectedAlbum < 1 ? 1 : Globals.Settings.SelectedAlbum;
+
+        set
+        {
+            if (value < 1)
+            {
+                return;
+            }
+
+            Globals.Settings.SelectedAlbum = value;
+            Globals.SaveSettings();
+        }
+    }
+
     private List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;

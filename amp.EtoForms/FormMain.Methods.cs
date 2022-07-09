@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Localization;
@@ -40,7 +41,7 @@ partial class FormMain
         dialog.Filters.Add(new FileFilter(UI.MusicFiles, MusicConstants.SupportedExtensionArray));
         if (dialog.ShowDialog(this) == DialogResult.Ok)
         {
-            DialogAddFilesProgress.ShowModal(this, context, toAlbum ? currentAlbumId : 0, dialog.Filenames.ToArray());
+            DialogAddFilesProgress.ShowModal(this, context, toAlbum ? CurrentAlbumId : 0, dialog.Filenames.ToArray());
         }
 
         await RefreshCurrentAlbum();
@@ -51,7 +52,7 @@ partial class FormMain
         using var dialog = new SelectFolderDialog { Title = UI.SelectMusicFolder, };
         if (dialog.ShowDialog(this) == DialogResult.Ok)
         {
-            DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? currentAlbumId : 0);
+            DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0);
         }
 
         await RefreshCurrentAlbum();
@@ -77,7 +78,7 @@ partial class FormMain
     /// </summary>
     private async Task RefreshCurrentAlbum()
     {
-        songs = await context.AlbumSongs.Where(f => f.AlbumId == currentAlbumId).Include(f => f.Song).AsNoTracking()
+        songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).AsNoTracking()
             .ToListAsync();
 
         var albumSongs = songs;
@@ -88,5 +89,13 @@ partial class FormMain
         }
 
         gvSongs.DataStore = albumSongs;
+    }
+
+    private void UpdateAlbumDataSource()
+    {
+        var albums = new List<Album> { context.Albums.First(f => f.Id == 1), };
+        albums.AddRange(context.Albums.Where(f => f.Id != 1).AsNoTracking().ToList());
+        cmbAlbumSelect.DataStore = albums;
+        cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
     }
 }

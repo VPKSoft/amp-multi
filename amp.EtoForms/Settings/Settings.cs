@@ -150,5 +150,19 @@ internal class Settings : ApplicationJsonSettings, IBiasedRandomSettings
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets the master volume for audio playback.
+    /// </summary>
+    /// <value>The master volume.</value>
+    [Settings(Default = 0.15)]
+    public double MasterVolume { get; set; }
+
+    /// <summary>
+    /// Gets or sets the selected album reference identifier.
+    /// </summary>
+    /// <value>The selected album reference identifier.</value>
+    [Settings(Default = 1L)]
+    public long SelectedAlbum { get; set; }
     #endregion
 }

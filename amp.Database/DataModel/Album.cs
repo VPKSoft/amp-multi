@@ -37,7 +37,7 @@ namespace amp.Database.DataModel;
 /// <seealso cref="IAlbum" />
 [Table(nameof(Album))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum
+public class Album : ToStringFunc<Album>, IAlbum
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
@@ -51,4 +51,13 @@ public class Album : IAlbum
 
     /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
+
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+    public override string ToString()
+    {
+        return StringFunc?.Invoke(this) ?? AlbumName;
+    }
 }
