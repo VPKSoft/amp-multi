@@ -97,160 +97,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Songs" xml:space="preserve">
-    <value>Kappaleet</value>
+  <data name="EnableQuietHours" xml:space="preserve">
+    <value>Enable quiet hours</value>
   </data>
-  <data name="Albums" xml:space="preserve">
-    <value>Albumit</value>
+  <data name="PauseOnQuietHours" xml:space="preserve">
+    <value>Pause on quiet hours</value>
   </data>
-  <data name="AlbumEntries" xml:space="preserve">
-    <value>Albumimerkinnät</value>
+  <data name="SettingsLower" xml:space="preserve">
+    <value>settings</value>
   </data>
-  <data name="QueueEntries" xml:space="preserve">
-    <value>Jonomerkinnät</value>
+  <data name="DecreaseVolumeOnQuietHoursBy" xml:space="preserve">
+    <value>Decrease volume on quiet hours by</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
+  <data name="CheckForUpdatesUponStartup" xml:space="preserve">
+    <value>Check for updates upon startup</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Peruuta</value>
+  <data name="Percentage" xml:space="preserve">
+    <value>percentage</value>
   </data>
-  <data name="DatabaseConversion" xml:space="preserve">
-    <value>Tietokannan muunnos</value>
+  <data name="LanguageRequiresRestart" xml:space="preserve">
+    <value>Language (requires restart)</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Yhteensä</value>
+  <data name="Common" xml:space="preserve">
+    <value>Common</value>
   </data>
-  <data name="TotalPercentage" xml:space="preserve">
-    <value>Yhteensä prosenttia (%)</value>
+  <data name="StackQueue" xml:space="preserve">
+    <value>Stack queue</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Sulje</value>
+  <data name="RandomizeStackFromTopBy" xml:space="preserve">
+    <value>Randomize stack from top by</value>
   </data>
-  <data name="TimeEstimateReady" xml:space="preserve">
-    <value>Aika-arvio (valmis)</value>
+  <data name="AutoHideAlbumImageWindow" xml:space="preserve">
+    <value>Auto-hide album image window</value>
   </data>
-  <data name="Play" xml:space="preserve">
-    <value>Toista</value>
+  <data name="PlayedCount" xml:space="preserve">
+    <value>Played count</value>
   </data>
-  <data name="Volume" xml:space="preserve">
-    <value>Äänenvoimakkuus</value>
+  <data name="RandomizedCount" xml:space="preserve">
+    <value>Randomized count</value>
   </data>
-  <data name="SongVolume" xml:space="preserve">
-    <value>Kappaleen äänenvoimakkuus</value>
+  <data name="SkippedCount" xml:space="preserve">
+    <value>Skipped count</value>
   </data>
-  <data name="Quit" xml:space="preserve">
-    <value>Lopeta</value>
+  <data name="Tolerance" xml:space="preserve">
+    <value>Tolerance (%)</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>Tietoja</value>
+  <data name="ModifiedRandom" xml:space="preserve">
+    <value>Modified random</value>
   </data>
-  <data name="TestStuff" xml:space="preserve">
-    <value>Testaa asioita</value>
+  <data name="WeightedRandomizationEnabled" xml:space="preserve">
+    <value>Weighted randomization enabled</value>
   </data>
-  <data name="AddMusicFiles" xml:space="preserve">
-    <value>Lisää musiikkitiedostoja...</value>
-  </data>
-  <data name="MusicFiles" xml:space="preserve">
-    <value>Musiikkitiedostot</value>
-  </data>
-  <data name="DirectoriesCrawled" xml:space="preserve">
-    <value>Hakemistoja etsitty</value>
-  </data>
-  <data name="_" xml:space="preserve">
-    <value>-</value>
-  </data>
-  <data name="ColonDelimiter" xml:space="preserve">
-    <value>:</value>
-  </data>
-  <data name="FilesFound" xml:space="preserve">
-    <value>Tiedostoja löydetty</value>
-  </data>
-  <data name="DatabaseUpdated" xml:space="preserve">
-    <value>Tietokantaan päivitetty</value>
-  </data>
-  <data name="NoOfNo" xml:space="preserve">
-    <value>{0} / {1}</value>
-  </data>
-  <data name="SongsAddedToAlbum" xml:space="preserve">
-    <value>Kappaleita lisätty albumiin</value>
-  </data>
-  <data name="AddMusicToAlbum0" xml:space="preserve">
-    <value>Lisää musiikkia albumiin: '{0}'...</value>
-  </data>
-  <data name="AddMusic" xml:space="preserve">
-    <value>Lisää musiikkia...</value>
-  </data>
-  <data name="AddFiles" xml:space="preserve">
-    <value>Lisää tiedostoja...</value>
-  </data>
-  <data name="AddFilesToAlbum" xml:space="preserve">
-    <value>Lisää tiedostoja albumiin...</value>
-  </data>
-  <data name="AddFolderContents" xml:space="preserve">
-    <value>Lisää hakemiston sisältö...</value>
-  </data>
-  <data name="AddFolderContentsToAlbum" xml:space="preserve">
-    <value>Lisää hakemiston sisältö albumiin...</value>
-  </data>
-  <data name="SelectMusicFolder" xml:space="preserve">
-    <value>Valitse musiikkikansio...</value>
-  </data>
-  <data name="Stars" xml:space="preserve">
-    <value>Tähdet</value>
-  </data>
-  <data name="Rating" xml:space="preserve">
-    <value>Arvostelu</value>
-  </data>
-  <data name="SoundRating" xml:space="preserve">
-    <value>Ääni &amp;&amp; arvostelu</value>
-  </data>
-  <data name="Album" xml:space="preserve">
-    <value>Albumi</value>
-  </data>
-  <data name="Hide" xml:space="preserve">
-    <value>Piilota</value>
-  </data>
-  <data name="Minimize" xml:space="preserve">
-    <value>Minimoi</value>
-  </data>
-  <data name="Zoom" xml:space="preserve">
-    <value>Zoomaa</value>
-  </data>
-  <data name="Cut" xml:space="preserve">
-    <value>Leikkaa</value>
-  </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Kopioi</value>
-  </data>
-  <data name="Paste" xml:space="preserve">
-    <value>Liitä</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Poista</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>Valitse kaikki</value>
-  </data>
-  <data name="Undo" xml:space="preserve">
-    <value>Peruuta</value>
-  </data>
-  <data name="Redo" xml:space="preserve">
-    <value>Tee uudelleen</value>
-  </data>
-  <data name="PageSetup" xml:space="preserve">
-    <value>Sivun asetukset...</value>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>&amp;Tulosta...</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>&amp;Muokkaa</value>
-  </data>
-  <data name="Window" xml:space="preserve">
-    <value>&amp;Ikkuna</value>
-  </data>
-  <data name="DefaultAlbumName" xml:space="preserve">
-    <value>Oletus</value>
+  <data name="Defaults" xml:space="preserve">
+    <value>Defaults</value>
   </data>
 </root>

@@ -29,7 +29,14 @@ using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms.Settings;
 
-internal class Settings : ApplicationJsonSettings, IBiasedRandomSettings
+/// <summary>
+/// Settings for the amp# software.
+/// Implements the <see cref="ApplicationJsonSettings" />
+/// Implements the <see cref="IBiasedRandomSettings" />
+/// </summary>
+/// <seealso cref="ApplicationJsonSettings" />
+/// <seealso cref="IBiasedRandomSettings" />
+public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
 {
     [Settings(Default = true)]
     public bool MigrateDatabase { get; set; }
@@ -150,7 +157,40 @@ internal class Settings : ApplicationJsonSettings, IBiasedRandomSettings
             }
         }
     }
+    #endregion
 
+    #region QuietHours
+    /// <summary>
+    /// A flag indicating whether the quiet hours is enabled in the settings.
+    /// </summary>
+    [Settings]
+    public bool QuietHours { get; set; }
+
+    /// <summary>
+    /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
+    /// </summary>
+    [Settings(Default = "08:00")]
+    public string QuietHoursFrom { get; set; } = string.Empty;
+
+    /// <summary>
+    /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
+    /// </summary>
+    [Settings(Default = "23:00")]
+    public string QuietHoursTo { get; set; } = string.Empty;
+
+    /// <summary>
+    /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
+    /// </summary>
+    public bool QuietHoursPause { get; set; }
+
+    /// <summary>
+    /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
+    /// </summary>
+    [Settings(Default = 30)]
+    public double QuietHoursVolumePercentage { get; set; }
+    #endregion
+
+    #region Misc
     /// <summary>
     /// Gets or sets the master volume for audio playback.
     /// </summary>
@@ -164,5 +204,33 @@ internal class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value>The selected album reference identifier.</value>
     [Settings(Default = 1L)]
     public long SelectedAlbum { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically check for updates upon application startup.
+    /// </summary>
+    /// <value><c>true</c> if to automatically check for updates upon application startup; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool AutoCheckUpdates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the locale.
+    /// </summary>
+    /// <value>The locale.</value>
+    [Settings(Default = "en")]
+    public string Locale { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the stack queue random percentage.
+    /// </summary>
+    /// <value>The stack queue random percentage.</value>
+    [Settings(Default = 30.0)]
+    public double StackQueueRandomPercentage { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically hide the album track image view if no image exists.
+    /// </summary>
+    /// <value><c>true</c> if to automatically hide the album track image view if no image exists; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool AutoHideEmptyAlbumImage { get; set; }
     #endregion
 }

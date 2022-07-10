@@ -18,53 +18,62 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\amp.licenseheader" Link="amp.licenseheader" />
+		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="z440.atl.core" Version="4.8.0" />
+		<PackageReference Include="z440.atl.core" Version="4.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Localization\EtoForms.Designer.cs">
-	    <DependentUpon>EtoForms.resx</DependentUpon>
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	  </Compile>
-	  <Compile Update="Localization\Mac.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Mac.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Localization\Messages.Designer.cs">
-	    <DependentUpon>Messages.resx</DependentUpon>
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	  </Compile>
-	  <Compile Update="Localization\UI.Designer.cs">
-	    <DependentUpon>UI.resx</DependentUpon>
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	  </Compile>
+		<Compile Update="Localization\EtoForms.Designer.cs">
+			<DependentUpon>EtoForms.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Localization\Mac.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Mac.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Localization\Messages.Designer.cs">
+			<DependentUpon>Messages.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Localization\Settings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Localization\UI.Designer.cs">
+			<DependentUpon>UI.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Localization\EtoForms.resx">
-	    <LastGenOutput>EtoForms.Designer.cs</LastGenOutput>
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Localization\Mac.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Mac.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Localization\Messages.resx">
-	    <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Localization\UI.resx">
-	    <LastGenOutput>UI.Designer.cs</LastGenOutput>
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Localization\EtoForms.resx">
+			<LastGenOutput>EtoForms.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\Mac.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Mac.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\Messages.resx">
+			<LastGenOutput>Messages.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\Settings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\UI.resx">
+			<LastGenOutput>UI.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

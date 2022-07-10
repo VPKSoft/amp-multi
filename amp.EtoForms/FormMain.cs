@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Database;
 using amp.Database.DataModel;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Shared.Interfaces;
@@ -33,7 +34,6 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
-using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Form = Eto.Forms.Form;
 
@@ -51,11 +51,11 @@ public partial class FormMain : Form
     /// </summary>
     public FormMain()
     {
+        Application.Instance.UnhandledException += Program.Instance_UnhandledException;
         Application.Instance.LocalizeString += Instance_LocalizeString;
+        Title = "amp#";
 
         MinimumSize = new Size(550, 650);
-
-        Application.Instance.UnhandledException += Program.Instance_UnhandledException;
 
         playbackOrder = new PlaybackOrder<Song, AlbumSong>(Globals.Settings, UpdateQueueFunc);
 
@@ -84,7 +84,7 @@ public partial class FormMain : Form
         // There must always be the default album.
         if (!context.Albums.Any(f => f.Id == 1))
         {
-            context.Albums.Add(new Album { Id = 1, AlbumName = "Default", CreatedAtUtc = DateTime.UtcNow, });
+            context.Albums.Add(new Album { Id = 1, AlbumName = UI.DefaultAlbumName, CreatedAtUtc = DateTime.UtcNow, });
             context.SaveChanges();
         }
 
@@ -93,35 +93,25 @@ public partial class FormMain : Form
 
         ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);
 
-        songs = songs.OrderBy(f => f.GetSongName()).ToList();
-
-        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.SongChanged += PlaybackManager_SongChanged;
-        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.SongSkipped += PlaybackManager_SongSkipped;
-
-        gvSongs.DataStore = songs;
-
-        commandPlayPause.MenuText = UI.Play;
-        commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
-            FluentIcons.Resources.Filled.Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
-
         playbackManager.ManagerStopped = false;
+
+        idleChecker = new UserIdleChecker(this);
+
         AssignEventListeners();
         CreateMenu();
-        LocationChanged += FormMain_LocationChanged;
-        idleChecker = new UserIdleChecker(this);
-        idleChecker.UserIdle += IdleChecker_UserIdle;
-        idleChecker.UserActivated += IdleChecker_UserActivated;
     }
 
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
+        new FormSettings().ShowModal(this);
+        return;
+
         // Test stuff here:
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
     private List<AlbumSong> songs;
+    private List<AlbumSong> filteredSongs = new();
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
     private readonly AmpContext context;

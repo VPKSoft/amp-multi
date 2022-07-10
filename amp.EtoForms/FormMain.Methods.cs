@@ -68,9 +68,19 @@ partial class FormMain
             albumSong.QueueIndex = newIndex;
             albumSong.ModifiedAtUtc = DateTime.UtcNow;
             context.AlbumSongs.Update(albumSong);
+
+            var songIndex = filteredSongs.FindIndex(f => f.Id == albumSong.Id);
+            if (songIndex != -1)
+            {
+                filteredSongs[songIndex] = albumSong;
+            }
         }
 
         await context.SaveChangesAsync();
+
+        context.ChangeTracker.Clear();
+
+        gvSongs.Invalidate();
     }
 
     /// <summary>
@@ -81,14 +91,14 @@ partial class FormMain
         songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).AsNoTracking()
             .ToListAsync();
 
-        var albumSongs = songs;
+        filteredSongs = songs;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+            filteredSongs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
         }
 
-        gvSongs.DataStore = albumSongs;
+        gvSongs.DataStore = filteredSongs;
     }
 
     private void UpdateAlbumDataSource()

@@ -250,4 +250,7 @@
   <data name="Window" xml:space="preserve">
     <value>&amp;Window</value>
   </data>
+  <data name="DefaultAlbumName" xml:space="preserve">
+    <value>Default</value>
+  </data>
 </root>

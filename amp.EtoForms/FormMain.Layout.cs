@@ -190,6 +190,13 @@ partial class FormMain
         KeyDown += FormMain_KeyDown;
         gvSongs.KeyDown += FormMain_KeyDown;
         tbSearch.KeyDown += FormMain_KeyDown;
+        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
+        playbackManager.SongChanged += PlaybackManager_SongChanged;
+        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
+        playbackManager.SongSkipped += PlaybackManager_SongSkipped;
+        LocationChanged += FormMain_LocationChanged;
+        idleChecker.UserIdle += IdleChecker_UserIdle;
+        idleChecker.UserActivated += IdleChecker_UserActivated;
     }
 
     [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvSongs), nameof(cmbAlbumSelect))]
@@ -224,6 +231,16 @@ partial class FormMain
                 new GridColumn
                 {
                     DataCell = new TextBoxCell(nameof(AlbumSong.DisplayName)), Expand = true,
+                },
+                new GridColumn
+                {
+                    DataCell = new TextBoxCell
+                    {
+                        Binding = Binding
+                            .Property((AlbumSong s) => s.QueueIndex)
+                            .Convert(r => r == 0 ? null : r.ToString())
+                            .Cast<string?>(),
+                    },
                 },
             },
             ShowHeader = false,
@@ -268,6 +285,10 @@ partial class FormMain
 
         aboutCommand.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_question_circle_20_filled,
             Globals.MenuImageDefaultSize);
+
+        commandPlayPause.MenuText = UI.Play;
+        commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
 
         // create menu
         base.Menu = new MenuBar

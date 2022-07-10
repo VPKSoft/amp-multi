@@ -79,6 +79,12 @@ public class UserIdleChecker : IDisposable
     }
 
     /// <summary>
+    /// Gets a value indicating the user is currently idle.
+    /// </summary>
+    /// <value><c>true</c> if the user is currently idle; otherwise, <c>false</c>.</value>
+    public bool IsUserIdle => idleEventInvoked;
+
+    /// <summary>
     /// Occurs when the user has been inactive for the specified interval.
     /// </summary>
     public event EventHandler<UserIdleEventArgs>? UserIdle;

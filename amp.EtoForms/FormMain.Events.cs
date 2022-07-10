@@ -144,14 +144,14 @@ partial class FormMain
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        var albumSongs = songs;
+        filteredSongs = songs;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            albumSongs = albumSongs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+            filteredSongs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
         }
 
-        gvSongs.DataStore = albumSongs;
+        gvSongs.DataStore = filteredSongs;
     }
 
     private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
