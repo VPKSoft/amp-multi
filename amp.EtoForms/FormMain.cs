@@ -32,6 +32,7 @@ using amp.Shared.Interfaces;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Form = Eto.Forms.Form;
@@ -109,6 +110,9 @@ public partial class FormMain : Form
         AssignEventListeners();
         CreateMenu();
         LocationChanged += FormMain_LocationChanged;
+        idleChecker = new UserIdleChecker(this);
+        idleChecker.UserIdle += IdleChecker_UserIdle;
+        idleChecker.UserActivated += IdleChecker_UserActivated;
     }
 
     private void TestStuff_Executed(object? sender, EventArgs e)
@@ -117,28 +121,9 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    /// <summary>
-    /// Gets or sets the current album identifier.
-    /// </summary>
-    /// <value>The current album identifier.</value>
-    private long CurrentAlbumId
-    {
-        get => Globals.Settings.SelectedAlbum < 1 ? 1 : Globals.Settings.SelectedAlbum;
-
-        set
-        {
-            if (value < 1)
-            {
-                return;
-            }
-
-            Globals.Settings.SelectedAlbum = value;
-            Globals.SaveSettings();
-        }
-    }
-
     private List<AlbumSong> songs;
     private readonly PlaybackManager<Song, AlbumSong> playbackManager;
     private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
     private readonly AmpContext context;
+    private readonly UserIdleChecker idleChecker;
 }

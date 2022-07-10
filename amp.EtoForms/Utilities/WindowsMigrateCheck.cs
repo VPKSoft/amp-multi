@@ -28,7 +28,9 @@ using System.Runtime.InteropServices;
 using amp.Database;
 using amp.Database.LegacyConvert;
 using amp.EtoForms.Dialogs;
+using amp.Shared.Localization;
 using Eto.Forms;
+using MessageBox = Eto.Forms.MessageBox;
 
 namespace amp.EtoForms.Utilities;
 
@@ -80,13 +82,13 @@ public static class WindowsMigrateCheck
 
                 var statisticsMessage =
                     string.Format(
-                        Localization.Messages.ConversionStatistics, Environment.NewLine,
+                        Messages.ConversionStatistics, Environment.NewLine,
                         statistics.songs, statistics.albums, statistics.albumSongs, statistics.queueSnaphots);
 
                 if (MessageBox.Show(parent,
-                        Localization.Messages
+                        Messages
                             .DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes + statisticsMessage,
-                        Localization.Messages.ConvertDatabase, MessageBoxButtons.YesNo,
+                        Messages.ConvertDatabase, MessageBoxButtons.YesNo,
                         MessageBoxType.Question) == DialogResult.Yes)
                 {
                     File.Delete(databaseFile);

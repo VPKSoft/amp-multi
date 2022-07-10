@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using System.Diagnostics;
 using amp.Database.DataModel;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
@@ -31,6 +32,7 @@ using amp.EtoForms.Utilities;
 using amp.Playback.Enumerations;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
+using EtoForms.Controls.Custom.UserIdle;
 
 namespace amp.EtoForms;
 
@@ -117,15 +119,6 @@ partial class FormMain
         await playbackManager.PlayNextSong(true);
     }
 
-    private void CommandPlayPause_Executed(object? sender, EventArgs e)
-    {
-        if (SelectedAlbumSongId != 0)
-        {
-            var song = songs.First(f => f.Id == SelectedAlbumSongId);
-            playbackManager.PlaySong(song, true);
-        }
-    }
-
     private void PlaybackPosition_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         playbackManager.PlaybackPositionPercentage = e.Value;
@@ -166,6 +159,7 @@ partial class FormMain
         playbackManager.Dispose();
         formAlbumImage.Close();
         formAlbumImage.Dispose();
+        idleChecker.Dispose();
     }
 
     private async Task<AlbumSong?> GetNextSongFunc()
@@ -214,6 +208,15 @@ partial class FormMain
             songVolumeSlider.Value = song?.Song?.PlaybackVolume * 100 ?? 100;
             songVolumeSlider.SuspendEventInvocation = false;
             lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+
+            var dataSource = gvSongs.DataStore.Cast<AlbumSong>().ToList();
+            var displaySong = dataSource.FindIndex(f => f.SongId == e.SongId);
+            if (displaySong != -1)
+            {
+                gvSongs.SelectedRow = displaySong;
+                gvSongs.ScrollToRow(displaySong);
+            }
+
             if (song != null)
             {
                 formAlbumImage.Show(this, song);
@@ -341,4 +344,15 @@ partial class FormMain
     {
         await AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
     }
+
+    private void IdleChecker_UserIdle(object? sender, UserIdleEventArgs e)
+    {
+        Debug.WriteLine("User idle.");
+    }
+
+    private void IdleChecker_UserActivated(object? sender, UserIdleEventArgs e)
+    {
+        Debug.WriteLine("User woke up.");
+    }
+
 }
