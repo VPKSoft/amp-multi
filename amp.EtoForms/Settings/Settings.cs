@@ -38,6 +38,9 @@ namespace amp.EtoForms.Settings;
 /// <seealso cref="IBiasedRandomSettings" />
 public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
 {
+    /// <summary>
+    /// Gets or sets the value indicating whether the previous database migration should be queried from the user.
+    /// </summary>
     [Settings(Default = true)]
     public bool MigrateDatabase { get; set; }
 
@@ -116,7 +119,7 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// Gets or sets the value for randomization with biased randomized count.
     /// </summary>
     [Settings(Default = -1)]
-    public double BiasedRandomizedCount { get; set; } = -1;
+    public double BiasedRandomizedCount { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the biased randomized count in randomization is enabled.
@@ -139,7 +142,7 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// Gets or sets the value for randomization with biased skipped count.
     /// </summary>
     [Settings(Default = -1)]
-    public double BiasedSkippedCount { get; set; } = -1;
+    public double BiasedSkippedCount { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the biased skipped count in randomization is enabled.
@@ -170,13 +173,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
     /// </summary>
     [Settings(Default = "08:00")]
-    public string QuietHoursFrom { get; set; } = string.Empty;
+    public string? QuietHoursFrom { get; set; }
 
     /// <summary>
     /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
     /// </summary>
     [Settings(Default = "23:00")]
-    public string QuietHoursTo { get; set; } = string.Empty;
+    public string? QuietHoursTo { get; set; }
 
     /// <summary>
     /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.

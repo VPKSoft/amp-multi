@@ -77,8 +77,8 @@ public class FormSettings : Dialog<bool>
         cbDecreaseVolumeOnQuietHours.Checked = !Globals.Settings.QuietHoursPause;
         nsQuietHourSilenceAmount.Value = Globals.Settings.QuietHoursVolumePercentage;
         cbPauseOnQuietHours.Checked = Globals.Settings.QuietHoursPause;
-        dtpStartQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursFrom, "HH':'mm", CultureInfo.InvariantCulture);
-        dtpEndQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursTo, "HH':'mm", CultureInfo.InvariantCulture);
+        dtpStartQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursFrom!, "HH':'mm", CultureInfo.InvariantCulture);
+        dtpEndQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursTo!, "HH':'mm", CultureInfo.InvariantCulture);
 
         // Weighted randomization.
         cbWeightedRandomEnabled.Checked = Globals.Settings.BiasedRandom;
