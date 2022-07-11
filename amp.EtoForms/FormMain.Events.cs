@@ -160,7 +160,7 @@ partial class FormMain
     private void FormMain_Closing(object? sender, CancelEventArgs e)
     {
         playbackManager.Dispose();
-        formAlbumImage.Close();
+        formAlbumImage.DisposeClose();
         formAlbumImage.Dispose();
         idleChecker.Dispose();
     }
@@ -358,4 +358,8 @@ partial class FormMain
         Debug.WriteLine("User woke up.");
     }
 
+    private async void FormMain_Shown(object? sender, EventArgs e)
+    {
+        await RefreshCurrentAlbum();
+    }
 }

@@ -96,14 +96,9 @@ public partial class FormMain : Form
 
         idleChecker = new UserIdleChecker(this);
 
+        AssignSettings();
         AssignEventListeners();
         CreateMenu();
-        Shown += FormMain_Shown;
-    }
-
-    private async void FormMain_Shown(object? sender, EventArgs e)
-    {
-        await RefreshCurrentAlbum();
     }
 
     private void TestStuff_Executed(object? sender, EventArgs e)

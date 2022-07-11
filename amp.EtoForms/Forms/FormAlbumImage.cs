@@ -54,6 +54,24 @@ public class FormAlbumImage : Form
             Padding = 20,
             Size = new Size(300, 300),
         };
+        Closing += FormAlbumImage_Closing;
+    }
+
+    internal void DisposeClose()
+    {
+        allowClose = true;
+        Close();
+    }
+
+    private bool allowClose;
+
+    private void FormAlbumImage_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    {
+        if (!allowClose)
+        {
+            e.Cancel = true;
+            Visible = false;
+        }
     }
 
     /// <summary>

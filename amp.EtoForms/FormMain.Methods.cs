@@ -94,6 +94,8 @@ partial class FormMain
         songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).AsNoTracking()
             .ToListAsync();
 
+        songs = songs.OrderBy(f => f.DisplayName).ToList();
+
         filteredSongs = songs;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
@@ -102,6 +104,11 @@ partial class FormMain
         }
 
         gvSongs.DataStore = filteredSongs;
+    }
+
+    private void AssignSettings()
+    {
+        formAlbumImage.AlwaysVisible = !Globals.Settings.AutoHideEmptyAlbumImage;
     }
 
     private void UpdateAlbumDataSource()

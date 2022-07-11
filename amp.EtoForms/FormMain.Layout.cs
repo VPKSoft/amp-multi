@@ -93,13 +93,13 @@ partial class FormMain
                 btnPlayPause,
                 new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#502D16"), Resources.queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnShowQueue,
                 new Panel {Width =  Globals.DefaultPadding,},
 //                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 btnShuffleToggle,
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#FF5555"), Resources.repeat_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnRepeatToggle,
                 new Panel {Width =  Globals.DefaultPadding,},
-                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Colors.Navy, Resources.stack_queue_three_dots, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnStackQueueToggle,
             },
         };
 
@@ -191,6 +191,7 @@ partial class FormMain
         idleChecker.UserActivated += IdleChecker_UserActivated;
         settingsCommand.Executed += SettingsCommand_Executed;
         gvSongs.SizeChanged += GvSongs_SizeChanged;
+        Shown += FormMain_Shown;
     }
 
     private void GvSongs_SizeChanged(object? sender, EventArgs e)
@@ -291,15 +292,25 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle))]
+    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue))]
     private void CreateButtons()
     {
+        // TODO::Make these buttons do something.
         btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
             Size16.ic_fluent_play_16_filled, Colors.Purple, Colors.Purple,
             Globals.ButtonDefaultSize);
 
         btnShuffleToggle = new CheckedButton(Resources.shuffle_random_svgrepo_com_modified,
             Color.Parse("#D4AA00"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
+
+        btnShowQueue = new CheckedButton(Resources.queue_three_dots,
+            Color.Parse("#502D16"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize);
+
+        btnRepeatToggle = new CheckedButton(Resources.repeat_svgrepo_com_modified,
+            Color.Parse("#FF5555"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
+
+        btnStackQueueToggle = new CheckedButton(Resources.stack_queue_three_dots,
+            Colors.Navy, Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize);
     }
 
     private void CreateMenu()
@@ -367,6 +378,8 @@ partial class FormMain
     private readonly Command commandPlayPause = new();
     private readonly Command nextSongCommand = new();
     private CheckedButton btnShuffleToggle;
+    private CheckedButton btnRepeatToggle;
+    private CheckedButton btnShowQueue;
     private readonly StackLayout toolBar;
     private readonly Control songAdjustControls;
     private PositionSlider playbackPosition;
@@ -380,4 +393,5 @@ partial class FormMain
     private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
     private ComboBox cmbAlbumSelect;
+    private CheckedButton btnStackQueueToggle;
 }
