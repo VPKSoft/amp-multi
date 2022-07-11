@@ -27,9 +27,12 @@ SOFTWARE.
 using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Properties;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
+using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
@@ -107,5 +110,38 @@ partial class FormMain
         albums.AddRange(context.Albums.Where(f => f.Id != 1).AsNoTracking().ToList());
         cmbAlbumSelect.DataStore = albums;
         cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
+    }
+
+    private void FillAboutDialogData()
+    {
+        aboutDialog.License = @"
+MIT License
+
+Copyright(c) 2022 Petteri Kautonen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the ""Software""), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+";
+
+        aboutDialog.Logo = SvgToImage.ImageFromSvg(Resources.music_note_svgrepo_com_modified, new Size(64, 64));
+        aboutDialog.Title = $"amp# {UI._} {UI.About}";
+        aboutDialog.ProgramName = "amp#";
+        aboutDialog.Website = new Uri("https://github.com/VPKSoft/amp");
+        aboutDialog.WebsiteLabel = "GitHub/amp";
     }
 }

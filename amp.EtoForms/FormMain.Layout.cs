@@ -346,8 +346,10 @@ partial class FormMain
             AboutItem = aboutCommand,
         };
 
+        FillAboutDialogData();
+
         testStuff.Executed += TestStuff_Executed;
-        aboutCommand.Executed += (_, _) => new AboutDialog().ShowDialog(this);
+        aboutCommand.Executed += (_, _) => aboutDialog.ShowDialog(this);
         quitCommand.Executed += (_, _) => Application.Instance.Quit();
         addFilesToDatabase.Executed += AddFilesToDatabase_Executed;
         addFilesToAlbum.Executed += AddFilesToDatabase_Executed;
@@ -355,6 +357,7 @@ partial class FormMain
         addDirectoryToAlbum.Executed += AddDirectoryToDatabase_Executed;
     }
 
+    private readonly AboutDialog aboutDialog = new();
     private GridView gvSongs;
     private readonly TextBox tbSearch = new();
     private CheckedButton btnPlayPause;
