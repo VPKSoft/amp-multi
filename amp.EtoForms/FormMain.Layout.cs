@@ -190,6 +190,14 @@ partial class FormMain
         idleChecker.UserIdle += IdleChecker_UserIdle;
         idleChecker.UserActivated += IdleChecker_UserActivated;
         settingsCommand.Executed += SettingsCommand_Executed;
+        gvSongs.SizeChanged += GvSongs_SizeChanged;
+    }
+
+    private void GvSongs_SizeChanged(object? sender, EventArgs e)
+    {
+        gvSongs.Columns[0].Width = gvSongs.Width - 80;
+        gvSongs.Columns[1].Width = 30;
+        gvSongs.Columns[2].Width = 30;
     }
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
