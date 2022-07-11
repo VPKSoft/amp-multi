@@ -24,17 +24,16 @@ SOFTWARE.
 */
 #endregion
 
+using System.ComponentModel;
 using amp.Database;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
+using Eto.Drawing;
 using Eto.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Application = Eto.Forms.Application;
-using HorizontalAlignment = Eto.Forms.HorizontalAlignment;
-using Size = Eto.Drawing.Size;
 
 namespace amp.EtoForms.Dialogs;
 
@@ -168,7 +167,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     }
 
     #region InternalEvents
-    private async void DialogAddFilesProgress_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    private async void DialogAddFilesProgress_Closing(object? sender, CancelEventArgs e)
     {
         if (!closedViaButton)
         {

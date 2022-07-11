@@ -30,7 +30,6 @@ using amp.Database.LegacyConvert;
 using amp.EtoForms.Dialogs;
 using amp.Shared.Localization;
 using Eto.Forms;
-using MessageBox = Eto.Forms.MessageBox;
 
 namespace amp.EtoForms.Utilities;
 

@@ -232,5 +232,12 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value><c>true</c> if to automatically hide the album track image view if no image exists; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
     public bool AutoHideEmptyAlbumImage { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether display playlist column headers.
+    /// </summary>
+    /// <value><c>true</c> if display playlist column headers; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool DisplayPlaylistHeader { get; set; }
     #endregion
 }

@@ -28,8 +28,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
+using Eto.Drawing;
 using Eto.Forms;
-using Size = Eto.Drawing.Size;
 
 namespace amp.EtoForms.Forms;
 
@@ -99,6 +99,7 @@ public class FormSettings : Dialog<bool>
         cbCheckUpdates.Checked = Globals.Settings.AutoCheckUpdates;
         nsStackQueue.Value = Globals.Settings.StackQueueRandomPercentage;
         cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
+        cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
     }
 
     private void SaveSettings()
@@ -124,7 +125,6 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.Tolerance = sldWeightedTolerance.Value;
 
         // Misc.
-
         if (cmbUiLocale.SelectedValue != null)
         {
             var culture = (CultureInfo)cmbUiLocale.SelectedValue;
@@ -134,6 +134,7 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.AutoCheckUpdates = cbCheckUpdates.Checked == true;
         Globals.Settings.StackQueueRandomPercentage = nsStackQueue.Value;
         Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
+        Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
         Globals.SaveSettings();
     }
 
@@ -186,15 +187,15 @@ public class FormSettings : Dialog<bool>
         )]
     private void CreateSettingsTabCommon()
     {
-        cbEnableQuietHours = new CheckBox { Text = amp.Shared.Localization.Settings.EnableQuietHours, };
+        cbEnableQuietHours = new CheckBox { Text = Shared.Localization.Settings.EnableQuietHours, };
         dtpStartQuietHours = new DateTimePicker { Mode = DateTimePickerMode.Time, };
         dtpEndQuietHours = new DateTimePicker { Mode = DateTimePickerMode.Time, };
-        cbPauseOnQuietHours = new CheckBox { Text = amp.Shared.Localization.Settings.PauseOnQuietHours, };
-        cbDecreaseVolumeOnQuietHours = new CheckBox { Text = amp.Shared.Localization.Settings.DecreaseVolumeOnQuietHoursBy, };
+        cbPauseOnQuietHours = new CheckBox { Text = Shared.Localization.Settings.PauseOnQuietHours, };
+        cbDecreaseVolumeOnQuietHours = new CheckBox { Text = Shared.Localization.Settings.DecreaseVolumeOnQuietHoursBy, };
         nsQuietHourSilenceAmount = new NumericStepper { MinValue = 0, MaxValue = 100, };
         nsStackQueue = new NumericStepper { MinValue = 0, MaxValue = 100, };
-        cbCheckUpdates = new CheckBox { Text = amp.Shared.Localization.Settings.CheckForUpdatesUponStartup, };
-        cbAutoHideAlbumImage = new CheckBox { Text = amp.Shared.Localization.Settings.AutoHideAlbumImageWindow, };
+        cbCheckUpdates = new CheckBox { Text = Shared.Localization.Settings.CheckForUpdatesUponStartup, };
+        cbAutoHideAlbumImage = new CheckBox { Text = Shared.Localization.Settings.AutoHideAlbumImageWindow, };
 
         cmbUiLocale = new ComboBox
         {
@@ -211,15 +212,15 @@ public class FormSettings : Dialog<bool>
 
         var quietHourPercentageRow =
             CreateRowTable(true, spacing, cbDecreaseVolumeOnQuietHours, nsQuietHourSilenceAmount,
-                new Label { Text = amp.Shared.Localization.Settings.Percentage, });
+                new Label { Text = Shared.Localization.Settings.Percentage, });
 
         var stackQueue =
-            CreateRowTable(true, spacing, new Label { Text = amp.Shared.Localization.Settings.RandomizeStackFromTopBy, }, nsStackQueue,
-                new Label { Text = amp.Shared.Localization.Settings.Percentage, });
+            CreateRowTable(true, spacing, new Label { Text = Shared.Localization.Settings.RandomizeStackFromTopBy, }, nsStackQueue,
+                new Label { Text = Shared.Localization.Settings.Percentage, });
 
         tabCommon = new TabPage
         {
-            Text = amp.Shared.Localization.Settings.Common,
+            Text = Shared.Localization.Settings.Common,
             Content = new TableLayout
             {
                 Rows =
@@ -228,12 +229,13 @@ public class FormSettings : Dialog<bool>
                     quietHourSettings,
                     cbPauseOnQuietHours,
                     quietHourPercentageRow,
-                    new Label { Text = amp.Shared.Localization.Settings.LanguageRequiresRestart,},
+                    new Label { Text = Shared.Localization.Settings.LanguageRequiresRestart,},
                     cmbUiLocale,
                     cbCheckUpdates,
-                    new Label { Text = amp.Shared.Localization.Settings.StackQueue,},
+                    new Label { Text = Shared.Localization.Settings.StackQueue,},
                     stackQueue,
                     cbAutoHideAlbumImage,
+                    cbDisplayColumnHeaders,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -268,7 +270,7 @@ public class FormSettings : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = amp.Shared.Localization.Settings.PlayedCount, },
+                        new Label { Text = Shared.Localization.Settings.PlayedCount, },
                         new TableCell(sldPlayedCount, true),
                         cbWeightedPlayedCount,
                     },
@@ -277,7 +279,7 @@ public class FormSettings : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = amp.Shared.Localization.Settings.RandomizedCount, },
+                        new Label { Text = Shared.Localization.Settings.RandomizedCount, },
                         new TableCell(sldRandomizedCount, true),
                         cbWeightedRandomizedCount,
                     },
@@ -286,7 +288,7 @@ public class FormSettings : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = amp.Shared.Localization.Settings.SkippedCount, },
+                        new Label { Text = Shared.Localization.Settings.SkippedCount, },
                         new TableCell(sldSkippedCount, true),
                         cbWeightedSkippedCount,
                     },
@@ -295,7 +297,7 @@ public class FormSettings : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = amp.Shared.Localization.Settings.Tolerance, },
+                        new Label { Text = Shared.Localization.Settings.Tolerance, },
                         new TableCell(sldWeightedTolerance, true),
                         lbWeightedToleranceValue,
                     },
@@ -311,7 +313,7 @@ public class FormSettings : Dialog<bool>
 
         tabWeightedRandom = new TabPage
         {
-            Text = amp.Shared.Localization.Settings.ModifiedRandom,
+            Text = Shared.Localization.Settings.ModifiedRandom,
             Content = new TableLayout
             {
                 Rows =
@@ -346,7 +348,7 @@ public class FormSettings : Dialog<bool>
     }
 
     #region UiElements
-    private readonly CheckBox cbWeightedRandomEnabled = new() { Text = amp.Shared.Localization.Settings.WeightedRandomizationEnabled, };
+    private readonly CheckBox cbWeightedRandomEnabled = new() { Text = Shared.Localization.Settings.WeightedRandomizationEnabled, };
     private readonly CheckBox cbWeightedRating = new();
     private readonly Slider sldRating = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
     private readonly CheckBox cbWeightedPlayedCount = new();
@@ -357,8 +359,9 @@ public class FormSettings : Dialog<bool>
     private readonly Slider sldSkippedCount = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
     private readonly Slider sldWeightedTolerance = new() { MinValue = 0, MaxValue = 100, TickFrequency = 10, };
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
-    private readonly Button btnRandomDefaults = new() { Text = amp.Shared.Localization.Settings.Defaults, };
+    private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
+    private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
     private CheckBox cbAutoHideAlbumImage;
     private CheckBox cbCheckUpdates;
     private ComboBox cmbUiLocale;

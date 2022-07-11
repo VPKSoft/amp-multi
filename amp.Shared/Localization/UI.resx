@@ -253,4 +253,16 @@
   <data name="DefaultAlbumName" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="QueueShort" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="StarChar" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

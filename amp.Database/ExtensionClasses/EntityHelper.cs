@@ -40,7 +40,7 @@ public static class EntityHelper
     /// <param name="typeBuilder">The <see cref="EntityTypeBuilder"/> instance.</param>
     public static void SpecifyUtcKind<T>(this EntityTypeBuilder<T> typeBuilder) where T : class, IEntity
     {
-        typeBuilder.Property(f => f.CreatedAtUtc).HasConversion((x) => x.ToUniversalTime(), (x) => DateTime.SpecifyKind(x, DateTimeKind.Utc));
-        typeBuilder.Property(f => f.ModifiedAtUtc).HasConversion((x) => x!.Value.ToUniversalTime(), (x) => DateTime.SpecifyKind(x, DateTimeKind.Utc));
+        typeBuilder.Property(f => f.CreatedAtUtc).HasConversion(x => x.ToUniversalTime(), x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
+        typeBuilder.Property(f => f.ModifiedAtUtc).HasConversion(x => x!.Value.ToUniversalTime(), x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
     }
 }

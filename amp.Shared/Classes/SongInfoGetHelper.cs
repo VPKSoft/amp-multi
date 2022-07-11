@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Shared.Interfaces;
 using ATL;
+
 namespace amp.Shared.Classes;
 
 /// <summary>

@@ -28,6 +28,7 @@ using System;
 using Eto.Drawing;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
+using EtoForms.Controls.Custom.Properties;
 
 namespace EtoForms.Controls.Custom;
 
@@ -43,7 +44,7 @@ public class PositionSlider : SliderBase
     /// </summary>
     public PositionSlider()
     {
-        SliderImageSvg = EtoForms.Controls.Custom.Properties.Resources.slider_line;
+        SliderImageSvg = Resources.slider_line;
     }
 
     /// <summary>

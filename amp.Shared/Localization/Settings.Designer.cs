@@ -106,6 +106,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display playlist column headers.
+        /// </summary>
+        public static string DisplayPlaylistColumnHeaders {
+            get {
+                return ResourceManager.GetString("DisplayPlaylistColumnHeaders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable quiet hours.
         /// </summary>
         public static string EnableQuietHours {

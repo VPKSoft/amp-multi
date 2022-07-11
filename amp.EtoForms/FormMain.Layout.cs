@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using amp.Database.DataModel;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -34,15 +35,6 @@ using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
-using Button = Eto.Forms.Button;
-using ComboBox = Eto.Forms.ComboBox;
-using Control = Eto.Forms.Control;
-using Expander = Eto.Forms.Expander;
-using GridView = Eto.Forms.GridView;
-using Label = Eto.Forms.Label;
-using Orientation = Eto.Forms.Orientation;
-using Panel = Eto.Forms.Panel;
-using TextBox = Eto.Forms.TextBox;
 
 namespace amp.EtoForms;
 
@@ -197,6 +189,13 @@ partial class FormMain
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdle;
         idleChecker.UserActivated += IdleChecker_UserActivated;
+        settingsCommand.Executed += SettingsCommand_Executed;
+    }
+
+    private void SettingsCommand_Executed(object? sender, EventArgs e)
+    {
+        using var settingsForm = new FormSettings();
+        settingsForm.ShowModal(this);
     }
 
     [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvSongs), nameof(cmbAlbumSelect))]
@@ -231,6 +230,8 @@ partial class FormMain
                 new GridColumn
                 {
                     DataCell = new TextBoxCell(nameof(AlbumSong.DisplayName)), Expand = true,
+                    HeaderText = UI.Track,
+                    Resizable = false,
                 },
                 new GridColumn
                 {
@@ -238,15 +239,30 @@ partial class FormMain
                     {
                         Binding = Binding
                             .Property((AlbumSong s) => s.QueueIndex)
-                            .Convert(r => r == 0 ? null : r.ToString())
+                            .Convert(q => q == 0 ? null : q.ToString())
                             .Cast<string?>(),
                     },
+                    HeaderText = UI.QueueShort,
+                    Resizable = false,
+                },
+                new GridColumn
+                {
+                    DataCell = new TextBoxCell
+                    {
+                        Binding = Binding
+                            .Property((AlbumSong s) => s.QueueIndexAlternate)
+                            .Convert(qa => qa == 0 ? null : qa.ToString())
+                            .Cast<string?>(),
+                    },
+                    HeaderText = UI.StarChar,
+                    Resizable = false,
                 },
             },
-            ShowHeader = false,
+            ShowHeader = Globals.Settings.DisplayPlaylistHeader,
             Height = 650,
             Width = 550,
             AllowMultipleSelection = true,
+            AllowColumnReordering = false,
         };
 
         var result = new StackLayout
@@ -290,6 +306,9 @@ partial class FormMain
         commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
 
+        settingsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_settings_16_filled, Globals.ButtonDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -313,6 +332,7 @@ partial class FormMain
                         addDirectoryToAlbum,
                     },
                 },
+                settingsCommand,
             },
             QuitItem = quitCommand,
             AboutItem = aboutCommand,
@@ -342,6 +362,7 @@ partial class FormMain
     private Label lbPlaybackPosition;
     private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };
     private readonly Command aboutCommand = new() { MenuText = UI.About, };
+    private readonly Command settingsCommand = new() { MenuText = UI.Settings, };
     private readonly Command testStuff = new() { MenuText = UI.TestStuff, };
     private readonly Command addFilesToDatabase = new() { MenuText = UI.AddFiles, };
     private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };

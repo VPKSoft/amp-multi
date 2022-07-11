@@ -28,6 +28,7 @@ using System;
 using Eto.Drawing;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
 using EtoForms.Controls.Custom.Utilities;
+using FluentIcons.Resources.Filled;
 
 namespace EtoForms.Controls.Custom;
 
@@ -43,7 +44,7 @@ public class RatingSlider : SliderBase
     /// </summary>
     public RatingSlider()
     {
-        sliderImageSvg = FluentIcons.Resources.Filled.Size16.ic_fluent_star_16_filled;
+        sliderImageSvg = Size16.ic_fluent_star_16_filled;
         ColorSlider = Colors.Orange;
     }
 

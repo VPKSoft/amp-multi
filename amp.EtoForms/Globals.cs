@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Shared.Classes;
 using Eto.Drawing;
+using Serilog.Core;
 
 namespace amp.EtoForms;
 
@@ -51,13 +52,13 @@ internal static class Globals
     }
 
 #pragma warning disable CS0649
-    private static Serilog.Core.Logger? logger;
+    private static Logger? logger;
 #pragma warning restore CS0649
 
     /// <summary>
     /// Gets the <see cref="Serilog.Core.Logger"/> with not null value unless in debug mode.
     /// </summary>
-    internal static Serilog.Core.Logger? Logger
+    internal static Logger? Logger
     {
         get
         {

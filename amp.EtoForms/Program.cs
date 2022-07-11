@@ -26,6 +26,7 @@ SOFTWARE.
 
 global using System;
 using Eto.Forms;
+using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
 
 namespace amp.EtoForms;
 
@@ -44,10 +45,12 @@ public class Program
         Thread.CurrentThread.CurrentUICulture =
             Thread.CurrentThread.CurrentCulture;
 
+        Shared.Globals.Locale = Globals.Settings.Locale;
+
         new Application().Run(new FormMain());
     }
 
-    internal static void Instance_UnhandledException(object? sender, Eto.UnhandledExceptionEventArgs e)
+    internal static void Instance_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
     {
         Globals.Logger?.Error((Exception)e.ExceptionObject, "");
     }

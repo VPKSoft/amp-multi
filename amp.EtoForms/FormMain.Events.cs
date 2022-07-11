@@ -24,12 +24,15 @@ SOFTWARE.
 */
 #endregion
 
+using System.ComponentModel;
 using System.Diagnostics;
 using amp.Database.DataModel;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback.Enumerations;
+using amp.Playback.EventArguments;
+using amp.Shared.Localization;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.UserIdle;
@@ -154,7 +157,7 @@ partial class FormMain
         gvSongs.DataStore = filteredSongs;
     }
 
-    private void FormMain_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    private void FormMain_Closing(object? sender, CancelEventArgs e)
     {
         playbackManager.Dispose();
         formAlbumImage.Close();
@@ -187,7 +190,7 @@ partial class FormMain
         return result;
     }
 
-    private async void PlaybackManager_PlaybackStateChanged(object? sender, Playback.EventArguments.PlaybackStateChangedArgs e)
+    private async void PlaybackManager_PlaybackStateChanged(object? sender, PlaybackStateChangedArgs e)
     {
         await Application.Instance.InvokeAsync(() =>
         {
@@ -199,7 +202,7 @@ partial class FormMain
         });
     }
 
-    private void PlaybackManager_SongChanged(object? sender, Playback.EventArguments.SongChangedArgs e)
+    private void PlaybackManager_SongChanged(object? sender, SongChangedArgs e)
     {
         Application.Instance.Invoke(() =>
         {
@@ -224,7 +227,7 @@ partial class FormMain
         });
     }
 
-    private void PlaybackManager_SongSkipped(object? sender, Playback.EventArguments.SongSkippedEventArgs e)
+    private void PlaybackManager_SongSkipped(object? sender, SongSkippedEventArgs e)
     {
         Globals.LoggerSafeInvoke(async () =>
         {
@@ -279,7 +282,7 @@ partial class FormMain
         });
     }
 
-    private void PlaybackManager_PlaybackPositionChanged(object? sender, Playback.EventArguments.PlaybackPositionChangedArgs e)
+    private void PlaybackManager_PlaybackPositionChanged(object? sender, PlaybackPositionChangedArgs e)
     {
         Application.Instance.Invoke(() =>
         {
@@ -302,30 +305,30 @@ partial class FormMain
                 "&File" => Shared.Localization.EtoForms.File,
                 "&Help" => Shared.Localization.EtoForms.Help,
                 "About" => Shared.Localization.EtoForms.About,
-                "Hide amp.EtoForms" => Shared.Localization.Mac.HideAmpEtoForms,
-                "Hide" => Shared.Localization.UI.Hide,
-                "Hides the main amp.EtoForms window" => Shared.Localization.Mac.HidesTheMainAmpEtoFormsWindow,
-                "Hide Others" => Shared.Localization.Mac.HideOthers,
-                "Hides all other application windows" => Shared.Localization.Mac.HidesAllOtherApplicationWindows,
-                "Show All" => Shared.Localization.Mac.ShowAll,
-                "Show All Windows" => Shared.Localization.Mac.ShowAllWindows,
-                "Minimize" => Shared.Localization.UI.Minimize,
-                "Zoom" => Shared.Localization.UI.Zoom,
-                "Close" => Shared.Localization.UI.Close,
-                "Bring All To Front" => Shared.Localization.Mac.BringAllToFront,
-                "Cut" => Shared.Localization.UI.Cut,
-                "Copy" => Shared.Localization.UI.Copy,
-                "Paste" => Shared.Localization.UI.Paste,
-                "Paste and Match Style" => Shared.Localization.Mac.PasteAndMatchStyle,
-                "Delete" => Shared.Localization.UI.Delete,
-                "Select All" => Shared.Localization.UI.SelectAll,
-                "Undo" => Shared.Localization.UI.Undo,
-                "Redo" => Shared.Localization.UI.Redo,
-                "Enter Full Screen" => Shared.Localization.Mac.EnterFullScreen,
-                "Page Setup..." => Shared.Localization.UI.PageSetup,
-                "Print..." => Shared.Localization.UI.Print,
-                "&Edit" => Shared.Localization.UI.Edit,
-                "&Window" => Shared.Localization.UI.Window,
+                "Hide amp.EtoForms" => Mac.HideAmpEtoForms,
+                "Hide" => UI.Hide,
+                "Hides the main amp.EtoForms window" => Mac.HidesTheMainAmpEtoFormsWindow,
+                "Hide Others" => Mac.HideOthers,
+                "Hides all other application windows" => Mac.HidesAllOtherApplicationWindows,
+                "Show All" => Mac.ShowAll,
+                "Show All Windows" => Mac.ShowAllWindows,
+                "Minimize" => UI.Minimize,
+                "Zoom" => UI.Zoom,
+                "Close" => UI.Close,
+                "Bring All To Front" => Mac.BringAllToFront,
+                "Cut" => UI.Cut,
+                "Copy" => UI.Copy,
+                "Paste" => UI.Paste,
+                "Paste and Match Style" => Mac.PasteAndMatchStyle,
+                "Delete" => UI.Delete,
+                "Select All" => UI.SelectAll,
+                "Undo" => UI.Undo,
+                "Redo" => UI.Redo,
+                "Enter Full Screen" => Mac.EnterFullScreen,
+                "Page Setup..." => UI.PageSetup,
+                "Print..." => UI.Print,
+                "&Edit" => UI.Edit,
+                "&Window" => UI.Window,
                 _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
             };
         }

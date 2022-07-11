@@ -24,14 +24,11 @@ SOFTWARE.
 */
 #endregion
 
+using System.ComponentModel;
 using amp.Database.LegacyConvert;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
-using Button = Eto.Forms.Button;
-using Control = Eto.Forms.Control;
-using Label = Eto.Forms.Label;
-using Panel = Eto.Forms.Panel;
 
 namespace amp.EtoForms.Dialogs;
 
@@ -150,7 +147,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
         Closing += DialogDatabaseConvertProgress_Closing;
     }
 
-    private void DialogDatabaseConvertProgress_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+    private void DialogDatabaseConvertProgress_Closing(object? sender, CancelEventArgs e)
     {
         if (!aborted)
         {

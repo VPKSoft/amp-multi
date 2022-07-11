@@ -33,6 +33,7 @@ using amp.Shared.Interfaces;
 using ManagedBass;
 using ManagedBass.Flac;
 using ManagedBass.Wma;
+using Serilog.Core;
 using VPKSoft.DropOutStack;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
@@ -45,7 +46,7 @@ namespace amp.Playback;
 /// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
 public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
 {
-    private readonly Serilog.Core.Logger? logger;
+    private readonly Logger? logger;
 
     private volatile int currentSongHandle;
 
@@ -58,7 +59,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="doEventsCallback">An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).</param>
     /// <remarks>The contents of the <paramref name="getNextSongFunc"/> must be thread safe as it gets called from another thread.</remarks>
     /// <remarks>The contents of the <paramref name="getSongById"/> must be thread safe as it gets called from another thread.</remarks>
-    public PlaybackManager(Serilog.Core.Logger? logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById, Action doEventsCallback)
+    public PlaybackManager(Logger? logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById, Action doEventsCallback)
     {
         this.logger = logger;
         Bass.Init();

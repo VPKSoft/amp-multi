@@ -367,6 +367,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Q.
+        /// </summary>
+        public static string QueueShort {
+            get {
+                return ResourceManager.GetString("QueueShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
         public static string Quit {
@@ -412,6 +421,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Songs.
         /// </summary>
         public static string Songs {
@@ -444,6 +462,15 @@ namespace amp.Shared.Localization {
         public static string SoundRating {
             get {
                 return ResourceManager.GetString("SoundRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *.
+        /// </summary>
+        public static string StarChar {
+            get {
+                return ResourceManager.GetString("StarChar", resourceCulture);
             }
         }
         
@@ -489,6 +516,15 @@ namespace amp.Shared.Localization {
         public static string TotalPercentage {
             get {
                 return ResourceManager.GetString("TotalPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        public static string Track {
+            get {
+                return ResourceManager.GetString("Track", resourceCulture);
             }
         }
         

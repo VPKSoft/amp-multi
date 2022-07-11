@@ -35,7 +35,6 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
 using Microsoft.EntityFrameworkCore;
-using Form = Eto.Forms.Form;
 
 namespace amp.EtoForms;
 
@@ -99,13 +98,16 @@ public partial class FormMain : Form
 
         AssignEventListeners();
         CreateMenu();
+        Shown += FormMain_Shown;
+    }
+
+    private async void FormMain_Shown(object? sender, EventArgs e)
+    {
+        await RefreshCurrentAlbum();
     }
 
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
-        new FormSettings().ShowModal(this);
-        return;
-
         // Test stuff here:
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }

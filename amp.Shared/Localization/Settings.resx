@@ -151,4 +151,7 @@
   <data name="Defaults" xml:space="preserve">
     <value>Defaults</value>
   </data>
+  <data name="DisplayPlaylistColumnHeaders" xml:space="preserve">
+    <value>Display playlist column headers</value>
+  </data>
 </root>

@@ -46,6 +46,16 @@ public class Globals
     /// <value>The floating point comparison tolerance.</value>
     public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
 
+    /// <summary>
+    /// Gets or sets the locale for the localization resources.
+    /// </summary>
+    /// <value>The locale for localization resources.</value>
+    public static string Locale
+    {
+        get => Culture.Name.Split('-')[0];
+
+        set => Culture = new CultureInfo(value);
+    }
 
     /// <summary>
     /// Overrides the current thread's CurrentUICulture property for all resource lookups.

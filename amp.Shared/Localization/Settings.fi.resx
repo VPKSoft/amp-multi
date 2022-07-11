@@ -151,4 +151,7 @@
   <data name="Defaults" xml:space="preserve">
     <value>Oletukset</value>
   </data>
+  <data name="DisplayPlaylistColumnHeaders" xml:space="preserve">
+    <value>Näytä soittolistan sarakeotsikot</value>
+  </data>
 </root>

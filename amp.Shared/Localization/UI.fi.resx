@@ -253,4 +253,16 @@
   <data name="DefaultAlbumName" xml:space="preserve">
     <value>Oletus</value>
   </data>
+  <data name="QueueShort" xml:space="preserve">
+    <value>J</value>
+  </data>
+  <data name="StarChar" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Kappale</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Asetukset</value>
+  </data>
 </root>

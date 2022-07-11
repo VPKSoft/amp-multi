@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Playback.Enumerations;
+using ManagedBass;
 
 namespace amp.Playback.Converters;
 
@@ -38,14 +38,14 @@ public static class AmpPlaybackStateConverter
     /// </summary>
     /// <param name="playbackState">State of the playback.</param>
     /// <returns>The converted value.</returns>
-    public static ManagedBass.PlaybackState ConvertTo(PlaybackState playbackState)
+    public static PlaybackState ConvertTo(Enumerations.PlaybackState playbackState)
     {
         return playbackState switch
         {
-            PlaybackState.Stopped => ManagedBass.PlaybackState.Stopped,
-            PlaybackState.Playing => ManagedBass.PlaybackState.Playing,
-            PlaybackState.Paused => ManagedBass.PlaybackState.Paused,
-            _ => ManagedBass.PlaybackState.Stopped,
+            Enumerations.PlaybackState.Stopped => PlaybackState.Stopped,
+            Enumerations.PlaybackState.Playing => PlaybackState.Playing,
+            Enumerations.PlaybackState.Paused => PlaybackState.Paused,
+            _ => PlaybackState.Stopped,
         };
     }
 
@@ -54,15 +54,15 @@ public static class AmpPlaybackStateConverter
     /// </summary>
     /// <param name="playbackState">State of the playback.</param>
     /// <returns>The converted value.</returns>
-    public static PlaybackState ConvertFrom(ManagedBass.PlaybackState playbackState)
+    public static Enumerations.PlaybackState ConvertFrom(PlaybackState playbackState)
     {
         return playbackState switch
         {
-            ManagedBass.PlaybackState.Stopped => PlaybackState.Stopped,
-            ManagedBass.PlaybackState.Playing => PlaybackState.Playing,
-            ManagedBass.PlaybackState.Paused => PlaybackState.Paused,
-            ManagedBass.PlaybackState.Stalled => PlaybackState.Paused,
-            _ => PlaybackState.Stopped,
+            PlaybackState.Stopped => Enumerations.PlaybackState.Stopped,
+            PlaybackState.Playing => Enumerations.PlaybackState.Playing,
+            PlaybackState.Paused => Enumerations.PlaybackState.Paused,
+            PlaybackState.Stalled => Enumerations.PlaybackState.Paused,
+            _ => Enumerations.PlaybackState.Stopped,
         };
     }
 }

@@ -31,6 +31,7 @@ using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
 using EtoForms.Controls.Custom.Properties;
 using EtoForms.Controls.Custom.Utilities;
+using FluentIcons.Resources.Filled;
 
 namespace EtoForms.Controls.Custom;
 
@@ -89,7 +90,7 @@ public class VolumeSlider : SliderBase
     /// <value>The SVG image for a speaker.</value>
     public byte[] SpeakerImageSvg
     {
-        get => speakerImageSvg ?? FluentIcons.Resources.Filled.Size16.ic_fluent_speaker_2_16_filled;
+        get => speakerImageSvg ?? Size16.ic_fluent_speaker_2_16_filled;
 
         set
         {
@@ -121,7 +122,7 @@ public class VolumeSlider : SliderBase
             if (speakerImage == null)
             {
                 speakerImage = EtoHelpers.ImageFromSvg(colorSpeaker,
-                    speakerImageSvg ?? FluentIcons.Resources.Filled.Size16.ic_fluent_speaker_2_16_filled, SquareSize);
+                    speakerImageSvg ?? Size16.ic_fluent_speaker_2_16_filled, SquareSize);
             }
 
             return speakerImage;
@@ -158,7 +159,7 @@ public class VolumeSlider : SliderBase
         {
             speakerImage?.Dispose();
             speakerImage = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
-                FluentIcons.Resources.Filled.Size16.ic_fluent_speaker_2_16_filled, SquareSize);
+                Size16.ic_fluent_speaker_2_16_filled, SquareSize);
 
             sliderImage?.Dispose();
             sliderImage = EtoHelpers.ImageFromSvg(Colors.Teal, Resources.volume_slider, RestAreaSize);

@@ -25,9 +25,9 @@ SOFTWARE.
 #endregion
 
 using amp.Database.Migration;
-using Microsoft.Extensions.DependencyInjection;
 using FluentMigrator.Runner;
 using FluentMigrator.Runner.Initialization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace amp.Database;
 
