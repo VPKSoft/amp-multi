@@ -36,7 +36,7 @@
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
-		<PackageReference Include="VPKSoft.DropOutStack" Version="1.0.0" />
+		<PackageReference Include="VPKSoft.DropOutStack" Version="1.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>

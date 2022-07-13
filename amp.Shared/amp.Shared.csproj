@@ -22,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="VPKSoft.DropOutStack" Version="1.0.2" />
 		<PackageReference Include="z440.atl.core" Version="4.8.0" />
 	</ItemGroup>
 

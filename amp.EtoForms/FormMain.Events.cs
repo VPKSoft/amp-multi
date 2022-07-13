@@ -30,6 +30,7 @@ using amp.Database.DataModel;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
+using amp.Playback.Converters;
 using amp.Playback.Enumerations;
 using amp.Playback.EventArguments;
 using amp.Shared.Localization;
@@ -73,7 +74,7 @@ partial class FormMain
             if (gvSongs.SelectedItem != null)
             {
                 var albumSong = (AlbumSong)gvSongs.SelectedItem;
-                playbackManager.PlaySong(albumSong, true);
+                await playbackManager.PlaySong(albumSong, true);
                 e.Handled = true;
                 return;
             }
@@ -137,7 +138,7 @@ partial class FormMain
             context.AlbumSongs.Update(song);
             await context.SaveChangesAsync();
         }
-        playbackManager.PlaySong(song, true);
+        await playbackManager.PlaySong(song, true);
     }
 
     private void FormMain_LocationChanged(object? sender, EventArgs e)
@@ -224,6 +225,8 @@ partial class FormMain
             {
                 formAlbumImage.Show(this, song);
             }
+
+            btnPreviousTrack.Enabled = playbackManager.CanGoPrevious;
         });
     }
 
@@ -361,5 +364,20 @@ partial class FormMain
     private async void FormMain_Shown(object? sender, EventArgs e)
     {
         await RefreshCurrentAlbum();
+    }
+
+    private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
+    {
+        Globals.Logger?.Error("ManagedBass error occurred '{error}'.", e.Error.ErrorString());
+    }
+
+    private void PlaybackManager_PlaybackErrorFileNotFound(object? sender, PlaybackErrorFileNotFoundEventArgs e)
+    {
+        Globals.Logger?.Error(new FileNotFoundException(string.Format(Messages.File0WasNotFound, e.FileName)), "");
+    }
+
+    private async void PlayPreviousClick(object? sender, EventArgs e)
+    {
+        await playbackManager.PreviousSong();
     }
 }

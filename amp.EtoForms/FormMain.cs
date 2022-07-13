@@ -26,7 +26,6 @@ SOFTWARE.
 
 using amp.Database;
 using amp.Database.DataModel;
-using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Shared.Interfaces;
@@ -70,7 +69,7 @@ public partial class FormMain : Form
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
         playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc, GetSongById,
-            () => Application.Instance.RunIteration());
+            () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
 
         CreateButtons();
         toolBar = CreateToolbar();

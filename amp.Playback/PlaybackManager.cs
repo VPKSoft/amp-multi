@@ -33,8 +33,7 @@ using amp.Shared.Interfaces;
 using ManagedBass;
 using ManagedBass.Flac;
 using ManagedBass.Wma;
-using Serilog.Core;
-using VPKSoft.DropOutStack;
+using Serilog;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
 namespace amp.Playback;
@@ -46,7 +45,7 @@ namespace amp.Playback;
 /// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
 public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
 {
-    private readonly Logger? logger;
+    private readonly ILogger? logger;
 
     private volatile int currentSongHandle;
 
@@ -57,15 +56,17 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="getNextSongFunc">A Task&lt;<see cref="Func{TAlbumSong}"/>&gt;, which is executed when requesting a next song for playback.</param>
     /// <param name="getSongById">A Task&lt;<see cref="Func{TIdentity,TAlbumSong}"/>&gt;, which is executed when requesting song data by its reference identifier for playback.</param>
     /// <param name="doEventsCallback">An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).</param>
+    /// <param name="retryBeforeStopCount">A value indicating how many times to try to play another song on error before stopping the playback entirely.</param>
     /// <remarks>The contents of the <paramref name="getNextSongFunc"/> must be thread safe as it gets called from another thread.</remarks>
     /// <remarks>The contents of the <paramref name="getSongById"/> must be thread safe as it gets called from another thread.</remarks>
-    public PlaybackManager(Logger? logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById, Action doEventsCallback)
+    public PlaybackManager(ILogger? logger, Func<Task<TAlbumSong?>> getNextSongFunc, Func<long, Task<TAlbumSong?>> getSongById, Action doEventsCallback, int retryBeforeStopCount)
     {
         this.logger = logger;
         Bass.Init();
         this.getNextSongFunc = getNextSongFunc;
         this.getSongById = getSongById;
         DoEventsCallback = doEventsCallback;
+        this.retryBeforeStopCount = retryBeforeStopCount;
     }
 
     /// <summary>
@@ -73,11 +74,30 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// </summary>
     /// <param name="song">The song.</param>
     /// <param name="skipStateChange">A value indicating whether to ignore the playback state change caused by this call.</param>
-    public void PlaySong(IAlbumSong<TSong> song, bool skipStateChange)
+    /// <param name="fromHistory">A value indicating whether the song requested to be played was gotten from the history so it doesn't get recorded again.</param>
+    public async Task PlaySong(IAlbumSong<TSong> song, bool skipStateChange, bool fromHistory = false)
     {
         CheckManagerRunning();
 
         DisposeCurrentChannel();
+
+        if (!File.Exists(song.Song?.FileName))
+        {
+            // ReSharper disable once ConvertToCompoundAssignment, volatile field
+            errorCount = errorCount + 1;
+
+            var args = new PlaybackErrorFileNotFoundEventArgs
+            { FileName = song.Song?.FileName ?? "", PlayAnother = errorCount >= retryBeforeStopCount, SongId = song.SongId, };
+
+            PlaybackErrorFileNotFound?.Invoke(this, args);
+
+            if (args.PlayAnother)
+            {
+                await getNextSongFunc();
+            }
+
+            return;
+        }
 
         if (FileExtensionConvert.FileNameToFileType(song.Song?.FileName) == MusicFileType.Flac)
         {
@@ -102,7 +122,11 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
 
         if (currentSongHandle != 0)
         {
-            playedSongIds.Push(song.Id);
+            if (!fromHistory)
+            {
+                playedSongIds.Add(song.SongId);
+            }
+
             skipPlaybackStateChange = skipStateChange;
 
             if (!Bass.ChannelPlay(currentSongHandle))
@@ -125,6 +149,25 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
 
             PreviousSongId = song.SongId;
         }
+
+        // A "silent" error occurred.
+        if (currentSongHandle == 0)
+        {
+            LastError = Bass.LastError;
+
+            var count = errorCount + 1;
+            errorCount = count;
+
+            var args = new PlaybackErrorEventArgs
+            { PlayAnother = errorCount >= retryBeforeStopCount, SongId = song.SongId, Error = LastError, };
+
+            PlaybackError?.Invoke(this, args);
+
+            if (args.PlayAnother)
+            {
+                await getNextSongFunc();
+            }
+        }
     }
 
     /// <summary>
@@ -134,17 +177,17 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     public async Task<bool> PreviousSong()
     {
         CheckManagerRunning();
-        if (playedSongIds.Count == 0)
+        if (!playedSongIds.CanUndo)
         {
             return false;
         }
 
-        var id = playedSongIds.Pop();
+        var id = playedSongIds.Undo();
         var song = await getSongById(id);
 
         if (song != null)
         {
-            PlaySong(song, true);
+            await PlaySong(song, true, true);
             return true;
         }
 
@@ -186,15 +229,27 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// </summary>
     public event EventHandler<SongSkippedEventArgs>? SongSkipped;
 
+    /// <summary>
+    /// Occurs when <see cref="ManagedBass"/> fails to play a track.
+    /// </summary>
+    public event EventHandler<PlaybackErrorEventArgs>? PlaybackError;
+
+    /// <summary>
+    /// Occurs when the file name of the track to be played was not found.
+    /// </summary>
+    public event EventHandler<PlaybackErrorFileNotFoundEventArgs>? PlaybackErrorFileNotFound;
+
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
     private volatile bool skipPlaybackStateChange;
-    private volatile DropOutStack<long> playedSongIds = new(100);
+    private volatile UndoRedoStack<long> playedSongIds = new();
     private double volume = 1;
     private double masterVolume = 1;
     private volatile bool shuffle = true;
     private volatile bool playbackFailed;
+    private volatile int retryBeforeStopCount;
+    private volatile int errorCount;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     private double previousPosition;
@@ -208,7 +263,29 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     private readonly Func<long, Task<TAlbumSong?>> getSongById;
     private double previousDuration;
     private double skippedEarlyPercentage = 65;
+    private volatile Errors lastError;
 
+    /// <summary>
+    /// Gets or sets the count to retry failed playback before stop trying.
+    /// </summary>
+    /// <value>The count to retry failed playback before stop trying.</value>
+    public int RetryBeforeStopCount
+    {
+        get => retryBeforeStopCount;
+
+        set => retryBeforeStopCount = value;
+    }
+
+    /// <summary>
+    /// Resets the playback history.
+    /// </summary>
+    public void ResetPlaybackHistory()
+    {
+        lock (lockObject)
+        {
+            playedSongIds.Reset();
+        }
+    }
 
     /// <summary>
     /// Plays the next song.
@@ -216,10 +293,21 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="skipStateChange">A value indicating whether to ignore the playback state change caused by this call.</param>
     public async Task PlayNextSong(bool skipStateChange)
     {
-        var nextSong = await getNextSongFunc();
-        if (nextSong != null)
+        if (!playedSongIds.CanRedo)
         {
-            PlaySong(nextSong, skipStateChange);
+            var nextSong = await getNextSongFunc();
+            if (nextSong != null)
+            {
+                await PlaySong(nextSong, skipStateChange);
+            }
+        }
+        else
+        {
+            var song = await getSongById(playedSongIds.Redo());
+            if (song != null)
+            {
+                await PlaySong(song, skipStateChange, true);
+            }
         }
     }
 
@@ -252,6 +340,32 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Gets a value indicating jumping to previous track is possible.
+    /// </summary>
+    /// <value><c>true</c> if jumping to previous track is possible; otherwise, <c>false</c>.</value>
+    public bool CanGoPrevious
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return playedSongIds.CanUndo;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the last <see cref="ManagedBass"/> library error.
+    /// </summary>
+    /// <value>The last error <see cref="ManagedBass"/> library error.</value>
+    public Errors LastError
+    {
+        get => lastError;
+
+        set => lastError = value;
     }
 
     /// <summary>

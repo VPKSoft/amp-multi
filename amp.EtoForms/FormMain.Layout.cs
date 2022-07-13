@@ -89,7 +89,7 @@ partial class FormMain
             Orientation = Orientation.Horizontal,
             Items =
             {
-                new Button((_, _) => {  }) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_previous_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnPreviousTrack,
                 btnPlayPause,
                 new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
@@ -186,6 +186,8 @@ partial class FormMain
         playbackManager.SongChanged += PlaybackManager_SongChanged;
         playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
         playbackManager.SongSkipped += PlaybackManager_SongSkipped;
+        playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
+        playbackManager.PlaybackError += PlaybackManager_PlaybackError;
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdle;
         idleChecker.UserActivated += IdleChecker_UserActivated;
@@ -292,7 +294,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue))]
+    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
     {
         // TODO::Make these buttons do something.
@@ -311,6 +313,14 @@ partial class FormMain
 
         btnStackQueueToggle = new CheckedButton(Resources.stack_queue_three_dots,
             Colors.Navy, Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize);
+
+        btnPreviousTrack = new SvgImageButton(PlayPreviousClick)
+        {
+            Image = Size16.ic_fluent_previous_16_filled,
+            ImageSize = Globals.ButtonDefaultSize,
+            SolidImageColor = Colors.Teal,
+            Enabled = false,
+        };
     }
 
     private void CreateMenu()
@@ -372,6 +382,7 @@ partial class FormMain
     private GridView gvSongs;
     private readonly TextBox tbSearch = new();
     private CheckedButton btnPlayPause;
+    private SvgImageButton btnPreviousTrack;
     private readonly Label lbSongsTitle = new();
     private VolumeSlider songVolumeSlider;
     private VolumeSlider totalVolumeSlider;

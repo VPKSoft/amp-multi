@@ -243,4 +243,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     [Settings(Default = true)]
     public bool DisplayPlaylistHeader { get; set; }
     #endregion
+
+    #region Runtime    
+    /// <summary>
+    /// Gets or sets the playback retry count.
+    /// </summary>
+    /// <value>The playback retry count.</value>
+    [Settings(Default = 20)]
+    public int PlaybackRetryCount { get; set; }
+    #endregion
 }

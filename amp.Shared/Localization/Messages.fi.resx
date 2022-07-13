@@ -106,4 +106,7 @@
   <data name="ConversionStatistics" xml:space="preserve">
     <value>{0}{1} kappaletta, {2} albumia, {3} albumimerkintää ja {4} jonomerkintää muunnetaan.</value>
   </data>
+  <data name="File0WasNotFound" xml:space="preserve">
+    <value>Tiedostoa '{0}' ei löytynyt.</value>
+  </data>
 </root>
