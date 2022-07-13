@@ -100,6 +100,7 @@ public class FormSettings : Dialog<bool>
         nsStackQueue.Value = Globals.Settings.StackQueueRandomPercentage;
         cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
+        nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
     }
 
     private void SaveSettings()
@@ -135,6 +136,8 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.StackQueueRandomPercentage = nsStackQueue.Value;
         Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
+
+        Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
         Globals.SaveSettings();
     }
 
@@ -218,7 +221,7 @@ public class FormSettings : Dialog<bool>
             CreateRowTable(true, spacing, new Label { Text = Shared.Localization.Settings.RandomizeStackFromTopBy, }, nsStackQueue,
                 new Label { Text = Shared.Localization.Settings.Percentage, });
 
-        var retryCountRow = CreateRowTable(true, spacing, new Label { Text = "Retry count on playback failure", },
+        var retryCountRow = CreateRowTable(true, spacing, new Label { Text = UI.RetryCountOnPlaybackFailure, },
             nsRetryCount);
 
         tabCommon = new TabPage

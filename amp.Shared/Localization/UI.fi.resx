@@ -265,4 +265,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Asetukset</value>
   </data>
+  <data name="RetryCountOnPlaybackFailure" xml:space="preserve">
+    <value>Uudelleenyritysten määrä toiston epäonnistuessa</value>
+  </data>
 </root>
