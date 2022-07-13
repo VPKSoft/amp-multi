@@ -218,6 +218,9 @@ public class FormSettings : Dialog<bool>
             CreateRowTable(true, spacing, new Label { Text = Shared.Localization.Settings.RandomizeStackFromTopBy, }, nsStackQueue,
                 new Label { Text = Shared.Localization.Settings.Percentage, });
 
+        var retryCountRow = CreateRowTable(true, spacing, new Label { Text = "Retry count on playback failure", },
+            nsRetryCount);
+
         tabCommon = new TabPage
         {
             Text = Shared.Localization.Settings.Common,
@@ -236,6 +239,7 @@ public class FormSettings : Dialog<bool>
                     stackQueue,
                     cbAutoHideAlbumImage,
                     cbDisplayColumnHeaders,
+                    retryCountRow,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -367,6 +371,7 @@ public class FormSettings : Dialog<bool>
     private ComboBox cmbUiLocale;
     private NumericStepper nsQuietHourSilenceAmount;
     private NumericStepper nsStackQueue;
+    private readonly NumericStepper nsRetryCount = new() { MinValue = 5, MaxValue = 1000, Value = 20, };
     private DateTimePicker dtpStartQuietHours;
     private DateTimePicker dtpEndQuietHours;
     private CheckBox cbEnableQuietHours;
