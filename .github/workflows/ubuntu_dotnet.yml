@@ -20,8 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Build
-      run: dotnet build --no-restore
-      working-directory: "$GITHUB_WORKSPACE/amp.EtoForms"
+      run: dotnet build --no-restore "$GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Test
-      run: dotnet test --no-build --verbosity normal
-      working-directory: "$GITHUB_WORKSPACE/amp.Tests"
+      run: dotnet test --no-build --verbosity normal "$GITHUB_WORKSPACE/amp.Tests/amp.Tests.csproj"
