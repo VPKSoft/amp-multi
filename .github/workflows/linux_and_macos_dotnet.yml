@@ -3,11 +3,25 @@ name: Linux.NET
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'amp.Database/**'
+      - 'amp.EtoForms/**'
+      - 'amp.Playback/**'
+      - 'amp.Shared/**'
+      - 'amp.Tests/**'
+      - 'EtoForms.Controls.Custom/**'
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master" ]    
+    paths:
+      - 'amp.Database/**'
+      - 'amp.EtoForms/**'
+      - 'amp.Playback/**'
+      - 'amp.Shared/**'
+      - 'amp.Tests/**'
+      - 'EtoForms.Controls.Custom/**'
 
 jobs:
-  build:
+  build-linux:
 
     runs-on: ubuntu-latest
 
