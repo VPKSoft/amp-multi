@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using amp.Database.DataModel;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Properties;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -385,7 +386,19 @@ partial class FormMain
 
     private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
     {
-        if (await new FormAlbums(context).ShowModalAsync(this))
+        bool modalResult;
+
+        if (UtilityOS.IsMacOS)
+        {
+            // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
+            modalResult = new FormAlbums(context).ShowModal(this);
+        }
+        else
+        {
+            modalResult = await new FormAlbums(context).ShowModalAsync(this);
+        }
+
+        if (modalResult)
         {
             await UpdateAlbumDataSource();
         }
