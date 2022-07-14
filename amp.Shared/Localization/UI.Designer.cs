@@ -403,6 +403,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry count on playback failure.
+        /// </summary>
+        public static string RetryCountOnPlaybackFailure {
+            get {
+                return ResourceManager.GetString("RetryCountOnPlaybackFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string SelectAll {

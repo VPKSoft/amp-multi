@@ -265,4 +265,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="RetryCountOnPlaybackFailure" xml:space="preserve">
+    <value>Retry count on playback failure</value>
+  </data>
 </root>
