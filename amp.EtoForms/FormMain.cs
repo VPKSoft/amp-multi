@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Database;
 using amp.Database.DataModel;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Shared.Interfaces;
@@ -102,6 +103,9 @@ public partial class FormMain : Form
 
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
+        new FormAlbums(context).ShowModal(this);
+        return;
+
         // Test stuff here:
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
