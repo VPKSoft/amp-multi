@@ -268,4 +268,10 @@
   <data name="RetryCountOnPlaybackFailure" xml:space="preserve">
     <value>Retry count on playback failure</value>
   </data>
+  <data name="AlbumName" xml:space="preserve">
+    <value>Album name</value>
+  </data>
+  <data name="SaveClose" xml:space="preserve">
+    <value>Save &amp;&amp; Close</value>
+  </data>
 </root>

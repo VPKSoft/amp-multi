@@ -105,8 +105,9 @@ internal static class Globals
     /// Invokes the action with exception handling and logs the possible exception.
     /// </summary>
     /// <param name="action">The action to invoke.</param>
+    /// <param name="errorAction">The action to invoke in case of an error.</param>
     /// <returns><c>true</c> if the action was invoked without an exception, <c>false</c> otherwise.</returns>
-    public static bool LoggerSafeInvoke(Action action)
+    public static bool LoggerSafeInvoke(Action action, Action<Exception>? errorAction = null)
     {
         try
         {
@@ -115,6 +116,31 @@ internal static class Globals
         }
         catch (Exception ex)
         {
+            errorAction?.Invoke(ex);
+            Logger?.Error(ex, "");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Invokes the func asynchronously with exception handling and logs the possible exception.
+    /// </summary>
+    /// <param name="action">The asynchronous func to invoke.</param>
+    /// <param name="errorAction">The asynchronous func to invoke in case of an error.</param>
+    /// <returns>A Task&lt;System.Boolean&gt; representing the asynchronous operation.</returns>
+    public static async Task<bool> LoggerSafeInvokeAsync(Func<Task> action, Func<Exception, Task>? errorAction = null)
+    {
+        try
+        {
+            await action();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            if (errorAction != null)
+            {
+                await errorAction.Invoke(ex);
+            }
             Logger?.Error(ex, "");
             return false;
         }
@@ -124,8 +150,9 @@ internal static class Globals
     /// Invokes the action with exception handling and logs the possible exception.
     /// </summary>
     /// <param name="action">The action to invoke.</param>
+    /// <param name="errorAction">The action to invoke in case of an error.</param>
     /// <returns><c>true</c> if the action was invoked without an exception, <c>false</c> otherwise.</returns>
-    public static bool LoggerSafeInvoke(Func<Task> action)
+    public static bool LoggerSafeInvoke(Func<Task> action, Action<Exception>? errorAction = null)
     {
         try
         {
@@ -134,6 +161,7 @@ internal static class Globals
         }
         catch (Exception ex)
         {
+            errorAction?.Invoke(ex);
             Logger?.Error(ex, "");
             return false;
         }
@@ -150,6 +178,12 @@ internal static class Globals
     /// </summary>
     /// <value>The default padding.</value>
     internal static int DefaultPadding { get; set; } = 5;
+
+    /// <summary>
+    /// Gets the spacing size based on the <see cref="DefaultPadding"/> value.
+    /// </summary>
+    /// <value>The spacing size based on the <see cref="DefaultPadding"/> value.</value>
+    internal static Size DefaultSpacing => new(DefaultPadding, DefaultPadding);
 
     private static Size? defaultButtonSize;
 

@@ -24,17 +24,16 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using amp.Database;
 using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using Eto.Forms;
-using Microsoft.EntityFrameworkCore;
 using amp.Shared.Localization;
+using Eto.Drawing;
+using EtoForms.Controls.Custom.Utilities;
+using FluentIcons.Resources.Filled;
+using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms.Forms;
 
@@ -43,7 +42,7 @@ namespace amp.EtoForms.Forms;
 /// Implements the <see cref="Form" />
 /// </summary>
 /// <seealso cref="Form" />
-public class FormAlbums : Dialog
+public class FormAlbums : Dialog<bool>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormAlbums"/> class.
@@ -51,9 +50,28 @@ public class FormAlbums : Dialog
     /// <param name="context">The amp# EF Core database context.</param>
     public FormAlbums(AmpContext context)
     {
-        this.context = context;
+        MinimumSize = new Size(400, 500);
+        Title = $"amp# {UI._} {UI.Albums}";
 
-        dataSource = GetAlbumDataSource();
+        this.context = context;
+        Padding = Globals.DefaultPadding;
+
+        ToolBar = new ToolBar
+        {
+            Items =
+            {
+                new ButtonToolItem(DeleteClick)
+                {
+                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_delete_16_filled,
+                        Globals.MenuImageDefaultSize),
+                },
+                new ButtonToolItem(AddClick)
+                {
+                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_add_16_filled,
+                        Globals.MenuImageDefaultSize),
+                },
+            },
+        };
 
         gvAlbums = new GridView
         {
@@ -63,6 +81,7 @@ public class FormAlbums : Dialog
                 {
                     DataCell = new TextBoxCell(nameof(Album.AlbumName)), Expand = true,
                     Editable = true,
+                    HeaderText = UI.AlbumName,
                 },
             },
         };
@@ -73,23 +92,113 @@ public class FormAlbums : Dialog
             {
                 new TableRow(gvAlbums) {ScaleHeight = true,},
             },
+            Padding = Globals.DefaultPadding,
+            Spacing = Globals.DefaultSpacing,
         };
 
-        gvAlbums.DataStore = new ObservableCollection<Album>(dataSource);
+        gvAlbums.CellEdited += GvAlbums_CellEdited;
 
-        PositiveButtons.Add(btnClose);
+        NegativeButtons.Add(btnCancel);
+        PositiveButtons.Add(btnSaveAndClose);
+
+        btnCancel.Click += BtnCancel_Click;
+        btnSaveAndClose.Click += BtnSaveAndClose_Click;
+
+        Shown += FormAlbums_Shown;
     }
 
-    private List<Album> GetAlbumDataSource()
+    private void GvAlbums_CellEdited(object? sender, GridViewCellEventArgs e)
     {
-        var albums = new List<Album> { context.Albums.First(f => f.Id == 1), };
-        albums.AddRange(context.Albums.Where(f => f.Id != 1).AsNoTracking().ToList());
+        var album = (Album)e.Item;
+        album.ModifiedAtUtc = DateTime.UtcNow;
+    }
+
+    private async void BtnSaveAndClose_Click(object? sender, EventArgs e)
+    {
+        if (dataSource!.Any(f => string.IsNullOrWhiteSpace(f.AlbumName)))
+        {
+            MessageBox.Show(this, Messages.AlbumNameCanNotBeAnEmptyString, Messages.Notification);
+            return;
+        }
+
+        await using var transaction = await context.Database.BeginTransactionAsync();
+
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            var toAdd = dataSource!.Where(f => f.Id == 0);
+
+            await context.Albums.AddRangeAsync(toAdd);
+
+            await context.SaveChangesAsync();
+
+            var ids = dataSource!.Where(f => f.Id != 0).Select(f => f.Id).Distinct().ToList();
+            var toRemove = context.Albums.Where(f => !ids.Contains(f.Id));
+            var removeIds = await toRemove.Select(f => f.Id).ToListAsync();
+
+            var toRemoveSongs = context.AlbumSongs.Where(f => removeIds.Contains(f.AlbumId));
+
+            context.AlbumSongs.RemoveRange(toRemoveSongs);
+            await context.SaveChangesAsync();
+
+            context.Albums.RemoveRange(toRemove);
+            await context.SaveChangesAsync();
+
+            var existingIds = await context.Albums.Where(f => ids.Contains(f.Id)).Select(f => f.Id).ToListAsync();
+
+            var toUpdate = dataSource!.Where(f => existingIds.Contains(f.Id)).ToList();
+
+            context.Albums.UpdateRange(toUpdate);
+            await context.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }, async (_) => await transaction.RollbackAsync());
+
+        Close(true);
+    }
+
+    private void BtnCancel_Click(object? sender, EventArgs e)
+    {
+        Close(false);
+    }
+
+    private void AddClick(object? sender, EventArgs e)
+    {
+        dataSource!.Add(new Album { AlbumName = Messages.Untitled, CreatedAtUtc = DateTime.Now, });
+    }
+
+    private void DeleteClick(object? sender, EventArgs e)
+    {
+        if (gvAlbums.SelectedItem != null)
+        {
+            var album = (Album)gvAlbums.SelectedItem;
+
+            if (album.Id == 1)
+            {
+                MessageBox.Show(this,
+                    Messages.TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible,
+                    Messages.Notification, MessageBoxButtons.OK);
+
+                return;
+            }
+
+            dataSource!.Remove(album);
+        }
+    }
+
+    private async void FormAlbums_Shown(object? sender, EventArgs e)
+    {
+        dataSource = new ObservableCollection<Album>(await GetAlbumDataSource());
+        gvAlbums.DataStore = dataSource;
+    }
+
+    private async Task<List<Album>> GetAlbumDataSource()
+    {
+        var albums = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
         return albums;
     }
 
-
-    private readonly Button btnClose = new() { Text = UI.Close, };
-    private readonly List<Album> dataSource;
+    private readonly Button btnCancel = new() { Text = UI.Close, };
+    private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
+    private ObservableCollection<Album>? dataSource;
     private readonly AmpContext context;
     private readonly GridView gvAlbums;
 }

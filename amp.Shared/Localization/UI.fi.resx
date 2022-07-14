@@ -268,4 +268,10 @@
   <data name="RetryCountOnPlaybackFailure" xml:space="preserve">
     <value>Uudelleenyritysten määrä toiston epäonnistuessa</value>
   </data>
+  <data name="AlbumName" xml:space="preserve">
+    <value>Albumin nimi</value>
+  </data>
+  <data name="SaveClose" xml:space="preserve">
+    <value>Tallenna &amp;&amp; sulje</value>
+  </data>
 </root>

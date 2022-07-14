@@ -109,4 +109,16 @@
   <data name="File0WasNotFound" xml:space="preserve">
     <value>Tiedostoa '{0}' ei löytynyt.</value>
   </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Huomautus</value>
+  </data>
+  <data name="TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible" xml:space="preserve">
+    <value>Oletusalbumia ei voi poistaa. Ainoastaan uudelleennimeäminen on mahdollista.</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>Nimertön</value>
+  </data>
+  <data name="AlbumNameCanNotBeAnEmptyString" xml:space="preserve">
+    <value>Albumin nimi ei voi olla tyhjä merkkijono.</value>
+  </data>
 </root>

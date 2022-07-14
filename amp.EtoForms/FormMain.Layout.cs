@@ -338,6 +338,9 @@ partial class FormMain
         settingsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Size16.ic_fluent_settings_16_filled, Globals.ButtonDefaultSize);
 
+        manageAlbumsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_music_note_2_16_filled, Globals.ButtonDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -361,6 +364,7 @@ partial class FormMain
                         addDirectoryToAlbum,
                     },
                 },
+                manageAlbumsCommand,
                 settingsCommand,
             },
             QuitItem = quitCommand,
@@ -376,6 +380,15 @@ partial class FormMain
         addFilesToAlbum.Executed += AddFilesToDatabase_Executed;
         addDirectoryToDatabase.Executed += AddDirectoryToDatabase_Executed;
         addDirectoryToAlbum.Executed += AddDirectoryToDatabase_Executed;
+        manageAlbumsCommand.Executed += ManageAlbumsCommand_Executed;
+    }
+
+    private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
+    {
+        if (await new FormAlbums(context).ShowModalAsync(this))
+        {
+            await UpdateAlbumDataSource();
+        }
     }
 
     private readonly AboutDialog aboutDialog = new();
@@ -403,6 +416,7 @@ partial class FormMain
     private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };
     private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
+    private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
     private ComboBox cmbAlbumSelect;
     private CheckedButton btnStackQueueToggle;
 }

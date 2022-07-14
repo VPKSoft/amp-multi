@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Properties;
@@ -111,12 +111,18 @@ partial class FormMain
         formAlbumImage.AlwaysVisible = !Globals.Settings.AutoHideEmptyAlbumImage;
     }
 
-    private void UpdateAlbumDataSource()
+    private async Task UpdateAlbumDataSource()
     {
-        var albums = new List<Album> { context.Albums.First(f => f.Id == 1), };
-        albums.AddRange(context.Albums.Where(f => f.Id != 1).AsNoTracking().ToList());
+        var albums = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
         cmbAlbumSelect.DataStore = albums;
-        cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
+        if (albums.Any(f => f.Id == CurrentAlbumId))
+        {
+            cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
+        }
+        else
+        {
+            cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == 1);
+        }
     }
 
     private void FillAboutDialogData()
