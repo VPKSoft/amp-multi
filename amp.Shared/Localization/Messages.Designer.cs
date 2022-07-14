@@ -61,6 +61,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album name can not be an empty string..
+        /// </summary>
+        public static string AlbumNameCanNotBeAnEmptyString {
+            get {
+                return ResourceManager.GetString("AlbumNameCanNotBeAnEmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}{1} songs, {2} albums, {3} album entries and {4} queue snapshot entries will be converted..
         /// </summary>
         public static string ConversionStatistics {
@@ -93,6 +102,33 @@ namespace amp.Shared.Localization {
         public static string File0WasNotFound {
             get {
                 return ResourceManager.GetString("File0WasNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification.
+        /// </summary>
+        public static string Notification {
+            get {
+                return ResourceManager.GetString("Notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The default album can not be removed. Only renaming is possible..
+        /// </summary>
+        public static string TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible {
+            get {
+                return ResourceManager.GetString("TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        public static string Untitled {
+            get {
+                return ResourceManager.GetString("Untitled", resourceCulture);
             }
         }
     }

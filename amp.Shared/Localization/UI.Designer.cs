@@ -160,6 +160,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album name.
+        /// </summary>
+        public static string AlbumName {
+            get {
+                return ResourceManager.GetString("AlbumName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Albums.
         /// </summary>
         public static string Albums {
@@ -408,6 +417,15 @@ namespace amp.Shared.Localization {
         public static string RetryCountOnPlaybackFailure {
             get {
                 return ResourceManager.GetString("RetryCountOnPlaybackFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save &amp;&amp; Close.
+        /// </summary>
+        public static string SaveClose {
+            get {
+                return ResourceManager.GetString("SaveClose", resourceCulture);
             }
         }
         

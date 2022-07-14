@@ -86,7 +86,6 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        UpdateAlbumDataSource();
         songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().ToList();
 
         ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);

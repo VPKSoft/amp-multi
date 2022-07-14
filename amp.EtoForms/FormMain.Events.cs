@@ -363,6 +363,7 @@ partial class FormMain
 
     private async void FormMain_Shown(object? sender, EventArgs e)
     {
+        await UpdateAlbumDataSource();
         await RefreshCurrentAlbum();
     }
 
