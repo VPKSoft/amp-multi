@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
@@ -179,7 +178,6 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
     /// Called when property value changes.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
