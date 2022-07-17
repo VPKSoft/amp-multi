@@ -41,16 +41,17 @@ namespace amp.Playback;
 /// <summary>
 /// A playback manager for the amp# software.
 /// </summary>
-/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong}"/> <see cref="IAlbumSong{TSong}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
-public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISong where TAlbumSong : IAlbumSong<TSong>
+/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Song"/> member.</typeparam>
+/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/>.</typeparam>
+/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Album"/> member.</typeparam>
+public class PlaybackManager<TSong, TAlbumSong, TAlbum> : IDisposable where TSong : ISong where TAlbum : IAlbum where TAlbumSong : IAlbumSong<TSong, TAlbum>
 {
     private readonly ILogger? logger;
 
     private volatile int currentSongHandle;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackManager{TSong, TAlbumSong}"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackManager{TSong, TAlbumSong, TAlbum}"/> class.
     /// </summary>
     /// <param name="logger">The logger to log exceptions, etc.</param>
     /// <param name="getNextSongFunc">A Task&lt;<see cref="Func{TAlbumSong}"/>&gt;, which is executed when requesting a next song for playback.</param>
@@ -75,7 +76,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     /// <param name="song">The song.</param>
     /// <param name="skipStateChange">A value indicating whether to ignore the playback state change caused by this call.</param>
     /// <param name="fromHistory">A value indicating whether the song requested to be played was gotten from the history so it doesn't get recorded again.</param>
-    public async Task PlaySong(IAlbumSong<TSong> song, bool skipStateChange, bool fromHistory = false)
+    public async Task PlaySong(IAlbumSong<TSong, TAlbum> song, bool skipStateChange, bool fromHistory = false)
     {
         CheckManagerRunning();
 
@@ -312,7 +313,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     }
 
     /// <summary>
-    /// Gets or sets the master volume for this <see cref="PlaybackManager{TSong,TAlbumSong}"/>.
+    /// Gets or sets the master volume for this <see cref="PlaybackManager{TSong,TAlbumSong, TAlbum}"/>.
     /// </summary>
     /// <value>The master volume.</value>
     public double MasterVolume
@@ -432,7 +433,7 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether shuffle mode is enabled for this <see cref="PlaybackManager{TSong, TAlbumSong}"/>.
+    /// Gets or sets a value indicating whether shuffle mode is enabled for this <see cref="PlaybackManager{TSong, TAlbumSong, TAlbum}"/>.
     /// </summary>
     /// <value><c>true</c> if shuffle mode is enabled; otherwise, <c>false</c>.</value>
     public bool Shuffle
@@ -633,9 +634,9 @@ public class PlaybackManager<TSong, TAlbumSong> : IDisposable where TSong : ISon
     public PlaybackState PlaybackState => previousPlaybackState;
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="PlaybackManager{TSong, TAlbum}"/> thread is stopped.
+    /// Gets or sets a value indicating whether this <see cref="PlaybackManager{TSong, TAlbum, TAlbum}"/> thread is stopped.
     /// </summary>
-    /// <value><c>true</c> if this <see cref="PlaybackManager{TSong, TAlbum}"/> thread is stopped; otherwise, <c>false</c>.</value>
+    /// <value><c>true</c> if this <see cref="PlaybackManager{TSong, TAlbum, TAlbum}"/> thread is stopped; otherwise, <c>false</c>.</value>
     public bool ManagerStopped
     {
         get => stopThread;

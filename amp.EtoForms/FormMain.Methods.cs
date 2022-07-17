@@ -24,9 +24,10 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.ExtensionClasses;
+using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Layout;
 using amp.EtoForms.Properties;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
@@ -70,7 +71,7 @@ partial class FormMain
             var newIndex = updateQueueData.First(f => f.Key == albumSong.Id).Value;
             albumSong.QueueIndex = newIndex;
             albumSong.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumSongs.Update(albumSong);
+            context.AlbumSongs.Update(Globals.AutoMapper.Map<AlbumSong>(albumSong));
 
             var songIndex = filteredSongs.FindIndex(f => f.Id == albumSong.Id);
             if (songIndex != -1)
@@ -91,7 +92,7 @@ partial class FormMain
     /// </summary>
     private async Task RefreshCurrentAlbum()
     {
-        songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).AsNoTracking()
+        songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).Select(f => Globals.AutoMapper.Map<Models.AlbumSong>(f)).AsNoTracking()
             .ToListAsync();
 
         songs = songs.OrderBy(f => f.DisplayName).ToList();
@@ -113,16 +114,7 @@ partial class FormMain
 
     private async Task UpdateAlbumDataSource()
     {
-        var albums = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
-        cmbAlbumSelect.DataStore = albums;
-        if (albums.Any(f => f.Id == CurrentAlbumId))
-        {
-            cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
-        }
-        else
-        {
-            cmbAlbumSelect.SelectedValue = albums.FirstOrDefault(f => f.Id == 1);
-        }
+        await ReusableControls.UpdateAlbumDataSource(cmbAlbumSelect, context, CurrentAlbumId);
     }
 
     private void FillAboutDialogData()

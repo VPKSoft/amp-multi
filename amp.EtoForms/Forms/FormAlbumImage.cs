@@ -24,7 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Database.DataModel;
 using amp.Shared.Interfaces;
 using ATL;
 using Eto.Drawing;
@@ -94,7 +93,7 @@ public class FormAlbumImage : Form
     /// </summary>
     /// <param name="main">The main form.</param>
     /// <param name="albumSong">The album song to get the image for.</param>
-    public void Show(FormMain main, AlbumSong albumSong)
+    public void Show<TSong, TAlbum>(FormMain main, IAlbumSong<TSong, TAlbum> albumSong) where TSong : ISong where TAlbum : IAlbum
     {
         if (albumSong.Song != null)
         {

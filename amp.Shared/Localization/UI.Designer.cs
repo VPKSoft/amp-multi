@@ -142,6 +142,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new album.
+        /// </summary>
+        public static string AddNewAlbum {
+            get {
+                return ResourceManager.GetString("AddNewAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album.
         /// </summary>
         public static string Album {
@@ -214,6 +223,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy track files to folder....
+        /// </summary>
+        public static string CopyTrackFilesToFolder {
+            get {
+                return ResourceManager.GetString("CopyTrackFilesToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cut.
         /// </summary>
         public static string Cut {
@@ -259,6 +277,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete album.
+        /// </summary>
+        public static string DeleteAlbum {
+            get {
+                return ResourceManager.GetString("DeleteAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete saved queue.
+        /// </summary>
+        public static string DeleteSavedQueue {
+            get {
+                return ResourceManager.GetString("DeleteSavedQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directories searched.
         /// </summary>
         public static string DirectoriesCrawled {
@@ -273,6 +309,15 @@ namespace amp.Shared.Localization {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the queue tracks.
+        /// </summary>
+        public static string EditTheQueueTracks {
+            get {
+                return ResourceManager.GetString("EditTheQueueTracks", resourceCulture);
             }
         }
         
@@ -300,6 +345,33 @@ namespace amp.Shared.Localization {
         public static string Minimize {
             get {
                 return ResourceManager.GetString("Minimize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify queue.
+        /// </summary>
+        public static string ModifyQueue {
+            get {
+                return ResourceManager.GetString("ModifyQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move downwards in queue.
+        /// </summary>
+        public static string MoveDownwardsInQueue {
+            get {
+                return ResourceManager.GetString("MoveDownwardsInQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move upwards in queue.
+        /// </summary>
+        public static string MoveUpwardsInQueue {
+            get {
+                return ResourceManager.GetString("MoveUpwardsInQueue", resourceCulture);
             }
         }
         
@@ -367,11 +439,38 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Queue.
+        /// </summary>
+        public static string Queue {
+            get {
+                return ResourceManager.GetString("Queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue created.
+        /// </summary>
+        public static string QueueCreated {
+            get {
+                return ResourceManager.GetString("QueueCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue entries.
         /// </summary>
         public static string QueueEntries {
             get {
                 return ResourceManager.GetString("QueueEntries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue name.
+        /// </summary>
+        public static string QueueName {
+            get {
+                return ResourceManager.GetString("QueueName", resourceCulture);
             }
         }
         
@@ -430,11 +529,38 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save current queue.
+        /// </summary>
+        public static string SaveCurrentQueue {
+            get {
+                return ResourceManager.GetString("SaveCurrentQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved queues.
+        /// </summary>
+        public static string SavedQueues {
+            get {
+                return ResourceManager.GetString("SavedQueues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string SelectAll {
             get {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select destination directory.
+        /// </summary>
+        public static string SelectDestinationDirectory {
+            get {
+                return ResourceManager.GetString("SelectDestinationDirectory", resourceCulture);
             }
         }
         

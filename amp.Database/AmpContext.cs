@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using System.Diagnostics;
 using amp.Database.DataModel;
 using amp.Database.ExtensionClasses;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +89,13 @@ public class AmpContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite(Globals.ConnectionString);
+        optionsBuilder.EnableSensitiveDataLogging();
+#if DEBUG
+        optionsBuilder.LogTo(s =>
+        {
+            Debug.WriteLine(s);
+        });
+#endif
     }
 
     // ReSharper disable once RedundantOverriddenMember, probably will be needed.

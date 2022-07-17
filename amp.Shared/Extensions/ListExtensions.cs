@@ -24,22 +24,32 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Shared.Interfaces;
+namespace amp.Shared.Extensions;
 
 /// <summary>
-/// An interface to provide custom <see cref="ToString"/> function for a class.
+/// Extension for <see cref="List{T}"/> class and its descendants.
 /// </summary>
-public abstract class ToStringFunc<T> where T : class
+public static class ListExtensions
 {
-    /// <summary>
-    /// Returns a <see cref="System.String" /> that represents this instance.
-    /// </summary>
-    /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-    public abstract override string? ToString();
 
+    // ReSharper disable once IdentifierTypo, Upsert is a database term.
     /// <summary>
-    /// Gets or sets the func to convert this instance to string.
+    /// Updates or inserts the specified specified value to the list.
     /// </summary>
-    /// <value>To string function.</value>
-    public static Func<T, string?>? StringFunc { get; set; }
+    /// <typeparam name="T">The type of the list.</typeparam>
+    /// <param name="list">The list.</param>
+    /// <param name="value">The value to either insert or update.</param>
+    /// <param name="match">The <see cref="Predicate{T}"/> delegate that defines the conditions of the element to search for.</param>
+    public static void Upsert<T>(this List<T> list, T value, Predicate<T> match)
+    {
+        var index = list.FindIndex(match);
+        if (index != -1)
+        {
+            list[index] = value;
+        }
+        else
+        {
+            list.Add(value);
+        }
+    }
 }

@@ -32,27 +32,27 @@ namespace amp.Database.DataModel;
 
 /// <summary>
 /// A link table to album songs.
-/// Implements the <see cref="IAlbumSong{T}" />
+/// Implements the <see cref="IAlbumSong{TSong, TAlbum}" />
 /// </summary>
-/// <seealso cref="IAlbumSong{T}" />
+/// <seealso cref="IAlbumSong{TSong, TAlbum}" />
 [Table(nameof(AlbumSong))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class AlbumSong : ToStringFunc<AlbumSong>, IAlbumSong<Song>
+public class AlbumSong : IAlbumSong<Song, Album>
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong{T}.AlbumId"/>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.AlbumId"/>
     public long AlbumId { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong{T}.SongId"/>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.SongId"/>
     public long SongId { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong{T}.QueueIndex"/>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.QueueIndex"/>
     public int QueueIndex { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong{T}.QueueIndexAlternate"/>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.QueueIndexAlternate"/>
     public int QueueIndexAlternate { get; set; }
 
     /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
@@ -61,30 +61,11 @@ public class AlbumSong : ToStringFunc<AlbumSong>, IAlbumSong<Song>
     /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
 
-    /// <summary>
-    /// Gets or sets the album this album song belongs to.
-    /// </summary>
-    /// <value>The album.</value>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.Album"/>
     [ForeignKey(nameof(AlbumId))]
     public Album? Album { get; set; }
 
-    /// <inheritdoc cref="IAlbumSong{T}.Song"/>
+    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.Song"/>
     [ForeignKey(nameof(SongId))]
     public Song? Song { get; set; }
-
-    /// <summary>
-    /// Gets the display name for the album song.
-    /// </summary>
-    /// <value>The display name.</value>
-    [NotMapped]
-    public string DisplayName => ToString();
-
-    /// <summary>
-    /// Returns a <see cref="System.String" /> that represents this instance.
-    /// </summary>
-    /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-    public override string ToString()
-    {
-        return StringFunc?.Invoke(this) ?? "";
-    }
 }

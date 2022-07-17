@@ -93,7 +93,7 @@ public class CreateInitialDatabase : FluentMigrator.Migration
         Create.Table(nameof(QueueSong))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(QueueSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt64()
+            .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt64().ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(QueueSong.QueueIndex)).AsInt32().NotNullable()
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()

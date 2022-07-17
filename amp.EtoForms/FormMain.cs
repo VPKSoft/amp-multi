@@ -28,12 +28,13 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.EtoForms.Utilities;
 using amp.Playback;
-using amp.Shared.Interfaces;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
 using Microsoft.EntityFrameworkCore;
+using AlbumSong = amp.EtoForms.Models.AlbumSong;
+using Song = amp.EtoForms.Models.Song;
 
 namespace amp.EtoForms;
 
@@ -55,7 +56,7 @@ public partial class FormMain : Form
 
         MinimumSize = new Size(550, 650);
 
-        playbackOrder = new PlaybackOrder<Song, AlbumSong>(Globals.Settings, UpdateQueueFunc);
+        playbackOrder = new PlaybackOrder<Song, AlbumSong, Models.Album>(Globals.Settings, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
         var databaseFile = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");
@@ -68,9 +69,10 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<Song, AlbumSong>(Globals.Logger, GetNextSongFunc, GetSongById,
+        playbackManager = new PlaybackManager<Song, AlbumSong, Models.Album>(Globals.Logger, GetNextSongFunc, GetSongById,
             () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
 
+        context = new AmpContext();
         CreateButtons();
         toolBar = CreateToolbar();
         songAdjustControls = CreateValueSliders();
@@ -78,7 +80,6 @@ public partial class FormMain : Form
 
         totalVolumeSlider.Value = Globals.Settings.MasterVolume * 100;
 
-        context = new AmpContext();
         // There must always be the default album.
         if (!context.Albums.Any(f => f.Id == 1))
         {
@@ -86,9 +87,7 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().ToList();
-
-        ToStringFunc<AlbumSong>.StringFunc = song => song.GetSongName(true);
+        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumSong>(f)).ToList();
 
         playbackManager.ManagerStopped = false;
 
@@ -107,8 +106,8 @@ public partial class FormMain : Form
 
     private List<AlbumSong> songs;
     private List<AlbumSong> filteredSongs = new();
-    private readonly PlaybackManager<Song, AlbumSong> playbackManager;
-    private readonly PlaybackOrder<Song, AlbumSong> playbackOrder;
+    private readonly PlaybackManager<Song, AlbumSong, Models.Album> playbackManager;
+    private readonly PlaybackOrder<Song, AlbumSong, Models.Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;
 }

@@ -24,7 +24,9 @@ SOFTWARE.
 */
 #endregion
 
+using amp.Database.DataModel;
 using amp.Shared.Classes;
+using AutoMapper;
 using Eto.Drawing;
 using Serilog.Core;
 
@@ -235,5 +237,44 @@ internal static class Globals
     internal static void SaveSettings()
     {
         Settings.Save(Path.Combine(DataFolder, "settings.json"));
+    }
+
+    /// <summary>
+    /// Gets or sets the floating point comparison tolerance.
+    /// </summary>
+    /// <value>The floating point comparison tolerance.</value>
+    public static double FloatingPointTolerance { get; set; } = 0.000000001;
+
+    /// <summary>
+    /// Gets or sets the floating point comparison tolerance for the single-precision floating point values.
+    /// </summary>
+    /// <value>The floating point comparison tolerance.</value>
+    public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
+
+    private static MapperConfiguration? mapperConfiguration;
+    private static IMapper? mapper;
+
+    /// <summary>
+    /// Gets the automatic mapper.
+    /// </summary>
+    /// <value>The automatic mapper.</value>
+    internal static IMapper AutoMapper
+    {
+        get
+        {
+            mapperConfiguration ??= new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AlbumSong, Models.AlbumSong>();
+                cfg.CreateMap<Song, Models.Song>();
+                cfg.CreateMap<Album, Models.Album>();
+                cfg.CreateMap<Models.AlbumSong, AlbumSong>();
+                cfg.CreateMap<Models.Song, Song>();
+                cfg.CreateMap<Models.Album, Album>();
+            });
+
+            mapper ??= mapperConfiguration.CreateMapper();
+
+            return mapper;
+        }
     }
 }

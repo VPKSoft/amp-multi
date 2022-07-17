@@ -274,4 +274,46 @@
   <data name="SaveClose" xml:space="preserve">
     <value>Save &amp;&amp; Close</value>
   </data>
+  <data name="SavedQueues" xml:space="preserve">
+    <value>Saved queues</value>
+  </data>
+  <data name="QueueName" xml:space="preserve">
+    <value>Queue name</value>
+  </data>
+  <data name="QueueCreated" xml:space="preserve">
+    <value>Queue created</value>
+  </data>
+  <data name="DeleteSavedQueue" xml:space="preserve">
+    <value>Delete saved queue</value>
+  </data>
+  <data name="EditTheQueueTracks" xml:space="preserve">
+    <value>Edit the queue tracks</value>
+  </data>
+  <data name="ModifyQueue" xml:space="preserve">
+    <value>Modify queue</value>
+  </data>
+  <data name="CopyTrackFilesToFolder" xml:space="preserve">
+    <value>Copy track files to folder...</value>
+  </data>
+  <data name="MoveUpwardsInQueue" xml:space="preserve">
+    <value>Move upwards in queue</value>
+  </data>
+  <data name="MoveDownwardsInQueue" xml:space="preserve">
+    <value>Move downwards in queue</value>
+  </data>
+  <data name="DeleteAlbum" xml:space="preserve">
+    <value>Delete album</value>
+  </data>
+  <data name="AddNewAlbum" xml:space="preserve">
+    <value>Add new album</value>
+  </data>
+  <data name="SelectDestinationDirectory" xml:space="preserve">
+    <value>Select destination directory</value>
+  </data>
+  <data name="SaveCurrentQueue" xml:space="preserve">
+    <value>Save current queue</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Queue</value>
+  </data>
 </root>

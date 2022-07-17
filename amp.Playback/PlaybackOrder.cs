@@ -36,13 +36,14 @@ namespace amp.Playback;
 /// A class to generate albumSongs from a specified playlist.
 /// Implements the <see cref="BiasedRandomSettingsBase" />
 /// </summary>
-/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong}"/> <see cref="IAlbumSong{TSong}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong}"/>.</typeparam>
+/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Song"/> member.</typeparam>
+/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/>.</typeparam>
+/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Album"/> member.</typeparam>
 /// <seealso cref="BiasedRandomSettingsBase" />
-public class PlaybackOrder<TSong, TAlbumSong> : BiasedRandomSettingsBase where TSong : ISong where TAlbumSong : class, IAlbumSong<TSong>
+public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase where TSong : ISong where TAlbum : IAlbum where TAlbumSong : class, IAlbumSong<TSong, TAlbum>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbumSong}"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbumSong, TAlbum}"/> class.
     /// </summary>
     /// <param name="settings">The settings for biased randomization.</param>
     /// <param name="updateQueueFunc">A callback function to update the modified queue indices into the database.</param>

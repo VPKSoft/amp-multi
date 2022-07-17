@@ -33,10 +33,12 @@ using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
 using amp.Playback.Enumerations;
 using amp.Playback.EventArguments;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.UserIdle;
+using EtoForms.Controls.Custom.Utilities;
 
 namespace amp.EtoForms;
 
@@ -73,7 +75,7 @@ partial class FormMain
         {
             if (gvSongs.SelectedItem != null)
             {
-                var albumSong = (AlbumSong)gvSongs.SelectedItem;
+                var albumSong = (Models.AlbumSong)gvSongs.SelectedItem;
                 await playbackManager.PlaySong(albumSong, true);
                 e.Handled = true;
                 return;
@@ -112,7 +114,7 @@ partial class FormMain
         {
             foreach (var gvSongsSelectedItem in gvSongs.SelectedItems)
             {
-                var songId = ((AlbumSong)gvSongsSelectedItem).Id;
+                var songId = ((Models.AlbumSong)gvSongsSelectedItem).Id;
                 yield return songId;
             }
         }
@@ -135,7 +137,7 @@ partial class FormMain
         {
             song.Song.PlayedByUser++;
             song.Song.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumSongs.Update(song);
+            context.AlbumSongs.Update(Globals.AutoMapper.Map<AlbumSong>(song));
             await context.SaveChangesAsync();
         }
         await playbackManager.PlaySong(song, true);
@@ -166,13 +168,13 @@ partial class FormMain
         idleChecker.Dispose();
     }
 
-    private async Task<AlbumSong?> GetNextSongFunc()
+    private async Task<Models.AlbumSong?> GetNextSongFunc()
     {
         AlbumSong? result = null;
         await Application.Instance.InvokeAsync(async () =>
         {
             var nextSongData = await playbackOrder.NextSong(songs);
-            result = songs[nextSongData.NextSongIndex];
+            result = Globals.AutoMapper.Map<AlbumSong>(songs[nextSongData.NextSongIndex]);
             if (result.Song != null)
             {
                 result.Song.PlayedByRandomize ??= 0;
@@ -188,7 +190,7 @@ partial class FormMain
             }
         });
 
-        return result;
+        return Globals.AutoMapper.Map<Models.AlbumSong>(result);
     }
 
     private async void PlaybackManager_PlaybackStateChanged(object? sender, PlaybackStateChangedArgs e)
@@ -277,9 +279,9 @@ partial class FormMain
         await playbackManager.PlayNextSong(true);
     }
 
-    private async Task<AlbumSong?> GetSongById(long songId)
+    private async Task<Models.AlbumSong?> GetSongById(long songId)
     {
-        return await Application.Instance.InvokeAsync(AlbumSong? () =>
+        return await Application.Instance.InvokeAsync(Models.AlbumSong? () =>
         {
             return songs.FirstOrDefault(f => f.SongId == songId);
         });
@@ -380,5 +382,78 @@ partial class FormMain
     private async void PlayPreviousClick(object? sender, EventArgs e)
     {
         await playbackManager.PreviousSong();
+    }
+
+    private void ManageSavedQueues_Executed(object? sender, EventArgs e)
+    {
+        new FormSavedQueues(context).ShowModal(this);
+    }
+
+    private async void SaveQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        string? queueName;
+        if (UtilityOS.IsMacOS)
+        {
+            queueName = new DialogQueryValue<string>("Save current queue", "Queue name", false, Globals.DefaultSpacing,
+                Globals.DefaultPadding).ShowModal(this);
+        }
+        else
+        {
+            queueName = await new DialogQueryValue<string>("Save current queue", "Queue name", false, Globals.DefaultSpacing,
+                Globals.DefaultPadding).ShowModalAsync(this);
+        }
+
+        if (queueName != null)
+        {
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            await Globals.LoggerSafeInvokeAsync(async () =>
+            {
+                var queueSnapshot = new QueueSnapshot
+                {
+                    AlbumId = CurrentAlbumId,
+                    CreatedAtUtc = DateTime.UtcNow,
+                    SnapshotName = queueName,
+                    SnapshotDate = DateTime.Now,
+                };
+
+                context.ChangeTracker.Clear();
+
+                context.QueueSnapshots.Add(queueSnapshot);
+                await context.SaveChangesAsync();
+
+                var queuedSongs = songs.Where(f => f.QueueIndex > 0).Select(f => new QueueSong
+                {
+                    QueueSnapshotId = queueSnapshot.Id,
+                    SongId = f.SongId,
+                    CreatedAtUtc = DateTime.UtcNow,
+                    QueueIndex = f.QueueIndex,
+                }).ToList();
+
+                context.QueueSongs.AddRange(queuedSongs);
+
+                await context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }, async (_) => { await transaction.RollbackAsync(); });
+        }
+    }
+
+    private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
+    {
+        bool modalResult;
+
+        if (UtilityOS.IsMacOS)
+        {
+            // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
+            modalResult = new FormAlbums(context).ShowModal(this);
+        }
+        else
+        {
+            modalResult = await new FormAlbums(context).ShowModalAsync(this);
+        }
+
+        if (modalResult)
+        {
+            await UpdateAlbumDataSource();
+        }
     }
 }
