@@ -26,10 +26,10 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.Database.DataModel;
 using amp.EtoForms.Forms;
+using amp.EtoForms.Layout;
+using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
-using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -44,19 +44,14 @@ partial class FormMain
     [MemberNotNull(nameof(cmbAlbumSelect))]
     private StackLayout CreateAlbumSelector()
     {
-        cmbAlbumSelect = new ComboBox { ReadOnly = false, AutoComplete = true, };
-        cmbAlbumSelect.ItemTextBinding = new PropertyBinding<string>(nameof(Album.AlbumName));
-
-        cmbAlbumSelect.SelectedValueChanged += async (_, _) =>
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(async (id) =>
         {
-            var id = ((Album?)cmbAlbumSelect.SelectedValue)?.Id;
-
             if (id != null)
             {
                 CurrentAlbumId = id.Value;
                 await RefreshCurrentAlbum();
             }
-        };
+        }, context);
 
         var imageView = new ImageView { Width = 20, Height = 20, };
         imageView.SizeChanged += delegate
@@ -342,6 +337,12 @@ partial class FormMain
         manageAlbumsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Size16.ic_fluent_music_note_2_16_filled, Globals.ButtonDefaultSize);
 
+        saveQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_save_16_filled, Globals.ButtonDefaultSize);
+
+        manageSavedQueues.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Resources.queue_three_dots, Globals.ButtonDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -349,6 +350,7 @@ partial class FormMain
             {
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
+                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, },},
             },
             ApplicationItems =
             {
@@ -382,26 +384,8 @@ partial class FormMain
         addDirectoryToDatabase.Executed += AddDirectoryToDatabase_Executed;
         addDirectoryToAlbum.Executed += AddDirectoryToDatabase_Executed;
         manageAlbumsCommand.Executed += ManageAlbumsCommand_Executed;
-    }
-
-    private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
-    {
-        bool modalResult;
-
-        if (UtilityOS.IsMacOS)
-        {
-            // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
-            modalResult = new FormAlbums(context).ShowModal(this);
-        }
-        else
-        {
-            modalResult = await new FormAlbums(context).ShowModalAsync(this);
-        }
-
-        if (modalResult)
-        {
-            await UpdateAlbumDataSource();
-        }
+        saveQueueCommand.Executed += SaveQueueCommand_Executed;
+        manageSavedQueues.Executed += ManageSavedQueues_Executed;
     }
 
     private readonly AboutDialog aboutDialog = new();
@@ -430,6 +414,8 @@ partial class FormMain
     private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
     private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
+    private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, };
+    private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
     private ComboBox cmbAlbumSelect;
     private CheckedButton btnStackQueueToggle;
 }

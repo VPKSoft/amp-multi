@@ -30,6 +30,7 @@ using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using static EtoForms.Controls.Custom.Utilities.TableLayoutHelpers;
 
 namespace amp.EtoForms.Forms;
 
@@ -139,41 +140,6 @@ public class FormSettings : Dialog<bool>
 
         Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
         Globals.SaveSettings();
-    }
-
-
-    private TableLayout CreateRowTable(bool lastScaleWidth, Size spacing, params object[] controls)
-    {
-        var tableRow = new TableRow();
-        var result = new TableLayout
-        {
-            Rows =
-            {
-                tableRow,
-            },
-            Spacing = spacing,
-        };
-
-        foreach (var control in controls)
-        {
-            if (control is Control c)
-            {
-                tableRow.Cells.Add(new TableCell(c));
-
-            }
-
-            if (control is TableCell tc)
-            {
-                tableRow.Cells.Add(tc);
-            }
-        }
-
-        if (lastScaleWidth)
-        {
-            tableRow.Cells.Add(new TableCell { ScaleWidth = true, });
-        }
-
-        return result;
     }
 
     [MemberNotNull(nameof(tabCommon),

@@ -170,7 +170,7 @@ public static class SongDisplayNameGenerate
     /// <param name="albumSong">The album song to get a display name for.</param>
     /// <param name="queue">A value indicating whether to include queue information into the song display name.</param>
     /// <returns>A string parsed from the given parameters.</returns>
-    private static string GetString(string formula, AlbumSong albumSong, bool queue)
+    private static string GetString<TSong, TAlbum>(string formula, IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
     {
         var song = albumSong.Song;
         var artist = song?.Artist;
@@ -320,7 +320,7 @@ public static class SongDisplayNameGenerate
     /// <param name="albumSong">The album song to use to generate the string representation.</param>
     /// <param name="queue">if set to <c>true</c> the possible queue index should also be included in the result.</param>
     /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
-    private static string ToStringOld(AlbumSong albumSong, bool queue)
+    private static string ToStringOld<TSong, TAlbum>(IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
     {
         var alternateQueue = albumSong.QueueIndexAlternate > 0 && queue ? " [*=" + albumSong.QueueIndexAlternate + "]" : string.Empty;
         if (!string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName))
@@ -379,7 +379,7 @@ public static class SongDisplayNameGenerate
     /// <param name="albumSong">The album song.</param>
     /// <param name="queue">if set to <c>true</c> the song queue information is included into the display name.</param>
     /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
-    public static string GetSongName(this AlbumSong albumSong, bool queue)
+    public static string GetSongName<TSong, TAlbum>(this IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
     {
         var formula = string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName) ? Formula : FormulaSongRenamed;
         var result = GetString(formula, albumSong, queue);
@@ -404,7 +404,7 @@ public static class SongDisplayNameGenerate
     /// </summary>
     /// <param name="albumSong">The album song.</param>
     /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
-    public static string GetSongName(this AlbumSong albumSong)
+    public static string GetSongName<TSong, TAlbum>(this IAlbumSong<TSong, TAlbum> albumSong) where TSong : ISong where TAlbum : IAlbum
     {
         return GetSongName(albumSong, true);
     }

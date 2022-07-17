@@ -135,18 +135,29 @@ public static class MigrateOld
                         return;
                     }
 
-                    using var sqlCommand = new SqliteCommand(migration.Value[i], connection);
+                    var commandText = migration.Value[i];
+                    using var sqlCommand = new SqliteCommand(commandText, connection);
                     var start = DateTime.Now;
                     var affected = sqlCommand.ExecuteNonQuery();
                     timeStack.Push((start, DateTime.Now));
-                    secondsAverage = affected == 0 ? 0 : timeStack.ToArray().Select(f => (f.end - f.start).TotalSeconds).Average() / affected;
+                    secondsAverage = affected == 0
+                        ? 0
+                        : timeStack.ToArray().Select(f => (f.end - f.start).TotalSeconds).Average() / affected;
 
                     switch (migration.Key)
                     {
-                        case 0: songs += affected; break;
-                        case 1: albums += affected; break;
-                        case 2: albumEntries += affected; break;
-                        case 3: queueSnapshots += affected; break;
+                        case 0:
+                            songs += affected;
+                            break;
+                        case 1:
+                            albums += affected;
+                            break;
+                        case 2:
+                            albumEntries += affected;
+                            break;
+                        case 3:
+                            queueSnapshots += affected;
+                            break;
                     }
 
                     var entriesLeft = (double)allCount - (songs + albums + queueSnapshots + albumEntries);
@@ -162,7 +173,9 @@ public static class MigrateOld
                             QueueEntriesHandledCount = queueSnapshots,
                             QueueEntryCountTotal = totals.queueSnaphots,
                             CountTotal = allCount,
-                            Eta = secondsAverage == 0 ? null : DateTime.Now.AddSeconds(entriesLeft * secondsAverage),
+                            Eta = secondsAverage == 0
+                                ? null
+                                : DateTime.Now.AddSeconds(entriesLeft * secondsAverage),
                         });
 
                     if (stopConvert)
@@ -416,10 +429,17 @@ public static class MigrateOld
         reader = command.ExecuteReader();
         while (reader.Read())
         {
+            var albumId = reader.GetInt64(0);
+
+            if (albumId == 0) // The temporary album is no longer in use.
+            {
+                continue;
+            }
+
             var sqlNew = string.Join(Environment.NewLine,
                 "INSERT INTO AlbumSong (AlbumId, SongId, QueueIndex, CreatedAtUtc)",
                 "SELECT",
-                $"{GetField<long>(reader, 0)},",
+                $"{albumId},",
                 $"{GetField<long>(reader, 1)},",
                 $"{GetField<long>(reader, 2)},",
                 $"'{DateTime.UtcNow:yyyy'-'MM'-'dd HH':'mm':'ss}';");

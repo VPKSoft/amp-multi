@@ -71,6 +71,7 @@ public class Globals
             Mac.Culture = value;
             UI.Culture = value;
             EtoForms.Culture = value;
+            Settings.Culture = value;
         }
     }
 

@@ -274,4 +274,46 @@
   <data name="SaveClose" xml:space="preserve">
     <value>Tallenna &amp;&amp; sulje</value>
   </data>
+  <data name="SavedQueues" xml:space="preserve">
+    <value>Tallennetut jonot</value>
+  </data>
+  <data name="QueueName" xml:space="preserve">
+    <value>Jonon nimi</value>
+  </data>
+  <data name="QueueCreated" xml:space="preserve">
+    <value>Jono luotu</value>
+  </data>
+  <data name="DeleteSavedQueue" xml:space="preserve">
+    <value>Poista tallennettu jono</value>
+  </data>
+  <data name="EditTheQueueTracks" xml:space="preserve">
+    <value>Muokkaa jonon kappaleita</value>
+  </data>
+  <data name="ModifyQueue" xml:space="preserve">
+    <value>Muokkaa jonoa</value>
+  </data>
+  <data name="CopyTrackFilesToFolder" xml:space="preserve">
+    <value>Kopioi kappaleiden tiedostot kansioon...</value>
+  </data>
+  <data name="MoveUpwardsInQueue" xml:space="preserve">
+    <value>Siirrä ylöspäin jonossa</value>
+  </data>
+  <data name="MoveDownwardsInQueue" xml:space="preserve">
+    <value>Siirrä alaspäin jonossa</value>
+  </data>
+  <data name="DeleteAlbum" xml:space="preserve">
+    <value>Poista albumi</value>
+  </data>
+  <data name="AddNewAlbum" xml:space="preserve">
+    <value>Lisää uusi albumi</value>
+  </data>
+  <data name="SelectDestinationDirectory" xml:space="preserve">
+    <value>Valitse kohdehakemisto</value>
+  </data>
+  <data name="SaveCurrentQueue" xml:space="preserve">
+    <value>Tallenna nykyinen jono</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Jono</value>
+  </data>
 </root>

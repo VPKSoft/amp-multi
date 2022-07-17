@@ -64,11 +64,13 @@ public class FormAlbums : Dialog<bool>
                 {
                     Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_delete_16_filled,
                         Globals.MenuImageDefaultSize),
+                    ToolTip = UI.DeleteAlbum,
                 },
                 new ButtonToolItem(AddClick)
                 {
                     Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_add_16_filled,
                         Globals.MenuImageDefaultSize),
+                    ToolTip = UI.AddNewAlbum,
                 },
             },
         };

@@ -57,4 +57,16 @@ public static class Globals
     /// </summary>
     /// <value>The floating point comparison tolerance.</value>
     public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
+
+    /// <summary>
+    /// Gets or sets the localized OK button text.
+    /// </summary>
+    /// <value>The localized OK button text.</value>
+    public static string OkButtonText { get; set; } = "OK";
+
+    /// <summary>
+    /// Gets or sets the localized cancel button text.
+    /// </summary>
+    /// <value>The localized cancel button text.</value>
+    public static string CancelButtonText { get; set; } = "Cancel";
 }

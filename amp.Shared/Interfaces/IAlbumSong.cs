@@ -31,7 +31,7 @@ namespace amp.Shared.Interfaces;
 /// Implements the <see cref="IEntity" />
 /// </summary>
 /// <seealso cref="IEntity" />
-public interface IAlbumSong<TSong> : IEntity where TSong : ISong
+public interface IAlbumSong<TSong, TAlbum> : IEntity where TSong : ISong where TAlbum : IAlbum
 {
     /// <summary>
     /// Gets or sets the album reference identifier.
@@ -62,4 +62,10 @@ public interface IAlbumSong<TSong> : IEntity where TSong : ISong
     /// </summary>
     /// <value>The song entity.</value>
     TSong? Song { get; set; }
+
+    /// <summary>
+    /// Gets or sets the album this album song belongs to.
+    /// </summary>
+    /// <value>The album.</value>
+    TAlbum? Album { get; set; }
 }

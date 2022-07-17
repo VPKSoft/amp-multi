@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 global using System;
+using amp.Shared.Localization;
 using Eto.Forms;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
 
@@ -46,6 +47,7 @@ public class Program
             Thread.CurrentThread.CurrentCulture;
 
         Shared.Globals.Locale = Globals.Settings.Locale;
+        LocalizeExternals();
 
         new Application().Run(new FormMain());
     }
@@ -53,5 +55,11 @@ public class Program
     internal static void Instance_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
     {
         Globals.Logger?.Error((Exception)e.ExceptionObject, "");
+    }
+
+    private static void LocalizeExternals()
+    {
+        global::EtoForms.Controls.Custom.Globals.OkButtonText = UI.OK;
+        global::EtoForms.Controls.Custom.Globals.CancelButtonText = UI.Cancel;
     }
 }

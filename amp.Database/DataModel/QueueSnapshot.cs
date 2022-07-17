@@ -59,16 +59,15 @@ public class QueueSnapshot : IQueueSnapshot
     public DateTime CreatedAtUtc { get; set; }
 
     /// <summary>
+    /// Gets or sets the queue tracks belonging to this queue snapshot.
+    /// </summary>
+    /// <value>The queued tracks.</value>
+    public IList<QueueSong>? QueueSongs { get; set; }
+
+    /// <summary>
     /// Gets or sets the album of the song.
     /// </summary>
     /// <value>The album of the song.</value>
     [ForeignKey(nameof(AlbumId))]
     public Album? Album { get; set; }
-
-    /// <summary>
-    /// Gets or sets the queued songs.
-    /// </summary>
-    /// <value>The queued songs.</value>
-    [ForeignKey(nameof(Id))]
-    public IList<QueueSong> QueueSongs { get; set; } = new List<QueueSong>();
 }

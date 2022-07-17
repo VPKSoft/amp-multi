@@ -24,31 +24,21 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Shared.Interfaces;
-
-namespace amp.Database.DataModel;
+namespace amp.Shared.Extensions;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// Helper methods for files.
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum
+public static class FileHelpers
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
-
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
+    /// <summary>
+    /// Copies a file to specified folder.
+    /// </summary>
+    /// <param name="fileName">Name of the file.</param>
+    /// <param name="destinationFolder">The destination folder.</param>
+    public static void CopyTo(string fileName, string destinationFolder)
+    {
+        var destination = Path.Combine(destinationFolder, Path.GetFileName(fileName));
+        File.Copy(fileName, destination);
+    }
 }
