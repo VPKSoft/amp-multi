@@ -1,7 +1,0 @@
-﻿* Done? [YES  ] [2019/07/19] Export playlist to a flat directory structure (for a car CD).
-* Done? [N/A  ] [2019/07/19] Enhancements to the progress dialog(s). I.e. a thread.
-* Done? [YES  ] [2019/07/21] Fix the shell context menu functionality.
-* Done? [YES  ] [2019/07/21] Save temporary album as.
-* Done? [YES  ] [2019/07/21] Add possibility to delete an album.
-* Done? [YES  ] [2019/07/22] Fixed m4a files not playing.
-* Done? [YES  ] [2019/07/23] Document the software!

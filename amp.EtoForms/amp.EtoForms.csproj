@@ -22,11 +22,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
 		<None Include="..\amp.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\amp\amp.licenseheader" Link="amp.licenseheader" />
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
