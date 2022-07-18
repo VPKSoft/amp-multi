@@ -27,45 +27,33 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// A ling between a song and an album.
-/// Implements the <see cref="IEntity" />
+/// An interface for audio track playback statistics with reference identifier.
+/// Implements the <see cref="amp.Shared.Interfaces.IEntityBase{T}" />
 /// </summary>
-/// <seealso cref="IEntity" />
-public interface IAlbumSong<TSong, TAlbum> : IEntity where TSong : ISong where TAlbum : IAlbum
+/// <seealso cref="amp.Shared.Interfaces.IEntityBase{T}" />
+public interface ITrackStatistics : IEntityBase<long>
 {
     /// <summary>
-    /// Gets or sets the album reference identifier.
+    /// Gets or sets the rating for the audio track.
     /// </summary>
-    /// <value>The album reference identifier.</value>
-    long AlbumId { get; set; }
+    /// <value>The rating.</value>
+    int? Rating { get; set; }
 
     /// <summary>
-    /// Gets or sets the song reference identifier.
+    /// Gets or sets the amount the audio track was played by randomization.
     /// </summary>
-    /// <value>The song reference identifier.</value>
-    long SongId { get; set; }
+    /// <value>The amount the audio track was played by randomization.</value>
+    int? PlayedByRandomize { get; set; }
 
     /// <summary>
-    /// Gets or sets the song index in the queue.
+    /// Gets or sets the amount the audio track was played by the user.
     /// </summary>
-    /// <value>The song index in the queue.</value>
-    int QueueIndex { get; set; }
+    /// <value>The amount the audio track was played by the user.</value>
+    int? PlayedByUser { get; set; }
 
     /// <summary>
-    /// Gets or sets the song index in the alternate queue.
+    /// Gets or sets the count the audio track was skipped by user interaction.
     /// </summary>
-    /// <value>The song index in the alternate queue.</value>
-    int QueueIndexAlternate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the song entity.
-    /// </summary>
-    /// <value>The song entity.</value>
-    TSong? Song { get; set; }
-
-    /// <summary>
-    /// Gets or sets the album this album song belongs to.
-    /// </summary>
-    /// <value>The album.</value>
-    TAlbum? Album { get; set; }
+    /// <value>The skipped early count.</value>
+    int? SkippedEarlyCount { get; set; }
 }

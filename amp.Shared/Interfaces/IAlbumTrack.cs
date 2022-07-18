@@ -27,27 +27,45 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An interface for the songs in a queue snapshot.
+/// A link between an audio track and an album.
 /// Implements the <see cref="IEntity" />
 /// </summary>
 /// <seealso cref="IEntity" />
-public interface IQueueSong : IEntity
+public interface IAlbumTrack<TAudioTrack, TAlbum> : IEntity where TAudioTrack : IAudioTrack where TAlbum : IAlbum
 {
     /// <summary>
-    /// Gets or sets the song reference identifier.
+    /// Gets or sets the album reference identifier.
     /// </summary>
-    /// <value>The song reference identifier.</value>
-    long SongId { get; set; }
+    /// <value>The album reference identifier.</value>
+    long AlbumId { get; set; }
 
     /// <summary>
-    /// Gets or sets the queue snapshot reference identifier.
+    /// Gets or sets the audio track reference identifier.
     /// </summary>
-    /// <value>The queue snapshot reference identifier.</value>
-    long QueueSnapshotId { get; set; }
+    /// <value>The audio track reference identifier.</value>
+    long AudioTrackId { get; set; }
 
     /// <summary>
-    /// Gets or sets the index of song in the queue.
+    /// Gets or sets the audio track index in the queue.
     /// </summary>
-    /// <value>The index of song in the queue.</value>
+    /// <value>The audio track index in the queue.</value>
     int QueueIndex { get; set; }
+
+    /// <summary>
+    /// Gets or sets the audio track index in the alternate queue.
+    /// </summary>
+    /// <value>The audio track index in the alternate queue.</value>
+    int QueueIndexAlternate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the audio track entity.
+    /// </summary>
+    /// <value>The audio track entity.</value>
+    TAudioTrack? AudioTrack { get; set; }
+
+    /// <summary>
+    /// Gets or sets the album this album audio track belongs to.
+    /// </summary>
+    /// <value>The album.</value>
+    TAlbum? Album { get; set; }
 }

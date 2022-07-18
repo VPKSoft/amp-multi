@@ -33,17 +33,17 @@ using BR = VPKSoft.RandomizationUtils.BiasedRandom;
 namespace amp.Playback;
 
 /// <summary>
-/// A class to generate albumSongs from a specified playlist.
+/// A class to generate audio tracks from a specified playlist in weighted randomized order.
 /// Implements the <see cref="BiasedRandomSettingsBase" />
 /// </summary>
-/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/>.</typeparam>
-/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Album"/> member.</typeparam>
+/// <typeparam name="TAudioTrack">The type of the <see cref="IAlbumTrack{TAudioTrack,TAlbum}"/> <see cref="IAlbumTrack{TAudioTrack,TAlbum}.AudioTrack"/> member.</typeparam>
+/// <typeparam name="TAlbumTrack">The type of the <see cref="IAlbumTrack{TAudioTrack,TAlbum}"/>.</typeparam>
+/// <typeparam name="TAlbum">The type of the <see cref="IAlbumTrack{TAudioTrack, TAlbum}"/> <see cref="IAlbumTrack{TAudioTrack, TAlbum}.Album"/> member.</typeparam>
 /// <seealso cref="BiasedRandomSettingsBase" />
-public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase where TSong : ISong where TAlbum : IAlbum where TAlbumSong : class, IAlbumSong<TSong, TAlbum>
+public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSettingsBase where TAudioTrack : IAudioTrack where TAlbum : IAlbum where TAlbumTrack : class, IAlbumTrack<TAudioTrack, TAlbum>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbumSong, TAlbum}"/> class.
+    /// Initializes a new instance of the <see cref="PlaybackOrder{TAudioTrack, TAlbumTrack, TAlbum}"/> class.
     /// </summary>
     /// <param name="settings">The settings for biased randomization.</param>
     /// <param name="updateQueueFunc">A callback function to update the modified queue indices into the database.</param>
@@ -54,52 +54,52 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether song index randomization is enabled.
+    /// Gets or sets a value indicating whether audio track index randomization is enabled.
     /// </summary>
     /// <value><c>true</c> if index randomization is enabled; otherwise, <c>false</c>.</value>
     public bool Randomizing { get; set; } = true;
 
-    private int previousSongIndex = -1;
+    private int previousTrackIndex = -1;
 
     private readonly Func<Dictionary<long, int>, Task> updateQueueFunc;
 
     /// <summary>
-    /// Toggles the queue of the album songs specified by the <paramref name="albumSongIds"/>.
+    /// Toggles the queue of the album audio tracks specified by the <paramref name="albumTrackIds"/>.
     /// </summary>
-    /// <param name="albumSongs">The album songs.</param>
-    /// <param name="albumSongIds">The song identifiers which queue to toggle.</param>
-    public async Task ToggleQueue(List<TAlbumSong>? albumSongs, params long[] albumSongIds)
+    /// <param name="albumTracks">The album audio tracks.</param>
+    /// <param name="albumTrackIds">The audio tracks identifiers which queue to toggle.</param>
+    public async Task ToggleQueue(List<TAlbumTrack>? albumTracks, params long[] albumTrackIds)
     {
-        if (albumSongs == null)
+        if (albumTracks == null)
         {
             return;
         }
 
         var toUpdate = new Dictionary<long, int>();
 
-        var maxQueueIndex = albumSongs.DefaultIfEmpty().Max(f => f?.QueueIndex) + 1 ?? 1;
+        var maxQueueIndex = albumTracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 1 ?? 1;
 
-        foreach (var albumSong in albumSongs.Where(f => albumSongIds.Contains(f.Id)))
+        foreach (var albumTrack in albumTracks.Where(f => albumTrackIds.Contains(f.Id)))
         {
-            albumSong.QueueIndex = albumSong.QueueIndex > 0 ? 0 : maxQueueIndex++;
+            albumTrack.QueueIndex = albumTrack.QueueIndex > 0 ? 0 : maxQueueIndex++;
 
-            toUpdate.Add(albumSong.Id, albumSong.QueueIndex);
+            toUpdate.Add(albumTrack.Id, albumTrack.QueueIndex);
         }
 
         var newIndex = 1;
 
-        foreach (var albumSong in albumSongs.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex))
+        foreach (var albumTrack in albumTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex))
         {
-            if (albumSong.QueueIndex != newIndex)
+            if (albumTrack.QueueIndex != newIndex)
             {
-                albumSong.QueueIndex = newIndex;
-                if (toUpdate.ContainsKey(albumSong.Id))
+                albumTrack.QueueIndex = newIndex;
+                if (toUpdate.ContainsKey(albumTrack.Id))
                 {
-                    toUpdate[albumSong.Id] = newIndex;
+                    toUpdate[albumTrack.Id] = newIndex;
                 }
                 else
                 {
-                    toUpdate.Add(albumSong.Id, newIndex);
+                    toUpdate.Add(albumTrack.Id, newIndex);
                 }
             }
             newIndex++;
@@ -112,65 +112,65 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
     }
 
     /// <summary>
-    /// Gets the next song to play.
+    /// Gets the next audio track to play.
     /// </summary>
-    /// <param name="albumSongs">The album albumSongs.</param>
-    /// <returns>An instance of the <see cref="SongResult"/> class.</returns>
-    public async Task<SongResult> NextSong(List<TAlbumSong>? albumSongs)
+    /// <param name="albumTracks">The album albumTracks.</param>
+    /// <returns>An instance of the <see cref="AudioTrackResult"/> class.</returns>
+    public async Task<AudioTrackResult> NextTrack(List<TAlbumTrack>? albumTracks)
     {
-        if (albumSongs == null || albumSongs.Count == 0)
+        if (albumTracks == null || albumTracks.Count == 0)
         {
-            return SongResult.Empty;
+            return AudioTrackResult.Empty;
         }
 
         bool randomized = false, queued = false;
 
-        var iSongIndex = -1;
-        var minQueueIndex = albumSongs.Where(f => f.QueueIndex > 0).DefaultIfEmpty().Min(f => f?.QueueIndex) ?? 0;
-        var queueIndex = albumSongs.FindIndex(f => f.QueueIndex > 0 && f.QueueIndex == minQueueIndex);
+        var nextTrackIndex = -1;
+        var minQueueIndex = albumTracks.Where(f => f.QueueIndex > 0).DefaultIfEmpty().Min(f => f?.QueueIndex) ?? 0;
+        var queueIndex = albumTracks.FindIndex(f => f.QueueIndex > 0 && f.QueueIndex == minQueueIndex);
 
-        var updatedSongs = new Dictionary<long, int>();
+        var updatedTracks = new Dictionary<long, int>();
 
         if (queueIndex != -1)
         {
-            iSongIndex = queueIndex;
+            nextTrackIndex = queueIndex;
             queued = true;
-            foreach (var song in albumSongs.Where(f => f.QueueIndex > 0))
+            foreach (var track in albumTracks.Where(f => f.QueueIndex > 0))
             {
-                updatedSongs.Add(song.Id, song.QueueIndex - 1);
+                updatedTracks.Add(track.Id, track.QueueIndex - 1);
             }
 
-            if (updatedSongs.Count > 0)
+            if (updatedTracks.Count > 0)
             {
-                await updateQueueFunc(updatedSongs);
+                await updateQueueFunc(updatedTracks);
             }
         }
 
-        if (iSongIndex == -1 && Randomizing)
+        if (nextTrackIndex == -1 && Randomizing)
         {
-            iSongIndex = BiasedRandom ? RandomWeighted(albumSongs) : Random.Next(0, albumSongs.Count);
+            nextTrackIndex = BiasedRandom ? RandomWeighted(albumTracks) : Random.Next(0, albumTracks.Count);
 
-            if (iSongIndex != -1)
+            if (nextTrackIndex != -1)
             {
                 randomized = true;
             }
         }
 
-        if (iSongIndex == -1 && albumSongs.Any())
+        if (nextTrackIndex == -1 && albumTracks.Any())
         {
-            iSongIndex = previousSongIndex + 1;
-            if (iSongIndex >= albumSongs.Count)
+            nextTrackIndex = previousTrackIndex + 1;
+            if (nextTrackIndex >= albumTracks.Count)
             {
-                iSongIndex = 0;
+                nextTrackIndex = 0;
             }
         }
 
-        previousSongIndex = iSongIndex;
+        previousTrackIndex = nextTrackIndex;
 
-        return new SongResult
+        return new AudioTrackResult
         {
-            SongId = iSongIndex != -1 ? albumSongs[iSongIndex].SongId : 0,
-            NextSongIndex = iSongIndex,
+            AudioTrackId = nextTrackIndex != -1 ? albumTracks[nextTrackIndex].AudioTrackId : 0,
+            NextTrackIndex = nextTrackIndex,
             PlayedByRandomize = randomized ? 1 : 0,
             PlayedByUser = queued ? 1 : 0,
         };
@@ -178,28 +178,28 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
 
     /// <summary>
     /// Loops the current queue so that it will not be consumed in the process.
-    /// The previous song is put to the bottom of the queue and the end of the queue is re-randomized.
+    /// The previous audio track is put to the bottom of the queue and the end of the queue is re-randomized.
     /// </summary>
-    /// <param name="albumSongs">The songs which queue to adjust.</param>
-    /// <param name="previousSong">The previously played song from the queue.</param>
+    /// <param name="albumTracks">The audio tracks which queue to adjust.</param>
+    /// <param name="previousTrack">The previously played audio track from the queue.</param>
     /// <param name="stackRandomPercentage">The stack random percentage.</param>
-    /// <returns>A list of <typeparamref name="TAlbumSong"/> instances which queue index was adjusted or <c>null</c> if there is nothing changed.</returns>
+    /// <returns>A list of <typeparamref name="TAlbumTrack"/> instances which queue index was adjusted or <c>null</c> if there is nothing changed.</returns>
     // TODO::Refactor when the stack queue is actually implemented.
-    internal async Task StackQueue(List<TAlbumSong>? albumSongs, TAlbumSong previousSong, int stackRandomPercentage)
+    internal async Task StackQueue(List<TAlbumTrack>? albumTracks, TAlbumTrack previousTrack, int stackRandomPercentage)
     {
-        if (albumSongs == null || albumSongs.Count == 0)
+        if (albumTracks == null || albumTracks.Count == 0)
         {
             return;
         }
 
-        // Get the songs with a queue index value.
-        var queuedSongs =
-            albumSongs.Where(f => f.QueueIndex > 0).
+        // Get the audio tracks with a queue index value.
+        var queuedTracks =
+            albumTracks.Where(f => f.QueueIndex > 0).
                 OrderByDescending(f => f.QueueIndex).ToList();
 
-        var result = queuedSongs.Select(f => new IdValuePair<int> { Id = f.SongId, Value = f.QueueIndex, }).ToList();
+        var result = queuedTracks.Select(f => new IdValuePair<int> { Id = f.AudioTrackId, Value = f.QueueIndex, }).ToList();
 
-        // Get the amount of songs in the queue to randomize to a new order.
+        // Get the amount of audio tracks in the queue to randomize to a new order.
         var randomizeCount = (int)(result.Count * (stackRandomPercentage / 100.0));
 
         // Zero or amount of the queue leads to do-nothing-condition.
@@ -240,11 +240,11 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
             reRandomFile.Value = newQueueIndex;
         }
 
-        // Re-index the previous song to the last of the queue.
-        var currentSongReQueued = new IdValuePair<int>
-        { Id = previousSong.SongId, Value = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1, };
+        // Re-index the previous audio track to the last of the queue.
+        var currentTrackReQueued = new IdValuePair<int>
+        { Id = previousTrack.AudioTrackId, Value = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1, };
 
-        result.Add(currentSongReQueued);
+        result.Add(currentTrackReQueued);
 
         var toUpdate = new Dictionary<long, int>(result.Select(f => new KeyValuePair<long, int>(f.Id, f.Value)));
 
@@ -258,55 +258,55 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
         return value <= randomValue + range && value >= randomValue - range;
     }
 
-    private int RandomWeighted(List<TAlbumSong>? albumSongs)
+    private int RandomWeighted(List<TAlbumTrack>? albumTracks)
     {
 
-        if (albumSongs == null || !albumSongs.Any())
+        if (albumTracks == null || !albumTracks.Any())
         {
             return -1;
         }
 
-        var results = new List<TAlbumSong>();
+        var results = new List<TAlbumTrack>();
 
-        double valueMin = albumSongs.Min(f => f.Song?.Rating) ?? 0;
-        double valueMax = albumSongs.Max(f => f.Song?.Rating) ?? 1000;
+        double valueMin = albumTracks.Min(f => f.AudioTrack?.Rating) ?? 0;
+        double valueMax = albumTracks.Max(f => f.AudioTrack?.Rating) ?? 1000;
 
         var biased = BR.RandomBiased(valueMin, valueMax, BiasedRating);
 
         if (BiasedRatingEnabled)
         {
-            results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.Rating ?? 500, biased, valueMin, valueMax, Tolerance)));
+            results.AddRange(albumTracks.FindAll(f =>
+                InRange(f.AudioTrack?.Rating ?? 500, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.PlayedByUser ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.PlayedByUser ?? 0);
+        valueMin = albumTracks.Min(f => f.AudioTrack?.PlayedByUser ?? 0);
+        valueMax = albumTracks.Max(f => f.AudioTrack?.PlayedByUser ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedPlayedCount);
 
         if (BiasedPlayedCountEnabled)
         {
-            results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.PlayedByUser ?? 0, biased, valueMin, valueMax, Tolerance)));
+            results.AddRange(albumTracks.FindAll(f =>
+                InRange(f.AudioTrack?.PlayedByUser ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.PlayedByRandomize ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.PlayedByRandomize ?? 0);
+        valueMin = albumTracks.Min(f => f.AudioTrack?.PlayedByRandomize ?? 0);
+        valueMax = albumTracks.Max(f => f.AudioTrack?.PlayedByRandomize ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedRandomizedCount);
 
         if (BiasedRandomizedCountEnabled)
         {
-            results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.PlayedByRandomize ?? 0, biased, valueMin, valueMax, Tolerance)));
+            results.AddRange(albumTracks.FindAll(f =>
+                InRange(f.AudioTrack?.PlayedByRandomize ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.SkippedEarlyCount ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.SkippedEarlyCount ?? 0);
+        valueMin = albumTracks.Min(f => f.AudioTrack?.SkippedEarlyCount ?? 0);
+        valueMax = albumTracks.Max(f => f.AudioTrack?.SkippedEarlyCount ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedSkippedCount);
 
         if (BiasedSkippedCountEnabled)
         {
-            results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.SkippedEarlyCount ?? 0, biased, valueMin, valueMax, Tolerance)));
+            results.AddRange(albumTracks.FindAll(f =>
+                InRange(f.AudioTrack?.SkippedEarlyCount ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
         var result = -1;
@@ -314,12 +314,12 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
         if (results.Count > 0)
         {
             var tmpIndex = Random.Next(results.Count);
-            result = albumSongs.FindIndex(f => f.Id == results[tmpIndex].Id);
+            result = albumTracks.FindIndex(f => f.Id == results[tmpIndex].Id);
         }
 
         if (result == -1)
         {
-            result = Random.Next(albumSongs.Count);
+            result = Random.Next(albumTracks.Count);
         }
 
         return result;

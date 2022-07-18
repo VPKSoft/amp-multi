@@ -34,16 +34,16 @@ namespace amp.Database.LegacyConvert;
 public class ConvertProgressArgs : EventArgs
 {
     /// <summary>
-    /// Gets or sets the songs handled count.
+    /// Gets or sets the audio tracks handled count.
     /// </summary>
-    /// <value>The songs handled count.</value>
-    public int SongsHandledCount { get; init; }
+    /// <value>The audio tracks handled count.</value>
+    public int AudioTracksHandledCount { get; init; }
 
     /// <summary>
-    /// Gets or sets the songs count total.
+    /// Gets or sets the audio tracks count total.
     /// </summary>
-    /// <value>The songs count total.</value>
-    public int SongsCountTotal { get; init; }
+    /// <value>The audio tracks count total.</value>
+    public int AudioTracksCountTotal { get; init; }
 
     /// <summary>
     /// Gets or sets the albums handled count.
@@ -85,7 +85,7 @@ public class ConvertProgressArgs : EventArgs
     /// Gets the count of total entries handled in the conversion.
     /// </summary>
     /// <value>The count of total entries handled in the conversion.</value>
-    public int HandledCountTotal => SongsHandledCount + AlbumsHandledCount + AlbumEntriesHandledCount + QueueEntriesHandledCount;
+    public int HandledCountTotal => AudioTracksHandledCount + AlbumsHandledCount + AlbumEntriesHandledCount + QueueEntriesHandledCount;
 
     /// <summary>
     /// Gets or sets the count of total entries to handle in the conversion.

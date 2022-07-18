@@ -54,8 +54,8 @@ public abstract class PositionEventArgsBase : EventArgs
     public virtual PlaybackState PlaybackState { get; set; }
 
     /// <summary>
-    /// Gets or sets the song identifier.
+    /// Gets or sets the audio track identifier.
     /// </summary>
-    /// <value>The song identifier.</value>
-    public virtual long SongId { get; set; }
+    /// <value>The audio track identifier.</value>
+    public virtual long AudioTrackId { get; set; }
 }

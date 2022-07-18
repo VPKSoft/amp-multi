@@ -58,7 +58,7 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use biased randomization with randomizing songs.
+    /// Gets or sets a value indicating whether to use biased randomization with randomizing audio tracks.
     /// </summary>
     [Settings(Default = true)]
     public bool BiasedRandom { get; set; }

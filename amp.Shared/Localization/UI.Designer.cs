@@ -583,33 +583,6 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Songs.
-        /// </summary>
-        public static string Songs {
-            get {
-                return ResourceManager.GetString("Songs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Songs added to album.
-        /// </summary>
-        public static string SongsAddedToAlbum {
-            get {
-                return ResourceManager.GetString("SongsAddedToAlbum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Song volume.
-        /// </summary>
-        public static string SongVolume {
-            get {
-                return ResourceManager.GetString("SongVolume", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sound &amp;&amp; rating.
         /// </summary>
         public static string SoundRating {
@@ -678,6 +651,33 @@ namespace amp.Shared.Localization {
         public static string Track {
             get {
                 return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracks.
+        /// </summary>
+        public static string Tracks {
+            get {
+                return ResourceManager.GetString("Tracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracks added to album.
+        /// </summary>
+        public static string TracksAddedToAlbum {
+            get {
+                return ResourceManager.GetString("TracksAddedToAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AudioTrack volume.
+        /// </summary>
+        public static string TrackVolume {
+            get {
+                return ResourceManager.GetString("TrackVolume", resourceCulture);
             }
         }
         

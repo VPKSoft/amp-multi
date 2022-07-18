@@ -30,46 +30,46 @@ using ATL;
 namespace amp.Shared.Classes;
 
 /// <summary>
-/// Helper class to gather information about the song from the tag and file info.
+/// Helper class to gather information about the audioTrack from the tag and file info.
 /// </summary>
-public static class SongInfoGetHelper
+public static class TrackInfoGetHelper
 {
     /// <summary>
-    /// Updates the song information.
+    /// Updates the audioTrack information.
     /// </summary>
-    /// <param name="song">The song to update.</param>
+    /// <param name="audioTrack">The audioTrack to update.</param>
     /// <param name="fileInfo">The file information.</param>
-    public static void UpdateSongInfo(this ISong song, FileInfo fileInfo)
+    public static void UpdateTrackInfo(this IAudioTrack audioTrack, FileInfo fileInfo)
     {
         var track = new Track(fileInfo.FullName);
 
-        var updating = song.Id != 0;
+        var updating = audioTrack.Id != 0;
 
-        song.Album = track.Album;
-        song.Artist = track.Artist;
-        song.FileName = fileInfo.FullName;
-        song.FileNameNoPath = fileInfo.Name;
-        song.FileSizeBytes = fileInfo.Length;
-        song.MusicFileType = FileExtensionConvert.FileNameToFileType(fileInfo.FullName);
-        song.Lyrics = updating && !string.IsNullOrWhiteSpace(song.Lyrics) ? song.Lyrics : track.Lyrics.UnsynchronizedLyrics;
-        song.Title = track.Title ?? Path.GetFileNameWithoutExtension(fileInfo.Name);
+        audioTrack.Album = track.Album;
+        audioTrack.Artist = track.Artist;
+        audioTrack.FileName = fileInfo.FullName;
+        audioTrack.FileNameNoPath = fileInfo.Name;
+        audioTrack.FileSizeBytes = fileInfo.Length;
+        audioTrack.MusicFileType = FileExtensionConvert.FileNameToFileType(fileInfo.FullName);
+        audioTrack.Lyrics = updating && !string.IsNullOrWhiteSpace(audioTrack.Lyrics) ? audioTrack.Lyrics : track.Lyrics.UnsynchronizedLyrics;
+        audioTrack.Title = track.Title ?? Path.GetFileNameWithoutExtension(fileInfo.Name);
 
         if (!updating)
         {
-            song.PlaybackVolume = 1;
-            song.Rating = 500;
+            audioTrack.PlaybackVolume = 1;
+            audioTrack.Rating = 500;
         }
 
-        song.TagFindString = track.GetTagString();
-        song.TagRead = true;
+        audioTrack.TagFindString = track.GetTagString();
+        audioTrack.TagRead = true;
 
         if (updating)
         {
-            song.ModifiedAtUtc = DateTime.UtcNow;
+            audioTrack.ModifiedAtUtc = DateTime.UtcNow;
         }
         else
         {
-            song.CreatedAtUtc = DateTime.UtcNow;
+            audioTrack.CreatedAtUtc = DateTime.UtcNow;
         }
     }
 }

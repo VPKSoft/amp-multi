@@ -27,33 +27,27 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An interface for song playback statistics with reference indentifier.
-/// Implements the <see cref="amp.Shared.Interfaces.IEntityBase{T}" />
+/// An interface for the audio tracks in a queue snapshot.
+/// Implements the <see cref="IEntity" />
 /// </summary>
-/// <seealso cref="amp.Shared.Interfaces.IEntityBase{T}" />
-public interface ISongStatistics : IEntityBase<long>
+/// <seealso cref="IEntity" />
+public interface IQueueTrack : IEntity
 {
     /// <summary>
-    /// Gets or sets the rating for the song.
+    /// Gets or sets the audio track reference identifier.
     /// </summary>
-    /// <value>The rating.</value>
-    int? Rating { get; set; }
+    /// <value>The audio track reference identifier.</value>
+    long AudioTrackId { get; set; }
 
     /// <summary>
-    /// Gets or sets the amount the song was played by randomization.
+    /// Gets or sets the queue snapshot reference identifier.
     /// </summary>
-    /// <value>The amount the song was played by randomization.</value>
-    int? PlayedByRandomize { get; set; }
+    /// <value>The queue snapshot reference identifier.</value>
+    long QueueSnapshotId { get; set; }
 
     /// <summary>
-    /// Gets or sets the amount the song was played by the user.
+    /// Gets or sets the index of audio track in the queue.
     /// </summary>
-    /// <value>The amount the song was played by the user.</value>
-    int? PlayedByUser { get; set; }
-
-    /// <summary>
-    /// Gets or sets the count the song was skipped by user interaction.
-    /// </summary>
-    /// <value>The skipped early count.</value>
-    int? SkippedEarlyCount { get; set; }
+    /// <value>The index of audio track in the queue.</value>
+    int QueueIndex { get; set; }
 }

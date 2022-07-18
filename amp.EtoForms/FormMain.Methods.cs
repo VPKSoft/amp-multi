@@ -64,19 +64,19 @@ partial class FormMain
 
     private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData)
     {
-        var modifySongs = songs.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
+        var modifyTracks = tracks.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
 
-        foreach (var albumSong in modifySongs)
+        foreach (var albumTrack in modifyTracks)
         {
-            var newIndex = updateQueueData.First(f => f.Key == albumSong.Id).Value;
-            albumSong.QueueIndex = newIndex;
-            albumSong.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumSongs.Update(Globals.AutoMapper.Map<AlbumSong>(albumSong));
+            var newIndex = updateQueueData.First(f => f.Key == albumTrack.Id).Value;
+            albumTrack.QueueIndex = newIndex;
+            albumTrack.ModifiedAtUtc = DateTime.UtcNow;
+            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(albumTrack));
 
-            var songIndex = filteredSongs.FindIndex(f => f.Id == albumSong.Id);
-            if (songIndex != -1)
+            var trackIndex = filteredTracks.FindIndex(f => f.Id == albumTrack.Id);
+            if (trackIndex != -1)
             {
-                filteredSongs[songIndex] = albumSong;
+                filteredTracks[trackIndex] = albumTrack;
             }
         }
 
@@ -84,7 +84,7 @@ partial class FormMain
 
         context.ChangeTracker.Clear();
 
-        gvSongs.Invalidate();
+        gvAudioTracks.Invalidate();
     }
 
     /// <summary>
@@ -92,19 +92,19 @@ partial class FormMain
     /// </summary>
     private async Task RefreshCurrentAlbum()
     {
-        songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).Select(f => Globals.AutoMapper.Map<Models.AlbumSong>(f)).AsNoTracking()
+        tracks = await context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack).Select(f => Globals.AutoMapper.Map<Models.AlbumTrack>(f)).AsNoTracking()
             .ToListAsync();
 
-        songs = songs.OrderBy(f => f.DisplayName).ToList();
+        tracks = tracks.OrderBy(f => f.DisplayName).ToList();
 
-        filteredSongs = songs;
+        filteredTracks = tracks;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            filteredSongs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+            filteredTracks = tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
         }
 
-        gvSongs.DataStore = filteredSongs;
+        gvAudioTracks.DataStore = filteredTracks;
     }
 
     private void AssignSettings()

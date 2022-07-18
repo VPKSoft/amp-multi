@@ -33,7 +33,7 @@ namespace amp.EtoForms.Utilities;
 /// <summary>
 /// A class to generate display names for audio files.
 /// </summary>
-public static class SongDisplayNameGenerate
+public static class TrackDisplayNameGenerate
 {
     /// <summary>
     /// Gets the next formula part of the given formula string.
@@ -167,21 +167,21 @@ public static class SongDisplayNameGenerate
     /// Gets a string based on a given formula and a the given parameters.
     /// </summary>
     /// <param name="formula">The formula to create string from.</param>
-    /// <param name="albumSong">The album song to get a display name for.</param>
-    /// <param name="queue">A value indicating whether to include queue information into the song display name.</param>
+    /// <param name="albumTrack">The album track to get a display name for.</param>
+    /// <param name="queue">A value indicating whether to include queue information into the track display name.</param>
     /// <returns>A string parsed from the given parameters.</returns>
-    private static string GetString<TSong, TAlbum>(string formula, IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
+    private static string GetString<TAudioTrack, TAlbum>(string formula, IAlbumTrack<TAudioTrack, TAlbum> albumTrack, bool queue) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
-        var song = albumSong.Song;
-        var artist = song?.Artist;
-        var album = song?.Album;
-        int.TryParse(song?.Track, out var trackNo);
-        var title = song?.Title;
-        var songName = Path.GetFileNameWithoutExtension(song?.FileName);
-        var queueIndex = albumSong.QueueIndex;
-        var alternateQueueIndex = albumSong.QueueIndexAlternate;
-        var overrideName = song?.OverrideName;
-        var onError = ToStringOld(albumSong, queue);
+        var track = albumTrack.AudioTrack;
+        var artist = track?.Artist;
+        var album = track?.Album;
+        int.TryParse(track?.Track, out var trackNo);
+        var title = track?.Title;
+        var trackName = Path.GetFileNameWithoutExtension(track?.FileName);
+        var queueIndex = albumTrack.QueueIndex;
+        var alternateQueueIndex = albumTrack.QueueIndexAlternate;
+        var overrideName = track?.OverrideName;
+        var onError = ToStringOld(albumTrack, queue);
 
         string? FixPathExtension()
         {
@@ -214,7 +214,7 @@ public static class SongDisplayNameGenerate
                 }
                 else if (formulaType == FormulaType.Title)
                 {
-                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(title) ? songName ?? FixPathExtension() : title, formulaStr);
+                    formula = FormulaReplace(formula, string.IsNullOrWhiteSpace(title) ? trackName ?? FixPathExtension() : title, formulaStr);
                 }
                 else if (formulaType == FormulaType.QueueIndex)
                 {
@@ -226,7 +226,7 @@ public static class SongDisplayNameGenerate
                 }
                 else if (formulaType == FormulaType.Renamed)
                 {
-                    formula = FormulaReplace(formula, (string.IsNullOrWhiteSpace(overrideName) ? songName : overrideName) ?? string.Empty, formulaStr);
+                    formula = FormulaReplace(formula, (string.IsNullOrWhiteSpace(overrideName) ? trackName : overrideName) ?? string.Empty, formulaStr);
                 }
             }
 
@@ -242,17 +242,17 @@ public static class SongDisplayNameGenerate
     /// Gets a string based on a given formula and a the given parameters.
     /// </summary>
     /// <param name="formula">The formula to create string from.</param>
-    /// <param name="song">The song to get a display name for.</param>
+    /// <param name="audioTrack">The track to get a display name for.</param>
     /// <returns>A string parsed from the given parameters.</returns>
-    private static string GetString(string formula, ISong song)
+    private static string GetString(string formula, IAudioTrack audioTrack)
     {
-        var artist = song.Artist;
-        var album = song.Album;
-        _ = int.TryParse(song.Track, out var trackNo);
-        var title = song.Title;
-        var songName = Path.GetFileNameWithoutExtension(song.FileName);
-        var overrideName = song.OverrideName;
-        var onError = ToStringOld(song);
+        var artist = audioTrack.Artist;
+        var album = audioTrack.Album;
+        _ = int.TryParse(audioTrack.Track, out var trackNo);
+        var title = audioTrack.Title;
+        var trackName = Path.GetFileNameWithoutExtension(audioTrack.FileName);
+        var overrideName = audioTrack.OverrideName;
+        var onError = ToStringOld(audioTrack);
 
         string? FixPathExtension()
         {
@@ -288,7 +288,7 @@ public static class SongDisplayNameGenerate
                 else if (formulaType == FormulaType.Title)
                 {
                     formula = FormulaReplace(formula,
-                        string.IsNullOrWhiteSpace(title) ? songName ?? FixPathExtension() : title, formulaStr);
+                        string.IsNullOrWhiteSpace(title) ? trackName ?? FixPathExtension() : title, formulaStr);
                 }
                 else if (formulaType == FormulaType.QueueIndex)
                 {
@@ -301,7 +301,7 @@ public static class SongDisplayNameGenerate
                 else if (formulaType == FormulaType.Renamed)
                 {
                     formula = FormulaReplace(formula,
-                        (string.IsNullOrWhiteSpace(overrideName) ? songName : overrideName) ?? string.Empty,
+                        (string.IsNullOrWhiteSpace(overrideName) ? trackName : overrideName) ?? string.Empty,
                         formulaStr);
                 }
             }
@@ -317,51 +317,51 @@ public static class SongDisplayNameGenerate
     /// <summary>
     /// Returns a <see cref="System.String" /> that represents this instance (old version).
     /// </summary>
-    /// <param name="albumSong">The album song to use to generate the string representation.</param>
+    /// <param name="albumTrack">The album track to use to generate the string representation.</param>
     /// <param name="queue">if set to <c>true</c> the possible queue index should also be included in the result.</param>
     /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
-    private static string ToStringOld<TSong, TAlbum>(IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
+    private static string ToStringOld<TAudioTrack, TAlbum>(IAlbumTrack<TAudioTrack, TAlbum> albumTrack, bool queue) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
-        var alternateQueue = albumSong.QueueIndexAlternate > 0 && queue ? " [*=" + albumSong.QueueIndexAlternate + "]" : string.Empty;
-        if (!string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName))
+        var alternateQueue = albumTrack.QueueIndexAlternate > 0 && queue ? " [*=" + albumTrack.QueueIndexAlternate + "]" : string.Empty;
+        if (!string.IsNullOrWhiteSpace(albumTrack.AudioTrack?.OverrideName))
         {
-            return albumSong.Song?.OverrideName + ((albumSong.QueueIndex >= 1 && queue) ? " [" + albumSong.QueueIndex + "]" : "") + alternateQueue;
+            return albumTrack.AudioTrack?.OverrideName + ((albumTrack.QueueIndex >= 1 && queue) ? " [" + albumTrack.QueueIndex + "]" : "") + alternateQueue;
         }
 
-        var songName = Path.GetFileNameWithoutExtension(albumSong.Song?.FileName);
-        var songTitle = (string.IsNullOrWhiteSpace(albumSong.Song?.Title) ? albumSong.Song?.Title : songName) ?? string.Empty;
+        var trackName = Path.GetFileNameWithoutExtension(albumTrack.AudioTrack?.FileName);
+        var audioTrackTitle = (string.IsNullOrWhiteSpace(albumTrack.AudioTrack?.Title) ? albumTrack.AudioTrack?.Title : trackName) ?? string.Empty;
 
         return
-            (string.IsNullOrWhiteSpace(albumSong.Song?.Artist) ? string.Empty : albumSong.Song?.Artist + " - ") +
-            (string.IsNullOrWhiteSpace(albumSong.Album?.AlbumName)
+            (string.IsNullOrWhiteSpace(albumTrack.AudioTrack?.Artist) ? string.Empty : albumTrack.AudioTrack?.Artist + " - ") +
+            (string.IsNullOrWhiteSpace(albumTrack.Album?.AlbumName)
                 ? string.Empty
-                : albumSong.Album?.AlbumName + " - ") +
-            songTitle +
-            (albumSong.QueueIndex >= 1 ? " [" + albumSong.QueueIndex + "]" : "") + alternateQueue;
+                : albumTrack.Album?.AlbumName + " - ") +
+            audioTrackTitle +
+            (albumTrack.QueueIndex >= 1 ? " [" + albumTrack.QueueIndex + "]" : "") + alternateQueue;
     }
 
     /// <summary>
     /// Returns a <see cref="System.String" /> that represents this instance (old version).
     /// </summary>
-    /// <param name="song">The song to use to generate the string representation.</param>
+    /// <param name="audioTrack">The track to use to generate the string representation.</param>
     /// <returns>A <see cref="System.String" /> that represents this instance (old version).</returns>
-    private static string ToStringOld(ISong song)
+    private static string ToStringOld(IAudioTrack audioTrack)
     {
-        if (!string.IsNullOrWhiteSpace(song.OverrideName))
+        if (!string.IsNullOrWhiteSpace(audioTrack.OverrideName))
         {
-            return song.OverrideName;
+            return audioTrack.OverrideName;
         }
 
-        var songName = Path.GetFileNameWithoutExtension(song.FileName);
-        var songTitle = (string.IsNullOrWhiteSpace(song.Title) ? song.Title : songName) ?? string.Empty;
+        var trackName = Path.GetFileNameWithoutExtension(audioTrack.FileName);
+        var audioTrackTitle = (string.IsNullOrWhiteSpace(audioTrack.Title) ? audioTrack.Title : trackName) ?? string.Empty;
 
         return
-            (string.IsNullOrWhiteSpace(song.Artist) ? string.Empty : song.Artist + " - ") +
-            songTitle;
+            (string.IsNullOrWhiteSpace(audioTrack.Artist) ? string.Empty : audioTrack.Artist + " - ") +
+            audioTrackTitle;
     }
 
     /// <summary>
-    /// Gets or sets the song naming formula.
+    /// Gets or sets the track naming formula.
     /// </summary>
     /// <value>The formula.</value>
     public static string Formula { get; set; } =
@@ -369,43 +369,43 @@ public static class SongDisplayNameGenerate
         @"    #ARTIST? - ##ALBUM? - ##TRACKNO?(^) ##TITLE?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
 
     /// <summary>
-    /// Gets or sets the renamed song naming formula.
+    /// Gets or sets the renamed track naming formula.
     /// </summary>
-    public static string FormulaSongRenamed { get; set; } = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
+    public static string FormulaTrackRenamed { get; set; } = @"    #RENAMED?##QUEUE? [^]##ALTERNATE_QUEUE?[ *=^]#";
 
     /// <summary>
-    /// Gets the display name for the specified song.
+    /// Gets the display name for the specified track.
     /// </summary>
-    /// <param name="albumSong">The album song.</param>
-    /// <param name="queue">if set to <c>true</c> the song queue information is included into the display name.</param>
-    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
-    public static string GetSongName<TSong, TAlbum>(this IAlbumSong<TSong, TAlbum> albumSong, bool queue) where TSong : ISong where TAlbum : IAlbum
+    /// <param name="albumTrack">The album track.</param>
+    /// <param name="queue">if set to <c>true</c> the track queue information is included into the display name.</param>
+    /// <returns>A display name for a <see cref="AlbumTrack"/> instance.</returns>
+    public static string GetAudioTrackName<TAudioTrack, TAlbum>(this IAlbumTrack<TAudioTrack, TAlbum> albumTrack, bool queue) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
-        var formula = string.IsNullOrWhiteSpace(albumSong.Song?.OverrideName) ? Formula : FormulaSongRenamed;
-        var result = GetString(formula, albumSong, queue);
+        var formula = string.IsNullOrWhiteSpace(albumTrack.AudioTrack?.OverrideName) ? Formula : FormulaTrackRenamed;
+        var result = GetString(formula, albumTrack, queue);
         return result;
     }
 
     /// <summary>
-    /// Gets the display name for the specified song.
+    /// Gets the display name for the specified track.
     /// </summary>
-    /// <param name="song">The album song.</param>
-    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
-    public static string GetSongName(ISong song)
+    /// <param name="audioTrack">The album track.</param>
+    /// <returns>A display name for a <see cref="AlbumTrack"/> instance.</returns>
+    public static string GetAudioTrackName(IAudioTrack audioTrack)
     {
-        var formula = string.IsNullOrWhiteSpace(song.OverrideName) ? Formula : FormulaSongRenamed;
-        var result = GetString(formula, song);
+        var formula = string.IsNullOrWhiteSpace(audioTrack.OverrideName) ? Formula : FormulaTrackRenamed;
+        var result = GetString(formula, audioTrack);
         return result;
     }
 
 
     /// <summary>
-    /// Gets the display name for the specified song.
+    /// Gets the display name for the specified track.
     /// </summary>
-    /// <param name="albumSong">The album song.</param>
-    /// <returns>A display name for a <see cref="AlbumSong"/> instance.</returns>
-    public static string GetSongName<TSong, TAlbum>(this IAlbumSong<TSong, TAlbum> albumSong) where TSong : ISong where TAlbum : IAlbum
+    /// <param name="albumTrack">The album track.</param>
+    /// <returns>A display name for a <see cref="AlbumTrack"/> instance.</returns>
+    public static string GetAudioTrackName<TAudioTrack, TAlbum>(this IAlbumTrack<TAudioTrack, TAlbum> albumTrack) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
-        return GetSongName(albumSong, true);
+        return GetAudioTrackName(albumTrack, true);
     }
 }

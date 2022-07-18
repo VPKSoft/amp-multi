@@ -82,7 +82,7 @@ public static class WindowsMigrateCheck
                 var statisticsMessage =
                     string.Format(
                         Messages.ConversionStatistics, Environment.NewLine,
-                        statistics.songs, statistics.albums, statistics.albumSongs, statistics.queueSnaphots);
+                        statistics.audioTracks, statistics.albums, statistics.albumTracks, statistics.queueSnaphots);
 
                 if (MessageBox.Show(parent,
                         Messages

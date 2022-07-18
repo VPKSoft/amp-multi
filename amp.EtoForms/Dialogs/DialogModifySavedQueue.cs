@@ -46,7 +46,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
 {
     private readonly AmpContext context;
     private readonly long queueId;
-    private readonly ObservableCollection<QueueSong> queueSongs = new();
+    private readonly ObservableCollection<QueueTrack> queueTracks = new();
     private readonly GridView gvAlbumQueueTracks;
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
@@ -99,7 +99,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
             {
                 new GridColumn
                 {
-                    DataCell = new TextBoxCell(nameof(QueueSong.QueueIndex)),
+                    DataCell = new TextBoxCell(nameof(QueueTrack.QueueIndex)),
                     HeaderText = UI.QueueCreated,
                 },
                 new GridColumn
@@ -107,14 +107,14 @@ internal class DialogModifySavedQueue : Dialog<bool>
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((QueueSong qs) => SongDisplayNameGenerate.GetSongName(qs.Song!))
+                            .Property((QueueTrack qs) => TrackDisplayNameGenerate.GetAudioTrackName(qs.AudioTrack!))
                             .Convert(s => s)
                             .Cast<string?>(),
                     }, Expand = true,
                     HeaderText = UI.QueueName,
                 },
             },
-            DataStore = queueSongs,
+            DataStore = queueTracks,
         };
 
         Content = new TableLayout
@@ -139,25 +139,25 @@ internal class DialogModifySavedQueue : Dialog<bool>
     private void MoveUpDownClick(object? sender, EventArgs e)
     {
         var addIndex = (int?)((ButtonToolItem?)sender)?.Tag;
-        var switchItem = queueSongs.FirstOrDefault(f => f.QueueIndex == SelectedItem?.QueueIndex + addIndex);
+        var switchItem = queueTracks.FirstOrDefault(f => f.QueueIndex == SelectedItem?.QueueIndex + addIndex);
         if (SelectedItem != null && switchItem != null)
         {
             SwitchItems(SelectedItem, switchItem);
         }
     }
 
-    private void SwitchItems(QueueSong itemFirst, QueueSong itemSecond)
+    private void SwitchItems(QueueTrack itemFirst, QueueTrack itemSecond)
     {
-        var indexFirst = queueSongs.IndexOf(itemFirst);
-        var indexSecond = queueSongs.IndexOf(itemSecond);
+        var indexFirst = queueTracks.IndexOf(itemFirst);
+        var indexSecond = queueTracks.IndexOf(itemSecond);
         var queueIndexFirst = itemFirst.QueueIndex;
         var queueIndexSecond = itemSecond.QueueIndex;
         itemSecond.ModifiedAtUtc = DateTime.UtcNow;
         itemFirst.ModifiedAtUtc = DateTime.UtcNow;
         itemFirst.QueueIndex = queueIndexSecond;
         itemSecond.QueueIndex = queueIndexFirst;
-        queueSongs[indexFirst] = itemSecond;
-        queueSongs[indexSecond] = itemFirst;
+        queueTracks[indexFirst] = itemSecond;
+        queueTracks[indexSecond] = itemFirst;
         gvAlbumQueueTracks.SelectRow(indexSecond);
     }
 
@@ -168,32 +168,32 @@ internal class DialogModifySavedQueue : Dialog<bool>
             var selectedRowIndex = gvAlbumQueueTracks.SelectedRow;
             toDelete.Add(SelectedItem.Id);
             var queueIndex = SelectedItem.QueueIndex;
-            queueSongs.Remove(SelectedItem);
-            foreach (var queueSong in queueSongs)
+            queueTracks.Remove(SelectedItem);
+            foreach (var queueTrack in queueTracks)
             {
-                if (queueSong.QueueIndex >= queueIndex)
+                if (queueTrack.QueueIndex >= queueIndex)
                 {
-                    queueSong.QueueIndex--;
+                    queueTrack.QueueIndex--;
                 }
             }
 
-            if (queueSongs.Count > 0)
+            if (queueTracks.Count > 0)
             {
-                gvAlbumQueueTracks.ReloadData(new Range<int>(0, queueSongs.Count - 1));
+                gvAlbumQueueTracks.ReloadData(new Range<int>(0, queueTracks.Count - 1));
             }
 
-            if (selectedRowIndex < queueSongs.Count - 1)
+            if (selectedRowIndex < queueTracks.Count - 1)
             {
                 gvAlbumQueueTracks.SelectedRow = selectedRowIndex;
             }
         }
     }
 
-    private QueueSong? SelectedItem
+    private QueueTrack? SelectedItem
     {
         get
         {
-            var selectedItem = ((QueueSong?)gvAlbumQueueTracks.SelectedItem);
+            var selectedItem = ((QueueTrack?)gvAlbumQueueTracks.SelectedItem);
             return selectedItem;
         }
     }
@@ -206,11 +206,11 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
     private async Task ListQueue()
     {
-        queueSongs.Clear();
-        foreach (var queueSong in await context.QueueSongs.Include(f => f.Song).Where(f => f.QueueSnapshotId == queueId)
+        queueTracks.Clear();
+        foreach (var queueTrack in await context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
                      .OrderBy(f => f.QueueIndex).AsNoTracking().ToListAsync())
         {
-            queueSongs.Add(queueSong);
+            queueTracks.Add(queueTrack);
         }
     }
 
@@ -226,11 +226,11 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
         await Globals.LoggerSafeInvokeAsync(async () =>
         {
-            var itemsToDelete = await context.QueueSongs.Where(f => toDelete.Contains(f.Id)).ToListAsync();
-            context.QueueSongs.RemoveRange(itemsToDelete);
+            var itemsToDelete = await context.QueueTracks.Where(f => toDelete.Contains(f.Id)).ToListAsync();
+            context.QueueTracks.RemoveRange(itemsToDelete);
             await context.SaveChangesAsync();
 
-            context.QueueSongs.UpdateRange(queueSongs);
+            context.QueueTracks.UpdateRange(queueTracks);
             await context.SaveChangesAsync();
 
             await transaction.CommitAsync();

@@ -62,12 +62,12 @@ public class QueueSnapshot : IQueueSnapshot
     /// Gets or sets the queue tracks belonging to this queue snapshot.
     /// </summary>
     /// <value>The queued tracks.</value>
-    public IList<QueueSong>? QueueSongs { get; set; }
+    public IList<QueueTrack>? QueueTracks { get; set; }
 
     /// <summary>
-    /// Gets or sets the album of the song.
+    /// Gets or sets the album of the queue snapshot.
     /// </summary>
-    /// <value>The album of the song.</value>
+    /// <value>The album of the queue snapshot.</value>
     [ForeignKey(nameof(AlbumId))]
     public Album? Album { get; set; }
 }

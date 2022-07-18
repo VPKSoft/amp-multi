@@ -49,7 +49,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="directory">The directory to search for audio files to add into the database.</param>
-    /// <param name="albumId">The album identifier to initially to add the songs to.</param>
+    /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     private DialogAddFilesProgress(AmpContext context, string directory, long albumId) : this(context, albumId)
     {
         this.directory = directory;
@@ -61,7 +61,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// Initializes a new instance of the <see cref="DialogAddFilesProgress"/> class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
-    /// <param name="albumId">The album identifier to initially to add the songs to.</param>
+    /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     /// <param name="files">The audio files to add into the database.</param>
     private DialogAddFilesProgress(AmpContext context, long albumId, params string[] files) : this(context, albumId)
     {
@@ -75,7 +75,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// Initializes a new instance of the <see cref="DialogAddFilesProgress"/> class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
-    /// <param name="albumId">The album identifier to initially to add the songs to.</param>
+    /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     private DialogAddFilesProgress(AmpContext context, long albumId)
     {
         if (albumId == 0)
@@ -126,9 +126,9 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = albumId == 0 ? UI.ColonDelimiter : UI.SongsAddedToAlbum + UI.ColonDelimiter, },
+                        new Label { Text = albumId == 0 ? UI.ColonDelimiter : UI.TracksAddedToAlbum + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
-                        lbSongAddedToAlbumCount,
+                        lbTrackAddedToAlbumCount,
                     },
                 },
                 new TableRow
@@ -242,7 +242,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     private readonly Label lbDirectoryCount = new() { Text = UI._, };
     private readonly Label lbFilesCount = new() { Text = UI._, };
     private readonly Label lbDatabaseUpdatedCount = new() { Text = UI._, };
-    private readonly Label lbSongAddedToAlbumCount = new() { Text = UI._, };
+    private readonly Label lbTrackAddedToAlbumCount = new() { Text = UI._, };
     private readonly Label lbTimeEstimateReady = new() { Text = UI._, };
     private readonly ProgressBar progressDbUpdate = new();
     private readonly Button btnOk = new() { Text = UI.OK, Enabled = false, };
@@ -367,31 +367,31 @@ public class DialogAddFilesProgress : Dialog<bool>
 
             try
             {
-                var song = await context.Songs.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new Song();
-                song.UpdateSongInfo(fileInfo);
-                if (song.Id == 0)
+                var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new AudioTrack();
+                track.UpdateTrackInfo(fileInfo);
+                if (track.Id == 0)
                 {
-                    await context.Songs.AddAsync(song, userAbortToken);
+                    await context.AudioTracks.AddAsync(track, userAbortToken);
                 }
                 else
                 {
-                    context.Update(song);
+                    context.Update(track);
                 }
 
                 await context.SaveChangesAsync(userAbortToken);
 
                 if (albumId != 0)
                 {
-                    var albumSong = await context.AlbumSongs.FirstOrDefaultAsync(f => f.AlbumId == albumId && f.SongId == song.Id,
-                        cancellationToken: userAbortToken) ?? new AlbumSong { SongId = song.Id, AlbumId = albumId, CreatedAtUtc = DateTime.UtcNow, };
+                    var albumTrack = await context.AlbumTracks.FirstOrDefaultAsync(f => f.AlbumId == albumId && f.AudioTrackId == track.Id,
+                        cancellationToken: userAbortToken) ?? new AlbumTrack { AudioTrackId = track.Id, AlbumId = albumId, CreatedAtUtc = DateTime.UtcNow, };
 
-                    if (albumSong.Id == 0)
+                    if (albumTrack.Id == 0)
                     {
-                        await context.AlbumSongs.AddAsync(albumSong, userAbortToken);
+                        await context.AlbumTracks.AddAsync(albumTrack, userAbortToken);
                     }
                     else
                     {
-                        context.AlbumSongs.Update(albumSong);
+                        context.AlbumTracks.Update(albumTrack);
                     }
                 }
 
@@ -415,7 +415,7 @@ public class DialogAddFilesProgress : Dialog<bool>
 
             if (albumId != 0)
             {
-                lbSongAddedToAlbumCount.Text =
+                lbTrackAddedToAlbumCount.Text =
                     string.Format(UI.NoOfNo, databaseCounter, fileCounter);
             }
 
@@ -433,7 +433,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// <param name="owner">The owner control that is showing the form</param>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="directory">The directory to search for audio files to add into the database.</param>
-    /// <param name="albumId">The album identifier to initially to add the songs to.</param>
+    /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     /// <remarks>The <paramref name="owner" /> specifies the control on the window that will be blocked from user input until the dialog is closed.</remarks>
     /// <returns>The result of the modal dialog</returns>
     public static bool ShowModal(Control owner, AmpContext context, string directory, long albumId)
@@ -448,7 +448,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// </summary>
     /// <param name="owner">The owner control that is showing the form</param>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
-    /// <param name="albumId">The album identifier to initially to add the songs to.</param>
+    /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     /// <param name="files">The audio files to add into the database.</param>
     /// <remarks>The <paramref name="owner" /> specifies the control on the window that will be blocked from user input until the dialog is closed.</remarks>
     /// <returns>The result of the modal dialog</returns>

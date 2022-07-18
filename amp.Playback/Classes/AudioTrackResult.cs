@@ -29,28 +29,28 @@ using amp.Shared.Interfaces;
 namespace amp.Playback.Classes;
 
 /// <summary>
-/// A result data class for the <see cref="NextSongIndex"/> method.
+/// A result data class for the <see cref="NextTrackIndex"/> method.
 /// Implements the <see cref="IPlayBackStatistics" />
 /// </summary>
 /// <seealso cref="IPlayBackStatistics" />
-public class SongResult : IPlayBackStatistics
+public class AudioTrackResult : IPlayBackStatistics
 {
     /// <summary>
-    /// Gets the empty instance of the <see cref="SongResult"/> class.
+    /// Gets the empty instance of the <see cref="AudioTrackResult"/> class.
     /// </summary>
-    public static SongResult Empty => new() { SongId = 0, NextSongIndex = -1, };
+    public static AudioTrackResult Empty => new() { AudioTrackId = 0, NextTrackIndex = -1, };
 
     /// <summary>
-    /// Gets or sets the song identifier indexed by the <see cref="NextSongIndex"/>.
+    /// Gets or sets the audio track identifier indexed by the <see cref="NextTrackIndex"/>.
     /// </summary>
-    /// <value>The song identifier indexed by the <see cref="NextSongIndex"/>.</value>
-    public long SongId { get; init; }
+    /// <value>The audio track identifier indexed by the <see cref="NextTrackIndex"/>.</value>
+    public long AudioTrackId { get; init; }
 
     /// <summary>
-    /// Gets or sets the index of the next song.
+    /// Gets or sets the index of the next audio track.
     /// </summary>
-    /// <value>The index of the next song.</value>
-    public int NextSongIndex { get; set; }
+    /// <value>The index of the next audio track.</value>
+    public int NextTrackIndex { get; set; }
 
     /// <inheritdoc cref="IPlayBackStatistics.PlayedByRandomize"/>
     public int? PlayedByRandomize { get; set; }

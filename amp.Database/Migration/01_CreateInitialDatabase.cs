@@ -42,27 +42,27 @@ public class CreateInitialDatabase : FluentMigrator.Migration
     /// <inheritdoc cref="MigrationBase.Up"/>
     public override void Up()
     {
-        Create.Table(nameof(Song))
-            .WithColumn(nameof(Song.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(Song.FileName)).AsString().Nullable()
-            .WithColumn(nameof(Song.Artist)).AsString().Nullable()
-            .WithColumn(nameof(Song.Album)).AsString().Nullable()
-            .WithColumn(nameof(Song.Track)).AsString().Nullable()
-            .WithColumn(nameof(Song.Year)).AsString().Nullable()
-            .WithColumn(nameof(Song.Lyrics)).AsString().Nullable()
-            .WithColumn(nameof(Song.Rating)).AsInt32().Nullable()
-            .WithColumn(nameof(Song.PlayedByRandomize)).AsInt32().Nullable()
-            .WithColumn(nameof(Song.PlayedByUser)).AsInt32().Nullable()
-            .WithColumn(nameof(Song.FileSizeBytes)).AsInt64().Nullable()
-            .WithColumn(nameof(Song.PlaybackVolume)).AsDouble().NotNullable().WithDefaultValue(1.0)
-            .WithColumn(nameof(Song.OverrideName)).AsString().Nullable()
-            .WithColumn(nameof(Song.TagFindString)).AsString().Nullable()
-            .WithColumn(nameof(Song.TagRead)).AsBoolean().Nullable()
-            .WithColumn(nameof(Song.FileNameNoPath)).AsString().Nullable()
-            .WithColumn(nameof(Song.SkippedEarlyCount)).AsInt32().Nullable()
-            .WithColumn(nameof(Song.Title)).AsString().Nullable()
-            .WithColumn(nameof(Song.SongImageData)).AsBinary().Nullable()
-            .WithColumn(nameof(Song.MusicFileType)).AsInt32().NotNullable().WithDefaultValue((int)MusicFileType.Unknown)
+        Create.Table(nameof(AudioTrack))
+            .WithColumn(nameof(AudioTrack.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
+            .WithColumn(nameof(AudioTrack.FileName)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Artist)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Album)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Track)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Year)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Lyrics)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.Rating)).AsInt32().Nullable()
+            .WithColumn(nameof(AudioTrack.PlayedByRandomize)).AsInt32().Nullable()
+            .WithColumn(nameof(AudioTrack.PlayedByUser)).AsInt32().Nullable()
+            .WithColumn(nameof(AudioTrack.FileSizeBytes)).AsInt64().Nullable()
+            .WithColumn(nameof(AudioTrack.PlaybackVolume)).AsDouble().NotNullable().WithDefaultValue(1.0)
+            .WithColumn(nameof(AudioTrack.OverrideName)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.TagFindString)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.TagRead)).AsBoolean().Nullable()
+            .WithColumn(nameof(AudioTrack.FileNameNoPath)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.SkippedEarlyCount)).AsInt32().Nullable()
+            .WithColumn(nameof(AudioTrack.Title)).AsString().Nullable()
+            .WithColumn(nameof(AudioTrack.TrackImageData)).AsBinary().Nullable()
+            .WithColumn(nameof(AudioTrack.MusicFileType)).AsInt32().NotNullable().WithDefaultValue((int)MusicFileType.Unknown)
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
             .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
@@ -72,12 +72,12 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
             .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
-        Create.Table(nameof(AlbumSong))
-            .WithColumn(nameof(AlbumSong.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(AlbumSong.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(AlbumSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(AlbumSong.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0)
-            .WithColumn(nameof(AlbumSong.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0)
+        Create.Table(nameof(AlbumTrack))
+            .WithColumn(nameof(AlbumTrack.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
+            .WithColumn(nameof(AlbumTrack.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(AlbumTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(AlbumTrack.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0)
+            .WithColumn(nameof(AlbumTrack.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0)
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
             .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
@@ -90,12 +90,12 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
             .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
 
-        Create.Table(nameof(QueueSong))
+        Create.Table(nameof(QueueTrack))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(QueueSong.SongId)).AsInt64().ForeignKey(nameof(Song), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueSong.QueueSnapshotId)).AsInt64().ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(QueueTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(QueueTrack.QueueSnapshotId)).AsInt64().ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueSong.QueueIndex)).AsInt32().NotNullable()
+            .WithColumn(nameof(QueueTrack.QueueIndex)).AsInt32().NotNullable()
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
             .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
     }
@@ -103,8 +103,10 @@ public class CreateInitialDatabase : FluentMigrator.Migration
     /// <inheritdoc cref="MigrationBase.Down"/>
     public override void Down()
     {
-        Delete.Table(nameof(AlbumSong));
+        Delete.Table(nameof(AlbumTrack));
         Delete.Table(nameof(Album));
-        Delete.Table(nameof(Song));
+        Delete.Table(nameof(QueueTrack));
+        Delete.Table(nameof(QueueSnapshot));
+        Delete.Table(nameof(AudioTrack));
     }
 }

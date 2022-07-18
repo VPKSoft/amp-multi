@@ -40,14 +40,14 @@ public interface IPlaybackError
     Errors Error { get; set; }
 
     /// <summary>
-    /// Gets or sets the song identifier.
+    /// Gets or sets the audio track identifier.
     /// </summary>
-    /// <value>The song identifier.</value>
-    long SongId { get; set; }
+    /// <value>The audio track identifier.</value>
+    long AudioTrackId { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to try to play another song.
+    /// Gets or sets a value indicating whether to try to play another audio track.
     /// </summary>
-    /// <value><c>true</c> if to try to play another song; otherwise, <c>false</c>.</value>
+    /// <value><c>true</c> if to try to play another audio track; otherwise, <c>false</c>.</value>
     bool PlayAnother { get; set; }
 }

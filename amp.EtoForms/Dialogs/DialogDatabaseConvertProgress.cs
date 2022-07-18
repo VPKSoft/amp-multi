@@ -46,7 +46,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     {
         MinimumSize = new Size(500, 200);
 
-        lbSongCount = new Label();
+        lbTrackCount = new Label();
         lbAlbumCount = new Label();
         lbAlbumEntryCount = new Label();
         lbQueueEntryCount = new Label();
@@ -70,9 +70,9 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Songs + ":", },
+                                    new Label { Text = UI.Tracks + ":", },
                                     new Panel { Width = 5, },
-                                    lbSongCount,
+                                    lbTrackCount,
                                     new Panel { Width = 10, },
                                     new Label { Text = UI.Albums + ":", },
                                     new Panel { Width = 5, },
@@ -189,7 +189,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     {
         Application.Instance.Invoke(() =>
         {
-            lbSongCount.Text = $"{e.SongsHandledCount} / {e.SongsCountTotal}";
+            lbTrackCount.Text = $"{e.AudioTracksHandledCount} / {e.AudioTracksCountTotal}";
             lbAlbumCount.Text = $"{e.AlbumsHandledCount} / {e.AlbumsCountTotal}";
             lbAlbumEntryCount.Text = $"{e.AlbumEntriesHandledCount} / {e.AlbumEntryCountTotal}";
             lbQueueEntryCount.Text = $"{e.QueueEntriesHandledCount} / {e.QueueEntryCountTotal}";
@@ -201,7 +201,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
         });
     }
 
-    private readonly Label lbSongCount;
+    private readonly Label lbTrackCount;
     private readonly Label lbAlbumCount;
     private readonly Label lbAlbumEntryCount;
     private readonly Label lbQueueEntryCount;

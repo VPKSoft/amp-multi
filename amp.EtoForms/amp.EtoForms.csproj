@@ -71,8 +71,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="ExtensionClasses\" />
-	</ItemGroup>
-
 </Project>

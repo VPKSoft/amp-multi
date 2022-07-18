@@ -31,26 +31,29 @@ using amp.Shared.Interfaces;
 namespace amp.Database.DataModel;
 
 /// <summary>
-/// A single song in a queue snapshot.
-/// Implements the <see cref="IQueueSong" />
+/// A link table to album audio tracks.
+/// Implements the <see cref="IAlbumTrack{TAudioTrack,TAlbum}" />
 /// </summary>
-/// <seealso cref="IQueueSong" />
-[Table(nameof(QueueSong))]
+/// <seealso cref="IAlbumTrack{TAudioTrack,TAlbum}" />
+[Table(nameof(AlbumTrack))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class QueueSong : IQueueSong
+public class AlbumTrack : IAlbumTrack<AudioTrack, Album>
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IQueueSong.SongId"/>
-    public long SongId { get; set; }
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.AlbumId"/>
+    public long AlbumId { get; set; }
 
-    /// <inheritdoc cref="IQueueSong.QueueSnapshotId"/>
-    public long QueueSnapshotId { get; set; }
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.AudioTrackId"/>
+    public long AudioTrackId { get; set; }
 
-    /// <inheritdoc cref="IQueueSong.QueueIndex"/>
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.QueueIndex"/>
     public int QueueIndex { get; set; }
+
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.QueueIndexAlternate"/>
+    public int QueueIndexAlternate { get; set; }
 
     /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc { get; set; }
@@ -58,17 +61,11 @@ public class QueueSong : IQueueSong
     /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
 
-    /// <summary>
-    /// Gets or sets the song of this queue song.
-    /// </summary>
-    /// <value>The song of this queue song.</value>
-    [ForeignKey(nameof(SongId))]
-    public Song? Song { get; set; }
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.Album"/>
+    [ForeignKey(nameof(AlbumId))]
+    public Album? Album { get; set; }
 
-    /// <summary>
-    /// Gets or sets the queue snapshot reference.
-    /// </summary>
-    /// <value>The queue snapshot reference.</value>
-    [ForeignKey(nameof(QueueSnapshotId))]
-    public QueueSnapshot? QueueSnapshot { get; set; }
+    /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.AudioTrack"/>
+    [ForeignKey(nameof(AudioTrackId))]
+    public AudioTrack? AudioTrack { get; set; }
 }

@@ -45,21 +45,21 @@ public class AmpContext : DbContext
     /// for more information.</remarks>
     public AmpContext()
     {
-        Songs = base.Set<Song>();
+        AudioTracks = base.Set<AudioTrack>();
         Albums = base.Set<Album>();
-        AlbumSongs = base.Set<AlbumSong>();
+        AlbumTracks = base.Set<AlbumTrack>();
         QueueSnapshots = base.Set<QueueSnapshot>();
-        QueueSongs = base.Set<QueueSong>();
+        QueueTracks = base.Set<QueueTrack>();
     }
 
     // ReSharper disable five times MemberCanBePrivate.Global, these entities will be used.
     // ReSharper disable five times UnusedAutoPropertyAccessor.Global, these entities will be used.
 
     /// <summary>
-    /// Gets the songs.
+    /// Gets the audio tracks.
     /// </summary>
-    /// <value>The songs.</value>
-    public DbSet<Song> Songs { get; }
+    /// <value>The audio tracks.</value>
+    public DbSet<AudioTrack> AudioTracks { get; }
 
     /// <summary>
     /// Gets the albums.
@@ -68,10 +68,10 @@ public class AmpContext : DbContext
     public DbSet<Album> Albums { get; }
 
     /// <summary>
-    /// Gets the album songs.
+    /// Gets the album audio tracks.
     /// </summary>
-    /// <value>The album songs.</value>
-    public DbSet<AlbumSong> AlbumSongs { get; }
+    /// <value>The album audio tracks.</value>
+    public DbSet<AlbumTrack> AlbumTracks { get; }
 
     /// <summary>
     /// Gets the queue snapshots.
@@ -80,10 +80,10 @@ public class AmpContext : DbContext
     public DbSet<QueueSnapshot> QueueSnapshots { get; }
 
     /// <summary>
-    /// Gets the queued songs.
+    /// Gets the queued audio tracks.
     /// </summary>
-    /// <value>The queued songs.</value>
-    public DbSet<QueueSong> QueueSongs { get; }
+    /// <value>The queued audio tracks.</value>
+    public DbSet<QueueTrack> QueueTracks { get; }
 
     /// <inheritdoc cref="DbContext.OnConfiguring"/>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -102,11 +102,11 @@ public class AmpContext : DbContext
     /// <inheritdoc cref="DbContext.OnModelCreating"/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Song>().SpecifyUtcKind();
+        modelBuilder.Entity<AudioTrack>().SpecifyUtcKind();
         modelBuilder.Entity<Album>().SpecifyUtcKind();
-        modelBuilder.Entity<AlbumSong>().SpecifyUtcKind();
+        modelBuilder.Entity<AlbumTrack>().SpecifyUtcKind();
         modelBuilder.Entity<QueueSnapshot>().SpecifyUtcKind();
-        modelBuilder.Entity<QueueSong>().SpecifyUtcKind();
+        modelBuilder.Entity<QueueTrack>().SpecifyUtcKind();
 
         base.OnModelCreating(modelBuilder);
     }

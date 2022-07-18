@@ -32,73 +32,73 @@ using amp.Shared.Interfaces;
 namespace amp.Database.DataModel;
 
 /// <summary>
-/// A single song data in the amp# database.
-/// Implements the <see cref="ISong" />
+/// A single audio track data in the amp# database.
+/// Implements the <see cref="IAudioTrack" />
 /// </summary>
-/// <seealso cref="ISong" />
-[Table(nameof(Song))]
+/// <seealso cref="IAudioTrack" />
+[Table(nameof(AudioTrack))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Song : ISong
+public class AudioTrack : IAudioTrack
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
     public long Id { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string FileName { get; set; } = string.Empty;
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Artist { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Album { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Track { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Year { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Lyrics { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public int? Rating { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public int? PlayedByRandomize { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public int? PlayedByUser { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public long? FileSizeBytes { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public double PlaybackVolume { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? OverrideName { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? TagFindString { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public bool? TagRead { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? FileNameNoPath { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public int? SkippedEarlyCount { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="ISong.FileName"/>
-    public byte[]? SongImageData { get; set; }
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    public byte[]? TrackImageData { get; set; }
 
-    /// <inheritdoc cref="ISong.MusicFileType"/>
+    /// <inheritdoc cref="IAudioTrack.MusicFileType"/>
     public MusicFileType MusicFileType { get; set; }
 
     /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>

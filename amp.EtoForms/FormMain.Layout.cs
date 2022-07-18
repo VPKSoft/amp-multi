@@ -87,7 +87,7 @@ partial class FormMain
             {
                 btnPreviousTrack,
                 btnPlayPause,
-                new Button(PlayNextSongClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button(PlayNextAudioTrackClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
                 btnShowQueue,
                 new Panel {Width =  Globals.DefaultPadding,},
@@ -102,10 +102,10 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(songVolumeSlider), nameof(totalVolumeSlider))]
+    [MemberNotNull(nameof(ttrackVolumeSlider), nameof(totalVolumeSlider))]
     private Control CreateValueSliders()
     {
-        songVolumeSlider = new VolumeSlider((_, args) =>
+        ttrackVolumeSlider = new VolumeSlider((_, args) =>
             {
                 playbackManager.PlaybackVolume = args.Value / 100.0;
             })
@@ -138,9 +138,9 @@ partial class FormMain
                 {
                     Cells =
                     {
-                        new TableCell(new Label { Text = UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new TableCell(new Label { Text = UI.TrackVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
-                        new TableCell(songVolumeSlider, true),
+                        new TableCell(ttrackVolumeSlider, true),
                     },
                 },
                 new Panel {Height = Globals.DefaultPadding,},
@@ -171,32 +171,32 @@ partial class FormMain
     {
         btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
         btnPlayPause.CheckedChange += PlayPauseToggle;
-        nextSongCommand.Executed += NextSongCommand_Executed;
+        nextAudioTrackCommand.Executed += NextAudioTrackCommand_Executed;
         tbSearch.TextChanged += TbSearch_TextChanged;
-        gvSongs.MouseDoubleClick += GvSongsMouseDoubleClick;
+        gvAudioTracks.MouseDoubleClick += GvAudioTracksMouseDoubleClick;
         Closing += FormMain_Closing;
         KeyDown += FormMain_KeyDown;
-        gvSongs.KeyDown += FormMain_KeyDown;
+        gvAudioTracks.KeyDown += FormMain_KeyDown;
         tbSearch.KeyDown += FormMain_KeyDown;
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.SongChanged += PlaybackManager_SongChanged;
+        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
         playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.SongSkipped += PlaybackManager_SongSkipped;
+        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
         playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
         playbackManager.PlaybackError += PlaybackManager_PlaybackError;
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdle;
         idleChecker.UserActivated += IdleChecker_UserActivated;
         settingsCommand.Executed += SettingsCommand_Executed;
-        gvSongs.SizeChanged += GvSongs_SizeChanged;
+        gvAudioTracks.SizeChanged += GvAudioTracksSizeChanged;
         Shown += FormMain_Shown;
     }
 
-    private void GvSongs_SizeChanged(object? sender, EventArgs e)
+    private void GvAudioTracksSizeChanged(object? sender, EventArgs e)
     {
-        gvSongs.Columns[0].Width = gvSongs.Width - 80;
-        gvSongs.Columns[1].Width = 30;
-        gvSongs.Columns[2].Width = 30;
+        gvAudioTracks.Columns[0].Width = gvAudioTracks.Width - 80;
+        gvAudioTracks.Columns[1].Width = 30;
+        gvAudioTracks.Columns[2].Width = 30;
     }
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
@@ -205,7 +205,7 @@ partial class FormMain
         settingsForm.ShowModal(this);
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvSongs), nameof(cmbAlbumSelect))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider { Height = 20, };
@@ -230,13 +230,13 @@ partial class FormMain
             },
         };
 
-        gvSongs = new GridView
+        gvAudioTracks = new GridView
         {
             Columns =
             {
                 new GridColumn
                 {
-                    DataCell = new TextBoxCell(nameof(AlbumSong.DisplayName)), Expand = true,
+                    DataCell = new TextBoxCell(nameof(AlbumTrack.DisplayName)), Expand = true,
                     HeaderText = UI.Track,
                     Resizable = false,
                 },
@@ -245,7 +245,7 @@ partial class FormMain
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((AlbumSong s) => s.QueueIndex)
+                            .Property((AlbumTrack s) => s.QueueIndex)
                             .Convert(q => q == 0 ? null : q.ToString())
                             .Cast<string?>(),
                     },
@@ -257,7 +257,7 @@ partial class FormMain
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((AlbumSong s) => s.QueueIndexAlternate)
+                            .Property((AlbumTrack s) => s.QueueIndexAlternate)
                             .Convert(qa => qa == 0 ? null : qa.ToString())
                             .Cast<string?>(),
                     },
@@ -278,11 +278,11 @@ partial class FormMain
             {
                 new StackLayoutItem(new Panel { Content = toolBar, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = CreateAlbumSelector(), Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = songAdjustControls, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = trackAdjustControls, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = stackLayout,}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = lbSongsTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = gvSongs, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
+                new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
             },
             Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
         };
@@ -389,20 +389,20 @@ partial class FormMain
     }
 
     private readonly AboutDialog aboutDialog = new();
-    private GridView gvSongs;
+    private GridView gvAudioTracks;
     private readonly TextBox tbSearch = new();
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
-    private readonly Label lbSongsTitle = new();
-    private VolumeSlider songVolumeSlider;
+    private readonly Label lbTracksTitle = new();
+    private VolumeSlider ttrackVolumeSlider;
     private VolumeSlider totalVolumeSlider;
     private readonly Command commandPlayPause = new();
-    private readonly Command nextSongCommand = new();
+    private readonly Command nextAudioTrackCommand = new();
     private CheckedButton btnShuffleToggle;
     private CheckedButton btnRepeatToggle;
     private CheckedButton btnShowQueue;
     private readonly StackLayout toolBar;
-    private readonly Control songAdjustControls;
+    private readonly Control trackAdjustControls;
     private PositionSlider playbackPosition;
     private Label lbPlaybackPosition;
     private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };

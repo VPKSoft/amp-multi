@@ -27,21 +27,10 @@ SOFTWARE.
 namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// Event arguments for indicating an early skipped playback.
-/// Implements the <see cref="EventArgs" />
+/// Event arguments for an audio track change event.
+/// Implements the <see cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
 /// </summary>
-/// <seealso cref="EventArgs" />
-public class SongSkippedEventArgs : EventArgs
+/// <seealso cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
+public class TrackChangedArgs : PlaybackPositionChangedArgs
 {
-    /// <summary>
-    /// Gets or sets the song identifier.
-    /// </summary>
-    /// <value>The song identifier.</value>
-    public long SongId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the position percentage the song was skipped at.
-    /// </summary>
-    /// <value>The position percentage the song was skipped at.</value>
-    public double SkippedAtPercentage { get; set; }
 }
