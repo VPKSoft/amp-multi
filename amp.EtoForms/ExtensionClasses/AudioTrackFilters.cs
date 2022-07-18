@@ -31,7 +31,7 @@ using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.ExtensionClasses;
 
-internal static class SongFilters
+internal static class AudioTrackFilters
 {
     /// <summary>
     /// Checks if the properties of this music file instance matches the given search string.
@@ -129,7 +129,7 @@ internal static class SongFilters
                       audioTrack.Track?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.FileName.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.OverrideName?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      SongDisplayNameGenerate.GetSongName(audioTrack)?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       MatchTagFindString(audioTrack.TagFindString, search);
 
         string[] search2 = search.Split(' ');
@@ -149,7 +149,7 @@ internal static class SongFilters
                       audioTrack.Track?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.FileName.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.OverrideName?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      SongDisplayNameGenerate.GetSongName(audioTrack)?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       MatchTagFindString(audioTrack.TagFindString, tmpStr);
         }
 

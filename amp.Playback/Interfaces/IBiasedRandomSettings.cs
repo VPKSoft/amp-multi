@@ -44,7 +44,7 @@ public interface IBiasedRandomSettings
     void ApplyTo(IBiasedRandomSettings settings);
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use biased randomization with randomizing songs.
+    /// Gets or sets a value indicating whether to use biased randomization with randomizing audio tracks.
     /// </summary>
     bool BiasedRandom { get; set; }
 

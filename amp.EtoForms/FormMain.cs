@@ -69,13 +69,13 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Models.Album>(Globals.Logger, GetNextSongFunc, GetSongById,
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Models.Album>(Globals.Logger, GetNextAudioTrackFunc, GetTrackById,
             () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
         CreateButtons();
         toolBar = CreateToolbar();
-        songAdjustControls = CreateValueSliders();
+        trackAdjustControls = CreateValueSliders();
         Content = CreateMainContent();
 
         totalVolumeSlider.Value = Globals.Settings.MasterVolume * 100;
@@ -87,7 +87,7 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        songs = context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList();
+        tracks = context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList();
 
         playbackManager.ManagerStopped = false;
 
@@ -104,8 +104,8 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private List<AlbumTrack> songs;
-    private List<AlbumTrack> filteredSongs = new();
+    private List<AlbumTrack> tracks;
+    private List<AlbumTrack> filteredTracks = new();
     private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
     private readonly AmpContext context;

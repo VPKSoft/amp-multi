@@ -137,9 +137,9 @@ public class FormAlbums : Dialog<bool>
             var toRemove = context.Albums.Where(f => !ids.Contains(f.Id));
             var removeIds = await toRemove.Select(f => f.Id).ToListAsync();
 
-            var toRemoveSongs = context.AlbumTracks.Where(f => removeIds.Contains(f.AlbumId));
+            var toRemoveTracks = context.AlbumTracks.Where(f => removeIds.Contains(f.AlbumId));
 
-            context.AlbumTracks.RemoveRange(toRemoveSongs);
+            context.AlbumTracks.RemoveRange(toRemoveTracks);
             await context.SaveChangesAsync();
 
             context.Albums.RemoveRange(toRemove);

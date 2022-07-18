@@ -60,7 +60,7 @@ internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private bool? tagRead;
     private string? fileNameNoPath;
     private string? title;
-    private byte[]? songImageData;
+    private byte[]? trackImageData;
     private MusicFileType musicFileType;
 
     public long Id { get; set; }
@@ -353,13 +353,13 @@ internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
     /// <inheritdoc cref="IAudioTrack.TrackImageData"/>
     public byte[]? TrackImageData
     {
-        get => songImageData;
+        get => trackImageData;
 
         set
         {
-            if (songImageData != value)
+            if (trackImageData != value)
             {
-                songImageData = value;
+                trackImageData = value;
                 OnPropertyChanged(nameof(TrackImageData));
             }
         }
@@ -389,7 +389,7 @@ internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
     /// Gets or sets the display name for the track.
     /// </summary>
     /// <value>The display name of the track.</value>
-    public string DisplayName => SongDisplayNameGenerate.GetSongName(this);
+    public string DisplayName => TrackDisplayNameGenerate.GetAudioTrackName(this);
 
     /// <summary>
     /// Called when property value changes.

@@ -50,11 +50,11 @@ partial class FormMain
         {
             if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal)
             {
-                if (gvSongs.SelectedItem == null && gvSongs.DataStore.Any())
+                if (gvAudioTracks.SelectedItem == null && gvAudioTracks.DataStore.Any())
                 {
-                    gvSongs.SelectedRow = 0;
+                    gvAudioTracks.SelectedRow = 0;
                 }
-                gvSongs.Focus();
+                gvAudioTracks.Focus();
                 e.Handled = true;
             }
             return;
@@ -62,10 +62,10 @@ partial class FormMain
 
         if (e.Key == Keys.Add)
         {
-            var selectedSongs = songs.Where(f => SelectedAlbumSongIds.Contains(f.Id)).Select(f => f.Id);
-            await playbackOrder.ToggleQueue(songs, selectedSongs.ToArray());
+            var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
+            await playbackOrder.ToggleQueue(tracks, selectedTracks.ToArray());
 
-            gvSongs.Invalidate();
+            gvAudioTracks.Invalidate();
 
             e.Handled = true;
             return;
@@ -73,10 +73,10 @@ partial class FormMain
 
         if (e.Key == Keys.Enter)
         {
-            if (gvSongs.SelectedItem != null)
+            if (gvAudioTracks.SelectedItem != null)
             {
-                var albumSong = (Models.AlbumTrack)gvSongs.SelectedItem;
-                await playbackManager.PlayAudioTrack(albumSong, true);
+                var albumTrack = (Models.AlbumTrack)gvAudioTracks.SelectedItem;
+                await playbackManager.PlayAudioTrack(albumTrack, true);
                 e.Handled = true;
                 return;
             }
@@ -94,33 +94,33 @@ partial class FormMain
         }
     }
 
-    private long SelectedAlbumSongId
+    private long SelectedAlbumTrackId
     {
         get
         {
-            if (gvSongs.SelectedItem != null)
+            if (gvAudioTracks.SelectedItem != null)
             {
-                var songId = ((AlbumTrack)gvSongs.SelectedItem).Id;
-                return songId;
+                var albumTrackId = ((AlbumTrack)gvAudioTracks.SelectedItem).Id;
+                return albumTrackId;
             }
 
             return 0;
         }
     }
 
-    private IEnumerable<long> SelectedAlbumSongIds
+    private IEnumerable<long> SelectedAlbumTrackIds
     {
         get
         {
-            foreach (var gvSongsSelectedItem in gvSongs.SelectedItems)
+            foreach (var selectedItem in gvAudioTracks.SelectedItems)
             {
-                var songId = ((Models.AlbumTrack)gvSongsSelectedItem).Id;
-                yield return songId;
+                var trackId = ((Models.AlbumTrack)selectedItem).Id;
+                yield return trackId;
             }
         }
     }
 
-    private async void NextSongCommand_Executed(object? sender, EventArgs e)
+    private async void NextAudioTrackCommand_Executed(object? sender, EventArgs e)
     {
         await playbackManager.PlayNextTrack(true);
     }
@@ -130,17 +130,17 @@ partial class FormMain
         playbackManager.PlaybackPositionPercentage = e.Value;
     }
 
-    private async void GvSongsMouseDoubleClick(object? sender, MouseEventArgs e)
+    private async void GvAudioTracksMouseDoubleClick(object? sender, MouseEventArgs e)
     {
-        var song = songs.First(f => f.Id == SelectedAlbumSongId);
-        if (song.AudioTrack?.PlayedByUser != null)
+        var track = tracks.First(f => f.Id == SelectedAlbumTrackId);
+        if (track.AudioTrack?.PlayedByUser != null)
         {
-            song.AudioTrack.PlayedByUser++;
-            song.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(song));
+            track.AudioTrack.PlayedByUser++;
+            track.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
+            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(track));
             await context.SaveChangesAsync();
         }
-        await playbackManager.PlayAudioTrack(song, true);
+        await playbackManager.PlayAudioTrack(track, true);
     }
 
     private void FormMain_LocationChanged(object? sender, EventArgs e)
@@ -150,14 +150,14 @@ partial class FormMain
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        filteredSongs = songs;
+        filteredTracks = tracks;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            filteredSongs = songs.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
+            filteredTracks = tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
         }
 
-        gvSongs.DataStore = filteredSongs;
+        gvAudioTracks.DataStore = filteredTracks;
     }
 
     private void FormMain_Closing(object? sender, CancelEventArgs e)
@@ -168,20 +168,20 @@ partial class FormMain
         idleChecker.Dispose();
     }
 
-    private async Task<Models.AlbumTrack?> GetNextSongFunc()
+    private async Task<Models.AlbumTrack?> GetNextAudioTrackFunc()
     {
         AlbumTrack? result = null;
         await Application.Instance.InvokeAsync(async () =>
         {
-            var nextSongData = await playbackOrder.NextSong(songs);
-            result = Globals.AutoMapper.Map<AlbumTrack>(songs[nextSongData.NextSongIndex]);
+            var nextTrackData = await playbackOrder.NextTrack(tracks);
+            result = Globals.AutoMapper.Map<AlbumTrack>(tracks[nextTrackData.NextTrackIndex]);
             if (result.AudioTrack != null)
             {
                 result.AudioTrack.PlayedByRandomize ??= 0;
                 result.AudioTrack.PlayedByUser ??= 0;
 
-                result.AudioTrack.PlayedByRandomize += nextSongData.PlayedByRandomize;
-                result.AudioTrack.PlayedByUser += nextSongData.PlayedByUser;
+                result.AudioTrack.PlayedByRandomize += nextTrackData.PlayedByRandomize;
+                result.AudioTrack.PlayedByUser += nextTrackData.PlayedByUser;
                 result.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
 
                 context.Update(result);
@@ -197,8 +197,8 @@ partial class FormMain
     {
         await Application.Instance.InvokeAsync(() =>
         {
-            var song = songs.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
-            lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+            var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
+            lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
             btnPlayPause.CheckedChange -= PlayPauseToggle;
             btnPlayPause.Checked = e.PlaybackState == PlaybackState.Playing;
             btnPlayPause.CheckedChange += PlayPauseToggle;
@@ -209,23 +209,23 @@ partial class FormMain
     {
         Application.Instance.Invoke(() =>
         {
-            var song = songs.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
-            songVolumeSlider.SuspendEventInvocation = true;
-            songVolumeSlider.Value = song?.AudioTrack?.PlaybackVolume * 100 ?? 100;
-            songVolumeSlider.SuspendEventInvocation = false;
-            lbSongsTitle.Text = song?.GetSongName() ?? string.Empty;
+            var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
+            ttrackVolumeSlider.SuspendEventInvocation = true;
+            ttrackVolumeSlider.Value = track?.AudioTrack?.PlaybackVolume * 100 ?? 100;
+            ttrackVolumeSlider.SuspendEventInvocation = false;
+            lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
 
-            var dataSource = gvSongs.DataStore.Cast<AlbumTrack>().ToList();
-            var displaySong = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
-            if (displaySong != -1)
+            var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
+            var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
+            if (displayTrack != -1)
             {
-                gvSongs.SelectedRow = displaySong;
-                gvSongs.ScrollToRow(displaySong);
+                gvAudioTracks.SelectedRow = displayTrack;
+                gvAudioTracks.ScrollToRow(displayTrack);
             }
 
-            if (song != null)
+            if (track != null)
             {
-                formAlbumImage.Show(this, song);
+                formAlbumImage.Show(this, track);
             }
 
             btnPreviousTrack.Enabled = playbackManager.CanGoPrevious;
@@ -236,14 +236,14 @@ partial class FormMain
     {
         Globals.LoggerSafeInvoke(async () =>
         {
-            var albumSong = songs.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
-            if (albumSong != null)
+            var albumTrack = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
+            if (albumTrack != null)
             {
-                albumSong.AudioTrack!.SkippedEarlyCount = albumSong.AudioTrack.SkippedEarlyCount == null
+                albumTrack.AudioTrack!.SkippedEarlyCount = albumTrack.AudioTrack.SkippedEarlyCount == null
                     ? 1
-                    : albumSong.AudioTrack.SkippedEarlyCount + 1;
-                albumSong.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
-                context.Update(albumSong);
+                    : albumTrack.AudioTrack.SkippedEarlyCount + 1;
+                albumTrack.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
+                context.Update(albumTrack);
                 await context.SaveChangesAsync();
             }
         });
@@ -274,16 +274,16 @@ partial class FormMain
         playbackManager.Shuffle = e.Checked;
     }
 
-    private async void PlayNextSongClick(object? sender, EventArgs e)
+    private async void PlayNextAudioTrackClick(object? sender, EventArgs e)
     {
         await playbackManager.PlayNextTrack(true);
     }
 
-    private async Task<Models.AlbumTrack?> GetSongById(long songId)
+    private async Task<Models.AlbumTrack?> GetTrackById(long trackId)
     {
         return await Application.Instance.InvokeAsync(Models.AlbumTrack? () =>
         {
-            return songs.FirstOrDefault(f => f.AudioTrackId == songId);
+            return tracks.FirstOrDefault(f => f.AudioTrackId == trackId);
         });
     }
 
@@ -421,7 +421,7 @@ partial class FormMain
                 context.QueueSnapshots.Add(queueSnapshot);
                 await context.SaveChangesAsync();
 
-                var queuedSongs = songs.Where(f => f.QueueIndex > 0).Select(f => new QueueTrack
+                var queueTracks = tracks.Where(f => f.QueueIndex > 0).Select(f => new QueueTrack
                 {
                     QueueSnapshotId = queueSnapshot.Id,
                     AudioTrackId = f.AudioTrackId,
@@ -429,7 +429,7 @@ partial class FormMain
                     QueueIndex = f.QueueIndex,
                 }).ToList();
 
-                context.QueueTracks.AddRange(queuedSongs);
+                context.QueueTracks.AddRange(queueTracks);
 
                 await context.SaveChangesAsync();
                 await transaction.CommitAsync();

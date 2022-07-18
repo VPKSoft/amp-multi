@@ -93,7 +93,7 @@ public class FormAlbumImage : Form
     /// </summary>
     /// <param name="main">The main form.</param>
     /// <param name="albumTrack">The album track to get the image for.</param>
-    public void Show<TSong, TAlbum>(FormMain main, IAlbumTrack<TSong, TAlbum> albumTrack) where TSong : IAudioTrack where TAlbum : IAlbum
+    public void Show<TAudioTrack, TAlbum>(FormMain main, IAlbumTrack<TAudioTrack, TAlbum> albumTrack) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
         if (albumTrack.AudioTrack != null)
         {

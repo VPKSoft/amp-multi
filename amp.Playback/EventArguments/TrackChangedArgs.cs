@@ -27,7 +27,7 @@ SOFTWARE.
 namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// Event arguments for a song change event.
+/// Event arguments for an audio track change event.
 /// Implements the <see cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
 /// </summary>
 /// <seealso cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
