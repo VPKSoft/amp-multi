@@ -42,15 +42,15 @@ public static class MigrateOld
     /// </summary>
     /// <param name="fileNameOld">The old database file name.</param>
     /// <returns>A value tuple with the statistics.</returns>
-    public static (int songs, int albums, int albumSongs, int queueSnaphots) OldDatabaseStatistics(string fileNameOld)
+    public static (int audioTracks, int albums, int albumTracks, int queueSnaphots) OldDatabaseStatistics(string fileNameOld)
     {
         using var connectionOld = new SqliteConnection($"Data Source={fileNameOld}");
         connectionOld.Open();
-        var songs = GetTableCount(connectionOld, "SONG");
+        var audioTracks = GetTableCount(connectionOld, "SONG");
         var albums = GetTableCount(connectionOld, "ALBUM") - 1;
-        var albumSongs = GetTableCount(connectionOld, "ALBUMSONGS");
+        var albumTracks = GetTableCount(connectionOld, "ALBUMSONGS");
         var queueSnapshots = GetQueueCountTotal(connectionOld);
-        return (songs, albums, albumSongs, queueSnapshots);
+        return (audioTracks, albums, albumTracks, queueSnapshots);
     }
 
     private static int GetTableCount(SqliteConnection connection, string tableName)
@@ -87,11 +87,11 @@ public static class MigrateOld
     public static void RunConvert(string fileNameOld, string fileNameNew, int transactionRowLimit = 100)
     {
         var totals = OldDatabaseStatistics(fileNameOld);
-        var allCount = totals.albumSongs + totals.albums + totals.queueSnaphots + totals.songs;
+        var allCount = totals.albumTracks + totals.albums + totals.queueSnaphots + totals.audioTracks;
 
         var migrations = GenerateMigrationData(fileNameOld, fileNameNew, transactionRowLimit);
 
-        var songs = 0;
+        var audioTracks = 0;
         var albums = 0;
         var albumEntries = 0;
         var queueSnapshots = 0;
@@ -105,16 +105,16 @@ public static class MigrateOld
         {
             void RiseThreadStopped()
             {
-                var entriesLeft = (double)allCount - (songs + albums + queueSnapshots + albumEntries);
+                var entriesLeft = (double)allCount - (audioTracks + albums + queueSnapshots + albumEntries);
                 ThreadStopped?.Invoke(null,
                     new ConvertProgressArgs
                     {
-                        SongsHandledCount = songs,
-                        SongsCountTotal = totals.songs,
+                        AudioTracksHandledCount = audioTracks,
+                        AudioTracksCountTotal = totals.audioTracks,
                         AlbumsHandledCount = albums,
                         AlbumsCountTotal = totals.albums,
                         AlbumEntriesHandledCount = albumEntries,
-                        AlbumEntryCountTotal = totals.albumSongs,
+                        AlbumEntryCountTotal = totals.albumTracks,
                         QueueEntriesHandledCount = queueSnapshots,
                         QueueEntryCountTotal = totals.queueSnaphots,
                         CountTotal = allCount,
@@ -147,7 +147,7 @@ public static class MigrateOld
                     switch (migration.Key)
                     {
                         case 0:
-                            songs += affected;
+                            audioTracks += affected;
                             break;
                         case 1:
                             albums += affected;
@@ -160,16 +160,16 @@ public static class MigrateOld
                             break;
                     }
 
-                    var entriesLeft = (double)allCount - (songs + albums + queueSnapshots + albumEntries);
+                    var entriesLeft = (double)allCount - (audioTracks + albums + queueSnapshots + albumEntries);
                     ReportProgress?.Invoke(null,
                         new ConvertProgressArgs
                         {
-                            SongsHandledCount = songs,
-                            SongsCountTotal = totals.songs,
+                            AudioTracksHandledCount = audioTracks,
+                            AudioTracksCountTotal = totals.audioTracks,
                             AlbumsHandledCount = albums,
                             AlbumsCountTotal = totals.albums,
                             AlbumEntriesHandledCount = albumEntries,
-                            AlbumEntryCountTotal = totals.albumSongs,
+                            AlbumEntryCountTotal = totals.albumTracks,
                             QueueEntriesHandledCount = queueSnapshots,
                             QueueEntryCountTotal = totals.queueSnaphots,
                             CountTotal = allCount,
@@ -333,7 +333,7 @@ public static class MigrateOld
             };
 
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO Song (" +
+                "INSERT INTO AudioTrack (" +
                 "Id, ",                 // 0
                 "FileName, ",           // 1
                 "Artist, ",             // 2
@@ -437,7 +437,7 @@ public static class MigrateOld
             }
 
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO AlbumSong (AlbumId, SongId, QueueIndex, CreatedAtUtc)",
+                "INSERT INTO AlbumTrack (AlbumId, AudioTrackId, QueueIndex, CreatedAtUtc)",
                 "SELECT",
                 $"{albumId},",
                 $"{GetField<long>(reader, 1)},",
@@ -489,7 +489,7 @@ public static class MigrateOld
             }
 
             var sqlNew = string.Join(Environment.NewLine,
-                "INSERT INTO QueueSong (SongId, QueueSnapshotId, QueueIndex, CreatedAtUtc)",
+                "INSERT INTO QueueTrack (AudioTrackId, QueueSnapshotId, QueueIndex, CreatedAtUtc)",
                 "SELECT",
                 $"{GetField<long>(reader, 2)},",
                 $"{snapshotId},",

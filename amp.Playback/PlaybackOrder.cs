@@ -36,11 +36,11 @@ namespace amp.Playback;
 /// A class to generate albumSongs from a specified playlist.
 /// Implements the <see cref="BiasedRandomSettingsBase" />
 /// </summary>
-/// <typeparam name="TSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Song"/> member.</typeparam>
-/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/>.</typeparam>
-/// <typeparam name="TAlbum">The type of the <see cref="IAlbumSong{TSong, TAlbum}"/> <see cref="IAlbumSong{TSong, TAlbum}.Album"/> member.</typeparam>
+/// <typeparam name="TSong">The type of the <see cref="IAlbumTrackTrack{TSong,TAlbum}"/> <see cref="IAlbumTrack{TSong,TAlbum}.AudioTrack"/> member.</typeparam>
+/// <typeparam name="TAlbumSong">The type of the <see cref="IAlbumTrackTrack{TSong,TAlbum}"/>.</typeparam>
+/// <typeparam name="TAlbum">The type of the <see cref="IAlbumTrackTrack{TSong,TAlbum}"/> <see cref="IAlbumTrackTrack{TSong,TAlbum}.Album"/> member.</typeparam>
 /// <seealso cref="BiasedRandomSettingsBase" />
-public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase where TSong : ISong where TAlbum : IAlbum where TAlbumSong : class, IAlbumSong<TSong, TAlbum>
+public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase where TSong : IAudioTrack where TAlbum : IAlbum where TAlbumSong : class, IAlbumTrack<TSong, TAlbum>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackOrder{TSong, TAlbumSong, TAlbum}"/> class.
@@ -169,7 +169,7 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
 
         return new SongResult
         {
-            SongId = iSongIndex != -1 ? albumSongs[iSongIndex].SongId : 0,
+            SongId = iSongIndex != -1 ? albumSongs[iSongIndex].AudioTrackId : 0,
             NextSongIndex = iSongIndex,
             PlayedByRandomize = randomized ? 1 : 0,
             PlayedByUser = queued ? 1 : 0,
@@ -197,7 +197,7 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
             albumSongs.Where(f => f.QueueIndex > 0).
                 OrderByDescending(f => f.QueueIndex).ToList();
 
-        var result = queuedSongs.Select(f => new IdValuePair<int> { Id = f.SongId, Value = f.QueueIndex, }).ToList();
+        var result = queuedSongs.Select(f => new IdValuePair<int> { Id = f.AudioTrackId, Value = f.QueueIndex, }).ToList();
 
         // Get the amount of songs in the queue to randomize to a new order.
         var randomizeCount = (int)(result.Count * (stackRandomPercentage / 100.0));
@@ -242,7 +242,7 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
 
         // Re-index the previous song to the last of the queue.
         var currentSongReQueued = new IdValuePair<int>
-        { Id = previousSong.SongId, Value = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1, };
+        { Id = previousSong.AudioTrackId, Value = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1, };
 
         result.Add(currentSongReQueued);
 
@@ -268,45 +268,45 @@ public class PlaybackOrder<TSong, TAlbumSong, TAlbum> : BiasedRandomSettingsBase
 
         var results = new List<TAlbumSong>();
 
-        double valueMin = albumSongs.Min(f => f.Song?.Rating) ?? 0;
-        double valueMax = albumSongs.Max(f => f.Song?.Rating) ?? 1000;
+        double valueMin = albumSongs.Min(f => f.AudioTrack?.Rating) ?? 0;
+        double valueMax = albumSongs.Max(f => f.AudioTrack?.Rating) ?? 1000;
 
         var biased = BR.RandomBiased(valueMin, valueMax, BiasedRating);
 
         if (BiasedRatingEnabled)
         {
             results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.Rating ?? 500, biased, valueMin, valueMax, Tolerance)));
+                InRange(f.AudioTrack?.Rating ?? 500, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.PlayedByUser ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.PlayedByUser ?? 0);
+        valueMin = albumSongs.Min(f => f.AudioTrack?.PlayedByUser ?? 0);
+        valueMax = albumSongs.Max(f => f.AudioTrack?.PlayedByUser ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedPlayedCount);
 
         if (BiasedPlayedCountEnabled)
         {
             results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.PlayedByUser ?? 0, biased, valueMin, valueMax, Tolerance)));
+                InRange(f.AudioTrack?.PlayedByUser ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.PlayedByRandomize ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.PlayedByRandomize ?? 0);
+        valueMin = albumSongs.Min(f => f.AudioTrack?.PlayedByRandomize ?? 0);
+        valueMax = albumSongs.Max(f => f.AudioTrack?.PlayedByRandomize ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedRandomizedCount);
 
         if (BiasedRandomizedCountEnabled)
         {
             results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.PlayedByRandomize ?? 0, biased, valueMin, valueMax, Tolerance)));
+                InRange(f.AudioTrack?.PlayedByRandomize ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
-        valueMin = albumSongs.Min(f => f.Song?.SkippedEarlyCount ?? 0);
-        valueMax = albumSongs.Max(f => f.Song?.SkippedEarlyCount ?? 0);
+        valueMin = albumSongs.Min(f => f.AudioTrack?.SkippedEarlyCount ?? 0);
+        valueMax = albumSongs.Max(f => f.AudioTrack?.SkippedEarlyCount ?? 0);
         biased = BR.RandomBiased(valueMin, valueMax, BiasedSkippedCount);
 
         if (BiasedSkippedCountEnabled)
         {
             results.AddRange(albumSongs.FindAll(f =>
-                InRange(f.Song?.SkippedEarlyCount ?? 0, biased, valueMin, valueMax, Tolerance)));
+                InRange(f.AudioTrack?.SkippedEarlyCount ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
         var result = -1;

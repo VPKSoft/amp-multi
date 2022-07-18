@@ -34,12 +34,12 @@ namespace amp.EtoForms.Models;
 
 /// <summary>
 /// The track entity-independent representation.
-/// Implements the <see cref="ISong" />
+/// Implements the <see cref="IAudioTrack" />
 /// Implements the <see cref="INotifyPropertyChanged" />
 /// </summary>
-/// <seealso cref="ISong" />
+/// <seealso cref="IAudioTrack" />
 /// <seealso cref="INotifyPropertyChanged" />
-internal class Song : ISong, INotifyPropertyChanged
+internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
 {
     private DateTime? modifiedAtUtc;
     private DateTime createdAtUtc;
@@ -140,7 +140,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string FileName
     {
         get => fileName;
@@ -155,7 +155,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Artist"/>
+    /// <inheritdoc cref="IAudioTrack.Artist"/>
     public string? Artist
     {
         get => artist;
@@ -170,7 +170,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Album"/>
+    /// <inheritdoc cref="IAudioTrack.Album"/>
     public string? Album
     {
         get => album;
@@ -185,7 +185,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Track"/>
+    /// <inheritdoc cref="IAudioTrack.Track"/>
     public string? Track
     {
         get => track;
@@ -200,7 +200,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Year"/>
+    /// <inheritdoc cref="IAudioTrack.Year"/>
     public string? Year
     {
         get => year;
@@ -215,7 +215,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Lyrics"/>
+    /// <inheritdoc cref="IAudioTrack.Lyrics"/>
     public string? Lyrics
     {
         get => lyrics;
@@ -230,7 +230,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Rating"/>
+    /// <inheritdoc cref="IAudioTrack.Rating"/>
     public int? Rating
     {
         get => rating;
@@ -245,7 +245,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.FileSizeBytes"/>
+    /// <inheritdoc cref="IAudioTrack.FileSizeBytes"/>
     public long? FileSizeBytes
     {
         get => fileSizeBytes;
@@ -260,7 +260,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.PlaybackVolume"/>
+    /// <inheritdoc cref="IAudioTrack.PlaybackVolume"/>
     public double PlaybackVolume
     {
         get => playbackVolume;
@@ -275,7 +275,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.OverrideName"/>
+    /// <inheritdoc cref="IAudioTrack.OverrideName"/>
     public string? OverrideName
     {
         get => overrideName;
@@ -290,7 +290,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.TagFindString"/>
+    /// <inheritdoc cref="IAudioTrack.TagFindString"/>
     public string? TagFindString
     {
         get => tagFindString;
@@ -305,7 +305,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.TagRead"/>
+    /// <inheritdoc cref="IAudioTrack.TagRead"/>
     public bool? TagRead
     {
         get => tagRead;
@@ -320,7 +320,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.FileNameNoPath"/>
+    /// <inheritdoc cref="IAudioTrack.FileNameNoPath"/>
     public string? FileNameNoPath
     {
         get => fileNameNoPath;
@@ -335,7 +335,7 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.Title"/>
+    /// <inheritdoc cref="IAudioTrack.Title"/>
     public string? Title
     {
         get => title;
@@ -350,8 +350,8 @@ internal class Song : ISong, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="ISong.SongImageData"/>
-    public byte[]? SongImageData
+    /// <inheritdoc cref="IAudioTrack.TrackImageData"/>
+    public byte[]? TrackImageData
     {
         get => songImageData;
 
@@ -360,12 +360,12 @@ internal class Song : ISong, INotifyPropertyChanged
             if (songImageData != value)
             {
                 songImageData = value;
-                OnPropertyChanged(nameof(SongImageData));
+                OnPropertyChanged(nameof(TrackImageData));
             }
         }
     }
 
-    /// <inheritdoc cref="ISong.MusicFileType"/>
+    /// <inheritdoc cref="IAudioTrack.MusicFileType"/>
     public MusicFileType MusicFileType
     {
         get => musicFileType;

@@ -27,11 +27,11 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// A ling between a song and an album.
+/// A link between an audio track and an album.
 /// Implements the <see cref="IEntity" />
 /// </summary>
 /// <seealso cref="IEntity" />
-public interface IAlbumSong<TSong, TAlbum> : IEntity where TSong : ISong where TAlbum : IAlbum
+public interface IAlbumTrack<TAudioTrack, TAlbum> : IEntity where TAudioTrack : IAudioTrack where TAlbum : IAlbum
 {
     /// <summary>
     /// Gets or sets the album reference identifier.
@@ -40,31 +40,31 @@ public interface IAlbumSong<TSong, TAlbum> : IEntity where TSong : ISong where T
     long AlbumId { get; set; }
 
     /// <summary>
-    /// Gets or sets the song reference identifier.
+    /// Gets or sets the audio track reference identifier.
     /// </summary>
-    /// <value>The song reference identifier.</value>
-    long SongId { get; set; }
+    /// <value>The audio track reference identifier.</value>
+    long AudioTrackId { get; set; }
 
     /// <summary>
-    /// Gets or sets the song index in the queue.
+    /// Gets or sets the audio track index in the queue.
     /// </summary>
-    /// <value>The song index in the queue.</value>
+    /// <value>The audio track index in the queue.</value>
     int QueueIndex { get; set; }
 
     /// <summary>
-    /// Gets or sets the song index in the alternate queue.
+    /// Gets or sets the audio track index in the alternate queue.
     /// </summary>
-    /// <value>The song index in the alternate queue.</value>
+    /// <value>The audio track index in the alternate queue.</value>
     int QueueIndexAlternate { get; set; }
 
     /// <summary>
-    /// Gets or sets the song entity.
+    /// Gets or sets the audio track entity.
     /// </summary>
-    /// <value>The song entity.</value>
-    TSong? Song { get; set; }
+    /// <value>The audio track entity.</value>
+    TAudioTrack? AudioTrack { get; set; }
 
     /// <summary>
-    /// Gets or sets the album this album song belongs to.
+    /// Gets or sets the album this album audio track belongs to.
     /// </summary>
     /// <value>The album.</value>
     TAlbum? Album { get; set; }

@@ -27,24 +27,24 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An interface for common song related statistics.
+/// An interface for common audio track related statistics.
 /// </summary>
 public interface IPlayBackStatistics
 {
     /// <summary>
-    /// Gets or sets the amount the song was played by randomization.
+    /// Gets or sets the amount the audio track was played by randomization.
     /// </summary>
-    /// <value>The amount the song was played by randomization.</value>
+    /// <value>The amount the audio track was played by randomization.</value>
     int? PlayedByRandomize { get; set; }
 
     /// <summary>
-    /// Gets or sets the amount the song was played by the user.
+    /// Gets or sets the amount the audio track was played by the user.
     /// </summary>
-    /// <value>The amount the song was played by the user.</value>
+    /// <value>The amount the audio track was played by the user.</value>
     int? PlayedByUser { get; set; }
 
     /// <summary>
-    /// Gets or sets the count the song was skipped by user interaction.
+    /// Gets or sets the count the audio track was skipped by user interaction.
     /// </summary>
     /// <value>The skipped early count.</value>
     int? SkippedEarlyCount { get; set; }

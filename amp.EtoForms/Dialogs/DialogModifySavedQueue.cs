@@ -46,7 +46,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
 {
     private readonly AmpContext context;
     private readonly long queueId;
-    private readonly ObservableCollection<QueueSong> queueSongs = new();
+    private readonly ObservableCollection<QueueTrack> queueSongs = new();
     private readonly GridView gvAlbumQueueTracks;
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
@@ -99,7 +99,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
             {
                 new GridColumn
                 {
-                    DataCell = new TextBoxCell(nameof(QueueSong.QueueIndex)),
+                    DataCell = new TextBoxCell(nameof(QueueTrack.QueueIndex)),
                     HeaderText = UI.QueueCreated,
                 },
                 new GridColumn
@@ -107,7 +107,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((QueueSong qs) => SongDisplayNameGenerate.GetSongName(qs.Song!))
+                            .Property((QueueTrack qs) => SongDisplayNameGenerate.GetSongName(qs.AudioTrack!))
                             .Convert(s => s)
                             .Cast<string?>(),
                     }, Expand = true,
@@ -146,7 +146,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
         }
     }
 
-    private void SwitchItems(QueueSong itemFirst, QueueSong itemSecond)
+    private void SwitchItems(QueueTrack itemFirst, QueueTrack itemSecond)
     {
         var indexFirst = queueSongs.IndexOf(itemFirst);
         var indexSecond = queueSongs.IndexOf(itemSecond);
@@ -189,11 +189,11 @@ internal class DialogModifySavedQueue : Dialog<bool>
         }
     }
 
-    private QueueSong? SelectedItem
+    private QueueTrack? SelectedItem
     {
         get
         {
-            var selectedItem = ((QueueSong?)gvAlbumQueueTracks.SelectedItem);
+            var selectedItem = ((QueueTrack?)gvAlbumQueueTracks.SelectedItem);
             return selectedItem;
         }
     }
@@ -207,7 +207,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
     private async Task ListQueue()
     {
         queueSongs.Clear();
-        foreach (var queueSong in await context.QueueSongs.Include(f => f.Song).Where(f => f.QueueSnapshotId == queueId)
+        foreach (var queueSong in await context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
                      .OrderBy(f => f.QueueIndex).AsNoTracking().ToListAsync())
         {
             queueSongs.Add(queueSong);
@@ -226,11 +226,11 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
         await Globals.LoggerSafeInvokeAsync(async () =>
         {
-            var itemsToDelete = await context.QueueSongs.Where(f => toDelete.Contains(f.Id)).ToListAsync();
-            context.QueueSongs.RemoveRange(itemsToDelete);
+            var itemsToDelete = await context.QueueTracks.Where(f => toDelete.Contains(f.Id)).ToListAsync();
+            context.QueueTracks.RemoveRange(itemsToDelete);
             await context.SaveChangesAsync();
 
-            context.QueueSongs.UpdateRange(queueSongs);
+            context.QueueTracks.UpdateRange(queueSongs);
             await context.SaveChangesAsync();
 
             await transaction.CommitAsync();

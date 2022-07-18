@@ -43,7 +43,7 @@ public interface IPlaybackError
     /// Gets or sets the song identifier.
     /// </summary>
     /// <value>The song identifier.</value>
-    long SongId { get; set; }
+    long AudioTrackId { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to try to play another song.

@@ -39,8 +39,8 @@ public class PlaybackErrorEventArgs : EventArgs, IPlaybackError
     /// <inheritdoc cref="IPlaybackError.Error"/>
     public Errors Error { get; set; }
 
-    /// <inheritdoc cref="IPlaybackError.SongId"/>
-    public long SongId { get; set; }
+    /// <inheritdoc cref="IPlaybackError.AudioTrackId"/>
+    public long AudioTrackId { get; set; }
 
     /// <inheritdoc cref="IPlaybackError.PlayAnother"/>
     public bool PlayAnother { get; set; }

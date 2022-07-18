@@ -26,7 +26,7 @@ SOFTWARE.
 
 namespace amp.EtoForms.Enumerations;
 /// <summary>
-/// An enumeration describing a part of a song naming formula.
+/// An enumeration describing a part of a track naming formula.
 /// </summary>
 public enum FormulaType
 {

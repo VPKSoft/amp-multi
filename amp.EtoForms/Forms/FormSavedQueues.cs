@@ -120,7 +120,7 @@ public class FormSavedQueues : Dialog<bool>
             {
                 new GridColumn
                 {
-                    DataCell = new TextBoxCell(nameof(QueueSong.QueueIndex)),
+                    DataCell = new TextBoxCell(nameof(QueueTrack.QueueIndex)),
                     HeaderText = UI.QueueCreated,
                 },
                 new GridColumn
@@ -128,7 +128,7 @@ public class FormSavedQueues : Dialog<bool>
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((QueueSong qs) => SongDisplayNameGenerate.GetSongName(qs.Song!))
+                            .Property((QueueTrack qs) => SongDisplayNameGenerate.GetSongName(qs.AudioTrack!))
                             .Convert(s => s)
                             .Cast<string?>(),
                     }, Expand = true,
@@ -168,7 +168,7 @@ public class FormSavedQueues : Dialog<bool>
 
     private void CopyToFolderClick(object? sender, EventArgs e)
     {
-        var fileNames = queueSongs.Select(f => f.Song!.FileName).ToList();
+        var fileNames = queueSongs.Select(f => f.AudioTrack!.FileName).ToList();
         if (selectFolderDialog.ShowDialog(this) == DialogResult.Ok)
         {
             Globals.LoggerSafeInvoke(() =>
@@ -201,9 +201,9 @@ public class FormSavedQueues : Dialog<bool>
         await using var transaction = await context.Database.BeginTransactionAsync();
         await Globals.LoggerSafeInvokeAsync(async () =>
         {
-            var removeSongs = await context.QueueSongs.Where(f => queuesToDelete.Contains(f.QueueSnapshotId))
+            var removeSongs = await context.QueueTracks.Where(f => queuesToDelete.Contains(f.QueueSnapshotId))
                 .ToListAsync();
-            context.QueueSongs.RemoveRange(removeSongs);
+            context.QueueTracks.RemoveRange(removeSongs);
             await context.SaveChangesAsync();
 
             var removeQueues = await context.QueueSnapshots.Where(f => queuesToDelete.Contains(f.Id)).ToListAsync();
@@ -230,7 +230,7 @@ public class FormSavedQueues : Dialog<bool>
 
         queueSongs.Clear();
 
-        foreach (var queueSnapshot in context.QueueSongs.Include(f => f.Song).Where(f => f.QueueSnapshotId == queueId)
+        foreach (var queueSnapshot in context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
                      .OrderBy(f => f.QueueIndex).AsNoTracking())
         {
             queueSongs.Add(queueSnapshot);
@@ -275,7 +275,7 @@ public class FormSavedQueues : Dialog<bool>
     private readonly ComboBox cmbAlbumSelect;
     private readonly AmpContext context;
     private readonly ObservableCollection<QueueSnapshot> queueSnapshots = new();
-    private readonly ObservableCollection<QueueSong> queueSongs = new();
+    private readonly ObservableCollection<QueueTrack> queueSongs = new();
     private readonly GridView gvAlbumQueues;
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };

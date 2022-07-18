@@ -71,7 +71,7 @@ partial class FormMain
             var newIndex = updateQueueData.First(f => f.Key == albumSong.Id).Value;
             albumSong.QueueIndex = newIndex;
             albumSong.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumSongs.Update(Globals.AutoMapper.Map<AlbumSong>(albumSong));
+            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(albumSong));
 
             var songIndex = filteredSongs.FindIndex(f => f.Id == albumSong.Id);
             if (songIndex != -1)
@@ -92,7 +92,7 @@ partial class FormMain
     /// </summary>
     private async Task RefreshCurrentAlbum()
     {
-        songs = await context.AlbumSongs.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.Song).Select(f => Globals.AutoMapper.Map<Models.AlbumSong>(f)).AsNoTracking()
+        songs = await context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack).Select(f => Globals.AutoMapper.Map<Models.AlbumTrack>(f)).AsNoTracking()
             .ToListAsync();
 
         songs = songs.OrderBy(f => f.DisplayName).ToList();
@@ -101,7 +101,7 @@ partial class FormMain
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            filteredSongs = songs.Where(f => f.Song!.Match(tbSearch.Text)).ToList();
+            filteredSongs = songs.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
         }
 
         gvSongs.DataStore = filteredSongs;

@@ -126,7 +126,7 @@ public class DialogAddFilesProgress : Dialog<bool>
                 {
                     Cells =
                     {
-                        new Label { Text = albumId == 0 ? UI.ColonDelimiter : UI.SongsAddedToAlbum + UI.ColonDelimiter, },
+                        new Label { Text = albumId == 0 ? UI.ColonDelimiter : UI.TracksAddedToAlbum + UI.ColonDelimiter, },
                         new Panel { Width = Globals.DefaultPadding, },
                         lbSongAddedToAlbumCount,
                     },
@@ -367,11 +367,11 @@ public class DialogAddFilesProgress : Dialog<bool>
 
             try
             {
-                var song = await context.Songs.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new Song();
-                song.UpdateSongInfo(fileInfo);
+                var song = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new AudioTrack();
+                song.UpdateTrackInfo(fileInfo);
                 if (song.Id == 0)
                 {
-                    await context.Songs.AddAsync(song, userAbortToken);
+                    await context.AudioTracks.AddAsync(song, userAbortToken);
                 }
                 else
                 {
@@ -382,16 +382,16 @@ public class DialogAddFilesProgress : Dialog<bool>
 
                 if (albumId != 0)
                 {
-                    var albumSong = await context.AlbumSongs.FirstOrDefaultAsync(f => f.AlbumId == albumId && f.SongId == song.Id,
-                        cancellationToken: userAbortToken) ?? new AlbumSong { SongId = song.Id, AlbumId = albumId, CreatedAtUtc = DateTime.UtcNow, };
+                    var albumSong = await context.AlbumTracks.FirstOrDefaultAsync(f => f.AlbumId == albumId && f.AudioTrackId == song.Id,
+                        cancellationToken: userAbortToken) ?? new AlbumTrack { AudioTrackId = song.Id, AlbumId = albumId, CreatedAtUtc = DateTime.UtcNow, };
 
                     if (albumSong.Id == 0)
                     {
-                        await context.AlbumSongs.AddAsync(albumSong, userAbortToken);
+                        await context.AlbumTracks.AddAsync(albumSong, userAbortToken);
                     }
                     else
                     {
-                        context.AlbumSongs.Update(albumSong);
+                        context.AlbumTracks.Update(albumSong);
                     }
                 }
 

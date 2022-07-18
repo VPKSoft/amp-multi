@@ -70,7 +70,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Songs + ":", },
+                                    new Label { Text = UI.Tracks + ":", },
                                     new Panel { Width = 5, },
                                     lbSongCount,
                                     new Panel { Width = 10, },
@@ -189,7 +189,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     {
         Application.Instance.Invoke(() =>
         {
-            lbSongCount.Text = $"{e.SongsHandledCount} / {e.SongsCountTotal}";
+            lbSongCount.Text = $"{e.AudioTracksHandledCount} / {e.AudioTracksCountTotal}";
             lbAlbumCount.Text = $"{e.AlbumsHandledCount} / {e.AlbumsCountTotal}";
             lbAlbumEntryCount.Text = $"{e.AlbumEntriesHandledCount} / {e.AlbumEntryCountTotal}";
             lbQueueEntryCount.Text = $"{e.QueueEntriesHandledCount} / {e.QueueEntryCountTotal}";

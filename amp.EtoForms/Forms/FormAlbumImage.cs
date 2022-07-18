@@ -92,12 +92,12 @@ public class FormAlbumImage : Form
     /// Shows the form next to the specified main form.
     /// </summary>
     /// <param name="main">The main form.</param>
-    /// <param name="albumSong">The album song to get the image for.</param>
-    public void Show<TSong, TAlbum>(FormMain main, IAlbumSong<TSong, TAlbum> albumSong) where TSong : ISong where TAlbum : IAlbum
+    /// <param name="albumTrack">The album track to get the image for.</param>
+    public void Show<TSong, TAlbum>(FormMain main, IAlbumTrack<TSong, TAlbum> albumTrack) where TSong : IAudioTrack where TAlbum : IAlbum
     {
-        if (albumSong.Song != null)
+        if (albumTrack.AudioTrack != null)
         {
-            Show(main, albumSong.Song);
+            Show(main, albumTrack.AudioTrack);
         }
         else
         {
@@ -122,13 +122,13 @@ public class FormAlbumImage : Form
     /// Shows the form next to the specified main form.
     /// </summary>
     /// <param name="main">The main form.</param>
-    /// <param name="song">The song to get the image for.</param>
-    public void Show(FormMain main, ISong song)
+    /// <param name="audioTrack">The track to get the image for.</param>
+    public void Show(FormMain main, IAudioTrack audioTrack)
     {
         Location = new Point(main.Location.X + main.Width, main.Location.Y + 200);
         Globals.LoggerSafeInvoke(() =>
         {
-            var track = new Track(song.FileName);
+            var track = new Track(audioTrack.FileName);
             if (track.EmbeddedPictures.Any())
             {
                 var picture = track.EmbeddedPictures.First();

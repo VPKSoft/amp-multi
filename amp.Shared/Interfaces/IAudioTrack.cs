@@ -29,70 +29,70 @@ using amp.Shared.Enumerations;
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// An interface for the song data in the database.
+/// An interface for the audio track data in the database.
 /// Implements the <see cref="IEntity" />
 /// </summary>
 /// <seealso cref="IEntity" />
-public interface ISong : IEntity, IPlayBackStatistics
+public interface IAudioTrack : IEntity, IPlayBackStatistics
 {
     /// <summary>
-    /// Gets or sets the name of the file of the song.
+    /// Gets or sets the name of the file of the audio track.
     /// </summary>
     /// <value>The name of the file.</value>
     string FileName { get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the artist of the song.
+    /// Gets or sets the name of the artist of the audio track.
     /// </summary>
     /// <value>The name of the artist.</value>
     string? Artist { get; set; }
 
     /// <summary>
-    /// Gets or sets the album name of the song.
+    /// Gets or sets the album name of the audio track.
     /// </summary>
     /// <value>The album name.</value>
     string? Album { get; set; }
 
     /// <summary>
-    /// Gets or sets the track information of the song.
+    /// Gets or sets the track information of the audio track.
     /// </summary>
     /// <value>The track information.</value>
     string? Track { get; set; }
 
     /// <summary>
-    /// Gets or sets the release year of the song.
+    /// Gets or sets the release year of the audio track.
     /// </summary>
     /// <value>The release year.</value>
     string? Year { get; set; }
 
     /// <summary>
-    /// Gets or sets the lyrics of the song.
+    /// Gets or sets the lyrics of the audio track.
     /// </summary>
     /// <value>The lyrics.</value>
     string? Lyrics { get; set; }
 
     /// <summary>
-    /// Gets or sets the rating for the song.
+    /// Gets or sets the rating for the audio track.
     /// </summary>
     /// <value>The rating.</value>
     int? Rating { get; set; }
 
     /// <summary>
-    /// Gets or sets the file size in bytes of the song.
+    /// Gets or sets the file size in bytes of the audio track.
     /// </summary>
     /// <value>The file size in bytes.</value>
     long? FileSizeBytes { get; set; }
 
     /// <summary>
-    /// Gets or sets the playback volume of the song.
+    /// Gets or sets the playback volume of the audio track.
     /// </summary>
     /// <value>The playback volume.</value>
     double PlaybackVolume { get; set; }
 
     /// <summary>
-    /// Gets or sets the name to override the original song name.
+    /// Gets or sets the name to override the original audio track name.
     /// </summary>
-    /// <value>The name to override the original song name.</value>
+    /// <value>The name to override the original audio track name.</value>
     string? OverrideName { get; set; }
 
     /// <summary>
@@ -102,28 +102,28 @@ public interface ISong : IEntity, IPlayBackStatistics
     string? TagFindString { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the song tag data has been read.
+    /// Gets or sets a value indicating whether the audio track tag data has been read.
     /// </summary>
-    /// <value><c>true</c> if song tag data has been read; otherwise, <c>false</c>.</value>
+    /// <value><c>true</c> if audio track tag data has been read; otherwise, <c>false</c>.</value>
     bool? TagRead { get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the file of the song without the path.
+    /// Gets or sets the name of the file of the audio track without the path.
     /// </summary>
     /// <value>The name of the file without the path.</value>
     string? FileNameNoPath { get; set; }
 
     /// <summary>
-    /// Gets or sets the title of the song.
+    /// Gets or sets the title of the audio track.
     /// </summary>
-    /// <value>The title of the song.</value>
+    /// <value>The title of the audio track.</value>
     string? Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the song image (cover, picture, etc) data.
+    /// Gets or sets the audio track image (cover, picture, etc) data.
     /// </summary>
-    /// <value>The song image data.</value>
-    byte[]? SongImageData { get; set; }
+    /// <value>The audio track image data.</value>
+    byte[]? TrackImageData { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the music file.

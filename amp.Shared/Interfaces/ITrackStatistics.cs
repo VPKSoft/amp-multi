@@ -24,24 +24,36 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Playback.EventArguments;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// Event arguments for indicating an early skipped playback.
-/// Implements the <see cref="EventArgs" />
+/// An interface for audio track playback statistics with reference identifier.
+/// Implements the <see cref="amp.Shared.Interfaces.IEntityBase{T}" />
 /// </summary>
-/// <seealso cref="EventArgs" />
-public class SongSkippedEventArgs : EventArgs
+/// <seealso cref="amp.Shared.Interfaces.IEntityBase{T}" />
+public interface ITrackStatistics : IEntityBase<long>
 {
     /// <summary>
-    /// Gets or sets the song identifier.
+    /// Gets or sets the rating for the audio track.
     /// </summary>
-    /// <value>The song identifier.</value>
-    public long SongId { get; set; }
+    /// <value>The rating.</value>
+    int? Rating { get; set; }
 
     /// <summary>
-    /// Gets or sets the position percentage the song was skipped at.
+    /// Gets or sets the amount the audio track was played by randomization.
     /// </summary>
-    /// <value>The position percentage the song was skipped at.</value>
-    public double SkippedAtPercentage { get; set; }
+    /// <value>The amount the audio track was played by randomization.</value>
+    int? PlayedByRandomize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the amount the audio track was played by the user.
+    /// </summary>
+    /// <value>The amount the audio track was played by the user.</value>
+    int? PlayedByUser { get; set; }
+
+    /// <summary>
+    /// Gets or sets the count the audio track was skipped by user interaction.
+    /// </summary>
+    /// <value>The skipped early count.</value>
+    int? SkippedEarlyCount { get; set; }
 }

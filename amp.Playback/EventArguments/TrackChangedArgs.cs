@@ -31,6 +31,6 @@ namespace amp.Playback.EventArguments;
 /// Implements the <see cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
 /// </summary>
 /// <seealso cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
-public class SongChangedArgs : PlaybackPositionChangedArgs
+public class TrackChangedArgs : PlaybackPositionChangedArgs
 {
 }

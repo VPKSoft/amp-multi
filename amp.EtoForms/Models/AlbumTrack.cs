@@ -30,7 +30,7 @@ using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.Models;
-internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
+internal class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyPropertyChanged
 {
     private DateTime? modifiedAtUtc;
     private DateTime createdAtUtc;
@@ -38,7 +38,7 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
     private long songId;
     private int queueIndex;
     private int queueIndexAlternate;
-    private Song? song;
+    private AudioTrack? song;
     private Album? album;
 
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
@@ -74,7 +74,7 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.AlbumId"/>
+    /// <inheritdoc cref="IAlbumTrackTrack{TSong,TAlbum}.AlbumId"/>
     public long AlbumId
     {
         get => albumId;
@@ -90,8 +90,8 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
 
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.SongId"/>
-    public long SongId
+    /// <inheritdoc cref="IAlbumTrack{TSong,TAlbum}.AudioTrackId"/>
+    public long AudioTrackId
     {
         get => songId;
 
@@ -100,12 +100,12 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
             if (songId != value)
             {
                 songId = value;
-                OnPropertyChanged(nameof(SongId));
+                OnPropertyChanged(nameof(AudioTrackId));
             }
         }
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.QueueIndex"/>
+    /// <inheritdoc cref="IAlbumTrackTrack{TSong,TAlbum}.QueueIndex"/>
     public int QueueIndex
     {
         get => queueIndex;
@@ -121,7 +121,7 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
 
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.QueueIndexAlternate"/>
+    /// <inheritdoc cref="IAlbumTrackTrack{TSong,TAlbum}.QueueIndexAlternate"/>
     public int QueueIndexAlternate
     {
         get => queueIndexAlternate;
@@ -137,8 +137,8 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
 
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.Song"/>
-    public Song? Song
+    /// <inheritdoc cref="IAlbumTrack{TSong,TAlbum}.AudioTrack"/>
+    public AudioTrack? AudioTrack
     {
         get => song;
 
@@ -147,12 +147,12 @@ internal class AlbumSong : IAlbumSong<Song, Album>, INotifyPropertyChanged
             if (song != value)
             {
                 song = value;
-                OnPropertyChanged(nameof(Song));
+                OnPropertyChanged(nameof(AudioTrack));
             }
         }
     }
 
-    /// <inheritdoc cref="IAlbumSong{TSong, TAlbum}.Album"/>
+    /// <inheritdoc cref="IAlbumTrackTrack{TSong,TAlbum}.Album"/>
     public Album? Album
     {
         get => album;

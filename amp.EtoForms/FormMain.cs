@@ -33,8 +33,8 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
 using Microsoft.EntityFrameworkCore;
-using AlbumSong = amp.EtoForms.Models.AlbumSong;
-using Song = amp.EtoForms.Models.Song;
+using AlbumTrack = amp.EtoForms.Models.AlbumTrack;
+using AudioTrack = amp.EtoForms.Models.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -56,7 +56,7 @@ public partial class FormMain : Form
 
         MinimumSize = new Size(550, 650);
 
-        playbackOrder = new PlaybackOrder<Song, AlbumSong, Models.Album>(Globals.Settings, UpdateQueueFunc);
+        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
         var databaseFile = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");
@@ -69,7 +69,7 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<Song, AlbumSong, Models.Album>(Globals.Logger, GetNextSongFunc, GetSongById,
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Models.Album>(Globals.Logger, GetNextSongFunc, GetSongById,
             () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
@@ -87,7 +87,7 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        songs = context.AlbumSongs.Include(f => f.Song).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumSong>(f)).ToList();
+        songs = context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList();
 
         playbackManager.ManagerStopped = false;
 
@@ -104,10 +104,10 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private List<AlbumSong> songs;
-    private List<AlbumSong> filteredSongs = new();
-    private readonly PlaybackManager<Song, AlbumSong, Models.Album> playbackManager;
-    private readonly PlaybackOrder<Song, AlbumSong, Models.Album> playbackOrder;
+    private List<AlbumTrack> songs;
+    private List<AlbumTrack> filteredSongs = new();
+    private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
+    private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;
 }

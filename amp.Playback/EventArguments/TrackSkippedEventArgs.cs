@@ -24,30 +24,24 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Shared.Interfaces;
+namespace amp.Playback.EventArguments;
 
 /// <summary>
-/// An interface for the songs in a queue snapshot.
-/// Implements the <see cref="IEntity" />
+/// Event arguments for indicating an early skipped playback.
+/// Implements the <see cref="EventArgs" />
 /// </summary>
-/// <seealso cref="IEntity" />
-public interface IQueueSong : IEntity
+/// <seealso cref="EventArgs" />
+public class TrackSkippedEventArgs : EventArgs
 {
     /// <summary>
-    /// Gets or sets the song reference identifier.
+    /// Gets or sets the audio track identifier.
     /// </summary>
-    /// <value>The song reference identifier.</value>
-    long SongId { get; set; }
+    /// <value>The audio track identifier.</value>
+    public long AudioTrackId { get; set; }
 
     /// <summary>
-    /// Gets or sets the queue snapshot reference identifier.
+    /// Gets or sets the position percentage the audio track was skipped at.
     /// </summary>
-    /// <value>The queue snapshot reference identifier.</value>
-    long QueueSnapshotId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the index of song in the queue.
-    /// </summary>
-    /// <value>The index of song in the queue.</value>
-    int QueueIndex { get; set; }
+    /// <value>The position percentage the audio track was skipped at.</value>
+    public double SkippedAtPercentage { get; set; }
 }

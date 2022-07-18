@@ -70,7 +70,7 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{1} songs, {2} albums, {3} album entries and {4} queue snapshot entries will be converted..
+        ///   Looks up a localized string similar to {0}{1} tracks, {2} albums, {3} album entries and {4} queue snapshot entries will be converted..
         /// </summary>
         public static string ConversionStatistics {
             get {

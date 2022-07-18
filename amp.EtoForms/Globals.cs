@@ -264,11 +264,11 @@ internal static class Globals
         {
             mapperConfiguration ??= new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<AlbumSong, Models.AlbumSong>();
-                cfg.CreateMap<Song, Models.Song>();
+                cfg.CreateMap<AlbumTrack, Models.AlbumTrack>();
+                cfg.CreateMap<AudioTrack, Models.AudioTrack>();
                 cfg.CreateMap<Album, Models.Album>();
-                cfg.CreateMap<Models.AlbumSong, AlbumSong>();
-                cfg.CreateMap<Models.Song, Song>();
+                cfg.CreateMap<Models.AlbumTrack, AlbumTrack>();
+                cfg.CreateMap<Models.AudioTrack, AudioTrack>();
                 cfg.CreateMap<Models.Album, Album>();
             });
 

@@ -138,7 +138,7 @@ partial class FormMain
                 {
                     Cells =
                     {
-                        new TableCell(new Label { Text = UI.SongVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
+                        new TableCell(new Label { Text = UI.TrackVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
                         new TableCell(songVolumeSlider, true),
                     },
@@ -179,9 +179,9 @@ partial class FormMain
         gvSongs.KeyDown += FormMain_KeyDown;
         tbSearch.KeyDown += FormMain_KeyDown;
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.SongChanged += PlaybackManager_SongChanged;
+        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
         playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.SongSkipped += PlaybackManager_SongSkipped;
+        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
         playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
         playbackManager.PlaybackError += PlaybackManager_PlaybackError;
         LocationChanged += FormMain_LocationChanged;
@@ -236,7 +236,7 @@ partial class FormMain
             {
                 new GridColumn
                 {
-                    DataCell = new TextBoxCell(nameof(AlbumSong.DisplayName)), Expand = true,
+                    DataCell = new TextBoxCell(nameof(AlbumTrack.DisplayName)), Expand = true,
                     HeaderText = UI.Track,
                     Resizable = false,
                 },
@@ -245,7 +245,7 @@ partial class FormMain
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((AlbumSong s) => s.QueueIndex)
+                            .Property((AlbumTrack s) => s.QueueIndex)
                             .Convert(q => q == 0 ? null : q.ToString())
                             .Cast<string?>(),
                     },
@@ -257,7 +257,7 @@ partial class FormMain
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((AlbumSong s) => s.QueueIndexAlternate)
+                            .Property((AlbumTrack s) => s.QueueIndexAlternate)
                             .Convert(qa => qa == 0 ? null : qa.ToString())
                             .Cast<string?>(),
                     },
