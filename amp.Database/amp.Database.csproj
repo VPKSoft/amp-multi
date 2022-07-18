@@ -18,6 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
 		<None Include="..\amp.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
