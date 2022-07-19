@@ -3,22 +3,12 @@ name: Linux, Windows and macOS .NET Core
 on:
   push:
     branches: [ "master" ]
-    paths:
-      - 'amp.Database/**'
-      - 'amp.EtoForms/**'
-      - 'amp.Playback/**'
-      - 'amp.Shared/**'
-      - 'amp.Tests/**'
-      - 'EtoForms.Controls.Custom/**'
+    paths-ignore:
+      - '**/README.md'
   pull_request:
     branches: [ "master" ]    
-    paths:
-      - 'amp.Database/**'
-      - 'amp.EtoForms/**'
-      - 'amp.Playback/**'
-      - 'amp.Shared/**'
-      - 'amp.Tests/**'
-      - 'EtoForms.Controls.Custom/**'
+    paths-ignore:
+      - '**/README.md'
 
 jobs:
   build-linux:
