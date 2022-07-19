@@ -18,4 +18,5 @@ A music player for common audio formats with a simple and intuitive GUI.
 * [![.NET Desktop](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml)
 
 
-![JetBrains](http://www.vpksoft.net/site/External/JetBrains/jetbrains.svg)
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
