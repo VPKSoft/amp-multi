@@ -316,4 +316,32 @@
   <data name="Queue" xml:space="preserve">
     <value>Jono</value>
   </data>
+  <data name="FormulaInstructions" xml:space="preserve">
+    <value>
+Kaavatyypit:
+{@Ar} Artisti
+{@Al} Albumi
+{@Tn} Kappaleen numero
+{@Tl} Otsake
+{@R} Uudelleennimetty otsake
+{@F} Tiedoston nimi ilman päätettä
+
+Kaikki kaavan sisälle sijoitettu teksti sisältyy
+lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
+  </data>
+  <data name="TrackNamingFormula" xml:space="preserve">
+    <value>Kappaleen nimeämisen kaava</value>
+  </data>
+  <data name="RenamedTrackNamingFormula" xml:space="preserve">
+    <value>Uudelleen nimetyn kappaleen nimeämisen kaava</value>
+  </data>
+  <data name="TrackNaming" xml:space="preserve">
+    <value>Kappaleiden nimeäminen</value>
+  </data>
+  <data name="IfGeneratedNameContainsNoLettersFallBackToFileName" xml:space="preserve">
+    <value>Jos muodostetussa kappalenimessä ei ole yhtään kirjainta, käytä tiedostonimeä</value>
+  </data>
+  <data name="MinimumNameLength" xml:space="preserve">
+    <value>Nimen minimipituus</value>
+  </data>
 </root>

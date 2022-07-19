@@ -331,6 +331,25 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Formula types:
+        ///{@Ar} Artist
+        ///{@Al} Album
+        ///{@Tn} Track number
+        ///{@Tl} Title
+        ///{@R} Renamed title
+        ///{@F} File name without the extension
+        ///
+        ///Any text placed inside a formula part is included in the
+        ///result if the actual variable e.g. Artist exists. ({@Ar /})..
+        /// </summary>
+        public static string FormulaInstructions {
+            get {
+                return ResourceManager.GetString("FormulaInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide.
         /// </summary>
         public static string Hide {
@@ -340,11 +359,29 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If generated name contains no letters, fall back to file name.
+        /// </summary>
+        public static string IfGeneratedNameContainsNoLettersFallBackToFileName {
+            get {
+                return ResourceManager.GetString("IfGeneratedNameContainsNoLettersFallBackToFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
         public static string Minimize {
             get {
                 return ResourceManager.GetString("Minimize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum name length.
+        /// </summary>
+        public static string MinimumNameLength {
+            get {
+                return ResourceManager.GetString("MinimumNameLength", resourceCulture);
             }
         }
         
@@ -511,6 +548,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Renamed track naming formula.
+        /// </summary>
+        public static string RenamedTrackNamingFormula {
+            get {
+                return ResourceManager.GetString("RenamedTrackNamingFormula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retry count on playback failure.
         /// </summary>
         public static string RetryCountOnPlaybackFailure {
@@ -651,6 +697,24 @@ namespace amp.Shared.Localization {
         public static string Track {
             get {
                 return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track naming.
+        /// </summary>
+        public static string TrackNaming {
+            get {
+                return ResourceManager.GetString("TrackNaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track naming formula.
+        /// </summary>
+        public static string TrackNamingFormula {
+            get {
+                return ResourceManager.GetString("TrackNamingFormula", resourceCulture);
             }
         }
         

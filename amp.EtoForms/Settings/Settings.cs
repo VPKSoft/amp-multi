@@ -252,4 +252,34 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     [Settings(Default = 20)]
     public int PlaybackRetryCount { get; set; }
     #endregion
+
+    #region TrackNaming    
+    /// <summary>
+    /// Gets or sets the track name formula.
+    /// </summary>
+    /// <value>The track name formula.</value>
+    [Settings(Default = "    {@Ar - }{@Al - }{(@Tn) }{@Tl}")]
+    public string? TrackNameFormula { get; set; }
+
+    /// <summary>
+    /// Gets or sets the track name formula for a renamed track.
+    /// </summary>
+    /// <value>The track name formula for a renamed track.</value>
+    [Settings(Default = "    {@R}")]
+    public string? TrackNameFormulaRenamed { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to fall back to the track file name if the generated title contains no letters.
+    /// </summary>
+    /// <value><c>true</c> if to fall back to the track file name if the generated title contains no letters; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool TrackNamingFallbackToFileNameWhenNoLetters { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum length of the track naming title before using the file name as fall back.
+    /// </summary>
+    /// <value>The minimum length of the track naming title.</value>
+    [Settings(Default = 5)]
+    public int TrackNamingMinimumTitleLength { get; set; }
+    #endregion
 }

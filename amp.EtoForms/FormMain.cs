@@ -52,6 +52,9 @@ public partial class FormMain : Form
     {
         Application.Instance.UnhandledException += Program.Instance_UnhandledException;
         Application.Instance.LocalizeString += Instance_LocalizeString;
+
+        SetupInitialSettings();
+
         Title = "amp#";
 
         MinimumSize = new Size(550, 650);

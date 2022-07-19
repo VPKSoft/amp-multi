@@ -316,4 +316,32 @@
   <data name="Queue" xml:space="preserve">
     <value>Queue</value>
   </data>
+  <data name="FormulaInstructions" xml:space="preserve">
+    <value>
+Formula types:
+{@Ar} Artist
+{@Al} Album
+{@Tn} Track number
+{@Tl} Title
+{@R} Renamed title
+{@F} File name without the extension
+
+Any text placed inside a formula part is included in the
+result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
+  </data>
+  <data name="TrackNamingFormula" xml:space="preserve">
+    <value>Track naming formula</value>
+  </data>
+  <data name="RenamedTrackNamingFormula" xml:space="preserve">
+    <value>Renamed track naming formula</value>
+  </data>
+  <data name="TrackNaming" xml:space="preserve">
+    <value>Track naming</value>
+  </data>
+  <data name="IfGeneratedNameContainsNoLettersFallBackToFileName" xml:space="preserve">
+    <value>If generated name contains no letters, fall back to file name</value>
+  </data>
+  <data name="MinimumNameLength" xml:space="preserve">
+    <value>Minimum name length</value>
+  </data>
 </root>
