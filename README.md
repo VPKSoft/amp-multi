@@ -11,6 +11,9 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 ![image](https://user-images.githubusercontent.com/40712699/179735086-3558eac2-968c-4938-bbbc-1e266b8a15f4.png)
 
+*Linux*
+
+![image](https://user-images.githubusercontent.com/40712699/179737714-25e5dc85-d513-4635-92f8-fa7613ad9035.png)
 
 
 ### Thanks to
