@@ -2,18 +2,11 @@
 A music player for common audio formats with a simple and intuitive GUI.
 
 ## Screenshots
-*White theme*
-
-![image](https://user-images.githubusercontent.com/40712699/104469562-5222e600-55c1-11eb-91f0-9ea6232d241c.png)
-
-
-*Dark theme*
-
-![image](https://user-images.githubusercontent.com/40712699/104469593-58b15d80-55c1-11eb-95ff-000c9d3f03fb.png)
+![image](https://user-images.githubusercontent.com/40712699/179715280-786dc9b4-1e95-4f51-80d7-8bd516b0696c.png)
 
 ### Thanks to
-* [NAudio](https://github.com/naudio/NAudio) for the audio-playback.
-* [ReaLTaiizor](https://github.com/Taiizor/ReaLTaiizor) for the great WinForms controls.
+* [ManagedBass](https://github.com/ManagedBass/ManagedBass) and [BASS](http://www.un4seen.com) for the audio-playback.
+* [Eto.Forms](https://github.com/picoe/Eto) for the great cross-platform UI.
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 * [![.NET Desktop](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml)
 
