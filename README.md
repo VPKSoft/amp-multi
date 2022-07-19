@@ -25,6 +25,7 @@ A music player for common audio formats with a simple and intuitive GUI.  [![Lin
 * [Audio Tools Library (ATL) for .NET](https://github.com/Zeugma440/atldotnet)
 * [Serilog](https://serilog.net)
 * [AutoMapper](https://automapper.org)
+* [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons)
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 
 
