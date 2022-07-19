@@ -1,5 +1,8 @@
 # amp#
-A music player for common audio formats with a simple and intuitive GUI.
+A music player for common audio formats with a simple and intuitive GUI.  [![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml)
+
+**NOTE**: This is currently beta and no installers, etc. exist.
+
 
 ## Screenshots
 
@@ -20,7 +23,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 * [ManagedBass](https://github.com/ManagedBass/ManagedBass) and [BASS](http://www.un4seen.com) for the audio-playback.
 * [Eto.Forms](https://github.com/picoe/Eto) for the great cross-platform UI.
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
-* [![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml)
+* [Audio Tools Library (ATL) for .NET](https://github.com/Zeugma440/atldotnet)
 
 
 
