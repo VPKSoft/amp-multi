@@ -22,9 +22,10 @@ A music player for common audio formats with a simple and intuitive GUI.  [![Lin
 ### Thanks to
 * [ManagedBass](https://github.com/ManagedBass/ManagedBass) and [BASS](http://www.un4seen.com) for the audio-playback.
 * [Eto.Forms](https://github.com/picoe/Eto) for the great cross-platform UI.
-* [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 * [Audio Tools Library (ATL) for .NET](https://github.com/Zeugma440/atldotnet)
-
+* [Serilog](https://serilog.net)
+* [AutoMapper](https://automapper.org)
+* [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 
 
 ![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
