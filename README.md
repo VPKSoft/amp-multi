@@ -8,7 +8,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 * [ManagedBass](https://github.com/ManagedBass/ManagedBass) and [BASS](http://www.un4seen.com) for the audio-playback.
 * [Eto.Forms](https://github.com/picoe/Eto) for the great cross-platform UI.
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
-* [![.NET Desktop](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/VPKSoft/amp/actions/workflows/dotnet-desktop.yml)
+* [![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml)
 
 
 
