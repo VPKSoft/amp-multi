@@ -2,7 +2,16 @@
 A music player for common audio formats with a simple and intuitive GUI.
 
 ## Screenshots
+
+*Windows*
+
 ![image](https://user-images.githubusercontent.com/40712699/179715280-786dc9b4-1e95-4f51-80d7-8bd516b0696c.png)
+
+*macOS*
+
+![image](https://user-images.githubusercontent.com/40712699/179735086-3558eac2-968c-4938-bbbc-1e266b8a15f4.png)
+
+
 
 ### Thanks to
 * [ManagedBass](https://github.com/ManagedBass/ManagedBass) and [BASS](http://www.un4seen.com) for the audio-playback.
