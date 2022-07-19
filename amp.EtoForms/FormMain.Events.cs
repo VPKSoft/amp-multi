@@ -100,7 +100,7 @@ partial class FormMain
         {
             if (gvAudioTracks.SelectedItem != null)
             {
-                var albumTrackId = ((AlbumTrack)gvAudioTracks.SelectedItem).Id;
+                var albumTrackId = ((Models.AlbumTrack)gvAudioTracks.SelectedItem).Id;
                 return albumTrackId;
             }
 
@@ -215,7 +215,7 @@ partial class FormMain
             ttrackVolumeSlider.SuspendEventInvocation = false;
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
 
-            var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
+            var dataSource = gvAudioTracks.DataStore.Cast<Models.AlbumTrack>().ToList();
             var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
             if (displayTrack != -1)
             {
