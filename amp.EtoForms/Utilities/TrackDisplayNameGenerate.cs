@@ -40,14 +40,22 @@ public static class TrackDisplayNameGenerate
     /// Gets or sets the track naming formula.
     /// </summary>
     /// <value>The formula.</value>
-    public static string Formula { get; set; } =
-        @"    {@Ar - }{@Al - }{(@Tn) }{@Tl}";
+    public static string Formula { get; set; } = FormulaDefault;
+
+    /// <summary>
+    /// The default value for the <see cref="Formula"/> property.
+    /// </summary>
+    public const string FormulaDefault = @"    {@Ar - }{@Al - }{(@Tn) }{@Tl}";
 
     /// <summary>
     /// Gets or sets the renamed track naming formula.
     /// </summary>
-    public static string FormulaTrackRenamed { get; set; } = @"    {@R}";
+    public static string FormulaTrackRenamed { get; set; } = FormulaTrackRenamedDefault;
 
+    /// <summary>
+    /// The default value for the <see cref="FormulaTrackRenamed"/> property.
+    /// </summary>
+    public const string FormulaTrackRenamedDefault = @"    {@R}";
 
     /// <summary>
     /// Gets the display name for the specified track.
@@ -84,6 +92,8 @@ public static class TrackDisplayNameGenerate
     /// <value><c>true</c> if to fall back to the track file name if the generated title contains no letters; otherwise, <c>false</c>.</value>
     public static bool TrackNamingFallbackToFileNameWhenNoLetters { get; set; }
 
+    private const int LoopMax = 100;
+
     /// <summary>
     /// Gets the display name for the specified track.
     /// </summary>
@@ -94,8 +104,18 @@ public static class TrackDisplayNameGenerate
         var formula = string.IsNullOrWhiteSpace(audioTrack.OverrideName) ? Formula : FormulaTrackRenamed;
         var matches = NamingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length).ToList();
 
+        var loopCount = 0;
+
         while (matches.Any())
         {
+            if (loopCount > LoopMax)
+            {
+                // Prevent infinite loop form some "brainless" code-issue.
+                break;
+            }
+
+            loopCount++;
+
             var match = matches.First();
 
             var found = false;

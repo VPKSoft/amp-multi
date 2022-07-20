@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -341,13 +342,23 @@ public class FormSettings : Dialog<bool>
                         nsTitleMinimumLength, new Panel()),
                     cbFallBackToFileNameIfNoLetters,
                     new TableRow(new Label { Text = UI.FormulaInstructions, }),
+                    btFormulaDefaults,
+                    new TableRow { ScaleHeight = true,},
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
                 Padding = Globals.DefaultPadding,
             },
         };
 
+        btFormulaDefaults.Click += BtFormulaDefaults_Click;
+
         tbcSettings.Pages.Add(tabTrackNaming);
+    }
+
+    private void BtFormulaDefaults_Click(object? sender, EventArgs e)
+    {
+        tbTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaDefault;
+        tbRenamedTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaTrackRenamedDefault;
     }
 
     private void WeightedRandomDefaults()
@@ -382,6 +393,7 @@ public class FormSettings : Dialog<bool>
     private readonly TextBox tbRenamedTrackNamingFormula = new();
     private readonly NumericStepper nsTitleMinimumLength = new() { MinValue = 3, MaxValue = 100, };
     private readonly CheckBox cbFallBackToFileNameIfNoLetters = new() { Text = UI.IfGeneratedNameContainsNoLettersFallBackToFileName, };
+    private readonly Button btFormulaDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
     private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
     private CheckBox cbAutoHideAlbumImage;

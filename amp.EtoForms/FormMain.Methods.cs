@@ -153,8 +153,16 @@ SOFTWARE.
 
     private void SetupInitialSettings()
     {
-        TrackDisplayNameGenerate.Formula = Globals.Settings.TrackNameFormula ?? "    {@Ar - }{@Al - }{(@Tn) }{@Tl}";
-        TrackDisplayNameGenerate.FormulaTrackRenamed = Globals.Settings.TrackNameFormulaRenamed ?? "    {@R}";
+        var formula = string.IsNullOrWhiteSpace(Globals.Settings.TrackNameFormula)
+            ? TrackDisplayNameGenerate.FormulaDefault
+            : Globals.Settings.TrackNameFormula;
+
+        var formulaRenamed = string.IsNullOrWhiteSpace(Globals.Settings.TrackNameFormulaRenamed)
+            ? TrackDisplayNameGenerate.FormulaTrackRenamedDefault
+            : Globals.Settings.TrackNameFormulaRenamed;
+
+        TrackDisplayNameGenerate.Formula = formula;
+        TrackDisplayNameGenerate.FormulaTrackRenamed = formulaRenamed;
         TrackDisplayNameGenerate.MinimumTrackLength = Globals.Settings.TrackNamingMinimumTitleLength;
         TrackDisplayNameGenerate.TrackNamingFallbackToFileNameWhenNoLetters = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
     }
