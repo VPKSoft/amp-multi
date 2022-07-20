@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -54,6 +55,7 @@ public class FormSettings : Dialog<bool>
         PositiveButtons.Add(btnOk);
         CreateSettingsTabCommon();
         CreateSettingsTabRandom();
+        CreateSettingsTabTrackNaming();
         LoadSettings();
 
         btnCancel.Click += delegate
@@ -102,6 +104,12 @@ public class FormSettings : Dialog<bool>
         cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
         nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
+
+        // Track title naming.
+        tbTrackNamingFormula.Text = Globals.Settings.TrackNameFormula;
+        tbRenamedTrackNamingFormula.Text = Globals.Settings.TrackNameFormulaRenamed;
+        nsTitleMinimumLength.Value = Globals.Settings.TrackNamingMinimumTitleLength;
+        cbFallBackToFileNameIfNoLetters.Checked = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
     }
 
     private void SaveSettings()
@@ -139,6 +147,13 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
 
         Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
+
+        // Track title naming.
+        Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
+        Globals.Settings.TrackNameFormulaRenamed = tbRenamedTrackNamingFormula.Text;
+        Globals.Settings.TrackNamingMinimumTitleLength = (int)nsTitleMinimumLength.Value;
+        Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters = cbFallBackToFileNameIfNoLetters.Checked == true;
+
         Globals.SaveSettings();
     }
 
@@ -306,6 +321,46 @@ public class FormSettings : Dialog<bool>
         tbcSettings.Pages.Add(tabWeightedRandom);
     }
 
+    /// <summary>
+    /// Creates the settings tab for track naming.
+    /// </summary>
+    [MemberNotNull(nameof(tabTrackNaming))]
+    private void CreateSettingsTabTrackNaming()
+    {
+        tabTrackNaming = new TabPage
+        {
+            Text = UI.TrackNaming,
+            Content = new TableLayout
+            {
+                Rows =
+                {
+                    new Label { Text = UI.TrackNamingFormula, },
+                    tbTrackNamingFormula,
+                    new Label { Text = UI.RenamedTrackNamingFormula, },
+                    tbRenamedTrackNamingFormula,
+                    CreateRowTable(false, Globals.DefaultSpacing, new Label { Text = UI.MinimumNameLength, },
+                        nsTitleMinimumLength, new Panel()),
+                    cbFallBackToFileNameIfNoLetters,
+                    new TableRow(new Label { Text = UI.FormulaInstructions, }),
+                    btFormulaDefaults,
+                    new TableRow { ScaleHeight = true,},
+                },
+                Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+                Padding = Globals.DefaultPadding,
+            },
+        };
+
+        btFormulaDefaults.Click += BtFormulaDefaults_Click;
+
+        tbcSettings.Pages.Add(tabTrackNaming);
+    }
+
+    private void BtFormulaDefaults_Click(object? sender, EventArgs e)
+    {
+        tbTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaDefault;
+        tbRenamedTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaTrackRenamedDefault;
+    }
+
     private void WeightedRandomDefaults()
     {
         sldRating.Value = 500;
@@ -334,6 +389,12 @@ public class FormSettings : Dialog<bool>
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
     private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
+    private readonly TextBox tbTrackNamingFormula = new();
+    private readonly TextBox tbRenamedTrackNamingFormula = new();
+    private readonly NumericStepper nsTitleMinimumLength = new() { MinValue = 3, MaxValue = 100, };
+    private readonly CheckBox cbFallBackToFileNameIfNoLetters = new() { Text = UI.IfGeneratedNameContainsNoLettersFallBackToFileName, };
+    private readonly Button btFormulaDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
+
     private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
     private CheckBox cbAutoHideAlbumImage;
     private CheckBox cbCheckUpdates;
@@ -348,6 +409,7 @@ public class FormSettings : Dialog<bool>
     private CheckBox cbDecreaseVolumeOnQuietHours;
     private TabPage tabCommon;
     private TabPage tabWeightedRandom;
+    private TabPage tabTrackNaming;
     private readonly TabControl tbcSettings = new();
     private readonly Button btnOk = new() { Text = UI.OK, };
     private readonly Button btnCancel = new() { Text = UI.Cancel, };

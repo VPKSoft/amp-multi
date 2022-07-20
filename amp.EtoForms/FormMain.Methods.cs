@@ -29,6 +29,7 @@ using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Properties;
+using amp.EtoForms.Utilities;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -148,5 +149,21 @@ SOFTWARE.
         aboutDialog.ProgramName = "amp#";
         aboutDialog.Website = new Uri("https://github.com/VPKSoft/amp");
         aboutDialog.WebsiteLabel = "GitHub/amp";
+    }
+
+    private void SetupInitialSettings()
+    {
+        var formula = string.IsNullOrWhiteSpace(Globals.Settings.TrackNameFormula)
+            ? TrackDisplayNameGenerate.FormulaDefault
+            : Globals.Settings.TrackNameFormula;
+
+        var formulaRenamed = string.IsNullOrWhiteSpace(Globals.Settings.TrackNameFormulaRenamed)
+            ? TrackDisplayNameGenerate.FormulaTrackRenamedDefault
+            : Globals.Settings.TrackNameFormulaRenamed;
+
+        TrackDisplayNameGenerate.Formula = formula;
+        TrackDisplayNameGenerate.FormulaTrackRenamed = formulaRenamed;
+        TrackDisplayNameGenerate.MinimumTrackLength = Globals.Settings.TrackNamingMinimumTitleLength;
+        TrackDisplayNameGenerate.TrackNamingFallbackToFileNameWhenNoLetters = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
     }
 }

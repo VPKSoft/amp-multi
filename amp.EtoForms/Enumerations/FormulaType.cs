@@ -31,11 +31,6 @@ namespace amp.EtoForms.Enumerations;
 public enum FormulaType
 {
     /// <summary>
-    /// There is no formula.
-    /// </summary>
-    None,
-
-    /// <summary>
     /// The artist part.
     /// </summary>
     Artist,
@@ -56,17 +51,12 @@ public enum FormulaType
     Title,
 
     /// <summary>
-    /// The queue index part.
-    /// </summary>
-    QueueIndex,
-
-    /// <summary>
-    /// The alternate queue index part.
-    /// </summary>
-    AlternateQueueIndex,
-
-    /// <summary>
     /// The override (renamed) name part.
     /// </summary>
     Renamed,
+
+    /// <summary>
+    /// The file name without path or extension.
+    /// </summary>
+    FileName,
 }
