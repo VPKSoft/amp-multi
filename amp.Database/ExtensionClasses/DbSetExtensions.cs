@@ -32,7 +32,7 @@ namespace amp.Database.ExtensionClasses;
 /// <summary>
 /// Helper classes for <see cref="DbSet{TEntity}"/>.
 /// </summary>
-public static class DbSetHelpers
+public static class DbSetExtensions
 {
     /// <summary>
     /// Gets the un-tracked list of entities.

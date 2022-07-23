@@ -25,9 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.ComponentModel;
-using System.Diagnostics;
 using amp.Database.DataModel;
-using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
@@ -60,12 +58,11 @@ partial class FormMain
             return;
         }
 
-        if (e.Key == Keys.Add)
+        if (e.Key is Keys.Add or Keys.Multiply)
         {
             var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
-            await playbackOrder.ToggleQueue(tracks, selectedTracks.ToArray());
-
-            gvAudioTracks.Invalidate();
+            await playbackOrder.ToggleQueue(tracks, e.Key == Keys.Multiply, (e.Modifiers == Application.Instance.CommonModifier),
+                selectedTracks.ToArray());
 
             e.Handled = true;
             return;
@@ -90,32 +87,6 @@ partial class FormMain
                 tbSearch.CaretIndex++;
                 tbSearch.Focus();
                 e.Handled = true;
-            }
-        }
-    }
-
-    private long SelectedAlbumTrackId
-    {
-        get
-        {
-            if (gvAudioTracks.SelectedItem != null)
-            {
-                var albumTrackId = ((Models.AlbumTrack)gvAudioTracks.SelectedItem).Id;
-                return albumTrackId;
-            }
-
-            return 0;
-        }
-    }
-
-    private IEnumerable<long> SelectedAlbumTrackIds
-    {
-        get
-        {
-            foreach (var selectedItem in gvAudioTracks.SelectedItems)
-            {
-                var trackId = ((Models.AlbumTrack)selectedItem).Id;
-                yield return trackId;
             }
         }
     }
@@ -150,18 +121,17 @@ partial class FormMain
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        filteredTracks = tracks;
+        FilterTracks();
+    }
 
-        if (!string.IsNullOrWhiteSpace(tbSearch.Text))
-        {
-            filteredTracks = tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
-        }
-
-        gvAudioTracks.DataStore = filteredTracks;
+    private void BtnShowQueue_CheckedChange(object? sender, CheckedChangeEventArguments e)
+    {
+        FilterTracks();
     }
 
     private void FormMain_Closing(object? sender, CancelEventArgs e)
     {
+        Globals.SaveSettings();
         playbackManager.Dispose();
         formAlbumImage.DisposeClose();
         formAlbumImage.Dispose();
@@ -210,9 +180,9 @@ partial class FormMain
         Application.Instance.Invoke(() =>
         {
             var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
-            ttrackVolumeSlider.SuspendEventInvocation = true;
-            ttrackVolumeSlider.Value = track?.AudioTrack?.PlaybackVolume * 100 ?? 100;
-            ttrackVolumeSlider.SuspendEventInvocation = false;
+            trackVolumeSlider.SuspendEventInvocation = true;
+            trackVolumeSlider.Value = track?.AudioTrack?.PlaybackVolume * 100 ?? 100;
+            trackVolumeSlider.SuspendEventInvocation = false;
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
 
             var dataSource = gvAudioTracks.DataStore.Cast<Models.AlbumTrack>().ToList();
@@ -353,20 +323,16 @@ partial class FormMain
         await AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
     }
 
-    private void IdleChecker_UserIdle(object? sender, UserIdleEventArgs e)
+    private void IdleChecker_UserIdleChanged(object? sender, UserIdleEventArgs e)
     {
-        Debug.WriteLine("User idle.");
-    }
-
-    private void IdleChecker_UserActivated(object? sender, UserIdleEventArgs e)
-    {
-        Debug.WriteLine("User woke up.");
+        FilterTracks();
     }
 
     private async void FormMain_Shown(object? sender, EventArgs e)
     {
         await UpdateAlbumDataSource();
         await RefreshCurrentAlbum();
+        LoadLayout();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
@@ -394,12 +360,13 @@ partial class FormMain
         string? queueName;
         if (UtilityOS.IsMacOS)
         {
-            queueName = new DialogQueryValue<string>("Save current queue", "Queue name", false, Globals.DefaultSpacing,
+            queueName = new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false, Globals.DefaultSpacing,
+                // ReSharper disable once MethodHasAsyncOverload, Eto.Mac doesn't fire shown event.
                 Globals.DefaultPadding).ShowModal(this);
         }
         else
         {
-            queueName = await new DialogQueryValue<string>("Save current queue", "Queue name", false, Globals.DefaultSpacing,
+            queueName = await new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false, Globals.DefaultSpacing,
                 Globals.DefaultPadding).ShowModalAsync(this);
         }
 
@@ -455,5 +422,46 @@ partial class FormMain
         {
             await UpdateAlbumDataSource();
         }
+    }
+
+    private void GvAudioTracks_ColumnOrderChanged(object? sender, GridColumnEventArgs e)
+    {
+        Globals.PositionAndLayoutSettings.TrackGridColumnDisplayIndices =
+            gvAudioTracks.Columns.Select(f => f.DisplayIndex).ToArray();
+    }
+
+    private void GvAudioTracksSizeChanged(object? sender, EventArgs e)
+    {
+        gvAudioTracks.Columns[0].Width = gvAudioTracks.Width - 80;
+        gvAudioTracks.Columns[1].Width = 30;
+        gvAudioTracks.Columns[2].Width = 30;
+    }
+
+    private void SettingsCommand_Executed(object? sender, EventArgs e)
+    {
+        using var settingsForm = new FormSettings();
+        settingsForm.ShowModal(this);
+    }
+
+    private async void ScrambleQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
+        if (QueuedItemsInSelection)
+        {
+            await playbackOrder.Scramble(tracks, false, selectedTracks.ToArray());
+        }
+        else if (AlternateQueuedItemsInSelection)
+        {
+            await playbackOrder.Scramble(tracks, true, selectedTracks.ToArray());
+        }
+        else
+        {
+            await playbackOrder.Scramble(tracks, false);
+        }
+    }
+
+    private async void ClearQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        await playbackOrder.ClearQueue(tracks, false);
     }
 }

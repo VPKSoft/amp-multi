@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using System.Collections.ObjectModel;
 using amp.Database;
 using amp.Database.DataModel;
 using amp.EtoForms.Utilities;
@@ -90,7 +91,7 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        tracks = context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList();
+        tracks = new ObservableCollection<AlbumTrack>(context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList());
 
         playbackManager.ManagerStopped = false;
 
@@ -107,8 +108,8 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private List<AlbumTrack> tracks;
-    private List<AlbumTrack> filteredTracks = new();
+    private ObservableCollection<AlbumTrack> tracks;
+    private ObservableCollection<AlbumTrack> filteredTracks = new();
     private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
     private readonly AmpContext context;

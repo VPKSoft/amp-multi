@@ -24,43 +24,22 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
-using amp.Shared.Localization;
-using Eto.Forms;
-using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
+using VPKSoft.ApplicationSettingsJson;
 
-namespace amp.EtoForms;
+namespace amp.EtoForms.Settings;
 
 /// <summary>
-/// The program main entry point.
+/// Form and column, etc. positioning data.
+/// Implements the <see cref="ApplicationJsonSettings" />
 /// </summary>
-public static class Program
+/// <seealso cref="ApplicationJsonSettings" />
+// ReSharper disable once ClassNeverInstantiated.Global, yes it is instantiated via activator.
+public class PositionAndLayoutSettings : ApplicationJsonSettings
 {
     /// <summary>
-    /// Defines the entry point of the application.
+    /// Gets or sets the track grid column display indices.
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    [STAThread]
-    // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
-    static void Main(string[] args)
-    {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
-
-        Shared.Globals.Locale = Globals.Settings.Locale;
-        LocalizeExternals();
-
-        new Application().Run(new FormMain());
-    }
-
-    internal static void Instance_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
-    {
-        Globals.Logger?.Error((Exception)e.ExceptionObject, "");
-    }
-
-    private static void LocalizeExternals()
-    {
-        global::EtoForms.Controls.Custom.Globals.OkButtonText = UI.OK;
-        global::EtoForms.Controls.Custom.Globals.CancelButtonText = UI.Cancel;
-    }
+    /// <value>The track grid column display indices.</value>
+    [Settings(Default = new[] { 0, 1, 2, })]
+    public int[] TrackGridColumnDisplayIndices { get; set; } = Array.Empty<int>();
 }

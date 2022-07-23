@@ -47,4 +47,56 @@ public partial class FormMain
             Globals.SaveSettings();
         }
     }
+
+    private long SelectedAlbumTrackId
+    {
+        get
+        {
+            if (gvAudioTracks.SelectedItem != null)
+            {
+                var albumTrackId = ((Models.AlbumTrack)gvAudioTracks.SelectedItem).Id;
+                return albumTrackId;
+            }
+
+            return 0;
+        }
+    }
+
+    private IEnumerable<long> SelectedAlbumTrackIds
+    {
+        get
+        {
+            foreach (var selectedItem in gvAudioTracks.SelectedItems)
+            {
+                var trackId = ((Models.AlbumTrack)selectedItem).Id;
+                yield return trackId;
+            }
+        }
+    }
+
+    private bool QueuedItemsInSelection
+    {
+        get
+        {
+            foreach (var selectedItem in gvAudioTracks.SelectedItems)
+            {
+                return ((Models.AlbumTrack)selectedItem).QueueIndex > 0;
+            }
+
+            return false;
+        }
+    }
+
+    private bool AlternateQueuedItemsInSelection
+    {
+        get
+        {
+            foreach (var selectedItem in gvAudioTracks.SelectedItems)
+            {
+                return ((Models.AlbumTrack)selectedItem).QueueIndexAlternate > 0;
+            }
+
+            return false;
+        }
+    }
 }

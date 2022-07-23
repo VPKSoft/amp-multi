@@ -216,6 +216,7 @@ public class FormSavedQueues : Dialog<bool>
 
             await transaction.CommitAsync();
             removeQueues.Clear();
+            context.ChangeTracker.Clear();
         }, async (_) => { await transaction.RollbackAsync(); });
     }
 

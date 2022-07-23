@@ -83,6 +83,16 @@ namespace amp.EtoForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] queue_three_dots_clear {
+            get {
+                object obj = ResourceManager.GetObject("queue_three_dots_clear", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] repeat_svgrepo_com_modified {
             get {
                 object obj = ResourceManager.GetObject("repeat_svgrepo_com_modified", resourceCulture);

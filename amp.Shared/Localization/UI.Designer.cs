@@ -196,6 +196,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear queue.
+        /// </summary>
+        public static string ClearQueue {
+            get {
+                return ResourceManager.GetString("ClearQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
@@ -593,6 +602,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scramble queue.
+        /// </summary>
+        public static string ScrambleQueue {
+            get {
+                return ResourceManager.GetString("ScrambleQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string SelectAll {
@@ -625,6 +643,15 @@ namespace amp.Shared.Localization {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show queue.
+        /// </summary>
+        public static string ShowQueue {
+            get {
+                return ResourceManager.GetString("ShowQueue", resourceCulture);
             }
         }
         

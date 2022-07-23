@@ -36,6 +36,7 @@ namespace amp.EtoForms.Settings;
 /// </summary>
 /// <seealso cref="ApplicationJsonSettings" />
 /// <seealso cref="IBiasedRandomSettings" />
+// ReSharper disable once ClassNeverInstantiated.Global, yes it is instantiated via activator.
 public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
 {
     /// <summary>
@@ -253,20 +254,21 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     public int PlaybackRetryCount { get; set; }
     #endregion
 
-    #region TrackNaming    
+    #region TrackNaming
+
     /// <summary>
     /// Gets or sets the track name formula.
     /// </summary>
     /// <value>The track name formula.</value>
     [Settings(Default = "    {@Ar - }{@Al - }{(@Tn) }{@Tl}")]
-    public string? TrackNameFormula { get; set; }
+    public string TrackNameFormula { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the track name formula for a renamed track.
     /// </summary>
     /// <value>The track name formula for a renamed track.</value>
     [Settings(Default = "    {@R}")]
-    public string? TrackNameFormulaRenamed { get; set; }
+    public string TrackNameFormulaRenamed { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether to fall back to the track file name if the generated title contains no letters.

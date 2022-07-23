@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using amp.Database;
 using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -230,11 +231,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
             context.QueueTracks.RemoveRange(itemsToDelete);
             await context.SaveChangesAsync();
 
-            context.QueueTracks.UpdateRange(queueTracks);
-            await context.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-
+            await context.UpdateRangeAndSave(queueTracks);
         }, async (_) => await transaction.RollbackAsync());
 
         Close(true);

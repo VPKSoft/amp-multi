@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.Forms;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
@@ -102,10 +101,10 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(ttrackVolumeSlider), nameof(totalVolumeSlider))]
+    [MemberNotNull(nameof(trackVolumeSlider), nameof(totalVolumeSlider))]
     private Control CreateValueSliders()
     {
-        ttrackVolumeSlider = new VolumeSlider((_, args) =>
+        trackVolumeSlider = new VolumeSlider((_, args) =>
             {
                 playbackManager.PlaybackVolume = args.Value / 100.0;
             })
@@ -124,6 +123,7 @@ partial class FormMain
         {
             Rows =
             {
+                new Panel {Height = Globals.DefaultPadding,},
                 new TableRow
                 {
                     Cells =
@@ -140,7 +140,7 @@ partial class FormMain
                     {
                         new TableCell(new Label { Text = UI.TrackVolume, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
-                        new TableCell(ttrackVolumeSlider, true),
+                        new TableCell(trackVolumeSlider, true),
                     },
                 },
                 new Panel {Height = Globals.DefaultPadding,},
@@ -165,44 +165,6 @@ partial class FormMain
         };
 
         return result;
-    }
-
-    private void AssignEventListeners()
-    {
-        btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
-        btnPlayPause.CheckedChange += PlayPauseToggle;
-        nextAudioTrackCommand.Executed += NextAudioTrackCommand_Executed;
-        tbSearch.TextChanged += TbSearch_TextChanged;
-        gvAudioTracks.MouseDoubleClick += GvAudioTracksMouseDoubleClick;
-        Closing += FormMain_Closing;
-        KeyDown += FormMain_KeyDown;
-        gvAudioTracks.KeyDown += FormMain_KeyDown;
-        tbSearch.KeyDown += FormMain_KeyDown;
-        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
-        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
-        playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
-        playbackManager.PlaybackError += PlaybackManager_PlaybackError;
-        LocationChanged += FormMain_LocationChanged;
-        idleChecker.UserIdle += IdleChecker_UserIdle;
-        idleChecker.UserActivated += IdleChecker_UserActivated;
-        settingsCommand.Executed += SettingsCommand_Executed;
-        gvAudioTracks.SizeChanged += GvAudioTracksSizeChanged;
-        Shown += FormMain_Shown;
-    }
-
-    private void GvAudioTracksSizeChanged(object? sender, EventArgs e)
-    {
-        gvAudioTracks.Columns[0].Width = gvAudioTracks.Width - 80;
-        gvAudioTracks.Columns[1].Width = 30;
-        gvAudioTracks.Columns[2].Width = 30;
-    }
-
-    private void SettingsCommand_Executed(object? sender, EventArgs e)
-    {
-        using var settingsForm = new FormSettings();
-        settingsForm.ShowModal(this);
     }
 
     [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect))]
@@ -269,7 +231,7 @@ partial class FormMain
             Height = 650,
             Width = 550,
             AllowMultipleSelection = true,
-            AllowColumnReordering = false,
+            AllowColumnReordering = true,
         };
 
         var result = new StackLayout
@@ -302,7 +264,8 @@ partial class FormMain
             Color.Parse("#D4AA00"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
 
         btnShowQueue = new CheckedButton(Resources.queue_three_dots,
-            Color.Parse("#502D16"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize);
+                Color.Parse("#502D16"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize)
+        { ToolTip = UI.ShowQueue, };
 
         btnRepeatToggle = new CheckedButton(Resources.repeat_svgrepo_com_modified,
             Color.Parse("#FF5555"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
@@ -343,6 +306,12 @@ partial class FormMain
         manageSavedQueues.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Resources.queue_three_dots, Globals.ButtonDefaultSize);
 
+        clearQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Resources.queue_three_dots_clear, Globals.ButtonDefaultSize);
+
+        scrambleQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_re_order_dots_vertical_16_filled, Globals.ButtonDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -350,7 +319,7 @@ partial class FormMain
             {
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
-                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, },},
+                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
             },
             ApplicationItems =
             {
@@ -386,6 +355,8 @@ partial class FormMain
         manageAlbumsCommand.Executed += ManageAlbumsCommand_Executed;
         saveQueueCommand.Executed += SaveQueueCommand_Executed;
         manageSavedQueues.Executed += ManageSavedQueues_Executed;
+        clearQueueCommand.Executed += ClearQueueCommand_Executed;
+        scrambleQueueCommand.Executed += ScrambleQueueCommand_Executed;
     }
 
     private readonly AboutDialog aboutDialog = new();
@@ -394,7 +365,7 @@ partial class FormMain
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
     private readonly Label lbTracksTitle = new();
-    private VolumeSlider ttrackVolumeSlider;
+    private VolumeSlider trackVolumeSlider;
     private VolumeSlider totalVolumeSlider;
     private readonly Command commandPlayPause = new();
     private readonly Command nextAudioTrackCommand = new();
@@ -405,6 +376,8 @@ partial class FormMain
     private readonly Control trackAdjustControls;
     private PositionSlider playbackPosition;
     private Label lbPlaybackPosition;
+    private readonly Command clearQueueCommand = new()
+    { MenuText = UI.ClearQueue, Shortcut = Application.Instance.CommonModifier | Keys.D, };
     private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };
     private readonly Command aboutCommand = new() { MenuText = UI.About, };
     private readonly Command settingsCommand = new() { MenuText = UI.Settings, };
@@ -416,6 +389,7 @@ partial class FormMain
     private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
     private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, };
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
+    private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private ComboBox cmbAlbumSelect;
     private CheckedButton btnStackQueueToggle;
 }
