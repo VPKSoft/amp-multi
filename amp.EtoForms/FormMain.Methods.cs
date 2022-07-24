@@ -25,13 +25,11 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
-using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
-using amp.Playback;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -107,14 +105,18 @@ partial class FormMain
 
     private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData, bool alternate)
     {
-        var modifyTracks = tracks.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
+        var keys = updateQueueData.Select(f => f.Key).ToList();
 
-        foreach (var albumTrack in modifyTracks)
+        var modifyTracks = await context.AlbumTracks.Where(f => keys.Contains(f.Id)).ToListAsync();
+        var modifyTracksView = tracks.Where(f => keys.Contains(f.Id)).ToList();
+
+        foreach (var albumTrack in modifyTracksView)
         {
             var newIndex = updateQueueData.First(f => f.Key == albumTrack.Id).Value;
             if (alternate)
             {
                 albumTrack.QueueIndexAlternate = newIndex;
+
             }
             else
             {
@@ -122,12 +124,10 @@ partial class FormMain
             }
             albumTrack.ModifiedAtUtc = DateTime.UtcNow;
 
-            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(albumTrack));
+            albumTrack.UpdateDataModel(modifyTracks.FirstOrDefault(f => f.Id == albumTrack.Id));
         }
 
         var count = await context.SaveChangesAsync();
-
-        context.ChangeTracker.Clear();
 
         gvAudioTracks.Invalidate();
 

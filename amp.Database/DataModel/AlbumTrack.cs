@@ -37,7 +37,7 @@ namespace amp.Database.DataModel;
 /// <seealso cref="IAlbumTrack{TAudioTrack,TAlbum}" />
 [Table(nameof(AlbumTrack))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class AlbumTrack : IAlbumTrack<AudioTrack, Album>
+public class AlbumTrack : IAlbumTrack<AudioTrack, Album>, IRowVersionEntity
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
@@ -68,4 +68,9 @@ public class AlbumTrack : IAlbumTrack<AudioTrack, Album>
     /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.AudioTrack"/>
     [ForeignKey(nameof(AudioTrackId))]
     public AudioTrack? AudioTrack { get; set; }
+
+    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
+    [Timestamp]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public byte[]? RowVersion { get; set; }
 }

@@ -63,6 +63,40 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private byte[]? trackImageData;
     private MusicFileType musicFileType;
 
+    /// <summary>
+    /// Reflects the possible changed into the specified entity class.
+    /// </summary>
+    /// <param name="audioTrack">The audio track entity.</param>
+    public void UpdateDataModel(amp.Database.DataModel.AudioTrack? audioTrack)
+    {
+        if (audioTrack == null)
+        {
+            return;
+        }
+
+        audioTrack.ModifiedAtUtc = ModifiedAtUtc;
+        audioTrack.PlaybackVolume = PlaybackVolume;
+        audioTrack.Rating = Rating;
+        audioTrack.ModifiedAtUtc = ModifiedAtUtc;
+        audioTrack.PlayedByRandomize = PlayedByRandomize;
+        audioTrack.PlayedByUser = PlayedByUser;
+        audioTrack.SkippedEarlyCount = SkippedEarlyCount;
+        audioTrack.FileName = FileName;
+        audioTrack.Artist = Artist;
+        audioTrack.Album = Album;
+        audioTrack.Track = Track;
+        audioTrack.Year = Year;
+        audioTrack.Lyrics = Lyrics;
+        audioTrack.MusicFileType = MusicFileType;
+        audioTrack.TagFindString = TagFindString;
+        audioTrack.TagRead = TagRead;
+        audioTrack.FileNameNoPath = FileNameNoPath;
+        audioTrack.Title = Title;
+        audioTrack.TrackImageData = TrackImageData;
+        audioTrack.OverrideName = OverrideName;
+        audioTrack.FileSizeBytes = FileSizeBytes;
+    }
+
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 

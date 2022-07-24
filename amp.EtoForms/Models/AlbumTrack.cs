@@ -49,6 +49,22 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
     private AudioTrack? track;
     private Album? album;
 
+    /// <summary>
+    /// Reflects the possible changed into the specified entity class.
+    /// </summary>
+    /// <param name="albumTrack">The album track entity.</param>
+    public void UpdateDataModel(amp.Database.DataModel.AlbumTrack? albumTrack)
+    {
+        if (albumTrack == null)
+        {
+            return;
+        }
+
+        albumTrack.ModifiedAtUtc = ModifiedAtUtc;
+        albumTrack.QueueIndex = QueueIndex;
+        albumTrack.QueueIndexAlternate = QueueIndexAlternate;
+    }
+
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 

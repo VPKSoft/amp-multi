@@ -38,7 +38,7 @@ namespace amp.Database.DataModel;
 /// <seealso cref="IAudioTrack" />
 [Table(nameof(AudioTrack))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class AudioTrack : IAudioTrack
+public class AudioTrack : IAudioTrack, IRowVersionEntity
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
@@ -106,4 +106,9 @@ public class AudioTrack : IAudioTrack
 
     /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
+
+    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
+    [Timestamp]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public byte[]? RowVersion { get; set; }
 }

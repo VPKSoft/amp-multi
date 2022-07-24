@@ -92,7 +92,8 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        tracks = new ObservableCollection<AlbumTrack>(context.AlbumTracks.Include(f => f.AudioTrack).Where(f => f.AlbumId == CurrentAlbumId).AsNoTracking().Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList());
+        tracks = new ObservableCollection<AlbumTrack>(context.AlbumTracks.Include(f => f.AudioTrack)
+            .Where(f => f.AlbumId == CurrentAlbumId).Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList());
 
         playbackManager.ManagerStopped = false;
 

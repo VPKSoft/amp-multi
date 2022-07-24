@@ -43,4 +43,14 @@ public static class EntityHelper
         typeBuilder.Property(f => f.CreatedAtUtc).HasConversion(x => x.ToUniversalTime(), x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
         typeBuilder.Property(f => f.ModifiedAtUtc).HasConversion(x => x!.Value.ToUniversalTime(), x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
     }
+
+    /// <summary>
+    /// Specifies the entity implementing the <see cref="IRowVersionEntity"/> interface <see cref="IRowVersionEntity.RowVersion"/> column conversion.
+    /// </summary>
+    /// <typeparam name="T">The type of the entity.</typeparam>
+    /// <param name="typeBuilder">The <see cref="EntityTypeBuilder"/> instance.</param>
+    public static void SpecifyRowVersion<T>(this EntityTypeBuilder<T> typeBuilder) where T : class, IEntity, IRowVersionEntity
+    {
+        typeBuilder.Property(f => f.RowVersion).HasConversion(x => x == null ? 0 : BitConverter.ToInt64(x), x => BitConverter.GetBytes(x));
+    }
 }
