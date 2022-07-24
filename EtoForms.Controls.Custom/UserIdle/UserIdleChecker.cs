@@ -79,10 +79,30 @@ public class UserIdleChecker : IDisposable
     }
 
     /// <summary>
-    /// Gets a value indicating the user is currently idle.
+    /// Gets or sets a value indicating the user is currently idle.
     /// </summary>
     /// <value><c>true</c> if the user is currently idle; otherwise, <c>false</c>.</value>
-    public bool IsUserIdle => idleEventInvoked;
+    public bool IsUserIdle
+    {
+        get => idleEventInvoked;
+
+        set
+        {
+            if (value != idleEventInvoked)
+            {
+                idleEventInvoked = value;
+                if (!idleEventInvoked)
+                {
+                    previousActiveTime = DateTime.Now;
+                    UserActivated?.Invoke(this, new UserIdleEventArgs());
+                }
+                else
+                {
+                    UserIdle?.Invoke(this, new UserIdleEventArgs());
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Occurs when the user has been inactive for the specified interval.
@@ -152,10 +172,9 @@ public class UserIdleChecker : IDisposable
 
             if (idleEventInvoked)
             {
+                idleEventInvoked = false;
                 UserActivated?.Invoke(this, new UserIdleEventArgs());
             }
-
-            idleEventInvoked = false;
         }
     }
 
@@ -168,8 +187,8 @@ public class UserIdleChecker : IDisposable
                 var spanSeconds = (DateTime.Now - PreviousActiveTime).TotalSeconds;
                 if (spanSeconds > UserInactiveInterval)
                 {
-                    UserIdle?.Invoke(this, new UserIdleEventArgs());
                     idleEventInvoked = true;
+                    UserIdle?.Invoke(this, new UserIdleEventArgs());
                 }
                 else
                 {

@@ -30,7 +30,15 @@ using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.Models;
-internal class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyPropertyChanged
+
+/// <summary>
+/// A class for album tracks.
+/// Implements the <see cref="amp.Shared.Interfaces.IAlbumTrack{TAudioTrack, TAlbum}" />
+/// Implements the <see cref="INotifyPropertyChanged" />
+/// </summary>
+/// <seealso cref="amp.Shared.Interfaces.IAlbumTrack{TAudioTrack, TAlbum}" />
+/// <seealso cref="INotifyPropertyChanged" />
+public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyPropertyChanged
 {
     private DateTime? modifiedAtUtc;
     private DateTime createdAtUtc;
@@ -167,6 +175,10 @@ internal class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyPropertyChang
         }
     }
 
+    /// <summary>
+    /// Gets the display name for the audio track.
+    /// </summary>
+    /// <value>The display name.</value>
     public string DisplayName => this.GetAudioTrackName();
 
     /// <summary>
@@ -178,7 +190,7 @@ internal class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyPropertyChang
     /// Called when property value changes.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));

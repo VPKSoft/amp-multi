@@ -124,6 +124,9 @@
   <data name="queue_three_dots" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\queue_three_dots.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="queue_three_dots_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\queue_three_dots_clear.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="repeat_svgrepo_com_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\repeat-svgrepo-com_modified.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

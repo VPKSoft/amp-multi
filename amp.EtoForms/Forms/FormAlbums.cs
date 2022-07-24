@@ -152,6 +152,7 @@ public class FormAlbums : Dialog<bool>
             context.Albums.UpdateRange(toUpdate);
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
+            context.ChangeTracker.Clear();
         }, async (_) => await transaction.RollbackAsync());
 
         Close(true);

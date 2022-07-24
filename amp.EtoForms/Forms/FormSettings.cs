@@ -142,7 +142,7 @@ public class FormSettings : Dialog<bool>
         }
 
         Globals.Settings.AutoCheckUpdates = cbCheckUpdates.Checked == true;
-        Globals.Settings.StackQueueRandomPercentage = nsStackQueue.Value;
+        Globals.Settings.StackQueueRandomPercentage = (int)nsStackQueue.Value;
         Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
 

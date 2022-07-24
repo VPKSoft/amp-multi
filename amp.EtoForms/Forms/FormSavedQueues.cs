@@ -51,9 +51,11 @@ public class FormSavedQueues : Dialog<bool>
     /// Initializes a new instance of the <see cref="FormSavedQueues"/> class.
     /// </summary>
     /// <param name="context">The context.</param>
-    public FormSavedQueues(AmpContext context)
+    /// <param name="loadOrAppendQueueFunc">A function to execute in case a queue is requested to be loaded or appended to the current queue.</param>
+    public FormSavedQueues(AmpContext context, Func<Dictionary<long, int>, long, bool, Task> loadOrAppendQueueFunc)
     {
         this.context = context;
+        this.loadOrAppendQueueFunc = loadOrAppendQueueFunc;
 
         MinimumSize = new Size(700, 500);
         Title = $"amp# {UI._} {UI.SavedQueues}";
@@ -160,10 +162,28 @@ public class FormSavedQueues : Dialog<bool>
 
         NegativeButtons.Add(btnCancel);
         PositiveButtons.Add(btnSaveAndClose);
+        PositiveButtons.Add(btnLoadQueue);
+        PositiveButtons.Add(btnLoadAndAppendQueue);
 
         btnCancel.Click += BtnCancel_Click;
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
+        btnLoadQueue.Click += BtnLoadQueueClick;
+        btnLoadAndAppendQueue.Click += BtnLoadQueueClick;
         gvAlbumQueues.CellEdited += GvAlbumQueues_CellEdited;
+    }
+
+    private async void BtnLoadQueueClick(object? sender, EventArgs e)
+    {
+        var albumId = ((Models.Album?)(cmbAlbumSelect.SelectedValue))?.Id;
+        if (SelectedQueueId != 0 && albumId != null)
+        {
+            var queueData = new Dictionary<long, int>(context.QueueTracks
+                .Where(f => f.QueueSnapshotId == SelectedQueueId).AsNoTracking()
+                .Select(f => new KeyValuePair<long, int>(f.AudioTrackId, f.QueueIndex)));
+
+            await loadOrAppendQueueFunc(queueData, albumId.Value, Equals(sender, btnLoadAndAppendQueue));
+            Close(true);
+        }
     }
 
     private void CopyToFolderClick(object? sender, EventArgs e)
@@ -216,6 +236,7 @@ public class FormSavedQueues : Dialog<bool>
 
             await transaction.CommitAsync();
             removeQueues.Clear();
+            context.ChangeTracker.Clear();
         }, async (_) => { await transaction.RollbackAsync(); });
     }
 
@@ -271,6 +292,7 @@ public class FormSavedQueues : Dialog<bool>
         RefreshQueueSnapshots(null);
     }
 
+    private readonly Func<Dictionary<long, int>, long, bool, Task> loadOrAppendQueueFunc;
     private readonly List<long> queuesToDelete = new();
     private readonly ComboBox cmbAlbumSelect;
     private readonly AmpContext context;
@@ -279,5 +301,7 @@ public class FormSavedQueues : Dialog<bool>
     private readonly GridView gvAlbumQueues;
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
+    private readonly Button btnLoadQueue = new() { Text = UI.LoadQueue, };
+    private readonly Button btnLoadAndAppendQueue = new() { Text = UI.AppendToQueue, };
     private readonly SelectFolderDialog selectFolderDialog = new() { Title = UI.SelectDestinationDirectory, };
 }

@@ -30,12 +30,20 @@ using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.Models;
 
-internal class Album : IAlbum, INotifyPropertyChanged
+/// <summary>
+/// A class for album.
+/// Implements the <see cref="IAlbum" />
+/// Implements the <see cref="INotifyPropertyChanged" />
+/// </summary>
+/// <seealso cref="IAlbum" />
+/// <seealso cref="INotifyPropertyChanged" />
+public class Album : IAlbum, INotifyPropertyChanged
 {
     private DateTime? modifiedAtUtc;
     private DateTime createdAtUtc;
     private string albumName = string.Empty;
 
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 
     /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>

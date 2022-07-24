@@ -344,4 +344,19 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="MinimumNameLength" xml:space="preserve">
     <value>Nimen minimipituus</value>
   </data>
+  <data name="ShowQueue" xml:space="preserve">
+    <value>Näytä jono</value>
+  </data>
+  <data name="ClearQueue" xml:space="preserve">
+    <value>Tyhjennä jono</value>
+  </data>
+  <data name="ScrambleQueue" xml:space="preserve">
+    <value>Sekoita jono</value>
+  </data>
+  <data name="LoadQueue" xml:space="preserve">
+    <value>Lataa jono</value>
+  </data>
+  <data name="AppendToQueue" xml:space="preserve">
+    <value>Lisää jonoon</value>
+  </data>
 </root>

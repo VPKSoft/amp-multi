@@ -24,9 +24,11 @@ SOFTWARE.
 */
 #endregion
 
+using System.Collections.ObjectModel;
 using amp.Playback.Classes;
 using amp.Playback.Interfaces;
 using amp.Shared.Classes;
+using amp.Shared.Extensions;
 using amp.Shared.Interfaces;
 using BR = VPKSoft.RandomizationUtils.BiasedRandom;
 
@@ -46,11 +48,13 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
     /// Initializes a new instance of the <see cref="PlaybackOrder{TAudioTrack, TAlbumTrack, TAlbum}"/> class.
     /// </summary>
     /// <param name="settings">The settings for biased randomization.</param>
+    /// <param name="stackQueueRandomPercentage">The stack queue random percentage.</param>
     /// <param name="updateQueueFunc">A callback function to update the modified queue indices into the database.</param>
-    public PlaybackOrder(IBiasedRandomSettings settings, Func<Dictionary<long, int>, Task> updateQueueFunc)
+    public PlaybackOrder(IBiasedRandomSettings settings, int stackQueueRandomPercentage, Func<Dictionary<long, int>, bool, Task> updateQueueFunc)
     {
         base.ApplyFrom(settings);
         this.updateQueueFunc = updateQueueFunc;
+        StackQueueRandomPercentage = stackQueueRandomPercentage;
     }
 
     /// <summary>
@@ -59,64 +63,24 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
     /// <value><c>true</c> if index randomization is enabled; otherwise, <c>false</c>.</value>
     public bool Randomizing { get; set; } = true;
 
-    private int previousTrackIndex = -1;
-
-    private readonly Func<Dictionary<long, int>, Task> updateQueueFunc;
+    /// <summary>
+    /// Gets or sets a value indicating whether the stack queue mode is enabled.
+    /// </summary>
+    /// <value><c>true</c> if [stack queue]; otherwise, <c>false</c>.</value>
+    public bool StackQueueMode { get; set; }
 
     /// <summary>
-    /// Toggles the queue of the album audio tracks specified by the <paramref name="albumTrackIds"/>.
+    /// Gets or sets the stack queue random percentage.
     /// </summary>
-    /// <param name="albumTracks">The album audio tracks.</param>
-    /// <param name="albumTrackIds">The audio tracks identifiers which queue to toggle.</param>
-    public async Task ToggleQueue(List<TAlbumTrack>? albumTracks, params long[] albumTrackIds)
-    {
-        if (albumTracks == null)
-        {
-            return;
-        }
-
-        var toUpdate = new Dictionary<long, int>();
-
-        var maxQueueIndex = albumTracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 1 ?? 1;
-
-        foreach (var albumTrack in albumTracks.Where(f => albumTrackIds.Contains(f.Id)))
-        {
-            albumTrack.QueueIndex = albumTrack.QueueIndex > 0 ? 0 : maxQueueIndex++;
-
-            toUpdate.Add(albumTrack.Id, albumTrack.QueueIndex);
-        }
-
-        var newIndex = 1;
-
-        foreach (var albumTrack in albumTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex))
-        {
-            if (albumTrack.QueueIndex != newIndex)
-            {
-                albumTrack.QueueIndex = newIndex;
-                if (toUpdate.ContainsKey(albumTrack.Id))
-                {
-                    toUpdate[albumTrack.Id] = newIndex;
-                }
-                else
-                {
-                    toUpdate.Add(albumTrack.Id, newIndex);
-                }
-            }
-            newIndex++;
-        }
-
-        if (toUpdate.Any())
-        {
-            await updateQueueFunc(toUpdate);
-        }
-    }
+    /// <value>The stack queue random percentage.</value>
+    public int StackQueueRandomPercentage { get; set; }
 
     /// <summary>
     /// Gets the next audio track to play.
     /// </summary>
-    /// <param name="albumTracks">The album albumTracks.</param>
+    /// <param name="albumTracks">The album tracks.</param>
     /// <returns>An instance of the <see cref="AudioTrackResult"/> class.</returns>
-    public async Task<AudioTrackResult> NextTrack(List<TAlbumTrack>? albumTracks)
+    public async Task<AudioTrackResult> NextTrack(ObservableCollection<TAlbumTrack>? albumTracks)
     {
         if (albumTracks == null || albumTracks.Count == 0)
         {
@@ -135,14 +99,21 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
         {
             nextTrackIndex = queueIndex;
             queued = true;
-            foreach (var track in albumTracks.Where(f => f.QueueIndex > 0))
+            if (!StackQueueMode)
             {
-                updatedTracks.Add(track.Id, track.QueueIndex - 1);
-            }
+                foreach (var track in albumTracks.Where(f => f.QueueIndex > 0))
+                {
+                    updatedTracks.Add(track.Id, track.QueueIndex - 1);
+                }
 
-            if (updatedTracks.Count > 0)
+                if (updatedTracks.Count > 0)
+                {
+                    await updateQueueFunc(updatedTracks, false);
+                }
+            }
+            else
             {
-                await updateQueueFunc(updatedTracks);
+                await StackQueue(albumTracks.ToList(), StackQueueRandomPercentage);
             }
         }
 
@@ -176,28 +147,271 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
         };
     }
 
+    private int previousTrackIndex = -1;
+
+    private readonly Func<Dictionary<long, int>, bool, Task> updateQueueFunc;
+
+    private static int? GetQueueIndex(TAlbumTrack? albumTrack, bool alternate)
+    {
+        if (albumTrack == null)
+        {
+            return null;
+        }
+
+        return alternate ? albumTrack.QueueIndexAlternate : albumTrack.QueueIndex;
+    }
+
+    /// <summary>
+    /// Toggles the queue of the album audio tracks specified by the <paramref name="albumTrackIds"/>.
+    /// </summary>
+    /// <param name="albumTracks">The album audio tracks.</param>
+    /// <param name="alternate">A value indicating whether to manipulate the alternate queue.</param>
+    /// <param name="insert">A value indicating whether the insert the tracks on top of the queue.</param>
+    /// <param name="albumTrackIds">The audio tracks identifiers which queue to toggle.</param>
+    public async Task ToggleQueue(ObservableCollection<TAlbumTrack>? albumTracks, bool alternate, bool insert, params long[] albumTrackIds)
+    {
+        if (albumTracks == null)
+        {
+            return;
+        }
+
+        var toUpdate = new Dictionary<long, int>();
+
+        var newIndex = 1;
+
+        if (insert)
+        {
+            var previouslyQueued = albumTracks.Where(f => GetQueueIndex(f, alternate) > 0).Select(f => f.Id).ToList();
+
+            previouslyQueued = previouslyQueued.Where(f => !albumTrackIds.Contains(f)).ToList();
+
+            foreach (var albumTrack in albumTracks.Where(f => albumTrackIds.Contains(f.Id)))
+            {
+                toUpdate.Add(albumTrack.Id, newIndex++);
+            }
+
+            foreach (var albumTrack in albumTracks.Where(f => previouslyQueued.Contains(f.Id))
+                         .OrderBy(f => GetQueueIndex(f, alternate)))
+            {
+                toUpdate.Add(albumTrack.Id, newIndex++);
+            }
+        }
+        else
+        {
+            var maxQueueIndex = albumTracks.Count(f => GetQueueIndex(f, alternate) > 0) + 1;
+
+            foreach (var albumTrack in albumTracks.Where(f => albumTrackIds.Contains(f.Id)))
+            {
+                var index = GetQueueIndex(albumTrack, alternate) > 0 ? 0 : maxQueueIndex++;
+                toUpdate.Add(albumTrack.Id, index);
+            }
+
+            foreach (var albumTrack in albumTracks.Where(f => GetQueueIndex(f, alternate) > 0).OrderBy(f => GetQueueIndex(f, alternate)))
+            {
+                if (GetQueueIndex(albumTrack, alternate) != newIndex)
+                {
+                    if (toUpdate.ContainsKey(albumTrack.Id))
+                    {
+                        toUpdate[albumTrack.Id] = newIndex;
+                    }
+                    else
+                    {
+                        toUpdate.Add(albumTrack.Id, newIndex);
+                    }
+                }
+
+                newIndex++;
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
+    /// Scrambles the current queue for the specified tracks with specified reference identifiers.
+    /// </summary>
+    /// <param name="tracks">The tracks which queue to scramble.</param>
+    /// <param name="alternate">A value indicating whether to manipulate the alternate queue.</param>
+    /// <param name="albumTrackIds">The audio tracks identifiers which queue to alter.</param>
+    public async Task Scramble(IEnumerable<TAlbumTrack> tracks, bool alternate, params long[] albumTrackIds)
+    {
+        var reRandomIds = tracks
+            .Where(f => albumTrackIds.Contains(f.Id) && GetQueueIndex(f, alternate) > 0)
+            .Select(f => new KeyValuePair<long, int>(f.Id, GetQueueIndex(f, alternate)!.Value)).ToList();
+
+        var randomIndices = reRandomIds.Select(f => f.Value).ToList();
+
+        var toUpdate = new Dictionary<long, int>();
+
+        var index = reRandomIds.Count - 1;
+
+        while (reRandomIds.Count > 0 && index >= 0)
+        {
+            var randomIndex = Random.Next(randomIndices.Count);
+            if (reRandomIds[index].Value != randomIndices[randomIndex] || reRandomIds.Count == 1)
+            {
+                toUpdate.Add(reRandomIds[index].Key, randomIndices[randomIndex]);
+                reRandomIds.RemoveAt(index);
+                randomIndices.RemoveAt(randomIndex);
+                index--;
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
+    /// Scrambles the current queue for the specified tracks.
+    /// </summary>
+    /// <param name="tracks">The tracks which queue to scramble.</param>
+    /// <param name="alternate">A value indicating whether to manipulate the alternate queue.</param>
+    public async Task Scramble(IEnumerable<TAlbumTrack> tracks, bool alternate)
+    {
+        var updateTracks = tracks.Where(f => GetQueueIndex(f, alternate) > 0).ToList();
+
+        var usedIndices = new List<int>();
+
+        var trackIndex = 0;
+
+        var toUpdate = new Dictionary<long, int>();
+
+        while (usedIndices.Count < updateTracks.Count)
+        {
+            var next = Random.Next(1, updateTracks.Count + 1);
+            if ((GetQueueIndex(updateTracks[trackIndex], alternate) != next && !usedIndices.Contains(next)) ||
+                (!usedIndices.Contains(next) && usedIndices.Count + 1 == updateTracks.Count))
+            {
+                if (toUpdate.ContainsKey(updateTracks[trackIndex].Id))
+                {
+                    toUpdate[updateTracks[trackIndex].Id] = next;
+                }
+                else
+                {
+                    toUpdate.Add(updateTracks[trackIndex].Id, next);
+                }
+
+                usedIndices.Add(next);
+                trackIndex++;
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
+    /// Clears the queue for the specified tracks.
+    /// </summary>
+    /// <param name="tracks">The tracks which queue index to clear.</param>
+    /// <param name="alternate">A value indicating whether to manipulate the alternate queue.</param>
+    public async Task ClearQueue(IEnumerable<TAlbumTrack> tracks, bool alternate)
+    {
+        var toUpdate = new Dictionary<long, int>();
+        foreach (var albumTrack in tracks)
+        {
+            if (GetQueueIndex(albumTrack, alternate) != 0)
+            {
+                albumTrack.ModifiedAtUtc = DateTime.UtcNow;
+                toUpdate.Add(albumTrack.Id, 0);
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
+    /// Moves the selected songs to the top or bottom of the queue.
+    /// </summary>
+    /// <param name="tracks">All the tracks.</param>
+    /// <param name="alternate">if set to <c>true</c> change the <see cref="IAlbumTrack{TAudioTrack,TAlbum}.QueueIndexAlternate"/> property.</param>
+    /// <param name="top">if set to <c>true</c> move to the top of the list.</param>
+    /// <param name="albumTrackIds">The album track reference identifiers to move.</param>
+    public async Task MoveToQueueTopOrBottom(IEnumerable<TAlbumTrack> tracks, bool alternate, bool top, params long[] albumTrackIds)
+    {
+        var toUpdate = new Dictionary<long, int>();
+
+        var tracksArray = tracks.ToArray();
+
+        var tracksToMove = tracksArray.Where(f => albumTrackIds.Contains(f.Id) && GetQueueIndex(f, alternate) > 0).ToList();
+
+        if (!tracksToMove.Any())
+        {
+            return;
+        }
+
+        var tracksToKeep = tracksArray.Where(f => !albumTrackIds.Contains(f.Id) && GetQueueIndex(f, alternate) > 0).ToList();
+
+        if (top)
+        {
+            for (var i = 0; i < tracksToMove.Count; i++)
+            {
+                toUpdate.Add(tracksToMove[i].Id, i + 1);
+            }
+
+            var queueIndex = tracksToMove.Count + 1;
+
+            foreach (var track in tracksToKeep.OrderBy(f => GetQueueIndex(f, alternate)))
+            {
+                toUpdate.Add(track.Id, queueIndex++);
+            }
+        }
+        else
+        {
+            var queueIndex = tracksToKeep.Count + 1;
+            foreach (var track in tracksToMove)
+            {
+                toUpdate.Add(track.Id, queueIndex++);
+            }
+
+
+            queueIndex = 1;
+            foreach (var track in tracksToKeep.OrderBy(f => GetQueueIndex(f, alternate)))
+            {
+                toUpdate.Add(track.Id, queueIndex++);
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
     /// <summary>
     /// Loops the current queue so that it will not be consumed in the process.
     /// The previous audio track is put to the bottom of the queue and the end of the queue is re-randomized.
     /// </summary>
     /// <param name="albumTracks">The audio tracks which queue to adjust.</param>
-    /// <param name="previousTrack">The previously played audio track from the queue.</param>
     /// <param name="stackRandomPercentage">The stack random percentage.</param>
     /// <returns>A list of <typeparamref name="TAlbumTrack"/> instances which queue index was adjusted or <c>null</c> if there is nothing changed.</returns>
-    // TODO::Refactor when the stack queue is actually implemented.
-    internal async Task StackQueue(List<TAlbumTrack>? albumTracks, TAlbumTrack previousTrack, int stackRandomPercentage)
+    private async Task StackQueue(IEnumerable<TAlbumTrack>? albumTracks, int stackRandomPercentage)
     {
-        if (albumTracks == null || albumTracks.Count == 0)
+        var tracks = albumTracks?.ToArray();
+
+        if (tracks == null || tracks.Length == 0)
         {
             return;
         }
 
         // Get the audio tracks with a queue index value.
         var queuedTracks =
-            albumTracks.Where(f => f.QueueIndex > 0).
-                OrderByDescending(f => f.QueueIndex).ToList();
+            tracks.Where(f => f.QueueIndex > 0).OrderByDescending(f => f.QueueIndex).ToList();
 
-        var result = queuedTracks.Select(f => new IdValuePair<int> { Id = f.AudioTrackId, Value = f.QueueIndex, }).ToList();
+        var last = queuedTracks.First(f => f.QueueIndex == 1);
+
+        var result = queuedTracks.Where(f => f.QueueIndex > 1)
+            .Select(f => new IdValuePair<int> { Id = f.Id, Value = f.QueueIndex - 1, }).ToList();
 
         // Get the amount of audio tracks in the queue to randomize to a new order.
         var randomizeCount = (int)(result.Count * (stackRandomPercentage / 100.0));
@@ -240,16 +454,14 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
             reRandomFile.Value = newQueueIndex;
         }
 
-        // Re-index the previous audio track to the last of the queue.
-        var currentTrackReQueued = new IdValuePair<int>
-        { Id = previousTrack.AudioTrackId, Value = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1, };
+        var lastQueueIndex = result.DefaultIfEmpty().Max(f => f?.Value) + 1 ?? 1;
 
-        result.Add(currentTrackReQueued);
+        result.Add(new IdValuePair<int> { Id = last.Id, Value = lastQueueIndex, });
 
         var toUpdate = new Dictionary<long, int>(result.Select(f => new KeyValuePair<long, int>(f.Id, f.Value)));
 
         // Update the queue re-ordering.
-        await updateQueueFunc(toUpdate);
+        await updateQueueFunc(toUpdate, false);
     }
 
     private static bool InRange(double value, double randomValue, double min, double max, double tolerancePercentage)
@@ -258,7 +470,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
         return value <= randomValue + range && value >= randomValue - range;
     }
 
-    private int RandomWeighted(List<TAlbumTrack>? albumTracks)
+    private int RandomWeighted(ObservableCollection<TAlbumTrack>? albumTracks)
     {
 
         if (albumTracks == null || !albumTracks.Any())
@@ -275,7 +487,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
 
         if (BiasedRatingEnabled)
         {
-            results.AddRange(albumTracks.FindAll(f =>
+            results.AddRange(albumTracks.Where(f =>
                 InRange(f.AudioTrack?.Rating ?? 500, biased, valueMin, valueMax, Tolerance)));
         }
 
@@ -285,7 +497,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
 
         if (BiasedPlayedCountEnabled)
         {
-            results.AddRange(albumTracks.FindAll(f =>
+            results.AddRange(albumTracks.Where(f =>
                 InRange(f.AudioTrack?.PlayedByUser ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
@@ -295,7 +507,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
 
         if (BiasedRandomizedCountEnabled)
         {
-            results.AddRange(albumTracks.FindAll(f =>
+            results.AddRange(albumTracks.Where(f =>
                 InRange(f.AudioTrack?.PlayedByRandomize ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 
@@ -305,7 +517,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
 
         if (BiasedSkippedCountEnabled)
         {
-            results.AddRange(albumTracks.FindAll(f =>
+            results.AddRange(albumTracks.Where(f =>
                 InRange(f.AudioTrack?.SkippedEarlyCount ?? 0, biased, valueMin, valueMax, Tolerance)));
         }
 

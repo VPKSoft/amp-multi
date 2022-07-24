@@ -24,11 +24,13 @@ SOFTWARE.
 */
 #endregion
 
+using System.Diagnostics.CodeAnalysis;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
 using AutoMapper;
 using Eto.Drawing;
 using Serilog.Core;
+using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms;
 
@@ -38,6 +40,9 @@ namespace amp.EtoForms;
 internal static class Globals
 {
     private static Settings.Settings? settings;
+    private static Settings.PositionAndLayoutSettings? positionAndLayoutSettings;
+    private const string SettingsFile = "settings.json";
+    private const string LayoutSettingsFile = "layoutSettings.json";
     private static string? dataFolder;
 
     /// <summary>
@@ -77,6 +82,23 @@ internal static class Globals
         }
     }
 
+    private static void CreateSettings<TJsonSettings>([NotNull] ref TJsonSettings? applicationJsonSettings, string fileName) where TJsonSettings : ApplicationJsonSettings
+    {
+        var reload = false;
+        if (applicationJsonSettings == null)
+        {
+            applicationJsonSettings = Activator.CreateInstance<TJsonSettings>();
+            reload = true;
+        }
+
+        dataFolder = applicationJsonSettings.CreateApplicationSettingsFolder("VPKSoft", "amp");
+
+        if (reload)
+        {
+            applicationJsonSettings.Load(Path.Combine(dataFolder, fileName));
+        }
+    }
+
     /// <summary>
     /// Gets the application settings.
     /// </summary>
@@ -85,21 +107,17 @@ internal static class Globals
     {
         get
         {
-            var reload = false;
-            if (settings == null)
-            {
-                settings = new Settings.Settings();
-                reload = true;
-            }
-
-            dataFolder = settings.CreateApplicationSettingsFolder("VPKSoft", "amp");
-
-            if (reload)
-            {
-                settings.Load(Path.Combine(dataFolder, "settings.json"));
-            }
-
+            CreateSettings(ref settings, SettingsFile);
             return settings;
+        }
+    }
+
+    internal static Settings.PositionAndLayoutSettings PositionAndLayoutSettings
+    {
+        get
+        {
+            CreateSettings(ref positionAndLayoutSettings, LayoutSettingsFile);
+            return positionAndLayoutSettings;
         }
     }
 
@@ -236,7 +254,8 @@ internal static class Globals
     /// </summary>
     internal static void SaveSettings()
     {
-        Settings.Save(Path.Combine(DataFolder, "settings.json"));
+        Settings.Save(Path.Combine(DataFolder, SettingsFile));
+        PositionAndLayoutSettings.Save(Path.Combine(DataFolder, LayoutSettingsFile));
     }
 
     /// <summary>

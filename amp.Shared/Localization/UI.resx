@@ -344,4 +344,19 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="MinimumNameLength" xml:space="preserve">
     <value>Minimum name length</value>
   </data>
+  <data name="ShowQueue" xml:space="preserve">
+    <value>Show queue</value>
+  </data>
+  <data name="ClearQueue" xml:space="preserve">
+    <value>Clear queue</value>
+  </data>
+  <data name="ScrambleQueue" xml:space="preserve">
+    <value>Scramble queue</value>
+  </data>
+  <data name="LoadQueue" xml:space="preserve">
+    <value>Load queue</value>
+  </data>
+  <data name="AppendToQueue" xml:space="preserve">
+    <value>Append to queue</value>
+  </data>
 </root>

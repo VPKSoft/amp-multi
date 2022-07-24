@@ -39,7 +39,7 @@ namespace amp.EtoForms.Models;
 /// </summary>
 /// <seealso cref="IAudioTrack" />
 /// <seealso cref="INotifyPropertyChanged" />
-internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
+public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 {
     private DateTime? modifiedAtUtc;
     private DateTime createdAtUtc;
@@ -63,6 +63,7 @@ internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private byte[]? trackImageData;
     private MusicFileType musicFileType;
 
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 
     /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
@@ -395,7 +396,7 @@ internal class AudioTrack : IAudioTrack, INotifyPropertyChanged
     /// Called when property value changes.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));

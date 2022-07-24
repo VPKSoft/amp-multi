@@ -24,12 +24,14 @@ SOFTWARE.
 */
 #endregion
 
+using System.Collections.ObjectModel;
 using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
+using amp.Playback;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -63,29 +65,76 @@ partial class FormMain
         await RefreshCurrentAlbum();
     }
 
-    private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData)
+    private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, bool append)
+    {
+        if (CurrentAlbumId != albumId)
+        {
+            await ReusableControls.UpdateAlbumDataSource(cmbAlbumSelect, context, albumId);
+            CurrentAlbumId = albumId;
+        }
+
+        var queueIndexAdd = append ? tracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 0 ?? 0 : 0;
+
+        if (!append)
+        {
+            await playbackOrder.ClearQueue(tracks, false);
+        }
+
+        var updateData =
+            new Dictionary<long, int>();
+
+        foreach (var data in queueData)
+        {
+            var track = tracks.FirstOrDefault(f => f.AudioTrackId == data.Key);
+
+            // Skip if already queued.
+            if (track is { QueueIndex: > 0, })
+            {
+                continue;
+            }
+
+            var id = track?.Id;
+
+            if (id != null)
+            {
+                updateData.Add(id.Value, data.Value + queueIndexAdd);
+            }
+        }
+
+        await UpdateQueueFunc(updateData, false);
+    }
+
+
+    private async Task UpdateQueueFunc(Dictionary<long, int> updateQueueData, bool alternate)
     {
         var modifyTracks = tracks.Where(f => updateQueueData.ContainsKey(f.Id)).ToList();
 
         foreach (var albumTrack in modifyTracks)
         {
             var newIndex = updateQueueData.First(f => f.Key == albumTrack.Id).Value;
-            albumTrack.QueueIndex = newIndex;
-            albumTrack.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(albumTrack));
-
-            var trackIndex = filteredTracks.FindIndex(f => f.Id == albumTrack.Id);
-            if (trackIndex != -1)
+            if (alternate)
             {
-                filteredTracks[trackIndex] = albumTrack;
+                albumTrack.QueueIndexAlternate = newIndex;
             }
+            else
+            {
+                albumTrack.QueueIndex = newIndex;
+            }
+            albumTrack.ModifiedAtUtc = DateTime.UtcNow;
+
+            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(albumTrack));
         }
 
-        await context.SaveChangesAsync();
+        var count = await context.SaveChangesAsync();
 
         context.ChangeTracker.Clear();
 
         gvAudioTracks.Invalidate();
+
+        if (btnShowQueue.Checked && count > 0)
+        {
+            FilterTracks();
+        }
     }
 
     /// <summary>
@@ -93,16 +142,20 @@ partial class FormMain
     /// </summary>
     private async Task RefreshCurrentAlbum()
     {
-        tracks = await context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack).Select(f => Globals.AutoMapper.Map<Models.AlbumTrack>(f)).AsNoTracking()
-            .ToListAsync();
+        tracks = new ObservableCollection<Models.AlbumTrack>(
+            await context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
+                .Select(f => Globals.AutoMapper.Map<Models.AlbumTrack>(f)).AsNoTracking()
+                .ToListAsync());
 
-        tracks = tracks.OrderBy(f => f.DisplayName).ToList();
+        tracks = new ObservableCollection<Models.AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 
         filteredTracks = tracks;
 
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
-            filteredTracks = tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text)).ToList();
+            filteredTracks =
+                new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                    .ToList());
         }
 
         gvAudioTracks.DataStore = filteredTracks;
@@ -165,5 +218,73 @@ SOFTWARE.
         TrackDisplayNameGenerate.FormulaTrackRenamed = formulaRenamed;
         TrackDisplayNameGenerate.MinimumTrackLength = Globals.Settings.TrackNamingMinimumTitleLength;
         TrackDisplayNameGenerate.TrackNamingFallbackToFileNameWhenNoLetters = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
+    }
+
+    private void FilterTracks()
+    {
+        Application.Instance.Invoke(() =>
+        {
+            var text = tbSearch.Text;
+            var queueOnly = btnShowQueue.Checked;
+            var userIdle = idleChecker.IsUserIdle;
+
+
+            filteredTracks = tracks;
+
+            // These filters only apply when the user is active.
+            if (!userIdle)
+            {
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    filteredTracks = new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(text)));
+                }
+            }
+
+            if (queueOnly)
+            {
+                filteredTracks = new ObservableCollection<Models.AlbumTrack>(filteredTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex));
+            }
+
+            gvAudioTracks.DataStore = filteredTracks;
+        });
+    }
+
+    private void LoadLayout()
+    {
+        var min = Math.Min(gvAudioTracks.Columns.Count,
+            Globals.PositionAndLayoutSettings.TrackGridColumnDisplayIndices.Length);
+
+        for (var i = 0; i < min; i++)
+        {
+            gvAudioTracks.Columns[i].DisplayIndex = Globals.PositionAndLayoutSettings.TrackGridColumnDisplayIndices[i];
+        }
+    }
+
+    private void AssignEventListeners()
+    {
+        btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
+        btnPlayPause.CheckedChange += PlayPauseToggle;
+        nextAudioTrackCommand.Executed += NextAudioTrackCommand_Executed;
+        tbSearch.TextChanged += TbSearch_TextChanged;
+        gvAudioTracks.MouseDoubleClick += GvAudioTracksMouseDoubleClick;
+        Closing += FormMain_Closing;
+        KeyDown += FormMain_KeyDown;
+        gvAudioTracks.KeyDown += FormMain_KeyDown;
+        tbSearch.KeyDown += FormMain_KeyDown;
+        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
+        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
+        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
+        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
+        playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
+        playbackManager.PlaybackError += PlaybackManager_PlaybackError;
+        LocationChanged += FormMain_LocationChanged;
+        idleChecker.UserIdle += IdleChecker_UserIdleChanged;
+        idleChecker.UserActivated += IdleChecker_UserIdleChanged;
+        settingsCommand.Executed += SettingsCommand_Executed;
+        gvAudioTracks.SizeChanged += GvAudioTracksSizeChanged;
+        Shown += FormMain_Shown;
+        btnShowQueue.CheckedChange += BtnShowQueue_CheckedChange;
+        gvAudioTracks.ColumnOrderChanged += GvAudioTracks_ColumnOrderChanged;
+        btnStackQueueToggle.CheckedChange += BtnStackQueueToggle_CheckedChange;
     }
 }

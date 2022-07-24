@@ -187,11 +187,29 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Append to queue.
+        /// </summary>
+        public static string AppendToQueue {
+            get {
+                return ResourceManager.GetString("AppendToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear queue.
+        /// </summary>
+        public static string ClearQueue {
+            get {
+                return ResourceManager.GetString("ClearQueue", resourceCulture);
             }
         }
         
@@ -364,6 +382,15 @@ namespace amp.Shared.Localization {
         public static string IfGeneratedNameContainsNoLettersFallBackToFileName {
             get {
                 return ResourceManager.GetString("IfGeneratedNameContainsNoLettersFallBackToFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load queue.
+        /// </summary>
+        public static string LoadQueue {
+            get {
+                return ResourceManager.GetString("LoadQueue", resourceCulture);
             }
         }
         
@@ -593,6 +620,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scramble queue.
+        /// </summary>
+        public static string ScrambleQueue {
+            get {
+                return ResourceManager.GetString("ScrambleQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string SelectAll {
@@ -625,6 +661,15 @@ namespace amp.Shared.Localization {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show queue.
+        /// </summary>
+        public static string ShowQueue {
+            get {
+                return ResourceManager.GetString("ShowQueue", resourceCulture);
             }
         }
         
