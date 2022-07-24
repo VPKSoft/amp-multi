@@ -35,6 +35,7 @@ using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
+using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
@@ -417,7 +418,7 @@ partial class FormMain
                     {
                         albumTrack.QueueIndexAlternate = 0;
                     }
-                    gvAudioTracks.Invalidate();
+                    gvAudioTracks.ReloadKeepSelection();
                 }
                 else
                 {
