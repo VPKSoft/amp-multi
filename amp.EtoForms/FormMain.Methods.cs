@@ -34,6 +34,7 @@ using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -129,7 +130,7 @@ partial class FormMain
 
         var count = await context.SaveChangesAsync();
 
-        gvAudioTracks.Invalidate();
+        gvAudioTracks.ReloadKeepSelection();
 
         if (btnShowQueue.Checked && count > 0)
         {
