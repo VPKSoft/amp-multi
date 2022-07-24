@@ -359,4 +359,10 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="AppendToQueue" xml:space="preserve">
     <value>Lisää jonoon</value>
   </data>
+  <data name="QueueCount" xml:space="preserve">
+    <value>Jonossa</value>
+  </data>
+  <data name="PlaybackError0" xml:space="preserve">
+    <value>Toistovirhe: '{0}'.</value>
+  </data>
 </root>

@@ -245,6 +245,7 @@ partial class FormMain
                 new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
+                CreateStatusBar(),
             },
             Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
         };
@@ -359,6 +360,29 @@ partial class FormMain
         scrambleQueueCommand.Executed += ScrambleQueueCommand_Executed;
     }
 
+    private Control CreateStatusBar()
+    {
+        return new TableLayout
+        {
+            Rows =
+            {
+                new TableRow
+                {
+                    Cells =
+                    {
+                        lbQueueCountText,
+                        new Panel { Width = Globals.DefaultPadding,},
+                        lbQueueCountValue,
+                        new Panel { Width = Globals.DefaultPadding,},
+                        new TableCell(lbStatusMessage) { ScaleWidth = true,},
+                    },
+                },
+            },
+            Spacing = Globals.DefaultSpacing,
+            Padding = Globals.DefaultPadding,
+        };
+    }
+
     private readonly AboutDialog aboutDialog = new();
     private GridView gvAudioTracks;
     private readonly TextBox tbSearch = new();
@@ -392,4 +416,7 @@ partial class FormMain
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private ComboBox cmbAlbumSelect;
     private CheckedButton btnStackQueueToggle;
+    private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
+    private readonly Label lbQueueCountValue = new();
+    private readonly Label lbStatusMessage = new();
 }

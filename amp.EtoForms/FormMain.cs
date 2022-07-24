@@ -116,4 +116,6 @@ public partial class FormMain : Form
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;
+    private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
+    private DateTime? previousMessageTime;
 }
