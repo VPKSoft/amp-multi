@@ -99,4 +99,19 @@ public partial class FormMain
             return false;
         }
     }
+
+    private readonly object lockObject = new();
+
+    private readonly Queue<KeyValuePair<string, DateTime>> displayMessageQueue = new();
+
+    private Queue<KeyValuePair<string, DateTime>> DisplayMessageQueue
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return displayMessageQueue;
+            }
+        }
+    }
 }

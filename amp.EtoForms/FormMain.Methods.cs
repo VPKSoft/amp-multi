@@ -136,6 +136,8 @@ partial class FormMain
         {
             FilterTracks();
         }
+
+        lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
     }
 
     /// <summary>
@@ -149,6 +151,8 @@ partial class FormMain
                 .ToListAsync());
 
         tracks = new ObservableCollection<Models.AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
+
+        lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
 
         filteredTracks = tracks;
 
@@ -287,5 +291,40 @@ SOFTWARE.
         btnShowQueue.CheckedChange += BtnShowQueue_CheckedChange;
         gvAudioTracks.ColumnOrderChanged += GvAudioTracks_ColumnOrderChanged;
         btnStackQueueToggle.CheckedChange += BtnStackQueueToggle_CheckedChange;
+        tmMessageQueueTimer.Elapsed += TmMessageQueueTimer_Elapsed;
+        tmMessageQueueTimer.Start();
+    }
+
+    private async void TmMessageQueueTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        tmMessageQueueTimer.Enabled = false;
+        if (previousMessageTime == null || (DateTime.Now - previousMessageTime.Value).TotalSeconds > 30)
+        {
+            if (DisplayMessageQueue.TryDequeue(out var messagePair))
+            {
+                await Application.Instance.InvokeAsync(() =>
+                {
+                    lbStatusMessage.Text = messagePair.Key;
+                    previousMessageTime = DateTime.Now;
+                });
+            }
+            else
+            {
+                previousMessageTime = null;
+            }
+        }
+
+        if (previousMessageTime == null)
+        {
+            await Application.Instance.InvokeAsync(() =>
+            {
+                if (lbStatusMessage.Text != string.Empty)
+                {
+                    lbStatusMessage.Text = string.Empty;
+                }
+            });
+        }
+
+        tmMessageQueueTimer.Enabled = true;
     }
 }

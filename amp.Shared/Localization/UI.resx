@@ -359,4 +359,10 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="AppendToQueue" xml:space="preserve">
     <value>Append to queue</value>
   </data>
+  <data name="QueueCount" xml:space="preserve">
+    <value>Queue count</value>
+  </data>
+  <data name="PlaybackError0" xml:space="preserve">
+    <value>Playback error: '{0}'.</value>
+  </data>
 </root>

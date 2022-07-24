@@ -143,6 +143,8 @@ partial class FormMain
 
     private void FormMain_Closing(object? sender, CancelEventArgs e)
     {
+        tmMessageQueueTimer.Stop();
+        tmMessageQueueTimer.Dispose();
         Globals.SaveSettings();
         playbackManager.Dispose();
         formAlbumImage.DisposeClose();
@@ -351,11 +353,13 @@ partial class FormMain
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
     {
+        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(UI.PlaybackError0, e.Error.ErrorString()), DateTime.Now));
         Globals.Logger?.Error("ManagedBass error occurred '{error}'.", e.Error.ErrorString());
     }
 
     private void PlaybackManager_PlaybackErrorFileNotFound(object? sender, PlaybackErrorFileNotFoundEventArgs e)
     {
+        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(Messages.File0WasNotFound, e.FileName), DateTime.Now));
         Globals.Logger?.Error(new FileNotFoundException(string.Format(Messages.File0WasNotFound, e.FileName)), "");
     }
 

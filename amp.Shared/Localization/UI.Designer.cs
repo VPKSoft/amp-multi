@@ -494,6 +494,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Playback error: &apos;{0}&apos;..
+        /// </summary>
+        public static string PlaybackError0 {
+            get {
+                return ResourceManager.GetString("PlaybackError0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print....
         /// </summary>
         public static string Print {
@@ -508,6 +517,15 @@ namespace amp.Shared.Localization {
         public static string Queue {
             get {
                 return ResourceManager.GetString("Queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue count.
+        /// </summary>
+        public static string QueueCount {
+            get {
+                return ResourceManager.GetString("QueueCount", resourceCulture);
             }
         }
         
