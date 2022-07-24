@@ -353,4 +353,10 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ScrambleQueue" xml:space="preserve">
     <value>Scramble queue</value>
   </data>
+  <data name="LoadQueue" xml:space="preserve">
+    <value>Load queue</value>
+  </data>
+  <data name="AppendToQueue" xml:space="preserve">
+    <value>Append to queue</value>
+  </data>
 </root>

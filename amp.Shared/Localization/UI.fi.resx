@@ -353,4 +353,10 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ScrambleQueue" xml:space="preserve">
     <value>Sekoita jono</value>
   </data>
+  <data name="LoadQueue" xml:space="preserve">
+    <value>Lataa jono</value>
+  </data>
+  <data name="AppendToQueue" xml:space="preserve">
+    <value>Lisää jonoon</value>
+  </data>
 </root>

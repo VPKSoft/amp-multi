@@ -227,8 +227,8 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// Gets or sets the stack queue random percentage.
     /// </summary>
     /// <value>The stack queue random percentage.</value>
-    [Settings(Default = 30.0)]
-    public double StackQueueRandomPercentage { get; set; }
+    [Settings(Default = 30)]
+    public int StackQueueRandomPercentage { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to automatically hide the album track image view if no image exists.

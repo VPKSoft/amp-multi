@@ -60,7 +60,8 @@ public partial class FormMain : Form
 
         MinimumSize = new Size(550, 650);
 
-        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings, UpdateQueueFunc);
+        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings,
+            Globals.Settings.StackQueueRandomPercentage, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
         var databaseFile = Path.Combine(Globals.DataFolder, "amp_ef_core.sqlite");

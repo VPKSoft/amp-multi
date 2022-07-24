@@ -68,6 +68,16 @@ partial class FormMain
             return;
         }
 
+        if (e.Key is Keys.PageUp or Keys.PageDown && e.Modifiers.HasFlag(Application.Instance.CommonModifier))
+        {
+            var shift = e.Modifiers.HasFlag(Keys.Shift);
+            await playbackOrder.MoveToQueueTopOrBottom(tracks, shift, e.Key == Keys.PageUp,
+                SelectedAlbumTrackIds.ToArray());
+
+            e.Handled = true;
+            return;
+        }
+
         if (e.Key == Keys.Enter)
         {
             if (gvAudioTracks.SelectedItem != null)
@@ -110,6 +120,7 @@ partial class FormMain
             track.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
             context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(track));
             await context.SaveChangesAsync();
+            context.ChangeTracker.Clear();
         }
         await playbackManager.PlayAudioTrack(track, true);
     }
@@ -157,6 +168,7 @@ partial class FormMain
                 context.Update(result);
 
                 await context.SaveChangesAsync();
+                context.ChangeTracker.Clear();
             }
         });
 
@@ -215,6 +227,7 @@ partial class FormMain
                 albumTrack.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
                 context.Update(albumTrack);
                 await context.SaveChangesAsync();
+                context.ChangeTracker.Clear();
             }
         });
     }
@@ -352,7 +365,7 @@ partial class FormMain
 
     private void ManageSavedQueues_Executed(object? sender, EventArgs e)
     {
-        new FormSavedQueues(context).ShowModal(this);
+        new FormSavedQueues(context, LoadOrAppendQueue).ShowModal(this);
     }
 
     private async void SaveQueueCommand_Executed(object? sender, EventArgs e)
@@ -388,18 +401,40 @@ partial class FormMain
                 context.QueueSnapshots.Add(queueSnapshot);
                 await context.SaveChangesAsync();
 
-                var queueTracks = tracks.Where(f => f.QueueIndex > 0).Select(f => new QueueTrack
+                List<QueueTrack> queueTracks;
+
+                if (AlternateQueuedItemsInSelection)
                 {
-                    QueueSnapshotId = queueSnapshot.Id,
-                    AudioTrackId = f.AudioTrackId,
-                    CreatedAtUtc = DateTime.UtcNow,
-                    QueueIndex = f.QueueIndex,
-                }).ToList();
+                    queueTracks = tracks.Where(f => f.QueueIndexAlternate > 0).Select(f => new QueueTrack
+                    {
+                        QueueSnapshotId = queueSnapshot.Id,
+                        AudioTrackId = f.AudioTrackId,
+                        CreatedAtUtc = DateTime.UtcNow,
+                        QueueIndex = f.QueueIndexAlternate,
+                    }).ToList();
+
+                    foreach (var albumTrack in tracks.Where(f => f.QueueIndexAlternate > 0))
+                    {
+                        albumTrack.QueueIndexAlternate = 0;
+                    }
+                    gvAudioTracks.Invalidate();
+                }
+                else
+                {
+                    queueTracks = tracks.Where(f => f.QueueIndex > 0).Select(f => new QueueTrack
+                    {
+                        QueueSnapshotId = queueSnapshot.Id,
+                        AudioTrackId = f.AudioTrackId,
+                        CreatedAtUtc = DateTime.UtcNow,
+                        QueueIndex = f.QueueIndex,
+                    }).ToList();
+                }
 
                 context.QueueTracks.AddRange(queueTracks);
 
                 await context.SaveChangesAsync();
                 await transaction.CommitAsync();
+                context.ChangeTracker.Clear();
             }, async (_) => { await transaction.RollbackAsync(); });
         }
     }
@@ -440,6 +475,7 @@ partial class FormMain
     private void SettingsCommand_Executed(object? sender, EventArgs e)
     {
         using var settingsForm = new FormSettings();
+        playbackOrder.StackQueueRandomPercentage = Globals.Settings.StackQueueRandomPercentage;
         settingsForm.ShowModal(this);
     }
 
@@ -463,5 +499,10 @@ partial class FormMain
     private async void ClearQueueCommand_Executed(object? sender, EventArgs e)
     {
         await playbackOrder.ClearQueue(tracks, false);
+    }
+
+    private void BtnStackQueueToggle_CheckedChange(object? sender, CheckedChangeEventArguments e)
+    {
+        playbackOrder.StackQueueMode = e.Checked;
     }
 }

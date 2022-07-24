@@ -187,6 +187,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Append to queue.
+        /// </summary>
+        public static string AppendToQueue {
+            get {
+                return ResourceManager.GetString("AppendToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -373,6 +382,15 @@ namespace amp.Shared.Localization {
         public static string IfGeneratedNameContainsNoLettersFallBackToFileName {
             get {
                 return ResourceManager.GetString("IfGeneratedNameContainsNoLettersFallBackToFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load queue.
+        /// </summary>
+        public static string LoadQueue {
+            get {
+                return ResourceManager.GetString("LoadQueue", resourceCulture);
             }
         }
         
