@@ -37,6 +37,7 @@ using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
 
@@ -118,9 +119,8 @@ partial class FormMain
         {
             track.AudioTrack.PlayedByUser++;
             track.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
-            context.AlbumTracks.Update(Globals.AutoMapper.Map<AlbumTrack>(track));
+            track.AudioTrack.UpdateDataModel(context.AudioTracks.FirstOrDefault(f => f.Id == track.AudioTrackId));
             await context.SaveChangesAsync();
-            context.ChangeTracker.Clear();
         }
         await playbackManager.PlayAudioTrack(track, true);
     }
@@ -151,11 +151,11 @@ partial class FormMain
 
     private async Task<Models.AlbumTrack?> GetNextAudioTrackFunc()
     {
-        AlbumTrack? result = null;
+        Models.AlbumTrack? result = null;
         await Application.Instance.InvokeAsync(async () =>
         {
             var nextTrackData = await playbackOrder.NextTrack(tracks);
-            result = Globals.AutoMapper.Map<AlbumTrack>(tracks[nextTrackData.NextTrackIndex]);
+            result = tracks[nextTrackData.NextTrackIndex];
             if (result.AudioTrack != null)
             {
                 result.AudioTrack.PlayedByRandomize ??= 0;
@@ -165,14 +165,14 @@ partial class FormMain
                 result.AudioTrack.PlayedByUser += nextTrackData.PlayedByUser;
                 result.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
 
-                context.Update(result);
+                var updateEntity = await context.AudioTracks.FirstOrDefaultAsync(f => f.Id == result.AudioTrackId);
+                result.AudioTrack.UpdateDataModel(updateEntity);
 
                 await context.SaveChangesAsync();
-                context.ChangeTracker.Clear();
             }
         });
 
-        return Globals.AutoMapper.Map<Models.AlbumTrack>(result);
+        return result;
     }
 
     private async void PlaybackManager_PlaybackStateChanged(object? sender, PlaybackStateChangedArgs e)

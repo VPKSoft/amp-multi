@@ -24,36 +24,16 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Shared.Interfaces;
-
-namespace amp.Database.DataModel;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// An interface for entity with a row version column.
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum, IRowVersionEntity
+public interface IRowVersionEntity
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
-
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
-
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
-    [Timestamp]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    /// <summary>
+    /// Gets or sets the row version.
+    /// </summary>
+    /// <value>The row version.</value>
     public byte[]? RowVersion { get; set; }
 }

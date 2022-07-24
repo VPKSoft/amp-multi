@@ -37,7 +37,7 @@ namespace amp.Database.DataModel;
 /// <seealso cref="IQueueSnapshot" />
 [Table(nameof(QueueSnapshot))]
 // ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class QueueSnapshot : IQueueSnapshot
+public class QueueSnapshot : IQueueSnapshot, IRowVersionEntity
 {
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     [Key]
@@ -70,4 +70,9 @@ public class QueueSnapshot : IQueueSnapshot
     /// <value>The album of the queue snapshot.</value>
     [ForeignKey(nameof(AlbumId))]
     public Album? Album { get; set; }
+
+    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
+    [Timestamp]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public byte[]? RowVersion { get; set; }
 }

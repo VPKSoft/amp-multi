@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using amp.Shared.Enumerations;
 using amp.Shared.Interfaces;
 using FluentMigrator;
@@ -42,6 +43,11 @@ public class CreateInitialDatabase : FluentMigrator.Migration
     /// <inheritdoc cref="MigrationBase.Up"/>
     public override void Up()
     {
+        Create.Table("Sequence")
+            .WithColumn("Counter").AsInt64().NotNullable();
+
+        Insert.IntoTable("Sequence").Row(new { Counter = 1, });
+
         Create.Table(nameof(AudioTrack))
             .WithColumn(nameof(AudioTrack.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(AudioTrack.FileName)).AsString().Nullable()
@@ -62,24 +68,30 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(AudioTrack.SkippedEarlyCount)).AsInt32().Nullable()
             .WithColumn(nameof(AudioTrack.Title)).AsString().Nullable()
             .WithColumn(nameof(AudioTrack.TrackImageData)).AsBinary().Nullable()
-            .WithColumn(nameof(AudioTrack.MusicFileType)).AsInt32().NotNullable().WithDefaultValue((int)MusicFileType.Unknown)
+            .WithColumn(nameof(AudioTrack.MusicFileType)).AsInt32().NotNullable()
+            .WithDefaultValue((int)MusicFileType.Unknown)
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
-            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IRowVersionEntity.RowVersion)).AsInt64().NotNullable().WithDefaultValue(0).Unique();
 
         Create.Table(nameof(Album))
             .WithColumn(nameof(Album.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
             .WithColumn(nameof(Album.AlbumName)).AsString().NotNullable()
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
-            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IRowVersionEntity.RowVersion)).AsInt64().NotNullable().WithDefaultValue(0).Unique();
 
         Create.Table(nameof(AlbumTrack))
             .WithColumn(nameof(AlbumTrack.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(AlbumTrack.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(AlbumTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(AlbumTrack.AlbumId)).AsInt64().ForeignKey(nameof(Album), nameof(IEntity.Id))
+            .NotNullable()
+            .WithColumn(nameof(AlbumTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id))
+            .NotNullable()
             .WithColumn(nameof(AlbumTrack.QueueIndex)).AsInt32().NotNullable().WithDefaultValue(0)
             .WithColumn(nameof(AlbumTrack.QueueIndexAlternate)).AsInt32().NotNullable().WithDefaultValue(0)
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
-            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IRowVersionEntity.RowVersion)).AsInt64().NotNullable().WithDefaultValue(0).Unique();
 
         Create.Table(nameof(QueueSnapshot))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
@@ -88,21 +100,37 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(QueueSnapshot.SnapshotName)).AsString().NotNullable()
             .WithColumn(nameof(QueueSnapshot.SnapshotDate)).AsDateTime2().NotNullable()
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
-            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IRowVersionEntity.RowVersion)).AsInt64().NotNullable().WithDefaultValue(0).Unique();
 
         Create.Table(nameof(QueueTrack))
             .WithColumn(nameof(QueueSnapshot.Id)).AsInt64().Identity().PrimaryKey().NotNullable()
-            .WithColumn(nameof(QueueTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id)).NotNullable()
-            .WithColumn(nameof(QueueTrack.QueueSnapshotId)).AsInt64().ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
+            .WithColumn(nameof(QueueTrack.AudioTrackId)).AsInt64().ForeignKey(nameof(AudioTrack), nameof(IEntity.Id))
+            .NotNullable()
+            .WithColumn(nameof(QueueTrack.QueueSnapshotId)).AsInt64()
+            .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .ForeignKey(nameof(QueueSnapshot), nameof(IEntity.Id)).NotNullable()
             .WithColumn(nameof(QueueTrack.QueueIndex)).AsInt32().NotNullable()
             .WithColumn(nameof(IEntity.ModifiedAtUtc)).AsDateTime2().Nullable()
-            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable();
+            .WithColumn(nameof(IEntity.CreatedAtUtc)).AsDateTime2().NotNullable()
+            .WithColumn(nameof(IRowVersionEntity.RowVersion)).AsInt64().NotNullable().WithDefaultValue(0).Unique();
+
+        foreach (var tableName in tableNames)
+        {
+            this.CreateRowVersionTriggers(tableName);
+        }
     }
+
+    private static readonly string[] tableNames = { nameof(AudioTrack), nameof(Album), nameof(AlbumTrack), nameof(QueueSnapshot), nameof(QueueTrack), };
 
     /// <inheritdoc cref="MigrationBase.Down"/>
     public override void Down()
     {
+        foreach (var tableName in tableNames)
+        {
+            this.DropRowVersionTriggers(tableName);
+        }
+
         Delete.Table(nameof(AlbumTrack));
         Delete.Table(nameof(Album));
         Delete.Table(nameof(QueueTrack));

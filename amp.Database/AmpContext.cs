@@ -108,6 +108,12 @@ public class AmpContext : DbContext
         modelBuilder.Entity<QueueSnapshot>().SpecifyUtcKind();
         modelBuilder.Entity<QueueTrack>().SpecifyUtcKind();
 
+        modelBuilder.Entity<AudioTrack>().SpecifyRowVersion();
+        modelBuilder.Entity<Album>().SpecifyRowVersion();
+        modelBuilder.Entity<AlbumTrack>().SpecifyRowVersion();
+        modelBuilder.Entity<QueueSnapshot>().SpecifyRowVersion();
+        modelBuilder.Entity<QueueTrack>().SpecifyRowVersion();
+
         base.OnModelCreating(modelBuilder);
     }
 }
