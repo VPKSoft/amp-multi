@@ -160,6 +160,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album artist.
+        /// </summary>
+        public static string AlbumArtist {
+            get {
+                return ResourceManager.GetString("AlbumArtist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album entries.
         /// </summary>
         public static string AlbumEntries {
@@ -192,6 +201,42 @@ namespace amp.Shared.Localization {
         public static string AppendToQueue {
             get {
                 return ResourceManager.GetString("AppendToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artist.
+        /// </summary>
+        public static string Artist {
+            get {
+                return ResourceManager.GetString("Artist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio channels.
+        /// </summary>
+        public static string AudioChannels {
+            get {
+                return ResourceManager.GetString("AudioChannels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio format.
+        /// </summary>
+        public static string AudioFormat {
+            get {
+                return ResourceManager.GetString("AudioFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bit rate.
+        /// </summary>
+        public static string BitRate {
+            get {
+                return ResourceManager.GetString("BitRate", resourceCulture);
             }
         }
         
@@ -232,11 +277,56 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conductor.
+        /// </summary>
+        public static string Conductor {
+            get {
+                return ResourceManager.GetString("Conductor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
             get {
                 return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy amp# data to tag.
+        /// </summary>
+        public static string CopyAmpDataToTag {
+            get {
+                return ResourceManager.GetString("CopyAmpDataToTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright.
+        /// </summary>
+        public static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy tag data to amp#.
+        /// </summary>
+        public static string CopyTagDataToAmp {
+            get {
+                return ResourceManager.GetString("CopyTagDataToAmp", resourceCulture);
             }
         }
         
@@ -322,6 +412,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
         public static string Edit {
@@ -340,11 +439,47 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File data (amp#).
+        /// </summary>
+        public static string FileDataAmp {
+            get {
+                return ResourceManager.GetString("FileDataAmp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File data (tag).
+        /// </summary>
+        public static string FileDataTag {
+            get {
+                return ResourceManager.GetString("FileDataTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File name.
+        /// </summary>
+        public static string FileName {
+            get {
+                return ResourceManager.GetString("FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Files found.
         /// </summary>
         public static string FilesFound {
             get {
                 return ResourceManager.GetString("FilesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File size (bytes).
+        /// </summary>
+        public static string FileSizeBytes {
+            get {
+                return ResourceManager.GetString("FileSizeBytes", resourceCulture);
             }
         }
         
@@ -364,6 +499,24 @@ namespace amp.Shared.Localization {
         public static string FormulaInstructions {
             get {
                 return ResourceManager.GetString("FormulaInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full file name.
+        /// </summary>
+        public static string FullFileName {
+            get {
+                return ResourceManager.GetString("FullFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Genre.
+        /// </summary>
+        public static string Genre {
+            get {
+                return ResourceManager.GetString("Genre", resourceCulture);
             }
         }
         
@@ -391,6 +544,15 @@ namespace amp.Shared.Localization {
         public static string LoadQueue {
             get {
                 return ResourceManager.GetString("LoadQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lyrics.
+        /// </summary>
+        public static string Lyrics {
+            get {
+                return ResourceManager.GetString("Lyrics", resourceCulture);
             }
         }
         
@@ -463,6 +625,15 @@ namespace amp.Shared.Localization {
         public static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original artist.
+        /// </summary>
+        public static string OriginalArtist {
+            get {
+                return ResourceManager.GetString("OriginalArtist", resourceCulture);
             }
         }
         
@@ -611,6 +782,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sample rate.
+        /// </summary>
+        public static string SampleRate {
+            get {
+                return ResourceManager.GetString("SampleRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save &amp;&amp; Close.
         /// </summary>
         public static string SaveClose {
@@ -737,6 +917,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total {
@@ -764,6 +953,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track information.
+        /// </summary>
+        public static string TrackInformation {
+            get {
+                return ResourceManager.GetString("TrackInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Track naming.
         /// </summary>
         public static string TrackNaming {
@@ -782,6 +980,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track number.
+        /// </summary>
+        public static string TrackNumber {
+            get {
+                return ResourceManager.GetString("TrackNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tracks.
         /// </summary>
         public static string Tracks {
@@ -796,6 +1003,15 @@ namespace amp.Shared.Localization {
         public static string TracksAddedToAlbum {
             get {
                 return ResourceManager.GetString("TracksAddedToAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track total.
+        /// </summary>
+        public static string TrackTotal {
+            get {
+                return ResourceManager.GetString("TrackTotal", resourceCulture);
             }
         }
         
@@ -832,6 +1048,15 @@ namespace amp.Shared.Localization {
         public static string Window {
             get {
                 return ResourceManager.GetString("Window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
         

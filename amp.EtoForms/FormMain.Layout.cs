@@ -313,6 +313,9 @@ partial class FormMain
         scrambleQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Size16.ic_fluent_re_order_dots_vertical_16_filled, Globals.ButtonDefaultSize);
 
+        trackInfoCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -338,6 +341,7 @@ partial class FormMain
                     },
                 },
                 manageAlbumsCommand,
+                trackInfoCommand,
                 settingsCommand,
             },
             QuitItem = quitCommand,
@@ -358,6 +362,7 @@ partial class FormMain
         manageSavedQueues.Executed += ManageSavedQueues_Executed;
         clearQueueCommand.Executed += ClearQueueCommand_Executed;
         scrambleQueueCommand.Executed += ScrambleQueueCommand_Executed;
+        trackInfoCommand.Executed += TrackInfoCommand_Executed;
     }
 
     private Control CreateStatusBar()
@@ -414,6 +419,7 @@ partial class FormMain
     private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, };
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
+    private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private ComboBox cmbAlbumSelect;
     private CheckedButton btnStackQueueToggle;
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };

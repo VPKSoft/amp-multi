@@ -510,4 +510,14 @@ partial class FormMain
     {
         playbackOrder.StackQueueMode = e.Checked;
     }
+
+    private void TrackInfoCommand_Executed(object? sender, EventArgs e)
+    {
+        var track = (Models.AlbumTrack?)gvAudioTracks.SelectedItem;
+        if (track != null)
+        {
+            var audioTrack = context.AudioTracks.First(f => f.Id == track.AudioTrackId);
+            new FormDialogTrackInfo(track.AudioTrack!).ShowModal(this);
+        }
+    }
 }
