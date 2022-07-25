@@ -197,6 +197,7 @@ partial class FormDialogTrackInfo
         btnSaveChanges.Click += BtnSaveChanges_Click;
         btnLoadImage.Click += BtnLoadImage_Click;
         btnClearImage.Click += BtnClearImage_Click;
+        btnClose.Click += BtnClose_Click;
 
         ToolBar = new ToolBar
         {
@@ -211,6 +212,11 @@ partial class FormDialogTrackInfo
         };
 
         tcTagTabs.SelectedIndexChanged += TcTagTabs_SelectedIndexChanged;
+    }
+
+    private void BtnClose_Click(object? sender, EventArgs e)
+    {
+        Close();
     }
 
     private void BtnClearImage_Click(object? sender, EventArgs e)
