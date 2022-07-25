@@ -440,4 +440,22 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="TrackInformation" xml:space="preserve">
     <value>Kappaleen tiedot</value>
   </data>
+  <data name="SaveActiveTabChanges" xml:space="preserve">
+    <value>Tallenna aktiivisen välilehden muutokset</value>
+  </data>
+  <data name="TagSaveFailed" xml:space="preserve">
+    <value>Tunnisteen tallennus epäonnistui.</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Tallennus epäonnistui</value>
+  </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Kuvatiedostot</value>
+  </data>
+  <data name="LoadImageFromFile" xml:space="preserve">
+    <value>Lataa kuva tiedostosta</value>
+  </data>
+  <data name="RemoveTrackImage" xml:space="preserve">
+    <value>Poista kappaleen kuva</value>
+  </data>
 </root>

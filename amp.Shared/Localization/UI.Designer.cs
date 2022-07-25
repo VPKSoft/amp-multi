@@ -539,6 +539,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image files.
+        /// </summary>
+        public static string ImageFiles {
+            get {
+                return ResourceManager.GetString("ImageFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load image from file.
+        /// </summary>
+        public static string LoadImageFromFile {
+            get {
+                return ResourceManager.GetString("LoadImageFromFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load queue.
         /// </summary>
         public static string LoadQueue {
@@ -764,6 +782,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove track image.
+        /// </summary>
+        public static string RemoveTrackImage {
+            get {
+                return ResourceManager.GetString("RemoveTrackImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Renamed track naming formula.
         /// </summary>
         public static string RenamedTrackNamingFormula {
@@ -791,6 +818,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save active tab changes.
+        /// </summary>
+        public static string SaveActiveTabChanges {
+            get {
+                return ResourceManager.GetString("SaveActiveTabChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save &amp;&amp; Close.
         /// </summary>
         public static string SaveClose {
@@ -814,6 +850,15 @@ namespace amp.Shared.Localization {
         public static string SavedQueues {
             get {
                 return ResourceManager.GetString("SavedQueues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save failed.
+        /// </summary>
+        public static string SaveFailed {
+            get {
+                return ResourceManager.GetString("SaveFailed", resourceCulture);
             }
         }
         
@@ -895,6 +940,15 @@ namespace amp.Shared.Localization {
         public static string Stars {
             get {
                 return ResourceManager.GetString("Stars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag save failed..
+        /// </summary>
+        public static string TagSaveFailed {
+            get {
+                return ResourceManager.GetString("TagSaveFailed", resourceCulture);
             }
         }
         

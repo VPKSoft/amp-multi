@@ -70,6 +70,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string Confirmation {
+            get {
+                return ResourceManager.GetString("Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}{1} tracks, {2} albums, {3} album entries and {4} queue snapshot entries will be converted..
         /// </summary>
         public static string ConversionStatistics {
@@ -111,6 +120,15 @@ namespace amp.Shared.Localization {
         public static string Notification {
             get {
                 return ResourceManager.GetString("Notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the tag changes? This will modify the actual audio file..
+        /// </summary>
+        public static string SaveTheTagChangedThisWillModifyTheActualAudioFile {
+            get {
+                return ResourceManager.GetString("SaveTheTagChangedThisWillModifyTheActualAudioFile", resourceCulture);
             }
         }
         

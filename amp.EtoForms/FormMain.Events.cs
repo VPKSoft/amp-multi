@@ -27,11 +27,13 @@ SOFTWARE.
 using System.ComponentModel;
 using amp.Database.DataModel;
 using amp.EtoForms.Forms;
+using amp.EtoForms.Forms.EventArguments;
 using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
 using amp.Playback.Enumerations;
 using amp.Playback.EventArguments;
 using amp.Shared.Classes;
+using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Forms;
 using EtoForms.Controls.Custom.EventArguments;
@@ -39,6 +41,7 @@ using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
+using AudioTrack = amp.EtoForms.Models.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -516,8 +519,27 @@ partial class FormMain
         var track = (Models.AlbumTrack?)gvAudioTracks.SelectedItem;
         if (track != null)
         {
-            var audioTrack = context.AudioTracks.First(f => f.Id == track.AudioTrackId);
-            new FormDialogTrackInfo(track.AudioTrack!).ShowModal(this);
+            using var dialog = new FormDialogTrackInfo(track.AudioTrack!, AudioTrackChanged);
+            dialog.ShowModal(this);
+        }
+    }
+
+    private async void AudioTrackChanged(object? sender, AudioTrackChangedEventArgs e)
+    {
+        var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.Id == e.AudioTrack.Id);
+        if (track != null)
+        {
+            e.AudioTrack.UpdateDataModel(track);
+            var count = await context.SaveChangesAsync();
+            e.SaveSuccess = count > 0;
+            if (e.SaveSuccess)
+            {
+                var index = tracks.FindIndex(f => f.AudioTrackId == e.AudioTrack.Id);
+                if (index != -1)
+                {
+                    tracks[index].AudioTrack = Globals.AutoMapper.Map<AudioTrack>(track);
+                }
+            }
         }
     }
 }

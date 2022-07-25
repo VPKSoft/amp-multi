@@ -121,4 +121,10 @@
   <data name="AlbumNameCanNotBeAnEmptyString" xml:space="preserve">
     <value>Albumin nimi ei voi olla tyhjä merkkijono.</value>
   </data>
+  <data name="SaveTheTagChangedThisWillModifyTheActualAudioFile" xml:space="preserve">
+    <value>Tallennetaanko tunnisteen muutokset? Tämä muokkaa varsinaista musiikkitiedostoa.</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Varmistus</value>
+  </data>
 </root>

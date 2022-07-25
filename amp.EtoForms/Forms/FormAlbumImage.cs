@@ -129,7 +129,15 @@ public class FormAlbumImage : Form
         Globals.LoggerSafeInvoke(() =>
         {
             var track = new Track(audioTrack.FileName);
-            if (track.EmbeddedPictures.Any())
+            if (audioTrack.TrackImageData?.Length > 0)
+            {
+                using var stream = new MemoryStream(audioTrack.TrackImageData);
+
+                var bitmap = new Bitmap(stream);
+                imageView.Image = bitmap;
+                Show();
+            }
+            else if (track.EmbeddedPictures.Any())
             {
                 var picture = track.EmbeddedPictures.First();
                 using var stream = new MemoryStream(picture.PictureData);

@@ -297,34 +297,37 @@ SOFTWARE.
 
     private async void TmMessageQueueTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        tmMessageQueueTimer.Enabled = false;
-        if (previousMessageTime == null || (DateTime.Now - previousMessageTime.Value).TotalSeconds > 30)
+        await Globals.LoggerSafeInvokeAsync(async () =>
         {
-            if (DisplayMessageQueue.TryDequeue(out var messagePair))
+            tmMessageQueueTimer.Enabled = false;
+            if (previousMessageTime == null || (DateTime.Now - previousMessageTime.Value).TotalSeconds > 30)
+            {
+                if (DisplayMessageQueue.TryDequeue(out var messagePair))
+                {
+                    await Application.Instance.InvokeAsync(() =>
+                    {
+                        lbStatusMessage.Text = messagePair.Key;
+                        previousMessageTime = DateTime.Now;
+                    });
+                }
+                else
+                {
+                    previousMessageTime = null;
+                }
+            }
+
+            if (previousMessageTime == null)
             {
                 await Application.Instance.InvokeAsync(() =>
                 {
-                    lbStatusMessage.Text = messagePair.Key;
-                    previousMessageTime = DateTime.Now;
+                    if (lbStatusMessage.Text != string.Empty)
+                    {
+                        lbStatusMessage.Text = string.Empty;
+                    }
                 });
             }
-            else
-            {
-                previousMessageTime = null;
-            }
-        }
 
-        if (previousMessageTime == null)
-        {
-            await Application.Instance.InvokeAsync(() =>
-            {
-                if (lbStatusMessage.Text != string.Empty)
-                {
-                    lbStatusMessage.Text = string.Empty;
-                }
-            });
-        }
-
-        tmMessageQueueTimer.Enabled = true;
+            tmMessageQueueTimer.Enabled = true;
+        });
     }
 }

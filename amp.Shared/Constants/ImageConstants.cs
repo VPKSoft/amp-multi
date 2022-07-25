@@ -24,35 +24,21 @@ SOFTWARE.
 */
 #endregion
 
-using amp.EtoForms.Models;
-
-namespace amp.EtoForms.Forms.EventArguments;
+namespace amp.Shared.Constants;
 
 /// <summary>
-/// Event arguments for an event where the <see cref="AudioTrack"/> instance data has been changed.
-/// Implements the <see cref="System.EventArgs" />
+/// Image file related constants.
 /// </summary>
-/// <seealso cref="System.EventArgs" />
-public class AudioTrackChangedEventArgs : EventArgs
+public class ImageConstants
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AudioTrackChangedEventArgs"/> class.
+    /// The supported extensions for image files.
     /// </summary>
-    /// <param name="audioTrack">The audio track data.</param>
-    public AudioTrackChangedEventArgs(AudioTrack audioTrack)
-    {
-        AudioTrack = audioTrack;
-    }
+    public const string SupportedExtensions = ".jpg .jpeg .png .bmp";
 
     /// <summary>
-    /// Gets or sets the audio track data with changes.
+    /// The supported extensions of image files as an array.
     /// </summary>
-    /// <value>The audio track data.</value>
-    public AudioTrack AudioTrack { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the data updated to entity was saved successfully into the database.
-    /// </summary>
-    /// <value><c>true</c> if database save was successful; otherwise, <c>false</c>.</value>
-    public bool SaveSuccess { get; set; }
+    /// <value>The supported extension array.</value>
+    public static string[] SupportedExtensionArray => SupportedExtensions.Split(' ');
 }

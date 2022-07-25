@@ -121,4 +121,10 @@
   <data name="AlbumNameCanNotBeAnEmptyString" xml:space="preserve">
     <value>Album name can not be an empty string.</value>
   </data>
+  <data name="SaveTheTagChangedThisWillModifyTheActualAudioFile" xml:space="preserve">
+    <value>Save the tag changes? This will modify the actual audio file.</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
 </root>

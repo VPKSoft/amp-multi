@@ -440,4 +440,22 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="TrackInformation" xml:space="preserve">
     <value>Track information</value>
   </data>
+  <data name="SaveActiveTabChanges" xml:space="preserve">
+    <value>Save active tab changes</value>
+  </data>
+  <data name="TagSaveFailed" xml:space="preserve">
+    <value>Tag save failed.</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Save failed</value>
+  </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Image files</value>
+  </data>
+  <data name="LoadImageFromFile" xml:space="preserve">
+    <value>Load image from file</value>
+  </data>
+  <data name="RemoveTrackImage" xml:space="preserve">
+    <value>Remove track image</value>
+  </data>
 </root>
