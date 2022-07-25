@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.EtoForms.Forms.EventArguments;
 using amp.EtoForms.Models;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using ATL;
 using Eto.Drawing;
@@ -121,6 +122,7 @@ public partial class FormDialogTrackInfo : Dialog
         if (tcTagTabs.SelectedIndex == 1)
         {
             ModifyAmpData();
+            audioTrack.TagFindString = new Track(audioTrack.FileName).GetTagString();
             var args = new AudioTrackChangedEventArgs(audioTrack);
             AudioTrackChanged?.Invoke(this, args);
             if (!args.SaveSuccess)
