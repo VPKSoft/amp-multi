@@ -1,0 +1,46 @@
+name: .NET Core Desktop Windows Installer
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
+    - name: Publish
+      run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj.sln" --configuration Release
+
+    # Create the app package by building and packaging the Windows Application Packaging project
+    #- name: Create the app package
+    #  run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+    #  env:
+    #    Appx_Bundle: Always
+    #    Appx_Bundle_Platforms: x86|x64
+    #    Appx_Package_Build_Mode: StoreUpload
+    #    Configuration: ${{ matrix.configuration }}
+
+
+    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
+    #- name: Upload build artifacts
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: MSIX Package
+    #    path: ${{ env.Wap_Project_Directory }}\AppPackages
