@@ -27,7 +27,9 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Layout;
+using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
 using amp.Shared.Constants;
@@ -50,7 +52,7 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, toAlbum ? CurrentAlbumId : 0, dialog.Filenames.ToArray());
         }
 
-        await RefreshCurrentAlbum();
+        RefreshCurrentAlbum();
     }
 
     private async Task AddDirectory(bool toAlbum)
@@ -61,7 +63,7 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0);
         }
 
-        await RefreshCurrentAlbum();
+        RefreshCurrentAlbum();
     }
 
     private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, bool append)
@@ -143,14 +145,19 @@ partial class FormMain
     /// <summary>
     /// Refreshes the current album.
     /// </summary>
-    private async Task RefreshCurrentAlbum()
+    private void RefreshCurrentAlbum()
     {
-        tracks = new ObservableCollection<Models.AlbumTrack>(
-            await context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
-                .Select(f => Globals.AutoMapper.Map<Models.AlbumTrack>(f)).AsNoTracking()
-                .ToListAsync());
+        if (!shownCalled)
+        {
+            return;
+        }
 
-        tracks = new ObservableCollection<Models.AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
+        var loadedTracks = FormLoadProgress<AlbumTrack>.ShowModal(this, context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
+            .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking(), 100);
+
+        tracks = new ObservableCollection<AlbumTrack>(loadedTracks);
+
+        tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 
         lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
 
@@ -159,7 +166,7 @@ partial class FormMain
         if (!string.IsNullOrWhiteSpace(tbSearch.Text))
         {
             filteredTracks =
-                new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
                     .ToList());
         }
 
@@ -241,13 +248,13 @@ SOFTWARE.
             {
                 if (!string.IsNullOrWhiteSpace(text))
                 {
-                    filteredTracks = new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(text)));
+                    filteredTracks = new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(text)));
                 }
             }
 
             if (queueOnly)
             {
-                filteredTracks = new ObservableCollection<Models.AlbumTrack>(filteredTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex));
+                filteredTracks = new ObservableCollection<AlbumTrack>(filteredTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex));
             }
 
             gvAudioTracks.DataStore = filteredTracks;

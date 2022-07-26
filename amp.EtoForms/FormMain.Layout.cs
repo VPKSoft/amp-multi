@@ -43,13 +43,15 @@ partial class FormMain
     [MemberNotNull(nameof(cmbAlbumSelect))]
     private StackLayout CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(async (id) =>
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo((id) =>
         {
             if (id != null)
             {
                 CurrentAlbumId = id.Value;
-                await RefreshCurrentAlbum();
+                RefreshCurrentAlbum();
             }
+
+            return Task.CompletedTask;
         }, context);
 
         var imageView = new ImageView { Width = 20, Height = 20, };
@@ -420,7 +422,7 @@ partial class FormMain
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
-    private ComboBox cmbAlbumSelect;
+    private ComboBox cmbAlbumSelect = new();
     private CheckedButton btnStackQueueToggle;
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
     private readonly Label lbQueueCountValue = new();

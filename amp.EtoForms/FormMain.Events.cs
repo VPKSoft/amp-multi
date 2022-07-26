@@ -350,8 +350,10 @@ partial class FormMain
     private async void FormMain_Shown(object? sender, EventArgs e)
     {
         await UpdateAlbumDataSource();
-        await RefreshCurrentAlbum();
         LoadLayout();
+        CreateAlbumSelector();
+        shownCalled = true;
+        RefreshCurrentAlbum();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)

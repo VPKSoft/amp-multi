@@ -33,7 +33,6 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
-using Microsoft.EntityFrameworkCore;
 using AlbumTrack = amp.EtoForms.Models.AlbumTrack;
 using AudioTrack = amp.EtoForms.Models.AudioTrack;
 
@@ -92,9 +91,6 @@ public partial class FormMain : Form
             context.SaveChanges();
         }
 
-        tracks = new ObservableCollection<AlbumTrack>(context.AlbumTracks.Include(f => f.AudioTrack)
-            .Where(f => f.AlbumId == CurrentAlbumId).Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).ToList());
-
         playbackManager.ManagerStopped = false;
 
         idleChecker = new UserIdleChecker(this);
@@ -110,7 +106,7 @@ public partial class FormMain : Form
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }
 
-    private ObservableCollection<AlbumTrack> tracks;
+    private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
     private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
@@ -118,4 +114,5 @@ public partial class FormMain : Form
     private readonly UserIdleChecker idleChecker;
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
     private DateTime? previousMessageTime;
+    private bool shownCalled;
 }

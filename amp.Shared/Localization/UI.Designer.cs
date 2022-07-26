@@ -557,6 +557,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading {0} percentage....
+        /// </summary>
+        public static string Loading0Percentage {
+            get {
+                return ResourceManager.GetString("Loading0Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load queue.
         /// </summary>
         public static string LoadQueue {
