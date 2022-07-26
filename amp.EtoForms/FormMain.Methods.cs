@@ -52,7 +52,7 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, toAlbum ? CurrentAlbumId : 0, dialog.Filenames.ToArray());
         }
 
-        RefreshCurrentAlbum();
+        await RefreshCurrentAlbum();
     }
 
     private async Task AddDirectory(bool toAlbum)
@@ -63,7 +63,7 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0);
         }
 
-        RefreshCurrentAlbum();
+        await RefreshCurrentAlbum();
     }
 
     private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, bool append)
@@ -145,14 +145,14 @@ partial class FormMain
     /// <summary>
     /// Refreshes the current album.
     /// </summary>
-    private void RefreshCurrentAlbum()
+    private async Task RefreshCurrentAlbum()
     {
         if (!shownCalled)
         {
             return;
         }
 
-        var loadedTracks = FormLoadProgress<AlbumTrack>.ShowModal(this, context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
+        var loadedTracks = await FormLoadProgress<AlbumTrack>.RunWithProgress(this, context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
             .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking(), 100);
 
         tracks = new ObservableCollection<AlbumTrack>(loadedTracks);

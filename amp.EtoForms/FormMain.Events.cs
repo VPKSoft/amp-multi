@@ -353,7 +353,7 @@ partial class FormMain
         LoadLayout();
         CreateAlbumSelector();
         shownCalled = true;
-        RefreshCurrentAlbum();
+        await RefreshCurrentAlbum();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)

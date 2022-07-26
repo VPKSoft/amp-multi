@@ -40,7 +40,7 @@ namespace amp.EtoForms.Forms;
 /// </summary>
 /// <typeparam name="T">The type of the query result.</typeparam>
 /// <seealso cref="Dialog" />
-public class FormLoadProgress<T> : Dialog
+public class FormLoadProgress<T> : Form
 {
     /// <summary>
     /// Prevents a default instance of the <see cref="FormLoadProgress{T}"/> class from being created.
@@ -61,7 +61,6 @@ public class FormLoadProgress<T> : Dialog
     private FormLoadProgress(IQueryable<T> queryable, int taskSize)
     {
         MinimumSize = new Size(300, 30);
-        Shown += FormLoadProgress_Shown;
         var count = queryable.Count();
         this.queryable = queryable;
 
@@ -79,6 +78,8 @@ public class FormLoadProgress<T> : Dialog
                 new StackLayoutItem(lbProgress),
                 new StackLayoutItem(progressBar, HorizontalAlignment.Stretch),
             },
+            Padding = Globals.DefaultPadding,
+            Spacing = Globals.DefaultSpacing.Height,
         };
         WindowStyle = WindowStyle.None;
         SizeChanged += SizeOrPositionChanged;
@@ -120,17 +121,19 @@ public class FormLoadProgress<T> : Dialog
     }
 
     /// <summary>
-    /// Shows the modal.
+    /// Displays the form <see cref="Window.Topmost"/> with mode set to <c>true</c> and runs the tasks generated from the <paramref name="queryable"/>
     /// </summary>
-    /// <param name="owner">The owner.</param>
-    /// <param name="queryable">The queryable.</param>
-    /// <param name="taskSize">Size of the task.</param>
-    /// <returns>List&lt;T&gt;.</returns>
-    public static List<T> ShowModal(Control? owner, IQueryable<T> queryable, int taskSize)
+    /// <param name="owner">The owner of the form.</param>
+    /// <param name="queryable">The <see cref="IQueryable{T}"/> instance to divide the query into tasks.</param>
+    /// <param name="taskSize">Size of a single task.</param>
+    /// <returns>A <see cref="List{T}"/> containing the query results.</returns>
+    public static async Task<List<T>> RunWithProgress(Control? owner, IQueryable<T> queryable, int taskSize)
     {
         using var form = new FormLoadProgress<T>(queryable, taskSize);
         form.owner = owner;
-        form.ShowModal(owner);
+        form.Topmost = true;
+        form.Show();
+        await form.RunTasks();
         return form.resultList;
     }
 
@@ -138,7 +141,7 @@ public class FormLoadProgress<T> : Dialog
     private readonly List<KeyValuePair<Func<TaskData, Task<List<T>>>, TaskData>> queryTasks = new();
     private readonly IQueryable<T> queryable;
 
-    private async void FormLoadProgress_Shown(object? sender, EventArgs e)
+    private async Task RunTasks()
     {
         var tasks = queryTasks.Select(f => f.Key(f.Value));
         await Task.WhenAll(tasks);
