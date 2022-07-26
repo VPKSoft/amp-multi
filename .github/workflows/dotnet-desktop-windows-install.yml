@@ -34,6 +34,11 @@ jobs:
         arguments: "/V3"
         script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp#.nsi
 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: amp# installer
+        path: ${{ github.workspace }}/Packaging/Windows/setup_amp#.exe
+
     # Create the app package by building and packaging the Windows Application Packaging project
     #- name: Create the app package
     #  run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
