@@ -420,7 +420,7 @@ partial class FormMain
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
-    private ComboBox cmbAlbumSelect;
+    private ComboBox cmbAlbumSelect = new();
     private CheckedButton btnStackQueueToggle;
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
     private readonly Label lbQueueCountValue = new();

@@ -458,4 +458,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="RemoveTrackImage" xml:space="preserve">
     <value>Remove track image</value>
   </data>
+  <data name="Loading0Percentage" xml:space="preserve">
+    <value>Loading {0} percentage...</value>
+  </data>
 </root>

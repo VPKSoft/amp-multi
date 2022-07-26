@@ -458,4 +458,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="RemoveTrackImage" xml:space="preserve">
     <value>Poista kappaleen kuva</value>
   </data>
+  <data name="Loading0Percentage" xml:space="preserve">
+    <value>Ladataan {0} prosenttia...</value>
+  </data>
 </root>
