@@ -28,6 +28,12 @@ jobs:
     - name: Publish
       run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
 
+    - name: Create installer
+      uses: joncloud/makensis-action@v3.7
+      with:
+        arguments: "/V3"
+        script-file: "$Env:GITHUB_WORKSPACE/Packaging/Windows/setup_amp#.nsi
+
     # Create the app package by building and packaging the Windows Application Packaging project
     #- name: Create the app package
     #  run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
