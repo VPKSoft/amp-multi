@@ -68,10 +68,10 @@ public static class TrackDisplayNameGenerate
         return GetAudioTrackName(albumTrack.AudioTrack!);
     }
 
-    private static readonly Regex NamingRegex = new("\\{.*?@(Ar|Al|Tn|Tl|R).*?\\}", RegexOptions.Compiled);
-    private static readonly Regex NonAlphabet = new(@"[^\p{L}]*", RegexOptions.Compiled);
+    private static readonly Regex namingRegex = new("\\{.*?@(Ar|Al|Tn|Tl|R).*?\\}", RegexOptions.Compiled);
+    private static readonly Regex nonAlphabet = new(@"[^\p{L}]*", RegexOptions.Compiled);
 
-    private static readonly Dictionary<string, FormulaType> FormulaTypes = new(new KeyValuePair<string, FormulaType>[]
+    private static readonly Dictionary<string, FormulaType> formulaTypes = new(new KeyValuePair<string, FormulaType>[]
     {
         new("@Ar", FormulaType.Artist),
         new("@Al", FormulaType.Album),
@@ -102,7 +102,7 @@ public static class TrackDisplayNameGenerate
     public static string GetAudioTrackName(IAudioTrack audioTrack)
     {
         var formula = string.IsNullOrWhiteSpace(audioTrack.OverrideName) ? Formula : FormulaTrackRenamed;
-        var matches = NamingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length).ToList();
+        var matches = namingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length).ToList();
 
         var loopCount = 0;
 
@@ -120,7 +120,7 @@ public static class TrackDisplayNameGenerate
 
             var found = false;
 
-            foreach (var formulaType in FormulaTypes)
+            foreach (var formulaType in formulaTypes)
             {
                 var replaceValue = formulaType.Value switch
                 {
@@ -138,7 +138,7 @@ public static class TrackDisplayNameGenerate
                     formula = formula.Remove(match.Index, match.Length);
                     formula = formula.Insert(match.Index,
                         match.Value.TrimStart('{').TrimEnd('}').Replace(formulaType.Key, replaceValue));
-                    matches = NamingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length)
+                    matches = namingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length)
                         .ToList();
                     found = true;
                     break;
@@ -148,13 +148,13 @@ public static class TrackDisplayNameGenerate
             if (!found)
             {
                 formula = formula.Remove(match.Index, match.Length);
-                matches = NamingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length).ToList();
+                matches = namingRegex.Matches(formula).OrderByDescending(f => f.Index).ThenBy(f => f.Length).ToList();
             }
         }
 
         if (string.IsNullOrWhiteSpace(formula) ||
             formula.Trim().Length < MinimumTrackLength ||
-            (TrackNamingFallbackToFileNameWhenNoLetters && NonAlphabet.IsMatch(formula)))
+            (TrackNamingFallbackToFileNameWhenNoLetters && nonAlphabet.IsMatch(formula)))
         {
             formula = Path.GetFileNameWithoutExtension(audioTrack.FileNameNoPath) ??
                       Path.GetFileNameWithoutExtension(Path.GetFileName(audioTrack.FileName));

@@ -365,4 +365,97 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="PlaybackError0" xml:space="preserve">
     <value>Toistovirhe: '{0}'.</value>
   </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Artisti</value>
+  </data>
+  <data name="AlbumArtist" xml:space="preserve">
+    <value>Albumin artisti</value>
+  </data>
+  <data name="OriginalArtist" xml:space="preserve">
+    <value>Alkuperäinen artisti</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Nimike</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Kommentti</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Tekijänoikeus</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Luokittelu</value>
+  </data>
+  <data name="Conductor" xml:space="preserve">
+    <value>Kapellimestari</value>
+  </data>
+  <data name="TrackNumber" xml:space="preserve">
+    <value>Kappaleen numero</value>
+  </data>
+  <data name="TrackTotal" xml:space="preserve">
+    <value>Kappaleita yhteensä</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Vuosi</value>
+  </data>
+  <data name="BitRate" xml:space="preserve">
+    <value>Bittinopeus</value>
+  </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>Äänikanavia</value>
+  </data>
+  <data name="SampleRate" xml:space="preserve">
+    <value>Näytteenottotaajuus</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Kesto</value>
+  </data>
+  <data name="AudioFormat" xml:space="preserve">
+    <value>Audion muoto</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Tiedoston nimi</value>
+  </data>
+  <data name="FullFileName" xml:space="preserve">
+    <value>Tiedoston kokonimi</value>
+  </data>
+  <data name="FileSizeBytes" xml:space="preserve">
+    <value>Tiedoston koko (tavua)</value>
+  </data>
+  <data name="Lyrics" xml:space="preserve">
+    <value>Tekstitys</value>
+  </data>
+  <data name="CopyTagDataToAmp" xml:space="preserve">
+    <value>Kopio tunnistetiedot amp#:iin</value>
+  </data>
+  <data name="CopyAmpDataToTag" xml:space="preserve">
+    <value>Kopioi amp#:in tiedot tunnistetietoihin</value>
+  </data>
+  <data name="FileDataTag" xml:space="preserve">
+    <value>Tiedoston tiedot (tunniste)</value>
+  </data>
+  <data name="FileDataAmp" xml:space="preserve">
+    <value>Tiedoston tiedot (amp#)</value>
+  </data>
+  <data name="TrackInformation" xml:space="preserve">
+    <value>Kappaleen tiedot</value>
+  </data>
+  <data name="SaveActiveTabChanges" xml:space="preserve">
+    <value>Tallenna aktiivisen välilehden muutokset</value>
+  </data>
+  <data name="TagSaveFailed" xml:space="preserve">
+    <value>Tunnisteen tallennus epäonnistui.</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Tallennus epäonnistui</value>
+  </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Kuvatiedostot</value>
+  </data>
+  <data name="LoadImageFromFile" xml:space="preserve">
+    <value>Lataa kuva tiedostosta</value>
+  </data>
+  <data name="RemoveTrackImage" xml:space="preserve">
+    <value>Poista kappaleen kuva</value>
+  </data>
 </root>
