@@ -32,7 +32,7 @@ jobs:
       uses: joncloud/makensis-action@v3.7
       with:
         arguments: "/V3"
-        script-file: "$Env:GITHUB_WORKSPACE/Packaging/Windows/setup_amp#.nsi
+        script-file: "$Env:GITHUB_WORKSPACE/Packaging/Windows/setup_amp#.nsi"
 
     # Create the app package by building and packaging the Windows Application Packaging project
     #- name: Create the app package
