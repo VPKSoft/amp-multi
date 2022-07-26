@@ -29,6 +29,7 @@ using amp.Database.DataModel;
 using amp.Shared.Classes;
 using AutoMapper;
 using Eto.Drawing;
+using Serilog;
 using Serilog.Core;
 using VPKSoft.ApplicationSettingsJson;
 

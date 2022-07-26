@@ -18,6 +18,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="EventArguments\**" />
+	  <EmbeddedResource Remove="EventArguments\**" />
+	  <None Remove="EventArguments\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="Images/amp.ico" />
 	</ItemGroup>
 
@@ -69,10 +75,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="EventArguments\" />
 	</ItemGroup>
 
 </Project>
