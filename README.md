@@ -29,6 +29,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 * [AutoMapper](https://automapper.org)
 * [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons)
 * [FluentMigrator](https://github.com/fluentmigrator/fluentmigrator)
+* [ResX Resource Manager](https://github.com/dotnet/ResXResourceManager)
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 
 
