@@ -26,7 +26,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Publish
-      run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj.sln" --configuration Release
+      run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
 
     # Create the app package by building and packaging the Windows Application Packaging project
     #- name: Create the app package
