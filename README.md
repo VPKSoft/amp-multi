@@ -3,9 +3,23 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 [![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml)
 
-**NOTE**: This is currently beta and no installers, etc. exist.
+#### Install
+**NOTE**: This is currently beta and no installation method exist for Linux or Mac yet.
 
+[Setup .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+##### Windows
+An installer from the master workflow action: 
 
+[![.NET Core Desktop Windows Installer](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-desktop-windows-install.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-desktop-windows-install.yml)
+
+![image](https://user-images.githubusercontent.com/40712699/181163617-3b56f4e4-bc33-44c5-9864-f49214f8a67a.png)
+
+##### From source
+```
+dotnet restore './amp multiplatform.sln'
+cd ./amp.EtoForms/
+dotnet run ./amp.EtoForms.csproj
+```
 ## Screenshots
 
 *Windows*
