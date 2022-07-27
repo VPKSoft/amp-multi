@@ -49,7 +49,9 @@ public static class Program
 
         Shared.Globals.Locale = Globals.Settings.Locale;
         LocalizeExternals();
-
+#if OSX
+Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowClosingMainForm = true);
+#endif
         new Application().Run(new FormMain());
     }
 

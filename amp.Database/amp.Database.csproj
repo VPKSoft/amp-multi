@@ -18,6 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="SQLitePCLRaw.core" />
+	  <None Remove="SQLitePCLRaw.bundle_e_sqlite3" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
 		<None Include="..\amp.png">
 			<Pack>True</Pack>
@@ -37,6 +41,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
 		<PackageReference Include="VPKSoft.DropOutStack" Version="1.0.2" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
