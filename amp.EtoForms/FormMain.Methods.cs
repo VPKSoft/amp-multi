@@ -32,6 +32,7 @@ using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
+using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -280,6 +281,7 @@ SOFTWARE.
         tbSearch.TextChanged += TbSearch_TextChanged;
         gvAudioTracks.MouseDoubleClick += GvAudioTracksMouseDoubleClick;
         Closing += FormMain_Closing;
+        Closed += OnClosed;
         KeyDown += FormMain_KeyDown;
         gvAudioTracks.KeyDown += FormMain_KeyDown;
         tbSearch.KeyDown += FormMain_KeyDown;
@@ -300,6 +302,14 @@ SOFTWARE.
         btnStackQueueToggle.CheckedChange += BtnStackQueueToggle_CheckedChange;
         tmMessageQueueTimer.Elapsed += TmMessageQueueTimer_Elapsed;
         tmMessageQueueTimer.Start();
+    }
+
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        if (UtilityOS.IsMacOS)
+        {
+            Application.Instance.Quit();
+        }
     }
 
     private async void TmMessageQueueTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)

@@ -15,8 +15,13 @@
 		<Company>VPKSoft</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
+		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(IsOSX)'=='true'">
+		<DefineConstants>OSX</DefineConstants>
+	</PropertyGroup>
+	
 	<ItemGroup>
 	  <Compile Remove="EventArguments\**" />
 	  <EmbeddedResource Remove="EventArguments\**" />
