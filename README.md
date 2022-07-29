@@ -18,7 +18,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 ![image](https://user-images.githubusercontent.com/40712699/179740523-63f2d2ec-d9ad-4534-97ce-f88b9b4be6b2.png)
 
 ### Install
-**NOTE**: This is currently beta and no installation method exist for Linux or Mac yet.
+**NOTE**: This is currently beta and no installation method exist for Linux yet.
 
 [Setup .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 #### Windows
