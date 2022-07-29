@@ -44,7 +44,7 @@ using Microsoft.EntityFrameworkCore;
 namespace amp.EtoForms;
 partial class FormMain
 {
-    private async Task AddAudioFiles(bool toAlbum)
+    private void AddAudioFiles(bool toAlbum)
     {
         using var dialog = new OpenFileDialog { MultiSelect = true, };
         dialog.Filters.Add(new FileFilter(UI.MusicFiles, MusicConstants.SupportedExtensionArray));
@@ -53,10 +53,10 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, toAlbum ? CurrentAlbumId : 0, dialog.Filenames.ToArray());
         }
 
-        await RefreshCurrentAlbum();
+        RefreshCurrentAlbum();
     }
 
-    private async Task AddDirectory(bool toAlbum)
+    private void AddDirectory(bool toAlbum)
     {
         using var dialog = new SelectFolderDialog { Title = UI.SelectMusicFolder, };
         if (dialog.ShowDialog(this) == DialogResult.Ok)
@@ -64,7 +64,7 @@ partial class FormMain
             DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0);
         }
 
-        await RefreshCurrentAlbum();
+        RefreshCurrentAlbum();
     }
 
     private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, bool append)
@@ -146,17 +146,19 @@ partial class FormMain
     /// <summary>
     /// Refreshes the current album.
     /// </summary>
-    private async Task RefreshCurrentAlbum()
+    private void RefreshCurrentAlbum()
     {
         if (!shownCalled)
         {
             return;
         }
 
-        var loadedTracks = await FormLoadProgress<AlbumTrack>.RunWithProgress(this, context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
-            .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking(), 100);
+        var query = context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
+            .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
 
-        tracks = new ObservableCollection<AlbumTrack>(loadedTracks);
+        var form = FormLoadProgress<AlbumTrack>.RunWithProgress(this, query, 100);
+
+        tracks = new ObservableCollection<AlbumTrack>(form.ResultList);
 
         tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 

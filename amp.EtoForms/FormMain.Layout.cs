@@ -43,13 +43,15 @@ partial class FormMain
     [MemberNotNull(nameof(cmbAlbumSelect))]
     private StackLayout CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(async (id) =>
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo((id) =>
         {
             if (id != null)
             {
                 CurrentAlbumId = id.Value;
-                await RefreshCurrentAlbum();
+                RefreshCurrentAlbum();
             }
+
+            return Task.CompletedTask;
         }, context);
 
         var imageView = new ImageView { Width = 20, Height = 20, };

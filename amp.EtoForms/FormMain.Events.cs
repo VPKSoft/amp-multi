@@ -332,14 +332,14 @@ partial class FormMain
         }
     }
 
-    private async void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)
+    private void AddDirectoryToDatabase_Executed(object? sender, EventArgs e)
     {
-        await AddDirectory(sender?.Equals(addDirectoryToAlbum) == true);
+        AddDirectory(sender?.Equals(addDirectoryToAlbum) == true);
     }
 
-    private async void AddFilesToDatabase_Executed(object? sender, EventArgs e)
+    private void AddFilesToDatabase_Executed(object? sender, EventArgs e)
     {
-        await AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
+        AddAudioFiles(sender?.Equals(addFilesToAlbum) == true);
     }
 
     private void IdleChecker_UserIdleChanged(object? sender, UserIdleEventArgs e)
@@ -353,7 +353,7 @@ partial class FormMain
         LoadLayout();
         CreateAlbumSelector();
         shownCalled = true;
-        await RefreshCurrentAlbum();
+        RefreshCurrentAlbum();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)

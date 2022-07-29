@@ -24,10 +24,10 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.EtoForms.Forms.AdditionalClasses;
+namespace amp.Database.QueryHelpers;
 
 /// <summary>
-/// Data class for the <see cref="FormLoadProgress{T}"/> tasks.
+/// Data class for the <see cref="QueryDivider{T}"/> tasks.
 /// </summary>
 internal class TaskData
 {

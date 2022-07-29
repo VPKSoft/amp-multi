@@ -21,11 +21,11 @@
 	<PropertyGroup Condition="'$(IsOSX)'=='true'">
 		<DefineConstants>OSX</DefineConstants>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
-	  <Compile Remove="EventArguments\**" />
-	  <EmbeddedResource Remove="EventArguments\**" />
-	  <None Remove="EventArguments\**" />
+		<Compile Remove="EventArguments\**" />
+		<EmbeddedResource Remove="EventArguments\**" />
+		<None Remove="EventArguments\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,4 +82,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-</Project>
+		</Project>
