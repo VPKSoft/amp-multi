@@ -29,7 +29,7 @@ jobs:
         cp "$GITHUB_WORKSPACE/Packaging/MacOS/Info.plist" "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents"
         chmod +x "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS/amp.EtoForms"
         xattr -c "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS/amp.EtoForms"
-        zip -r "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/" "$GITHUB_WORKSPACE/Packaking/amp.EtoForms.zip"
+        zip -r "$GITHUB_WORKSPACE/Packaking/amp.EtoForms.zip" "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/"
 
     - uses: actions/upload-artifact@v3
       with:
