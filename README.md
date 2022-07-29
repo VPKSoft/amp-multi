@@ -22,7 +22,7 @@ An app bundle from the master workflow action:
 ![image](https://user-images.githubusercontent.com/40712699/181792023-ec69bb0a-3cd6-42f2-a783-db1ca7c8d2f9.png)
 
 Note, you meed to clear the `com.apple.quarantine` extended attribute by running: 
-`xattr -c amp.EtoForms.app`
+`xattr -c ./amp.EtoForms.app`
 
 ##### From source
 ```
