@@ -24,3 +24,11 @@ jobs:
         dotnet publish "$GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration "Release" --output "$GITHUB_WORKSPACE/Packaging/MacOS/bin"
         mkdir -p "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS"
         mv "$GITHUB_WORKSPACE/Packaging/MacOS/bin/"* "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS"
+        mkdir -p "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/Resources"
+        cp "$GITHUB_WORKSPACE/amp.EtoForms/Images/AmpIcon.icns" "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/Resources"
+        cp "$GITHUB_WORKSPACE/Packaging/MacOS/Info.plist" "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents"
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: amp# application bundle
+        path: ${{ github.workspace }}/Packaging/MacOS/amp.EtoForms.app
