@@ -43,13 +43,15 @@ partial class FormMain
     [MemberNotNull(nameof(cmbAlbumSelect))]
     private StackLayout CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(async (id) =>
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo((id) =>
         {
             if (id != null)
             {
                 CurrentAlbumId = id.Value;
-                await RefreshCurrentAlbum();
+                RefreshCurrentAlbum();
             }
+
+            return Task.CompletedTask;
         }, context);
 
         var imageView = new ImageView { Width = 20, Height = 20, };
@@ -379,6 +381,8 @@ partial class FormMain
                         new Panel { Width = Globals.DefaultPadding,},
                         lbQueueCountValue,
                         new Panel { Width = Globals.DefaultPadding,},
+                        lbLoadingText,
+                        progressLoading,
                         new TableCell(lbStatusMessage) { ScaleWidth = true,},
                     },
                 },
@@ -425,4 +429,6 @@ partial class FormMain
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
     private readonly Label lbQueueCountValue = new();
     private readonly Label lbStatusMessage = new();
+    private readonly Label lbLoadingText = new() { Text = Messages.LoadingPercentage, Visible = false, };
+    private readonly ProgressBar progressLoading = new() { Visible = false, };
 }
