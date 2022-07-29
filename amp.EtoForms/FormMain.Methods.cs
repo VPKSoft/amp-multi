@@ -169,13 +169,13 @@ partial class FormMain
         queryDivider.RunQueryTasks();
     }
 
-    private void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
+    private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
     {
         tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
 
         tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 
-        Application.Instance.Invoke(() =>
+        await Application.Instance.InvokeAsync(() =>
         {
             lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
 
@@ -201,9 +201,9 @@ partial class FormMain
         });
     }
 
-    private void QueryDivider_ProgressChanged(object? sender, QueryProgressChangedEventArgs e)
+    private async void QueryDivider_ProgressChanged(object? sender, QueryProgressChangedEventArgs e)
     {
-        Application.Instance.Invoke(() =>
+        await Application.Instance.InvokeAsync(() =>
         {
             lbLoadingText.Text = string.Format(Messages.LoadingPercentage, e.CurrentPercentage);
             progressLoading.Value = e.CurrentCount;
