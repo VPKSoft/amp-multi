@@ -21,4 +21,4 @@ jobs:
     - name: Dotnet publish    
       run: |
         mkdir -p "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS"
-        publish "$GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration "Release" --output "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS"
+        dotnet publish "$GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration "Release" --output "$GITHUB_WORKSPACE/Packaging/MacOS/amp.EtoForms.app/Contents/MacOS"
