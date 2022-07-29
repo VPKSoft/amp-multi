@@ -31,4 +31,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: amp# application bundle
-        path: ${{ github.workspace }}/Packaging/MacOS/amp.EtoForms.app
+        path: ${{ github.workspace }}/Packaging/MacOS
