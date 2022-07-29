@@ -356,3 +356,6 @@ ASALocalRun/
 /Help/amp_help/docs/_Footer.md
 /PlaybackIcons.dll
 /InstallerBaseWixSharp/amp#.wxl
+
+#Linux packaking
+*.AppImage
