@@ -25,9 +25,9 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
+using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
-using amp.EtoForms.Forms;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
@@ -143,6 +143,8 @@ partial class FormMain
         lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
     }
 
+    private QueryDivider<AlbumTrack>? queryDivider;
+
     /// <summary>
     /// Refreshes the current album.
     /// </summary>
@@ -153,27 +155,59 @@ partial class FormMain
             return;
         }
 
+        lbLoadingText.Visible = true;
+        progressLoading.Visible = true;
+        Enabled = false;
+
+
         var query = context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
             .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
 
-        var form = FormLoadProgress<AlbumTrack>.RunWithProgress(this, query, 100);
+        queryDivider = new QueryDivider<AlbumTrack>(query, 100);
+        queryDivider.ProgressChanged += QueryDivider_ProgressChanged;
+        queryDivider.QueryCompleted += QueryDivider_QueryCompleted;
+        queryDivider.RunQueryTasks();
+    }
 
-        tracks = new ObservableCollection<AlbumTrack>(form.ResultList);
+    private void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
+    {
+        tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
 
         tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 
-        lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
-
-        filteredTracks = tracks;
-
-        if (!string.IsNullOrWhiteSpace(tbSearch.Text))
+        Application.Instance.Invoke(() =>
         {
-            filteredTracks =
-                new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
-                    .ToList());
-        }
+            lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
 
-        gvAudioTracks.DataStore = filteredTracks;
+            filteredTracks = tracks;
+
+            if (!string.IsNullOrWhiteSpace(tbSearch.Text))
+            {
+                filteredTracks =
+                    new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                        .ToList());
+            }
+
+            gvAudioTracks.DataStore = filteredTracks;
+            lbLoadingText.Visible = false;
+            progressLoading.Visible = false;
+            if (queryDivider != null)
+            {
+                queryDivider.ProgressChanged -= QueryDivider_ProgressChanged;
+                queryDivider.QueryCompleted -= QueryDivider_QueryCompleted;
+            }
+
+            Enabled = true;
+        });
+    }
+
+    private void QueryDivider_ProgressChanged(object? sender, QueryProgressChangedEventArgs e)
+    {
+        Application.Instance.Invoke(() =>
+        {
+            lbLoadingText.Text = string.Format(Messages.LoadingPercentage, e.CurrentPercentage);
+            progressLoading.Value = e.CurrentCount;
+        });
     }
 
     private void AssignSettings()

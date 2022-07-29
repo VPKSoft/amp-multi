@@ -381,6 +381,8 @@ partial class FormMain
                         new Panel { Width = Globals.DefaultPadding,},
                         lbQueueCountValue,
                         new Panel { Width = Globals.DefaultPadding,},
+                        lbLoadingText,
+                        progressLoading,
                         new TableCell(lbStatusMessage) { ScaleWidth = true,},
                     },
                 },
@@ -427,4 +429,6 @@ partial class FormMain
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
     private readonly Label lbQueueCountValue = new();
     private readonly Label lbStatusMessage = new();
+    private readonly Label lbLoadingText = new() { Text = Messages.LoadingPercentage, Visible = false, };
+    private readonly ProgressBar progressLoading = new() { Visible = false, };
 }

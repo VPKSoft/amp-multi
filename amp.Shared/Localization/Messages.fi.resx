@@ -127,4 +127,7 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Varmistus</value>
   </data>
+  <data name="LoadingPercentage" xml:space="preserve">
+    <value>Latataan {0:F1} %</value>
+  </data>
 </root>
