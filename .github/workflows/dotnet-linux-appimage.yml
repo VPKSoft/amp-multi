@@ -2,7 +2,7 @@ name: .NET Core Linux AppImage
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "linux_deploy_branch" ]
     paths-ignore:
       - '**/*.md'
 
@@ -20,7 +20,7 @@ jobs:
         run: "$GITHUB_WORKSPACE/Packaging/Linux/AppImage/release.sh"      
         
       - name: Upload AppImage
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: amp# AppImage image
           path: ${{ github.workspace }}/Packaging/Linux/AppImage/amp#-x86_64.AppImage
