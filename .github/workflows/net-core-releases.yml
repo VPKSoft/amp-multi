@@ -1,0 +1,27 @@
+name: .NET Core Releases
+
+on:
+  release:
+    types: [published]
+    branches: [ "master" ]   
+
+jobs:
+ release-linux:
+    environment: BinRelease
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x          
+      - name: Dotnet publish
+        run: |
+          cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
+          ./release.sh
+      - name: Release
+        uses: softprops/action-gh-release@v1        
+        with:
+          files: ${{ github.workspace }}/Packaging/Linux/AppImage/amp#-x86_64.AppImage
+          token: ${{ secrets.RELEASE_TOKEN }}
