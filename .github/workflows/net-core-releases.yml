@@ -77,7 +77,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"
+      run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Publish
       run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
     - name: Create installer # Go give it a star(!): https://github.com/marketplace/actions/makensis
