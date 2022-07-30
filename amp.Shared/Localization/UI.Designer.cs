@@ -647,6 +647,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}/{1}.
+        /// </summary>
+        public static string NumberOfNumber {
+            get {
+                return ResourceManager.GetString("NumberOfNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {

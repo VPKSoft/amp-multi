@@ -461,4 +461,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="Loading0Percentage" xml:space="preserve">
     <value>Ladataan {0} prosenttia...</value>
   </data>
+  <data name="NumberOfNumber" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
 </root>

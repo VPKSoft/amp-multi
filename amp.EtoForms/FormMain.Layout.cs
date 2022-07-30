@@ -381,6 +381,10 @@ partial class FormMain
                         new Panel { Width = Globals.DefaultPadding,},
                         lbQueueCountValue,
                         new Panel { Width = Globals.DefaultPadding,},
+                        lbTrackCount,
+                        new Panel { Width = Globals.DefaultPadding,},
+                        lbTrackCountValue,
+                        new Panel { Width = Globals.DefaultPadding,},
                         lbLoadingText,
                         progressLoading,
                         new TableCell(lbStatusMessage) { ScaleWidth = true,},
@@ -426,9 +430,13 @@ partial class FormMain
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private ComboBox cmbAlbumSelect = new();
     private CheckedButton btnStackQueueToggle;
+
+    // Status bar controls:
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
     private readonly Label lbQueueCountValue = new();
     private readonly Label lbStatusMessage = new();
     private readonly Label lbLoadingText = new() { Text = Messages.LoadingPercentage, Visible = false, };
     private readonly ProgressBar progressLoading = new() { Visible = false, };
+    private readonly Label lbTrackCount = new() { Text = UI.Tracks, };
+    private readonly Label lbTrackCountValue = new();
 }

@@ -140,7 +140,7 @@ partial class FormMain
             FilterTracks();
         }
 
-        lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
+        UpdateCounters();
     }
 
     private QueryDivider<AlbumTrack>? queryDivider;
@@ -167,47 +167,6 @@ partial class FormMain
         queryDivider.ProgressChanged += QueryDivider_ProgressChanged;
         queryDivider.QueryCompleted += QueryDivider_QueryCompleted;
         queryDivider.RunQueryTasks();
-    }
-
-    private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
-    {
-        tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
-
-        tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
-
-        await Application.Instance.InvokeAsync(() =>
-        {
-            lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
-
-            filteredTracks = tracks;
-
-            if (!string.IsNullOrWhiteSpace(tbSearch.Text))
-            {
-                filteredTracks =
-                    new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
-                        .ToList());
-            }
-
-            gvAudioTracks.DataStore = filteredTracks;
-            lbLoadingText.Visible = false;
-            progressLoading.Visible = false;
-            if (queryDivider != null)
-            {
-                queryDivider.ProgressChanged -= QueryDivider_ProgressChanged;
-                queryDivider.QueryCompleted -= QueryDivider_QueryCompleted;
-            }
-
-            Enabled = true;
-        });
-    }
-
-    private async void QueryDivider_ProgressChanged(object? sender, QueryProgressChangedEventArgs e)
-    {
-        await Application.Instance.InvokeAsync(() =>
-        {
-            lbLoadingText.Text = string.Format(Messages.LoadingPercentage, e.CurrentPercentage);
-            progressLoading.Value = e.CurrentCount;
-        });
     }
 
     private void AssignSettings()
@@ -295,6 +254,7 @@ SOFTWARE.
             }
 
             gvAudioTracks.DataStore = filteredTracks;
+            UpdateCounters();
         });
     }
 
@@ -382,5 +342,11 @@ SOFTWARE.
 
             tmMessageQueueTimer.Enabled = true;
         });
+    }
+
+    private void UpdateCounters()
+    {
+        lbTrackCountValue.Text = string.Format(UI.NumberOfNumber, filteredTracks.Count, tracks.Count);
+        lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
     }
 }
