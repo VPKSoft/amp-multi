@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\dotnet-macos-app-bundle.yml = .github\workflows\dotnet-macos-app-bundle.yml
 		.github\workflows\linux_windows_and_macos_dotnet.yml = .github\workflows\linux_windows_and_macos_dotnet.yml
 		.github\workflows\dotnet-linux-appimage.yml = .github\workflows\dotnet-linux-appimage.yml
+		.github\workflows\net-core-releases.yml = .github\workflows\net-core-releases.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amp.Database", "amp.Database\amp.Database.csproj", "{62990815-A9AD-4269-B01C-848B0F908DEF}"
