@@ -17,7 +17,9 @@ jobs:
         with:
           dotnet-version: 6.0.x          
       - name: Dotnet publish
-        run: "$GITHUB_WORKSPACE/Packaging/Linux/AppImage/release.sh"      
+        run: |
+          cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
+          ./release.sh
         
       - name: Upload AppImage
         uses: actions/upload-artifact@v3
