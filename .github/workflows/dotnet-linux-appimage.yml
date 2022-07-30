@@ -2,7 +2,7 @@ name: .NET Core Linux AppImage
 
 on:
   push:
-    branches: [ "master", "linux_deploy_branch" ]
+    branches: [ "master" ]
     paths-ignore:
       - '**/*.md'
 
