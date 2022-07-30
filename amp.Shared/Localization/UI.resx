@@ -461,4 +461,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="Loading0Percentage" xml:space="preserve">
     <value>Loading {0} percentage...</value>
   </data>
+  <data name="NumberOfNumber" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
 </root>

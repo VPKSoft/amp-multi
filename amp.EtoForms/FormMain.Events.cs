@@ -24,8 +24,11 @@ SOFTWARE.
 */
 #endregion
 
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using amp.Database.DataModel;
+using amp.Database.QueryHelpers;
+using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.EventArguments;
 using amp.EtoForms.Utilities;
@@ -543,5 +546,45 @@ partial class FormMain
                 }
             }
         }
+    }
+
+    private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<Models.AlbumTrack> e)
+    {
+        tracks = new ObservableCollection<Models.AlbumTrack>(e.ResultList);
+
+        tracks = new ObservableCollection<Models.AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
+
+        await Application.Instance.InvokeAsync(() =>
+        {
+            filteredTracks = tracks;
+
+            if (!string.IsNullOrWhiteSpace(tbSearch.Text))
+            {
+                filteredTracks =
+                    new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                        .ToList());
+            }
+
+            gvAudioTracks.DataStore = filteredTracks;
+            lbLoadingText.Visible = false;
+            progressLoading.Visible = false;
+            if (queryDivider != null)
+            {
+                queryDivider.ProgressChanged -= QueryDivider_ProgressChanged;
+                queryDivider.QueryCompleted -= QueryDivider_QueryCompleted;
+            }
+
+            UpdateCounters();
+            Enabled = true;
+        });
+    }
+
+    private async void QueryDivider_ProgressChanged(object? sender, QueryProgressChangedEventArgs e)
+    {
+        await Application.Instance.InvokeAsync(() =>
+        {
+            lbLoadingText.Text = string.Format(Messages.LoadingPercentage, e.CurrentPercentage);
+            progressLoading.Value = e.CurrentCount;
+        });
     }
 }
