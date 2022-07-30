@@ -25,6 +25,8 @@ SOFTWARE.
 #endregion
 
 global using System;
+using System.Diagnostics;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
@@ -44,15 +46,28 @@ public static class Program
     // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
     static void Main(string[] args)
     {
-        Thread.CurrentThread.CurrentUICulture =
-            Thread.CurrentThread.CurrentCulture;
+        CheckApplicationRunning.ExceptionAction = delegate (Exception exception)
+        {
+            Globals.Logger?.Error(exception, "");
+        };
 
-        Shared.Globals.Locale = Globals.Settings.Locale;
-        LocalizeExternals();
+        if (!CheckApplicationRunning.CheckIfRunning("VPKSoft.amp#.amp.EtoForms"))
+        {
+            Thread.CurrentThread.CurrentUICulture =
+                Thread.CurrentThread.CurrentCulture;
+
+            Shared.Globals.Locale = Globals.Settings.Locale;
+            LocalizeExternals();
 #if OSX
 Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowClosingMainForm = true);
 #endif
-        new Application().Run(new FormMain());
+            new Application().Run(new FormMain());
+        }
+        else
+        {
+            Globals.Logger?.Information("The application is already running.");
+            Process.GetCurrentProcess().Kill();
+        }
     }
 
     internal static void Instance_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
