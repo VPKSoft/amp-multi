@@ -18,9 +18,14 @@ A music player for common audio formats with a simple and intuitive GUI.
 ![image](https://user-images.githubusercontent.com/40712699/179740523-63f2d2ec-d9ad-4534-97ce-f88b9b4be6b2.png)
 
 ### Install
-**NOTE**: This is currently beta and no installation method exist for Linux yet.
+**NOTE**: This software is currently alpha stage.
+[Setup .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) if not working otherwise. Some packages are self-contained, others not.
 
-[Setup .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+#### Alpha-release for Linux, Windows and mac
+[Download](https://github.com/VPKSoft/amp-multi/releases) from releases:
+
+![image](https://user-images.githubusercontent.com/40712699/181908731-8e5f7f54-f82b-4081-805a-d09469d8be1b.png)
+
 #### Windows
 An installer from the master workflow action: 
 
@@ -38,6 +43,16 @@ An app bundle from the master workflow action:
 **Note**, you meed to clear the `com.apple.quarantine` extended attribute by running: 
 `xattr -c ./amp.EtoForms.app`
 
+#### Linux
+An [AppImage](https://appimage.org) from the master workflow action:
+
+[![.NET Core Linux AppImage](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-linux-appimage.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-linux-appimage.yml)
+
+![image](https://user-images.githubusercontent.com/40712699/181908605-29ed34db-86d0-4f73-bf9f-20baefe17edf.png)
+
+**Note**, as the AppImage is zipped, make it executable first by running:
+`chmod +x amp.-x86_64.AppImage`
+
 #### From source
 ```
 dotnet restore './amp multiplatform.sln'
@@ -54,6 +69,8 @@ dotnet run ./amp.EtoForms.csproj
 * [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons)
 * [FluentMigrator](https://github.com/fluentmigrator/fluentmigrator)
 * [ResX Resource Manager](https://github.com/dotnet/ResXResourceManager)
+* [action gh-release](https://github.com/softprops/action-gh-release)
+* [Nullsoft scriptable install system GitHub action](https://github.com/joncloud/makensis-action)
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
 
 
