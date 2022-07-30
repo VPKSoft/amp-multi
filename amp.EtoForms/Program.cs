@@ -46,12 +46,9 @@ public static class Program
     // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
     static void Main(string[] args)
     {
-        CheckApplicationRunning.ExceptionAction = delegate (Exception exception)
-        {
-            Globals.Logger?.Error(exception, "");
-        };
-
-        if (!CheckApplicationRunning.CheckIfRunning("VPKSoft.amp#.amp.EtoForms"))
+        var processes = System.Diagnostics.Process.GetProcessesByName("amp.EtoForms");
+        
+        if (processes.All(f => f.Id == Environment.ProcessId))
         {
             Thread.CurrentThread.CurrentUICulture =
                 Thread.CurrentThread.CurrentCulture;
