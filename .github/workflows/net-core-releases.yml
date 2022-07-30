@@ -15,7 +15,9 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 6.0.x          
+          dotnet-version: 6.0.x      
+      - name: Restore dependencies
+        run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"          
       - name: Dotnet publish
         run: |
           cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
@@ -27,10 +29,10 @@ jobs:
           token: ${{ secrets.RELEASE_TOKEN }}
 
  release-macos:
-    environment: BinRelease
-    runs-on: macos-latest
+  environment: BinRelease
+  runs-on: macos-latest
 
-    steps:
+  steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
@@ -59,3 +61,32 @@ jobs:
       with:
         files: ${{ github.workspace }}/Packaging/amp.EtoForms.zip
         token: ${{ secrets.RELEASE_TOKEN }}
+
+ release-windows:
+  environment: BinRelease
+  runs-on: windows-latest
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"
+    - name: Publish
+      run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
+    - name: Create installer # Go give it a star(!): https://github.com/marketplace/actions/makensis
+      uses: joncloud/makensis-action@v3.7
+      with:
+        arguments: "/V3"
+        script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp#.nsi
+    - name: Release
+      uses: softprops/action-gh-release@v1        
+      with:
+        files: ${{ github.workspace }}/Packaging/Windows/setup_amp#.nsi
+        token: ${{ secrets.RELEASE_TOKEN }}        
