@@ -83,11 +83,48 @@ internal static class AlbumTrackMethods
             var newName = dialog.ShowModal(owner);
             var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
             updateTrack.OverrideName = newName;
+            updateTrack.ModifiedAtUtc = DateTime.UtcNow;
             albumTrack.AudioTrack!.OverrideName = newName;
 
             gridView.ReloadData(gridView.SelectedRow);
 
             await context.SaveChangesAsync();
         }
+    }
+
+    /// <summary>
+    /// Updates the track volume.
+    /// </summary>
+    /// <param name="albumTrack">The album track which audio track volume to update.</param>
+    /// <param name="context">The amp# database context.</param>
+    /// <param name="volume">The new volume value.</param>
+    public static async Task UpdateTrackVolume(AlbumTrack albumTrack, AmpContext context, double volume)
+    {
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
+            updateTrack.PlaybackVolume = volume;
+            updateTrack.ModifiedAtUtc = DateTime.UtcNow;
+            albumTrack.AudioTrack!.PlaybackVolume = volume;
+            await context.SaveChangesAsync();
+        });
+    }
+
+    /// <summary>
+    /// Updates the track rating.
+    /// </summary>
+    /// <param name="albumTrack">The album track which audio track rating to update.</param>
+    /// <param name="context">The amp# database context.</param>
+    /// <param name="trackRating">The new track rating.</param>
+    public static async Task UpdateTrackRating(AlbumTrack albumTrack, AmpContext context, int trackRating)
+    {
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
+            updateTrack.Rating = trackRating;
+            updateTrack.ModifiedAtUtc = DateTime.UtcNow;
+            albumTrack.AudioTrack!.Rating = trackRating;
+            await context.SaveChangesAsync();
+        });
     }
 }

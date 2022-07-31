@@ -227,8 +227,11 @@ partial class FormMain
         {
             var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
             trackVolumeSlider.SuspendEventInvocation = true;
+            trackRatingSlider.SuspendEventInvocation = true;
             trackVolumeSlider.Value = track?.AudioTrack?.PlaybackVolume * 100 ?? 100;
+            trackRatingSlider.Value = track?.AudioTrack?.Rating ?? 500;
             trackVolumeSlider.SuspendEventInvocation = false;
+            trackRatingSlider.SuspendEventInvocation = false;
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
 
             var dataSource = gvAudioTracks.DataStore.Cast<Models.AlbumTrack>().ToList();
@@ -616,5 +619,41 @@ partial class FormMain
             lbLoadingText.Text = string.Format(Messages.LoadingPercentage, e.CurrentPercentage);
             progressLoading.Value = e.CurrentCount;
         });
+    }
+
+    private void TrackVolumeSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
+    {
+        playbackManager.PlaybackVolume = e.Value / 100.0;
+    }
+
+    private void TotalVolumeSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
+    {
+        var volume = e.Value / 100.0;
+        playbackManager.MasterVolume = volume;
+        Globals.Settings.MasterVolume = volume;
+        Globals.SaveSettings();
+    }
+
+    private async void PlaybackManager_TrackVolumeChanged(object? sender, TrackVolumeChangedEventArgs e)
+    {
+        var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
+        if (track != null)
+        {
+            await AlbumTrackMethods.UpdateTrackVolume(track, context, e.TrackVolume);
+        }
+    }
+
+    private void TrackRatingSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
+    {
+        playbackManager.Rating = (int)e.Value;
+    }
+
+    private async void PlaybackManager_TrackRatingChanged(object? sender, Playback.EventArguments.TrackRatingChangedEventArgs e)
+    {
+        var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
+        if (track != null)
+        {
+            await AlbumTrackMethods.UpdateTrackRating(track, context, e.TrackRating);
+        }
     }
 }

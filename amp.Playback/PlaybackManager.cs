@@ -136,7 +136,11 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 playbackFailed = true;
                 return;
             }
+
+            suspendPropertyEvents = true;
             PlaybackVolume = track.AudioTrack.PlaybackVolume;
+            Rating = track.AudioTrack.Rating ?? 500;
+            suspendPropertyEvents = false;
             trackChanged = previousTrackId != track.AudioTrackId;
 
             if (trackChanged)
@@ -220,6 +224,16 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     public event EventHandler<TrackChangedArgs>? TrackChanged;
 
     /// <summary>
+    /// Occurs when the track volume has been changed.
+    /// </summary>
+    public event EventHandler<TrackVolumeChangedEventArgs>? TrackVolumeChanged;
+
+    /// <summary>
+    /// Occurs when the track rating has been changed.
+    /// </summary>
+    public event EventHandler<TrackRatingChangedEventArgs>? TrackRatingChanged;
+
+    /// <summary>
     /// Occurs when the playback state changed.
     /// </summary>
     /// <remarks>The event subscription code must be thread-safe as it gets invoked from another thread.</remarks>
@@ -252,6 +266,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     private volatile bool playbackFailed;
     private volatile int retryBeforeStopCount;
     private volatile int errorCount;
+    private volatile bool suspendPropertyEvents;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     private double previousPosition;
@@ -266,6 +281,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     private double previousDuration;
     private double skippedEarlyPercentage = 65;
     private volatile Errors lastError;
+    private volatile int rating;
 
     /// <summary>
     /// Gets or sets the count to retry failed playback before stop trying.
@@ -287,6 +303,8 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
         {
             playedTrackIds.Reset();
         }
+
+        PreviousTrackId = 0;
     }
 
     /// <summary>
@@ -400,10 +418,35 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 try
                 {
                     Bass.ChannelSetAttribute(currentStreamHandle, ChannelAttribute.Volume, value * masterVolume);
+                    if (previousTrackId != 0 && !suspendPropertyEvents)
+                    {
+                        TrackVolumeChanged?.Invoke(this, new TrackVolumeChangedEventArgs(value, PreviousTrackId));
+                    }
                 }
                 catch (Exception ex)
                 {
                     logger?.Error(ex, "");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the rating of the current track.
+    /// </summary>
+    /// <value>The rating of the current track.</value>
+    public int Rating
+    {
+        get => rating;
+
+        set
+        {
+            if (rating != value)
+            {
+                rating = value;
+                if (previousTrackId != 0 && !suspendPropertyEvents)
+                {
+                    TrackRatingChanged?.Invoke(this, new TrackRatingChangedEventArgs(value, PreviousTrackId));
                 }
             }
         }
