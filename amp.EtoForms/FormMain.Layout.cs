@@ -49,6 +49,7 @@ partial class FormMain
             {
                 CurrentAlbumId = id.Value;
                 RefreshCurrentAlbum();
+                playbackManager.ResetPlaybackHistory();
             }
 
             return Task.CompletedTask;
@@ -103,24 +104,8 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(trackVolumeSlider), nameof(totalVolumeSlider))]
     private Control CreateValueSliders()
     {
-        trackVolumeSlider = new VolumeSlider((_, args) =>
-            {
-                playbackManager.PlaybackVolume = args.Value / 100.0;
-            })
-        { Maximum = 300, };
-
-        totalVolumeSlider = new VolumeSlider((_, args) =>
-            {
-                var volume = args.Value / 100.0;
-                playbackManager.MasterVolume = volume;
-                Globals.Settings.MasterVolume = volume;
-                Globals.SaveSettings();
-            })
-        { Maximum = 100, ColorSlider = Colors.CornflowerBlue, };
-
         var tableLayout = new TableLayout
         {
             Rows =
@@ -152,7 +137,7 @@ partial class FormMain
                     {
                         new TableCell(new Label { Text = UI.Rating, VerticalAlignment = VerticalAlignment.Center, Height = 40,}),
                         new Panel { Width = Globals.DefaultPadding,},
-                        new TableCell(new RatingSlider { Value = 50,}, true),
+                        new TableCell(trackRatingSlider, true),
                     },
                 },
             },
@@ -401,8 +386,9 @@ partial class FormMain
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
     private readonly Label lbTracksTitle = new();
-    private VolumeSlider trackVolumeSlider;
-    private VolumeSlider totalVolumeSlider;
+    private readonly VolumeSlider trackVolumeSlider = new() { Maximum = 300, };
+    private readonly VolumeSlider totalVolumeSlider = new() { Maximum = 100, ColorSlider = Colors.CornflowerBlue, };
+    private readonly RatingSlider trackRatingSlider = new() { Maximum = 1000, Value = 500, };
     private readonly Command commandPlayPause = new();
     private readonly Command nextAudioTrackCommand = new();
     private CheckedButton btnShuffleToggle;

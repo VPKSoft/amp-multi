@@ -286,6 +286,8 @@ SOFTWARE.
         playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
         playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
         playbackManager.PlaybackError += PlaybackManager_PlaybackError;
+        playbackManager.TrackVolumeChanged += PlaybackManager_TrackVolumeChanged;
+        playbackManager.TrackRatingChanged += PlaybackManager_TrackRatingChanged;
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdleChanged;
         idleChecker.UserActivated += IdleChecker_UserIdleChanged;
@@ -296,6 +298,9 @@ SOFTWARE.
         gvAudioTracks.ColumnOrderChanged += GvAudioTracks_ColumnOrderChanged;
         btnStackQueueToggle.CheckedChange += BtnStackQueueToggle_CheckedChange;
         tmMessageQueueTimer.Elapsed += TmMessageQueueTimer_Elapsed;
+        trackVolumeSlider.ValueChanged += TrackVolumeSlider_ValueChanged;
+        totalVolumeSlider.ValueChanged += TotalVolumeSlider_ValueChanged;
+        trackRatingSlider.ValueChanged += TrackRatingSlider_ValueChanged;
         tmMessageQueueTimer.Start();
     }
 
