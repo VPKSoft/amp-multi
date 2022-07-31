@@ -272,15 +272,14 @@ SOFTWARE.
     private void AssignEventListeners()
     {
         btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
+        btnRepeatToggle.CheckedChange += BtnRepeatToggle_CheckedChange;
         btnPlayPause.CheckedChange += PlayPauseToggle;
         nextAudioTrackCommand.Executed += NextAudioTrackCommand_Executed;
         tbSearch.TextChanged += TbSearch_TextChanged;
         gvAudioTracks.MouseDoubleClick += GvAudioTracksMouseDoubleClick;
         Closing += FormMain_Closing;
         Closed += OnClosed;
-        KeyDown += FormMain_KeyDown;
-        gvAudioTracks.KeyDown += FormMain_KeyDown;
-        tbSearch.KeyDown += FormMain_KeyDown;
+        AttachDetachKeyDownHandler(true);
         playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
         playbackManager.TrackChanged += PlaybackManagerTrackChanged;
         playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
@@ -348,5 +347,26 @@ SOFTWARE.
     {
         lbTrackCountValue.Text = string.Format(UI.NumberOfNumber, filteredTracks.Count, tracks.Count);
         lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
+    }
+
+    private void AttachDetachKeyDownHandler(bool attach)
+    {
+        AttachDetachKeyDownListeners(this, FormMain_KeyDown, attach);
+        foreach (var control in Children)
+        {
+            AttachDetachKeyDownListeners(control, FormMain_KeyDown, attach);
+        }
+    }
+
+    private static void AttachDetachKeyDownListeners(Control control, EventHandler<KeyEventArgs> eventHandler, bool attach)
+    {
+        if (attach)
+        {
+            control.KeyDown += eventHandler;
+        }
+        else
+        {
+            control.KeyDown -= eventHandler;
+        }
     }
 }

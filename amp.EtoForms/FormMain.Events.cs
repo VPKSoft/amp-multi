@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
+using amp.EtoForms.Classes;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.EventArguments;
@@ -54,7 +55,7 @@ partial class FormMain
     {
         if (Equals(sender, tbSearch))
         {
-            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal)
+            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or Keys.F2)
             {
                 if (gvAudioTracks.SelectedItem == null && gvAudioTracks.DataStore.Any())
                 {
@@ -63,6 +64,14 @@ partial class FormMain
                 gvAudioTracks.Focus();
                 e.Handled = true;
             }
+            return;
+        }
+
+        if (e.Key == Keys.Escape)
+        {
+            tbSearch.Focus();
+            tbSearch.Text = string.Empty;
+            e.Handled = true;
             return;
         }
 
@@ -95,6 +104,22 @@ partial class FormMain
                 e.Handled = true;
                 return;
             }
+        }
+
+        if (e.Key == Keys.Delete)
+        {
+            await gvAudioTracks.DeleteSongs(context, tracks, FilterTracks);
+
+            e.Handled = true;
+            return;
+        }
+
+        if (e.Key == Keys.F2)
+        {
+            await gvAudioTracks.RenameTrack(context, this);
+
+            e.Handled = true;
+            return;
         }
 
         if (e.Modifiers == Keys.None)
@@ -264,6 +289,11 @@ partial class FormMain
     private void BtnShuffleToggle_CheckedChange(object? sender, CheckedChangeEventArguments e)
     {
         playbackManager.Shuffle = e.Checked;
+    }
+
+    private void BtnRepeatToggle_CheckedChange(object? sender, CheckedChangeEventArguments e)
+    {
+        playbackManager.Repeat = e.Checked;
     }
 
     private async void PlayNextAudioTrackClick(object? sender, EventArgs e)
