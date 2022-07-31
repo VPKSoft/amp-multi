@@ -248,6 +248,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     private double volume = 1;
     private double masterVolume = 1;
     private volatile bool shuffle = true;
+    private volatile bool repeat = true;
     private volatile bool playbackFailed;
     private volatile int retryBeforeStopCount;
     private volatile int errorCount;
@@ -441,6 +442,17 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
         get => shuffle;
 
         set => shuffle = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether repeat mode is enabled for this <see cref="PlaybackManager{TAudioTrack, TAlbumTrack, TAlbum}"/>.
+    /// </summary>
+    /// <value><c>true</c> if repeat mode is enabled; otherwise, <c>false</c>.</value>
+    public bool Repeat
+    {
+        get => repeat;
+
+        set => repeat = value;
     }
 
     /// <summary>
@@ -762,7 +774,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 {
                     if (!skipPlaybackStateChange)
                     {
-                        if (previousPlaybackState == PlaybackState.Playing && playbackState == PlaybackState.Stopped)
+                        if (previousPlaybackState == PlaybackState.Playing && playbackState == PlaybackState.Stopped && repeat)
                         {
                             await PlayNextTrack(false);
                         }

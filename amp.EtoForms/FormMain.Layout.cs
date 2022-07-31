@@ -258,7 +258,6 @@ partial class FormMain
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
     {
-        // TODO::Make these buttons do something.
         btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
             Size16.ic_fluent_play_16_filled, Colors.Purple, Colors.Purple,
             Globals.ButtonDefaultSize);

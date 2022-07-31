@@ -152,9 +152,12 @@ public static class TrackDisplayNameGenerate
             }
         }
 
+        var matchNonAlpha = nonAlphabet.Match(formula);
+        var allNonAlphabets = matchNonAlpha.Value.Length == formula.Length;
+
         if (string.IsNullOrWhiteSpace(formula) ||
             formula.Trim().Length < MinimumTrackLength ||
-            (TrackNamingFallbackToFileNameWhenNoLetters && nonAlphabet.IsMatch(formula)))
+            (TrackNamingFallbackToFileNameWhenNoLetters && allNonAlphabets))
         {
             formula = Path.GetFileNameWithoutExtension(audioTrack.FileNameNoPath) ??
                       Path.GetFileNameWithoutExtension(Path.GetFileName(audioTrack.FileName));

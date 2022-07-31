@@ -26,7 +26,6 @@ SOFTWARE.
 
 global using System;
 using System.Diagnostics;
-using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
@@ -46,8 +45,18 @@ public static class Program
     // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
     static void Main(string[] args)
     {
-        var processes = System.Diagnostics.Process.GetProcessesByName("amp.EtoForms");
-        
+        var processes = Array.Empty<Process>();
+
+        try
+        {
+            Process.GetProcessesByName("amp.EtoForms");
+        }
+        catch (Exception ex)
+        {
+            Globals.Logger?.Error("Multi-instance process check failed.");
+            Globals.Logger?.Error(ex, string.Empty);
+        }
+
         if (processes.All(f => f.Id == Environment.ProcessId))
         {
             Thread.CurrentThread.CurrentUICulture =
