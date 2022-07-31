@@ -126,7 +126,7 @@ partial class FormMain
         {
             if (e.IsChar)
             {
-                tbSearch.Text = tbSearch.Text.Insert(tbSearch.CaretIndex, e.KeyChar.ToString());
+                tbSearch.Text = e.KeyChar.ToString();
                 tbSearch.CaretIndex++;
                 tbSearch.Focus();
                 e.Handled = true;
