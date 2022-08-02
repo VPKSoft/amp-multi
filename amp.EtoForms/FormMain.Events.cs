@@ -248,6 +248,7 @@ partial class FormMain
             }
 
             btnPreviousTrack.Enabled = playbackManager.CanGoPrevious;
+            spectrumAnalyzer.SignalProvider.SetChannel(e.BassHandle);
         });
     }
 

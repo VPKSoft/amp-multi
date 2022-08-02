@@ -794,6 +794,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                         PlaybackLength = duration,
                         PlaybackState = playbackState,
                         AudioTrackId = PreviousTrackId,
+                        BassHandle = currentStreamHandle,
                     });
             }
 

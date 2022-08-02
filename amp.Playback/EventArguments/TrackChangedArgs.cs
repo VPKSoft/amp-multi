@@ -33,4 +33,9 @@ namespace amp.Playback.EventArguments;
 /// <seealso cref="amp.Playback.EventArguments.PlaybackPositionChangedArgs" />
 public class TrackChangedArgs : PlaybackPositionChangedArgs
 {
+    /// <summary>
+    /// Gets or sets the native Bass handle for the track.
+    /// </summary>
+    /// <value>The native Bass handle.</value>
+    public int BassHandle { get; init; }
 }

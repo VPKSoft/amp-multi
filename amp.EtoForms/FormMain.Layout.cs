@@ -34,7 +34,10 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
+using EtoForms.SpectrumVisualizer;
 using FluentIcons.Resources.Filled;
+using ManagedBass;
+using ManagedBass.FftSignalProvider;
 
 namespace amp.EtoForms;
 
@@ -232,13 +235,18 @@ partial class FormMain
                 new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
+                //new StackLayoutItem(new Panel {Content = spectrumAnalyzer, Height = 150,}, HorizontalAlignment.Stretch),
                 CreateStatusBar(),
             },
             Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
         };
 
+        spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false);
+
         return result;
     }
+
+    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 100, Height = 150, };
 
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
