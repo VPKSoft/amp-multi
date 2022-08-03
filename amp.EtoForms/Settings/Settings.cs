@@ -243,6 +243,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value><c>true</c> if display playlist column headers; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
     public bool DisplayPlaylistHeader { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to display audio visualization when the music is playing.
+    /// </summary>
+    /// <value><c>true</c> if to display audio visualization; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool DisplayAudioVisualization { get; set; }
     #endregion
 
     #region Runtime    
@@ -255,7 +262,6 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     #endregion
 
     #region TrackNaming
-
     /// <summary>
     /// Gets or sets the track name formula.
     /// </summary>

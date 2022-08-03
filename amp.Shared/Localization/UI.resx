@@ -464,4 +464,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="NumberOfNumber" xml:space="preserve">
     <value>{0}/{1}</value>
   </data>
+  <data name="DisplayAudioVisualization" xml:space="preserve">
+    <value>Display audio visualization</value>
+  </data>
 </root>

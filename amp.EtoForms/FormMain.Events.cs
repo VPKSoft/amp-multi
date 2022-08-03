@@ -218,6 +218,7 @@ partial class FormMain
             btnPlayPause.CheckedChange -= PlayPauseToggle;
             btnPlayPause.Checked = e.PlaybackState == PlaybackState.Playing;
             btnPlayPause.CheckedChange += PlayPauseToggle;
+            audioVisualizationControl.Visible = e.PlaybackState == PlaybackState.Playing;
         });
     }
 
@@ -248,6 +249,8 @@ partial class FormMain
             }
 
             btnPreviousTrack.Enabled = playbackManager.CanGoPrevious;
+
+            spectrumAnalyzer.SignalProvider?.SetChannel(e.BassHandle);
         });
     }
 
@@ -648,7 +651,7 @@ partial class FormMain
         playbackManager.Rating = (int)e.Value;
     }
 
-    private async void PlaybackManager_TrackRatingChanged(object? sender, Playback.EventArguments.TrackRatingChangedEventArgs e)
+    private async void PlaybackManager_TrackRatingChanged(object? sender, TrackRatingChangedEventArgs e)
     {
         var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
         if (track != null)

@@ -143,6 +143,8 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
             suspendPropertyEvents = false;
             trackChanged = previousTrackId != track.AudioTrackId;
 
+            Bass.ChannelSetAttribute(currentStreamHandle, ChannelAttribute.Volume, volume * masterVolume);
+
             if (trackChanged)
             {
                 var playbackPercentage = PreviousPosition / PreviousDuration * 100;
@@ -352,7 +354,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 masterVolume = value;
                 try
                 {
-                    Bass.ChannelSetAttribute(currentStreamHandle, ChannelAttribute.Volume, value * masterVolume);
+                    Bass.ChannelSetAttribute(currentStreamHandle, ChannelAttribute.Volume, volume * masterVolume);
                 }
                 catch (Exception ex)
                 {
@@ -794,6 +796,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                         PlaybackLength = duration,
                         PlaybackState = playbackState,
                         AudioTrackId = PreviousTrackId,
+                        BassHandle = currentStreamHandle,
                     });
             }
 

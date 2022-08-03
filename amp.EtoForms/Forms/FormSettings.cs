@@ -104,6 +104,7 @@ public class FormSettings : Dialog<bool>
         cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
         nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
+        cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
 
         // Track title naming.
         tbTrackNamingFormula.Text = Globals.Settings.TrackNameFormula;
@@ -147,6 +148,7 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
 
         Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
+        Globals.Settings.DisplayAudioVisualization = cbDisplayAudioVisualization.Checked == true;
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
@@ -224,6 +226,7 @@ public class FormSettings : Dialog<bool>
                     cbAutoHideAlbumImage,
                     cbDisplayColumnHeaders,
                     retryCountRow,
+                    cbDisplayAudioVisualization,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -407,6 +410,7 @@ public class FormSettings : Dialog<bool>
     private CheckBox cbEnableQuietHours;
     private CheckBox cbPauseOnQuietHours;
     private CheckBox cbDecreaseVolumeOnQuietHours;
+    private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
     private TabPage tabCommon;
     private TabPage tabWeightedRandom;
     private TabPage tabTrackNaming;
