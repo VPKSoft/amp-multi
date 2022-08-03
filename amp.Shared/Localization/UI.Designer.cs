@@ -412,6 +412,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display audio visualization.
+        /// </summary>
+        public static string DisplayAudioVisualization {
+            get {
+                return ResourceManager.GetString("DisplayAudioVisualization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         public static string Duration {

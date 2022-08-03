@@ -464,4 +464,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="NumberOfNumber" xml:space="preserve">
     <value>{0}/{1}</value>
   </data>
+  <data name="DisplayAudioVisualization" xml:space="preserve">
+    <value>Näytä audiovisualisointi</value>
+  </data>
 </root>

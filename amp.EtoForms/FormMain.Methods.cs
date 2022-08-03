@@ -172,6 +172,7 @@ partial class FormMain
     private void AssignSettings()
     {
         formAlbumImage.AlwaysVisible = !Globals.Settings.AutoHideEmptyAlbumImage;
+        playbackManager.MasterVolume = Globals.Settings.MasterVolume;
     }
 
     private async Task UpdateAlbumDataSource()

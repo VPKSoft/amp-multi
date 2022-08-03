@@ -224,6 +224,17 @@ partial class FormMain
             AllowColumnReordering = true,
         };
 
+        audioVisualizationControl = Globals.Settings.DisplayAudioVisualization
+            ? new Panel
+            {
+                Content = spectrumAnalyzer,
+                Height = 100,
+                Padding = new Padding(Globals.DefaultPadding, 2),
+            }
+            : new Panel();
+
+        audioVisualizationControl.Visible = false;
+
         var result = new StackLayout
         {
             Items =
@@ -235,18 +246,21 @@ partial class FormMain
                 new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
-                //new StackLayoutItem(new Panel {Content = spectrumAnalyzer, Height = 150,}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = audioVisualizationControl, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 CreateStatusBar(),
             },
             Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
         };
 
-        spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false);
+        if (Globals.Settings.DisplayAudioVisualization)
+        {
+            spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false);
+        }
 
         return result;
     }
 
-    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 100, Height = 150, };
+    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 50, Height = 100, BackgroundColor = Colors.Black, };
 
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
@@ -423,6 +437,7 @@ partial class FormMain
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private ComboBox cmbAlbumSelect = new();
     private CheckedButton btnStackQueueToggle;
+    private Control audioVisualizationControl;
 
     // Status bar controls:
     private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
