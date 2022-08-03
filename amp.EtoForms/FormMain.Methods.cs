@@ -311,6 +311,8 @@ SOFTWARE.
         SizeChanged += FormMain_SizeLocationChanged;
         LocationChanged += FormMain_SizeLocationChanged;
         WindowStateChanged += FormMain_SizeLocationChanged;
+        timer.Elapsed += Timer_Elapsed;
+        timer.Interval = 2;
         tmMessageQueueTimer.Start();
     }
 

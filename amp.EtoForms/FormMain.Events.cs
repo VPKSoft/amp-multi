@@ -395,7 +395,9 @@ partial class FormMain
         CreateAlbumSelector();
         shownCalled = true;
         RefreshCurrentAlbum();
+        loadingPosition = true;
         positionSaveLoad.Load();
+        loadingPosition = false;
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
@@ -671,9 +673,19 @@ partial class FormMain
 
     private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
     {
-        if (shownCalled)
+        positionLastChanged = DateTime.Now;
+        timer.Start();
+    }
+
+    private void Timer_Elapsed(object? sender, EventArgs e)
+    {
+        if ((DateTime.Now - positionLastChanged).TotalSeconds > 10)
         {
-            positionSaveLoad.Save();
+            if (shownCalled && !loadingPosition)
+            {
+                timer.Stop();
+                positionSaveLoad.Save();
+            }
         }
     }
 }
