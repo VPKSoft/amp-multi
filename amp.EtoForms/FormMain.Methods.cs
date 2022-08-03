@@ -256,6 +256,11 @@ SOFTWARE.
 
             gvAudioTracks.DataStore = filteredTracks;
             UpdateCounters();
+
+            if (userIdle && !gvAudioTracks.HasFocus)
+            {
+                gvAudioTracks.Focus();
+            }
         });
     }
 

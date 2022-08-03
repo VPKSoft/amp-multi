@@ -82,6 +82,7 @@ partial class FormMain
                 selectedTracks.ToArray());
 
             e.Handled = true;
+            gvAudioTracks.Focus();
             return;
         }
 
@@ -241,6 +242,7 @@ partial class FormMain
             {
                 gvAudioTracks.SelectedRow = displayTrack;
                 gvAudioTracks.ScrollToRow(displayTrack);
+                gvAudioTracks.Focus();
             }
 
             if (track != null)
