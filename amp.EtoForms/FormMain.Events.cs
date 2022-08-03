@@ -673,6 +673,10 @@ partial class FormMain
 
     private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
     {
+        if (loadingPosition)
+        {
+            return;
+        }
         positionLastChanged = DateTime.Now;
         timer.Start();
     }
