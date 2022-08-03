@@ -324,6 +324,25 @@ partial class FormMain
         trackInfoCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
             Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
 
+        var addFilesSubMenu = new SubMenuItem
+        {
+            Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_collections_add_20_filled,
+                Globals.MenuImageDefaultSize),
+            Text = UI.AddMusicFiles,
+        };
+
+
+        if (!Globals.Settings.HideAddFilesToNonAlbum)
+        {
+            addFilesSubMenu.Items.Add(addFilesToDatabase);
+        }
+        addFilesSubMenu.Items.Add(addFilesToAlbum);
+        if (!Globals.Settings.HideAddFilesToNonAlbum)
+        {
+            addFilesSubMenu.Items.Add(addDirectoryToDatabase);
+        }
+        addFilesSubMenu.Items.Add(addDirectoryToAlbum);
+
         // create menu
         base.Menu = new MenuBar
         {
@@ -336,18 +355,7 @@ partial class FormMain
             ApplicationItems =
             {
                 // application (OS X) or file menu (others)
-                new SubMenuItem
-                {
-                    Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_collections_add_20_filled, Globals.MenuImageDefaultSize),
-                    Text = UI.AddMusicFiles,
-                    Items =
-                    {
-                        addFilesToDatabase,
-                        addFilesToAlbum,
-                        addDirectoryToDatabase,
-                        addDirectoryToAlbum,
-                    },
-                },
+                addFilesSubMenu,
                 manageAlbumsCommand,
                 trackInfoCommand,
                 settingsCommand,

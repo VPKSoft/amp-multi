@@ -291,5 +291,12 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value>The selected album reference identifier.</value>
     [Settings(Default = 1L)]
     public long SelectedAlbum { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to hide the add files menu items which do not add tracks to an album.
+    /// </summary>
+    /// <value><c>true</c> if to hide the menu items to add files to a database only; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool HideAddFilesToNonAlbum { get; set; }
     #endregion
 }
