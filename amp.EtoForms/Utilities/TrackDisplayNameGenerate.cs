@@ -133,6 +133,18 @@ public static class TrackDisplayNameGenerate
                     _ => null,
                 };
 
+                // Pad the track number smaller than 10.
+                if (formulaType.Value == FormulaType.TrackNo)
+                {
+                    if (int.TryParse(replaceValue, out var trackNumber))
+                    {
+                        if (trackNumber < 10)
+                        {
+                            replaceValue = $"{trackNumber:D2}";
+                        }
+                    }
+                }
+
                 if (match.Value.Contains(formulaType.Key) && !string.IsNullOrWhiteSpace(replaceValue))
                 {
                     formula = formula.Remove(match.Index, match.Length);

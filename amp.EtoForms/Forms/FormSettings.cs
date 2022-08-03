@@ -237,9 +237,7 @@ public class FormSettings : Dialog<bool>
         tbcSettings.Pages.Add(tabCommon);
     }
 
-    [MemberNotNull(
-        nameof(tabWeightedRandom)
-    )]
+    [MemberNotNull(nameof(tabWeightedRandom))]
     private void CreateSettingsTabRandom()
     {
         var spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding);
