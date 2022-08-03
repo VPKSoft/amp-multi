@@ -298,5 +298,12 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value><c>true</c> if to hide the menu items to add files to a database only; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
     public bool HideAddFilesToNonAlbum { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the audio and rating controls are expanded.
+    /// </summary>
+    /// <value><c>true</c> if the audio and rating controls are expanded; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool AudioAndRatingControlsExpanded { get; set; }
     #endregion
 }

@@ -107,7 +107,7 @@ partial class FormMain
         return result;
     }
 
-    private Control CreateValueSliders()
+    private Expander CreateValueSliders()
     {
         var tableLayout = new TableLayout
         {
@@ -154,10 +154,12 @@ partial class FormMain
             Header = new Label { Text = UI.SoundRating, },
         };
 
+        result.ExpandedChanged += Result_ExpandedChanged;
+
         return result;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider { Height = 20, };
@@ -246,7 +248,7 @@ partial class FormMain
                 new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
-                new StackLayoutItem(new Panel { Content = audioVisualizationControl, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = audioVisualizationControl,}, HorizontalAlignment.Stretch),
                 CreateStatusBar(),
             },
             Padding = new Padding(Globals.WindowBorderWidth, Globals.DefaultPadding),
@@ -254,7 +256,8 @@ partial class FormMain
 
         if (Globals.Settings.DisplayAudioVisualization)
         {
-            spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false);
+            spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false)
+            { WindowType = WindowType.Hanning, };
         }
 
         return result;
@@ -425,7 +428,7 @@ partial class FormMain
     private CheckedButton btnRepeatToggle;
     private CheckedButton btnShowQueue;
     private readonly StackLayout toolBar;
-    private readonly Control trackAdjustControls;
+    private readonly Expander trackAdjustControls;
     private PositionSlider playbackPosition;
     private Label lbPlaybackPosition;
     private readonly Command clearQueueCommand = new()
@@ -440,7 +443,7 @@ partial class FormMain
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
     private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
     private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, };
-    private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, };
+    private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, Shortcut = Keys.F3, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private ComboBox cmbAlbumSelect = new();
