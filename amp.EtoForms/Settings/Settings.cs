@@ -203,13 +203,6 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     public double MasterVolume { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected album reference identifier.
-    /// </summary>
-    /// <value>The selected album reference identifier.</value>
-    [Settings(Default = 1L)]
-    public long SelectedAlbum { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to automatically check for updates upon application startup.
     /// </summary>
     /// <value><c>true</c> if to automatically check for updates upon application startup; otherwise, <c>false</c>.</value>
@@ -289,5 +282,14 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value>The minimum length of the track naming title.</value>
     [Settings(Default = 5)]
     public int TrackNamingMinimumTitleLength { get; set; }
+    #endregion
+
+    #region PassiveSettings
+    /// <summary>
+    /// Gets or sets the selected album reference identifier.
+    /// </summary>
+    /// <value>The selected album reference identifier.</value>
+    [Settings(Default = 1L)]
+    public long SelectedAlbum { get; set; }
     #endregion
 }

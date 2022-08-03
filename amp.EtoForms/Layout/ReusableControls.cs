@@ -32,7 +32,7 @@ using Eto.Forms;
 namespace amp.EtoForms.Layout;
 internal static class ReusableControls
 {
-    public static ComboBox CreateAlbumSelectCombo(Func<long?, Task>? selectedValueChanged, AmpContext context)
+    public static ComboBox CreateAlbumSelectCombo(Func<long?, Task>? selectedValueChanged, AmpContext context, long selectAlbumId)
     {
         var cmbAlbumSelect = new ComboBox { ReadOnly = false, AutoComplete = true, };
         cmbAlbumSelect.ItemTextBinding = new PropertyBinding<string>(nameof(Album.AlbumName));
@@ -47,7 +47,7 @@ internal static class ReusableControls
             }
         };
 
-        UpdateAlbumDataSource(cmbAlbumSelect, context).Wait();
+        UpdateAlbumDataSource(cmbAlbumSelect, context, selectAlbumId).Wait();
 
         return cmbAlbumSelect;
     }

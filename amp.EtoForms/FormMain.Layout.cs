@@ -56,7 +56,7 @@ partial class FormMain
             }
 
             return Task.CompletedTask;
-        }, context);
+        }, context, Globals.Settings.SelectedAlbum);
 
         var imageView = new ImageView { Width = 20, Height = 20, };
         imageView.SizeChanged += delegate

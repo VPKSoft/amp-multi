@@ -87,7 +87,7 @@ public class FormSavedQueues : Dialog<bool>
             },
         };
 
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(SelectedValueChanged, context);
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(SelectedValueChanged, context, Globals.Settings.SelectedAlbum);
 
         gvAlbumQueues = new GridView
         {
