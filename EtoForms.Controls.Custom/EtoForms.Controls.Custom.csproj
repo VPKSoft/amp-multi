@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\amp.licenseheader" Link="amp.licenseheader" />
+		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -47,4 +47,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-</Project>
+		</Project>

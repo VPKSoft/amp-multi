@@ -33,6 +33,7 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
+using EtoForms.FormPositions;
 using AlbumTrack = amp.EtoForms.Models.AlbumTrack;
 using AudioTrack = amp.EtoForms.Models.AudioTrack;
 
@@ -58,6 +59,8 @@ public partial class FormMain : Form
         Title = "amp#";
 
         MinimumSize = new Size(550, 650);
+
+        positionSaveLoad = new FormSaveLoadPosition(this);
 
         playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings,
             Globals.Settings.StackQueueRandomPercentage, UpdateQueueFunc);
