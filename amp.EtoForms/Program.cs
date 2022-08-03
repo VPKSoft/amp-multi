@@ -28,6 +28,7 @@ global using System;
 using System.Diagnostics;
 using amp.Shared.Localization;
 using Eto.Forms;
+using EtoForms.FormPositions;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
 
 namespace amp.EtoForms;
@@ -64,6 +65,7 @@ public static class Program
 
             Shared.Globals.Locale = Globals.Settings.Locale;
             LocalizeExternals();
+            FormSaveLoadPosition.SavePath = Globals.DataFolder;
 #if OSX
 Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowClosingMainForm = true);
 #endif

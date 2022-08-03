@@ -308,6 +308,9 @@ SOFTWARE.
         trackVolumeSlider.ValueChanged += TrackVolumeSlider_ValueChanged;
         totalVolumeSlider.ValueChanged += TotalVolumeSlider_ValueChanged;
         trackRatingSlider.ValueChanged += TrackRatingSlider_ValueChanged;
+        SizeChanged += FormMain_SizeLocationChanged;
+        LocationChanged += FormMain_SizeLocationChanged;
+        WindowStateChanged += FormMain_SizeLocationChanged;
         tmMessageQueueTimer.Start();
     }
 

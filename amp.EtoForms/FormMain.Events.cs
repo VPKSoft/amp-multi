@@ -395,6 +395,7 @@ partial class FormMain
         CreateAlbumSelector();
         shownCalled = true;
         RefreshCurrentAlbum();
+        positionSaveLoad.Load();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
@@ -666,5 +667,13 @@ partial class FormMain
     {
         Globals.Settings.AudioAndRatingControlsExpanded = trackAdjustControls.Expanded;
         Globals.SaveSettings();
+    }
+
+    private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
+    {
+        if (shownCalled)
+        {
+            positionSaveLoad.Save();
+        }
     }
 }

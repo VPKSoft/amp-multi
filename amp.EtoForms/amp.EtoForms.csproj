@@ -46,7 +46,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
-		<PackageReference Include="EtoForms.SpectrumVisualizer" Version="1.0.2" />
+		<PackageReference Include="EtoForms.SpectrumVisualizer" Version="1.0.3" />
 		<PackageReference Include="FluentIcons.Resources" Version="1.0.1" />
 		<PackageReference Include="Serilog" Version="2.11.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -61,6 +61,7 @@
 		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
 		<ProjectReference Include="..\amp.Playback\amp.Playback.csproj" />
 		<ProjectReference Include="..\EtoForms.Controls.Custom\EtoForms.Controls.Custom.csproj" />
+		<ProjectReference Include="..\EtoForms.FormPositions\EtoForms.FormPositions.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

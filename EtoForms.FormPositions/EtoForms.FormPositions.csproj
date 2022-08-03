@@ -1,0 +1,27 @@
+﻿<Project Sdk="Eto.Forms/2.7.0">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<OutputType>Library</OutputType>
+		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Description>Form size and position libary for Eto.Forms.</Description>
+		<PackageProjectUrl>https://github.com/VPKSoft</PackageProjectUrl>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageTags>form;window;position;Eto.Forms</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<DocumentationFile>bin\$(Configuration)\EtoForms.FormPositions.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.1" />
+	</ItemGroup>
+
+</Project>

@@ -34,6 +34,7 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
+using EtoForms.FormPositions;
 using EtoForms.SpectrumVisualizer;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
@@ -458,4 +459,7 @@ partial class FormMain
     private readonly ProgressBar progressLoading = new() { Visible = false, };
     private readonly Label lbTrackCount = new() { Text = UI.Tracks, };
     private readonly Label lbTrackCountValue = new();
+
+    // Position
+    private readonly FormSaveLoadPosition positionSaveLoad;
 }
