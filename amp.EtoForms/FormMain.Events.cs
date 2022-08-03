@@ -661,4 +661,10 @@ partial class FormMain
             await AlbumTrackMethods.UpdateTrackRating(track, context, e.TrackRating);
         }
     }
+
+    private void Result_ExpandedChanged(object? sender, EventArgs e)
+    {
+        Globals.Settings.AudioAndRatingControlsExpanded = trackAdjustControls.Expanded;
+        Globals.SaveSettings();
+    }
 }
