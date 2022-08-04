@@ -221,8 +221,6 @@ partial class FormMain
                 },
             },
             ShowHeader = Globals.Settings.DisplayPlaylistHeader,
-            Height = 650,
-            Width = 550,
             AllowMultipleSelection = true,
             AllowColumnReordering = true,
         };
