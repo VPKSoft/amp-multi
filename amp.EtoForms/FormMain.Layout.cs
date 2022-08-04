@@ -463,6 +463,7 @@ partial class FormMain
     // Position
     private readonly FormSaveLoadPosition positionSaveLoad;
     private bool loadingPosition;
+    private bool positionsLoaded;
     private readonly UITimer timer = new();
     private DateTime positionLastChanged;
 }
