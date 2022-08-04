@@ -154,9 +154,10 @@ public class VolumeSlider : SliderBase
     #region InternalEvents
     internal override void Slider_SizeChanged(object? sender, EventArgs e)
     {
-        var sizeChanged = previousSize.Equals(base.Size);
+        var sizeChanged = !previousSize.Equals(base.Size);
         if (sizeChanged)
         {
+            previousSize = base.Size;
             speakerImage?.Dispose();
             speakerImage = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
                 Size16.ic_fluent_speaker_2_16_filled, SquareSize);

@@ -411,9 +411,10 @@ public abstract class SliderBase : Drawable
 
     internal virtual void Slider_SizeChanged(object? sender, EventArgs e)
     {
-        var sizeChanged = previousSize.Equals(base.Size);
+        var sizeChanged = !previousSize.Equals(base.Size);
         if (sizeChanged)
         {
+            previousSize = base.Size;
             sliderImage?.Dispose();
             sliderImage = EtoHelpers.ImageFromSvg(Colors.Teal, SliderImageSvg, RestAreaSize);
 
