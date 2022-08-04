@@ -398,6 +398,7 @@ partial class FormMain
         loadingPosition = true;
         positionSaveLoad.Load();
         loadingPosition = false;
+        positionsLoaded = true;
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
@@ -685,9 +686,11 @@ partial class FormMain
     {
         if ((DateTime.Now - positionLastChanged).TotalSeconds > 10)
         {
-            if (shownCalled && !loadingPosition)
+            // This can stop even if nothing is done.
+            // Setting a new position launches this again.
+            timer.Stop();
+            if (shownCalled && !loadingPosition && positionsLoaded)
             {
-                timer.Stop();
                 positionSaveLoad.Save();
             }
         }
