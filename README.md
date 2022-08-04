@@ -7,15 +7,15 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 *Windows*
 
-![image](https://user-images.githubusercontent.com/40712699/179715280-786dc9b4-1e95-4f51-80d7-8bd516b0696c.png)
+![image](https://user-images.githubusercontent.com/40712699/182876733-d9747871-d529-4a76-b051-f500075d7bfb.png)
 
 *macOS*
 
-![image](https://user-images.githubusercontent.com/40712699/179735086-3558eac2-968c-4938-bbbc-1e266b8a15f4.png)
+![image](https://user-images.githubusercontent.com/40712699/182877199-8977b660-12e9-478b-b00d-2da73ebdcbf2.png)
 
 *Linux*
 
-![image](https://user-images.githubusercontent.com/40712699/179740523-63f2d2ec-d9ad-4534-97ce-f88b9b4be6b2.png)
+![image](https://user-images.githubusercontent.com/40712699/182876794-49b58f59-8e9b-4fc4-82d5-00cac749e563.png)
 
 ### Install
 **NOTE**: This software is currently alpha stage.
