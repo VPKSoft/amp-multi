@@ -277,6 +277,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colors.
+        /// </summary>
+        public static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color settings.
+        /// </summary>
+        public static string ColorSettings {
+            get {
+                return ResourceManager.GetString("ColorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
         public static string Comment {
@@ -444,6 +462,15 @@ namespace amp.Shared.Localization {
         public static string EditTheQueueTracks {
             get {
                 return ResourceManager.GetString("EditTheQueueTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR: NO TEXT.
+        /// </summary>
+        public static string ERRORNOTEXT {
+            get {
+                return ResourceManager.GetString("ERRORNOTEXT", resourceCulture);
             }
         }
         

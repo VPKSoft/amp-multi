@@ -47,6 +47,13 @@ public class SvgImageButton : Button
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SvgImageButton"/> class.
+    /// </summary>
+    public SvgImageButton()
+    {
+    }
+
     private byte[]? image = Array.Empty<byte>();
     private Size imageSize;
     private Color? solidImageColor;

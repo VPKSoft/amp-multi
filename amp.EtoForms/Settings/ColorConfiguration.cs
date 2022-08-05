@@ -24,12 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Eto.Drawing;
 using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms.Settings;
@@ -42,9 +36,86 @@ namespace amp.EtoForms.Settings;
 public class ColorConfiguration : ApplicationJsonSettings
 {
     /// <summary>
-    /// Gets or sets the color of the play-pause toggle button.
+    /// Gets or sets the color of the window background.
     /// </summary>
-    /// <value>The color of the play-pause toggle button.</value>
-    [Settings(Default = "800080")] // Purple
-    public string PlayPauseButtonColor { get; set; } = string.Empty;
+    /// <value>The color of the window background.</value>
+    [Settings]
+    public string? WindowBackgroundColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default color of the button image.
+    /// </summary>
+    /// <value>The default color of the button image.</value>
+    [Settings(Default = "#4682B4")] // SteelBlue
+    public string ButtonImageDefaultColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the disabled button image.
+    /// </summary>
+    /// <value>The color of the disabled button image.</value>
+    [Settings(Default = "#B6BCB6")] // Gray-ish
+    public string DisabledButtonImageColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the menu item image.
+    /// </summary>
+    /// <value>The color of the menu item image.</value>
+    [Settings(Default = "#4682B4")] // SteelBlue
+    public string MenuItemImageColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the play-pause button play state.
+    /// </summary>
+    /// <value>The color of the play-pause button play state.</value>
+    [Settings(Default = "#800080")] // Purple
+    public string PlayButtonPlayColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the play-pause button pause state.
+    /// </summary>
+    /// <value>The color of the play-pause button pause state.</value>
+    [Settings(Default = "#800080")] // Purple
+    public string PlayButtonPauseColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the jump to previous button.
+    /// </summary>
+    /// <value>The color of the jump to previous button.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string PreviousButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the jump to next button.
+    /// </summary>
+    /// <value>The color of the jump to next button.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string NextButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the show queue button.
+    /// </summary>
+    /// <value>The color of the show queue button.</value>
+    [Settings(Default = "#502D16")] // Brown
+    public string QueueButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the shuffle button.
+    /// </summary>
+    /// <value>The color of the shuffle button.</value>
+    [Settings(Default = "#D4AA00")] // Orange-ish
+    public string ShuffleButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the repeat button.
+    /// </summary>
+    /// <value>The color of the repeat button.</value>
+    [Settings(Default = "#FF5555")] // Pink-ish
+    public string RepeatButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the stack queue button.
+    /// </summary>
+    /// <value>The color of the stack queue button.</value>
+    [Settings(Default = "#000080")] // Navy
+    public string StackQueueButtonColor { get; set; } = string.Empty;
 }
