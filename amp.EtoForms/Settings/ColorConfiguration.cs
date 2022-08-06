@@ -43,6 +43,13 @@ public class ColorConfiguration : ApplicationJsonSettings
     public string? WindowBackgroundColor { get; set; }
 
     /// <summary>
+    /// Gets or sets the color of the window text.
+    /// </summary>
+    /// <value>The color of the window text.</value>
+    [Settings]
+    public string? WindowTextColor { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the default color of the button image.
     /// </summary>
     /// <value>The default color of the button image.</value>
@@ -118,4 +125,46 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// <value>The color of the stack queue button.</value>
     [Settings(Default = "#000080")] // Navy
     public string StackQueueButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color speaker main volume image.
+    /// </summary>
+    /// <value>The color speaker main volume image.</value>
+    [Settings(Default = "#4682B4")] // SteelBlue
+    public string ColorSpeakerMainVolume { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color main volume slider.
+    /// </summary>
+    /// <value>The color main volume slider.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string ColorMainVolumeSlider { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color main volume value indicator.
+    /// </summary>
+    /// <value>The color main volume value indicator.</value>
+    [Settings(Default = "#000080")] // Navy
+    public string ColorMainVolumeValueIndicator { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color speaker track volume image.
+    /// </summary>
+    /// <value>The color speaker track volume image.</value>
+    [Settings(Default = "#4682B4")] // SteelBlue
+    public string ColorSpeakerTrackVolume { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color track volume slider.
+    /// </summary>
+    /// <value>The color track volume slider.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string ColorTrackVolumeSlider { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color track volume value indicator.
+    /// </summary>
+    /// <value>The color track volume value indicator.</value>
+    [Settings(Default = "#000080")] // Navy
+    public string ColorTrackVolumeValueIndicator { get; set; } = string.Empty;
 }

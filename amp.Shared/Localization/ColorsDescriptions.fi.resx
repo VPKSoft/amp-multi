@@ -133,4 +133,25 @@
   <data name="StackQueueButtonColor" xml:space="preserve">
     <value>Jatkuvan jonotuksen napin kuvakkeen väri</value>
   </data>
+  <data name="WindowTextColor" xml:space="preserve">
+    <value>Ikkunan tekstin väri</value>
+  </data>
+  <data name="ColorSpeakerMainVolume" xml:space="preserve">
+    <value>Äänenvoimakkuuden pääsäätimen kuvakkeen väri</value>
+  </data>
+  <data name="ColorMainVolumeSlider" xml:space="preserve">
+    <value>Äänenvoimakkuuden pääsäätimen arvoalueen väri</value>
+  </data>
+  <data name="ColorMainVolumeValueIndicator" xml:space="preserve">
+    <value>Äänenvoimakkuuden pääsäätimen indikaattorin väri</value>
+  </data>
+  <data name="ColorSpeakerTrackVolume" xml:space="preserve">
+    <value>Äänenvoimakkuuden kappalesäätimen kuvakkeen väri</value>
+  </data>
+  <data name="ColorTrackVolumeSlider" xml:space="preserve">
+    <value>Äänenvoimakkuuden kappalesäätimen kuvakkeen väri</value>
+  </data>
+  <data name="ColorTrackVolumeValueIndicator" xml:space="preserve">
+    <value>Äänenvoimakkuuden kappalesäätimen indikaattorin väri</value>
+  </data>
 </root>

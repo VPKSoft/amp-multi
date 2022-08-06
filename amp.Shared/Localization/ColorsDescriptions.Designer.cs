@@ -70,6 +70,60 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main volume slider .
+        /// </summary>
+        public static string ColorMainVolumeSlider {
+            get {
+                return ResourceManager.GetString("ColorMainVolumeSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main volume value indicator color.
+        /// </summary>
+        public static string ColorMainVolumeValueIndicator {
+            get {
+                return ResourceManager.GetString("ColorMainVolumeValueIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main volume slider image color.
+        /// </summary>
+        public static string ColorSpeakerMainVolume {
+            get {
+                return ResourceManager.GetString("ColorSpeakerMainVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track volume slider image color.
+        /// </summary>
+        public static string ColorSpeakerTrackVolume {
+            get {
+                return ResourceManager.GetString("ColorSpeakerTrackVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track volume slider image color.
+        /// </summary>
+        public static string ColorTrackVolumeSlider {
+            get {
+                return ResourceManager.GetString("ColorTrackVolumeSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track volume value indicator color.
+        /// </summary>
+        public static string ColorTrackVolumeValueIndicator {
+            get {
+                return ResourceManager.GetString("ColorTrackVolumeValueIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disabled button image color.
         /// </summary>
         public static string DisabledButtonImageColor {
@@ -165,6 +219,15 @@ namespace amp.Shared.Localization {
         public static string WindowBackgroundColor {
             get {
                 return ResourceManager.GetString("WindowBackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window text color.
+        /// </summary>
+        public static string WindowTextColor {
+            get {
+                return ResourceManager.GetString("WindowTextColor", resourceCulture);
             }
         }
     }

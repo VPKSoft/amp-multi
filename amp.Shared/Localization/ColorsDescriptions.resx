@@ -133,4 +133,25 @@
   <data name="StackQueueButtonColor" xml:space="preserve">
     <value>Stack queue button image color</value>
   </data>
+  <data name="WindowTextColor" xml:space="preserve">
+    <value>Window text color</value>
+  </data>
+  <data name="ColorSpeakerMainVolume" xml:space="preserve">
+    <value>Main volume slider image color</value>
+  </data>
+  <data name="ColorMainVolumeSlider" xml:space="preserve">
+    <value>Main volume slider </value>
+  </data>
+  <data name="ColorMainVolumeValueIndicator" xml:space="preserve">
+    <value>Main volume value indicator color</value>
+  </data>
+  <data name="ColorSpeakerTrackVolume" xml:space="preserve">
+    <value>Track volume slider image color</value>
+  </data>
+  <data name="ColorTrackVolumeSlider" xml:space="preserve">
+    <value>Track volume slider image color</value>
+  </data>
+  <data name="ColorTrackVolumeValueIndicator" xml:space="preserve">
+    <value>Track volume value indicator color</value>
+  </data>
 </root>
