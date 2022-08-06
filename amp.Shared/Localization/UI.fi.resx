@@ -479,4 +479,10 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ClearSearch" xml:space="preserve">
     <value>Tyhjennä haku</value>
   </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Työkalut</value>
+  </data>
+  <data name="ExportToFile" xml:space="preserve">
+    <value>Vie tiedostoon</value>
+  </data>
 </root>

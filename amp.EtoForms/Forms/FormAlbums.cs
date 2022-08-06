@@ -56,19 +56,21 @@ public class FormAlbums : Dialog<bool>
         this.context = context;
         Padding = Globals.DefaultPadding;
 
+        var color = Color.Parse(Globals.ColorConfiguration.ColorToolButtonImage);
+
         ToolBar = new ToolBar
         {
             Items =
             {
                 new ButtonToolItem(DeleteClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_delete_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_delete_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.DeleteAlbum,
                 },
                 new ButtonToolItem(AddClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_add_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_add_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.AddNewAlbum,
                 },

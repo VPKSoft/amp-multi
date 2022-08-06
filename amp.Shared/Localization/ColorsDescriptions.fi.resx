@@ -172,4 +172,22 @@
   <data name="ClearSearchButtonColor" xml:space="preserve">
     <value>Tyhjennä haku-napin kuvakkeen väri</value>
   </data>
+  <data name="MenuItemImageAlternateColor" xml:space="preserve">
+    <value>Valikon kuvakkeen vaihtoehtoinen väri</value>
+  </data>
+  <data name="ColorToolButtonImage" xml:space="preserve">
+    <value>Työkalunapin oletusväri</value>
+  </data>
+  <data name="ColorTrackMissingImage" xml:space="preserve">
+    <value>Kuvan väri, joka ilmaisee kappaleen puuttuvan kuvan</value>
+  </data>
+  <data name="ColorSpectrumVisualizerBackground" xml:space="preserve">
+    <value>Spektrivisualisoinnin taustan väri</value>
+  </data>
+  <data name="SpectrumChannel0StartColor" xml:space="preserve">
+    <value>Spektrikanavan  {0} alkuväri</value>
+  </data>
+  <data name="SpectrumChannel0EndColor" xml:space="preserve">
+    <value>Spektrikanavan  {0} loppuväri</value>
+  </data>
 </root>

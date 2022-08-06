@@ -700,4 +700,10 @@ partial class FormMain
     {
         tbSearch.Text = string.Empty;
     }
+
+    private void ColorSettingsCommand_Executed(object? sender, EventArgs e)
+    {
+        using var form = new FormColorSettings();
+        form.ShowModal(this);
+    }
 }

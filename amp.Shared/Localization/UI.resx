@@ -479,4 +479,10 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ClearSearch" xml:space="preserve">
     <value>Clear search</value>
   </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="ExportToFile" xml:space="preserve">
+    <value>Export to file</value>
+  </data>
 </root>

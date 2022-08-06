@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using amp.EtoForms.Forms;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
@@ -64,7 +65,7 @@ partial class FormMain
         {
             var wh = Math.Min(imageView.Width, imageView.Height);
             var size = new Size(wh, wh);
-            imageView.Image = EtoHelpers.ImageFromSvg(Colors.Orange, Size16.ic_fluent_music_note_2_16_filled,
+            imageView.Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.TheMusicNoteColor), Size16.ic_fluent_music_note_2_16_filled,
                 size);
         };
 
@@ -93,11 +94,10 @@ partial class FormMain
             {
                 btnPreviousTrack,
                 btnPlayPause,
-                new Button(PlayNextAudioTrackClick) { Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                new Button(PlayNextAudioTrackClick) { Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.NextButtonColor), Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 new Panel {Width =  Globals.DefaultPadding,},
                 btnShowQueue,
                 new Panel {Width =  Globals.DefaultPadding,},
-//                new Button((_, _) => { }) { Image = EtoHelpers.ImageFromSvg(Color.Parse("#D4AA00"), amp.EtoForms.Properties.Resources.shuffle_random_svgrepo_com_modified, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
                 btnShuffleToggle,
                 btnRepeatToggle,
                 new Panel {Width =  Globals.DefaultPadding,},
@@ -163,7 +163,12 @@ partial class FormMain
     [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl), nameof(btnClearSearch))]
     private StackLayout CreateMainContent()
     {
-        playbackPosition = new PositionSlider { Height = 20, };
+        playbackPosition = new PositionSlider
+        {
+            Height = 20,
+            ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorPositionSlider),
+            ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorPositionSliderValueIndicator),
+        };
 
         playbackPosition.ValueChanged += PlaybackPosition_ValueChanged;
 
@@ -236,7 +241,7 @@ partial class FormMain
 
         audioVisualizationControl.Visible = false;
 
-        btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Colors.DarkRed, Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
+        btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Color.Parse(Globals.ColorConfiguration.ClearSearchButtonColor), Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
 
         var result = new StackLayout
         {
@@ -279,73 +284,85 @@ partial class FormMain
         return result;
     }
 
-    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 50, Height = 100, BackgroundColor = Colors.Black, };
+    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 50, Height = 100, BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorSpectrumVisualizerBackground), };
 
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
     {
         btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
-            Size16.ic_fluent_play_16_filled, Colors.Purple, Colors.Purple,
+            Size16.ic_fluent_play_16_filled,
+            Color.Parse(Globals.ColorConfiguration.PlayButtonPauseColor),
+            Color.Parse(Globals.ColorConfiguration.PlayButtonPlayColor),
             Globals.ButtonDefaultSize);
 
         btnShuffleToggle = new CheckedButton(Resources.shuffle_random_svgrepo_com_modified,
-            Color.Parse("#D4AA00"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
+            Color.Parse(Globals.ColorConfiguration.ShuffleButtonColor),
+            Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize, true);
 
         btnShowQueue = new CheckedButton(Resources.queue_three_dots,
-                Color.Parse("#502D16"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize)
+                Color.Parse(Globals.ColorConfiguration.QueueButtonColor),
+                Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize)
         { ToolTip = UI.ShowQueue, };
 
         btnRepeatToggle = new CheckedButton(Resources.repeat_svgrepo_com_modified,
-            Color.Parse("#FF5555"), Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize, true);
+            Color.Parse(Globals.ColorConfiguration.RepeatButtonColor),
+            Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize, true);
 
         btnStackQueueToggle = new CheckedButton(Resources.stack_queue_three_dots,
-            Colors.Navy, Color.Parse("#B6BCB6"), Globals.ButtonDefaultSize);
+            Color.Parse(Globals.ColorConfiguration.StackQueueButtonColor),
+            Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize);
 
         btnPreviousTrack = new SvgImageButton(PlayPreviousClick)
         {
             Image = Size16.ic_fluent_previous_16_filled,
             ImageSize = Globals.ButtonDefaultSize,
-            SolidImageColor = Colors.Teal,
+            SolidImageColor = Color.Parse(Globals.ColorConfiguration.PreviousButtonColor),
             Enabled = false,
         };
     }
 
     private void CreateMenu()
     {
-        quitCommand.Image =
-            EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
+        var menuColor = Color.Parse(Globals.ColorConfiguration.MenuItemImageColor);
+        var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor); // TODO!!
 
-        aboutCommand.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_question_circle_20_filled,
+        quitCommand.Image =
+            EtoHelpers.ImageFromSvg(menuColor, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
+
+        aboutCommand.Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_question_circle_20_filled,
             Globals.MenuImageDefaultSize);
 
         commandPlayPause.MenuText = UI.Play;
-        commandPlayPause.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        commandPlayPause.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
 
-        settingsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        settingsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_settings_16_filled, Globals.ButtonDefaultSize);
 
-        manageAlbumsCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        colorSettingsCommand.Image =
+            EtoHelpers.ImageFromSvg(menuColor, Size16.ic_fluent_color_16_filled, Globals.ButtonDefaultSize);
+
+        manageAlbumsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_music_note_2_16_filled, Globals.ButtonDefaultSize);
 
-        saveQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        saveQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_save_16_filled, Globals.ButtonDefaultSize);
 
-        manageSavedQueues.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        manageSavedQueues.Image = EtoHelpers.ImageFromSvg(menuColor,
             Resources.queue_three_dots, Globals.ButtonDefaultSize);
 
-        clearQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        clearQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Resources.queue_three_dots_clear, Globals.ButtonDefaultSize);
 
-        scrambleQueueCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        scrambleQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_re_order_dots_vertical_16_filled, Globals.ButtonDefaultSize);
 
-        trackInfoCommand.Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+        trackInfoCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
 
         var addFilesSubMenu = new SubMenuItem
         {
-            Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_collections_add_20_filled,
+            Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
                 Globals.MenuImageDefaultSize),
             Text = UI.AddMusicFiles,
         };
@@ -370,6 +387,7 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, },},
             },
             ApplicationItems =
             {
@@ -377,7 +395,6 @@ partial class FormMain
                 addFilesSubMenu,
                 manageAlbumsCommand,
                 trackInfoCommand,
-                settingsCommand,
             },
             QuitItem = quitCommand,
             AboutItem = aboutCommand,
@@ -398,6 +415,7 @@ partial class FormMain
         clearQueueCommand.Executed += ClearQueueCommand_Executed;
         scrambleQueueCommand.Executed += ScrambleQueueCommand_Executed;
         trackInfoCommand.Executed += TrackInfoCommand_Executed;
+        colorSettingsCommand.Executed += ColorSettingsCommand_Executed;
     }
 
     private Control CreateStatusBar()
@@ -436,9 +454,31 @@ partial class FormMain
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
     private readonly Label lbTracksTitle = new();
-    private readonly VolumeSlider trackVolumeSlider = new() { Maximum = 300, };
-    private readonly VolumeSlider totalVolumeSlider = new() { Maximum = 100, ColorSlider = Colors.CornflowerBlue, };
-    private readonly RatingSlider trackRatingSlider = new() { Maximum = 1000, Value = 500, };
+
+    private readonly VolumeSlider trackVolumeSlider = new()
+    {
+        Maximum = 300,
+        ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorTrackVolumeSlider),
+        ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorTrackVolumeValueIndicator),
+        ColorSpeaker = Color.Parse(Globals.ColorConfiguration.ColorSpeakerTrackVolume),
+    };
+
+    private readonly VolumeSlider totalVolumeSlider = new()
+    {
+        Maximum = 100,
+        ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorMainVolumeSlider),
+        ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorMainVolumeValueIndicator),
+        ColorSpeaker = Color.Parse(Globals.ColorConfiguration.ColorSpeakerMainVolume),
+    };
+
+    private readonly RatingSlider trackRatingSlider = new()
+    {
+        Maximum = 1000,
+        Value = 500,
+        ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorRatingSlider),
+        ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorRatingSliderValueIndicator),
+    };
+
     private readonly Command commandPlayPause = new();
     private readonly Command nextAudioTrackCommand = new();
     private CheckedButton btnShuffleToggle;
@@ -453,13 +493,14 @@ partial class FormMain
     private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };
     private readonly Command aboutCommand = new() { MenuText = UI.About, };
     private readonly Command settingsCommand = new() { MenuText = UI.Settings, };
+    private readonly Command colorSettingsCommand = new() { MenuText = UI.ColorSettings, };
     private readonly Command testStuff = new() { MenuText = UI.TestStuff, };
     private readonly Command addFilesToDatabase = new() { MenuText = UI.AddFiles, };
     private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };
     private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
     private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
     private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
-    private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, };
+    private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, Shortcut = Application.Instance.CommonModifier | Keys.S, };
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, Shortcut = Keys.F3, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };

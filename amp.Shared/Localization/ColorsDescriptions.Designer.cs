@@ -151,6 +151,33 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spectrum visualizer background color.
+        /// </summary>
+        public static string ColorSpectrumVisualizerBackground {
+            get {
+                return ResourceManager.GetString("ColorSpectrumVisualizerBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tool button image default color.
+        /// </summary>
+        public static string ColorToolButtonImage {
+            get {
+                return ResourceManager.GetString("ColorToolButtonImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color for an image indicating a missing track image.
+        /// </summary>
+        public static string ColorTrackMissingImage {
+            get {
+                return ResourceManager.GetString("ColorTrackMissingImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Track volume slider image color.
         /// </summary>
         public static string ColorTrackVolumeSlider {
@@ -174,6 +201,15 @@ namespace amp.Shared.Localization {
         public static string DisabledButtonImageColor {
             get {
                 return ResourceManager.GetString("DisabledButtonImageColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu item image alternate color.
+        /// </summary>
+        public static string MenuItemImageAlternateColor {
+            get {
+                return ResourceManager.GetString("MenuItemImageAlternateColor", resourceCulture);
             }
         }
         
@@ -246,6 +282,24 @@ namespace amp.Shared.Localization {
         public static string ShuffleButtonColor {
             get {
                 return ResourceManager.GetString("ShuffleButtonColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectrum channel {0} end color.
+        /// </summary>
+        public static string SpectrumChannel0EndColor {
+            get {
+                return ResourceManager.GetString("SpectrumChannel0EndColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectrum channel {0} start color.
+        /// </summary>
+        public static string SpectrumChannel0StartColor {
+            get {
+                return ResourceManager.GetString("SpectrumChannel0StartColor", resourceCulture);
             }
         }
         

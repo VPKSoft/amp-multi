@@ -484,6 +484,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export to file.
+        /// </summary>
+        public static string ExportToFile {
+            get {
+                return ResourceManager.GetString("ExportToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File data (amp#).
         /// </summary>
         public static string FileDataAmp {
@@ -1039,6 +1048,15 @@ namespace amp.Shared.Localization {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        public static string Tools {
+            get {
+                return ResourceManager.GetString("Tools", resourceCulture);
             }
         }
         

@@ -106,7 +106,6 @@ public partial class FormMain : Form
 
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
-        new FormColorSettings().ShowModal(this);
         // Test stuff here:
         Globals.LoggerSafeInvoke(() => { _ = 1 / int.Parse("0"); });
     }

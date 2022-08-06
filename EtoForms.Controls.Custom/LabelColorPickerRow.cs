@@ -47,7 +47,8 @@ public class LabelColorPickerRow<T> : TableRow
     /// <param name="color">The color.</param>
     /// <param name="svgImage">The SVG image.</param>
     /// <param name="buttonSize">Size of the button.</param>
-    public LabelColorPickerRow(string text, bool colorIsNullable, Color? color, byte[] svgImage, Size buttonSize)
+    /// <param name="imageColor">The image color of the clear button for nullable colors.</param>
+    public LabelColorPickerRow(string text, bool colorIsNullable, Color? color, byte[] svgImage, Size buttonSize, Color imageColor)
     {
         label.Text = text;
 
@@ -57,12 +58,11 @@ public class LabelColorPickerRow<T> : TableRow
 
         colorPicker.ValueChanged += ColorPicker_ValueChanged;
 
-        this.buttonSize = buttonSize;
-
-        imageButton = new ImageOnlyButton(svgImage) { Size = this.buttonSize, };
+        var imageButton = new ImageOnlyButton(svgImage) { Size = buttonSize, };
 
 
         imageButton.Click += ImageButton_Click;
+        imageButton.ImageColor = imageColor;
 
         Control buttonControl = colorIsNullable ? imageButton : new Panel();
 
@@ -115,8 +115,6 @@ public class LabelColorPickerRow<T> : TableRow
     public T? DataObject { get; set; }
 
     private readonly Color? initialColor;
-    private readonly Size buttonSize;
     private readonly ColorPicker colorPicker = new();
     private readonly Label label = new();
-    private readonly ImageOnlyButton imageButton;
 }

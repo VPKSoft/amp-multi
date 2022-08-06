@@ -159,11 +159,11 @@ public class VolumeSlider : SliderBase
         {
             previousSize = base.Size;
             speakerImage?.Dispose();
-            speakerImage = EtoHelpers.ImageFromSvg(Colors.SteelBlue,
+            speakerImage = EtoHelpers.ImageFromSvg(colorSpeaker,
                 Size16.ic_fluent_speaker_2_16_filled, SquareSize);
 
             sliderImage?.Dispose();
-            sliderImage = EtoHelpers.ImageFromSvg(Colors.Teal, Resources.volume_slider, RestAreaSize);
+            sliderImage = EtoHelpers.ImageFromSvg(ColorSlider, Resources.volume_slider, RestAreaSize);
 
             CreateSliderMark();
         }

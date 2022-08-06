@@ -172,4 +172,22 @@
   <data name="ClearSearchButtonColor" xml:space="preserve">
     <value>Clear search button image color</value>
   </data>
+  <data name="MenuItemImageAlternateColor" xml:space="preserve">
+    <value>Menu item image alternate color</value>
+  </data>
+  <data name="ColorToolButtonImage" xml:space="preserve">
+    <value>Tool button image default color</value>
+  </data>
+  <data name="ColorTrackMissingImage" xml:space="preserve">
+    <value>Color for an image indicating a missing track image</value>
+  </data>
+  <data name="ColorSpectrumVisualizerBackground" xml:space="preserve">
+    <value>Spectrum visualizer background color</value>
+  </data>
+  <data name="SpectrumChannel0StartColor" xml:space="preserve">
+    <value>Spectrum channel {0} start color</value>
+  </data>
+  <data name="SpectrumChannel0EndColor" xml:space="preserve">
+    <value>Spectrum channel {0} end color</value>
+  </data>
 </root>

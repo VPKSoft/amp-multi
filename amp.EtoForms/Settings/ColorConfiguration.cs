@@ -35,19 +35,19 @@ namespace amp.EtoForms.Settings;
 /// <seealso cref="ApplicationJsonSettings" />
 public class ColorConfiguration : ApplicationJsonSettings
 {
-    /// <summary>
-    /// Gets or sets the color of the window background.
-    /// </summary>
-    /// <value>The color of the window background.</value>
-    [Settings]
-    public string? WindowBackgroundColor { get; set; }
+    ///// <summary>
+    ///// Gets or sets the color of the window background.
+    ///// </summary>
+    ///// <value>The color of the window background.</value>
+    //[Settings]
+    //public string? WindowBackgroundColor { get; set; }
 
-    /// <summary>
-    /// Gets or sets the color of the window text.
-    /// </summary>
-    /// <value>The color of the window text.</value>
-    [Settings]
-    public string? WindowTextColor { get; set; } = string.Empty;
+    ///// <summary>
+    ///// Gets or sets the color of the window text.
+    ///// </summary>
+    ///// <value>The color of the window text.</value>
+    //[Settings]
+    //public string? WindowTextColor { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the default color of the button image.
@@ -69,6 +69,13 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// <value>The color of the menu item image.</value>
     [Settings(Default = "#4682B4")] // SteelBlue
     public string MenuItemImageColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the alternate color of the menu item image.
+    /// </summary>
+    /// <value>The alternate color of the menu item image.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string MenuItemImageAlternateColor { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the color of the play-pause button play state.
@@ -137,7 +144,7 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// Gets or sets the color main volume slider.
     /// </summary>
     /// <value>The color main volume slider.</value>
-    [Settings(Default = "#008080")] // Teal
+    [Settings(Default = "#6495ED")] // CornflowerBlue
     public string ColorMainVolumeSlider { get; set; } = string.Empty;
 
     /// <summary>
@@ -167,9 +174,6 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// <value>The color track volume value indicator.</value>
     [Settings(Default = "#000080")] // Navy
     public string ColorTrackVolumeValueIndicator { get; set; } = string.Empty;
-
-    //     private Color colorSlider = Colors.Teal;
-    // private Color colorSliderMarker = Colors.Navy;
 
     /// <summary>
     /// Gets or sets the color position slider.
@@ -212,4 +216,32 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// <value>The color of the clear search button.</value>
     [Settings(Default = "#8B0000")] // DarkRed
     public string ClearSearchButtonColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color tool button image.
+    /// </summary>
+    /// <value>The color tool button image.</value>
+    [Settings(Default = "#4682B4")] // SteelBlue
+    public string ColorToolButtonImage { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of a missing track image.
+    /// </summary>
+    /// <value>The color of a missing track image.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string ColorTrackMissingImage { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the background color for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> control.
+    /// </summary>
+    /// <value>The background color for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> control.</value>
+    [Settings(Default = "#000000")] // Black
+    public string ColorSpectrumVisualizerBackground { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the colors for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> spectrum visualizer channels.
+    /// </summary>
+    /// <value>The colors spectrum visualizer channels.</value>
+    [Settings(Default = new[] { "#191970", "#B0C4DE", "#FF00FF", "#9370DB", "#32CD32", "#00FF00", "#00BFFF", "#87CEFA", })]
+    public string[] ColorsSpectrumVisualizerChannels { get; set; } = Array.Empty<string>();
 }
