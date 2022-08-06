@@ -476,4 +476,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ERRORNOTEXT" xml:space="preserve">
     <value>VIRHE: EI TEKSIÄ</value>
   </data>
+  <data name="ClearSearch" xml:space="preserve">
+    <value>Tyhjennä haku</value>
+  </data>
 </root>

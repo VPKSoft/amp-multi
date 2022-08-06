@@ -149,9 +149,27 @@
     <value>Äänenvoimakkuuden kappalesäätimen kuvakkeen väri</value>
   </data>
   <data name="ColorTrackVolumeSlider" xml:space="preserve">
-    <value>Äänenvoimakkuuden kappalesäätimen kuvakkeen väri</value>
+    <value>Äänenvoimakkuuden kappalesäätimen arvoalueen väri</value>
   </data>
   <data name="ColorTrackVolumeValueIndicator" xml:space="preserve">
     <value>Äänenvoimakkuuden kappalesäätimen indikaattorin väri</value>
+  </data>
+  <data name="ColorPositionSlider" xml:space="preserve">
+    <value>Sijainnin säätimen arvoalueen väri</value>
+  </data>
+  <data name="ColorPositionSliderValueIndicator" xml:space="preserve">
+    <value>Sijainnin säätimen indikaattorin väri</value>
+  </data>
+  <data name="ColorRatingSlider" xml:space="preserve">
+    <value>Pisteiden säätimen arvoalueen väri</value>
+  </data>
+  <data name="ColorRatingSliderValueIndicator" xml:space="preserve">
+    <value>Pisteiden säätimen indikaattorin väri</value>
+  </data>
+  <data name="TheMusicNoteColor" xml:space="preserve">
+    <value>Musiikkinuotin kuvan väri albumivalinnan vieressä</value>
+  </data>
+  <data name="ClearSearchButtonColor" xml:space="preserve">
+    <value>Tyhjennä haku-napin kuvakkeen väri</value>
   </data>
 </root>

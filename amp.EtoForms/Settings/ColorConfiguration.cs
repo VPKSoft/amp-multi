@@ -167,4 +167,49 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// <value>The color track volume value indicator.</value>
     [Settings(Default = "#000080")] // Navy
     public string ColorTrackVolumeValueIndicator { get; set; } = string.Empty;
+
+    //     private Color colorSlider = Colors.Teal;
+    // private Color colorSliderMarker = Colors.Navy;
+
+    /// <summary>
+    /// Gets or sets the color position slider.
+    /// </summary>
+    /// <value>The color position slider.</value>
+    [Settings(Default = "#008080")] // Teal
+    public string ColorPositionSlider { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color position slider value indicator.
+    /// </summary>
+    /// <value>The color position slider value indicator.</value>
+    [Settings(Default = "#000080")] // Navy
+    public string ColorPositionSliderValueIndicator { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color rating slider.
+    /// </summary>
+    /// <value>The color rating slider.</value>
+    [Settings(Default = "#FFA500")] // Orange
+    public string ColorRatingSlider { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color rating slider value indicator.
+    /// </summary>
+    /// <value>The color rating slider value indicator.</value>
+    [Settings(Default = "#000080")] // Navy
+    public string ColorRatingSliderValueIndicator { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the music note.
+    /// </summary>
+    /// <value>The color of the music note.</value>
+    [Settings(Default = "#FFA500")] // Orange
+    public string TheMusicNoteColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color of the clear search button.
+    /// </summary>
+    /// <value>The color of the clear search button.</value>
+    [Settings(Default = "#8B0000")] // DarkRed
+    public string ClearSearchButtonColor { get; set; } = string.Empty;
 }

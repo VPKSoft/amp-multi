@@ -70,7 +70,16 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main volume slider .
+        ///   Looks up a localized string similar to Clear search button image color.
+        /// </summary>
+        public static string ClearSearchButtonColor {
+            get {
+                return ResourceManager.GetString("ClearSearchButtonColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main volume slider image color.
         /// </summary>
         public static string ColorMainVolumeSlider {
             get {
@@ -88,7 +97,43 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main volume slider image color.
+        ///   Looks up a localized string similar to Position slider image color.
+        /// </summary>
+        public static string ColorPositionSlider {
+            get {
+                return ResourceManager.GetString("ColorPositionSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position slider value indicator color.
+        /// </summary>
+        public static string ColorPositionSliderValueIndicator {
+            get {
+                return ResourceManager.GetString("ColorPositionSliderValueIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating slider image color.
+        /// </summary>
+        public static string ColorRatingSlider {
+            get {
+                return ResourceManager.GetString("ColorRatingSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating slider value indicator color.
+        /// </summary>
+        public static string ColorRatingSliderValueIndicator {
+            get {
+                return ResourceManager.GetString("ColorRatingSliderValueIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main volume slider speaker image color.
         /// </summary>
         public static string ColorSpeakerMainVolume {
             get {
@@ -97,7 +142,7 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Track volume slider image color.
+        ///   Looks up a localized string similar to Track volume slider speaker image color.
         /// </summary>
         public static string ColorSpeakerTrackVolume {
             get {
@@ -210,6 +255,15 @@ namespace amp.Shared.Localization {
         public static string StackQueueButtonColor {
             get {
                 return ResourceManager.GetString("StackQueueButtonColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color of the music note before the album select box.
+        /// </summary>
+        public static string TheMusicNoteColor {
+            get {
+                return ResourceManager.GetString("TheMusicNoteColor", resourceCulture);
             }
         }
         

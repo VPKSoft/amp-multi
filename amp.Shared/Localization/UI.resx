@@ -476,4 +476,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ERRORNOTEXT" xml:space="preserve">
     <value>ERROR: NO TEXT</value>
   </data>
+  <data name="ClearSearch" xml:space="preserve">
+    <value>Clear search</value>
+  </data>
 </root>

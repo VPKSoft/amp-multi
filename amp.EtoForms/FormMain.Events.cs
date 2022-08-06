@@ -695,4 +695,9 @@ partial class FormMain
             }
         }
     }
+
+    private void ClearSearchClick(object? sender, EventArgs e)
+    {
+        tbSearch.Text = string.Empty;
+    }
 }

@@ -259,6 +259,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear search.
+        /// </summary>
+        public static string ClearSearch {
+            get {
+                return ResourceManager.GetString("ClearSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {

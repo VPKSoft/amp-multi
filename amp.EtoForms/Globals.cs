@@ -250,6 +250,28 @@ internal static class Globals
         set => menuImageDefaultSize = value;
     }
 
+    private static Size? smallImageButtonDefaultSize;
+
+    /// <summary>
+    /// Gets or sets the default size of the small image button.
+    /// </summary>
+    /// <value>The default size of the small image button.</value>
+    internal static Size SmallImageButtonDefaultSize
+    {
+        get
+        {
+            smallImageButtonDefaultSize ??= UtilityOS.GetValueForOSNotNull(
+                new Size(20, 20),
+                new Size(20, 20),
+                new Size(20, 20),
+                new Size(20, 20));
+
+            return smallImageButtonDefaultSize.Value;
+        }
+
+        set => smallImageButtonDefaultSize = value;
+    }
+
     /// <summary>
     /// Saves the application settings.
     /// </summary>

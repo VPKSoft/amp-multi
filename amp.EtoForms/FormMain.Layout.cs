@@ -160,7 +160,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl), nameof(btnClearSearch))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider { Height = 20, };
@@ -236,6 +236,8 @@ partial class FormMain
 
         audioVisualizationControl.Visible = false;
 
+        btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Colors.DarkRed, Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
+
         var result = new StackLayout
         {
             Items =
@@ -245,7 +247,22 @@ partial class FormMain
                 new StackLayoutItem(new Panel { Content = trackAdjustControls, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = stackLayout,}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = lbTracksTitle, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
-                new StackLayoutItem(new Panel { Content = tbSearch, Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new Panel { Content = new TableLayout
+                    {
+                        Rows =
+                        {
+                            new TableRow
+                            {
+                                Cells =
+                                {
+                                    new TableCell(tbSearch, true),
+                                    new Panel { Width = Globals.DefaultPadding,},
+                                    btnClearSearch,
+                                },
+                            },
+                        },
+                    },
+                    Padding = new Padding(Globals.DefaultPadding, 2),}, HorizontalAlignment.Stretch),
                 new StackLayoutItem(new Panel { Content = gvAudioTracks, Padding = new Padding(Globals.DefaultPadding, 2), }, HorizontalAlignment.Stretch) { Expand = true,},
                 new StackLayoutItem(new Panel { Content = audioVisualizationControl,}, HorizontalAlignment.Stretch),
                 CreateStatusBar(),
@@ -415,6 +432,7 @@ partial class FormMain
     private readonly AboutDialog aboutDialog = new();
     private GridView gvAudioTracks;
     private readonly TextBox tbSearch = new();
+    private ImageOnlyButton btnClearSearch;
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
     private readonly Label lbTracksTitle = new();
