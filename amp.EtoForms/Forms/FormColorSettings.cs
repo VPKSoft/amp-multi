@@ -191,6 +191,7 @@ internal class FormColorSettings : Dialog
             Content = tableLayoutContent,
             ExpandContentWidth = true,
             ExpandContentHeight = false,
+            Size = Size,
         };
 
         tableLayoutContent.Rows.Add(new TableRow { ScaleHeight = true, });
