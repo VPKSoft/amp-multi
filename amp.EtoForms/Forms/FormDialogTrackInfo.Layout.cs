@@ -182,14 +182,16 @@ partial class FormDialogTrackInfo
 
         PositiveButtons.Add(btnClose);
 
-        btnCopyToAmp.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_arrow_hook_up_right_20_filled,
+        var color = Color.Parse(Globals.ColorConfiguration.ColorToolButtonImage);
+
+        btnCopyToAmp.Image = EtoHelpers.ImageFromSvg(color, Size20.ic_fluent_arrow_hook_up_right_20_filled,
             Globals.MenuImageDefaultSize);
-        btnCopyToTag.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_arrow_hook_up_left_20_filled,
+        btnCopyToTag.Image = EtoHelpers.ImageFromSvg(color, Size20.ic_fluent_arrow_hook_up_left_20_filled,
             Globals.MenuImageDefaultSize);
         btnSaveChanges.Image =
-            EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_save_20_filled, Globals.MenuImageDefaultSize);
-        btnLoadImage.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_image_add_20_filled, Globals.MenuImageDefaultSize);
-        btnClearImage.Image = EtoHelpers.ImageFromSvg(Colors.Teal, Size20.ic_fluent_image_off_20_filled, Globals.MenuImageDefaultSize);
+            EtoHelpers.ImageFromSvg(color, Size20.ic_fluent_save_20_filled, Globals.MenuImageDefaultSize);
+        btnLoadImage.Image = EtoHelpers.ImageFromSvg(color, Size20.ic_fluent_image_add_20_filled, Globals.MenuImageDefaultSize);
+        btnClearImage.Image = EtoHelpers.ImageFromSvg(color, Size20.ic_fluent_image_off_20_filled, Globals.MenuImageDefaultSize);
 
 
         btnCopyToAmp.Click += CopyToAmpClick;

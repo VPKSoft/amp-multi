@@ -259,6 +259,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear search.
+        /// </summary>
+        public static string ClearSearch {
+            get {
+                return ResourceManager.GetString("ClearSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {
@@ -273,6 +282,24 @@ namespace amp.Shared.Localization {
         public static string ColonDelimiter {
             get {
                 return ResourceManager.GetString("ColonDelimiter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colors.
+        /// </summary>
+        public static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color settings.
+        /// </summary>
+        public static string ColorSettings {
+            get {
+                return ResourceManager.GetString("ColorSettings", resourceCulture);
             }
         }
         
@@ -444,6 +471,24 @@ namespace amp.Shared.Localization {
         public static string EditTheQueueTracks {
             get {
                 return ResourceManager.GetString("EditTheQueueTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR: NO TEXT.
+        /// </summary>
+        public static string ERRORNOTEXT {
+            get {
+                return ResourceManager.GetString("ERRORNOTEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to file.
+        /// </summary>
+        public static string ExportToFile {
+            get {
+                return ResourceManager.GetString("ExportToFile", resourceCulture);
             }
         }
         
@@ -1003,6 +1048,15 @@ namespace amp.Shared.Localization {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        public static string Tools {
+            get {
+                return ResourceManager.GetString("Tools", resourceCulture);
             }
         }
         

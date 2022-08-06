@@ -467,4 +467,22 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="DisplayAudioVisualization" xml:space="preserve">
     <value>Näytä audiovisualisointi</value>
   </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Värit</value>
+  </data>
+  <data name="ColorSettings" xml:space="preserve">
+    <value>Värien astukset</value>
+  </data>
+  <data name="ERRORNOTEXT" xml:space="preserve">
+    <value>VIRHE: EI TEKSIÄ</value>
+  </data>
+  <data name="ClearSearch" xml:space="preserve">
+    <value>Tyhjennä haku</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Työkalut</value>
+  </data>
+  <data name="ExportToFile" xml:space="preserve">
+    <value>Vie tiedostoon</value>
+  </data>
 </root>

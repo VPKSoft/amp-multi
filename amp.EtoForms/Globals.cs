@@ -29,7 +29,6 @@ using amp.Database.DataModel;
 using amp.Shared.Classes;
 using AutoMapper;
 using Eto.Drawing;
-using Serilog;
 using Serilog.Core;
 using VPKSoft.ApplicationSettingsJson;
 
@@ -41,8 +40,10 @@ namespace amp.EtoForms;
 internal static class Globals
 {
     private static Settings.Settings? settings;
+    private static Settings.ColorConfiguration? colorSettings;
     private static Settings.PositionAndLayoutSettings? positionAndLayoutSettings;
     private const string SettingsFile = "settings.json";
+    private const string ColorSettingsFile = "colorSettings.json";
     private const string LayoutSettingsFile = "layoutSettings.json";
     private static string? dataFolder;
 
@@ -110,6 +111,19 @@ internal static class Globals
         {
             CreateSettings(ref settings, SettingsFile);
             return settings;
+        }
+    }
+
+    /// <summary>
+    /// Gets the color configuration.
+    /// </summary>
+    /// <value>The color configuration.</value>
+    internal static Settings.ColorConfiguration ColorConfiguration
+    {
+        get
+        {
+            CreateSettings(ref colorSettings, ColorSettingsFile);
+            return colorSettings;
         }
     }
 
@@ -250,6 +264,28 @@ internal static class Globals
         set => menuImageDefaultSize = value;
     }
 
+    private static Size? smallImageButtonDefaultSize;
+
+    /// <summary>
+    /// Gets or sets the default size of the small image button.
+    /// </summary>
+    /// <value>The default size of the small image button.</value>
+    internal static Size SmallImageButtonDefaultSize
+    {
+        get
+        {
+            smallImageButtonDefaultSize ??= UtilityOS.GetValueForOSNotNull(
+                new Size(20, 20),
+                new Size(20, 20),
+                new Size(20, 20),
+                new Size(20, 20));
+
+            return smallImageButtonDefaultSize.Value;
+        }
+
+        set => smallImageButtonDefaultSize = value;
+    }
+
     /// <summary>
     /// Saves the application settings.
     /// </summary>
@@ -257,6 +293,14 @@ internal static class Globals
     {
         Settings.Save(Path.Combine(DataFolder, SettingsFile));
         PositionAndLayoutSettings.Save(Path.Combine(DataFolder, LayoutSettingsFile));
+    }
+
+    /// <summary>
+    /// Saves the color configuration.
+    /// </summary>
+    internal static void SaveColorConfiguration()
+    {
+        ColorConfiguration.Save(Path.Combine(DataFolder, ColorSettingsFile));
     }
 
     /// <summary>

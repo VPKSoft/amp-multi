@@ -67,26 +67,28 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
         Padding = Globals.DefaultPadding;
 
+        var color = Color.Parse(Globals.ColorConfiguration.ColorToolButtonImage);
+
         ToolBar = new ToolBar
         {
             Items =
             {
                 new ButtonToolItem(DeleteClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_delete_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_delete_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.DeleteSavedQueue,
                 },
                 new ButtonToolItem(MoveUpDownClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_arrow_up_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_arrow_up_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.MoveUpwardsInQueue,
                     Tag = -1,
                 },
                 new ButtonToolItem(MoveUpDownClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_arrow_down_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_arrow_down_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.MoveDownwardsInQueue,
                     Tag = 1,

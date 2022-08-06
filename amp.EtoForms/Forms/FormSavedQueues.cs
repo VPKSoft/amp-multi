@@ -62,25 +62,27 @@ public class FormSavedQueues : Dialog<bool>
 
         Padding = Globals.DefaultPadding;
 
+        var color = Color.Parse(Globals.ColorConfiguration.ColorToolButtonImage);
+
         ToolBar = new ToolBar
         {
             Items =
             {
                 new ButtonToolItem(DeleteClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_delete_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_delete_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.DeleteSavedQueue,
                 },
                 new ButtonToolItem(EditClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_edit_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_edit_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.EditTheQueueTracks,
                 },
                 new ButtonToolItem(CopyToFolderClick)
                 {
-                    Image = EtoHelpers.ImageFromSvg(Colors.SteelBlue, Size16.ic_fluent_copy_arrow_right_16_filled,
+                    Image = EtoHelpers.ImageFromSvg(color, Size16.ic_fluent_copy_arrow_right_16_filled,
                         Globals.MenuImageDefaultSize),
                     ToolTip = UI.CopyTrackFilesToFolder,
                 },

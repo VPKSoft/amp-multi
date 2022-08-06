@@ -416,7 +416,7 @@ public abstract class SliderBase : Drawable
         {
             previousSize = base.Size;
             sliderImage?.Dispose();
-            sliderImage = EtoHelpers.ImageFromSvg(Colors.Teal, SliderImageSvg, RestAreaSize);
+            sliderImage = EtoHelpers.ImageFromSvg(colorSlider, SliderImageSvg, RestAreaSize);
 
             CreateSliderMark();
         }

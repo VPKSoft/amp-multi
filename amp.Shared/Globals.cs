@@ -72,6 +72,7 @@ public class Globals
             UI.Culture = value;
             EtoForms.Culture = value;
             Settings.Culture = value;
+            ColorsDescriptions.Culture = value;
         }
     }
 

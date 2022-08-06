@@ -467,4 +467,22 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="DisplayAudioVisualization" xml:space="preserve">
     <value>Display audio visualization</value>
   </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="ColorSettings" xml:space="preserve">
+    <value>Color settings</value>
+  </data>
+  <data name="ERRORNOTEXT" xml:space="preserve">
+    <value>ERROR: NO TEXT</value>
+  </data>
+  <data name="ClearSearch" xml:space="preserve">
+    <value>Clear search</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="ExportToFile" xml:space="preserve">
+    <value>Export to file</value>
+  </data>
 </root>

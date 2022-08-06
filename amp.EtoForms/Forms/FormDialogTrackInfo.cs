@@ -55,7 +55,7 @@ public partial class FormDialogTrackInfo : Dialog
         MinimumSize = new Size(800, 600);
         AudioTrackChanged += audioTrackChanged;
         this.audioTrack = audioTrack;
-        imageOff = EtoHelpers.ImageFromSvg(Colors.Teal, Size16.ic_fluent_image_multiple_off_16_filled,
+        imageOff = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.ColorTrackMissingImage), Size16.ic_fluent_image_multiple_off_16_filled,
             new Size(300, 300));
 
         LayoutTagData();
