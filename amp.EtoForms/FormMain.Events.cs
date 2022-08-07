@@ -536,12 +536,13 @@ partial class FormMain
 
     private async void ScrambleQueueCommand_Executed(object? sender, EventArgs e)
     {
-        var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
-        if (QueuedItemsInSelection)
+        var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id).ToList();
+
+        if (QueuedItemsInSelection && selectedTracks.Count > 1)
         {
             await playbackOrder.Scramble(tracks, false, selectedTracks.ToArray());
         }
-        else if (AlternateQueuedItemsInSelection)
+        else if (AlternateQueuedItemsInSelection && selectedTracks.Count > 1)
         {
             await playbackOrder.Scramble(tracks, true, selectedTracks.ToArray());
         }

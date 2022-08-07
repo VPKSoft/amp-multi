@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using amp.Database;
 using amp.Database.DataModel;
 using amp.EtoForms.Dialogs;
+using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Utilities;
 using amp.Shared.Extensions;
@@ -52,7 +53,7 @@ public class FormSavedQueues : Dialog<bool>
     /// </summary>
     /// <param name="context">The context.</param>
     /// <param name="loadOrAppendQueueFunc">A function to execute in case a queue is requested to be loaded or appended to the current queue.</param>
-    public FormSavedQueues(AmpContext context, Func<Dictionary<long, int>, long, bool, Task> loadOrAppendQueueFunc)
+    public FormSavedQueues(AmpContext context, Func<Dictionary<long, int>, long, QueueAppendInsertMode, Task> loadOrAppendQueueFunc)
     {
         this.context = context;
         this.loadOrAppendQueueFunc = loadOrAppendQueueFunc;
@@ -166,11 +167,13 @@ public class FormSavedQueues : Dialog<bool>
         PositiveButtons.Add(btnSaveAndClose);
         PositiveButtons.Add(btnLoadQueue);
         PositiveButtons.Add(btnLoadAndAppendQueue);
+        PositiveButtons.Add(btnLoadAndInsertQueue);
 
         btnCancel.Click += BtnCancel_Click;
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
         btnLoadQueue.Click += BtnLoadQueueClick;
         btnLoadAndAppendQueue.Click += BtnLoadQueueClick;
+        btnLoadAndInsertQueue.Click += BtnLoadQueueClick;
         gvAlbumQueues.CellEdited += GvAlbumQueues_CellEdited;
     }
 
@@ -183,8 +186,11 @@ public class FormSavedQueues : Dialog<bool>
                 .Where(f => f.QueueSnapshotId == SelectedQueueId).AsNoTracking()
                 .Select(f => new KeyValuePair<long, int>(f.AudioTrackId, f.QueueIndex)));
 
-            await loadOrAppendQueueFunc(queueData, albumId.Value, Equals(sender, btnLoadAndAppendQueue));
-            Close(true);
+            if (sender is Control { Tag: QueueAppendInsertMode mode })
+            {
+                await loadOrAppendQueueFunc(queueData, albumId.Value, mode);
+                Close(true);
+            }
         }
     }
 
@@ -294,7 +300,7 @@ public class FormSavedQueues : Dialog<bool>
         RefreshQueueSnapshots(null);
     }
 
-    private readonly Func<Dictionary<long, int>, long, bool, Task> loadOrAppendQueueFunc;
+    private readonly Func<Dictionary<long, int>, long, QueueAppendInsertMode, Task> loadOrAppendQueueFunc;
     private readonly List<long> queuesToDelete = new();
     private readonly ComboBox cmbAlbumSelect;
     private readonly AmpContext context;
@@ -303,7 +309,8 @@ public class FormSavedQueues : Dialog<bool>
     private readonly GridView gvAlbumQueues;
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
-    private readonly Button btnLoadQueue = new() { Text = UI.LoadQueue, };
-    private readonly Button btnLoadAndAppendQueue = new() { Text = UI.AppendToQueue, };
+    private readonly Button btnLoadQueue = new() { Text = UI.LoadQueue, Tag = QueueAppendInsertMode.Load, };
+    private readonly Button btnLoadAndAppendQueue = new() { Text = UI.AppendToQueue, Tag = QueueAppendInsertMode.Append, };
+    private readonly Button btnLoadAndInsertQueue = new() { Text = UI.InsertToQueue, Tag = QueueAppendInsertMode.Insert, };
     private readonly SelectFolderDialog selectFolderDialog = new() { Title = UI.SelectDestinationDirectory, };
 }

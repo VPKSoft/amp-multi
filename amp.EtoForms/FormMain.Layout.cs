@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.Forms;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
@@ -48,7 +47,7 @@ partial class FormMain
     [MemberNotNull(nameof(cmbAlbumSelect))]
     private StackLayout CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo((id) =>
+        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(id =>
         {
             if (id != null)
             {

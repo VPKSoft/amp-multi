@@ -602,6 +602,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert to queue start.
+        /// </summary>
+        public static string InsertToQueue {
+            get {
+                return ResourceManager.GetString("InsertToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load image from file.
         /// </summary>
         public static string LoadImageFromFile {
