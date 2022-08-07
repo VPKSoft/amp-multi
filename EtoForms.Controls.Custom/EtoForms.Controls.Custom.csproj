@@ -1,4 +1,4 @@
-﻿<Project Sdk="Eto.Forms/2.7.0">
+﻿<Project Sdk="Eto.Forms/2.7.1">
 
 	<!--
     Set the BuildPlatform property to the Eto platform you wish to build for.
@@ -47,4 +47,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-		</Project>
+</Project>

@@ -331,6 +331,37 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
     }
 
     /// <summary>
+    /// Shifts the current queue down by the specified amount.
+    /// </summary>
+    /// <param name="tracks">The tracks which queue index to update.</param>
+    /// <param name="amount">The amount the shift the queue index.</param>
+    /// <param name="alternate">A value indicating whether to manipulate the alternate queue.</param>
+    public async Task ShiftQueueDown(IEnumerable<TAlbumTrack> tracks, int amount, bool alternate)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        var toUpdate = new Dictionary<long, int>();
+
+        var newIndex = amount;
+        foreach (var albumTrack in tracks)
+        {
+            if (GetQueueIndex(albumTrack, alternate) > 0)
+            {
+                albumTrack.ModifiedAtUtc = DateTime.UtcNow;
+                toUpdate.Add(albumTrack.Id, ++newIndex);
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
     /// Moves the selected songs to the top or bottom of the queue.
     /// </summary>
     /// <param name="tracks">All the tracks.</param>

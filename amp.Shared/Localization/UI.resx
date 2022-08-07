@@ -485,4 +485,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ExportToFile" xml:space="preserve">
     <value>Export to file</value>
   </data>
+  <data name="InsertToQueue" xml:space="preserve">
+    <value>Insert to queue start</value>
+  </data>
 </root>

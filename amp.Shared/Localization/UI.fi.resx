@@ -485,4 +485,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ExportToFile" xml:space="preserve">
     <value>Vie tiedostoon</value>
   </data>
+  <data name="InsertToQueue" xml:space="preserve">
+    <value>Lisää jonon alkuun</value>
+  </data>
 </root>

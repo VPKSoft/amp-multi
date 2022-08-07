@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
@@ -39,6 +40,7 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.Utilities;
+using EtoForms.SpectrumVisualizer;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms;
@@ -67,19 +69,27 @@ partial class FormMain
         RefreshCurrentAlbum();
     }
 
-    private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, bool append)
+    private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, QueueAppendInsertMode mode)
     {
         if (CurrentAlbumId != albumId)
         {
             await ReusableControls.UpdateAlbumDataSource(cmbAlbumSelect, context, albumId);
             CurrentAlbumId = albumId;
+
+            // This async selection update needs to be waited to finish.
+            queryDivider?.WaitForCurrentQuery();
         }
 
-        var queueIndexAdd = append ? tracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 0 ?? 0 : 0;
+        var queueIndexAdd = mode is QueueAppendInsertMode.Append ? tracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 0 ?? 0 : 0;
 
-        if (!append)
+        if (mode == QueueAppendInsertMode.Load)
         {
             await playbackOrder.ClearQueue(tracks, false);
+        }
+
+        if (mode == QueueAppendInsertMode.Insert)
+        {
+            await playbackOrder.ShiftQueueDown(tracks, queueData.Count, false);
         }
 
         var updateData =
@@ -92,8 +102,12 @@ partial class FormMain
             // Skip if already queued.
             if (track is { QueueIndex: > 0, })
             {
-                continue;
+                if (mode is QueueAppendInsertMode.Append or QueueAppendInsertMode.Insert)
+                {
+                    continue;
+                }
             }
+
 
             var id = track?.Id;
 
@@ -163,7 +177,7 @@ partial class FormMain
         var query = context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
             .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
 
-        queryDivider = new QueryDivider<AlbumTrack>(query, 100);
+        queryDivider = new QueryDivider<AlbumTrack>(query, 100, ExceptionProvider.Instance);
         queryDivider.ProgressChanged += QueryDivider_ProgressChanged;
         queryDivider.QueryCompleted += QueryDivider_QueryCompleted;
         queryDivider.RunQueryTasks();
@@ -174,6 +188,21 @@ partial class FormMain
         formAlbumImage.AlwaysVisible = !Globals.Settings.AutoHideEmptyAlbumImage;
         playbackManager.MasterVolume = Globals.Settings.MasterVolume;
         trackAdjustControls.Expanded = Globals.Settings.AudioAndRatingControlsExpanded;
+
+        Globals.LoggerSafeInvoke(() =>
+        {
+            var newSpectrumColors = new List<GradientColors>();
+            var i = 0;
+            while (i < Globals.ColorConfiguration.ColorsSpectrumVisualizerChannels.Length)
+            {
+                newSpectrumColors.Add(new GradientColors(
+                    Color.Parse(Globals.ColorConfiguration.ColorsSpectrumVisualizerChannels[i]),
+                    Color.Parse(Globals.ColorConfiguration.ColorsSpectrumVisualizerChannels[i + 1])));
+                i += 2;
+            }
+
+            spectrumAnalyzer.VisualizeColors = newSpectrumColors;
+        });
     }
 
     private async Task UpdateAlbumDataSource()

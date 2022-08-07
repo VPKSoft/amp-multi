@@ -26,6 +26,8 @@ SOFTWARE.
 
 global using System;
 using System.Diagnostics;
+using amp.EtoForms.Utilities;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
 using EtoForms.FormPositions;
@@ -47,6 +49,8 @@ public static class Program
     static void Main(string[] args)
     {
         var processes = Array.Empty<Process>();
+
+        ExceptionProvider.Instance.ExceptionOccurred += ExternalExceptionOccurred;
 
         try
         {
@@ -76,6 +80,11 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
             Globals.Logger?.Information("The application is already running.");
             Process.GetCurrentProcess().Kill();
         }
+    }
+
+    private static void ExternalExceptionOccurred(object? sender, ExceptionOccurredEventArgs e)
+    {
+        Globals.Logger?.Error(e.Exception, string.Empty);
     }
 
     internal static void Instance_UnhandledException(object? sender, UnhandledExceptionEventArgs e)

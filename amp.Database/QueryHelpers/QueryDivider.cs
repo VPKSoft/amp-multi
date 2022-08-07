@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics.CodeAnalysis;
+using amp.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.Database.QueryHelpers;
@@ -39,9 +40,10 @@ public class QueryDivider<T>
     /// </summary>
     /// <param name="queryable">The <see cref="IQueryable{T}"/> query to divide into pieces and run parallel.</param>
     /// <param name="taskSize">Size of the parallel tasks to divide the query into.</param>
-    public QueryDivider(IQueryable<T> queryable, int taskSize)
+    /// <param name="exceptionReporter">A class implementing the <see cref="IExceptionReporter"/> interface for reporting exceptions to external handler.</param>
+    public QueryDivider(IQueryable<T> queryable, int taskSize, IExceptionReporter exceptionReporter)
     {
-        SetQueryTasks(queryable, taskSize);
+        SetQueryTasks(queryable, taskSize, exceptionReporter);
     }
 
     /// <summary>
@@ -49,9 +51,11 @@ public class QueryDivider<T>
     /// </summary>
     /// <param name="query">The query to divide into tasks.</param>
     /// <param name="taskSize">Size of a single task.</param>
-    [MemberNotNull(nameof(queryable))]
-    public void SetQueryTasks(IQueryable<T> query, int taskSize)
+    /// <param name="reporter">A class implementing the <see cref="IExceptionReporter"/> interface for reporting exceptions to external handler.</param>
+    [MemberNotNull(nameof(queryable), nameof(exceptionReporter))]
+    public void SetQueryTasks(IQueryable<T> query, int taskSize, IExceptionReporter reporter)
     {
+        exceptionReporter = reporter;
         var count = query.Count();
         queryable = query;
         currentCount = 0;
@@ -104,15 +108,33 @@ public class QueryDivider<T>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     public void RunQueryTasks(CancellationToken cancellationToken)
     {
-        queryTaskThread = new Thread(QueryThreadMethod);
-        queryTaskThread.Start();
+        try
+        {
+            queryTaskThread = new Thread(QueryThreadMethod);
+            queryRunning = true;
+            queryTaskThread.Start();
+        }
+        catch (Exception ex)
+        {
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(RunQueryTasks));
+            queryRunning = false;
+        }
     }
 
     private async void QueryThreadMethod()
     {
-        var tasks = queryTasks.Select(f => f.Key(f.Value));
-        await Task.WhenAll(tasks);
-        QueryCompleted?.Invoke(this, new QueryCompletedEventArgs<T> { ResultList = resultList, });
+        try
+        {
+            var tasks = queryTasks.Select(f => f.Key(f.Value));
+            await Task.WhenAll(tasks);
+            QueryCompleted?.Invoke(this, new QueryCompletedEventArgs<T> { ResultList = resultList, });
+        }
+        catch (Exception ex)
+        {
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(QueryThreadMethod));
+        }
+
+        queryRunning = false;
     }
 
     /// <summary>
@@ -121,10 +143,29 @@ public class QueryDivider<T>
     /// <value>The total task count.</value>
     public int TotalTaskCount => totalCount;
 
+    /// <summary>
+    /// Gets a value indicating whether a query is currently running.
+    /// </summary>
+    /// <value><c>true</c> if a query is currently running; otherwise, <c>false</c>.</value>
+    public bool QueryRunning => queryRunning;
+
+    /// <summary>
+    /// Waits for current query to be finished.
+    /// </summary>
+    public void WaitForCurrentQuery()
+    {
+        while (QueryRunning)
+        {
+            Thread.Sleep(10);
+        }
+    }
+
+    private volatile bool queryRunning;
     private Thread? queryTaskThread;
     private readonly List<T> resultList = new();
     private int currentCount;
     private int totalCount;
     private readonly List<KeyValuePair<Func<TaskData, Task<List<T>>>, TaskData>> queryTasks = new();
     private IQueryable<T> queryable;
+    private IExceptionReporter exceptionReporter;
 }
