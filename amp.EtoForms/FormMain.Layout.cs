@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
@@ -44,20 +43,12 @@ namespace amp.EtoForms;
 
 partial class FormMain
 {
-    [MemberNotNull(nameof(cmbAlbumSelect))]
-    private StackLayout CreateAlbumSelector()
+    private Control CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(id =>
-        {
-            if (id != null)
-            {
-                CurrentAlbumId = id.Value;
-                RefreshCurrentAlbum();
-                playbackManager.ResetPlaybackHistory();
-            }
-
-            return Task.CompletedTask;
-        }, context, Globals.Settings.SelectedAlbum);
+        albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+        cmbAlbumSelect.DataStore = albums;
+        cmbAlbumSelect.SelectedIndex = albums.FindIndex(f => f.Id == CurrentAlbumId);
+        cmbAlbumSelect.SelectedIndexChanged += CmbAlbumSelect_SelectedIndexChanged;
 
         var imageView = new ImageView { Width = 20, Height = 20, };
         imageView.SizeChanged += delegate
@@ -82,6 +73,20 @@ partial class FormMain
         };
 
         return result;
+    }
+
+    private void CmbAlbumSelect_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (suspendAlbumChange || cmbAlbumSelect.SelectedIndex < 0)
+        {
+            return;
+        }
+
+        Globals.LoggerSafeInvoke(() =>
+        {
+            CurrentAlbumId = albums[cmbAlbumSelect.SelectedIndex].Id;
+            RefreshCurrentAlbum();
+        });
     }
 
     private StackLayout CreateToolbar()
@@ -159,7 +164,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl), nameof(btnClearSearch))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(audioVisualizationControl), nameof(btnClearSearch))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider
@@ -323,7 +328,7 @@ partial class FormMain
     private void CreateMenu()
     {
         var menuColor = Color.Parse(Globals.ColorConfiguration.MenuItemImageColor);
-        var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor); // TODO!!
+        var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor);
 
         quitCommand.Image =
             EtoHelpers.ImageFromSvg(menuColor, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
@@ -503,7 +508,12 @@ partial class FormMain
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, Shortcut = Keys.F3, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
-    private ComboBox cmbAlbumSelect = new();
+
+    // The album select combo box.
+    private readonly ComboBox cmbAlbumSelect = new();
+    private List<Album> albums = new();
+    private bool suspendAlbumChange;
+
     private CheckedButton btnStackQueueToggle;
     private Control audioVisualizationControl;
 

@@ -388,9 +388,8 @@ partial class FormMain
         FilterTracks();
     }
 
-    private async void FormMain_Shown(object? sender, EventArgs e)
+    private void FormMain_Shown(object? sender, EventArgs e)
     {
-        await UpdateAlbumDataSource();
         LoadLayout();
         CreateAlbumSelector();
         shownCalled = true;
@@ -496,21 +495,14 @@ partial class FormMain
 
     private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
     {
-        bool modalResult;
-
         if (UtilityOS.IsMacOS)
         {
             // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
-            modalResult = new FormAlbums(context).ShowModal(this);
+            new FormAlbums(context).ShowModal(this);
         }
         else
         {
-            modalResult = await new FormAlbums(context).ShowModalAsync(this);
-        }
-
-        if (modalResult)
-        {
-            await UpdateAlbumDataSource();
+            await new FormAlbums(context).ShowModalAsync(this);
         }
     }
 
@@ -604,7 +596,8 @@ partial class FormMain
             if (!string.IsNullOrWhiteSpace(tbSearch.Text))
             {
                 filteredTracks =
-                    new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                    new ObservableCollection<Models.AlbumTrack>(tracks
+                        .Where(f => f.AudioTrack!.Match(tbSearch.Text))
                         .ToList());
             }
 

@@ -186,7 +186,7 @@ public class FormSavedQueues : Dialog<bool>
                 .Where(f => f.QueueSnapshotId == SelectedQueueId).AsNoTracking()
                 .Select(f => new KeyValuePair<long, int>(f.AudioTrackId, f.QueueIndex)));
 
-            if (sender is Control { Tag: QueueAppendInsertMode mode })
+            if (sender is Control { Tag: QueueAppendInsertMode mode, })
             {
                 await loadOrAppendQueueFunc(queueData, albumId.Value, mode);
                 Close(true);

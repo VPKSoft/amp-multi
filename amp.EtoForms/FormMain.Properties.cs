@@ -43,8 +43,16 @@ public partial class FormMain
                 return;
             }
 
-            Globals.Settings.SelectedAlbum = value;
-            Globals.SaveSettings();
+            if (Globals.Settings.SelectedAlbum != value)
+            {
+                suspendAlbumChange = true;
+                var index = albums.FindIndex(f => f.Id == value);
+                cmbAlbumSelect.SelectedIndex = index;
+                suspendAlbumChange = false;
+
+                Globals.Settings.SelectedAlbum = value;
+                Globals.SaveSettings();
+            }
         }
     }
 
