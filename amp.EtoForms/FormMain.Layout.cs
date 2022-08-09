@@ -280,7 +280,7 @@ partial class FormMain
         if (Globals.Settings.DisplayAudioVisualization)
         {
             spectrumAnalyzer.SignalProvider = new SignalProvider(DataFlags.FFT1024, true, false)
-            { WindowType = WindowType.Hanning, };
+            { WindowType = (WindowType)Globals.Settings.FftWindow, };
         }
 
         return result;

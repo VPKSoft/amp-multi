@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using amp.Playback.Interfaces;
+using ManagedBass.FftSignalProvider;
 using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms.Settings;
@@ -250,6 +251,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value><c>true</c> if to display audio visualization; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
     public bool DisplayAudioVisualization { get; set; }
+
+    /// <summary>
+    /// Gets or sets the FFT window function.
+    /// </summary>
+    /// <value>The FFT window function.</value>
+    [Settings(Default = (int)WindowType.Hanning)]
+    public int FftWindow { get; set; }
     #endregion
 
     #region Runtime    

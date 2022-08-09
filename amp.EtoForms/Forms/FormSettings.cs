@@ -31,6 +31,8 @@ using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
+using ManagedBass.FftSignalProvider;
 using static EtoForms.Controls.Custom.Utilities.TableLayoutHelpers;
 
 namespace amp.EtoForms.Forms;
@@ -103,7 +105,10 @@ public class FormSettings : Dialog<bool>
         nsStackQueue.Value = Globals.Settings.StackQueueRandomPercentage;
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
         nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
+
+        // Audio visualization
         cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
+        cmbFftWindowSelect.SelectedValue = ((WindowType)Globals.Settings.FftWindow).ToString();
 
         // Album image
         cbShowAlbumImage.Checked = Globals.Settings.ShowAlbumImage;
@@ -154,7 +159,13 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.ShowAlbumImage = cbShowAlbumImage.Checked == true;
 
         Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
+
+        // Audio visualization
         Globals.Settings.DisplayAudioVisualization = cbDisplayAudioVisualization.Checked == true;
+        if (Enum.TryParse<WindowType>(cmbFftWindowSelect.SelectedValue.ToString() ?? WindowType.Hanning.ToString(), out var value))
+        {
+            Globals.Settings.FftWindow = (int)value;
+        }
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
@@ -235,7 +246,9 @@ public class FormSettings : Dialog<bool>
                     cbAutoHideAlbumImage,
                     cbDisplayColumnHeaders,
                     retryCountRow,
+                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
                     cbDisplayAudioVisualization,
+                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -398,6 +411,9 @@ public class FormSettings : Dialog<bool>
     private readonly Slider sldWeightedTolerance = new() { MinValue = 0, MaxValue = 100, TickFrequency = 10, };
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
     private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
+
+    private readonly ComboBox cmbFftWindowSelect = new()
+    { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
 
     private readonly TextBox tbTrackNamingFormula = new();
     private readonly TextBox tbRenamedTrackNamingFormula = new();
