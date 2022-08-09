@@ -258,6 +258,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// <value>The FFT window function.</value>
     [Settings(Default = (int)WindowType.Hanning)]
     public int FftWindow { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to visualize the audio in bar mode.
+    /// </summary>
+    /// <value><c>true</c> if to visualize the audio in bar mode; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool AudioVisualizationBars { get; set; }
     #endregion
 
     #region Runtime    

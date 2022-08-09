@@ -109,6 +109,7 @@ public class FormSettings : Dialog<bool>
         // Audio visualization
         cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
         cmbFftWindowSelect.SelectedValue = ((WindowType)Globals.Settings.FftWindow).ToString();
+        cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
 
         // Album image
         cbShowAlbumImage.Checked = Globals.Settings.ShowAlbumImage;
@@ -166,6 +167,8 @@ public class FormSettings : Dialog<bool>
         {
             Globals.Settings.FftWindow = (int)value;
         }
+
+        Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
@@ -249,6 +252,7 @@ public class FormSettings : Dialog<bool>
                     new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
                     cbDisplayAudioVisualization,
                     EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
+                    cbAudioVisualizationBars,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -412,8 +416,6 @@ public class FormSettings : Dialog<bool>
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
     private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
-    private readonly ComboBox cmbFftWindowSelect = new()
-    { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
 
     private readonly TextBox tbTrackNamingFormula = new();
     private readonly TextBox tbRenamedTrackNamingFormula = new();
@@ -434,12 +436,18 @@ public class FormSettings : Dialog<bool>
     private CheckBox cbEnableQuietHours;
     private CheckBox cbPauseOnQuietHours;
     private CheckBox cbDecreaseVolumeOnQuietHours;
-    private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
     private TabPage tabCommon;
     private TabPage tabWeightedRandom;
     private TabPage tabTrackNaming;
     private readonly TabControl tbcSettings = new();
     private readonly Button btnOk = new() { Text = UI.OK, };
     private readonly Button btnCancel = new() { Text = UI.Cancel, };
+
+    private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
+    private readonly ComboBox cmbFftWindowSelect = new()
+    { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
+
+    private readonly CheckBox cbAudioVisualizationBars = new() { Text = "Bar visualization mode", };
+
     #endregion
 }
