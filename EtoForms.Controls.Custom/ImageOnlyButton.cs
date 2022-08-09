@@ -183,6 +183,7 @@ public class ImageOnlyButton : Drawable
             {
                 imageColor = value;
                 drawImage?.Dispose();
+                drawImage = null;
                 Invalidate();
             }
         }
@@ -224,6 +225,7 @@ public class ImageOnlyButton : Drawable
             {
                 base.Enabled = value;
                 drawImage?.Dispose();
+                drawImage = null;
                 Invalidate();
             }
         }
@@ -243,6 +245,7 @@ public class ImageOnlyButton : Drawable
             {
                 svgImageData = value;
                 drawImage?.Dispose();
+                drawImage = null;
                 Invalidate();
             }
         }
