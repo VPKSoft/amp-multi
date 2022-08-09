@@ -48,7 +48,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1        
       with:
-        files: ${{ github.workspace }}/Packaging/amp.EtoForms.zip
+        files: ${{ github.workspace }}/Packaging/amp#.zip
         token: ${{ secrets.RELEASE_TOKEN }}
 
  release-windows:
