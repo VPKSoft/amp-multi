@@ -488,4 +488,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="InsertToQueue" xml:space="preserve">
     <value>Lisää jonon alkuun</value>
   </data>
+  <data name="UseTrackImageWindow" xml:space="preserve">
+    <value>Käytä kappaleen kuvaikkunaa</value>
+  </data>
 </root>

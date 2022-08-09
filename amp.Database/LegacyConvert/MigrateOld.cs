@@ -329,7 +329,7 @@ public static class MigrateOld
                 "AIF" => MusicFileType.Aif,
                 "AIFF" => MusicFileType.Aif,
                 "FLAC" => MusicFileType.Flac,
-                _ => fileType
+                _ => fileType,
             };
 
             var sqlNew = string.Join(Environment.NewLine,

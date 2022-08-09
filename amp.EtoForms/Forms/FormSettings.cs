@@ -31,6 +31,8 @@ using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
+using ManagedBass.FftSignalProvider;
 using static EtoForms.Controls.Custom.Utilities.TableLayoutHelpers;
 
 namespace amp.EtoForms.Forms;
@@ -101,10 +103,17 @@ public class FormSettings : Dialog<bool>
 
         cbCheckUpdates.Checked = Globals.Settings.AutoCheckUpdates;
         nsStackQueue.Value = Globals.Settings.StackQueueRandomPercentage;
-        cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
         nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
+
+        // Audio visualization
         cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
+        cmbFftWindowSelect.SelectedValue = ((WindowType)Globals.Settings.FftWindow).ToString();
+        cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
+
+        // Album image
+        cbShowAlbumImage.Checked = Globals.Settings.ShowAlbumImage;
+        cbAutoHideAlbumImage.Checked = Globals.Settings.AutoHideEmptyAlbumImage;
 
         // Track title naming.
         tbTrackNamingFormula.Text = Globals.Settings.TrackNameFormula;
@@ -144,11 +153,22 @@ public class FormSettings : Dialog<bool>
 
         Globals.Settings.AutoCheckUpdates = cbCheckUpdates.Checked == true;
         Globals.Settings.StackQueueRandomPercentage = (int)nsStackQueue.Value;
-        Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
 
+        // Album image
+        Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
+        Globals.Settings.ShowAlbumImage = cbShowAlbumImage.Checked == true;
+
         Globals.Settings.PlaybackRetryCount = (int)nsRetryCount.Value;
+
+        // Audio visualization
         Globals.Settings.DisplayAudioVisualization = cbDisplayAudioVisualization.Checked == true;
+        if (Enum.TryParse<WindowType>(cmbFftWindowSelect.SelectedValue.ToString() ?? WindowType.Hanning.ToString(), out var value))
+        {
+            Globals.Settings.FftWindow = (int)value;
+        }
+
+        Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
@@ -169,7 +189,8 @@ public class FormSettings : Dialog<bool>
         nameof(cmbUiLocale),
         nameof(cbCheckUpdates),
         nameof(nsStackQueue),
-        nameof(cbAutoHideAlbumImage)
+        nameof(cbAutoHideAlbumImage),
+        nameof(cbShowAlbumImage)
         )]
     private void CreateSettingsTabCommon()
     {
@@ -182,6 +203,7 @@ public class FormSettings : Dialog<bool>
         nsStackQueue = new NumericStepper { MinValue = 0, MaxValue = 100, };
         cbCheckUpdates = new CheckBox { Text = Shared.Localization.Settings.CheckForUpdatesUponStartup, };
         cbAutoHideAlbumImage = new CheckBox { Text = Shared.Localization.Settings.AutoHideAlbumImageWindow, };
+        cbShowAlbumImage = new CheckBox { Text = UI.UseTrackImageWindow, };
 
         cmbUiLocale = new ComboBox
         {
@@ -223,10 +245,14 @@ public class FormSettings : Dialog<bool>
                     cbCheckUpdates,
                     new Label { Text = Shared.Localization.Settings.StackQueue,},
                     stackQueue,
+                    cbShowAlbumImage,
                     cbAutoHideAlbumImage,
                     cbDisplayColumnHeaders,
                     retryCountRow,
+                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
                     cbDisplayAudioVisualization,
+                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
+                    cbAudioVisualizationBars,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -390,6 +416,7 @@ public class FormSettings : Dialog<bool>
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
     private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
+
     private readonly TextBox tbTrackNamingFormula = new();
     private readonly TextBox tbRenamedTrackNamingFormula = new();
     private readonly NumericStepper nsTitleMinimumLength = new() { MinValue = 3, MaxValue = 100, };
@@ -398,6 +425,7 @@ public class FormSettings : Dialog<bool>
 
     private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
     private CheckBox cbAutoHideAlbumImage;
+    private CheckBox cbShowAlbumImage;
     private CheckBox cbCheckUpdates;
     private ComboBox cmbUiLocale;
     private NumericStepper nsQuietHourSilenceAmount;
@@ -408,12 +436,18 @@ public class FormSettings : Dialog<bool>
     private CheckBox cbEnableQuietHours;
     private CheckBox cbPauseOnQuietHours;
     private CheckBox cbDecreaseVolumeOnQuietHours;
-    private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
     private TabPage tabCommon;
     private TabPage tabWeightedRandom;
     private TabPage tabTrackNaming;
     private readonly TabControl tbcSettings = new();
     private readonly Button btnOk = new() { Text = UI.OK, };
     private readonly Button btnCancel = new() { Text = UI.Cancel, };
+
+    private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
+    private readonly ComboBox cmbFftWindowSelect = new()
+    { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
+
+    private readonly CheckBox cbAudioVisualizationBars = new() { Text = "Bar visualization mode", };
+
     #endregion
 }

@@ -488,4 +488,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="InsertToQueue" xml:space="preserve">
     <value>Insert to queue start</value>
   </data>
+  <data name="UseTrackImageWindow" xml:space="preserve">
+    <value>Use track image window</value>
+  </data>
 </root>

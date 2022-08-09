@@ -49,7 +49,15 @@ partial class FormMain
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
     private readonly Label lbTracksTitle = new();
-    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 50, Height = 100, BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorSpectrumVisualizerBackground), };
+
+    private readonly SpectrumVisualizer spectrumAnalyzer = new(true)
+    {
+        Width = 50,
+        Height = 100,
+        BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorSpectrumVisualizerBackground),
+        SpectrumType = Globals.Settings.AudioVisualizationBars ? SpectrumType.Bar : SpectrumType.Line,
+    };
+
     private readonly StackLayout toolBar;
     private readonly Expander trackAdjustControls;
     private PositionSlider playbackPosition;

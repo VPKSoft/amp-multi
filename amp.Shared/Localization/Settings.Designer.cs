@@ -61,6 +61,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Audio visualizer.
+        /// </summary>
+        public static string AudioVisualizer {
+            get {
+                return ResourceManager.GetString("AudioVisualizer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio visualizer FFT Window function.
+        /// </summary>
+        public static string AudioVisualizerFFTWindowFunction {
+            get {
+                return ResourceManager.GetString("AudioVisualizerFFTWindowFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto-hide album image window.
         /// </summary>
         public static string AutoHideAlbumImageWindow {

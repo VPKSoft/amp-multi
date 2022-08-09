@@ -1178,6 +1178,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use track image window.
+        /// </summary>
+        public static string UseTrackImageWindow {
+            get {
+                return ResourceManager.GetString("UseTrackImageWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Volume.
         /// </summary>
         public static string Volume {

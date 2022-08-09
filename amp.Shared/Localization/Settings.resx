@@ -154,4 +154,10 @@
   <data name="DisplayPlaylistColumnHeaders" xml:space="preserve">
     <value>Display playlist column headers</value>
   </data>
+  <data name="AudioVisualizer" xml:space="preserve">
+    <value>Audio visualizer</value>
+  </data>
+  <data name="AudioVisualizerFFTWindowFunction" xml:space="preserve">
+    <value>Audio visualizer FFT Window function</value>
+  </data>
 </root>
