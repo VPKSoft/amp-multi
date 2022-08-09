@@ -43,8 +43,16 @@ public partial class FormMain
                 return;
             }
 
-            Globals.Settings.SelectedAlbum = value;
-            Globals.SaveSettings();
+            if (Globals.Settings.SelectedAlbum != value)
+            {
+                suspendAlbumChange = true;
+                var index = albums.FindIndex(f => f.Id == value);
+                cmbAlbumSelect.SelectedIndex = index;
+                suspendAlbumChange = false;
+
+                Globals.Settings.SelectedAlbum = value;
+                Globals.SaveSettings();
+            }
         }
     }
 
@@ -99,10 +107,6 @@ public partial class FormMain
             return false;
         }
     }
-
-    private readonly object lockObject = new();
-
-    private readonly Queue<KeyValuePair<string, DateTime>> displayMessageQueue = new();
 
     private Queue<KeyValuePair<string, DateTime>> DisplayMessageQueue
     {

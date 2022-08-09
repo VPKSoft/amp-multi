@@ -144,6 +144,9 @@ public class FormSavedQueues : Dialog<bool>
             DataStore = queueTracks,
         };
 
+        var panel1 = new Panel {Content = gvAlbumQueues, Size = new Size(700, 250),};
+        var panel2 = new Panel {Content = gvAlbumQueueTracks, Size = new Size(700, 250),};
+        
         Content = new TableLayout
         {
             Rows =
@@ -152,8 +155,8 @@ public class FormSavedQueues : Dialog<bool>
                 new TableRow(
                 new Splitter
                 {
-                    Panel1 = gvAlbumQueues,
-                    Panel2 = gvAlbumQueueTracks,
+                    Panel1 = panel1,
+                    Panel2 = panel2,
                     RelativePosition = 0.5,
                     Orientation = Orientation.Vertical,
                     FixedPanel = SplitterFixedPanel.None,
@@ -186,7 +189,7 @@ public class FormSavedQueues : Dialog<bool>
                 .Where(f => f.QueueSnapshotId == SelectedQueueId).AsNoTracking()
                 .Select(f => new KeyValuePair<long, int>(f.AudioTrackId, f.QueueIndex)));
 
-            if (sender is Control { Tag: QueueAppendInsertMode mode })
+            if (sender is Control { Tag: QueueAppendInsertMode mode, })
             {
                 await loadOrAppendQueueFunc(queueData, albumId.Value, mode);
                 Close(true);

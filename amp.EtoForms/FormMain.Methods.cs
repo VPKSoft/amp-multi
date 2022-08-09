@@ -29,7 +29,6 @@ using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms.Enumerations;
-using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
@@ -71,16 +70,20 @@ partial class FormMain
 
     private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, QueueAppendInsertMode mode)
     {
-        if (CurrentAlbumId != albumId)
-        {
-            await ReusableControls.UpdateAlbumDataSource(cmbAlbumSelect, context, albumId);
-            CurrentAlbumId = albumId;
+        var updateData =
+            new Dictionary<long, int>();
 
-            // This async selection update needs to be waited to finish.
-            queryDivider?.WaitForCurrentQuery();
-        }
+        CurrentAlbumId = albumId;
 
-        var queueIndexAdd = mode is QueueAppendInsertMode.Append ? tracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 0 ?? 0 : 0;
+        RefreshCurrentAlbum();
+        Thread.Sleep(100);
+
+        //// This async selection update needs to be waited to finish.
+        queryDivider?.WaitForCurrentQuery();
+
+        var queueIndexAdd = mode is QueueAppendInsertMode.Append
+            ? tracks.DefaultIfEmpty().Max(f => f?.QueueIndex) + 0 ?? 0
+            : 0;
 
         if (mode == QueueAppendInsertMode.Load)
         {
@@ -91,9 +94,6 @@ partial class FormMain
         {
             await playbackOrder.ShiftQueueDown(tracks, queueData.Count, false);
         }
-
-        var updateData =
-            new Dictionary<long, int>();
 
         foreach (var data in queueData)
         {
@@ -140,6 +140,7 @@ partial class FormMain
             {
                 albumTrack.QueueIndex = newIndex;
             }
+
             albumTrack.ModifiedAtUtc = DateTime.UtcNow;
 
             albumTrack.UpdateDataModel(modifyTracks.FirstOrDefault(f => f.Id == albumTrack.Id));
@@ -156,8 +157,6 @@ partial class FormMain
 
         UpdateCounters();
     }
-
-    private QueryDivider<AlbumTrack>? queryDivider;
 
     /// <summary>
     /// Refreshes the current album.
@@ -177,10 +176,16 @@ partial class FormMain
         var query = context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
             .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
 
-        queryDivider = new QueryDivider<AlbumTrack>(query, 100, ExceptionProvider.Instance);
+        if (queryDivider is { QueryRunning: true, })
+        {
+            return;
+        }
+
+        queryDivider = new QueryDivider<AlbumTrack>(query, 100, ExceptionProvider.Instance, false);
         queryDivider.ProgressChanged += QueryDivider_ProgressChanged;
         queryDivider.QueryCompleted += QueryDivider_QueryCompleted;
-        queryDivider.RunQueryTasks();
+        queryDivider.RunQueryTasksLinear();
+        queryDivider.WaitForStart();
     }
 
     private void AssignSettings()
@@ -203,11 +208,6 @@ partial class FormMain
 
             spectrumAnalyzer.VisualizeColors = newSpectrumColors;
         });
-    }
-
-    private async Task UpdateAlbumDataSource()
-    {
-        await ReusableControls.UpdateAlbumDataSource(cmbAlbumSelect, context, CurrentAlbumId);
     }
 
     private void FillAboutDialogData()

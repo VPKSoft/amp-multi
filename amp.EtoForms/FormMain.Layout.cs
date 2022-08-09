@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.Layout;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
@@ -34,8 +33,6 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
-using EtoForms.FormPositions;
-using EtoForms.SpectrumVisualizer;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
@@ -44,20 +41,12 @@ namespace amp.EtoForms;
 
 partial class FormMain
 {
-    [MemberNotNull(nameof(cmbAlbumSelect))]
-    private StackLayout CreateAlbumSelector()
+    private Control CreateAlbumSelector()
     {
-        cmbAlbumSelect = ReusableControls.CreateAlbumSelectCombo(id =>
-        {
-            if (id != null)
-            {
-                CurrentAlbumId = id.Value;
-                RefreshCurrentAlbum();
-                playbackManager.ResetPlaybackHistory();
-            }
-
-            return Task.CompletedTask;
-        }, context, Globals.Settings.SelectedAlbum);
+        albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+        cmbAlbumSelect.DataStore = albums;
+        cmbAlbumSelect.SelectedIndex = albums.FindIndex(f => f.Id == CurrentAlbumId);
+        cmbAlbumSelect.SelectedIndexChanged += CmbAlbumSelect_SelectedIndexChanged;
 
         var imageView = new ImageView { Width = 20, Height = 20, };
         imageView.SizeChanged += delegate
@@ -82,6 +71,20 @@ partial class FormMain
         };
 
         return result;
+    }
+
+    private void CmbAlbumSelect_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (suspendAlbumChange || cmbAlbumSelect.SelectedIndex < 0)
+        {
+            return;
+        }
+
+        Globals.LoggerSafeInvoke(() =>
+        {
+            CurrentAlbumId = albums[cmbAlbumSelect.SelectedIndex].Id;
+            RefreshCurrentAlbum();
+        });
     }
 
     private StackLayout CreateToolbar()
@@ -159,7 +162,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(cmbAlbumSelect), nameof(audioVisualizationControl), nameof(btnClearSearch))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(audioVisualizationControl), nameof(btnClearSearch))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider
@@ -283,8 +286,6 @@ partial class FormMain
         return result;
     }
 
-    private readonly SpectrumVisualizer spectrumAnalyzer = new(true) { Width = 50, Height = 100, BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorSpectrumVisualizerBackground), };
-
     [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
     private void CreateButtons()
     {
@@ -323,7 +324,7 @@ partial class FormMain
     private void CreateMenu()
     {
         var menuColor = Color.Parse(Globals.ColorConfiguration.MenuItemImageColor);
-        var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor); // TODO!!
+        var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor);
 
         quitCommand.Image =
             EtoHelpers.ImageFromSvg(menuColor, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
@@ -446,14 +447,6 @@ partial class FormMain
         };
     }
 
-    private readonly AboutDialog aboutDialog = new();
-    private GridView gvAudioTracks;
-    private readonly TextBox tbSearch = new();
-    private ImageOnlyButton btnClearSearch;
-    private CheckedButton btnPlayPause;
-    private SvgImageButton btnPreviousTrack;
-    private readonly Label lbTracksTitle = new();
-
     private readonly VolumeSlider trackVolumeSlider = new()
     {
         Maximum = 300,
@@ -477,49 +470,4 @@ partial class FormMain
         ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorRatingSlider),
         ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorRatingSliderValueIndicator),
     };
-
-    private readonly Command commandPlayPause = new();
-    private readonly Command nextAudioTrackCommand = new();
-    private CheckedButton btnShuffleToggle;
-    private CheckedButton btnRepeatToggle;
-    private CheckedButton btnShowQueue;
-    private readonly StackLayout toolBar;
-    private readonly Expander trackAdjustControls;
-    private PositionSlider playbackPosition;
-    private Label lbPlaybackPosition;
-    private readonly Command clearQueueCommand = new()
-    { MenuText = UI.ClearQueue, Shortcut = Application.Instance.CommonModifier | Keys.D, };
-    private readonly Command quitCommand = new() { MenuText = UI.Quit, Shortcut = Application.Instance.CommonModifier | Keys.Q, };
-    private readonly Command aboutCommand = new() { MenuText = UI.About, };
-    private readonly Command settingsCommand = new() { MenuText = UI.Settings, };
-    private readonly Command colorSettingsCommand = new() { MenuText = UI.ColorSettings, };
-    private readonly Command testStuff = new() { MenuText = UI.TestStuff, };
-    private readonly Command addFilesToDatabase = new() { MenuText = UI.AddFiles, };
-    private readonly Command addFilesToAlbum = new() { MenuText = UI.AddFilesToAlbum, };
-    private readonly Command addDirectoryToDatabase = new() { MenuText = UI.AddFolderContents, };
-    private readonly Command addDirectoryToAlbum = new() { MenuText = UI.AddFolderContentsToAlbum, };
-    private readonly Command manageAlbumsCommand = new() { MenuText = UI.Albums, };
-    private readonly Command saveQueueCommand = new() { MenuText = UI.SaveCurrentQueue, Shortcut = Application.Instance.CommonModifier | Keys.S, };
-    private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, Shortcut = Keys.F3, };
-    private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
-    private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
-    private ComboBox cmbAlbumSelect = new();
-    private CheckedButton btnStackQueueToggle;
-    private Control audioVisualizationControl;
-
-    // Status bar controls:
-    private readonly Label lbQueueCountText = new() { Text = UI.QueueCount, };
-    private readonly Label lbQueueCountValue = new();
-    private readonly Label lbStatusMessage = new();
-    private readonly Label lbLoadingText = new() { Text = Messages.LoadingPercentage, Visible = false, };
-    private readonly ProgressBar progressLoading = new() { Visible = false, };
-    private readonly Label lbTrackCount = new() { Text = UI.Tracks, };
-    private readonly Label lbTrackCountValue = new();
-
-    // Position
-    private readonly FormSaveLoadPosition positionSaveLoad;
-    private bool loadingPosition;
-    private bool positionsLoaded;
-    private readonly UITimer timer = new();
-    private DateTime positionLastChanged;
 }

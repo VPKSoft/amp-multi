@@ -25,21 +25,20 @@ SOFTWARE.
 #endregion
 
 using amp.Database;
-using amp.Database.DataModel;
 using amp.Database.ExtensionClasses;
 using Eto.Forms;
 
 namespace amp.EtoForms.Layout;
 internal static class ReusableControls
 {
-    public static ComboBox CreateAlbumSelectCombo(Func<long?, Task>? selectedValueChanged, AmpContext context, long selectAlbumId)
+    public static ComboBox CreateAlbumSelectCombo(Func<long?, Task>? selectedValueChanged, AmpContext context,
+        long selectAlbumId)
     {
-        var cmbAlbumSelect = new ComboBox { ReadOnly = false, AutoComplete = true, };
-        cmbAlbumSelect.ItemTextBinding = new PropertyBinding<string>(nameof(Album.AlbumName));
+        var cmbAlbumSelect = new ComboBox();
 
         cmbAlbumSelect.SelectedValueChanged += async (_, _) =>
         {
-            var id = ((amp.EtoForms.Models.Album?)cmbAlbumSelect.SelectedValue)?.Id;
+            var id = ((Models.Album?)cmbAlbumSelect.SelectedValue)?.Id;
 
             if (selectedValueChanged != null)
             {
@@ -52,11 +51,11 @@ internal static class ReusableControls
         return cmbAlbumSelect;
     }
 
-    public static async Task UpdateAlbumDataSource(ComboBox cmbAlbumSelect, AmpContext context, long currentAlbumId = 0)
+    private static async Task UpdateAlbumDataSource(ComboBox cmbAlbumSelect, AmpContext context, long currentAlbumId = 0)
     {
         var albumsEntity = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
 
-        var albums = albumsEntity.Select(f => Globals.AutoMapper.Map<amp.EtoForms.Models.Album>(f)).ToList();
+        var albums = albumsEntity.Select(f => Globals.AutoMapper.Map<Models.Album>(f)).ToList();
 
         cmbAlbumSelect.DataStore = albums;
         if (albums.Any(f => f.Id == currentAlbumId))

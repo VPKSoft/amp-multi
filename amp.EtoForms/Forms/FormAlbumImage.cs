@@ -62,8 +62,6 @@ public class FormAlbumImage : Form
         Close();
     }
 
-    private bool allowClose;
-
     private void FormAlbumImage_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         if (!allowClose)
@@ -80,6 +78,15 @@ public class FormAlbumImage : Form
     public void Reposition(FormMain main)
     {
         Location = new Point(main.Location.X + main.Width, main.Location.Y + 200);
+
+        if (internalVisible && !Visible)
+        {
+            if (main.WindowState != WindowState.Minimized && main.Visible)
+            {
+                Show();
+            }
+        }
+
         if (Visible)
         {
             BringToFront();
@@ -95,6 +102,8 @@ public class FormAlbumImage : Form
     /// <param name="albumTrack">The album track to get the image for.</param>
     public void Show<TAudioTrack, TAlbum>(FormMain main, IAlbumTrack<TAudioTrack, TAlbum> albumTrack) where TAudioTrack : IAudioTrack where TAlbum : IAlbum
     {
+        internalVisible = false;
+
         if (albumTrack.AudioTrack != null)
         {
             Show(main, albumTrack.AudioTrack);
@@ -109,6 +118,7 @@ public class FormAlbumImage : Form
             {
                 imageView.Image = null;
             }
+            internalVisible = Visible;
         }
     }
 
@@ -125,6 +135,7 @@ public class FormAlbumImage : Form
     /// <param name="audioTrack">The track to get the image for.</param>
     public void Show(FormMain main, IAudioTrack audioTrack)
     {
+        internalVisible = false;
         Location = new Point(main.Location.X + main.Width, main.Location.Y + 200);
         Globals.LoggerSafeInvoke(() =>
         {
@@ -135,7 +146,13 @@ public class FormAlbumImage : Form
 
                 var bitmap = new Bitmap(stream);
                 imageView.Image = bitmap;
-                Show();
+
+                if (main.WindowState != WindowState.Minimized && main.Visible)
+                {
+                    Show();
+                }
+
+                internalVisible = true;
             }
             else if (track.EmbeddedPictures.Any())
             {
@@ -144,7 +161,13 @@ public class FormAlbumImage : Form
 
                 var bitmap = new Bitmap(stream);
                 imageView.Image = bitmap;
-                Show();
+
+                if (main.WindowState != WindowState.Minimized && main.Visible)
+                {
+                    Show();
+                }
+
+                internalVisible = true;
             }
             else
             {
@@ -156,7 +179,11 @@ public class FormAlbumImage : Form
                 {
                     imageView.Image = null;
                 }
+                internalVisible = Visible;
             }
         });
     }
+
+    private bool internalVisible;
+    private bool allowClose;
 }

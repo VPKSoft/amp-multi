@@ -274,8 +274,6 @@ partial class FormMain
         });
     }
 
-    private readonly FormAlbumImage formAlbumImage = new();
-
     private async void PlayPauseToggle(object? sender, CheckedChangeEventArguments e)
     {
         btnPlayPause.CheckedChange -= PlayPauseToggle;
@@ -388,9 +386,8 @@ partial class FormMain
         FilterTracks();
     }
 
-    private async void FormMain_Shown(object? sender, EventArgs e)
+    private void FormMain_Shown(object? sender, EventArgs e)
     {
-        await UpdateAlbumDataSource();
         LoadLayout();
         CreateAlbumSelector();
         shownCalled = true;
@@ -496,21 +493,14 @@ partial class FormMain
 
     private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
     {
-        bool modalResult;
-
         if (UtilityOS.IsMacOS)
         {
             // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
-            modalResult = new FormAlbums(context).ShowModal(this);
+            new FormAlbums(context).ShowModal(this);
         }
         else
         {
-            modalResult = await new FormAlbums(context).ShowModalAsync(this);
-        }
-
-        if (modalResult)
-        {
-            await UpdateAlbumDataSource();
+            await new FormAlbums(context).ShowModalAsync(this);
         }
     }
 
@@ -604,7 +594,8 @@ partial class FormMain
             if (!string.IsNullOrWhiteSpace(tbSearch.Text))
             {
                 filteredTracks =
-                    new ObservableCollection<Models.AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(tbSearch.Text))
+                    new ObservableCollection<Models.AlbumTrack>(tracks
+                        .Where(f => f.AudioTrack!.Match(tbSearch.Text))
                         .ToList());
             }
 
@@ -675,12 +666,22 @@ partial class FormMain
 
     private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
     {
+        if (WindowState != previousWindowState && WindowState == WindowState.Minimized)
+        {
+            formAlbumImage.Close();
+        }
+        else
+        {
+            formAlbumImage.Reposition(this);
+        }
+
         if (loadingPosition)
         {
             return;
         }
         positionLastChanged = DateTime.Now;
         timer.Start();
+        previousWindowState = WindowState;
     }
 
     private void Timer_Elapsed(object? sender, EventArgs e)

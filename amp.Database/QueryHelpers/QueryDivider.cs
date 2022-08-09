@@ -31,29 +31,40 @@ using Microsoft.EntityFrameworkCore;
 namespace amp.Database.QueryHelpers;
 
 /// <summary>
-/// A class to divide a query into multiple tasks and run the divided query in parallel.
+/// A class to divide a query into multiple tasks and run the divided query in either parallel or linear.
 /// </summary>
 public class QueryDivider<T>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryDivider{T}"/> class.
     /// </summary>
-    /// <param name="queryable">The <see cref="IQueryable{T}"/> query to divide into pieces and run parallel.</param>
+    /// <param name="queryable">The <see cref="IQueryable{T}"/> query to divide into pieces and run either parallel or linear.</param>
     /// <param name="taskSize">Size of the parallel tasks to divide the query into.</param>
     /// <param name="exceptionReporter">A class implementing the <see cref="IExceptionReporter"/> interface for reporting exceptions to external handler.</param>
-    public QueryDivider(IQueryable<T> queryable, int taskSize, IExceptionReporter exceptionReporter)
+    /// <param name="parallelQueryRunning">A value indicating whether to run the query in parallel or in linear mode.</param>
+    public QueryDivider(IQueryable<T> queryable, int taskSize, IExceptionReporter exceptionReporter, bool parallelQueryRunning)
     {
-        SetQueryTasks(queryable, taskSize, exceptionReporter);
+        this.taskSize = taskSize;
+        parallel = parallelQueryRunning;
+
+        if (!parallelQueryRunning)
+        {
+            this.queryable = queryable;
+            this.exceptionReporter = exceptionReporter;
+        }
+        else
+        {
+            SetQueryTasks(queryable, exceptionReporter);
+        }
     }
 
     /// <summary>
-    /// Divides the specified query into <paramref name="taskSize"/>-sized parts and creates the tasks.
+    /// Divides the specified query into <see cref="taskSize"/>-sized parts and creates the tasks.
     /// </summary>
     /// <param name="query">The query to divide into tasks.</param>
-    /// <param name="taskSize">Size of a single task.</param>
     /// <param name="reporter">A class implementing the <see cref="IExceptionReporter"/> interface for reporting exceptions to external handler.</param>
     [MemberNotNull(nameof(queryable), nameof(exceptionReporter))]
-    public void SetQueryTasks(IQueryable<T> query, int taskSize, IExceptionReporter reporter)
+    private void SetQueryTasks(IQueryable<T> query, IExceptionReporter reporter)
     {
         exceptionReporter = reporter;
         var count = query.Count();
@@ -64,7 +75,7 @@ public class QueryDivider<T>
         for (int i = 0; i * taskSize < count; i++)
         {
             queryTasks.Add(new KeyValuePair<Func<TaskData, Task<List<T>>>, TaskData>(TaskFromTaskData,
-                new TaskData { TaskIndex = i + 1, TaskSize = taskSize, ProgressAction = ReportProgress, }));
+                new TaskData { TaskIndex = i, TaskSize = taskSize, ProgressAction = ReportProgress, }));
         }
     }
 
@@ -80,7 +91,7 @@ public class QueryDivider<T>
 
     private void ReportProgress(int taskIndex)
     {
-        currentCount++;
+        currentCount = currentCount + 1;
         ProgressChanged?.Invoke(this,
             new QueryProgressChangedEventArgs
             { CurrentCount = currentCount, TotalCount = totalCount, TaskIndex = taskIndex, });
@@ -88,7 +99,7 @@ public class QueryDivider<T>
 
     private async Task<List<T>> TaskFromTaskData(TaskData taskData)
     {
-        var result = await queryable.Skip(taskData.TaskIndex * taskData.TaskSize).Take(taskData.TaskSize).ToListAsync();
+        var result = await queryable.Skip(taskData.TaskIndex * taskData.TaskSize).Take(taskData.TaskSize).ToListAsync(cancellationToken: token);
         resultList.AddRange(result);
         taskData.ProgressAction(taskData.TaskIndex);
         return result;
@@ -97,44 +108,135 @@ public class QueryDivider<T>
     /// <summary>
     /// Starts running the query tasks in parallel in a separate thread.
     /// </summary>
-    public void RunQueryTasks()
+    public void RunQueryTasksParallel()
     {
-        RunQueryTasks(CancellationToken.None);
+        RunQueryTasksParallel(CancellationToken.None);
     }
 
     /// <summary>
     /// Starts running the query tasks in parallel in a separate thread.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    public void RunQueryTasks(CancellationToken cancellationToken)
+    public void RunQueryTasksParallel(CancellationToken cancellationToken)
     {
+        if (!parallel)
+        {
+            throw new InvalidOperationException(
+                "Set the parallelQueryRunning flag to true in the constructor for parallel query.");
+        }
+
+        starCalled = true;
+
         try
         {
-            queryTaskThread = new Thread(QueryThreadMethod);
-            queryRunning = true;
+            token = cancellationToken;
+            queryTaskThread = new Thread(QueryThreadMethodParallel);
             queryTaskThread.Start();
         }
         catch (Exception ex)
         {
-            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(RunQueryTasks));
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(RunQueryTasksParallel));
             queryRunning = false;
         }
     }
 
-    private async void QueryThreadMethod()
+    /// <summary>
+    /// Starts running the query in linear mode in a separate thread.
+    /// </summary>
+    public void RunQueryTasksLinear()
     {
+        RunQueryTasksLinear(CancellationToken.None);
+    }
+
+    /// <summary>
+    /// Starts running the query in linear mode in a separate thread.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    public void RunQueryTasksLinear(CancellationToken cancellationToken)
+    {
+        if (parallel)
+        {
+            throw new InvalidOperationException(
+                "Set the parallelQueryRunning flag to false in the constructor for linear query.");
+        }
+
+        starCalled = true;
+
         try
         {
-            var tasks = queryTasks.Select(f => f.Key(f.Value));
-            await Task.WhenAll(tasks);
-            QueryCompleted?.Invoke(this, new QueryCompletedEventArgs<T> { ResultList = resultList, });
+            token = cancellationToken;
+            queryTaskThread = new Thread(QueryThreadMethodLinear);
+            queryTaskThread.Start();
         }
         catch (Exception ex)
         {
-            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(QueryThreadMethod));
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(RunQueryTasksLinear));
+            queryRunning = false;
+        }
+    }
+
+    private async void QueryThreadMethodParallel()
+    {
+        if (queryRunning)
+        {
+            throw new InvalidOperationException(
+                "Query is in progress. Wait it for to finish before starting a new one.");
+        }
+
+        queryRunning = true;
+
+        try
+        {
+            var tasks = queryTasks.Select(f => f.Key(f.Value)).ToList();
+            await Task.WhenAll(tasks);
+        }
+        catch (Exception ex)
+        {
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(QueryThreadMethodParallel));
         }
 
         queryRunning = false;
+        starCalled = false;
+        QueryCompleted?.Invoke(this, new QueryCompletedEventArgs<T> { ResultList = resultList, });
+    }
+
+    private void QueryThreadMethodLinear()
+    {
+        if (queryRunning)
+        {
+            throw new InvalidOperationException(
+                "Query is in progress. Wait it for to finish before starting a new one.");
+        }
+
+        queryRunning = true;
+
+        try
+        {
+            var count = queryable.Count();
+            currentCount = 0;
+            totalCount = (int)Math.Ceiling((double)count / taskSize);
+
+            ReportProgress(0);
+
+            for (int i = 0; i * taskSize < count; i++)
+            {
+                var result = queryable.Skip(i * taskSize).Take(taskSize).ToList();
+                resultList.AddRange(result);
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+                ReportProgress(i);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptionReporter.RaiseExceptionOccurred(ex, GetType().Name, nameof(QueryThreadMethodParallel));
+        }
+
+        queryRunning = false;
+        starCalled = false;
+        QueryCompleted?.Invoke(this, new QueryCompletedEventArgs<T> { ResultList = resultList, });
     }
 
     /// <summary>
@@ -160,12 +262,30 @@ public class QueryDivider<T>
         }
     }
 
+    /// <summary>
+    /// Waits for the current query to start.
+    /// </summary>
+    public void WaitForStart()
+    {
+        if (starCalled)
+        {
+            while (!queryRunning)
+            {
+                Thread.Sleep(10);
+            }
+        }
+    }
+
+    private volatile bool starCalled;
     private volatile bool queryRunning;
     private Thread? queryTaskThread;
-    private readonly List<T> resultList = new();
-    private int currentCount;
-    private int totalCount;
+    private volatile List<T> resultList = new();
+    private volatile int currentCount;
+    private volatile int totalCount;
     private readonly List<KeyValuePair<Func<TaskData, Task<List<T>>>, TaskData>> queryTasks = new();
-    private IQueryable<T> queryable;
+    private volatile IQueryable<T> queryable;
     private IExceptionReporter exceptionReporter;
+    private volatile int taskSize;
+    private CancellationToken token;
+    private volatile bool parallel;
 }
