@@ -158,8 +158,6 @@ partial class FormMain
         UpdateCounters();
     }
 
-    private QueryDivider<AlbumTrack>? queryDivider;
-
     /// <summary>
     /// Refreshes the current album.
     /// </summary>

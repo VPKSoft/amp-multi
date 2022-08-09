@@ -108,10 +108,6 @@ public partial class FormMain
         }
     }
 
-    private readonly object lockObject = new();
-
-    private readonly Queue<KeyValuePair<string, DateTime>> displayMessageQueue = new();
-
     private Queue<KeyValuePair<string, DateTime>> DisplayMessageQueue
     {
         get

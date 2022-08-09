@@ -274,8 +274,6 @@ partial class FormMain
         });
     }
 
-    private readonly FormAlbumImage formAlbumImage = new();
-
     private async void PlayPauseToggle(object? sender, CheckedChangeEventArguments e)
     {
         btnPlayPause.CheckedChange -= PlayPauseToggle;
@@ -668,12 +666,22 @@ partial class FormMain
 
     private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
     {
+        if (WindowState != previousWindowState && WindowState == WindowState.Minimized)
+        {
+            formAlbumImage.Close();
+        }
+        else
+        {
+            formAlbumImage.Reposition(this);
+        }
+
         if (loadingPosition)
         {
             return;
         }
         positionLastChanged = DateTime.Now;
         timer.Start();
+        previousWindowState = WindowState;
     }
 
     private void Timer_Elapsed(object? sender, EventArgs e)
