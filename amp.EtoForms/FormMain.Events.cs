@@ -160,7 +160,10 @@ partial class FormMain
 
     private void FormMain_LocationChanged(object? sender, EventArgs e)
     {
-        formAlbumImage.Reposition(this);
+        if (Globals.Settings.ShowAlbumImage)
+        {
+            formAlbumImage.Reposition(this);
+        }
     }
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
@@ -245,7 +248,7 @@ partial class FormMain
                 gvAudioTracks.Focus();
             }
 
-            if (track != null)
+            if (track != null && Globals.Settings.ShowAlbumImage)
             {
                 formAlbumImage.Show(this, track);
             }
@@ -666,13 +669,16 @@ partial class FormMain
 
     private void FormMain_SizeLocationChanged(object? sender, EventArgs e)
     {
-        if (WindowState != previousWindowState && WindowState == WindowState.Minimized)
+        if (Globals.Settings.ShowAlbumImage)
         {
-            formAlbumImage.Close();
-        }
-        else
-        {
-            formAlbumImage.Reposition(this);
+            if (WindowState != previousWindowState && WindowState == WindowState.Minimized)
+            {
+                formAlbumImage.Close();
+            }
+            else
+            {
+                formAlbumImage.Reposition(this);
+            }
         }
 
         if (loadingPosition)

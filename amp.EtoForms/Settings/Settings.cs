@@ -231,6 +231,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     public bool AutoHideEmptyAlbumImage { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to display track image window.
+    /// </summary>
+    /// <value><c>true</c> if to display track image window; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool ShowAlbumImage { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether display playlist column headers.
     /// </summary>
     /// <value><c>true</c> if display playlist column headers; otherwise, <c>false</c>.</value>
