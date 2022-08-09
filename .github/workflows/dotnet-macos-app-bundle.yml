@@ -26,4 +26,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: amp# application bundle
-        path: ${{ github.workspace }}/Packaging/amp.EtoForms.zip
+        path: ${{ github.workspace }}/Packaging/amp#.zip
