@@ -836,6 +836,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quiet time ({0}-{1}).
+        /// </summary>
+        public static string QuietTime01 {
+            get {
+                return ResourceManager.GetString("QuietTime01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
         public static string Quit {

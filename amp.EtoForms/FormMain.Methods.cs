@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
@@ -32,6 +33,7 @@ using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
+using amp.Playback.Classes;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
@@ -340,8 +342,13 @@ SOFTWARE.
         SizeChanged += FormMain_SizeLocationChanged;
         LocationChanged += FormMain_SizeLocationChanged;
         WindowStateChanged += FormMain_SizeLocationChanged;
-        timer.Elapsed += Timer_Elapsed;
-        timer.Interval = 2;
+        timerSavePositionCheck.Elapsed += TimerSavePositionCheckElapsed;
+        timerQuietHourChecker.Elapsed += TimerQuietHourChecker_Elapsed;
+        timerSavePositionCheck.Interval = 2;
+        if (Globals.Settings.QuietHours)
+        {
+            timerQuietHourChecker.Start();
+        }
         tmMessageQueueTimer.Start();
     }
 
@@ -413,6 +420,27 @@ SOFTWARE.
         else
         {
             control.KeyDown -= eventHandler;
+        }
+    }
+
+    [MemberNotNull(nameof(quietHourHandler))]
+    private void InitAdditionalFields()
+    {
+        quietHourHandler = new QuietHourHandler<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings);
+    }
+
+    private void SetTitle()
+    {
+        var album = albums.FirstOrDefault(f => f.Id == CurrentAlbumId);
+
+        if (quietHoursSet)
+        {
+            var times = quietHourHandler.QuietHourTimes;
+            Title = $"amp# {UI._} [{album?.AlbumName}] {string.Format(UI.QuietTime01, times.start.ToShortTimeString(), times.end.ToShortTimeString())}";
+        }
+        else
+        {
+            Title = $"amp# {UI._} [{album?.AlbumName}]";
         }
     }
 }

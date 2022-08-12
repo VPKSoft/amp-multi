@@ -29,6 +29,7 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.EtoForms.Utilities;
 using amp.Playback;
+using amp.Playback.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -56,7 +57,7 @@ public partial class FormMain : Form
 
         SetupInitialSettings();
 
-        Title = "amp#";
+        SetTitle();
 
         MinimumSize = new Size(550, 650);
 
@@ -99,6 +100,7 @@ public partial class FormMain : Form
         idleChecker = new UserIdleChecker(this);
 
         AssignSettings();
+        InitAdditionalFields();
         AssignEventListeners();
         CreateMenu();
     }
@@ -112,6 +114,7 @@ public partial class FormMain : Form
     private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
     private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
+    private QuietHourHandler<AudioTrack, AlbumTrack, Models.Album> quietHourHandler;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;

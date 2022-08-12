@@ -491,4 +491,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="UseTrackImageWindow" xml:space="preserve">
     <value>Use track image window</value>
   </data>
+  <data name="QuietTime01" xml:space="preserve">
+    <value>Quiet time ({0}-{1})</value>
+  </data>
 </root>

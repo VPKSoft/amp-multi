@@ -52,6 +52,7 @@ public partial class FormMain
 
                 Globals.Settings.SelectedAlbum = value;
                 Globals.SaveSettings();
+                SetTitle();
             }
         }
     }
