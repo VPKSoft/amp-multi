@@ -78,12 +78,14 @@ public class FormSettings : Dialog<bool>
     private void LoadSettings()
     {
         // Quiet hours.
+        suspendQuietHoursSet = true;
         cbEnableQuietHours.Checked = Globals.Settings.QuietHours;
         cbDecreaseVolumeOnQuietHours.Checked = !Globals.Settings.QuietHoursPause;
         nsQuietHourSilenceAmount.Value = Globals.Settings.QuietHoursVolumePercentage;
         cbPauseOnQuietHours.Checked = Globals.Settings.QuietHoursPause;
-        dtpStartQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursFrom!, "HH':'mm", CultureInfo.InvariantCulture);
-        dtpEndQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursTo!, "HH':'mm", CultureInfo.InvariantCulture);
+        dtpStartQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursFrom, "HH':'mm", CultureInfo.InvariantCulture);
+        dtpEndQuietHours.Value = DateTime.ParseExact(Globals.Settings.QuietHoursTo, "HH':'mm", CultureInfo.InvariantCulture);
+        suspendQuietHoursSet = false;
 
         // Weighted randomization.
         cbWeightedRandomEnabled.Checked = Globals.Settings.BiasedRandom;
@@ -261,6 +263,66 @@ public class FormSettings : Dialog<bool>
         };
 
         tbcSettings.Pages.Add(tabCommon);
+        cbDecreaseVolumeOnQuietHours.CheckedChanged += CbDecreaseVolumeOnQuietHours_CheckedChanged;
+        cbPauseOnQuietHours.CheckedChanged += CbPauseOnQuietHours_CheckedChanged;
+        cbEnableQuietHours.CheckedChanged += CbEnableQuietHours_CheckedChanged;
+    }
+
+    private bool suspendQuietHoursSet;
+
+    private void CbEnableQuietHours_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (suspendQuietHoursSet)
+        {
+            return;
+        }
+
+        QuitHoursSetOneOption();
+    }
+
+
+    private void QuitHoursSetOneOption()
+    {
+        var previous = suspendQuietHoursSet;
+        suspendQuietHoursSet = false;
+
+        if (cbPauseOnQuietHours.Checked == false && cbDecreaseVolumeOnQuietHours.Checked == false &&
+            cbEnableQuietHours.Checked == true)
+        {
+            cbPauseOnQuietHours.Checked = true;
+        }
+
+        suspendQuietHoursSet = previous;
+    }
+
+    private void CbPauseOnQuietHours_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (suspendQuietHoursSet)
+        {
+            return;
+        }
+
+        if (cbPauseOnQuietHours.Checked == true)
+        {
+            cbDecreaseVolumeOnQuietHours.Checked = false;
+        }
+
+        QuitHoursSetOneOption();
+    }
+
+    private void CbDecreaseVolumeOnQuietHours_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (suspendQuietHoursSet)
+        {
+            return;
+        }
+
+        if (cbDecreaseVolumeOnQuietHours.Checked == true)
+        {
+            cbPauseOnQuietHours.Checked = false;
+        }
+
+        QuitHoursSetOneOption();
     }
 
     [MemberNotNull(nameof(tabWeightedRandom))]

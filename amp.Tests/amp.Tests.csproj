@@ -48,6 +48,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
+		<ProjectReference Include="..\amp.Playback\amp.Playback.csproj" />
 		<ProjectReference Include="..\amp.Shared\amp.Shared.csproj" />
 	</ItemGroup>
 

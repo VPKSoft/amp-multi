@@ -491,4 +491,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="UseTrackImageWindow" xml:space="preserve">
     <value>Käytä kappaleen kuvaikkunaa</value>
   </data>
+  <data name="QuietTime01" xml:space="preserve">
+    <value>Hiljainen aika ({0}-{1})</value>
+  </data>
 </root>

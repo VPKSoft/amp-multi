@@ -38,7 +38,7 @@ namespace amp.EtoForms.Settings;
 /// <seealso cref="ApplicationJsonSettings" />
 /// <seealso cref="IBiasedRandomSettings" />
 // ReSharper disable once ClassNeverInstantiated.Global, yes it is instantiated via activator.
-public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
+public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHourSettings
 {
     /// <summary>
     /// Gets or sets the value indicating whether the previous database migration should be queried from the user.
@@ -165,32 +165,22 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     #endregion
 
     #region QuietHours
-    /// <summary>
-    /// A flag indicating whether the quiet hours is enabled in the settings.
-    /// </summary>
+    /// <inheritdoc cref="IQuietHourSettings.QuietHours"/>
     [Settings]
     public bool QuietHours { get; set; }
 
-    /// <summary>
-    /// A value indicating the quiet hour starting time if the <see cref="QuietHours"/> is enabled.
-    /// </summary>
-    [Settings(Default = "08:00")]
-    public string? QuietHoursFrom { get; set; }
-
-    /// <summary>
-    /// A value indicating the quiet hour ending time if the <see cref="QuietHours"/> is enabled.
-    /// </summary>
+    /// <inheritdoc cref="IQuietHourSettings.QuietHoursFrom"/>
     [Settings(Default = "23:00")]
-    public string? QuietHoursTo { get; set; }
+    public string QuietHoursFrom { get; set; } = string.Empty;
 
-    /// <summary>
-    /// A value indicating whether to pause the playback at a quiet hour in case if the <see cref="QuietHours"/> is enabled.
-    /// </summary>
+    /// <inheritdoc cref="IQuietHourSettings.QuietHoursTo"/>
+    [Settings(Default = "08:00")]
+    public string QuietHoursTo { get; set; } = string.Empty;
+
+    /// <inheritdoc cref="IQuietHourSettings.QuietHoursPause"/>
     public bool QuietHoursPause { get; set; }
 
-    /// <summary>
-    /// A value indicating a volume decrease in percentage if the <see cref="QuietHours"/> is enabled.
-    /// </summary>
+    /// <inheritdoc cref="IQuietHourSettings.QuietHoursVolumePercentage"/>
     [Settings(Default = 30)]
     public double QuietHoursVolumePercentage { get; set; }
     #endregion
@@ -319,6 +309,7 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings
     /// </summary>
     /// <value><c>true</c> if to hide the menu items to add files to a database only; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global, don't remove yet, might be used in the settings dialog (?)
     public bool HideAddFilesToNonAlbum { get; set; }
 
     /// <summary>

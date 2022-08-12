@@ -399,6 +399,7 @@ partial class FormMain
         positionSaveLoad.Load();
         loadingPosition = false;
         positionsLoaded = true;
+        SetTitle();
     }
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
@@ -525,6 +526,10 @@ partial class FormMain
         using var settingsForm = new FormSettings();
         playbackOrder.StackQueueRandomPercentage = Globals.Settings.StackQueueRandomPercentage;
         settingsForm.ShowModal(this);
+        if (Globals.Settings.QuietHours)
+        {
+            timerQuietHourChecker.Start();
+        }
     }
 
     private async void ScrambleQueueCommand_Executed(object? sender, EventArgs e)
@@ -686,17 +691,17 @@ partial class FormMain
             return;
         }
         positionLastChanged = DateTime.Now;
-        timer.Start();
+        timerSavePositionCheck.Start();
         previousWindowState = WindowState;
     }
 
-    private void Timer_Elapsed(object? sender, EventArgs e)
+    private void TimerSavePositionCheckElapsed(object? sender, EventArgs e)
     {
         if ((DateTime.Now - positionLastChanged).TotalSeconds > 10)
         {
             // This can stop even if nothing is done.
             // Setting a new position launches this again.
-            timer.Stop();
+            timerSavePositionCheck.Stop();
             if (shownCalled && !loadingPosition && positionsLoaded)
             {
                 positionSaveLoad.Save();
@@ -714,4 +719,25 @@ partial class FormMain
         using var form = new FormColorSettings();
         form.ShowModal(this);
     }
+
+    private async void TimerQuietHourChecker_Elapsed(object? sender, EventArgs e)
+    {
+        if (!Globals.Settings.QuietHours)
+        {
+            timerQuietHourChecker.Stop();
+            return;
+        }
+
+        if (quietHourHandler.IsQuietHour)
+        {
+            var result = await quietHourHandler.SetQuietHour(playbackManager);
+            if (result != quietHoursSet)
+            {
+                quietHoursSet = result;
+                SetTitle();
+            }
+        }
+    }
+
+    private bool quietHoursSet;
 }

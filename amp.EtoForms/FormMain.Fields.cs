@@ -100,7 +100,7 @@ partial class FormMain
     private readonly FormSaveLoadPosition positionSaveLoad;
     private bool loadingPosition;
     private bool positionsLoaded;
-    private readonly UITimer timer = new();
+    private readonly UITimer timerSavePositionCheck = new();
     private DateTime positionLastChanged;
 
     // Other
@@ -117,4 +117,6 @@ partial class FormMain
     // Thread locking
     private readonly object lockObject = new();
 
+    // Quit hours
+    private readonly UITimer timerQuietHourChecker = new() { Interval = 1, };
 }
