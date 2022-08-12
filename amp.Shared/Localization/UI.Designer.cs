@@ -232,6 +232,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bar visualization mode.
+        /// </summary>
+        public static string BarVisualizationMode {
+            get {
+                return ResourceManager.GetString("BarVisualizationMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bit rate.
         /// </summary>
         public static string BitRate {
@@ -1183,6 +1192,15 @@ namespace amp.Shared.Localization {
         public static string Undo {
             get {
                 return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update track metadata.
+        /// </summary>
+        public static string UpdateTrackMetadata {
+            get {
+                return ResourceManager.GetString("UpdateTrackMetadata", resourceCulture);
             }
         }
         
