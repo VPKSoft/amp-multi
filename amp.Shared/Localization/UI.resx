@@ -494,4 +494,13 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="QuietTime01" xml:space="preserve">
     <value>Quiet time ({0}-{1})</value>
   </data>
+  <data name="BarVisualizationMode" xml:space="preserve">
+    <value>Bar visualization mode</value>
+  </data>
+  <data name="UpdateTrackMetadata" xml:space="preserve">
+    <value>Update track metadata</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
 </root>

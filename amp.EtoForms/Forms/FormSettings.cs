@@ -509,7 +509,7 @@ public class FormSettings : Dialog<bool>
     private readonly ComboBox cmbFftWindowSelect = new()
     { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
 
-    private readonly CheckBox cbAudioVisualizationBars = new() { Text = "Bar visualization mode", };
+    private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
 
     #endregion
 }

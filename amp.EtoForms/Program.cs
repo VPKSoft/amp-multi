@@ -30,7 +30,6 @@ using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
-using EtoForms.FormPositions;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
 
 namespace amp.EtoForms;

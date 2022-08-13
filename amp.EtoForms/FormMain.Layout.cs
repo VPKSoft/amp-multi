@@ -339,6 +339,9 @@ partial class FormMain
         settingsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_settings_16_filled, Globals.ButtonDefaultSize);
 
+        updateTrackMetadata.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size16.ic_fluent_arrow_clockwise_16_filled, Globals.ButtonDefaultSize);
+
         colorSettingsCommand.Image =
             EtoHelpers.ImageFromSvg(menuColor, Size16.ic_fluent_color_16_filled, Globals.ButtonDefaultSize);
 
@@ -387,7 +390,7 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
-                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, },},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata,},},
             },
             ApplicationItems =
             {
@@ -416,6 +419,7 @@ partial class FormMain
         scrambleQueueCommand.Executed += ScrambleQueueCommand_Executed;
         trackInfoCommand.Executed += TrackInfoCommand_Executed;
         colorSettingsCommand.Executed += ColorSettingsCommand_Executed;
+        updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
     }
 
     private Control CreateStatusBar()

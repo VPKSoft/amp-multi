@@ -70,11 +70,11 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Tracks + ":", },
+                                    new Label { Text = UI.Tracks + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTrackCount,
                                     new Panel { Width = 10, },
-                                    new Label { Text = UI.Albums + ":", },
+                                    new Label { Text = UI.Albums + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbAlbumCount,
                                 },
@@ -83,11 +83,11 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.AlbumEntries + ":", },
+                                    new Label { Text = UI.AlbumEntries + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbAlbumEntryCount,
                                     new Panel { Width = 10, },
-                                    new Label { Text = UI.QueueEntries + ":", },
+                                    new Label { Text = UI.QueueEntries + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbQueueEntryCount,
                                 },
@@ -96,11 +96,11 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Total + ":", },
+                                    new Label { Text = UI.Total + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTotalCount,
                                     new Panel { Width = 10, },
-                                    new Label { Text = UI.TotalPercentage + ":", },
+                                    new Label { Text = UI.TotalPercentage + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTotalPercentage,
                                 },
@@ -122,7 +122,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
                                     {
                                         Cells =
                                         {
-                                            new Label { Text = UI.TimeEstimateReady + ":", },
+                                            new Label { Text = UI.TimeEstimateReady + UI.ColonDelimiter, },
                                             lbEtaValue,
                                         },
                                     },

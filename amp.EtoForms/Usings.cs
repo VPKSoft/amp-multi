@@ -24,4 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+// ReSharper disable once RedundantUsingDirective.Global, used in release build
 global using Serilog;
+global using EtoForms.FormPositions;
+global using System;

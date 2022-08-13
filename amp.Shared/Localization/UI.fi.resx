@@ -494,4 +494,13 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="QuietTime01" xml:space="preserve">
     <value>Hiljainen aika ({0}-{1})</value>
   </data>
+  <data name="BarVisualizationMode" xml:space="preserve">
+    <value>Visualisointi pylväsmuodossa</value>
+  </data>
+  <data name="UpdateTrackMetadata" xml:space="preserve">
+    <value>Päivitä kappaleiden metatiedot</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Virheitä</value>
+  </data>
 </root>

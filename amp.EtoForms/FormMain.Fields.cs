@@ -31,7 +31,6 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
-using EtoForms.FormPositions;
 using EtoForms.SpectrumVisualizer;
 
 namespace amp.EtoForms;
@@ -78,6 +77,7 @@ partial class FormMain
     private readonly Command manageSavedQueues = new() { MenuText = UI.SavedQueues, Shortcut = Keys.F3, };
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
+    private readonly Command updateTrackMetadata = new() { MenuText = UI.UpdateTrackMetadata, };
 
     // The album select combo box.
     private readonly ComboBox cmbAlbumSelect = new();
@@ -119,4 +119,5 @@ partial class FormMain
 
     // Quit hours
     private readonly UITimer timerQuietHourChecker = new() { Interval = 1, };
+    private bool quietHoursSet;
 }

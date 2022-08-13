@@ -29,6 +29,7 @@ using System.ComponentModel;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
+using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.EventArguments;
@@ -739,5 +740,10 @@ partial class FormMain
         }
     }
 
-    private bool quietHoursSet;
+    private void UpdateTrackMetadata_Executed(object? sender, EventArgs e)
+    {
+        using var form = new DialogUpdateTagData(context);
+        form.ShowModal(this);
+        RefreshCurrentAlbum();
+    }
 }
