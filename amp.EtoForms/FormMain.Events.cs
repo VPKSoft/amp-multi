@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
@@ -33,6 +34,7 @@ using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.EventArguments;
+using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
 using amp.Playback.Enumerations;
@@ -745,5 +747,17 @@ partial class FormMain
         using var form = new DialogUpdateTagData(context);
         form.ShowModal(this);
         RefreshCurrentAlbum();
+    }
+
+    private async void CheckUpdates_Executed(object? sender, EventArgs e)
+    {
+        var result = await DialogCheckNewVersion.CheckNewVersion(this, Assembly.GetEntryAssembly()!.GetName().Version!,
+            string.IsNullOrWhiteSpace(Resources.VersionTag) ? null : Resources.VersionTag);
+
+        if (!result)
+        {
+            MessageBox.Show(this, Messages.YouAreAlreadyUsingTheLatestVersionOfTheSoftware, Messages.Information,
+                MessageBoxButtons.OK);
+        }
     }
 }

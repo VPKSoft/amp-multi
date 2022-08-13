@@ -363,6 +363,9 @@ partial class FormMain
         trackInfoCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
 
+        checkUpdates.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size16.ic_fluent_arrow_download_16_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
@@ -420,6 +423,7 @@ partial class FormMain
         trackInfoCommand.Executed += TrackInfoCommand_Executed;
         colorSettingsCommand.Executed += ColorSettingsCommand_Executed;
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
+        checkUpdates.Executed += CheckUpdates_Executed;
     }
 
     private Control CreateStatusBar()

@@ -503,4 +503,19 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="Errors" xml:space="preserve">
     <value>Errors</value>
   </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>New version</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>Current version</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="VersionPrefix" xml:space="preserve">
+    <value>v.</value>
+  </data>
+  <data name="CheckForNewVersion" xml:space="preserve">
+    <value>Check for new version</value>
+  </data>
 </root>

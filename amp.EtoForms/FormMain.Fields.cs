@@ -78,6 +78,7 @@ partial class FormMain
     private readonly Command scrambleQueueCommand = new() { MenuText = UI.ScrambleQueue, Shortcut = Keys.F7, };
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private readonly Command updateTrackMetadata = new() { MenuText = UI.UpdateTrackMetadata, };
+    private readonly Command checkUpdates = new() { MenuText = UI.CheckForNewVersion, };
 
     // The album select combo box.
     private readonly ComboBox cmbAlbumSelect = new();

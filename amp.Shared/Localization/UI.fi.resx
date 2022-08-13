@@ -503,4 +503,19 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="Errors" xml:space="preserve">
     <value>Virheitä</value>
   </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>Uusi versio</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>Nykyinen versio</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Lataa</value>
+  </data>
+  <data name="VersionPrefix" xml:space="preserve">
+    <value>v.</value>
+  </data>
+  <data name="CheckForNewVersion" xml:space="preserve">
+    <value>Uuden version tarkistus</value>
+  </data>
 </root>

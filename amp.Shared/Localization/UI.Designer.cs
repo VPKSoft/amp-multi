@@ -259,6 +259,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for new version.
+        /// </summary>
+        public static string CheckForNewVersion {
+            get {
+                return ResourceManager.GetString("CheckForNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear queue.
         /// </summary>
         public static string ClearQueue {
@@ -376,6 +385,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current version.
+        /// </summary>
+        public static string CurrentVersion {
+            get {
+                return ResourceManager.GetString("CurrentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cut.
         /// </summary>
         public static string Cut {
@@ -453,6 +471,15 @@ namespace amp.Shared.Localization {
         public static string DisplayAudioVisualization {
             get {
                 return ResourceManager.GetString("DisplayAudioVisualization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
             }
         }
         
@@ -715,6 +742,15 @@ namespace amp.Shared.Localization {
         public static string MusicFiles {
             get {
                 return ResourceManager.GetString("MusicFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New version.
+        /// </summary>
+        public static string NewVersion {
+            get {
+                return ResourceManager.GetString("NewVersion", resourceCulture);
             }
         }
         
@@ -1219,6 +1255,15 @@ namespace amp.Shared.Localization {
         public static string UseTrackImageWindow {
             get {
                 return ResourceManager.GetString("UseTrackImageWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v..
+        /// </summary>
+        public static string VersionPrefix {
+            get {
+                return ResourceManager.GetString("VersionPrefix", resourceCulture);
             }
         }
         

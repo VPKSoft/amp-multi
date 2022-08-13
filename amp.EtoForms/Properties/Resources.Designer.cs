@@ -129,5 +129,14 @@ namespace amp.EtoForms.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string VersionTag {
+            get {
+                return ResourceManager.GetString("VersionTag", resourceCulture);
+            }
+        }
     }
 }
