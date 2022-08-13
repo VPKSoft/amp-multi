@@ -70,6 +70,7 @@ public static class TrackDisplayNameGenerate
 
     private static readonly Regex namingRegex = new("\\{.*?@(Ar|Al|Tn|Tl|R).*?\\}", RegexOptions.Compiled);
     private static readonly Regex nonAlphabet = new(@"[^\p{L}]*", RegexOptions.Compiled);
+    private static readonly Regex pseudoName = new(@"\s*\(\d*\)\s*track\s*\d*\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     private static readonly Dictionary<string, FormulaType> formulaTypes = new(new KeyValuePair<string, FormulaType>[]
     {
@@ -166,10 +167,12 @@ public static class TrackDisplayNameGenerate
 
         var matchNonAlpha = nonAlphabet.Match(formula);
         var allNonAlphabets = matchNonAlpha.Value.Length == formula.Length;
+        var pseudoMatch = pseudoName.Match(formula).Length == formula.Length;
 
         if (string.IsNullOrWhiteSpace(formula) ||
             formula.Trim().Length < MinimumTrackLength ||
-            (TrackNamingFallbackToFileNameWhenNoLetters && allNonAlphabets))
+            (TrackNamingFallbackToFileNameWhenNoLetters && allNonAlphabets) ||
+            pseudoMatch)
         {
             formula = Path.GetFileNameWithoutExtension(audioTrack.FileNameNoPath) ??
                       Path.GetFileNameWithoutExtension(Path.GetFileName(audioTrack.FileName));

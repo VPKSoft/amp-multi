@@ -24,16 +24,13 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using amp.Database;
 using amp.EtoForms.Models;
+using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms.Dialogs;
 
@@ -44,9 +41,6 @@ namespace amp.EtoForms.Dialogs;
 /// <seealso cref="Dialog" />
 public class DialogUpdateTagData : Dialog
 {
-    private readonly AmpContext context;
-    private readonly List<long> trackIds;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="DialogUpdateTagData"/> class.
     /// </summary>
@@ -101,7 +95,7 @@ public class DialogUpdateTagData : Dialog
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Tracks + ":", },
+                                    new Label { Text = UI.Tracks + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTrackCount,
                                 },
@@ -110,11 +104,20 @@ public class DialogUpdateTagData : Dialog
                             {
                                 Cells =
                                 {
-                                    new Label { Text = UI.Total + ":", },
+                                    new Label { Text = UI.Errors + UI.ColonDelimiter, },
+                                    new Panel { Width = 5, },
+                                    lbErrorsCount,
+                                },
+                            },
+                            new TableRow
+                            {
+                                Cells =
+                                {
+                                    new Label { Text = UI.Total + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTotalCount,
                                     new Panel { Width = 10, },
-                                    new Label { Text = UI.TotalPercentage + ":", },
+                                    new Label { Text = UI.TotalPercentage + UI.ColonDelimiter, },
                                     new Panel { Width = 5, },
                                     lbTotalPercentage,
                                 },
@@ -136,7 +139,7 @@ public class DialogUpdateTagData : Dialog
                                     {
                                         Cells =
                                         {
-                                            new Label { Text = UI.TimeEstimateReady + ":", },
+                                            new Label { Text = UI.TimeEstimateReady + UI.ColonDelimiter, },
                                             lbEtaValue,
                                         },
                                     },
@@ -148,17 +151,101 @@ public class DialogUpdateTagData : Dialog
             Orientation = Orientation.Vertical,
         };
 
-        btClose.Click += delegate { Close(); };
-        btCancel.Click += delegate { cancel = true; };
+        btClose.Click += BtClose_Click;
+        btCancel.Click += BtCancel_Click;
 
         PositiveButtons.Add(btClose);
         NegativeButtons.Add(btCancel);
         DefaultButton = btClose;
         AbortButton = btCancel;
+        Shown += DialogUpdateTagData_Shown;
+    }
+
+    private void BtClose_Click(object? sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private async void BtCancel_Click(object? sender, EventArgs e)
+    {
+        cancel = true;
+        if (updateMetadataTask != null)
+        {
+            await updateMetadataTask.WaitAsync(CancellationToken.None);
+        }
+        Close();
+    }
+
+    private void DialogUpdateTagData_Shown(object? sender, EventArgs e)
+    {
+        updateMetadataTask = Task.Factory.StartNew(ThreadMethod);
+    }
+
+    private async void ThreadMethod()
+    {
+        var query = context.AudioTracks.Where(f => trackIds.Contains(f.Id));
+        var count = await query.CountAsync();
+        var errorCount = 0;
+        var totalCount = 0;
+        var i = 0;
+
+        await Application.Instance.InvokeAsync(() =>
+        {
+            progressBar.MaxValue = count;
+            lbTrackCount.Text = $"{count}";
+        });
+
+        while (i < count && !cancel)
+        {
+            var start = DateTime.Now;
+            var tracks = await query.Skip(i).Take(100).ToListAsync();
+            foreach (var track in tracks)
+            {
+                try
+                {
+                    track.UpdateTrackInfo(new FileInfo(track.FileName));
+                }
+                catch (Exception ex)
+                {
+                    errorCount++;
+                    Globals.Logger?.Error(ex, "");
+                }
+                totalCount++;
+            }
+
+
+            estimateCalculator.AddData(start, DateTime.Now, 100);
+            i += 100;
+
+            await context.SaveChangesAsync();
+
+            var countCurrent = totalCount;
+            var errorCountCurrent = errorCount;
+            await Application.Instance.InvokeAsync(() =>
+            {
+                lbTotalCount.Text = $"{countCurrent}";
+                lbErrorsCount.Text = $"{errorCountCurrent}";
+                var totalPercentage = count == 0 ? 100.0 : (double)countCurrent / count * 100.0;
+                lbTotalPercentage.Text = $"{totalPercentage:F2}";
+                progressBar.Value = countCurrent;
+                var eta = estimateCalculator.Estimate(count);
+                lbEtaValue.Text = eta == null ? UI._ : $"{eta.Value.ToShortDateString()} {eta.Value.ToLongTimeString()}";
+            });
+        }
+
+        await Application.Instance.InvokeAsync(() =>
+        {
+            btClose.Enabled = true;
+            btCancel.Enabled = false;
+        });
     }
 
     private volatile bool cancel;
 
+    private Task? updateMetadataTask;
+    private readonly AmpContext context;
+    private readonly List<long> trackIds;
+    private readonly TimeEstimateCalculator estimateCalculator = new(500);
     private readonly Label lbTrackCount = new();
     private readonly Label lbTotalCount = new();
     private readonly Label lbTotalPercentage = new();
@@ -166,4 +253,5 @@ public class DialogUpdateTagData : Dialog
     private readonly Button btClose = new() { Text = UI.Close, Enabled = false, };
     private readonly Button btCancel = new() { Text = UI.Cancel, };
     private readonly ProgressBar progressBar = new();
+    private readonly Label lbErrorsCount = new();
 }

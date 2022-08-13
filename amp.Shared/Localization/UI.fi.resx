@@ -500,4 +500,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="UpdateTrackMetadata" xml:space="preserve">
     <value>Päivitä kappaleiden metatiedot</value>
   </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Virheitä</value>
+  </data>
 </root>

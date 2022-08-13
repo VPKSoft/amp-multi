@@ -500,4 +500,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="UpdateTrackMetadata" xml:space="preserve">
     <value>Update track metadata</value>
   </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Errors</value>
+  </data>
 </root>

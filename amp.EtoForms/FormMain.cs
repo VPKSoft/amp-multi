@@ -27,7 +27,6 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using amp.Database;
 using amp.Database.DataModel;
-using amp.EtoForms.Dialogs;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Playback.Classes;
@@ -35,7 +34,6 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
-using EtoForms.FormPositions;
 using AlbumTrack = amp.EtoForms.Models.AlbumTrack;
 using AudioTrack = amp.EtoForms.Models.AudioTrack;
 
