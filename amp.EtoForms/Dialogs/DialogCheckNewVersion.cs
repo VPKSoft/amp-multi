@@ -151,6 +151,14 @@ internal class DialogCheckNewVersion : Dialog
         CreateLayout();
     }
 
+    /// <summary>
+    /// Checks the new version and displays an information dialog if a new version was found.
+    /// </summary>
+    /// <param name="owner">The owner for the information dialog.</param>
+    /// <param name="version">The current application version.</param>
+    /// <param name="showForgetSetting">if set to <c>true</c> show a checkbox allowing user to forget reminder of the current new version.</param>
+    /// <param name="versionTag">The version tag.</param>
+    /// <returns><c>true</c> if the information dialog was displayed, <c>false</c> otherwise.</returns>
     public static async Task<bool> CheckNewVersion(Control owner, Version version, bool showForgetSetting, string? versionTag)
     {
         var checker = new UpdateChecker(CheckUri, version, versionTag);
