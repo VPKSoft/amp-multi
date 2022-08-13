@@ -255,6 +255,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     /// <value><c>true</c> if to visualize the audio in bar mode; otherwise, <c>false</c>.</value>
     [Settings(Default = true)]
     public bool AudioVisualizationBars { get; set; }
+
+    /// <summary>
+    /// Gets or sets the version data to not to check updates for.
+    /// </summary>
+    /// <value>The version data to not to check updates for.</value>
+    [Settings(Default = "")]
+    public string ForgerVersionUpdate { get; set; } = string.Empty;
     #endregion
 
     #region Runtime    

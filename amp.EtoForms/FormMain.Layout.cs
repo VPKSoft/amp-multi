@@ -393,7 +393,8 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
-                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata,},},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
+                new SubMenuItem { Text = UI.Help, Items = { aboutCommand, checkUpdates, },},
             },
             ApplicationItems =
             {
@@ -403,7 +404,6 @@ partial class FormMain
                 trackInfoCommand,
             },
             QuitItem = quitCommand,
-            AboutItem = aboutCommand,
         };
 
         FillAboutDialogData();

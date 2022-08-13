@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
@@ -34,7 +33,6 @@ using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.EventArguments;
-using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
 using amp.Playback.Enumerations;
@@ -751,13 +749,12 @@ partial class FormMain
 
     private async void CheckUpdates_Executed(object? sender, EventArgs e)
     {
-        var result = await DialogCheckNewVersion.CheckNewVersion(this, Assembly.GetEntryAssembly()!.GetName().Version!,
-            string.IsNullOrWhiteSpace(Resources.VersionTag) ? null : Resources.VersionTag);
+        await UpdateCheck(false);
+    }
 
-        if (!result)
-        {
-            MessageBox.Show(this, Messages.YouAreAlreadyUsingTheLatestVersionOfTheSoftware, Messages.Information,
-                MessageBoxButtons.OK);
-        }
+    private async void TimerCheckUpdates_Elapsed(object? sender, EventArgs e)
+    {
+        timerCheckUpdates.Stop();
+        await UpdateCheck(true);
     }
 }

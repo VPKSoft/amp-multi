@@ -29,9 +29,9 @@
 
 	<ItemGroup>
 		<Compile Update="Localization\ColorsDescriptions.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>ColorsDescriptions.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ColorsDescriptions.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Localization\EtoForms.Designer.cs">
 			<DependentUpon>EtoForms.resx</DependentUpon>
@@ -62,8 +62,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Update="Localization\ColorsDescriptions.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>ColorsDescriptions.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>ColorsDescriptions.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Localization\EtoForms.resx">
 			<LastGenOutput>EtoForms.Designer.cs</LastGenOutput>

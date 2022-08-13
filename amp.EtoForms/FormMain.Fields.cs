@@ -121,4 +121,7 @@ partial class FormMain
     // Quit hours
     private readonly UITimer timerQuietHourChecker = new() { Interval = 1, };
     private bool quietHoursSet;
+
+    // Update check
+    private readonly UITimer timerCheckUpdates = new() { Interval = 15, };
 }

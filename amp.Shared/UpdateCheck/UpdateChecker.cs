@@ -61,6 +61,11 @@ public class UpdateChecker : IExceptionReporter
     }
 
     /// <summary>
+    /// Gets or sets a version to not to check for again.
+    /// </summary>
+    public static string SkipVersion { get; set; } = string.Empty;
+
+    /// <summary>
     /// Checks the updates and returns the array of version data larger than the version specified in the constructor.
     /// </summary>
     /// <returns>IEnumerable&lt;VersionData&gt;.</returns>
@@ -81,6 +86,13 @@ public class UpdateChecker : IExceptionReporter
                 .ToList();
 
             result.AddRange(larger);
+
+            var check = result.MaxBy(f => f.ReleaseDateTime);
+
+            if (check != null && $"{check.Version}|{check.VersionTag ?? string.Empty}" == SkipVersion)
+            {
+                result.Clear();
+            }
 
             return result;
         }

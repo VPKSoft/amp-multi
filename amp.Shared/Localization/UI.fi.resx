@@ -518,4 +518,13 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="CheckForNewVersion" xml:space="preserve">
     <value>Uuden version tarkistus</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Apu</value>
+  </data>
+  <data name="Changes" xml:space="preserve">
+    <value>Muutokset</value>
+  </data>
+  <data name="DoNotRemindOfThisVersionAgain" xml:space="preserve">
+    <value>Älä muistuta tästä versiosta uudelleen</value>
+  </data>
 </root>

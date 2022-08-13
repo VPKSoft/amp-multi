@@ -518,4 +518,13 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="CheckForNewVersion" xml:space="preserve">
     <value>Check for new version</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Changes" xml:space="preserve">
+    <value>Changes</value>
+  </data>
+  <data name="DoNotRemindOfThisVersionAgain" xml:space="preserve">
+    <value>Do not remind of this version again</value>
+  </data>
 </root>

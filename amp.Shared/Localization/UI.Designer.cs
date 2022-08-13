@@ -259,6 +259,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes.
+        /// </summary>
+        public static string Changes {
+            get {
+                return ResourceManager.GetString("Changes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for new version.
         /// </summary>
         public static string CheckForNewVersion {
@@ -475,6 +484,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not remind of this version again.
+        /// </summary>
+        public static string DoNotRemindOfThisVersionAgain {
+            get {
+                return ResourceManager.GetString("DoNotRemindOfThisVersionAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download.
         /// </summary>
         public static string Download {
@@ -616,6 +634,15 @@ namespace amp.Shared.Localization {
         public static string Genre {
             get {
                 return ResourceManager.GetString("Genre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         

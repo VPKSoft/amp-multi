@@ -55,6 +55,34 @@ internal class DialogCheckNewVersion : Dialog
             historyBuilder.AppendLine(data.ChangeLog);
         }
 
+        var cbForget = new CheckBox();
+        cbForget.CheckedChanged += (_, _) =>
+        {
+            if (cbForget.Checked == true)
+            {
+                if (versionInfo != null)
+                {
+                    Globals.Settings.ForgerVersionUpdate =
+                        $"{versionInfo.Version}|{versionInfo.VersionTag ?? string.Empty}";
+                }
+            }
+            else
+            {
+                Globals.Settings.ForgerVersionUpdate = string.Empty;
+            }
+        };
+
+        var forgetSettingRow = !showForgetSetting
+            ? new TableRow()
+            : new TableRow
+            {
+                Cells =
+                {
+                    new Label { Text = UI.DoNotRemindOfThisVersionAgain, },
+                    cbForget,
+                },
+            };
+
         var layout = new TableLayout
         {
             Rows =
@@ -83,13 +111,15 @@ internal class DialogCheckNewVersion : Dialog
                         linkButton,
                     },
                 },
+                forgetSettingRow,
                 new TableRow
                 {
                     Cells =
                     {
-                        new Label { Text = "Changes", },
+                        new Label { Text = UI.Changes, },
                         new TextArea { Text = historyBuilder.ToString(), ReadOnly = true, },
                     },
+                    ScaleHeight = true,
                 },
             },
             Padding = Globals.DefaultPadding,
@@ -110,16 +140,18 @@ internal class DialogCheckNewVersion : Dialog
     /// </summary>
     /// <param name="versionData">The new version data.</param>
     /// <param name="currentVersion">The current version of the application.</param>
+    /// <param name="showForgetSetting">A value indicating whether to display a check box to not remind of the current new version again.</param>
     /// <param name="currentVersionTag">The current version tag of the application.</param>
-    private DialogCheckNewVersion(List<VersionData> versionData, Version currentVersion, string? currentVersionTag)
+    private DialogCheckNewVersion(List<VersionData> versionData, Version currentVersion, bool showForgetSetting, string? currentVersionTag)
     {
         this.versionData = versionData;
         this.currentVersionTag = currentVersionTag;
         this.currentVersion = currentVersion;
+        this.showForgetSetting = showForgetSetting;
         CreateLayout();
     }
 
-    public static async Task<bool> CheckNewVersion(Control owner, Version version, string? versionTag)
+    public static async Task<bool> CheckNewVersion(Control owner, Version version, bool showForgetSetting, string? versionTag)
     {
         var checker = new UpdateChecker(CheckUri, version, versionTag);
         var versionData = (await checker.CheckUpdates()).ToList();
@@ -128,7 +160,7 @@ internal class DialogCheckNewVersion : Dialog
             return false;
         }
 
-        using var dialog = new DialogCheckNewVersion(versionData, version, versionTag);
+        using var dialog = new DialogCheckNewVersion(versionData, version, showForgetSetting, versionTag);
         if (UtilityOS.IsMacOS)
         {
             // ReSharper disable once MethodHasAsyncOverload, Eto.Forms bug in MacOS implementation prevents this
@@ -146,4 +178,5 @@ internal class DialogCheckNewVersion : Dialog
     private readonly Version currentVersion;
     private readonly string? currentVersionTag;
     private readonly Button btnClose = new() { Text = UI.Close, };
+    private readonly bool showForgetSetting;
 }
