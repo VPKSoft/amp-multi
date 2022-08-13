@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
@@ -37,6 +38,7 @@ using amp.Playback.Classes;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
+using amp.Shared.UpdateCheck;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Helpers;
@@ -344,12 +346,18 @@ SOFTWARE.
         WindowStateChanged += FormMain_SizeLocationChanged;
         timerSavePositionCheck.Elapsed += TimerSavePositionCheckElapsed;
         timerQuietHourChecker.Elapsed += TimerQuietHourChecker_Elapsed;
+        timerCheckUpdates.Elapsed += TimerCheckUpdates_Elapsed;
         timerSavePositionCheck.Interval = 2;
         if (Globals.Settings.QuietHours)
         {
             timerQuietHourChecker.Start();
         }
         tmMessageQueueTimer.Start();
+
+        if (Globals.Settings.AutoCheckUpdates)
+        {
+            timerCheckUpdates.Start();
+        }
     }
 
     private void OnClosed(object? sender, EventArgs e)
@@ -426,7 +434,7 @@ SOFTWARE.
     [MemberNotNull(nameof(quietHourHandler))]
     private void InitAdditionalFields()
     {
-        quietHourHandler = new QuietHourHandler<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings);
+        quietHourHandler = new QuietHourHandler<AudioTrack, AlbumTrack, Album>(Globals.Settings);
     }
 
     private void SetTitle()
@@ -441,6 +449,29 @@ SOFTWARE.
         else
         {
             Title = $"amp# {UI._} [{album?.AlbumName}]";
+        }
+    }
+
+    private async Task UpdateCheck(bool autoCheck)
+    {
+        UpdateChecker.SkipVersion = string.Empty;
+        if (autoCheck)
+        {
+            UpdateChecker.SkipVersion = Globals.Settings.ForgerVersionUpdate;
+        }
+
+        var result = await DialogCheckNewVersion.CheckNewVersion(this, Assembly.GetEntryAssembly()!.GetName().Version!,
+            autoCheck, string.IsNullOrWhiteSpace(Resources.VersionTag) ? null : Resources.VersionTag);
+
+        if (!result && !autoCheck)
+        {
+            MessageBox.Show(this, Messages.YouAreAlreadyUsingTheLatestVersionOfTheSoftware, Messages.Information,
+                MessageBoxButtons.OK);
+        }
+
+        if (autoCheck)
+        {
+            Globals.SaveSettings();
         }
     }
 }

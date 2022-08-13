@@ -363,6 +363,9 @@ partial class FormMain
         trackInfoCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
 
+        checkUpdates.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size16.ic_fluent_arrow_download_16_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
@@ -390,7 +393,8 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
-                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata,},},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
+                new SubMenuItem { Text = UI.Help, Items = { aboutCommand, checkUpdates, },},
             },
             ApplicationItems =
             {
@@ -400,7 +404,6 @@ partial class FormMain
                 trackInfoCommand,
             },
             QuitItem = quitCommand,
-            AboutItem = aboutCommand,
         };
 
         FillAboutDialogData();
@@ -420,6 +423,7 @@ partial class FormMain
         trackInfoCommand.Executed += TrackInfoCommand_Executed;
         colorSettingsCommand.Executed += ColorSettingsCommand_Executed;
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
+        checkUpdates.Executed += CheckUpdates_Executed;
     }
 
     private Control CreateStatusBar()

@@ -510,6 +510,5 @@ public class FormSettings : Dialog<bool>
     { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
 
     private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
-
     #endregion
 }

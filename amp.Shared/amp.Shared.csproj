@@ -22,15 +22,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="VPKSoft.DropOutStack" Version="1.0.2" />
 		<PackageReference Include="z440.atl.core" Version="4.9.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Update="Localization\ColorsDescriptions.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>ColorsDescriptions.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ColorsDescriptions.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Localization\EtoForms.Designer.cs">
 			<DependentUpon>EtoForms.resx</DependentUpon>
@@ -61,8 +62,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Update="Localization\ColorsDescriptions.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>ColorsDescriptions.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>ColorsDescriptions.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Localization\EtoForms.resx">
 			<LastGenOutput>EtoForms.Designer.cs</LastGenOutput>

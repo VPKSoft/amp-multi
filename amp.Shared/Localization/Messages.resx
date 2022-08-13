@@ -130,4 +130,10 @@
   <data name="LoadingPercentage" xml:space="preserve">
     <value>Loading {0:F1} %</value>
   </data>
+  <data name="YouAreAlreadyUsingTheLatestVersionOfTheSoftware" xml:space="preserve">
+    <value>You are already using the latest version of the software.</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
 </root>

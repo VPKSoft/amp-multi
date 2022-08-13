@@ -130,4 +130,10 @@
   <data name="LoadingPercentage" xml:space="preserve">
     <value>Latataan {0:F1} %</value>
   </data>
+  <data name="YouAreAlreadyUsingTheLatestVersionOfTheSoftware" xml:space="preserve">
+    <value>Sinulla on jo käytössäsi viimeisin versio sovelluksesta.</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Ilmoitus</value>
+  </data>
 </root>

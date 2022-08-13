@@ -115,6 +115,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        public static string Information {
+            get {
+                return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading {0:F1} %.
         /// </summary>
         public static string LoadingPercentage {
@@ -156,6 +165,15 @@ namespace amp.Shared.Localization {
         public static string Untitled {
             get {
                 return ResourceManager.GetString("Untitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are already using the latest version of the software..
+        /// </summary>
+        public static string YouAreAlreadyUsingTheLatestVersionOfTheSoftware {
+            get {
+                return ResourceManager.GetString("YouAreAlreadyUsingTheLatestVersionOfTheSoftware", resourceCulture);
             }
         }
     }

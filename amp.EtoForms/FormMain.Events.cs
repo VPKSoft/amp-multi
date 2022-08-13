@@ -746,4 +746,15 @@ partial class FormMain
         form.ShowModal(this);
         RefreshCurrentAlbum();
     }
+
+    private async void CheckUpdates_Executed(object? sender, EventArgs e)
+    {
+        await UpdateCheck(false);
+    }
+
+    private async void TimerCheckUpdates_Elapsed(object? sender, EventArgs e)
+    {
+        timerCheckUpdates.Stop();
+        await UpdateCheck(true);
+    }
 }
