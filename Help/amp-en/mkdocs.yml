@@ -1,0 +1,10 @@
+site_name: amp# help
+theme: 
+  name: windmill
+
+nav:
+  - About: index.md
+  - Install: install.md
+  - Main window: main_window.md
+
+copyright: Copyright &copy; 2022 VPKSoft
