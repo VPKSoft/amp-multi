@@ -34,7 +34,7 @@ jobs:
         ./copy_platform_files.ps1 "windows"
         mkdocs build
         Set-Location "$Env:GITHUB_WORKSPACE/Help/amp-fi"
-        "./copy_platform_files.ps1" windows
+        ./copy_platform_files.ps1 "windows"
         mkdocs build
         
     - name: Restore dependencies
