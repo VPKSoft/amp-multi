@@ -13,9 +13,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -23,6 +26,17 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Make MkDocs Help
+      run: |
+        pip install mkdocs
+        pip install mkdocs-material
+        Set-Location "$Env:GITHUB_WORKSPACE/Help/amp-en"
+        "./copy_platform_files.ps1" windows
+        mkdocs build
+        Set-Location "$Env:GITHUB_WORKSPACE/Help/amp-fi"
+        "./copy_platform_files.ps1" windows
+        mkdocs build
+        
     - name: Restore dependencies
       run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Publish
