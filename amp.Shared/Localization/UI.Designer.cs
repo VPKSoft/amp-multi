@@ -1250,7 +1250,7 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AudioTrack volume.
+        ///   Looks up a localized string similar to Audio track volume.
         /// </summary>
         public static string TrackVolume {
             get {

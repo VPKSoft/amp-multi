@@ -137,7 +137,7 @@
     <value>Volume</value>
   </data>
   <data name="TrackVolume" xml:space="preserve">
-    <value>AudioTrack volume</value>
+    <value>Audio track volume</value>
   </data>
   <data name="Quit" xml:space="preserve">
     <value>Quit</value>
