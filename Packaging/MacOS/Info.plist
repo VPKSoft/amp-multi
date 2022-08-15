@@ -23,7 +23,7 @@
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
     <key>CFBundleName</key>
-    <string>amp.EtoForms</string>
+    <string>amp#</string>
     <key>CFBundleExecutable</key>
     <string>amp.EtoForms</string>
     <key>LSMinimumSystemVersion</key>

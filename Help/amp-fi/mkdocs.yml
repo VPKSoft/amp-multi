@@ -1,0 +1,17 @@
+site_name: amp help
+site_url: ""
+use_directory_urls: false
+theme: 
+  name: material
+
+nav:
+  - About: index.md
+  - Install: install.md
+  - Main window: main_window.md
+  - Album management: album.md
+  - Track information: track_info.md
+  - Saved queues: saved_queues_dialog.md
+  - Settings: settings.md
+  - Color settings: color_settings.md
+
+copyright: Copyright &copy; 2022 VPKSoft
