@@ -12,10 +12,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'      
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x          
+          
+      - name: Make MkDocs Help   
+        run: |
+           pip install mkdocs
+           pip install mkdocs-material
+           cd "$GITHUB_WORKSPACE/Help/amp-en"
+           ./copy_platform_files.ps1 "windows"
+           mkdocs build
+           cd "$GITHUB_WORKSPACE/Help/amp-fi"
+           ./copy_platform_files.sh "windows"
+           mkdocs build          
+          
       - name: Dotnet publish
         run: |
           cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
