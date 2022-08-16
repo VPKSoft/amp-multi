@@ -10,5 +10,7 @@ do
     mkdocs build
     mv site "amp-$j-$i"
     zip -r "amp-$j-$i.zip" "amp-$j-$i"
+    mv "amp-$j-$i.zip" ../"amp-$j-$i.zip"
+    cd ..
   done
 done
