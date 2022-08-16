@@ -136,4 +136,7 @@
   <data name="Information" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="PleaseSetTheHelpPathFromTheSettings" xml:space="preserve">
+    <value>Please set the help path from the settings.</value>
+  </data>
 </root>

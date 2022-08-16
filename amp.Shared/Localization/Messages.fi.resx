@@ -136,4 +136,7 @@
   <data name="Information" xml:space="preserve">
     <value>Ilmoitus</value>
   </data>
+  <data name="PleaseSetTheHelpPathFromTheSettings" xml:space="preserve">
+    <value>Määritä apukansion polku asetuksista.</value>
+  </data>
 </root>

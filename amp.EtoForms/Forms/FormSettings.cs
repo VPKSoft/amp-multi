@@ -122,6 +122,7 @@ public class FormSettings : Dialog<bool>
         tbRenamedTrackNamingFormula.Text = Globals.Settings.TrackNameFormulaRenamed;
         nsTitleMinimumLength.Value = Globals.Settings.TrackNamingMinimumTitleLength;
         cbFallBackToFileNameIfNoLetters.Checked = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
+        tbHelpFolder.Text = Globals.Settings.HelpFolder;
     }
 
     private void SaveSettings()
@@ -178,6 +179,8 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.TrackNamingMinimumTitleLength = (int)nsTitleMinimumLength.Value;
         Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters = cbFallBackToFileNameIfNoLetters.Checked == true;
 
+        Globals.Settings.HelpFolder = tbHelpFolder.Text;
+
         Globals.SaveSettings();
     }
 
@@ -231,6 +234,9 @@ public class FormSettings : Dialog<bool>
         var retryCountRow = CreateRowTable(true, spacing, new Label { Text = UI.RetryCountOnPlaybackFailure, },
             nsRetryCount);
 
+        var selectHelpFolder = CreateRowTable(false, spacing, new Label { Text = UI.HelpFolder, },
+            new TableCell(tbHelpFolder, true), btnSelectFolder);
+
         tabCommon = new TabPage
         {
             Text = Shared.Localization.Settings.Common,
@@ -255,6 +261,7 @@ public class FormSettings : Dialog<bool>
                     cbDisplayAudioVisualization,
                     EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
                     cbAudioVisualizationBars,
+                    selectHelpFolder,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
                 Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -266,6 +273,16 @@ public class FormSettings : Dialog<bool>
         cbDecreaseVolumeOnQuietHours.CheckedChanged += CbDecreaseVolumeOnQuietHours_CheckedChanged;
         cbPauseOnQuietHours.CheckedChanged += CbPauseOnQuietHours_CheckedChanged;
         cbEnableQuietHours.CheckedChanged += CbEnableQuietHours_CheckedChanged;
+        btnSelectFolder.Click += BtnSelectFolder_Click;
+    }
+
+    private void BtnSelectFolder_Click(object? sender, EventArgs e)
+    {
+        using var dialog = new SelectFolderDialog();
+        if (dialog.ShowDialog(this) == DialogResult.Ok)
+        {
+            tbHelpFolder.Text = dialog.Directory;
+        }
     }
 
     private bool suspendQuietHoursSet;
@@ -504,6 +521,8 @@ public class FormSettings : Dialog<bool>
     private readonly TabControl tbcSettings = new();
     private readonly Button btnOk = new() { Text = UI.OK, };
     private readonly Button btnCancel = new() { Text = UI.Cancel, };
+    private readonly Button btnSelectFolder = new() { Text = UI.ThreeDots, };
+    private readonly TextBox tbHelpFolder = new() { ReadOnly = true, };
 
     private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
     private readonly ComboBox cmbFftWindowSelect = new()

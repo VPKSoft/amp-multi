@@ -142,6 +142,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please set the help path from the settings..
+        /// </summary>
+        public static string PleaseSetTheHelpPathFromTheSettings {
+            get {
+                return ResourceManager.GetString("PleaseSetTheHelpPathFromTheSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save the tag changes? This will modify the actual audio file..
         /// </summary>
         public static string SaveTheTagChangedThisWillModifyTheActualAudioFile {

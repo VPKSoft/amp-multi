@@ -647,6 +647,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help folder.
+        /// </summary>
+        public static string HelpFolder {
+            get {
+                return ResourceManager.GetString("HelpFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide.
         /// </summary>
         public static string Hide {
@@ -1129,6 +1138,15 @@ namespace amp.Shared.Localization {
         public static string TestStuff {
             get {
                 return ResourceManager.GetString("TestStuff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        public static string ThreeDots {
+            get {
+                return ResourceManager.GetString("ThreeDots", resourceCulture);
             }
         }
         
