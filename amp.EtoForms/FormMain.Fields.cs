@@ -79,6 +79,7 @@ partial class FormMain
     private readonly Command trackInfoCommand = new() { MenuText = UI.TrackInformation, Shortcut = Keys.F4, };
     private readonly Command updateTrackMetadata = new() { MenuText = UI.UpdateTrackMetadata, };
     private readonly Command checkUpdates = new() { MenuText = UI.CheckForNewVersion, };
+    private readonly Command openHelp = new() { MenuText = UI.Help, Shortcut = Keys.F1, };
 
     // The album select combo box.
     private readonly ComboBox cmbAlbumSelect = new();

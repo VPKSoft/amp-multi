@@ -62,9 +62,11 @@ partial class FormMain
                 {
                     gvAudioTracks.SelectedRow = 0;
                 }
+
                 gvAudioTracks.Focus();
                 e.Handled = true;
             }
+
             return;
         }
 
@@ -79,7 +81,8 @@ partial class FormMain
         if (e.Key is Keys.Add or Keys.Multiply)
         {
             var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
-            await playbackOrder.ToggleQueue(tracks, e.Key == Keys.Multiply, (e.Modifiers == Application.Instance.CommonModifier),
+            await playbackOrder.ToggleQueue(tracks, e.Key == Keys.Multiply,
+                (e.Modifiers == Application.Instance.CommonModifier),
                 selectedTracks.ToArray());
 
             e.Handled = true;
@@ -156,6 +159,7 @@ partial class FormMain
             track.AudioTrack.UpdateDataModel(context.AudioTracks.FirstOrDefault(f => f.Id == track.AudioTrackId));
             await context.SaveChangesAsync();
         }
+
         await playbackManager.PlayAudioTrack(track, true);
     }
 
@@ -405,13 +409,15 @@ partial class FormMain
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
     {
-        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(UI.PlaybackError0, e.Error.ErrorString()), DateTime.Now));
+        DisplayMessageQueue.Enqueue(
+            new KeyValuePair<string, DateTime>(string.Format(UI.PlaybackError0, e.Error.ErrorString()), DateTime.Now));
         Globals.Logger?.Error("ManagedBass error occurred '{error}'.", e.Error.ErrorString());
     }
 
     private void PlaybackManager_PlaybackErrorFileNotFound(object? sender, PlaybackErrorFileNotFoundEventArgs e)
     {
-        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(Messages.File0WasNotFound, e.FileName), DateTime.Now));
+        DisplayMessageQueue.Enqueue(
+            new KeyValuePair<string, DateTime>(string.Format(Messages.File0WasNotFound, e.FileName), DateTime.Now));
         Globals.Logger?.Error(new FileNotFoundException(string.Format(Messages.File0WasNotFound, e.FileName)), "");
     }
 
@@ -436,7 +442,8 @@ partial class FormMain
         }
         else
         {
-            queueName = await new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false, Globals.DefaultSpacing,
+            queueName = await new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false,
+                Globals.DefaultSpacing,
                 Globals.DefaultPadding).ShowModalAsync(this);
         }
 
@@ -474,6 +481,7 @@ partial class FormMain
                     {
                         albumTrack.QueueIndexAlternate = 0;
                     }
+
                     gvAudioTracks.ReloadKeepSelection();
                 }
                 else
@@ -691,6 +699,7 @@ partial class FormMain
         {
             return;
         }
+
         positionLastChanged = DateTime.Now;
         timerSavePositionCheck.Start();
         previousWindowState = WindowState;
@@ -756,5 +765,10 @@ partial class FormMain
     {
         timerCheckUpdates.Stop();
         await UpdateCheck(true);
+    }
+
+    private void OpenHelp_Executed(object? sender, EventArgs e)
+    {
+        Help.LaunchHelp();
     }
 }

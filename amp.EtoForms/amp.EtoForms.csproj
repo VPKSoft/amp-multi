@@ -87,6 +87,7 @@
 
 	<ItemGroup>
 		<Content Include="../Help/amp-en/site/**" LinkBase="amp-help-en/" CopyToOutputDirectory="Always" />
+		<Content Include="../Help/amp-fi/site/**" LinkBase="amp-help-fi/" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 </Project>
