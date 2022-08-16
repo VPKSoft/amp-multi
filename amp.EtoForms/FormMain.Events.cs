@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
@@ -63,9 +62,11 @@ partial class FormMain
                 {
                     gvAudioTracks.SelectedRow = 0;
                 }
+
                 gvAudioTracks.Focus();
                 e.Handled = true;
             }
+
             return;
         }
 
@@ -80,7 +81,8 @@ partial class FormMain
         if (e.Key is Keys.Add or Keys.Multiply)
         {
             var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
-            await playbackOrder.ToggleQueue(tracks, e.Key == Keys.Multiply, (e.Modifiers == Application.Instance.CommonModifier),
+            await playbackOrder.ToggleQueue(tracks, e.Key == Keys.Multiply,
+                (e.Modifiers == Application.Instance.CommonModifier),
                 selectedTracks.ToArray());
 
             e.Handled = true;
@@ -157,6 +159,7 @@ partial class FormMain
             track.AudioTrack.UpdateDataModel(context.AudioTracks.FirstOrDefault(f => f.Id == track.AudioTrackId));
             await context.SaveChangesAsync();
         }
+
         await playbackManager.PlayAudioTrack(track, true);
     }
 
@@ -406,13 +409,15 @@ partial class FormMain
 
     private void PlaybackManager_PlaybackError(object? sender, PlaybackErrorEventArgs e)
     {
-        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(UI.PlaybackError0, e.Error.ErrorString()), DateTime.Now));
+        DisplayMessageQueue.Enqueue(
+            new KeyValuePair<string, DateTime>(string.Format(UI.PlaybackError0, e.Error.ErrorString()), DateTime.Now));
         Globals.Logger?.Error("ManagedBass error occurred '{error}'.", e.Error.ErrorString());
     }
 
     private void PlaybackManager_PlaybackErrorFileNotFound(object? sender, PlaybackErrorFileNotFoundEventArgs e)
     {
-        DisplayMessageQueue.Enqueue(new KeyValuePair<string, DateTime>(string.Format(Messages.File0WasNotFound, e.FileName), DateTime.Now));
+        DisplayMessageQueue.Enqueue(
+            new KeyValuePair<string, DateTime>(string.Format(Messages.File0WasNotFound, e.FileName), DateTime.Now));
         Globals.Logger?.Error(new FileNotFoundException(string.Format(Messages.File0WasNotFound, e.FileName)), "");
     }
 
@@ -437,7 +442,8 @@ partial class FormMain
         }
         else
         {
-            queueName = await new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false, Globals.DefaultSpacing,
+            queueName = await new DialogQueryValue<string>(UI.SaveCurrentQueue, UI.QueueName, false,
+                Globals.DefaultSpacing,
                 Globals.DefaultPadding).ShowModalAsync(this);
         }
 
@@ -475,6 +481,7 @@ partial class FormMain
                     {
                         albumTrack.QueueIndexAlternate = 0;
                     }
+
                     gvAudioTracks.ReloadKeepSelection();
                 }
                 else
@@ -692,6 +699,7 @@ partial class FormMain
         {
             return;
         }
+
         positionLastChanged = DateTime.Now;
         timerSavePositionCheck.Start();
         previousWindowState = WindowState;
@@ -761,43 +769,6 @@ partial class FormMain
 
     private void OpenHelp_Executed(object? sender, EventArgs e)
     {
-        // TODO::Move to a helper method.
-        Globals.LoggerSafeInvoke(() =>
-        {
-            string helpPath = Assembly.GetEntryAssembly()?.Location ?? String.Empty;
-            if (string.IsNullOrWhiteSpace(helpPath)) 
-            {
-                var args = Environment.GetCommandLineArgs();
-                if (args.Length > 0)
-                {
-                    helpPath = args[0];
-                }
-            }    
-            
-            if (!string.IsNullOrWhiteSpace(helpPath))
-            {
-                helpPath = Path.GetDirectoryName(helpPath);
-            }
-
-            var helpPathNative = Path.Join(helpPath, $"amp-help-{Globals.Settings.Locale}");
-            var helpPathFallback = Path.Join(helpPath, "amp-help-en");
-
-            var fileName = string.Empty;
-
-            if (Directory.Exists(helpPathNative))
-            {
-                fileName = Path.Join(helpPathNative, "index.html");
-            }
-            else if (Directory.Exists(helpPathFallback))
-            {
-                fileName = Path.Join(helpPathFallback, "index.html");
-            }
-
-            if (File.Exists(fileName))
-            {
-                var uri = new Uri(fileName).AbsoluteUri;
-                Application.Instance.Open(uri);
-            }
-        });
+        Help.LaunchHelp();
     }
 }
