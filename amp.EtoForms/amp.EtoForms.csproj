@@ -16,7 +16,6 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
-		<AssemblyName>amp#</AssemblyName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsOSX)'=='true'">
