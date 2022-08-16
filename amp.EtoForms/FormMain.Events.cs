@@ -764,8 +764,16 @@ partial class FormMain
         // TODO::Move to a helper method.
         Globals.LoggerSafeInvoke(() =>
         {
-            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
-
+            string helpPath = Assembly.GetEntryAssembly()?.Location ?? String.Empty;
+            if (string.IsNullOrWhiteSpace(helpPath)) 
+            {
+                var args = Environment.GetCommandLineArgs();
+                if (args.Length > 0)
+                {
+                    helpPath = args[0];
+                }
+            }    
+            
             if (!string.IsNullOrWhiteSpace(helpPath))
             {
                 helpPath = Path.GetDirectoryName(helpPath);
@@ -787,7 +795,8 @@ partial class FormMain
 
             if (File.Exists(fileName))
             {
-                Application.Instance.Open(new Uri(fileName).AbsoluteUri);
+                var uri = new Uri(fileName).AbsoluteUri;
+                Application.Instance.Open(uri);
             }
         });
     }
