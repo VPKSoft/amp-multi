@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
@@ -366,6 +367,9 @@ partial class FormMain
         checkUpdates.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size16.ic_fluent_arrow_download_16_filled, Globals.ButtonDefaultSize);
 
+        openHelp.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_book_search_20_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
@@ -394,7 +398,7 @@ partial class FormMain
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
                 new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
-                new SubMenuItem { Text = UI.Help, Items = { aboutCommand, checkUpdates, },},
+                new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
             ApplicationItems =
             {
@@ -424,6 +428,39 @@ partial class FormMain
         colorSettingsCommand.Executed += ColorSettingsCommand_Executed;
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
         checkUpdates.Executed += CheckUpdates_Executed;
+        openHelp.Executed += OpenHelp_Executed;
+    }
+
+    private void OpenHelp_Executed(object? sender, EventArgs e)
+    {
+        Globals.LoggerSafeInvoke(() =>
+        {
+            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(helpPath))
+            {
+                helpPath = Path.GetDirectoryName(helpPath);
+            }
+
+            var helpPathNative = Path.Join(helpPath, $"amp-help-{Globals.Settings.Locale}");
+            var helpPathFallback = Path.Join(helpPath, "amp-help-en");
+
+            var fileName = string.Empty;
+
+            if (Directory.Exists(helpPathNative))
+            {
+                fileName = Path.Join(helpPathNative, "index.html");
+            }
+            else if (Directory.Exists(helpPathFallback))
+            {
+                fileName = Path.Join(helpPathFallback, "index.html");
+            }
+
+            if (File.Exists(fileName))
+            {
+                Application.Instance.Open(new Uri(fileName).AbsoluteUri);
+            }
+        });
     }
 
     private Control CreateStatusBar()
