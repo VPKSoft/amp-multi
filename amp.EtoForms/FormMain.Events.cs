@@ -769,6 +769,6 @@ partial class FormMain
 
     private void OpenHelp_Executed(object? sender, EventArgs e)
     {
-        Help.LaunchHelp();
+        Help.LaunchHelpFromSettings(this);
     }
 }

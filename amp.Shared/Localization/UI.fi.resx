@@ -527,4 +527,10 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="DoNotRemindOfThisVersionAgain" xml:space="preserve">
     <value>Älä muistuta tästä versiosta uudelleen</value>
   </data>
+  <data name="ThreeDots" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="HelpFolder" xml:space="preserve">
+    <value>Aputiedostokansio</value>
+  </data>
 </root>

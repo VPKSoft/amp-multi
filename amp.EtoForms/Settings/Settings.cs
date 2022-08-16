@@ -262,6 +262,13 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     /// <value>The version data to not to check updates for.</value>
     [Settings(Default = "")]
     public string ForgerVersionUpdate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the help folder for the software.
+    /// </summary>
+    /// <value>The help folder.</value>
+    [Settings(Default = "")]
+    public string HelpFolder { get; set; } = string.Empty;
     #endregion
 
     #region Runtime    

@@ -14,28 +14,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      
-    - name: Install python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
 
-    # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-
-    - name: Make MkDocs Help   
-      run: |
-        pip install mkdocs
-        pip install mkdocs-material
-        Set-Location "$Env:GITHUB_WORKSPACE/Help/amp-en"
-        ./copy_platform_files.ps1 "windows"
-        mkdocs build
-        Set-Location "$Env:GITHUB_WORKSPACE/Help/amp-fi"
-        ./copy_platform_files.ps1 "windows"
-        mkdocs build
         
     - name: Restore dependencies
       run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"

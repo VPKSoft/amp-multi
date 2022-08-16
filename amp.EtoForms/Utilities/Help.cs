@@ -41,7 +41,7 @@ internal static class Help
     {
         Globals.LoggerSafeInvoke(() =>
         {
-            string helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
+            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
             if (string.IsNullOrWhiteSpace(helpPath))
             {
                 var args = Environment.GetCommandLineArgs();
@@ -80,5 +80,24 @@ internal static class Help
                 Application.Instance.Open(uri);
             }
         });
+    }
+
+    /// <summary>
+    /// Launches the help from the folder specified in the settings.
+    /// </summary>
+    /// <param name="parent">The parent for a dialog in case the help file is not found.</param>
+    /// <returns><c>true</c> if the web browser for the help file was successfully launched, <c>false</c> otherwise.</returns>
+    internal static bool LaunchHelpFromSettings(Control parent)
+    {
+        var helpFile = Path.Combine(Globals.Settings.HelpFolder, "index.html");
+        if (File.Exists(helpFile))
+        {
+            var uri = new Uri(helpFile).AbsoluteUri;
+            Application.Instance.Open(uri);
+            return true;
+        }
+
+        MessageBox.Show(parent, Shared.Localization.Messages.PleaseSetTheHelpPathFromTheSettings, Shared.Localization.Messages.Information);
+        return false;
     }
 }

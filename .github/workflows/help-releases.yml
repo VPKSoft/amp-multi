@@ -1,0 +1,32 @@
+name: MkDocs Help packages
+
+on:
+  release:
+    types: [published]
+    branches: [ "master" ]   
+
+jobs:
+ help-release-linux:
+    environment: BinRelease
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'      
+
+      - name: Install MkDocs
+        run: |
+           pip install mkdocs
+           pip install mkdocs-material
+           cd "$GITHUB_WORKSPACE/Help"
+           ./make_helps.sh
+      
+      - name: Release
+        uses: softprops/action-gh-release@v1        
+        with:
+          files: ${{ github.workspace }}/Help/*.zip
+          token: ${{ secrets.RELEASE_TOKEN }}

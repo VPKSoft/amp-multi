@@ -527,4 +527,10 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="DoNotRemindOfThisVersionAgain" xml:space="preserve">
     <value>Do not remind of this version again</value>
   </data>
+  <data name="ThreeDots" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="HelpFolder" xml:space="preserve">
+    <value>Help folder</value>
+  </data>
 </root>
