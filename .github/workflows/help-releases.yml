@@ -23,7 +23,7 @@ jobs:
            pip install mkdocs
            pip install mkdocs-material
            cd "$GITHUB_WORKSPACE/Help"
-           ./make_helps.sh
+           bash make_helps.sh
       
       - name: Release
         uses: softprops/action-gh-release@v1        
