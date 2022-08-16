@@ -28,7 +28,7 @@ jobs:
            pip install mkdocs
            pip install mkdocs-material
            cd "$GITHUB_WORKSPACE/Help/amp-en"
-           ./copy_platform_files.ps1 "windows"
+           ./copy_platform_files.sh "windows"
            mkdocs build
            cd "$GITHUB_WORKSPACE/Help/amp-fi"
            ./copy_platform_files.sh "windows"
