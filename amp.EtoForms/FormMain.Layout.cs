@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using amp.EtoForms.Models;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
@@ -429,38 +428,6 @@ partial class FormMain
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
         checkUpdates.Executed += CheckUpdates_Executed;
         openHelp.Executed += OpenHelp_Executed;
-    }
-
-    private void OpenHelp_Executed(object? sender, EventArgs e)
-    {
-        Globals.LoggerSafeInvoke(() =>
-        {
-            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(helpPath))
-            {
-                helpPath = Path.GetDirectoryName(helpPath);
-            }
-
-            var helpPathNative = Path.Join(helpPath, $"amp-help-{Globals.Settings.Locale}");
-            var helpPathFallback = Path.Join(helpPath, "amp-help-en");
-
-            var fileName = string.Empty;
-
-            if (Directory.Exists(helpPathNative))
-            {
-                fileName = Path.Join(helpPathNative, "index.html");
-            }
-            else if (Directory.Exists(helpPathFallback))
-            {
-                fileName = Path.Join(helpPathFallback, "index.html");
-            }
-
-            if (File.Exists(fileName))
-            {
-                Application.Instance.Open(new Uri(fileName).AbsoluteUri);
-            }
-        });
     }
 
     private Control CreateStatusBar()

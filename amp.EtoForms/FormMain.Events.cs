@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
@@ -756,5 +757,38 @@ partial class FormMain
     {
         timerCheckUpdates.Stop();
         await UpdateCheck(true);
+    }
+
+    private void OpenHelp_Executed(object? sender, EventArgs e)
+    {
+        // TODO::Move to a helper method.
+        Globals.LoggerSafeInvoke(() =>
+        {
+            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(helpPath))
+            {
+                helpPath = Path.GetDirectoryName(helpPath);
+            }
+
+            var helpPathNative = Path.Join(helpPath, $"amp-help-{Globals.Settings.Locale}");
+            var helpPathFallback = Path.Join(helpPath, "amp-help-en");
+
+            var fileName = string.Empty;
+
+            if (Directory.Exists(helpPathNative))
+            {
+                fileName = Path.Join(helpPathNative, "index.html");
+            }
+            else if (Directory.Exists(helpPathFallback))
+            {
+                fileName = Path.Join(helpPathFallback, "index.html");
+            }
+
+            if (File.Exists(fileName))
+            {
+                Application.Instance.Open(new Uri(fileName).AbsoluteUri);
+            }
+        });
     }
 }
