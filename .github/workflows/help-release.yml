@@ -1,4 +1,4 @@
-name: MkDocs Help packages
+name: MkDocs Help package
 
 on:
   release:
@@ -28,5 +28,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1        
         with:
-          files: ${{ github.workspace }}/Help/*.zip
+          files: ${{ github.workspace }}/Help/help_pack.zip
           token: ${{ secrets.RELEASE_TOKEN }}
