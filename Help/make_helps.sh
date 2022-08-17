@@ -17,4 +17,4 @@ do
   done
 done
 
-zip -r "help_pack" "help_pack.zip"
+zip -r help_pack.zip help_pack
