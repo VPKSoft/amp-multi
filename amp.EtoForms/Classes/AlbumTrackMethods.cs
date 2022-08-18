@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using amp.Database;
-using amp.EtoForms.Models;
+using amp.EtoForms.DtoClasses;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;

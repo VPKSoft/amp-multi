@@ -26,8 +26,9 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using amp.Database;
-using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using amp.EtoForms.Dialogs;
+using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Utilities;
@@ -38,6 +39,7 @@ using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using Microsoft.EntityFrameworkCore;
+using Album = amp.EtoForms.DtoClasses.Album;
 
 namespace amp.EtoForms.Forms;
 
@@ -133,7 +135,7 @@ public class FormSavedQueues : Dialog<bool>
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((QueueTrack qs) => TrackDisplayNameGenerate.GetAudioTrackName(qs.AudioTrack!))
+                            .Property((QueueTrack qs) => TrackDisplayNameGenerate.GetAudioTrackName(qs.AudioTrack))
                             .Convert(s => s)
                             .Cast<string?>(),
                     }, Expand = true,
@@ -144,9 +146,9 @@ public class FormSavedQueues : Dialog<bool>
             DataStore = queueTracks,
         };
 
-        var panel1 = new Panel {Content = gvAlbumQueues, Size = new Size(700, 250),};
-        var panel2 = new Panel {Content = gvAlbumQueueTracks, Size = new Size(700, 250),};
-        
+        var panel1 = new Panel { Content = gvAlbumQueues, Size = new Size(700, 250), };
+        var panel2 = new Panel { Content = gvAlbumQueueTracks, Size = new Size(700, 250), };
+
         Content = new TableLayout
         {
             Rows =
@@ -182,7 +184,7 @@ public class FormSavedQueues : Dialog<bool>
 
     private async void BtnLoadQueueClick(object? sender, EventArgs e)
     {
-        var albumId = ((Models.Album?)(cmbAlbumSelect.SelectedValue))?.Id;
+        var albumId = ((Album?)(cmbAlbumSelect.SelectedValue))?.Id;
         if (SelectedQueueId != 0 && albumId != null)
         {
             var queueData = new Dictionary<long, int>(context.QueueTracks
@@ -199,7 +201,7 @@ public class FormSavedQueues : Dialog<bool>
 
     private void CopyToFolderClick(object? sender, EventArgs e)
     {
-        var fileNames = queueTracks.Select(f => f.AudioTrack!.FileName).ToList();
+        var fileNames = queueTracks.Select(f => f.AudioTrack.FileName).ToList();
         if (selectFolderDialog.ShowDialog(this) == DialogResult.Ok)
         {
             Globals.LoggerSafeInvoke(() =>
@@ -232,6 +234,7 @@ public class FormSavedQueues : Dialog<bool>
         await using var transaction = await context.Database.BeginTransactionAsync();
         await Globals.LoggerSafeInvokeAsync(async () =>
         {
+            context.ChangeTracker.Clear();
             var removeTracks = await context.QueueTracks.Where(f => queuesToDelete.Contains(f.QueueSnapshotId))
                 .ToListAsync();
             context.QueueTracks.RemoveRange(removeTracks);
@@ -242,7 +245,9 @@ public class FormSavedQueues : Dialog<bool>
             context.QueueSnapshots.RemoveRange(removeQueues);
             await context.SaveChangesAsync();
 
-            context.QueueSnapshots.UpdateRange(queueSnapshots);
+            var updateData = queueSnapshots.Select(f => Globals.AutoMapper.Map<amp.Database.DataModel.QueueSnapshot>(f)).ToArray();
+
+            await context.UpsertRange(updateData);
             await context.SaveChangesAsync();
 
             await transaction.CommitAsync();
@@ -265,19 +270,19 @@ public class FormSavedQueues : Dialog<bool>
         foreach (var queueSnapshot in context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
                      .OrderBy(f => f.QueueIndex).AsNoTracking())
         {
-            queueTracks.Add(queueSnapshot);
+            queueTracks.Add(Globals.AutoMapper.Map<QueueTrack>(queueSnapshot));
         }
     }
 
     private void RefreshQueueSnapshots(long? arg)
     {
-        arg ??= ((Models.Album?)(cmbAlbumSelect.SelectedValue))?.Id;
+        arg ??= ((Album?)(cmbAlbumSelect.SelectedValue))?.Id;
 
         queueSnapshots.Clear();
 
         foreach (var queueSnapshot in context.QueueSnapshots.Where(f => !queuesToDelete.Contains(f.Id) && f.AlbumId == arg).OrderBy(f => f.SnapshotName).AsNoTracking())
         {
-            queueSnapshots.Add(queueSnapshot);
+            queueSnapshots.Add(Globals.AutoMapper.Map<QueueSnapshot>(queueSnapshot));
         }
     }
 
@@ -289,7 +294,8 @@ public class FormSavedQueues : Dialog<bool>
 
     private void EditClick(object? sender, EventArgs e)
     {
-        new DialogModifySavedQueue(context, SelectedQueueId).ShowModal(this);
+        using var dialog = new DialogModifySavedQueue(context, SelectedQueueId);
+        dialog.ShowModal(this);
     }
 
     private long SelectedQueueId => ((QueueSnapshot?)gvAlbumQueues.SelectedItem)?.Id ?? 0;

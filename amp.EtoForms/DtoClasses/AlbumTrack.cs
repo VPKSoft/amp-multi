@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.Models;
+namespace amp.EtoForms.DtoClasses;
 
 /// <summary>
 /// A class for album tracks.
@@ -78,7 +78,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (modifiedAtUtc != value)
             {
                 modifiedAtUtc = value;
-                OnPropertyChanged(nameof(ModifiedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -93,7 +93,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (createdAtUtc != value)
             {
                 createdAtUtc = value;
-                OnPropertyChanged(nameof(CreatedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -108,7 +108,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (albumId != value)
             {
                 albumId = value;
-                OnPropertyChanged(nameof(AlbumId));
+                OnPropertyChanged();
             }
         }
 
@@ -124,7 +124,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (trackId != value)
             {
                 trackId = value;
-                OnPropertyChanged(nameof(AudioTrackId));
+                OnPropertyChanged();
             }
         }
     }
@@ -139,7 +139,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (queueIndex != value)
             {
                 queueIndex = value;
-                OnPropertyChanged(nameof(QueueIndex));
+                OnPropertyChanged();
             }
         }
 
@@ -155,7 +155,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (queueIndexAlternate != value)
             {
                 queueIndexAlternate = value;
-                OnPropertyChanged(nameof(QueueIndexAlternate));
+                OnPropertyChanged();
             }
         }
 
@@ -171,7 +171,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (track != value)
             {
                 track = value;
-                OnPropertyChanged(nameof(AudioTrack));
+                OnPropertyChanged();
             }
         }
     }
@@ -186,7 +186,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
             if (album != value)
             {
                 album = value;
-                OnPropertyChanged(nameof(Album));
+                OnPropertyChanged();
             }
         }
     }

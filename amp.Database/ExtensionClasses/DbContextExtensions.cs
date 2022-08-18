@@ -24,8 +24,9 @@ SOFTWARE.
 */
 #endregion
 
+using System.Reflection;
+using amp.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace amp.Database.ExtensionClasses;
 
@@ -35,36 +36,47 @@ namespace amp.Database.ExtensionClasses;
 public static class DbContextExtensions
 {
     /// <summary>
-    /// Updates the specified range of entities, saves the possible changes and stops tracking the <paramref name="entities"/> if the <paramref name="clearTracking"/> is set to <c>true</c>.
+    /// Upserts the specified entity range into the database and saves the changes.
     /// </summary>
-    /// <typeparam name="TEntity">The type of entity being operated on by this set.</typeparam>
-    /// <param name="context">The database context the entities belong to.</param>
-    /// <param name="entities">The entities to update.</param>
-    /// <param name="clearTracking">if set to <c>true</c> the <see cref="ChangeTracker.Clear()"/> is called.</param>
-    /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>
-    public static async Task<int> UpdateRangeAndSave<TEntity>(this DbContext context, IEnumerable<TEntity> entities, bool clearTracking = true) where TEntity : class
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <param name="context">The database context.</param>
+    /// <param name="entities">The entities to upsert.</param>
+    public static async Task UpsertRange<TEntity>(this DbContext context, params TEntity[] entities)
+        where TEntity : class, IEntity
     {
-        return await context.UpdateRangeAndSave(entities.ToArray(), clearTracking);
-    }
+        var toInsert = entities.Where(f => f.Id == 0).ToList();
+        var toUpdate = entities.Where(f => f.Id != 0).ToList();
 
-    /// <summary>
-    /// Updates the specified range of entities, saves the possible changes and stops tracking the <paramref name="entities"/> if the <paramref name="clearTracking"/> is set to <c>true</c>.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of entity being operated on by this set.</typeparam>
-    /// <param name="context">The database context the entities belong to.</param>
-    /// <param name="entities">The entities to update.</param>
-    /// <param name="clearTracking">if set to <c>true</c> the <see cref="ChangeTracker.Clear()"/> is called.</param>
-    /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>
-    public static async Task<int> UpdateRangeAndSave<TEntity>(this DbContext context, TEntity[] entities, bool clearTracking = true) where TEntity : class
-    {
-        context.Set<TEntity>().UpdateRange(entities);
-        var result = await context.SaveChangesAsync();
-
-        if (clearTracking)
+        foreach (var entity in toUpdate)
         {
-            context.ChangeTracker.Clear();
+            var update = await context.Set<TEntity>().FirstOrDefaultAsync(f => f.Id == entity.Id);
+            if (update != null)
+            {
+                UpdateEntity(update, entity);
+                await context.SaveChangesAsync();
+            }
         }
 
-        return result;
+        if (toInsert.Count > 0)
+        {
+            context.Set<TEntity>().AddRange(toInsert);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    private static void UpdateEntity(IEntity destination, IEntity source)
+    {
+        var propertyInfos = destination.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+        foreach (var propertyInfo in propertyInfos)
+        {
+            if (destination.Id != 0 && propertyInfo.Name == nameof(IEntity.Id) || propertyInfo.Name == nameof(IRowVersionEntity.RowVersion))
+            {
+                continue;
+            }
+
+            var sourceValue = propertyInfo.GetValue(source);
+            propertyInfo.SetValue(destination, sourceValue);
+        }
     }
 }

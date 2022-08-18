@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.Database;
 using amp.Database.ExtensionClasses;
+using amp.EtoForms.DtoClasses;
 using Eto.Forms;
 
 namespace amp.EtoForms.Layout;
@@ -38,7 +39,7 @@ internal static class ReusableControls
 
         cmbAlbumSelect.SelectedValueChanged += async (_, _) =>
         {
-            var id = ((Models.Album?)cmbAlbumSelect.SelectedValue)?.Id;
+            var id = ((Album?)cmbAlbumSelect.SelectedValue)?.Id;
 
             if (selectedValueChanged != null)
             {
@@ -55,7 +56,7 @@ internal static class ReusableControls
     {
         var albumsEntity = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
 
-        var albums = albumsEntity.Select(f => Globals.AutoMapper.Map<Models.Album>(f)).ToList();
+        var albums = albumsEntity.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
 
         cmbAlbumSelect.DataStore = albums;
         if (albums.Any(f => f.Id == currentAlbumId))

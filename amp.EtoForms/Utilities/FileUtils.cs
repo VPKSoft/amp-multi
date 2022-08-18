@@ -24,35 +24,28 @@ SOFTWARE.
 */
 #endregion
 
-using amp.EtoForms.DtoClasses;
-
-namespace amp.EtoForms.Forms.EventArguments;
+namespace amp.EtoForms.Utilities;
 
 /// <summary>
-/// Event arguments for an event where the <see cref="AudioTrack"/> instance data has been changed.
-/// Implements the <see cref="System.EventArgs" />
+/// Some file and folder utilities.
 /// </summary>
-/// <seealso cref="System.EventArgs" />
-public class AudioTrackChangedEventArgs : EventArgs
+public static class FileUtils
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AudioTrackChangedEventArgs"/> class.
+    /// Gets the first existing file from the specified list of files.
     /// </summary>
-    /// <param name="audioTrack">The audio track data.</param>
-    public AudioTrackChangedEventArgs(AudioTrack audioTrack)
+    /// <param name="files">The files.</param>
+    /// <returns>A file name.</returns>
+    public static string FirstExistingFile(params string[] files)
     {
-        AudioTrack = audioTrack;
+        foreach (var file in files)
+        {
+            if (File.Exists(file))
+            {
+                return file;
+            }
+        }
+
+        return files.LastOrDefault() ?? string.Empty;
     }
-
-    /// <summary>
-    /// Gets or sets the audio track data with changes.
-    /// </summary>
-    /// <value>The audio track data.</value>
-    public AudioTrack AudioTrack { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the data updated to entity was saved successfully into the database.
-    /// </summary>
-    /// <value><c>true</c> if database save was successful; otherwise, <c>false</c>.</value>
-    public bool SaveSuccess { get; set; }
 }

@@ -533,4 +533,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="HelpFolder" xml:space="preserve">
     <value>Aputiedostokansio</value>
   </data>
+  <data name="QueueIndex" xml:space="preserve">
+    <value>Jonotusnumero</value>
+  </data>
 </root>

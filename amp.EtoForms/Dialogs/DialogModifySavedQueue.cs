@@ -26,8 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using amp.Database;
-using amp.Database.DataModel;
-using amp.Database.ExtensionClasses;
+using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -103,14 +102,14 @@ internal class DialogModifySavedQueue : Dialog<bool>
                 new GridColumn
                 {
                     DataCell = new TextBoxCell(nameof(QueueTrack.QueueIndex)),
-                    HeaderText = UI.QueueCreated,
+                    HeaderText = UI.QueueIndex,
                 },
                 new GridColumn
                 {
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding
-                            .Property((QueueTrack qs) => TrackDisplayNameGenerate.GetAudioTrackName(qs.AudioTrack!))
+                            .Property((QueueTrack qs) => TrackDisplayNameGenerate.GetAudioTrackName(qs.AudioTrack))
                             .Convert(s => s)
                             .Cast<string?>(),
                     }, Expand = true,
@@ -211,7 +210,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
     {
         queueTracks.Clear();
         foreach (var queueTrack in await context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
-                     .OrderBy(f => f.QueueIndex).AsNoTracking().ToListAsync())
+                     .OrderBy(f => f.QueueIndex).Select(f => Globals.AutoMapper.Map<QueueTrack>(f)).ToListAsync())
         {
             queueTracks.Add(queueTrack);
         }
@@ -225,6 +224,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
     private async void BtnSaveAndClose_Click(object? sender, EventArgs e)
     {
+        context.ChangeTracker.Clear();
         await using var transaction = await context.Database.BeginTransactionAsync();
 
         await Globals.LoggerSafeInvokeAsync(async () =>
@@ -233,10 +233,28 @@ internal class DialogModifySavedQueue : Dialog<bool>
             context.QueueTracks.RemoveRange(itemsToDelete);
             await context.SaveChangesAsync();
 
-            await context.UpdateRangeAndSave(queueTracks);
+            foreach (var queueTrack in queueTracks)
+            {
+                await UpdateTrack(context, queueTrack);
+            }
+
+            await context.SaveChangesAsync();
+            await transaction.CommitAsync();
         }, async (_) => await transaction.RollbackAsync());
 
         Close(true);
+    }
+
+    private static async Task UpdateTrack(AmpContext context, QueueTrack queueTrack)
+    {
+        var track = await context.QueueTracks.FirstAsync(f => f.Id == queueTrack.Id);
+        track.AudioTrackId = queueTrack.AudioTrackId;
+        track.CreatedAtUtc = queueTrack.CreatedAtUtc;
+        track.ModifiedAtUtc = queueTrack.ModifiedAtUtc;
+        track.QueueSnapshotId = queueTrack.QueueSnapshotId;
+        track.QueueIndex = queueTrack.QueueIndex;
+
+        await context.SaveChangesAsync();
     }
 
     private void BtnCancel_Click(object? sender, EventArgs e)

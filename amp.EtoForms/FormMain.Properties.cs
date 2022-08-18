@@ -24,6 +24,8 @@ SOFTWARE.
 */
 #endregion
 
+using amp.EtoForms.DtoClasses;
+
 namespace amp.EtoForms;
 
 public partial class FormMain
@@ -63,7 +65,7 @@ public partial class FormMain
         {
             if (gvAudioTracks.SelectedItem != null)
             {
-                var albumTrackId = ((Models.AlbumTrack)gvAudioTracks.SelectedItem).Id;
+                var albumTrackId = ((AlbumTrack)gvAudioTracks.SelectedItem).Id;
                 return albumTrackId;
             }
 
@@ -77,7 +79,7 @@ public partial class FormMain
         {
             foreach (var selectedItem in gvAudioTracks.SelectedItems)
             {
-                var trackId = ((Models.AlbumTrack)selectedItem).Id;
+                var trackId = ((AlbumTrack)selectedItem).Id;
                 yield return trackId;
             }
         }
@@ -89,7 +91,7 @@ public partial class FormMain
         {
             foreach (var selectedItem in gvAudioTracks.SelectedItems)
             {
-                return ((Models.AlbumTrack)selectedItem).QueueIndex > 0;
+                return ((AlbumTrack)selectedItem).QueueIndex > 0;
             }
 
             return false;
@@ -102,7 +104,7 @@ public partial class FormMain
         {
             foreach (var selectedItem in gvAudioTracks.SelectedItems)
             {
-                return ((Models.AlbumTrack)selectedItem).QueueIndexAlternate > 0;
+                return ((AlbumTrack)selectedItem).QueueIndexAlternate > 0;
             }
 
             return false;

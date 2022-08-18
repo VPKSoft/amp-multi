@@ -23,6 +23,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Update="$(ProjectDir)\FormMain.*.cs">
+			<DependentUpon>$(ProjectDir)\FormMain.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Remove="EventArguments\**" />
 		<EmbeddedResource Remove="EventArguments\**" />
 		<None Remove="EventArguments\**" />
@@ -62,11 +68,6 @@
 		<ProjectReference Include="..\amp.Playback\amp.Playback.csproj" />
 		<ProjectReference Include="..\EtoForms.Controls.Custom\EtoForms.Controls.Custom.csproj" />
 		<ProjectReference Include="..\EtoForms.FormPositions\EtoForms.FormPositions.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectCapability Include="ConfigurableFileNesting" />
-		<ProjectCapability Include="ConfigurableFileNestingFeatureEnabled" />
 	</ItemGroup>
 
 	<ItemGroup>

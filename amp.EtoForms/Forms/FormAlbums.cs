@@ -151,7 +151,9 @@ public class FormAlbums : Dialog<bool>
 
             var toUpdate = dataSource!.Where(f => existingIds.Contains(f.Id)).ToList();
 
-            context.Albums.UpdateRange(toUpdate);
+
+
+            await context.UpsertRange(toUpdate.Cast<Album>().ToArray());
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
             context.ChangeTracker.Clear();

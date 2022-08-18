@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Reflection;
+using amp.Shared.Classes;
 using Eto.Forms;
 
 namespace amp.EtoForms.Utilities;
@@ -86,18 +87,22 @@ internal static class Help
     /// Launches the help from the folder specified in the settings.
     /// </summary>
     /// <param name="parent">The parent for a dialog in case the help file is not found.</param>
-    /// <returns><c>true</c> if the web browser for the help file was successfully launched, <c>false</c> otherwise.</returns>
-    internal static bool LaunchHelpFromSettings(Control parent)
+    internal static void LaunchHelpFromSettings(Control parent)
     {
-        var helpFile = Path.Combine(Globals.Settings.HelpFolder, "index.html");
+
+        var helpFileFallback = Path.Combine(Globals.Settings.HelpFolder, $"amp-en-{UtilityOS.OsNameLowerCase}", "index.html");
+        var helpFileCurrentLocale = Path.Combine(Globals.Settings.HelpFolder, $"amp-{Globals.Settings.Locale}-{UtilityOS.OsNameLowerCase}", "index.html");
+        var indexHtml = Path.Combine(Globals.Settings.HelpFolder, "index.html");
+
+        var helpFile = FileUtils.FirstExistingFile(helpFileCurrentLocale, helpFileFallback, indexHtml);
+
         if (File.Exists(helpFile))
         {
             var uri = new Uri(helpFile).AbsoluteUri;
             Application.Instance.Open(uri);
-            return true;
+            return;
         }
 
         MessageBox.Show(parent, Shared.Localization.Messages.PleaseSetTheHelpPathFromTheSettings, Shared.Localization.Messages.Information);
-        return false;
     }
 }

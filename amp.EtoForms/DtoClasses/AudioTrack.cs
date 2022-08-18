@@ -30,7 +30,7 @@ using amp.EtoForms.Utilities;
 using amp.Shared.Enumerations;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.Models;
+namespace amp.EtoForms.DtoClasses;
 
 /// <summary>
 /// The track entity-independent representation.
@@ -110,7 +110,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (modifiedAtUtc != value)
             {
                 modifiedAtUtc = value;
-                OnPropertyChanged(nameof(ModifiedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -125,7 +125,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (createdAtUtc != value)
             {
                 createdAtUtc = value;
-                OnPropertyChanged(nameof(CreatedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -140,7 +140,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (playedByRandomize != value)
             {
                 playedByRandomize = value;
-                OnPropertyChanged(nameof(PlayedByRandomize));
+                OnPropertyChanged();
             }
         }
     }
@@ -155,7 +155,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (playedByUser != value)
             {
                 playedByUser = value;
-                OnPropertyChanged(nameof(PlayedByUser));
+                OnPropertyChanged();
             }
         }
     }
@@ -170,7 +170,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (skippedEarlyCount != value)
             {
                 skippedEarlyCount = value;
-                OnPropertyChanged(nameof(SkippedEarlyCount));
+                OnPropertyChanged();
             }
         }
     }
@@ -185,7 +185,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (fileName != value)
             {
                 fileName = value;
-                OnPropertyChanged(nameof(FileName));
+                OnPropertyChanged();
             }
         }
     }
@@ -200,7 +200,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (artist != value)
             {
                 artist = value;
-                OnPropertyChanged(nameof(Artist));
+                OnPropertyChanged();
             }
         }
     }
@@ -215,7 +215,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (album != value)
             {
                 album = value;
-                OnPropertyChanged(nameof(Album));
+                OnPropertyChanged();
             }
         }
     }
@@ -230,7 +230,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (track != value)
             {
                 track = value;
-                OnPropertyChanged(nameof(Track));
+                OnPropertyChanged();
             }
         }
     }
@@ -245,7 +245,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (year != value)
             {
                 year = value;
-                OnPropertyChanged(nameof(Year));
+                OnPropertyChanged();
             }
         }
     }
@@ -260,7 +260,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (lyrics != value)
             {
                 lyrics = value;
-                OnPropertyChanged(nameof(Lyrics));
+                OnPropertyChanged();
             }
         }
     }
@@ -275,7 +275,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (rating != value)
             {
                 rating = value;
-                OnPropertyChanged(nameof(Rating));
+                OnPropertyChanged();
             }
         }
     }
@@ -290,7 +290,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (fileSizeBytes != value)
             {
                 fileSizeBytes = value;
-                OnPropertyChanged(nameof(FileSizeBytes));
+                OnPropertyChanged();
             }
         }
     }
@@ -305,7 +305,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (Math.Abs(playbackVolume - value) > Globals.FloatingPointTolerance)
             {
                 playbackVolume = value;
-                OnPropertyChanged(nameof(PlaybackVolume));
+                OnPropertyChanged();
             }
         }
     }
@@ -320,7 +320,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (overrideName != value)
             {
                 overrideName = value;
-                OnPropertyChanged(nameof(OverrideName));
+                OnPropertyChanged();
             }
         }
     }
@@ -335,7 +335,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (tagFindString != value)
             {
                 tagFindString = value;
-                OnPropertyChanged(nameof(TagFindString));
+                OnPropertyChanged();
             }
         }
     }
@@ -350,7 +350,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (tagRead != value)
             {
                 tagRead = value;
-                OnPropertyChanged(nameof(TagRead));
+                OnPropertyChanged();
             }
         }
     }
@@ -365,7 +365,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (fileNameNoPath != value)
             {
                 fileNameNoPath = value;
-                OnPropertyChanged(nameof(FileNameNoPath));
+                OnPropertyChanged();
             }
         }
     }
@@ -380,7 +380,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (title != value)
             {
                 title = value;
-                OnPropertyChanged(nameof(Title));
+                OnPropertyChanged();
             }
         }
     }
@@ -395,7 +395,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (trackImageData != value)
             {
                 trackImageData = value;
-                OnPropertyChanged(nameof(TrackImageData));
+                OnPropertyChanged();
             }
         }
     }
@@ -410,7 +410,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (musicFileType != value)
             {
                 musicFileType = value;
-                OnPropertyChanged(nameof(MusicFileType));
+                OnPropertyChanged();
             }
         }
     }

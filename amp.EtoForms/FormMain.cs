@@ -34,8 +34,8 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
-using AlbumTrack = amp.EtoForms.Models.AlbumTrack;
-using AudioTrack = amp.EtoForms.Models.AudioTrack;
+using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
+using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -62,7 +62,7 @@ public partial class FormMain : Form
 
         positionSaveLoad = new FormSaveLoadPosition(this);
 
-        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Models.Album>(Globals.Settings,
+        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, DtoClasses.Album>(Globals.Settings,
             Globals.Settings.StackQueueRandomPercentage, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
@@ -76,7 +76,7 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Models.Album>(Globals.Logger, GetNextAudioTrackFunc, GetTrackById,
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album>(Globals.Logger, GetNextAudioTrackFunc, GetTrackById,
             () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
@@ -112,9 +112,9 @@ public partial class FormMain : Form
 
     private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
-    private readonly PlaybackManager<AudioTrack, AlbumTrack, Models.Album> playbackManager;
-    private QuietHourHandler<AudioTrack, AlbumTrack, Models.Album> quietHourHandler;
-    private readonly PlaybackOrder<AudioTrack, AlbumTrack, Models.Album> playbackOrder;
+    private readonly PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album> playbackManager;
+    private QuietHourHandler<AudioTrack, AlbumTrack, DtoClasses.Album> quietHourHandler;
+    private readonly PlaybackOrder<AudioTrack, AlbumTrack, DtoClasses.Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
