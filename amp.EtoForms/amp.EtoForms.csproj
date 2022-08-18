@@ -16,6 +16,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+		<Version>1.0.0.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsOSX)'=='true'">
@@ -56,7 +57,7 @@
 		<PackageReference Include="FluentIcons.Resources" Version="1.0.1" />
 		<PackageReference Include="Serilog" Version="2.11.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.0" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.1" />
 		<PackageReference Include="Svg.Skia" Version="0.5.16" />
 		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.1" />
 		<PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
