@@ -533,4 +533,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="HelpFolder" xml:space="preserve">
     <value>Help folder</value>
   </data>
+  <data name="QueueIndex" xml:space="preserve">
+    <value>Queue index</value>
+  </data>
 </root>

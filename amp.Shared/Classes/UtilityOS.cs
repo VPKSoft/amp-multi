@@ -99,4 +99,42 @@ public static class UtilityOS
     /// <value><c>true</c> if the current operating system is Linux; otherwise, <c>false</c>.</value>
     // ReSharper disable once InconsistentNaming, OS is upper case
     public static bool IsLinuxOS => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+    /// <summary>
+    /// The macOS operating system name in lower case ("macos").
+    /// </summary>
+    public const string MacOSNameLowerCase = "macos";
+
+    /// <summary>
+    /// The Windows operating system name in lower case ("windows").
+    /// </summary>
+    public const string WindowsNameLowerCase = "windows";
+
+    /// <summary>
+    /// The Linux operating system name in lower case ("linux").
+    /// </summary>
+    public const string LinuxNameLowerCase = "linux";
+
+
+    /// <summary>
+    /// Gets the operating system name in lower case. E.g. windows, linux, macos.
+    /// </summary>
+    /// <value>The operating system name in lower case.</value>
+    public static string OsNameLowerCase
+    {
+        get
+        {
+            if (IsMacOS)
+            {
+                return MacOSNameLowerCase;
+            }
+
+            if (IsLinuxOS)
+            {
+                return LinuxNameLowerCase;
+            }
+
+            return WindowsNameLowerCase;
+        }
+    }
 }

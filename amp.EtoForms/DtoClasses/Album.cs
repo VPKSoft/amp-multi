@@ -28,7 +28,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.Models;
+namespace amp.EtoForms.DtoClasses;
 
 /// <summary>
 /// A class for album.
@@ -56,7 +56,7 @@ public class Album : IAlbum, INotifyPropertyChanged
             if (modifiedAtUtc != value)
             {
                 modifiedAtUtc = value;
-                OnPropertyChanged(nameof(ModifiedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -71,7 +71,7 @@ public class Album : IAlbum, INotifyPropertyChanged
             if (createdAtUtc != value)
             {
                 createdAtUtc = value;
-                OnPropertyChanged(nameof(CreatedAtUtc));
+                OnPropertyChanged();
             }
         }
     }
@@ -86,7 +86,7 @@ public class Album : IAlbum, INotifyPropertyChanged
             if (albumName != value)
             {
                 albumName = value;
-                OnPropertyChanged(nameof(AlbumName));
+                OnPropertyChanged();
             }
         }
     }

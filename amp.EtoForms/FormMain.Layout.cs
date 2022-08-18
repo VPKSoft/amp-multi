@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.Models;
+using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -244,6 +244,9 @@ partial class FormMain
         audioVisualizationControl.Visible = false;
 
         btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Color.Parse(Globals.ColorConfiguration.ClearSearchButtonColor), Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
+
+        lbTracksTitle.Cursor = Cursors.Pointer;
+        lbTracksTitle.MouseDown += LbTracksTitle_MouseDown;
 
         var result = new StackLayout
         {

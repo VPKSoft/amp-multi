@@ -25,8 +25,8 @@ SOFTWARE.
 #endregion
 
 using amp.Database.QueryHelpers;
+using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms;
-using amp.EtoForms.Models;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -109,6 +109,7 @@ partial class FormMain
     private WindowState previousWindowState;
     private readonly FormAlbumImage formAlbumImage = new();
     private QueryDivider<AlbumTrack>? queryDivider;
+    private long currentTrackId;
 
     // About
     private readonly AboutDialog aboutDialog = new();

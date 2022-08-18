@@ -46,7 +46,8 @@ using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
-using AudioTrack = amp.EtoForms.Models.AudioTrack;
+using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
+using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -104,7 +105,7 @@ partial class FormMain
         {
             if (gvAudioTracks.SelectedItem != null)
             {
-                var albumTrack = (Models.AlbumTrack)gvAudioTracks.SelectedItem;
+                var albumTrack = (AlbumTrack)gvAudioTracks.SelectedItem;
                 await playbackManager.PlayAudioTrack(albumTrack, true);
                 e.Handled = true;
                 return;
@@ -192,9 +193,9 @@ partial class FormMain
         idleChecker.Dispose();
     }
 
-    private async Task<Models.AlbumTrack?> GetNextAudioTrackFunc()
+    private async Task<AlbumTrack?> GetNextAudioTrackFunc()
     {
-        Models.AlbumTrack? result = null;
+        AlbumTrack? result = null;
         await Application.Instance.InvokeAsync(async () =>
         {
             var nextTrackData = await playbackOrder.NextTrack(tracks);
@@ -224,11 +225,36 @@ partial class FormMain
         {
             var track = tracks.FirstOrDefault(f => f.AudioTrackId == e.AudioTrackId);
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
+            currentTrackId = track != null ? e.AudioTrackId : 0;
             btnPlayPause.CheckedChange -= PlayPauseToggle;
             btnPlayPause.Checked = e.PlaybackState == PlaybackState.Playing;
             btnPlayPause.CheckedChange += PlayPauseToggle;
             audioVisualizationControl.Visible = e.PlaybackState == PlaybackState.Playing;
         });
+    }
+
+    private void LbTracksTitle_MouseDown(object? sender, MouseEventArgs e)
+    {
+        if (e.Buttons == MouseButtons.Primary && currentTrackId != 0)
+        {
+            var index = tracks.FindIndex(f => f.AudioTrackId == currentTrackId);
+            if (index != -1)
+            {
+                var indexFiltered = filteredTracks.FindIndex(f => f.AudioTrackId == currentTrackId);
+
+                if (indexFiltered != -1)
+                {
+                    var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
+                    var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == currentTrackId);
+                    if (displayTrack != -1)
+                    {
+                        gvAudioTracks.SelectedRow = displayTrack;
+                        gvAudioTracks.ScrollToRow(displayTrack);
+                        gvAudioTracks.Focus();
+                    }
+                }
+            }
+        }
     }
 
     private void PlaybackManagerTrackChanged(object? sender, TrackChangedArgs e)
@@ -243,8 +269,9 @@ partial class FormMain
             trackVolumeSlider.SuspendEventInvocation = false;
             trackRatingSlider.SuspendEventInvocation = false;
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
+            currentTrackId = track != null ? e.AudioTrackId : 0;
 
-            var dataSource = gvAudioTracks.DataStore.Cast<Models.AlbumTrack>().ToList();
+            var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
             var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
             if (displayTrack != -1)
             {
@@ -315,9 +342,9 @@ partial class FormMain
         await playbackManager.PlayNextTrack(true);
     }
 
-    private async Task<Models.AlbumTrack?> GetTrackById(long trackId)
+    private async Task<AlbumTrack?> GetTrackById(long trackId)
     {
-        return await Application.Instance.InvokeAsync(Models.AlbumTrack? () =>
+        return await Application.Instance.InvokeAsync(AlbumTrack? () =>
         {
             return tracks.FirstOrDefault(f => f.AudioTrackId == trackId);
         });
@@ -428,7 +455,8 @@ partial class FormMain
 
     private void ManageSavedQueues_Executed(object? sender, EventArgs e)
     {
-        new FormSavedQueues(context, LoadOrAppendQueue).ShowModal(this);
+        using var form = new FormSavedQueues(context, LoadOrAppendQueue);
+        form.ShowModal(this);
     }
 
     private async void SaveQueueCommand_Executed(object? sender, EventArgs e)
@@ -571,7 +599,7 @@ partial class FormMain
 
     private void TrackInfoCommand_Executed(object? sender, EventArgs e)
     {
-        var track = (Models.AlbumTrack?)gvAudioTracks.SelectedItem;
+        var track = (AlbumTrack?)gvAudioTracks.SelectedItem;
         if (track != null)
         {
             using var dialog = new FormDialogTrackInfo(track.AudioTrack!, AudioTrackChanged);
@@ -598,11 +626,11 @@ partial class FormMain
         }
     }
 
-    private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<Models.AlbumTrack> e)
+    private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
     {
-        tracks = new ObservableCollection<Models.AlbumTrack>(e.ResultList);
+        tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
 
-        tracks = new ObservableCollection<Models.AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
+        tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
 
         await Application.Instance.InvokeAsync(() =>
         {
@@ -611,7 +639,7 @@ partial class FormMain
             if (!string.IsNullOrWhiteSpace(tbSearch.Text))
             {
                 filteredTracks =
-                    new ObservableCollection<Models.AlbumTrack>(tracks
+                    new ObservableCollection<AlbumTrack>(tracks
                         .Where(f => f.AudioTrack!.Match(tbSearch.Text))
                         .ToList());
             }

@@ -328,12 +328,17 @@ internal static class Globals
         {
             mapperConfiguration ??= new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<AlbumTrack, Models.AlbumTrack>();
-                cfg.CreateMap<AudioTrack, Models.AudioTrack>();
-                cfg.CreateMap<Album, Models.Album>();
-                cfg.CreateMap<Models.AlbumTrack, AlbumTrack>();
-                cfg.CreateMap<Models.AudioTrack, AudioTrack>();
-                cfg.CreateMap<Models.Album, Album>();
+                cfg.CreateMap<AlbumTrack, DtoClasses.AlbumTrack>();
+                cfg.CreateMap<AudioTrack, DtoClasses.AudioTrack>();
+                cfg.CreateMap<Album, DtoClasses.Album>();
+                cfg.CreateMap<QueueTrack, DtoClasses.QueueTrack>();
+                cfg.CreateMap<QueueSnapshot, DtoClasses.QueueSnapshot>();
+
+                cfg.CreateMap<DtoClasses.AlbumTrack, AlbumTrack>();
+                cfg.CreateMap<DtoClasses.AudioTrack, AudioTrack>();
+                cfg.CreateMap<DtoClasses.Album, Album>();
+                cfg.CreateMap<DtoClasses.QueueTrack, QueueTrack>();
+                cfg.CreateMap<DtoClasses.QueueSnapshot, QueueSnapshot>();
             });
 
             mapper ??= mapperConfiguration.CreateMapper();

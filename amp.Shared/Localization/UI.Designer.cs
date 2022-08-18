@@ -908,6 +908,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Queue index.
+        /// </summary>
+        public static string QueueIndex {
+            get {
+                return ResourceManager.GetString("QueueIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue name.
         /// </summary>
         public static string QueueName {
