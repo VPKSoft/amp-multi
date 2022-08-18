@@ -110,6 +110,9 @@ With the rating slider the track can be given a rating. This value is saved to t
 ## The position slider
 The position slider allows to control the playback position of the current track.
 
+## Current track title and duration
+The duration displays the time left to playback the track. By clicking the track title you can focus on the current track in the track list.
+
 ## The search box
 The search box allows to filter the tracks from the current album. The search is directed to all the properties of the audio track:
 
