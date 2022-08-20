@@ -1,63 +1,64 @@
-# The settings dialog
-The settings dialog contains the software settings divided into different categories.
+# Asetukset-dialogi
+Asetukset-dialogissa voi muokata ohjelman asetuksia, jotka on jaettu kolmeen eri kategoriaan.
 
-## Common settings
-The common settings contains common and miscellaneous settings.
+## Yleiset asetukset
+Yleiset asetukset sisältää yleisiä ja sekalaisia asetuksia.
 
-**Enabled quit hours**
-This setting allows the software to go on pause or quiet down the playback volume on a specific time span. E.g. you can set the evening to late morning to be quiet to keep the peace with the neighbors.
+**Hiljainen aika käytössä**
+Tämä asetus sallii ohjelman joko tauottaa toisto tai vähentää äänenvoimakkuutta tietyllä aikavälillä. Esimerkiksi voit asettaa illasta myöhäiseen aamuun hiljaiseksi ajaksi säilyttääksesi rauhan naapurien kanssa.
 
-**Language**
-The UI language, see [the currently supported languages](supported_languages.md) for a list. For this setting to take place the software must be manually restarted.
 
-**Check for updates upon startup**
-Setting this to true the software checks for updates when it is run. By default the setting is disabled.
+**Kieli**
+Käyttöliittymän kieli, katso [tällä hetkellä tuetut kielet](supported_languages.md) nähdäksesi tuettujen kielien listan. Tämän asetuksen vaihtaminen tarvitsee ohjelman manuaalisen uudelleenkäynnistyksen.
 
-**Stack queue**
-Tho software can be set to stack queue mode. In this mode the queue will not be consumed during playback. The played item is moved to the back of the queue and a specified percentage playback order in the queue is re-randomized.
+**Tarkista päivitykset ohjelman käynnistyessä**
+Tämän asettaminen päällä laittaa ohjelman tarkistamaan uuden version aina käynnistyessään. Tänä asetus on oletuksena pois päältä.
 
-**Use track image window**
-This option displays a small frame window with the track image on the right side of the main window if the track has an image assigned to it.
+**Pinottu jonon toisto**
+Ohjelmain voi asettaa pinotun jonon toiston tilaa. Tässä tilassa jono ei lyhene kappaleita toistettaessa. Toistettu kappale siirretään jonon perälle ja määritetty prosenttimäärä kappaleita jonon lopusta arvotaan uuteen järjestykseen.
 
-The *Auto-hide album image window* keeps the track image window hidden if there is no image assigned for the track.
+**Käytä kappaleen kuvaikkunaa**
+Tämän asetuksen ollessa päällä pääikkunan oikeaan reunaan tulee kehystetty ikkuna, jossa on kappaleen kuva mikäli sellainen löytyy.
 
-**Display playlist column header**
-This option simply disables or enables the column headers of the main window track list.
+*Piilota albumin kuva automaattisesti* asetus piilottaa kappaleen kuvaikkunan jos toistettavalla kappaleella ei ole kuvaa.
 
-**Retry count on playback failure**
-A value of how many times the software tries playback with a different track if the playback fails before stopping to retry.
+**Näytä soittolistan sarakeotsikot**
+Tämä asetus joko piilottaa tai näyttää sarakeotsikot pääikkunan kappalelistassa.
 
-**Audio visualizer**
-*Display audio visualization* indicates whether to display audio visualization on bottom of the track list during playback.
+**Uudelleenyritysten määrä toiston epäonnistuessa**
+Arvo, joka ilmaisee kuinka monta kertaa ohjelma yrittää toistaa toista kappaletta virheen sattuessa ennen toiston yrittämisen lopettamista.
 
-*Audio visualizer FFT Window function*
-With this option the FFT ([Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform)) [windowing function](https://en.wikipedia.org/wiki/Window_function) can be changed. Just keep it to Hanning if you do not know what this means. It affects the form of the visualized audio signal bu assigning weight to the different frequency bands - thats how the author (with extremely limited knowledge) understands the thing.
+**Audion visualisointi**
+*Näytä audiovisualisointi* -asetus määrittää, näytetäänkö audion visualisointi kappalelistan alaosassa kappaletta toistettaessa.
 
-*Bar visualization mode*
-The audio visualization is rendered in bars if this is checked. Otherwise a line is rendered.
+*Audion visualisoinnin FFT-ikkunafunktio*
+Tällä asetuksella FFT ([Nopea Fourier-muunnoksen](https://fi.wikipedia.org/wiki/Fourier-muunnos#FFT)) [ikkunafunktiota](https://en.wikipedia.org/wiki/Window_function) voidaan vaihtaa. Arvo kannattaa pitää kohdassa Hanning, jos et tiedä, mitä termit tarkoittavat. FFT vaikuttaa visualisoidun signaalin muotoon painottamalla eri taajuuskaistoja eri tavalla - näin ainakin allekirjoittanut (erittäin rajoittuneella tietämyksellä) ymmärtää asian.
 
-**Help folder**
-As the help files are in a different package this is the location where the package was extracted. This should be set to the location of the extracted `help_pack` folder which contains many sub-folders.
+*Visualisointi pylväsmuodossa*
+Audion visualisointi näytetään pylväinä, jos tämä asetus on päällä. Muussa tapauksessa visualisointi tehdään viivana.
 
-*The Common settings tab*
+**Aputiedostokansio**
+Koska aputiedostot ovat erillisessä paketissa, tähän syötettään se polku, minne aputiedostot on purettu. Tämä tulisi asettaa purettuun `help_pack`-hakemistoon, jossa on useita alihakemistoja.
+
+*Yleiset asetukset -välilehti*
 
 ![image](img/settings1.png)
 
-## Modified random
-The modified or biased or weighted random is a randomization so that the software randomizes tracks with better rating more often than those with less rating. You can also take into account the amount of playbacks, amount of early skips, amounts of randomized non-skipped playbacks.
+## Muokattu arvonta
+Muokattu tai puolueellinen tai painotettu arvonta toimii siten, että esimerkiksi paremman arvostelun saanut kappale arvotaan useammin, kuin huonomman saanut. Tässä voi ottaa huomioon kappaleen arvostelun, toistojen määrän, keskeytettyjen toistojen määrän, arvottujen toistojen määrän.
 
-*The modified random tab*
+*Muokattu arvonta -välilehti*
 
 ![image](img/settings2.png)
 
-## Track naming
-The track naming settings affect of how the tracks are displayed in the track list. The *Track naming formula* is for tracks which have not been renamed by the user. The *Renamed track naming formula* is for user named tracks.
+## Kappaleiden nimeäminen
+Kappaleiden nimeäminen vaikuttaa siihen, kuinka kappaleet näytetään kappalelistassa. *Kappaleen nimeämisen kaava* on tarkoitettu kappaleille, joita käyttäjä ei ole uudelleennimennyt. *Uudelleen nimettyjen kappaleiden nimeämisen kaava* on käytössä käyttäjän uudelleen nimeämissä kappaleissa.
 
-The *Minimum name length* and the *If generated name contains no letters, fall back to the file name* affect on situations when the track naming formula would generate a non-valid name for the track. E.g. 'Track 01 - .'.
+*Nimen minimipituus* ja *Jos muodostetussa kappalenimessä ei ole yhtään kirjainta, käytä tiedostonimeä* -asetus vaikuttavat tilanteisiin, joissa kappaleen nimeämisen kaava tuottaa käyttökelvottoman nimen, esim. 'Track 01 - .'.
 
-The allowed formula sections are explained in the track naming tab and they can always be reset to default values in case an error.
+Sallitut kaavan osat on selitetty välilehdellä ja arvot voi aina palauttaa oletuksiin virheen sattuessa.
 
-*The track naming tab*
+*Kappaleiden nimeäminen -välilehti*
 
 ![image](img/settings3.png)
 

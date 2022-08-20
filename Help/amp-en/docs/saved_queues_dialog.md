@@ -1,7 +1,7 @@
 # Saved queues dialog
 In the saved queues dialog saved queues can be modified and loaded to the track list. The queue snapshots are sort of mini playlists inside an album of tracks. 
 
-To create a queue simply add songs to the queue in the track list and then save the queue from the [Queue](main_window.md#the-queue-menu) menu. Queues can also be created during playback using the alternate queue which is not modified by the playback.
+To create a queue simply add tracks to the queue in the track list and then save the queue from the [Queue](main_window.md#the-queue-menu) menu. Queues can also be created during playback using the alternate queue which is not modified by the playback.
 
 In the *Saved queues* dialog a queue can be:
 
@@ -17,6 +17,12 @@ In the *Saved queues* dialog a queue can be:
 * *Append to queue* button loads the queue after the current queue to the album
 * *Insert to queue start* button inserts the selected queue on top of the current queue to the album and shifts the previous queue downwards
 * *Save & Close* button saved the changes made in this dialog. The changes include queue renaming and deletions
+
+There is also a possibility to copy the saved queue audio files to a flat directory structure into user-specified folder. To copy the audio files, select the *Copy track files to folder...* button,
+
+![image](img/gui/ic_fluent_copy_arrow_right_24_filled.png)
+
+
 
 *The Saved queues dialog*
 ![image](img/saved_queues1.png)
@@ -36,7 +42,7 @@ The delete button deletes the selected track from the queue.
 
 ![image](img/gui/ic_fluent_delete_48_filled.png)
 
-The *Save & Close* button saves the data. No deletions or renames are applied if the changes are not saved.
+The *Save & Close* button saves the data. No deletions or re-orderings are applied if the changes are not saved.
 
 *Modify queue dialog*
 ![image](img/saved_queues2.png)

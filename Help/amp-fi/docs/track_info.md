@@ -1,21 +1,23 @@
-# Track information dialog
-In the track information dialog the track file tag data can be viewed and changed. The file tag data can be changed in the first tab page (*File data (tag)*). Nothing is changed unless the save button is explicitly pressed. The save button is only visible when something has been changed within the dialog. Closing the dialog will reject all the changes made if the data is not saved before.
+# Kappaleen tiedot -dialogi
+Kappaleen tiedot dialogissa voi katsella ja muokata kappaleen metatietoja. Tiedoston tunnisteen metadatatietoja voi muokata ensimmäisessä välilehdessä (*Tiedoston tiedot (tunniste)*). Mitään ei tallenneta, ellei tallenna-painiketta erikseen paineta. Tallenna-painike on näkyvissä ainoastaan, jos jotain on muutettu dialogissa. Dialogin sulkeminen hylkää kaikki muutokset ellei tallenna-painiketta ole painettu ennen sitä.
 
-In the *File data (amp#)* tab the the track can also be assigned an alternative image by clicking the image box on the right. Changing the image will not affect the actual file.
+*Tiedoston tiedot (amp#)*-välilehdellä kappaleelle voi myös asettaa vaihtoehtoisen tunnistekuvan klikkaamalla kuva-laatikkoa oikeassa reunassa. Kuvan vaihtaminen ei vaikuta itse musiikkitiedostoon.
 
-**The save button**
-The save button saves the **active** tab page changes. The *File data (tag)* affects directly to the audio file as the *File data (amp#)* affects only the [internal database](data_storing.md).
+**Tallenna-painike**
+Tallenna-painike tallentaa **aktiivisen** välilehden muutokset. *Tiedoston tiedot (tunniste)* vaikuttaa suoraan musiikkitiedoston sisältöön kun taas *Tiedoston tiedot (amp#)* vaikuttaa ainoastaan [sisäiseen tietokantaan](data_storing.md).
+
 
 ![image](img/gui/ic_fluent_save_28_filled.png)
 
-**The copy buttons (arrows)**
-The left hook arrow copies the file tag data into the *File data (amp#)* tab, activates the tab and enables the save button for user to save the changes.
-The right hook arrow copies the amp# file data into the *File data (tag)*, activates the tab tab and enables the save button for user to save the changes.
+**Kopioi-painikkeet (nuolet)**
+
+Vasemmalle kääntyvä nuoli kopioi tiedoston tunnistetiedot *Tiedoston tiedot(amp#)*-välilehdelle, aktivoi välilehden ja asettaa tallenna-painikkeen näkyviin jolloin käyttäjä voi halutessaan tallentaa muutokset.
+Oikealle kääntyvä nuoli kopioi tiedoston amp#-tiedot *Tiedoston tiedot(tunniste)*-välilehdelle, aktivoi välilehden ja asettaa tallenna-painikkeen näkyviin jolloin käyttäjä voi halutessaan tallentaa muutokset.
 
 ![image](img/gui/ic_fluent_arrow_hook_up_right_28_filled.png) ![image](img/gui/ic_fluent_arrow_hook_up_left_28_filled.png)
 
-*The dialog displaying the file tag data*
+*Dialogi näyttäen tiedoston metadata-tunnistetiedot*
 ![image](img/album_info1.png)
 
-*The dialog displaying the amp# tag data*
+*Dialogi näyttäen amp#-tunnistetiedot*
 ![image](img/album_info2.png)

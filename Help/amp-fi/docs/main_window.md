@@ -1,143 +1,143 @@
-# The amp# main window
+# amp#-ohjelman pääikkuna
 
-The main window consists of the menu, playback controls album selector, volume, rating, position, search, track list, audio visualization and status bar.
+Pääikkuna koostuu valikosta, toiston ohjauspainikkeista, albumin valitsimesta, äänenvoimakkuuden-, pisteiden-, toiston sijainnin-asetuksesta, hakukentästä, kappalelistasta, äänen visualisoinnista ja tilapalkista.
 
 ![image](img/main_window1.png)
 
-## The menu
+## Valikko
 
-### The File menu
-#### Add music files...
-* **Add files to album...**: This opens a select file dialog with multiple selection to the current album.
+### Tiedosto-valikko
+#### Lisää musiikkitiedostoja...
+* **Lisää tiedostoja albumiin...**: Tämä toiminto avaa tiedostonvalintaikkunan, josta voi valita yhden tai useamman tiedoston lisättäväksi nykyiseen albumiin.
 
-* **Add folder contents to album...**: This opens a select folder dialog to select a folder which music files to recursively add to the current album.
+* **Lisää hakemiston sisältö albumiin...**: Tämä toiminto avaa kansionvalintaikkunan, mistä voi valita kansion josta tiedostoja lisätään rekursiivisesti nykyiseen albumiin.
 
-#### Album
-This opens a dialog to [manage the albums](album.md) within the program database.
+#### Albumi
+Tämä toiminto avaa dialogin, jolla [hallitaan albumeita](album.md) ohjelman tietokannassa.
 
-#### Track information
-Opens a dialog to [display and manage](track_info.md) the currently selected track metadata (IDvX, etc). Also a track image can be set from track information. Keyboard shortcut: <kbd>F4</kbd>.
+#### Kappaleen tiedot
+Avaa dialogin, jolla voi [näyttää ja muokata](track_info.md) valitun kappaleen metatietoja (IDvX, jne). Myös kappaleen kuvan voi asettaa. Näppäinoikotie: <kbd>F4</kbd>.
 
-#### Quit
-Exists the program. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>Q</kbd> or <kbd>⌘</kbd>+<kbd>Q</kbd>
+#### Lopeta
+Lopettaa sovelluksen . Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>Q</kbd> tai <kbd>⌘</kbd>+<kbd>Q</kbd>
 
-### The queue menu
+### Jono-valikko
 
-#### Save current queue
-Opens a dialog to allow user to specify a name for the current queue or alternate queue to save so it can be loaded and played back again when the user wishes to do so. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>S</kbd> or <kbd>⌘</kbd>+<kbd>S</kbd>.
+#### Tallenna nykyinen jono
+Avaa dialogin, johon voi antaa nimen nykyiselle jonolle tai vaihtoehtoiselle jonolle tallennettavaksi latausta ja uudelleen latausta varten. Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>S</kbd> tai <kbd>⌘</kbd>+<kbd>S</kbd>.
 
-#### Saved queues
-Opens a dialog where [saved queue snapshots](saved_queues_dialog.md) can be loaded, edited and deleted. Keyboard shortcut: <kbd>F3</kbd>.
+#### Tallennetut jonot
+Avaa dialogin, jossa [tallennettuja jonoja](saved_queues_dialog.md) voi ladata, muokata ja poistaa. Näppäinoikotie: <kbd>F3</kbd>.
 
-#### Clear queue
-Clears the queued songs from the current album. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>D</kbd> or <kbd>⌘</kbd>+<kbd>D</kbd>.
+#### Tyhjennä jono
+Tyhjentää jonon nykyisestä albumista. Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>D</kbd> tai <kbd>⌘</kbd>+<kbd>D</kbd>.
 
-#### Scramble queue
-Re-randomizes the current queue playback order. If two or more queued items are selected, only the selection is re-randomized. Keyboard shortcut: <kbd>F7</kbd>.
+#### Sekoita jono
+Arpoo jonon järjestyksen uudelleen. Jos kaksi tai useampi kappale on valittuna jonon kappaleista, ainoastaan valittujen kappaleiden järjestys arvotaan uudelleen. Näppäinoikotie: <kbd>F7</kbd>.
 
-### The Tools menu
+### Työkalut-valikko
 
-#### Settings
-Opens the [settings dialog](settings.md) for various software settings.
+#### Asetukset
+Avaa [asetukset-dialogin](settings.md) ohjelman asetusten muokkaamista varten.
 
-#### Color settings
-Opens a [dialog where the software colors can be set](color_settings.md).
+#### Värien asetukset
+Avaa [dialogin, missä ohjelmassa käytettyjä värejä voi vaihtaa](color_settings.md).
 
-#### Update track metadata
-Goes through all the tracks in all albums and reads the track file metadata and updates it to the corresponding record of software. This tool is designed to be used if the track metadata is modified elsewhere as the amp# only reads the metadata tags once.
+#### Päivitä kappaleiden metatiedot
+Käy läpi kaikki kappaleet kaikista albumeista ja päivittää vastaavat tiedot ohjelmaan. Tämä työkalu on tarkoitettu sitä varten, jos kappaleiden metatietoja on muokattu muualla, kuin amp#-ohjelmassa, koska amp# lukee metadatatiedot ainoastaan kerran.
 
-### The Help menu
+### Apu-valikko
 
-#### About
-Displays an about dialog for version and license information of the application.
+#### tietoja
+Näyttää dialogin, jossa on ohjelman versio ja lisenssitietoja.
 
-#### Help
-This help is displayed via web browser. Keyboard shortcut: <kbd>F1</kbd>.
+#### Apu
+Tämä apu-toiminto avataan selaimeen. Näppäinoikotie: <kbd>F1</kbd>.
 
-#### Check for new version
-Checks if a new version of the amp# software is available for download and:
-* If one is available the user is displayed a dialog with changes compared to the current version and a clickable link to the download web page.
-* If no new version is available a dialog informing about that is displayed.
+#### Uuden version tarkistus
+Tarkistaa, onko ohjelmasta saatavilla uutta versiota ja:
+* Jos uusi versio on saatavilla, käyttäjälle näytetään dialogi, jossa on linkki uuden version lataukseen ja muutokset nykyiseen versioon nähden.
+* Jos uutta versiota ei ole saatavilla, näytetään käyttäjälle ilmoitus siitä.
 
-## Playback toolbar
-The playback toolbar contains typical playback controls and few mode settings.
+## Toiston ohjauksen työkalupalkki
+Työkalupalkki sisältää yleiset toiminnot musiikin toiston hallintaa varten ja muutaman tila-asetuksen.
 
 ![image](img/toolbar1.png)
 
-**The previous track button -** Plays the previous track if there is one in the history.
+**Edellinen kappale -painike -** Toistaa edellisen kappaleen, jos historiassa on yhtään aiemmin toistettua kappaletta.
 
 ![image](img/gui/ic_fluent_previous_48_filled.png)
 
-**The play/pause button -** Resumes or pauses the playback.
+**Toista-/tauota toisto -painike -** Jatkaa toistoa tai tauottaa toiston.
 
 ![image](img/gui/play.png) ![image](img/gui/ic_fluent_pause_48_filled.png)
 
-**The next track button -** Plays the next track. The next track depends on if there are tracks queued, shuffle and repeat modes.
+**Seuraava kappale -painike -** Toistaa seuraavan kappaleen. Seuraava kappale riippuu siitä, onko kappaleita jonossa, onko arvonta päällä ja onko jatkuva toisto päällä.
 
 ![image](img/gui/ic_fluent_next_48_filled.png)
 
-**The show queue toggle button -** Filters the task list by queued tracks. If nothing is queued, the track list will be empty. Searching via text can also be applied to the track list filtered by queue.
+**Näytä jono -painike -** Suodattaa kappalelistaan näkyviin ainoastaan jonossa olevat kappaleet. Jos mitään ei ole jonossa, lista jää tyhjäksi. Hakemalla tekstillä voi suodattaa jonotettujen kappaleiden listaa lisää.
 
 ![image](img/gui/queue_three_dots.png)
 
-**The shuffle toggle button -** Toggles the playback randomization.
+**Arvonta päällä -painike -** Vaihtaa arvonnan tilaa toistolle.
 
 ![image](img/gui/shuffle-random-svgrepo-com_modified.png)
 
-**The repeat toggle button -** Toggles to playback repeat. E.g. continuous playback.
+**Jatkuva toisto päällä -painike -** Vaihtaa jatkuvan toiston tilaa.
 
 ![image](img/gui/repeat-svgrepo-com_modified.png)
 
-**The toggle stack queue button -** The stack queue mode ensures that the queue never ends. The played tracks just are moved to the back of the queue and a defined part of the queue is re-randomized.
+**Pinottu jonon toisto päällä -painike -** Pinottu jonon toistotila varmistaa, että kappaleet eivät lopu jonosta. Toistetut kappaleet siirretään takaisin jonon loppuun ja ja tietty osuus jonon loppupään järjestyksestä arvotaan uudelleen.
 
 ![image](img/gui/stack_queue_three_dots.png)
 
-## Album selector
-The album can be changed from the album selector. The previous album is automatically saved before an album is changed.
+## Albumin valinta
+Albumin voi vaihtaa tästä pudotusvalikosta. Edellisen albumin mahdolliset muutokset tallentuvat automaattisesti, ennen albumin vaihtumista.
 
 ![image](img/album_selector1.png)
 
-## Sound and rating
-**The volume slider**
-The volume slider controls the main volume of the playback. The volume level has no effect on the system volume setting.
+## Äänenvoimakkuus ja arvostelu
+**Äänenvoimakkuus**
+Äänenvoimakkuus vaikuttaa kaikkien kappaleiden toiston voimakkuuteen. Asetuksen muuttaminen ei vaikuta järjestelmän äänenvoimakkuuteen.
 
-**The audio track volume slider**
-The audio track volume slider controls the volume of an individual audio track playback. This value is saved to the internal database of the software.
+**Kappaleen äänenvoimakkuus**
+Kappaleen äänenvoimakkuus vaikuttaa yksittäisen kappaleen toiston voimakkuuteen. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan.
 
-**The rating slider**
-With the rating slider the track can be given a rating. This value is saved to the internal database of the software.
+**Arvostelu/pisteet**
+Tällä toiminnolla voidaan antaa kappaleelle haluttu arvostelu. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan.
 
-## The position slider
-The position slider allows to control the playback position of the current track.
+## Sijainnin säätö
+Tästä voi säätää nykyisen kappaleen toiston sijaintia ajallisesti.
 
-## Current track title and duration
-The duration displays the time left to playback the track. By clicking the track title you can focus on the current track in the track list.
+## Nykyisen kappaleen otsikko ja kesto
+Kesto kertoo, kuinka paljon kappaleen toistoa on jäljellä. Kappaleen otsikkoa klikkaamalla voi keskittää kappalelistan toistettavaan kappaleeseen.
 
-## The search box
-The search box allows to filter the tracks from the current album. The search is directed to all the properties of the audio track:
+## Hakukenttä
+Hakukentällä voi hakea kappaleita nykyisestä albumista. Haku kohdistuu kaikkiin kappaleen ominaisuuksiin:
 
-- Tag data
+- Tag, metatiedot
 
-    * Year
-    * Album
-    * Artist
-    * File tag contents including possible lyrics
-    * Etc...
+    * Vuosi
+    * Albumi
+    * Artisti
+    * Tiedoston metatietojen sisältö sisältäen myös mahdolliset sanoitukset
+    * Jne...
 
-- File name
+- Tiedostonimi
 
-The search box is focused when the main window is active and characters are written, so the search does not need to be explicitly focused by mouse or by keyboard. **Just type!**
+Keskitys siirtyy hakukenttään kun pääikkuna on aktiivinen ja tekstiä kirjoitetaan, joten hakukenttää ei tarvitse erillisesti valita näppäimistöllä tai hiirellä. **Riittää, kun alkaa kirjoittamaan!**
 
-Use <kbd>Escape</kbd> key to clear the search box.
+Käytä <kbd>Escape</kbd> näppäintä hakukentän tyhjentämiseen.
 
-## The track list
-The track list contains all the tracks in the current album. It also has columns to indicate the index in the queue titled `Q` and a column to indicate the alternate queue index titled `*`. The columns can be re-ordered and the ordering is saved into the application settings.
+## Kappalelista
+Kappalelista sisältää kaikki nykyisen albumin kappaleet. Siinä on myös sarakkeet jonotusnumerolle otsakkeella `J` ja vaihtoehtoiselle jonotusnumerolle otsakkeella `*`. Sarakkeiden järjestystä voi muuttaa ja niiden järjestys tallentuu automaattisesti ohjelman asetuksiin.
 
-Tracks can be added to queue using the <kbd>+</kbd> key or inserted on top of the queue using <kbd>Ctrl</kbd>+<kbd>+</kbd> or <kbd>⌘</kbd>+<kbd>+</kbd>.
+Kappaleita voi lisätä jonoon käyttäen <kbd>+</kbd> -näppäintä tai lisätä jonon alkuun <kbd>Ctrl</kbd>+<kbd>+</kbd> tai <kbd>⌘</kbd>+<kbd>+</kbd> -näppäinoikotiellä.
 
-Tracks can be added to the alternate queue using the <kbd>\*</kbd> key or inserted on top of the queue using <kbd>Ctrl</kbd>+<kbd>\*</kbd> or <kbd>⌘</kbd>+<kbd>\*</kbd>.
+Kappaleita voi lisätä vaihtoehtoiseen jonoon käyttäen <kbd>\*</kbd> -näppäintä tai lisätä vaihtoehtoisen jonon alkuun <kbd>Ctrl</kbd>+<kbd>\*</kbd> tai <kbd>⌘</kbd>+<kbd>\*</kbd> -näppäinoikotiellä.
 
-The reason for the alternate queue is to allow to create a new queue to save while listening to music and possibly queuing new tracks to playback.
+Vaihtoehtoisen jonon tarkoitus on sallia uuden jonon luonti tallennusta varten kuunneltaessa toista jonoa.
 
-## The status panel
-The status panel at the bottom of the main displays the number of queued tracks, the number of filtered tracks and the number of total tracks within the album.
+## Tilapaneeli
+Tilapaneeli pääikkunan alareunassa kertoo jonotettujen kappaleiden ja suodatettujen kappaleiden määrän. Lisäksi mukana on valitun albumin kokonaiskappalemäärä.

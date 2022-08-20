@@ -1,7 +1,7 @@
-# The album management dialog
+# Albumien hallintadialogi
 
-This dialog allows you to delete, remove and add albums into the [amp# database](data_storing.md). The dialog can be accessed via the [main window file menu](main_window.html#album).
+Tämä dialogi sallii albumien poiston, lisäyksen ja uudelleen nimeämisen [amp#:in tietokannassa](data_storing.md). Dialogin voi avata [päävalikon Tiedosto-valikosta](main_window.html#album).
 
 ![image](img/manage_albums1.png)
 
-Albums can be renamed, added and deleted using this dialog. Deleting albums never deletes any tracks from the [amp# database](data_storing.md). The default album **can not** be deleted.
+Albumeita voi nimetä uudelleen, lisätä ja poistaa tätä dialogia käyttäen. Albumien poisto ei poista kappaleita [amp#:in tietokannasta](data_storing.md). Oletusalbumia **ei voi** poistaa.

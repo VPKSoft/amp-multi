@@ -30,7 +30,7 @@ Opens a dialog to allow user to specify a name for the current queue or alternat
 Opens a dialog where [saved queue snapshots](saved_queues_dialog.md) can be loaded, edited and deleted. Keyboard shortcut: <kbd>F3</kbd>.
 
 #### Clear queue
-Clears the queued songs from the current album. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>D</kbd> or <kbd>⌘</kbd>+<kbd>D</kbd>.
+Clears the queued tracks from the current album. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>D</kbd> or <kbd>⌘</kbd>+<kbd>D</kbd>.
 
 #### Scramble queue
 Re-randomizes the current queue playback order. If two or more queued items are selected, only the selection is re-randomized. Keyboard shortcut: <kbd>F7</kbd>.

@@ -1,42 +1,49 @@
-# Saved queues dialog
-In the saved queues dialog saved queues can be modified and loaded to the track list. The queue snapshots are sort of mini playlists inside an album of tracks. 
+# Tallennetut jonot -dialogi
+Tallennetut jonot-dialogissa tallennettuja jonoja voi muokata ja ladata kappalelistaan.
+Tallennetut jonot ovat tavallaan mini-soittolistoja albumin sisällä, joka koostuu kappaleista.
 
-To create a queue simply add songs to the queue in the track list and then save the queue from the [Queue](main_window.md#the-queue-menu) menu. Queues can also be created during playback using the alternate queue which is not modified by the playback.
+Tallennetun jonon luomiseksi lisää kappaleita jonoon kappalelistassa ja tallenna jono [Jono-valikosta](main_window.md#the-queue-menu) menu. Jonoja voi myös luoda musiikin soidessa käyttäen vaihtoehtoista jonoa, jonka sisältö ei muutu toiston aikana.
 
-In the *Saved queues* dialog a queue can be:
+Tallennetut jonot -dialogissa jonoja voi:
 
-* Deleted using the delete button
+* Poistaa poista-painikkeella
 
     ![image](img/gui/ic_fluent_delete_48_filled.png)
 
-* The tracks in the queue can be reordered and delete using the edit button, this opens a new dialog
+* Kappaleita voi uudelleen järjestää jonon sisällä tai poistaa muokkaa-painikkeella, joka avaa uuden dialogin
 
     ![image](img/gui/ic_fluent_edit_48_filled.png)
 
-* *Load queue* button loads the queue erasing the current queue from the album
-* *Append to queue* button loads the queue after the current queue to the album
-* *Insert to queue start* button inserts the selected queue on top of the current queue to the album and shifts the previous queue downwards
-* *Save & Close* button saved the changes made in this dialog. The changes include queue renaming and deletions
+* *Lataa jono* -painike lataa jonon poistaen mahdollisesti aiemmin jonotetut kappaleet kappalelistasta
+* *Lisää jonoon* -painike lataa valitun jonon albumin nykyisen jonon loppuun
+* *Lisää jonon alkuun* -painike lisää valitun jonon albumin nykyisen jonon alkuun siirtäen aiemmin jonossa olleita kappaleita jonon perään
+* *Tallenna & sulje* -painike tallentaa muutokset, joita dialogissa on tehty. Näitä ovat jonojen poistot ja uudelleen nimeämiset.
 
-*The Saved queues dialog*
+On myös mahdollista kopioida tallennetun jonon kappaleiden tiedostot yksittäiseen käyttäjän valitsemaan hakemistoon ilman alihakemistoja. Kopioidaksesi äänitiedostot, valitse *Kopioi kappaleiden tiedostot kansioon...* -painike.
+
+![image](img/gui/ic_fluent_copy_arrow_right_24_filled.png)
+
+
+
+*Tallennetut jonot -dialogi*
 ![image](img/saved_queues1.png)
 
-# Modify queue dialog
-Tracks can be reordered and deleted from the queue in this dialog.
+# Muokkaa jonoa -dialogi
+Kappaleita voi järjestellä uudelleen ja poistaa jonosta tässä dialogissa.
 
-The arrow up button moves the selected track upwards in the queue.
+Nuoli ylös -painike siirtää valitun kappaleen ylöspäin jonossa.
 
 ![image](img/gui/ic_fluent_arrow_up_48_filled.png)
 
-The arrow down button moves the selected track downwards in the queue.
+Nuoli alas -painike siirtää valitun kappaleen alaspäin jonossa.
 
 ![image](img/gui/ic_fluent_arrow_down_48_filled.png)
 
-The delete button deletes the selected track from the queue.
+Poista-painike poistaa valitun kappaleen jonosta.
 
 ![image](img/gui/ic_fluent_delete_48_filled.png)
 
-The *Save & Close* button saves the data. No deletions or renames are applied if the changes are not saved.
+*Tallenna & sulje* -painike tallentaa muutokset. Poistoja tai siirtoja ei tallenneta ellei muutoksia tallenneta.
 
-*Modify queue dialog*
+*Muokkaa jonoa -dialogi*
 ![image](img/saved_queues2.png)
