@@ -1,6 +1,6 @@
 # The amp# main window
 
-The main window consists of the menu, playback controls album selector, volume, rating, position, search, track list, audio visualization and status bar.
+The main window consists of the menu, playback controls, album selector, volume, rating, position, search, track list, audio visualization and status bar.
 
 ![image](img/main_window1.png)
 
@@ -30,7 +30,7 @@ Opens a dialog to allow user to specify a name for the current queue or alternat
 Opens a dialog where [saved queue snapshots](saved_queues_dialog.md) can be loaded, edited and deleted. Keyboard shortcut: <kbd>F3</kbd>.
 
 #### Clear queue
-Clears the queued songs from the current album. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>D</kbd> or <kbd>⌘</kbd>+<kbd>D</kbd>.
+Clears the queued tracks from the current album. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>D</kbd> or <kbd>⌘</kbd>+<kbd>D</kbd>.
 
 #### Scramble queue
 Re-randomizes the current queue playback order. If two or more queued items are selected, only the selection is re-randomized. Keyboard shortcut: <kbd>F7</kbd>.
@@ -109,6 +109,9 @@ With the rating slider the track can be given a rating. This value is saved to t
 
 ## The position slider
 The position slider allows to control the playback position of the current track.
+
+## Current track title and duration
+The duration displays the time left to playback the track. By clicking the track title you can focus on the current track in the track list.
 
 ## The search box
 The search box allows to filter the tracks from the current album. The search is directed to all the properties of the audio track:

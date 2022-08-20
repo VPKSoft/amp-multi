@@ -5,13 +5,16 @@ theme:
   name: material
 
 nav:
-  - About: index.md
-  - Install: install.md
-  - Main window: main_window.md
-  - Album management: album.md
-  - Track information: track_info.md
-  - Saved queues: saved_queues_dialog.md
-  - Settings: settings.md
-  - Color settings: color_settings.md
+  - Tietoja: index.md
+  - Asennus: install.md
+  - Pääikkuna: main_window.md
+  - Albumien hallinta: album.md
+  - Kappaleen tiedot: track_info.md
+  - Tallennetut jonot: saved_queues_dialog.md
+  - Asetukset: settings.md
+  - Värien asetukset: color_settings.md
+  - Näppäinoikotiet: keyboard_shortcuts.md
+  - Tiedon tallennus: data_storing.md
+  - Lisenssi: license.md
 
 copyright: Copyright &copy; 2022 VPKSoft

@@ -536,4 +536,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="QueueIndex" xml:space="preserve">
     <value>Queue index</value>
   </data>
+  <data name="SynchronizeColors" xml:space="preserve">
+    <value>Synchronize colors</value>
+  </data>
 </root>

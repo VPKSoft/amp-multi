@@ -77,7 +77,13 @@ public class UpdateChecker : IExceptionReporter
         {
             using var client = new HttpClient();
             var bytes = await client.GetByteArrayAsync(checkUri);
-            var document = JsonDocument.Parse(bytes);
+
+            var options = new JsonDocumentOptions
+            {
+                AllowTrailingCommas = true,
+            };
+
+            var document = JsonDocument.Parse(bytes, options);
             var items = document.Deserialize<List<VersionData>>()?.ToList() ?? new List<VersionData>();
 
             var larger = items.Where(f =>
