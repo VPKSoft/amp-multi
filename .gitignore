@@ -359,31 +359,3 @@ ASALocalRun/
 
 #Linux packaking
 *.AppImage
-
-# MkDocs help
-/Help/amp-en/site
-/Help/amp-en/docs/img/album_selector1.png
-/Help/amp-en/docs/img/main_window1.png
-/Help/amp-en/docs/img/toolbar1.png
-/Help/amp-en/docs/img/manage_albums1.png
-/Help/amp-fi/docs/img/toolbar1.png
-/Help/amp-fi/docs/img/main_window1.png
-/Help/amp-fi/docs/img/album_selector1.png
-/Help/amp-fi/docs/img/manage_albums1.png
-/Help/amp-fi/site
-/Help/amp-en/docs/img/album_info1.png
-/Help/amp-fi/docs/img/album_info1.png
-/Help/amp-en/docs/img/album_info2.png
-/Help/amp-fi/docs/img/album_info2.png
-/Help/amp-en/docs/img/saved_queues1.png
-/Help/amp-en/docs/img/saved_queues2.png
-/Help/amp-fi/docs/img/saved_queues1.png
-/Help/amp-fi/docs/img/saved_queues2.png
-/Help/amp-en/docs/img/settings1.png
-/Help/amp-en/docs/img/settings2.png
-/Help/amp-en/docs/img/settings3.png
-/Help/amp-fi/docs/img/settings1.png
-/Help/amp-fi/docs/img/settings2.png
-/Help/amp-fi/docs/img/settings3.png
-/Help/amp-en/docs/img/color_settings.png
-/Help/amp-fi/docs/img/color_settings.png

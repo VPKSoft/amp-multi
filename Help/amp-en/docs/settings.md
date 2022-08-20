@@ -31,7 +31,7 @@ A value of how many times the software tries playback with a different track if 
 *Display audio visualization* indicates whether to display audio visualization on bottom of the track list during playback.
 
 *Audio visualizer FFT Window function*
-With this option the FFT ([Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform)) [windowing function](https://en.wikipedia.org/wiki/Window_function) can be changed. Just keep it to Hanning if you do not know what this means. It affects the form of the visualized audio signal bu assigning weight to the different frequency bands - thats how I (with extremely limited knowledge) understand the thing.
+With this option the FFT ([Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform)) [windowing function](https://en.wikipedia.org/wiki/Window_function) can be changed. Just keep it to Hanning if you do not know what this means. It affects the form of the visualized audio signal bu assigning weight to the different frequency bands - thats how the author (with extremely limited knowledge) understands the thing.
 
 *Bar visualization mode*
 The audio visualization is rendered in bars if this is checked. Otherwise a line is rendered.
