@@ -15,14 +15,14 @@ You might need to install [FUSE](https://github.com/AppImage/AppImageKit/wiki/FU
 1. Download `setup_amp.exe` installer from [Releases](https://github.com/VPKSoft/amp-multi/releases)
 2. Run the installer, you will be prompted with this warning:
 
-   ![image](img/img_windows/windows_install1.png)
+   ![image](img/mixed/windows_install1.png)
 
    *Select More info* 
    
    *Select Run anyway*
 
-   ![image](img/img_windows/windows_install2.png)
-   
+   ![image](img/mixed/windows_install2.png)
+
 3. By default select
 
     * Next >
@@ -33,7 +33,7 @@ You might need to install [FUSE](https://github.com/AppImage/AppImageKit/wiki/FU
     * Finish
 
 
-    ![image](img/img_windows/windows_install3.png)
+    ![image](img/mixed/windows_install3.png)
 
 
 ## Dependencies
@@ -44,7 +44,7 @@ No elevated privileges are required for the installation as the installer instal
 
 Additionally Windows Security needs to be allowed to run the file:
 
-![image](img/img_windows/windows_install4.png)
+![image](img/mixed/windows_install4.png)
 
 *Tested with Windows 11 Pro, OS build 21996.1, Windows Feature Experience Pack 321.14700.0.3*
 
@@ -52,13 +52,13 @@ Additionally Windows Security needs to be allowed to run the file:
 1. Download the `amp.zip` zip package from [Releases](https://github.com/VPKSoft/amp-multi/releases)
 2. Extract the zip package. You might get a notification suggesting moving the `amp.app` to Bin:
 
-   ![image](img/img_macos/install1.png)
+   ![image](img/mixed/macos_install1.png)
 
    *Select Cancel*
 3. Run: `xattr -c amp\#.app/`
 4. Now just start the application, this case it is extracted to desktop:
 
-   ![image](img/img_macos/install2.png)
+   ![image](img/mixed/macos_install2.png)
 
 
 ## Dependencies
