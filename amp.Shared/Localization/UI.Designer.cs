@@ -1133,6 +1133,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synchronize colors.
+        /// </summary>
+        public static string SynchronizeColors {
+            get {
+                return ResourceManager.GetString("SynchronizeColors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tag save failed..
         /// </summary>
         public static string TagSaveFailed {

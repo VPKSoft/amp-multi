@@ -1,67 +1,70 @@
-# General
-The installation of the software needs some additional work as the software packages are not digitally signed, here are the OS-specific instructions.
+# Yleistä
+Ohjelman asennus tarvitsee hiukan lisätyötä, koska ohjelmistoa ei ole digitaalisesti allekirjoitettu, tässä on ohjeet käyttöjärjestelmäkohtaiseen asennukseen.
 
-# Linux install
-1. Download the AppImage from [Releases](https://github.com/VPKSoft/amp-multi/releases)
-2. Make the AppImage executable: `chmod +x chmod +x amp.-x86_64.AppImage`
-3. Run the application: `./amp.-x86_64.AppImage`
+# Linux-asennus
+1. Lataa AppImage-paketti: [Releases](https://github.com/VPKSoft/amp-multi/releases)
+2. Tee AppImage-paketista suoritettava: `chmod +x chmod +x amp.-x86_64.AppImage`
+3. Suorita sovellus: `./amp.-x86_64.AppImage`
 
-## Dependencies
-You might need to install [FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE): `sudo apt install libfuse2`
+## Riippuvuudet
+Tämän voi joutua asentamaan, että ohjelma toimisi [FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE): `sudo apt install libfuse2`
 
-*This was tested on clean Ubuntu install (Ubuntu 22.04.1 LTS)*
+*Tämä asennusohje on testattu: Ubuntu (Ubuntu 22.04.1 LTS)*
 
-# Windows install
-1. Download `setup_amp.exe` installer from [Releases](https://github.com/VPKSoft/amp-multi/releases)
-2. Run the installer, you will be prompted with this warning:
+# Windows-asennus
+1. Lataa `setup_amp.exe`-asennusohjelma kohteesta [Releases](https://github.com/VPKSoft/amp-multi/releases)
+2. Suorita asennusohjelma, saat luultavasti seuraavan varoituksen:
 
-   ![image](img/img_windows/windows_install1.png)
+   ![image](img/mixed/windows_install1.png)
 
-   *Select More info* 
+   *Valitse Lisätietoja* 
    
-   *Select Run anyway*
+   *Valitse Suorita joka tapauksessa*
 
-   ![image](img/img_windows/windows_install2.png)
-   
-3. By default select
+   ![image](img/mixed/windows_install2.png)
 
-    * Next >
-    * I Agree
-    * Next >
-    * Install
-    * Next >
-    * Finish
+3. Oletusasennukseen valitse
 
-
-    ![image](img/img_windows/windows_install3.png)
+    * Seuraava >
+    * Hyväksyn
+    * Seuraava >
+    * Asenna
+    * Seuraava >
+    * Valmis
 
 
-## Dependencies
-[.NET 6](https://dotnet.microsoft.com/en-us/download) is required.
-
-### Notes
-No elevated privileges are required for the installation as the installer installs the software only for current user.
-
-Additionally Windows Security needs to be allowed to run the file:
-
-![image](img/img_windows/windows_install4.png)
-
-*Tested with Windows 11 Pro, OS build 21996.1, Windows Feature Experience Pack 321.14700.0.3*
-
-# macOS install
-1. Download the `amp.zip` zip package from [Releases](https://github.com/VPKSoft/amp-multi/releases)
-2. Extract the zip package. You might get a notification suggesting moving the `amp.app` to Bin:
-
-   ![image](img/img_macos/install1.png)
-
-   *Select Cancel*
-3. Run: `xattr -c amp\#.app/`
-4. Now just start the application, this case it is extracted to desktop:
-
-   ![image](img/img_macos/install2.png)
+    ![image](img/mixed/windows_install3.png)
 
 
-## Dependencies
-[.NET 6](https://dotnet.microsoft.com/en-us/download) is required.
+## Riippuvuudet
+[.NET 6](https://dotnet.microsoft.com/en-us/download) tarvitaan.
 
-*This was tested on macOS Catalina Version 10.15.7 (19H15)*
+### Huomioita
+Korotettuja käyttöoikeuksia ei tarvita ohjelman asennukseen, koska asennusohjelma asentaa sovelluksen ainoastaan kirjautuneelle käyttäjälle.
+
+Lisäksi Windowsin tietoturva saattaa vaatia asennusohjelman suorituksen sallimisen:
+
+![image](img/mixed/windows_install4.png)
+
+*Tämä asennusohje on testattu: Windows 11 Pro, OS build 21996.1, Windows Feature Experience Pack 321.14700.0.3*
+
+# macOS-asennus
+1. Lataa `amp.zip` zip-paketti sijainnista [Releases](https://github.com/VPKSoft/amp-multi/releases)
+
+2. Pura zip-paketti. Voit saada ilmoituksen, joka kehottaa `amp.app`-sovelluksen siirtämisestä to Koriin:
+
+    ![image](img/mixed/macos_install1.png)
+
+    *Valitse peruuta*
+
+3. Suorita: `xattr -c amp\#.app/`
+
+4. Nyt riittää, kun käynnistät sovelluksen, tässä tapauksessa se on purettu työpöydälle:
+
+    ![image](img/mixed/macos_install2.png)
+
+
+## Riippuvuudet
+[.NET 6](https://dotnet.microsoft.com/en-us/download) tarvitaan.
+
+*Tämä asennus on asennusohje: macOS Catalina Version 10.15.7 (19H15)*

@@ -536,4 +536,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="QueueIndex" xml:space="preserve">
     <value>Jonotusnumero</value>
   </data>
+  <data name="SynchronizeColors" xml:space="preserve">
+    <value>Synkronoi värit</value>
+  </data>
 </root>
