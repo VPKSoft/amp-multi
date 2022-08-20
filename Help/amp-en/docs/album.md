@@ -1,6 +1,6 @@
 # The album management dialog
 
-This dialog allows you to delete, remove and add albums into the [amp# database](data_storing.md). The dialog can be accessed via the [main window file menu](main_window.html#album).
+This dialog allows you to delete, rename and add albums into the [amp# database](data_storing.md). The dialog can be accessed via the [main window file menu](main_window.html#album).
 
 ![image](img/manage_albums1.png)
 
