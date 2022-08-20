@@ -27,6 +27,7 @@ SOFTWARE.
 using System;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.EventArguments;
 
 namespace EtoForms.Controls.Custom;
 
@@ -74,7 +75,13 @@ public class LabelColorPickerRow<T> : TableRow
     private void ColorPicker_ValueChanged(object? sender, EventArgs e)
     {
         SelectedColor = colorPicker.Value;
+        ColorValueChanged?.Invoke(this, new ColorChangedEventArgs(colorPicker.Value));
     }
+
+    /// <summary>
+    /// Occurs when the color value changed.
+    /// </summary>
+    public event EventHandler<ColorChangedEventArgs>? ColorValueChanged;
 
     private Color? selectedColor;
 
@@ -92,6 +99,26 @@ public class LabelColorPickerRow<T> : TableRow
             {
                 selectedColor = value;
                 ColorChanged = initialColor != selectedColor;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the color picker value along with the <see cref="SelectedColor"/> value.
+    /// </summary>
+    /// <value>The color picker value.</value>
+    public Color? ColorPickerValue
+    {
+        get => SelectedColor;
+
+        set
+        {
+            if (selectedColor != value)
+            {
+                colorPicker.ValueChanged -= ColorPicker_ValueChanged;
+                colorPicker.Value = value ?? default;
+                colorPicker.ValueChanged += ColorPicker_ValueChanged;
+                SelectedColor = value;
             }
         }
     }

@@ -33,6 +33,7 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
+using EtoForms.Controls.Custom.EventArguments;
 using FluentIcons.Resources.Filled;
 
 namespace amp.EtoForms.Forms;
@@ -103,7 +104,7 @@ internal class FormColorSettings : Dialog
         CreateTabColors();
     }
 
-    private static LabelColorPickerRow<ColorUiData> CreateRow(PropertyInfo propertyInfo, ColorConfiguration colorConfig)
+    private static LabelColorPickerRow<ColorUiData> CreateRow(PropertyInfo propertyInfo, ColorConfiguration colorConfig, EventHandler<ColorChangedEventArgs> colorChangedHandler)
     {
         var nullable = propertyInfo.IsNullableProperty();
         var text = ColorsDescriptions.ResourceManager.GetString(propertyInfo.Name,
@@ -118,10 +119,26 @@ internal class FormColorSettings : Dialog
             DataObject = new ColorUiData(propertyInfo.Name, text, -1),
         };
 
+        row.ColorValueChanged += colorChangedHandler;
+
         return row;
     }
 
-    private static LabelColorPickerRow<ColorUiData> CreateRow(int listIndex, string colorValue)
+    private void Row_ColorValueChanged(object? sender, ColorChangedEventArgs e)
+    {
+        if (cbSynchronizeColors.Checked == true)
+        {
+            foreach (var row in configRows)
+            {
+                if (!Equals(sender, row))
+                {
+                    row.ColorPickerValue = e.Color;
+                }
+            }
+        }
+    }
+
+    private static LabelColorPickerRow<ColorUiData> CreateRow(int listIndex, string colorValue, EventHandler<ColorChangedEventArgs> colorChangedHandler)
     {
         var index = listIndex / 2 + 1;
 
@@ -137,6 +154,8 @@ internal class FormColorSettings : Dialog
             DataObject = new ColorUiData(nameof(ColorConfiguration.ColorsSpectrumVisualizerChannels), text, listIndex),
         };
 
+        row.ColorValueChanged += colorChangedHandler;
+
         return row;
     }
 
@@ -151,6 +170,8 @@ internal class FormColorSettings : Dialog
             Padding = Globals.DefaultPadding,
         };
 
+        tableLayoutContent.Rows.Add(cbSynchronizeColors);
+
         var colorConfig = Globals.ColorConfiguration;
 
         configRows = new List<LabelColorPickerRow<ColorUiData>>();
@@ -159,7 +180,7 @@ internal class FormColorSettings : Dialog
         {
             if (propertyInfo.PropertyType == typeof(string))
             {
-                configRows.Add(CreateRow(propertyInfo, colorConfig));
+                configRows.Add(CreateRow(propertyInfo, colorConfig, Row_ColorValueChanged));
             }
         }
 
@@ -168,13 +189,13 @@ internal class FormColorSettings : Dialog
         {
             var color = colorConfig.ColorsSpectrumVisualizerChannels[i];
 
-            var row = CreateRow(i, color);
+            var row = CreateRow(i, color, Row_ColorValueChanged);
             configRows.Add(row);
             i++;
 
 
             color = colorConfig.ColorsSpectrumVisualizerChannels[i];
-            row = CreateRow(i, color);
+            row = CreateRow(i, color, Row_ColorValueChanged);
             configRows.Add(row);
             i++;
         }
@@ -202,4 +223,5 @@ internal class FormColorSettings : Dialog
     private readonly Button btnCancel = new() { Text = UI.Cancel, };
     private readonly Button btnDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
     private TableLayout tableLayoutContent = new();
+    private readonly CheckBox cbSynchronizeColors = new() { Text = UI.SynchronizeColors, };
 }
