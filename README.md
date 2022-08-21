@@ -20,7 +20,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 ## Install
 See the wiki for [stable release install](../../wiki).
 * [Windows install](../../wiki/Windows-Install)
-* [Linux install](../../wiki/Linux-instal)
+* [Linux install](../../wiki/Linux-install)
 * [macOS install](../../wiki/MacOS-Install)
 
 ### Nightly builds
