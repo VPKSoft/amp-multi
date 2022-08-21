@@ -130,7 +130,7 @@ partial class FormMain
 
         if (e.Modifiers == Keys.None)
         {
-            if (e.IsChar)
+            if (e.IsChar && !(e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp))
             {
                 tbSearch.Text = e.KeyChar.ToString();
                 tbSearch.CaretIndex++;
