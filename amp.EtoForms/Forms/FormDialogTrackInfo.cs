@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms.EventArguments;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using ATL;
@@ -65,6 +66,13 @@ public partial class FormDialogTrackInfo : Dialog
         trackTag = new Track(audioTrack.FileName);
         SetData();
         AttachEvents();
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithBoth(btnClose);
+        Closed += FormDialogTrackInfo_Closed;
+    }
+
+    private void FormDialogTrackInfo_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private readonly Image imageOff;
@@ -75,6 +83,7 @@ public partial class FormDialogTrackInfo : Dialog
     private bool ampDataChanged;
     private bool tagDataChanged;
     private Bitmap? copiedFromTag;
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 
     private bool TagDataChanged
     {

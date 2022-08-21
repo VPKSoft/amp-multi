@@ -28,12 +28,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using amp.EtoForms.Settings;
+using amp.EtoForms.Utilities;
 using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.EventArguments;
+using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 
 namespace amp.EtoForms.Forms;
@@ -56,6 +58,13 @@ internal class FormColorSettings : Dialog
         btnOk.Click += BtnOk_Click;
         btnDefaults.Click += BtnDefaults_Click;
         btnCancel.Click += BtnCancel_Click;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnOk);
+        Closed += FormColorSettings_Closed;
+    }
+
+    private void FormColorSettings_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private void BtnCancel_Click(object? sender, EventArgs e)
@@ -224,4 +233,5 @@ internal class FormColorSettings : Dialog
     private readonly Button btnDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
     private TableLayout tableLayoutContent = new();
     private readonly CheckBox cbSynchronizeColors = new() { Text = UI.SynchronizeColors, };
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 }

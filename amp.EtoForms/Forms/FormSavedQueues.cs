@@ -180,6 +180,13 @@ public class FormSavedQueues : Dialog<bool>
         btnLoadAndAppendQueue.Click += BtnLoadQueueClick;
         btnLoadAndInsertQueue.Click += BtnLoadQueueClick;
         gvAlbumQueues.CellEdited += GvAlbumQueues_CellEdited;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel);
+        Closed += FormSavedQueues_Closed;
+    }
+
+    private void FormSavedQueues_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private async void BtnLoadQueueClick(object? sender, EventArgs e)
@@ -322,4 +329,5 @@ public class FormSavedQueues : Dialog<bool>
     private readonly Button btnLoadAndAppendQueue = new() { Text = UI.AppendToQueue, Tag = QueueAppendInsertMode.Append, };
     private readonly Button btnLoadAndInsertQueue = new() { Text = UI.InsertToQueue, Tag = QueueAppendInsertMode.Insert, };
     private readonly SelectFolderDialog selectFolderDialog = new() { Title = UI.SelectDestinationDirectory, };
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 }

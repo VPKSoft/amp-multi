@@ -51,6 +51,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
     private readonly Button btnCancel = new() { Text = UI.Close, };
     private readonly Button btnSaveAndClose = new() { Text = UI.SaveClose, };
     private readonly List<long> toDelete = new();
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DialogModifySavedQueue"/> class.
@@ -136,6 +137,13 @@ internal class DialogModifySavedQueue : Dialog<bool>
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
 
         Shown += DialogModifySavedQueue_Shown;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel);
+        Closed += DialogModifySavedQueue_Closed;
+    }
+
+    private void DialogModifySavedQueue_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private void MoveUpDownClick(object? sender, EventArgs e)
