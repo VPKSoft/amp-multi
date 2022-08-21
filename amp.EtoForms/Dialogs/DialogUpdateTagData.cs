@@ -26,7 +26,6 @@ SOFTWARE.
 
 using amp.Database;
 using amp.EtoForms.DtoClasses;
-using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;

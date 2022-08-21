@@ -115,7 +115,7 @@ partial class FormMain
 
         if (e.Key == Keys.Delete)
         {
-            await gvAudioTracks.DeleteSongs(context, tracks, FilterTracks);
+            await gvAudioTracks.DeleteSongs(context, tracks, () => FilterTracks(false));
 
             e.Handled = true;
             return;
@@ -175,12 +175,12 @@ partial class FormMain
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        FilterTracks();
+        FilterTracks(false);
     }
 
     private void BtnShowQueue_CheckedChange(object? sender, CheckedChangeEventArguments e)
     {
-        FilterTracks();
+        FilterTracks(false);
     }
 
     private void FormMain_Closing(object? sender, CancelEventArgs e)
@@ -419,7 +419,7 @@ partial class FormMain
 
     private void IdleChecker_UserIdleChanged(object? sender, UserIdleEventArgs e)
     {
-        FilterTracks();
+        FilterTracks(true);
     }
 
     private void FormMain_Shown(object? sender, EventArgs e)

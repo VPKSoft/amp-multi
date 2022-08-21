@@ -28,7 +28,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using amp.EtoForms.Settings;
-using amp.EtoForms.Utilities;
 using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;

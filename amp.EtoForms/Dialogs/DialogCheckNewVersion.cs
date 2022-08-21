@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Globalization;
 using System.Text;
-using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using amp.Shared.UpdateCheck;
