@@ -109,6 +109,8 @@ public class FormAlbums : Dialog<bool>
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
 
         Shown += FormAlbums_Shown;
+
+        AbortButton = btnCancel;
     }
 
     private void GvAlbums_CellEdited(object? sender, GridViewCellEventArgs e)

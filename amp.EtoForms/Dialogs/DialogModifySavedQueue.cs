@@ -136,6 +136,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
 
         Shown += DialogModifySavedQueue_Shown;
+        AbortButton = btnCancel;
     }
 
     private void MoveUpDownClick(object? sender, EventArgs e)

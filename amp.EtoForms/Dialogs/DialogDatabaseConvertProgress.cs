@@ -145,6 +145,8 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
         DefaultButton = btClose;
         AbortButton = btCancel;
         Closing += DialogDatabaseConvertProgress_Closing;
+        DefaultButton = btClose;
+        AbortButton = btCancel;
     }
 
     private void DialogDatabaseConvertProgress_Closing(object? sender, CancelEventArgs e)

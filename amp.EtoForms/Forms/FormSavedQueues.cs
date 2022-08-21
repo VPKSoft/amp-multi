@@ -180,6 +180,8 @@ public class FormSavedQueues : Dialog<bool>
         btnLoadAndAppendQueue.Click += BtnLoadQueueClick;
         btnLoadAndInsertQueue.Click += BtnLoadQueueClick;
         gvAlbumQueues.CellEdited += GvAlbumQueues_CellEdited;
+
+        AbortButton = btnCancel;
     }
 
     private async void BtnLoadQueueClick(object? sender, EventArgs e)

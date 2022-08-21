@@ -56,6 +56,9 @@ internal class FormColorSettings : Dialog
         btnOk.Click += BtnOk_Click;
         btnDefaults.Click += BtnDefaults_Click;
         btnCancel.Click += BtnCancel_Click;
+
+        DefaultButton = btnCancel;
+        AbortButton = btnOk;
     }
 
     private void BtnCancel_Click(object? sender, EventArgs e)
