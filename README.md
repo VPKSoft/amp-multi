@@ -19,9 +19,9 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 ## Install
 See the wiki for [stable release install](../../wiki).
-* [Windows install](../../amp-multi/wiki/Windows-Install)
-* [Linux install](../../amp-multi/wiki/Linux-instal)
-* [macOS install](../../amp-multi/wiki/MacOS-Install)
+* [Windows install](../../wiki/amp-multi/wiki/Windows-Install)
+* [Linux install](../../wiki/amp-multi/wiki/Linux-instal)
+* [macOS install](../../wiki/amp-multi/wiki/MacOS-Install)
 
 ### Nightly builds
 See the wiki for the [nightly release install](../../wiki/Nightly-builds).
