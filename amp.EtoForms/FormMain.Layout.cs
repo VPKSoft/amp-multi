@@ -73,20 +73,6 @@ partial class FormMain
         return result;
     }
 
-    private void CmbAlbumSelect_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (suspendAlbumChange || cmbAlbumSelect.SelectedIndex < 0)
-        {
-            return;
-        }
-
-        Globals.LoggerSafeInvoke(() =>
-        {
-            CurrentAlbumId = albums[cmbAlbumSelect.SelectedIndex].Id;
-            RefreshCurrentAlbum();
-        });
-    }
-
     private StackLayout CreateToolbar()
     {
         var result = new StackLayout

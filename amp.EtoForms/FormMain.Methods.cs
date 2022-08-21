@@ -315,6 +315,11 @@ SOFTWARE.
             {
                 gvAudioTracks.Focus();
             }
+
+            if (userIdle)
+            {
+                FocusPlayingTrack(currentTrackId, userIdleSelectedRow);
+            }
         });
     }
 
@@ -492,6 +497,24 @@ SOFTWARE.
         if (autoCheck)
         {
             Globals.SaveSettings();
+        }
+    }
+
+    private void FocusPlayingTrack(long trackId, int compareToRow = -1)
+    {
+        var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
+        var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == trackId);
+
+        if (compareToRow != -1 && displayTrack == compareToRow)
+        {
+            return;
+        }
+
+        if (displayTrack != -1)
+        {
+            gvAudioTracks.SelectedRow = displayTrack;
+            gvAudioTracks.ScrollToRow(displayTrack);
+            gvAudioTracks.Focus();
         }
     }
 }

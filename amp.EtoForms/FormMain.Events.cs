@@ -272,14 +272,7 @@ partial class FormMain
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
             currentTrackId = track != null ? e.AudioTrackId : 0;
 
-            var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
-            var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
-            if (displayTrack != -1)
-            {
-                gvAudioTracks.SelectedRow = displayTrack;
-                gvAudioTracks.ScrollToRow(displayTrack);
-                gvAudioTracks.Focus();
-            }
+            FocusPlayingTrack(e.AudioTrackId);
 
             if (track != null && Globals.Settings.ShowAlbumImage)
             {
@@ -820,5 +813,19 @@ partial class FormMain
     private void OpenHelp_Executed(object? sender, EventArgs e)
     {
         Help.LaunchHelpFromSettings(this);
+    }
+
+    private void CmbAlbumSelect_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (suspendAlbumChange || cmbAlbumSelect.SelectedIndex < 0)
+        {
+            return;
+        }
+
+        Globals.LoggerSafeInvoke(() =>
+        {
+            CurrentAlbumId = albums[cmbAlbumSelect.SelectedIndex].Id;
+            RefreshCurrentAlbum();
+        });
     }
 }
