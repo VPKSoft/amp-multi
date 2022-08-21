@@ -109,6 +109,13 @@ public class DialogQueryValue<T> : Dialog<T?>
         NegativeButtons.Add(btnCancel);
 
         Shown += DialogQueryValue_Shown;
+        Closed += DialogQueryValue_Closed;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnOk);
+    }
+
+    private void DialogQueryValue_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private void DialogQueryValue_Shown(object? sender, EventArgs e)
@@ -131,6 +138,7 @@ public class DialogQueryValue<T> : Dialog<T?>
     private readonly T? minimumValue;
     private readonly T? maximumValue;
     private readonly int decimals;
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 
     private Control queryControl;
     // ReSharper restore NotAccessedField.Local

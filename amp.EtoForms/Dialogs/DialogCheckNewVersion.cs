@@ -26,11 +26,13 @@ SOFTWARE.
 
 using System.Globalization;
 using System.Text;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using amp.Shared.UpdateCheck;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
 
 namespace amp.EtoForms.Dialogs;
 internal class DialogCheckNewVersion : Dialog
@@ -131,8 +133,17 @@ internal class DialogCheckNewVersion : Dialog
         PositiveButtons.Add(btnClose);
 
         btnClose.Click += (_, _) => Close();
+
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithBoth(btnClose);
+        Closed += DialogCheckNewVersion_Closed;
     }
 
+    private void DialogCheckNewVersion_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler?.Dispose();
+    }
+
+    private DefaultCancelButtonHandler? defaultCancelButtonHandler;
     private const string CheckUri = "https://www.vpksoft.net/versions/amp_version.json";
 
     /// <summary>

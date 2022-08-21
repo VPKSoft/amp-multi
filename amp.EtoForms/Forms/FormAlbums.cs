@@ -34,6 +34,7 @@ using Eto.Drawing;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using Microsoft.EntityFrameworkCore;
+using amp.EtoForms.Utilities;
 
 namespace amp.EtoForms.Forms;
 
@@ -109,6 +110,13 @@ public class FormAlbums : Dialog<bool>
         btnSaveAndClose.Click += BtnSaveAndClose_Click;
 
         Shown += FormAlbums_Shown;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel);
+        Closed += FormAlbums_Closed;
+    }
+
+    private void FormAlbums_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private void GvAlbums_CellEdited(object? sender, GridViewCellEventArgs e)
@@ -208,4 +216,5 @@ public class FormAlbums : Dialog<bool>
     private ObservableCollection<Album>? dataSource;
     private readonly AmpContext context;
     private readonly GridView gvAlbums;
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 }

@@ -26,10 +26,12 @@ SOFTWARE.
 
 using amp.Database;
 using amp.EtoForms.DtoClasses;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace amp.EtoForms.Dialogs;
@@ -151,22 +153,29 @@ public class DialogUpdateTagData : Dialog
             Orientation = Orientation.Vertical,
         };
 
-        btClose.Click += BtClose_Click;
-        btCancel.Click += BtCancel_Click;
+        btnClose.Click += BtnCloseClick;
+        btnCancel.Click += BtnCancelClick;
 
-        PositiveButtons.Add(btClose);
-        NegativeButtons.Add(btCancel);
-        DefaultButton = btClose;
-        AbortButton = btCancel;
+        PositiveButtons.Add(btnClose);
+        NegativeButtons.Add(btnCancel);
+        DefaultButton = btnClose;
+        AbortButton = btnCancel;
         Shown += DialogUpdateTagData_Shown;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnClose);
+        Closed += DialogUpdateTagData_Closed;
     }
 
-    private void BtClose_Click(object? sender, EventArgs e)
+    private void DialogUpdateTagData_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler?.Dispose();
+    }
+
+    private void BtnCloseClick(object? sender, EventArgs e)
     {
         Close();
     }
 
-    private async void BtCancel_Click(object? sender, EventArgs e)
+    private async void BtnCancelClick(object? sender, EventArgs e)
     {
         cancel = true;
         if (updateMetadataTask != null)
@@ -235,8 +244,8 @@ public class DialogUpdateTagData : Dialog
 
         await Application.Instance.InvokeAsync(() =>
         {
-            btClose.Enabled = true;
-            btCancel.Enabled = false;
+            btnClose.Enabled = true;
+            btnCancel.Enabled = false;
         });
     }
 
@@ -250,8 +259,9 @@ public class DialogUpdateTagData : Dialog
     private readonly Label lbTotalCount = new();
     private readonly Label lbTotalPercentage = new();
     private readonly Label lbEtaValue = new();
-    private readonly Button btClose = new() { Text = UI.Close, Enabled = false, };
-    private readonly Button btCancel = new() { Text = UI.Cancel, };
+    private readonly Button btnClose = new() { Text = UI.Close, Enabled = false, };
+    private readonly Button btnCancel = new() { Text = UI.Cancel, };
     private readonly ProgressBar progressBar = new();
     private readonly Label lbErrorsCount = new();
+    private DefaultCancelButtonHandler? defaultCancelButtonHandler;
 }

@@ -27,11 +27,13 @@ SOFTWARE.
 using System.ComponentModel;
 using amp.Database;
 using amp.Database.DataModel;
+using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -164,6 +166,13 @@ public class DialogAddFilesProgress : Dialog<bool>
         btnCancel.Click += CancelClick;
         PositiveButtons.Add(btnOk);
         Closing += DialogAddFilesProgress_Closing;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnOk);
+        Closed += DialogAddFilesProgress_Closed;
+    }
+
+    private void DialogAddFilesProgress_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     #region InternalEvents
@@ -267,6 +276,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     private readonly Thread saveDatabaseThread;
     private volatile bool directoryCrawled;
     private readonly TimeEstimateCalculator estimateCalculator = new(500);
+    private readonly DefaultCancelButtonHandler? defaultCancelButtonHandler;
     #endregion
 
     /// <summary>

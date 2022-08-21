@@ -73,6 +73,7 @@ partial class FormDialogTrackInfo
             },
             Spacing = Globals.DefaultSpacing,
             Padding = Globals.DefaultPadding,
+            Width = 550,
         };
 
         var layoutImageTag = new TableLayout
@@ -132,6 +133,7 @@ partial class FormDialogTrackInfo
             },
             Spacing = Globals.DefaultSpacing,
             Padding = Globals.DefaultPadding,
+            Width = 550,
         };
 
         var layoutImageAmp = new TableLayout

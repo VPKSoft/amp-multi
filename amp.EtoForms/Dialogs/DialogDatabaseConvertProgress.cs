@@ -26,9 +26,11 @@ SOFTWARE.
 
 using System.ComponentModel;
 using amp.Database.LegacyConvert;
+using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Utilities;
 
 namespace amp.EtoForms.Dialogs;
 
@@ -134,17 +136,24 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
             Orientation = Orientation.Vertical,
         };
 
-        btClose = new Button((_, _) => Close()) { Text = UI.Close, Enabled = false, };
-        btCancel = new Button((_, _) =>
+        btnClose = new Button((_, _) => Close()) { Text = UI.Close, Enabled = false, };
+        btnCancel = new Button((_, _) =>
         {
             MigrateOld.AbortConversion();
         })
         { Text = UI.Cancel, };
-        PositiveButtons.Add(btClose);
-        NegativeButtons.Add(btCancel);
-        DefaultButton = btClose;
-        AbortButton = btCancel;
+        PositiveButtons.Add(btnClose);
+        NegativeButtons.Add(btnCancel);
+        DefaultButton = btnClose;
+        AbortButton = btnCancel;
         Closing += DialogDatabaseConvertProgress_Closing;
+        defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnClose);
+        Closed += DialogDatabaseConvertProgress_Closed;
+    }
+
+    private void DialogDatabaseConvertProgress_Closed(object? sender, EventArgs e)
+    {
+        defaultCancelButtonHandler.Dispose();
     }
 
     private void DialogDatabaseConvertProgress_Closing(object? sender, CancelEventArgs e)
@@ -180,8 +189,8 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
         Application.Instance.Invoke(() =>
         {
             aborted = true;
-            btClose.Enabled = true;
-            btCancel.Enabled = false;
+            btnClose.Enabled = true;
+            btnCancel.Enabled = false;
         });
     }
 
@@ -208,7 +217,8 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     private readonly Label lbTotalCount;
     private readonly Label lbTotalPercentage;
     private readonly Label lbEtaValue;
-    private readonly Button btClose;
-    private readonly Button btCancel;
+    private readonly Button btnClose;
+    private readonly Button btnCancel;
     private readonly ProgressBar progressBar;
+    private readonly DefaultCancelButtonHandler defaultCancelButtonHandler;
 }
