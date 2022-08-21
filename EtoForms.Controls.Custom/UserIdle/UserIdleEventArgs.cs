@@ -35,4 +35,18 @@ namespace EtoForms.Controls.Custom.UserIdle;
 /// <seealso cref="EventArgs" />
 public class UserIdleEventArgs : EventArgs
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserIdleEventArgs"/> class.
+    /// </summary>
+    /// <param name="isUserIdle">if set to <c>true</c> the user is currently idle.</param>
+    public UserIdleEventArgs(bool isUserIdle)
+    {
+        IsUserIdle = isUserIdle;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the user is currently idle.
+    /// </summary>
+    /// <value><c>true</c> if the user is currently idle; otherwise, <c>false</c>.</value>
+    private bool IsUserIdle { get; }
 }

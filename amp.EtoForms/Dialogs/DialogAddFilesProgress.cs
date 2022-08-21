@@ -27,7 +27,6 @@ SOFTWARE.
 using System.ComponentModel;
 using amp.Database;
 using amp.Database.DataModel;
-using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
@@ -172,7 +171,7 @@ public class DialogAddFilesProgress : Dialog<bool>
 
     private void DialogAddFilesProgress_Closed(object? sender, EventArgs e)
     {
-        defaultCancelButtonHandler.Dispose();
+        defaultCancelButtonHandler?.Dispose();
     }
 
     #region InternalEvents

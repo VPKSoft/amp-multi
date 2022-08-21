@@ -55,6 +55,8 @@ public partial class FormMain
                 Globals.Settings.SelectedAlbum = value;
                 Globals.SaveSettings();
                 SetTitle();
+                userIdleSelectedRow = -1;
+                userIdleSelectedRows.Clear();
             }
         }
     }

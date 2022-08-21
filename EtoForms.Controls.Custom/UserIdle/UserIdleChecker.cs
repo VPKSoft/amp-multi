@@ -94,11 +94,11 @@ public class UserIdleChecker : IDisposable
                 if (!idleEventInvoked)
                 {
                     previousActiveTime = DateTime.Now;
-                    UserActivated?.Invoke(this, new UserIdleEventArgs());
+                    UserActivated?.Invoke(this, new UserIdleEventArgs(false));
                 }
                 else
                 {
-                    UserIdle?.Invoke(this, new UserIdleEventArgs());
+                    UserIdle?.Invoke(this, new UserIdleEventArgs(true));
                 }
             }
         }
@@ -173,7 +173,7 @@ public class UserIdleChecker : IDisposable
             if (idleEventInvoked)
             {
                 idleEventInvoked = false;
-                UserActivated?.Invoke(this, new UserIdleEventArgs());
+                UserActivated?.Invoke(this, new UserIdleEventArgs(false));
             }
         }
     }
@@ -188,7 +188,7 @@ public class UserIdleChecker : IDisposable
                 if (spanSeconds > UserInactiveInterval)
                 {
                     idleEventInvoked = true;
-                    UserIdle?.Invoke(this, new UserIdleEventArgs());
+                    UserIdle?.Invoke(this, new UserIdleEventArgs(true));
                 }
                 else
                 {

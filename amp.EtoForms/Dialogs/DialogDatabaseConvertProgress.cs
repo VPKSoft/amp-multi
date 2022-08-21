@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.ComponentModel;
 using amp.Database.LegacyConvert;
-using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;

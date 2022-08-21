@@ -115,7 +115,7 @@ partial class FormMain
 
         if (e.Key == Keys.Delete)
         {
-            await gvAudioTracks.DeleteSongs(context, tracks, FilterTracks);
+            await gvAudioTracks.DeleteSongs(context, tracks, () => FilterTracks(false));
 
             e.Handled = true;
             return;
@@ -175,12 +175,12 @@ partial class FormMain
 
     private void TbSearch_TextChanged(object? sender, EventArgs e)
     {
-        FilterTracks();
+        FilterTracks(false);
     }
 
     private void BtnShowQueue_CheckedChange(object? sender, CheckedChangeEventArguments e)
     {
-        FilterTracks();
+        FilterTracks(false);
     }
 
     private void FormMain_Closing(object? sender, CancelEventArgs e)
@@ -272,14 +272,7 @@ partial class FormMain
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
             currentTrackId = track != null ? e.AudioTrackId : 0;
 
-            var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
-            var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == e.AudioTrackId);
-            if (displayTrack != -1)
-            {
-                gvAudioTracks.SelectedRow = displayTrack;
-                gvAudioTracks.ScrollToRow(displayTrack);
-                gvAudioTracks.Focus();
-            }
+            FocusPlayingTrack(e.AudioTrackId);
 
             if (track != null && Globals.Settings.ShowAlbumImage)
             {
@@ -419,7 +412,7 @@ partial class FormMain
 
     private void IdleChecker_UserIdleChanged(object? sender, UserIdleEventArgs e)
     {
-        FilterTracks();
+        FilterTracks(true);
     }
 
     private void FormMain_Shown(object? sender, EventArgs e)
@@ -820,5 +813,19 @@ partial class FormMain
     private void OpenHelp_Executed(object? sender, EventArgs e)
     {
         Help.LaunchHelpFromSettings(this);
+    }
+
+    private void CmbAlbumSelect_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (suspendAlbumChange || cmbAlbumSelect.SelectedIndex < 0)
+        {
+            return;
+        }
+
+        Globals.LoggerSafeInvoke(() =>
+        {
+            CurrentAlbumId = albums[cmbAlbumSelect.SelectedIndex].Id;
+            RefreshCurrentAlbum();
+        });
     }
 }

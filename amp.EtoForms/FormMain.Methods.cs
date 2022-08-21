@@ -156,7 +156,7 @@ partial class FormMain
 
         if (btnShowQueue.Checked && count > 0)
         {
-            FilterTracks();
+            FilterTracks(false);
         }
 
         UpdateCounters();
@@ -263,14 +263,26 @@ SOFTWARE.
         TrackDisplayNameGenerate.TrackNamingFallbackToFileNameWhenNoLetters = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
     }
 
-    private void FilterTracks()
+    private void FilterTracks(bool fromUserIdleEvent)
     {
         Application.Instance.Invoke(() =>
         {
+            if (!fromUserIdleEvent)
+            {
+                userIdleSelectedRows.Clear();
+                userIdleSelectedRow = -1;
+            }
+
             var text = tbSearch.Text;
             var queueOnly = btnShowQueue.Checked;
             var userIdle = idleChecker.IsUserIdle;
 
+            // The user went idle, save the current selection.
+            if (userIdle && fromUserIdleEvent)
+            {
+                userIdleSelectedRows = gvAudioTracks.SelectedRows.ToList();
+                userIdleSelectedRow = gvAudioTracks.SelectedRow;
+            }
 
             filteredTracks = tracks;
 
@@ -289,11 +301,24 @@ SOFTWARE.
             }
 
             gvAudioTracks.DataStore = filteredTracks;
+
+            if (!userIdle && userIdleSelectedRow != -1 && fromUserIdleEvent)
+            {
+                gvAudioTracks.SelectedRows = userIdleSelectedRows;
+                gvAudioTracks.SelectedRow = userIdleSelectedRow;
+                gvAudioTracks.ScrollToRow(userIdleSelectedRow);
+            }
+
             UpdateCounters();
 
             if (userIdle && !gvAudioTracks.HasFocus)
             {
                 gvAudioTracks.Focus();
+            }
+
+            if (userIdle)
+            {
+                FocusPlayingTrack(currentTrackId, userIdleSelectedRow);
             }
         });
     }
@@ -472,6 +497,24 @@ SOFTWARE.
         if (autoCheck)
         {
             Globals.SaveSettings();
+        }
+    }
+
+    private void FocusPlayingTrack(long trackId, int compareToRow = -1)
+    {
+        var dataSource = gvAudioTracks.DataStore.Cast<AlbumTrack>().ToList();
+        var displayTrack = dataSource.FindIndex(f => f.AudioTrackId == trackId);
+
+        if (compareToRow != -1 && displayTrack == compareToRow)
+        {
+            return;
+        }
+
+        if (displayTrack != -1)
+        {
+            gvAudioTracks.SelectedRow = displayTrack;
+            gvAudioTracks.ScrollToRow(displayTrack);
+            gvAudioTracks.Focus();
         }
     }
 }

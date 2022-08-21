@@ -126,4 +126,8 @@ partial class FormMain
 
     // Update check
     private readonly UITimer timerCheckUpdates = new() { Interval = 15, };
+
+    // User idle
+    private List<int> userIdleSelectedRows = new();
+    private int userIdleSelectedRow = -1;
 }
