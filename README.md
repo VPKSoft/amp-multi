@@ -17,43 +17,13 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 ![image](https://user-images.githubusercontent.com/40712699/182876794-49b58f59-8e9b-4fc4-82d5-00cac749e563.png)
 
-### Install
-**NOTE**: This software is currently alpha stage.
-[Setup .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) if not working otherwise. Some packages are self-contained, others not.
+## Install
+See the wiki for [stable release install](../../wiki).
 
-#### Alpha-release for Linux, Windows and mac
-[Download](https://github.com/VPKSoft/amp-multi/releases) from releases:
+### Nightly builds
+See the wiki for the [nightly release install](../../wiki/Nightly-builds).
 
-![image](https://user-images.githubusercontent.com/40712699/181908731-8e5f7f54-f82b-4081-805a-d09469d8be1b.png)
-
-#### Windows
-An installer from the master workflow action: 
-
-[![.NET Core Desktop Windows Installer](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-desktop-windows-install.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-desktop-windows-install.yml)
-
-![image](https://user-images.githubusercontent.com/40712699/181163617-3b56f4e4-bc33-44c5-9864-f49214f8a67a.png)
-
-#### MacOS
-An app bundle from the master workflow action:
-
-[![.NET Core MacOS bundle](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-macos-app-bundle.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-macos-app-bundle.yml)
-
-![image](https://user-images.githubusercontent.com/40712699/181792023-ec69bb0a-3cd6-42f2-a783-db1ca7c8d2f9.png)
-
-**Note**, you meed to clear the `com.apple.quarantine` extended attribute by running: 
-`xattr -c ./amp.EtoForms.app`
-
-#### Linux
-An [AppImage](https://appimage.org) from the master workflow action:
-
-[![.NET Core Linux AppImage](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-linux-appimage.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/dotnet-linux-appimage.yml)
-
-![image](https://user-images.githubusercontent.com/40712699/181908605-29ed34db-86d0-4f73-bf9f-20baefe17edf.png)
-
-**Note**, as the AppImage is zipped, make it executable first by running:
-`chmod +x amp.-x86_64.AppImage`
-
-#### From source
+## Build from source
 ```
 dotnet restore './amp multiplatform.sln'
 cd ./amp.EtoForms/
