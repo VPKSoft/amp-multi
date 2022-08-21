@@ -46,6 +46,7 @@ using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
+using Album = amp.EtoForms.DtoClasses.Album;
 using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
 using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
 
@@ -534,14 +535,35 @@ partial class FormMain
 
     private async void ManageAlbumsCommand_Executed(object? sender, EventArgs e)
     {
+        using var form = new FormAlbums(context);
+
+        bool changed;
+
         if (UtilityOS.IsMacOS)
         {
             // ReSharper disable once MethodHasAsyncOverload, Shown-event won't fire on macOS.
-            new FormAlbums(context).ShowModal(this);
+            changed = form.ShowModal(this);
         }
         else
         {
-            await new FormAlbums(context).ShowModalAsync(this);
+            changed = await form.ShowModalAsync(this);
+        }
+
+        if (changed)
+        {
+            suspendAlbumChange = true;
+            albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+            cmbAlbumSelect.DataStore = albums;
+            var index = albums.FindIndex(f => f.Id == CurrentAlbumId);
+            if (index == -1)
+            {
+                CurrentAlbumId = 1;
+            }
+            else
+            {
+                cmbAlbumSelect.SelectedIndex = index;
+            }
+            suspendAlbumChange = false;
         }
     }
 
