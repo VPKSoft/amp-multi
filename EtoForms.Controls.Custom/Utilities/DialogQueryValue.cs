@@ -108,9 +108,6 @@ public class DialogQueryValue<T> : Dialog<T?>
         PositiveButtons.Add(btnOk);
         NegativeButtons.Add(btnCancel);
 
-        DefaultButton = btnOk;
-        AbortButton = btnCancel;
-
         Shown += DialogQueryValue_Shown;
     }
 

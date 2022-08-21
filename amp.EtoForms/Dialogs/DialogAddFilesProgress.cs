@@ -164,8 +164,6 @@ public class DialogAddFilesProgress : Dialog<bool>
         btnCancel.Click += CancelClick;
         PositiveButtons.Add(btnOk);
         Closing += DialogAddFilesProgress_Closing;
-        DefaultButton = btnOk;
-        AbortButton = btnCancel;
     }
 
     #region InternalEvents

@@ -214,10 +214,6 @@ partial class FormDialogTrackInfo
         };
 
         tcTagTabs.SelectedIndexChanged += TcTagTabs_SelectedIndexChanged;
-
-        PositiveButtons.Add(btnClose);
-        DefaultButton = btnClose;
-        AbortButton = btnClose;
     }
 
     private void BtnClose_Click(object? sender, EventArgs e)

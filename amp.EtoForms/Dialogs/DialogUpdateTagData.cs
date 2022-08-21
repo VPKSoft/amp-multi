@@ -159,8 +159,6 @@ public class DialogUpdateTagData : Dialog
         DefaultButton = btClose;
         AbortButton = btCancel;
         Shown += DialogUpdateTagData_Shown;
-        DefaultButton = btClose;
-        AbortButton = btCancel;
     }
 
     private void BtClose_Click(object? sender, EventArgs e)

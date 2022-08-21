@@ -131,8 +131,6 @@ internal class DialogCheckNewVersion : Dialog
         PositiveButtons.Add(btnClose);
 
         btnClose.Click += (_, _) => Close();
-        DefaultButton = btnClose;
-        AbortButton = btnClose;
     }
 
     private const string CheckUri = "https://www.vpksoft.net/versions/amp_version.json";
