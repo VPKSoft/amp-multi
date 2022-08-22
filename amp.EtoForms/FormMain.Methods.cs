@@ -276,6 +276,10 @@ SOFTWARE.
             var text = tbSearch.Text;
             var queueOnly = btnShowQueue.Checked;
             var userIdle = idleChecker.IsUserIdle;
+            if (queueOnly)
+            {
+                filterAlternateQueue = false;
+            }
 
             // The user went idle, save the current selection.
             if (userIdle && fromUserIdleEvent)
@@ -298,6 +302,11 @@ SOFTWARE.
             if (queueOnly)
             {
                 filteredTracks = new ObservableCollection<AlbumTrack>(filteredTracks.Where(f => f.QueueIndex > 0).OrderBy(f => f.QueueIndex));
+            }
+
+            if (filterAlternateQueue)
+            {
+                filteredTracks = new ObservableCollection<AlbumTrack>(filteredTracks.Where(f => f.QueueIndexAlternate > 0).OrderBy(f => f.QueueIndexAlternate));
             }
 
             gvAudioTracks.DataStore = filteredTracks;

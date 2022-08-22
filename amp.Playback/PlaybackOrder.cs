@@ -231,6 +231,56 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
     }
 
     /// <summary>
+    /// Moves the queued tracks in the selection up or down in the queue.
+    /// </summary>
+    /// <param name="albumTracks">The album tracks collection where the items to move are contained.</param>
+    /// <param name="up">if set to <c>true</c> move upwards; otherwise downwards.</param>
+    /// <param name="alternate">if set to <c>true</c> move the alternate queue.</param>
+    /// <param name="albumTrackIds">The audio tracks identifiers which queue position to move up or down.</param>
+    public async Task MoveSelection(ObservableCollection<TAlbumTrack>? albumTracks, bool up, bool alternate, params long[] albumTrackIds)
+    {
+        if (albumTracks == null)
+        {
+            return;
+        }
+
+        var queued =
+            albumTracks.Where(f => albumTrackIds
+                .Contains(f.Id) && GetQueueIndex(f, alternate) > 0)
+                .OrderBy(f => GetQueueIndex(f, alternate))
+                .Select(f => new { f.Id, QueueIndex = GetQueueIndex(f, alternate), }).ToList();
+
+        var queuedNotInList =
+            albumTracks.Where(f => !albumTrackIds
+                .Contains(f.Id) && GetQueueIndex(f, alternate) > 0)
+                .OrderBy(f => GetQueueIndex(f, alternate))
+                .Select(f => new { f.Id, QueueIndex = GetQueueIndex(f, alternate), }).ToList();
+
+        var queueIndex = 1;
+
+        var toUpdate = new Dictionary<long, int>();
+
+        var loopData = up ? queued : queuedNotInList;
+
+        foreach (var item in loopData)
+        {
+            toUpdate.Add(item.Id, queueIndex++);
+        }
+
+        loopData = up ? queuedNotInList : queued;
+
+        foreach (var item in loopData)
+        {
+            toUpdate.Add(item.Id, queueIndex++);
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, alternate);
+        }
+    }
+
+    /// <summary>
     /// Scrambles the current queue for the specified tracks with specified reference identifiers.
     /// </summary>
     /// <param name="tracks">The tracks which queue to scramble.</param>

@@ -58,7 +58,8 @@ partial class FormMain
     {
         if (Equals(sender, tbSearch))
         {
-            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or Keys.F2)
+            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or Keys.F2 or Keys.F6
+                    or Keys.F8 or Keys.F9 || !e.IsChar)
             {
                 if (gvAudioTracks.SelectedItem == null && gvAudioTracks.DataStore.Any())
                 {
@@ -66,7 +67,7 @@ partial class FormMain
                 }
 
                 gvAudioTracks.Focus();
-                e.Handled = true;
+                return;
             }
 
             return;
@@ -89,6 +90,21 @@ partial class FormMain
 
             e.Handled = true;
             gvAudioTracks.Focus();
+            return;
+        }
+
+        if (e.Key is Keys.PageUp or Keys.PageDown && e.Modifiers.HasFlag(Application.Instance.CommonModifier))
+        {
+            var alternate = e.Modifiers.HasFlag(Keys.Shift);
+
+            var selectedTracks = tracks.Where(f => SelectedAlbumTrackIds.Contains(f.Id)).Select(f => f.Id);
+
+            var up = e.Key == Keys.PageUp;
+
+            await playbackOrder.MoveSelection(tracks, up, alternate,
+                selectedTracks.ToArray());
+
+            e.Handled = true;
             return;
         }
 
@@ -124,6 +140,33 @@ partial class FormMain
         if (e.Key == Keys.F2)
         {
             await gvAudioTracks.RenameTrack(context, this);
+
+            e.Handled = true;
+            return;
+        }
+
+        if (e.Key == Keys.F6)
+        {
+            btnShowQueue.Checked = !btnShowQueue.Checked;
+
+            e.Handled = true;
+            return;
+        }
+
+        if (e.Key == Keys.F8)
+        {
+            btnShowQueue.Checked = false;
+            filterAlternateQueue = !filterAlternateQueue;
+            FilterTracks(false);
+            return;
+        }
+
+        if (e.Key == Keys.F9)
+        {
+            tbSearch.Text = string.Empty;
+            btnShowQueue.Checked = false;
+            filterAlternateQueue = false;
+            FilterTracks(false);
 
             e.Handled = true;
             return;
