@@ -130,4 +130,7 @@ partial class FormMain
     // User idle
     private List<int> userIdleSelectedRows = new();
     private int userIdleSelectedRow = -1;
+
+    // Track list filtering.
+    private bool filterAlternateQueue;
 }
