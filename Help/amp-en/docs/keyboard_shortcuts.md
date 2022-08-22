@@ -46,16 +46,16 @@
 <kbd>Ctrl</kbd>+<kbd>\*</kbd> or <kbd>⌘</kbd>+<kbd>\*</kbd>
 
 ## Move selected tracks to the start of the queue
-<kbd>Ctrl</kbd>+<kbd>PgUp</kbd> tai <kbd>⌘</kbd>+<kbd>PgUp</kbd>
+<kbd>Ctrl</kbd>+<kbd>PgUp</kbd> or <kbd>⌘</kbd>+<kbd>PgUp</kbd>
 
 ## Move selected tracks to the end of the queue
-<kbd>Ctrl</kbd>+<kbd>PgDn</kbd> tai <kbd>⌘</kbd>+<kbd>PgDn</kbd>
+<kbd>Ctrl</kbd>+<kbd>PgDn</kbd> or <kbd>⌘</kbd>+<kbd>PgDn</kbd>
 
 ## Move selected tracks to the start of the alternate queue
-<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>PgUp</kbd> tai <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>PgUp</kbd>
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>PgUp</kbd> or <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>PgUp</kbd>
 
 ## Move selected tracks to the end of the alternate queue
-<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>PgDn</kbd> tai <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>PgDn</kbd>
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>PgDn</kbd> or <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>PgDn</kbd>
 
 ## Track list navigation
 <kbd>PgUp</kbd>, <kbd>PgDn</kbd>, <kbd>Up</kbd>, <kbd>Down</kbd>
