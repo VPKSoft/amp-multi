@@ -25,8 +25,8 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics.CodeAnalysis;
-using amp.Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using VPKSoft.Utils.Common.Interfaces;
 
 namespace amp.Database.QueryHelpers;
 

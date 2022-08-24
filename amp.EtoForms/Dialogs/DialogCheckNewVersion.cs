@@ -28,10 +28,10 @@ using System.Globalization;
 using System.Text;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
-using amp.Shared.UpdateCheck;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
+using VPKSoft.Utils.Common.UpdateCheck;
 
 namespace amp.EtoForms.Dialogs;
 internal class DialogCheckNewVersion : Dialog

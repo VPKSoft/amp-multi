@@ -24,12 +24,11 @@ SOFTWARE.
 */
 #endregion
 
-global using System;
 using System.Diagnostics;
 using amp.EtoForms.Utilities;
-using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Forms;
+using VPKSoft.Utils.Common.EventArgs;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
 
 namespace amp.EtoForms;

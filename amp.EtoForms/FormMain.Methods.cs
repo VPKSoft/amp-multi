@@ -38,13 +38,13 @@ using amp.Playback.Classes;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
-using amp.Shared.UpdateCheck;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.Utilities;
 using EtoForms.SpectrumVisualizer;
 using Microsoft.EntityFrameworkCore;
+using VPKSoft.Utils.Common.UpdateCheck;
 
 namespace amp.EtoForms;
 partial class FormMain

@@ -24,8 +24,8 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Classes;
-using amp.Shared.Interfaces;
+using VPKSoft.Utils.Common.EventArgs;
+using VPKSoft.Utils.Common.Interfaces;
 
 namespace amp.EtoForms.Utilities;
 internal class ExceptionProvider : IExceptionReporter
