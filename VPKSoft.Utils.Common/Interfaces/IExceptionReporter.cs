@@ -24,43 +24,26 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Shared.Classes;
+
+using VPKSoft.Utils.Common.EventArgs;
+
+namespace VPKSoft.Utils.Common.Interfaces;
 
 /// <summary>
-/// Event arguments for reporting an <see cref="Exception"/>.
-/// Implements the <see cref="EventArgs" />.
+/// A simple interface to report exception without any specific dependencies.
 /// </summary>
-/// <seealso cref="EventArgs" />
-public class ExceptionOccurredEventArgs : EventArgs
+public interface IExceptionReporter
 {
+    /// <summary>
+    /// Occurs when an exception occurred somewhere.
+    /// </summary>
+    public event EventHandler<ExceptionOccurredEventArgs>? ExceptionOccurred;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ExceptionOccurredEventArgs"/> class.
     /// </summary>
     /// <param name="exception">The exception which occurred.</param>
     /// <param name="class">The class in which the exception occurred.</param>
     /// <param name="method">The method in which the exception occurred.</param>
-    public ExceptionOccurredEventArgs(Exception exception, string @class, string method)
-    {
-        Exception = exception;
-        Class = @class;
-        Method = method;
-    }
-
-    /// <summary>
-    /// Gets the exception which occurred.
-    /// </summary>
-    /// <value>The exception which occurred.</value>
-    public Exception Exception { get; }
-
-    /// <summary>
-    /// Gets the class in which the exception occurred.
-    /// </summary>
-    /// <value>The class in which the exception occurred.</value>
-    public string Class { get; }
-
-    /// <summary>
-    /// Gets the method in which the exception occurred.
-    /// </summary>
-    /// <value>The method in which the exception occurred.</value>
-    public string Method { get; }
+    public void RaiseExceptionOccurred(Exception exception, string @class, string method);
 }

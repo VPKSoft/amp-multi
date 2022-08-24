@@ -46,6 +46,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\amp.Shared\amp.Shared.csproj" />
+		<ProjectReference Include="..\VPKSoft.Utils.Common\VPKSoft.Utils.Common.csproj" />
 	</ItemGroup>
 
 </Project>

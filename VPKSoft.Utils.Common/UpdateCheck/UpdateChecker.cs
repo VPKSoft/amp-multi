@@ -24,12 +24,12 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Interfaces;
-using System.Text.Json;
-using amp.Shared.Classes;
-using Newtonsoft.Json;
 
-namespace amp.Shared.UpdateCheck;
+using System.Text.Json;
+using VPKSoft.Utils.Common.EventArgs;
+using VPKSoft.Utils.Common.Interfaces;
+
+namespace VPKSoft.Utils.Common.UpdateCheck;
 
 /// <summary>
 /// An application update checker class.
@@ -56,7 +56,7 @@ public class UpdateChecker : IExceptionReporter
     /// <param name="fileName">Name of the JSON file.</param>
     public static void GenerateFile(IEnumerable<VersionData> data, string fileName)
     {
-        var jsonText = JsonConvert.SerializeObject(data, Formatting.Indented);
+        var jsonText = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true, });
         File.WriteAllText(fileName, jsonText);
     }
 
@@ -93,7 +93,7 @@ public class UpdateChecker : IExceptionReporter
 
             result.AddRange(larger);
 
-            var check = result.MaxBy(f => f.ReleaseDateTime);
+            var check = result.OrderByDescending(f => f.ReleaseDateTime).FirstOrDefault();
 
             if (check != null && $"{check.Version}|{check.VersionTag ?? string.Empty}" == SkipVersion)
             {

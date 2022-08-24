@@ -9,8 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\dotnet-desktop-windows-install.yml = .github\workflows\dotnet-desktop-windows-install.yml
 		.github\workflows\dotnet-linux-appimage.yml = .github\workflows\dotnet-linux-appimage.yml
 		.github\workflows\dotnet-macos-app-bundle.yml = .github\workflows\dotnet-macos-app-bundle.yml
-		.github\workflows\linux_windows_and_macos_dotnet.yml = .github\workflows\linux_windows_and_macos_dotnet.yml
 		.github\workflows\help-release.yml = .github\workflows\help-release.yml
+		.github\workflows\linux_windows_and_macos_dotnet.yml = .github\workflows\linux_windows_and_macos_dotnet.yml
 		.github\workflows\net-core-releases.yml = .github\workflows\net-core-releases.yml
 	EndProjectSection
 EndProject
@@ -27,6 +27,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amp.Tests", "amp.Tests\amp.Tests.csproj", "{108F168B-A717-4FFB-A3D6-170E88A36903}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EtoForms.FormPositions", "EtoForms.FormPositions\EtoForms.FormPositions.csproj", "{ED3F0851-5782-4029-A236-96B5DB5F9600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPKSoft.Utils.Common", "VPKSoft.Utils.Common\VPKSoft.Utils.Common.csproj", "{9A6BC62D-1C00-49D6-BF62-87B94D68C434}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +154,22 @@ Global
 		{ED3F0851-5782-4029-A236-96B5DB5F9600}.Release|x64.Build.0 = Release|Any CPU
 		{ED3F0851-5782-4029-A236-96B5DB5F9600}.Release|x86.ActiveCfg = Release|Any CPU
 		{ED3F0851-5782-4029-A236-96B5DB5F9600}.Release|x86.Build.0 = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|x64.Build.0 = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Debug|x86.Build.0 = Debug|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x64.ActiveCfg = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x64.Build.0 = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x86.ActiveCfg = Release|Any CPU
+		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

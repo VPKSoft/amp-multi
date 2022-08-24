@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Shared.UpdateCheck;
+namespace VPKSoft.Utils.Common.UpdateCheck;
 
 /// <summary>
 /// A class for single version Json data.
