@@ -24,7 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel;
 using amp.Database;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
@@ -32,6 +31,7 @@ using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
+using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -43,15 +43,15 @@ namespace amp.EtoForms.Dialogs;
 /// Implements the <see cref="Eto.Forms.Dialog{T}" />
 /// </summary>
 /// <seealso cref="Eto.Forms.Dialog{T}" />
-public class DialogAddFilesProgress : Dialog<bool>
+public class FormAddFilesProgress : Form
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DialogAddFilesProgress"/> class.
+    /// Initializes a new instance of the <see cref="FormAddFilesProgress"/> class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="directory">The directory to search for audio files to add into the database.</param>
     /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
-    private DialogAddFilesProgress(AmpContext context, string directory, long albumId) : this(context, albumId)
+    private FormAddFilesProgress(AmpContext context, string directory, long albumId) : this(context, albumId)
     {
         this.directory = directory;
         singeFileBatch = false;
@@ -59,12 +59,12 @@ public class DialogAddFilesProgress : Dialog<bool>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DialogAddFilesProgress"/> class.
+    /// Initializes a new instance of the <see cref="FormAddFilesProgress"/> class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
     /// <param name="files">The audio files to add into the database.</param>
-    private DialogAddFilesProgress(AmpContext context, long albumId, params string[] files) : this(context, albumId)
+    private FormAddFilesProgress(AmpContext context, long albumId, params string[] files) : this(context, albumId)
     {
         directoryCrawled = true;
         singeFileBatch = true;
@@ -73,12 +73,14 @@ public class DialogAddFilesProgress : Dialog<bool>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DialogAddFilesProgress"/> class.
+    /// Initializes a new instance of the <see cref="FormAddFilesProgress"/> class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
-    private DialogAddFilesProgress(AmpContext context, long albumId)
+    private FormAddFilesProgress(AmpContext context, long albumId)
     {
+        Closed += FormAddFilesProgress_Closed;
+
         if (albumId == 0)
         {
             Title = "amp# - " + UI.AddMusic;
@@ -151,6 +153,22 @@ public class DialogAddFilesProgress : Dialog<bool>
             {
                 new StackLayoutItem(topTable),
                 new StackLayoutItem(progressDbUpdate, HorizontalAlignment.Stretch),
+                new StackLayoutItem(new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow
+                        {
+                            Cells =
+                            {
+                                new TableCell(new Panel(), true),
+                                btnCancel,
+                                btnOk,
+                            },
+                        },
+                    },
+                    Padding = Globals.DefaultPadding, Spacing = Globals.DefaultSpacing,
+                }),
             },
             Padding = Globals.DefaultPadding,
         };
@@ -160,28 +178,28 @@ public class DialogAddFilesProgress : Dialog<bool>
 
         base.Size = new Size(500, 200);
         Shown += DialogAddFilesProgress_Shown;
-        NegativeButtons.Add(btnCancel);
         btnOk.Click += BtnOk_Click;
         btnCancel.Click += CancelClick;
-        PositiveButtons.Add(btnOk);
-        Closing += DialogAddFilesProgress_Closing;
         defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnOk);
-        Closed += DialogAddFilesProgress_Closed;
-    }
-
-    private void DialogAddFilesProgress_Closed(object? sender, EventArgs e)
-    {
-        defaultCancelButtonHandler?.Dispose();
     }
 
     #region InternalEvents
-    private async void DialogAddFilesProgress_Closing(object? sender, CancelEventArgs e)
+
+    private async void FormAddFilesProgress_Closed(object? sender, EventArgs e)
     {
         if (!closedViaButton)
         {
             await Abort();
         }
+
+        defaultCancelButtonHandler?.Dispose();
+
+        if (!closedViaButton)
+        {
+            resultAction?.Invoke(false);
+        }
     }
+
 
     private async void BtnOk_Click(object? sender, EventArgs e)
     {
@@ -195,7 +213,8 @@ public class DialogAddFilesProgress : Dialog<bool>
         }
 
         closedViaButton = true;
-        Close(true);
+        Close();
+        resultAction?.Invoke(true);
     }
 
     private async Task Abort()
@@ -205,17 +224,19 @@ public class DialogAddFilesProgress : Dialog<bool>
 
         while (!saveDatabaseThread.Join(500))
         {
-            Application.Instance.RunIteration();
+
         }
 
         await TryRollback();
+        context.ChangeTracker.Clear();
     }
 
     private async void CancelClick(object? sender, EventArgs e)
     {
         await Abort();
         closedViaButton = true;
-        Close(false);
+        Close();
+        resultAction?.Invoke(false);
     }
 
     private async void DialogAddFilesProgress_Shown(object? sender, EventArgs e)
@@ -243,6 +264,8 @@ public class DialogAddFilesProgress : Dialog<bool>
             }
             await FilesCallbackFunc(updateFiles);
         }
+
+        this.CenterForm(owner);
     }
     #endregion
 
@@ -258,6 +281,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     #endregion
 
     #region PrivateFields
+    private Action<bool>? resultAction;
     private readonly CancellationTokenSource source = new();
     private volatile Queue<List<FileInfo>> fileUpdateQueue = new();
     private IDbContextTransaction? transaction;
@@ -276,6 +300,7 @@ public class DialogAddFilesProgress : Dialog<bool>
     private volatile bool directoryCrawled;
     private readonly TimeEstimateCalculator estimateCalculator = new(500);
     private readonly DefaultCancelButtonHandler? defaultCancelButtonHandler;
+    private Window? owner;
     #endregion
 
     /// <summary>
@@ -443,13 +468,15 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="directory">The directory to search for audio files to add into the database.</param>
     /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
+    /// <param name="resultAction">An action to call when the dialog is either finished adding the files or the operation was canceled.</param>
     /// <remarks>The <paramref name="owner" /> specifies the control on the window that will be blocked from user input until the dialog is closed.</remarks>
     /// <returns>The result of the modal dialog</returns>
-    public static bool ShowModal(Control owner, AmpContext context, string directory, long albumId)
+    public static void Show(Window owner, AmpContext context, string directory, long albumId, Action<bool> resultAction)
     {
-        var dialogProgress = new DialogAddFilesProgress(context, directory, albumId);
-
-        return dialogProgress.ShowModal(owner);
+        var dialogProgress = new FormAddFilesProgress(context, directory, albumId) { Owner = owner, Topmost = true, resultAction = resultAction, };
+        dialogProgress.owner = owner;
+        owner.Enabled = false;
+        dialogProgress.Show();
     }
 
     /// <summary>
@@ -458,14 +485,16 @@ public class DialogAddFilesProgress : Dialog<bool>
     /// <param name="owner">The owner control that is showing the form</param>
     /// <param name="context">The <see cref="DbContext"/> for the database to update the added files into.</param>
     /// <param name="albumId">The album identifier to initially to add the audio tracks to.</param>
+    /// <param name="resultAction">An action to call when the dialog is either finished adding the files or the operation was canceled.</param>
     /// <param name="files">The audio files to add into the database.</param>
     /// <remarks>The <paramref name="owner" /> specifies the control on the window that will be blocked from user input until the dialog is closed.</remarks>
     /// <returns>The result of the modal dialog</returns>
-    public static bool ShowModal(Control owner, AmpContext context, long albumId, params string[] files)
+    public static void Show(Window owner, AmpContext context, long albumId, Action<bool> resultAction, params string[] files)
     {
-        var dialogProgress = new DialogAddFilesProgress(context, albumId, files);
+        var dialogProgress = new FormAddFilesProgress(context, albumId, files) { Owner = owner, Topmost = true, resultAction = resultAction, };
+        dialogProgress.owner = owner;
         dialogProgress.albumId = albumId;
-
-        return dialogProgress.ShowModal(owner);
+        owner.Enabled = false;
+        dialogProgress.Show();
     }
 }
