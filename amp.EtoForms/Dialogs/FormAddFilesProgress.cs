@@ -221,7 +221,10 @@ public class FormAddFilesProgress : Form
     {
         source.Cancel();
 
-        await saveDatabaseThread.WaitAsync(userAbortToken);
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            await saveDatabaseThread.WaitAsync(TimeSpan.FromMilliseconds(2000), userAbortToken);
+        });
 
         await TryRollback();
         context.ChangeTracker.Clear();
