@@ -269,7 +269,7 @@ public class QueryDivider<T>
     {
         if (starCalled)
         {
-            while (!queryRunning)
+            while (!queryRunning && !starCalled)
             {
                 Thread.Sleep(10);
             }

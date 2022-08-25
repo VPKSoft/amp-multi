@@ -174,7 +174,7 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
     /// <param name="fileNameNew">The new database file name.</param>
     /// <remarks>The <paramref name="owner" /> specifies the control on the window that will be blocked from user input until
     /// the dialog is closed.
-    /// Calling this method is identical to setting the <see cref="P:Eto.Forms.Window.Owner" /> property and calling <see cref="M:Eto.Forms.Dialog.ShowModal" />.</remarks>
+    /// Calling this method is identical to setting the <see cref="P:Eto.Forms.Window.Owner" /> property and calling <see cref="M:Eto.Forms.Dialog.Show" />.</remarks>
     public void ShowModal(Control? owner, string fileNameOld, string fileNameNew)
     {
         MigrateOld.ReportProgress += MigrateOld_ReportProgress;

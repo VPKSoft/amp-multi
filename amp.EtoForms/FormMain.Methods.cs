@@ -55,9 +55,13 @@ partial class FormMain
         dialog.Filters.Add(new FileFilter(UI.MusicFiles, MusicConstants.SupportedExtensionArray));
         if (dialog.ShowDialog(this) == DialogResult.Ok)
         {
-            DialogAddFilesProgress.ShowModal(this, context, toAlbum ? CurrentAlbumId : 0, dialog.Filenames.ToArray());
+            FormAddFilesProgress.Show(this, context, toAlbum ? CurrentAlbumId : 0, AddFilesAction, dialog.Filenames.ToArray());
         }
+    }
 
+    private void AddFilesAction(bool result)
+    {
+        Enabled = true;
         RefreshCurrentAlbum();
     }
 
@@ -66,10 +70,8 @@ partial class FormMain
         using var dialog = new SelectFolderDialog { Title = UI.SelectMusicFolder, };
         if (dialog.ShowDialog(this) == DialogResult.Ok)
         {
-            DialogAddFilesProgress.ShowModal(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0);
+            FormAddFilesProgress.Show(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0, AddFilesAction);
         }
-
-        RefreshCurrentAlbum();
     }
 
     private async Task LoadOrAppendQueue(Dictionary<long, int> queueData, long albumId, QueueAppendInsertMode mode)
