@@ -322,10 +322,7 @@ public class FormAddFilesProgress : Form
         {
             while (!userAbortToken.IsCancellationRequested)
             {
-                if (transaction == null)
-                {
-                    transaction = await context.Database.BeginTransactionAsync(userAbortToken);
-                }
+                transaction ??= await context.Database.BeginTransactionAsync(userAbortToken);
 
                 if (fileUpdateQueue.Any())
                 {
