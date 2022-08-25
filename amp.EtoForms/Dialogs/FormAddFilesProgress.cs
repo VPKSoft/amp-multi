@@ -174,7 +174,7 @@ public class FormAddFilesProgress : Form
         };
 
         userAbortToken = source.Token;
-        saveDatabaseThread = new Thread(ThreadMethod);
+        saveDatabaseThread = new Task(ThreadMethod, userAbortToken);
 
         base.Size = new Size(500, 200);
         Shown += DialogAddFilesProgress_Shown;
@@ -220,12 +220,8 @@ public class FormAddFilesProgress : Form
     private async Task Abort()
     {
         source.Cancel();
-        threadStopped = true;
 
-        while (!saveDatabaseThread.Join(500))
-        {
-
-        }
+        await saveDatabaseThread.WaitAsync(userAbortToken);
 
         await TryRollback();
         context.ChangeTracker.Clear();
@@ -285,7 +281,6 @@ public class FormAddFilesProgress : Form
     private readonly CancellationTokenSource source = new();
     private volatile Queue<List<FileInfo>> fileUpdateQueue = new();
     private IDbContextTransaction? transaction;
-    private volatile bool threadStopped;
     private int fileCounter;
     private int directoryCounter;
     private int databaseCounter;
@@ -296,7 +291,7 @@ public class FormAddFilesProgress : Form
     private readonly string? directory;
     private readonly string[]? files;
     private readonly CancellationToken userAbortToken;
-    private readonly Thread saveDatabaseThread;
+    private readonly Task saveDatabaseThread;
     private volatile bool directoryCrawled;
     private readonly TimeEstimateCalculator estimateCalculator = new(500);
     private readonly DefaultCancelButtonHandler? defaultCancelButtonHandler;
@@ -325,7 +320,7 @@ public class FormAddFilesProgress : Form
     {
         try
         {
-            while (!threadStopped)
+            while (!userAbortToken.IsCancellationRequested)
             {
                 if (transaction == null)
                 {
@@ -338,7 +333,6 @@ public class FormAddFilesProgress : Form
                     await HandleFiles(fileInfos);
                     if (singeFileBatch)
                     {
-                        threadStopped = true;
                         await Application.Instance.InvokeAsync(() =>
                         {
                             btnOk.Enabled = true;
@@ -351,7 +345,6 @@ public class FormAddFilesProgress : Form
                     if (directoryCrawled)
                     {
                         await transaction.CommitAsync(CancellationToken.None);
-                        threadStopped = true;
                         await Application.Instance.InvokeAsync(() =>
                         {
                             btnOk.Enabled = true;
