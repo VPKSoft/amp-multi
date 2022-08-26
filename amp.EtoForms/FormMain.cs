@@ -76,8 +76,8 @@ public partial class FormMain : Form
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album>(Globals.Logger, GetNextAudioTrackFunc, GetTrackById,
-            () => Application.Instance.RunIteration(), Globals.Settings.PlaybackRetryCount);
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album>(GetNextAudioTrackFunc, GetTrackById,
+            Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
         CreateButtons();

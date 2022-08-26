@@ -871,4 +871,9 @@ partial class FormMain
             RefreshCurrentAlbum();
         });
     }
+
+    private void IExceptionReporter_ExceptionOccurred(object? sender, VPKSoft.Utils.Common.EventArgs.ExceptionOccurredEventArgs e)
+    {
+        Globals.Logger?.Error(e.Exception, "");
+    }
 }

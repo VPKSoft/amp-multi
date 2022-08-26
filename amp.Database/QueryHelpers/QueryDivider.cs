@@ -99,7 +99,7 @@ public class QueryDivider<T>
 
     private async Task<List<T>> TaskFromTaskData(TaskData taskData)
     {
-        var result = await queryable.Skip(taskData.TaskIndex * taskData.TaskSize).Take(taskData.TaskSize).ToListAsync(cancellationToken: token);
+        var result = await queryable.Skip(taskData.TaskIndex * taskData.TaskSize).Take(taskData.TaskSize).ToListAsync(token);
         resultList.AddRange(result);
         taskData.ProgressAction(taskData.TaskIndex);
         return result;
@@ -130,8 +130,7 @@ public class QueryDivider<T>
         try
         {
             token = cancellationToken;
-            queryTaskThread = new Thread(QueryThreadMethodParallel);
-            queryTaskThread.Start();
+            Task.Factory.StartNew(QueryThreadMethodParallel, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -165,8 +164,7 @@ public class QueryDivider<T>
         try
         {
             token = cancellationToken;
-            queryTaskThread = new Thread(QueryThreadMethodLinear);
-            queryTaskThread.Start();
+            Task.Factory.StartNew(QueryThreadMethodLinear, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -278,7 +276,6 @@ public class QueryDivider<T>
 
     private volatile bool starCalled;
     private volatile bool queryRunning;
-    private Thread? queryTaskThread;
     private volatile List<T> resultList = new();
     private volatile int currentCount;
     private volatile int totalCount;
