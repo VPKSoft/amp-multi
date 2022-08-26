@@ -383,6 +383,9 @@ SOFTWARE.
         timerSavePositionCheck.Elapsed += TimerSavePositionCheckElapsed;
         timerQuietHourChecker.Elapsed += TimerQuietHourChecker_Elapsed;
         timerCheckUpdates.Elapsed += TimerCheckUpdates_Elapsed;
+        playbackManager.ExceptionOccurred += IExceptionReporter_ExceptionOccurred;
+        idleChecker.ExceptionOccurred += IExceptionReporter_ExceptionOccurred;
+
         timerSavePositionCheck.Interval = 2;
         if (Globals.Settings.QuietHours)
         {

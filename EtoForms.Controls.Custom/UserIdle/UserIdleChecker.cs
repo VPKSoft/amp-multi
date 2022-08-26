@@ -27,6 +27,9 @@ SOFTWARE.
 using System;
 using System.Threading;
 using Eto.Forms;
+using VPKSoft.Utils.Common.EventArgs;
+using VPKSoft.Utils.Common.ExtensionClasses;
+using VPKSoft.Utils.Common.Interfaces;
 
 namespace EtoForms.Controls.Custom.UserIdle;
 
@@ -35,7 +38,7 @@ namespace EtoForms.Controls.Custom.UserIdle;
 /// Implements the <see cref="IDisposable" />
 /// </summary>
 /// <seealso cref="IDisposable" />
-public class UserIdleChecker : IDisposable
+public class UserIdleChecker : IDisposable, IExceptionReporter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserIdleChecker"/> class.
@@ -110,7 +113,7 @@ public class UserIdleChecker : IDisposable
     public event EventHandler<UserIdleEventArgs>? UserIdle;
 
     /// <summary>
-    /// Occurs when user inactivity stopped.
+    /// Occurs when user inactivity ThreadStopped.
     /// </summary>
     public event EventHandler<UserIdleEventArgs>? UserActivated;
 
@@ -145,7 +148,27 @@ public class UserIdleChecker : IDisposable
     private double userInactiveInterval = 30;
     private DateTime previousActiveTime;
     private readonly Container container;
-    private volatile bool stopped;
+
+    private bool ThreadStopped
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return threadStopped;
+            }
+        }
+
+        set
+        {
+            lock (lockObject)
+            {
+                threadStopped = value;
+            }
+        }
+    }
+
+    private bool threadStopped;
     private readonly Thread observerThread;
     private volatile bool idleEventInvoked;
 
@@ -180,23 +203,30 @@ public class UserIdleChecker : IDisposable
 
     private void ThreadFunc()
     {
-        while (!stopped)
+        try
         {
-            if (!idleEventInvoked)
+            while (!ThreadStopped)
             {
-                var spanSeconds = (DateTime.Now - PreviousActiveTime).TotalSeconds;
-                if (spanSeconds > UserInactiveInterval)
+                if (!idleEventInvoked)
                 {
-                    idleEventInvoked = true;
-                    UserIdle?.Invoke(this, new UserIdleEventArgs(true));
+                    var spanSeconds = (DateTime.Now - PreviousActiveTime).TotalSeconds;
+                    if (spanSeconds > UserInactiveInterval)
+                    {
+                        idleEventInvoked = true;
+                        UserIdle?.Invoke(this, new UserIdleEventArgs(true));
+                    }
+                    else
+                    {
+                        idleEventInvoked = false;
+                    }
                 }
-                else
-                {
-                    idleEventInvoked = false;
-                }
-            }
 
-            Thread.Sleep(100);
+                Thread.Sleep(100);
+            }
+        }
+        catch (ThreadInterruptedException ex)
+        {
+            RaiseExceptionOccurred(ex, nameof(UserIdleChecker), nameof(ThreadFunc));
         }
     }
 
@@ -215,11 +245,8 @@ public class UserIdleChecker : IDisposable
     /// </summary>
     public void Dispose()
     {
-        stopped = true;
-        while (!observerThread.Join(200))
-        {
-            Application.Instance.RunIteration();
-        }
+        ThreadStopped = true;
+        observerThread.TryJoin(2000);
 
         DetachEventListeners(container);
 
@@ -227,5 +254,14 @@ public class UserIdleChecker : IDisposable
         {
             DetachEventListeners(control);
         }
+    }
+
+    /// <inheritdoc />
+    public event EventHandler<ExceptionOccurredEventArgs>? ExceptionOccurred;
+
+    /// <inheritdoc />
+    public void RaiseExceptionOccurred(Exception exception, string @class, string method)
+    {
+        ExceptionOccurred?.Invoke(this, new ExceptionOccurredEventArgs(exception, @class, method));
     }
 }

@@ -33,7 +33,9 @@ using amp.Shared.Interfaces;
 using ManagedBass;
 using ManagedBass.Flac;
 using ManagedBass.Wma;
-using Serilog;
+using VPKSoft.Utils.Common.EventArgs;
+using VPKSoft.Utils.Common.ExtensionClasses;
+using VPKSoft.Utils.Common.Interfaces;
 using PlaybackState = amp.Playback.Enumerations.PlaybackState;
 
 namespace amp.Playback;
@@ -44,29 +46,23 @@ namespace amp.Playback;
 /// <typeparam name="TAudioTrack">The type of the <see cref="IAlbumTrack{TAudioTrack,TAlbum}"/> <see cref="IAlbumTrack{TAudioTrack,TAlbum}.AudioTrack"/> member.</typeparam>
 /// <typeparam name="TAlbumTrack">The type of the <see cref="IAlbumTrack{TAudioTrack,TAlbum}"/>.</typeparam>
 /// <typeparam name="TAlbum">The type of the <see cref="IAlbumTrack{TAudioTrack,TAlbum}"/> <see cref="IAlbumTrack{TAudioTrack,TAlbum}.Album"/> member.</typeparam>
-public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable where TAudioTrack : IAudioTrack where TAlbum : IAlbum where TAlbumTrack : IAlbumTrack<TAudioTrack, TAlbum>
+public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable, IExceptionReporter where TAudioTrack : IAudioTrack where TAlbum : IAlbum where TAlbumTrack : IAlbumTrack<TAudioTrack, TAlbum>
 {
-    private readonly ILogger? logger;
-
     private volatile int currentStreamHandle;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlaybackManager{TAudioTrack, TAlbumTrack, TAlbum}"/> class.
     /// </summary>
-    /// <param name="logger">The logger to log exceptions, etc.</param>
     /// <param name="getNextTrackFunc">A Task&lt;<see cref="Func{TAlbumTrack}"/>&gt;, which is executed when requesting a next track for playback.</param>
     /// <param name="getTrackById">A Task&lt;<see cref="Func{TIdentity,TAlbumTrack}"/>&gt;, which is executed when requesting track data by its reference identifier for playback.</param>
-    /// <param name="doEventsCallback">An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).</param>
     /// <param name="retryBeforeStopCount">A value indicating how many times to try to play another track on error before stopping the playback entirely.</param>
     /// <remarks>The contents of the <paramref name="getNextTrackFunc"/> must be thread safe as it gets called from another thread.</remarks>
     /// <remarks>The contents of the <paramref name="getTrackById"/> must be thread safe as it gets called from another thread.</remarks>
-    public PlaybackManager(ILogger? logger, Func<Task<TAlbumTrack?>> getNextTrackFunc, Func<long, Task<TAlbumTrack?>> getTrackById, Action doEventsCallback, int retryBeforeStopCount)
+    public PlaybackManager(Func<Task<TAlbumTrack?>> getNextTrackFunc, Func<long, Task<TAlbumTrack?>> getTrackById, int retryBeforeStopCount)
     {
-        this.logger = logger;
         Bass.Init();
         this.getNextTrackFunc = getNextTrackFunc;
         this.getTrackById = getTrackById;
-        DoEventsCallback = doEventsCallback;
         this.retryBeforeStopCount = retryBeforeStopCount;
     }
 
@@ -256,6 +252,25 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     /// </summary>
     public event EventHandler<PlaybackErrorFileNotFoundEventArgs>? PlaybackErrorFileNotFound;
 
+    private bool StopThread
+    {
+        get
+        {
+            lock (lockObject)
+            {
+                return stopThread;
+            }
+        }
+
+        set
+        {
+            lock (lockObject)
+            {
+                stopThread = value;
+            }
+        }
+    }
+
     private volatile bool stopThread = true;
     private volatile PlaybackState previousPlaybackState;
     private readonly object lockObject = new();
@@ -358,7 +373,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 }
                 catch (Exception ex)
                 {
-                    logger?.Error(ex, "");
+                    RaiseExceptionOccurred(ex, "PlaybackManager", nameof(MasterVolume));
                 }
             }
         }
@@ -406,7 +421,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 }
                 catch (Exception ex)
                 {
-                    logger?.Error(ex, "");
+                    RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackVolume));
                     return volume;
                 }
             }
@@ -427,7 +442,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
                 }
                 catch (Exception ex)
                 {
-                    logger?.Error(ex, "");
+                    RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackVolume));
                 }
             }
         }
@@ -626,7 +641,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
             }
             catch (Exception ex)
             {
-                logger?.Error(ex, "");
+                RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackPosition));
                 return 0;
             }
         }
@@ -652,7 +667,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
             }
             catch (Exception ex)
             {
-                logger?.Error(ex, "");
+                RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackPosition));
             }
         }
     }
@@ -678,7 +693,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
             }
             catch (Exception ex)
             {
-                logger?.Error(ex, "");
+                RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackLength));
                 return 0;
             }
         }
@@ -696,26 +711,23 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     /// <value><c>true</c> if this <see cref="PlaybackManager{TAudioTrack, TAlbumTrack, TAlbum}"/> thread is stopped; otherwise, <c>false</c>.</value>
     public bool ManagerStopped
     {
-        get => stopThread;
+        get => StopThread;
 
         set
         {
-            if (stopThread != value)
+            if (StopThread != value)
             {
-                stopThread = value;
+                StopThread = value;
 
-                if (stopThread && playbackThread != null)
+                if (StopThread && playbackThread != null)
                 {
-                    while (!playbackThread.Join(1000))
-                    {
-                        DoEventsCallback?.Invoke();
-                    }
+                    playbackThread.TryJoin(2000);
 
                     FreeBass();
                     playbackThread = null;
                 }
 
-                if (!stopThread && playbackThread == null)
+                if (!StopThread && playbackThread == null)
                 {
                     playbackThread = new Thread(PlaybackThreadMethod);
                     playbackThread.Start();
@@ -723,11 +735,6 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
             }
         }
     }
-
-    /// <summary>
-    /// An action which is executed to continue the application message pumping when the playback thread is being disposed of (joined).
-    /// </summary>
-    public Action DoEventsCallback { get; set; }
 
     /// <summary>
     /// Disposes the current playback channel if any.
@@ -747,7 +754,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
         }
         catch (Exception ex)
         {
-            logger?.Error(ex, "");
+            RaiseExceptionOccurred(ex, "PlaybackManager", nameof(DisposeCurrentChannel));
         }
     }
 
@@ -756,83 +763,93 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     /// </summary>
     private async void PlaybackThreadMethod()
     {
-        while (!stopThread)
+        try
         {
-            double position = 0, duration = 0;
-            var playbackState = AmpPlaybackStateConverter.ConvertFrom(ManagedBass.PlaybackState.Stopped);
-
-            if (currentStreamHandle != 0)
+            while (!StopThread)
             {
-                var bytes = Bass.ChannelGetLength(currentStreamHandle);
-                duration = Bass.ChannelBytes2Seconds(currentStreamHandle, bytes);
-                var positionBytes = Bass.ChannelGetPosition(currentStreamHandle);
-                position = Bass.ChannelBytes2Seconds(currentStreamHandle, positionBytes);
-                playbackState = AmpPlaybackStateConverter.ConvertFrom(Bass.ChannelIsActive(currentStreamHandle));
+                double position = 0, duration = 0;
+                var playbackState = AmpPlaybackStateConverter.ConvertFrom(ManagedBass.PlaybackState.Stopped);
 
-                if (Math.Abs(PreviousPosition - position) > Globals.FloatingPointTolerance || trackChanged)
+                if (currentStreamHandle != 0)
                 {
-                    PlaybackPositionChanged?.Invoke(this,
-                        new PlaybackPositionChangedArgs
+                    var bytes = Bass.ChannelGetLength(currentStreamHandle);
+                    duration = Bass.ChannelBytes2Seconds(currentStreamHandle, bytes);
+                    var positionBytes = Bass.ChannelGetPosition(currentStreamHandle);
+                    position = Bass.ChannelBytes2Seconds(currentStreamHandle, positionBytes);
+                    playbackState = AmpPlaybackStateConverter.ConvertFrom(Bass.ChannelIsActive(currentStreamHandle));
+
+                    if (Math.Abs(PreviousPosition - position) > Globals.FloatingPointTolerance || trackChanged)
+                    {
+                        PlaybackPositionChanged?.Invoke(this,
+                            new PlaybackPositionChangedArgs
+                            {
+                                CurrentPosition = position,
+                                PlaybackLength = duration,
+                                PlaybackState = playbackState,
+                                AudioTrackId = PreviousTrackId,
+                            });
+                    }
+
+                    PreviousPosition = position;
+                    PreviousDuration = duration;
+                }
+
+                if (trackChanged)
+                {
+                    trackChanged = false;
+
+                    TrackChanged?.Invoke(this,
+                        new TrackChangedArgs
                         {
                             CurrentPosition = position,
                             PlaybackLength = duration,
                             PlaybackState = playbackState,
                             AudioTrackId = PreviousTrackId,
+                            BassHandle = currentStreamHandle,
                         });
                 }
 
-                PreviousPosition = position;
-                PreviousDuration = duration;
-            }
-
-            if (trackChanged)
-            {
-                trackChanged = false;
-
-                TrackChanged?.Invoke(this,
-                    new TrackChangedArgs
-                    {
-                        CurrentPosition = position,
-                        PlaybackLength = duration,
-                        PlaybackState = playbackState,
-                        AudioTrackId = PreviousTrackId,
-                        BassHandle = currentStreamHandle,
-                    });
-            }
-
-            if (previousPlaybackState != playbackState)
-            {
-                PlaybackStateChanged?.Invoke(this,
-                    new PlaybackStateChangedArgs
-                    {
-                        CurrentPosition = position,
-                        PlaybackLength = duration,
-                        PlaybackState = playbackState,
-                        AudioTrackId = PreviousTrackId,
-                        PreviousPlaybackState = previousPlaybackState,
-                    });
-
-                if (playbackFailed)
+                if (previousPlaybackState != playbackState)
                 {
-                    await PlayNextTrack(false);
-                }
-                else
-                {
-                    if (!skipPlaybackStateChange)
-                    {
-                        if (previousPlaybackState == PlaybackState.Playing && playbackState == PlaybackState.Stopped && repeat)
+                    PlaybackStateChanged?.Invoke(this,
+                        new PlaybackStateChangedArgs
                         {
-                            await PlayNextTrack(false);
+                            CurrentPosition = position,
+                            PlaybackLength = duration,
+                            PlaybackState = playbackState,
+                            AudioTrackId = PreviousTrackId,
+                            PreviousPlaybackState = previousPlaybackState,
+                        });
+
+                    if (playbackFailed)
+                    {
+                        await PlayNextTrack(false);
+                    }
+                    else
+                    {
+                        if (!skipPlaybackStateChange)
+                        {
+                            if (previousPlaybackState == PlaybackState.Playing &&
+                                playbackState == PlaybackState.Stopped && repeat)
+                            {
+                                await PlayNextTrack(false);
+                            }
                         }
+
                     }
 
+                    skipPlaybackStateChange = false;
                 }
-                skipPlaybackStateChange = false;
+
+                previousPlaybackState = playbackState;
+
+                Thread.Sleep(100);
             }
-
-            previousPlaybackState = playbackState;
-
-            Thread.Sleep(100);
+        }
+        catch (ThreadInterruptedException ex)
+        {
+            RaiseExceptionOccurred(ex, "PlaybackManager", nameof(PlaybackThreadMethod));
+            StopThread = true;
         }
     }
 
@@ -848,7 +865,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
         }
         catch (Exception ex)
         {
-            logger?.Error(ex, "");
+            RaiseExceptionOccurred(ex, "PlaybackManager", nameof(FreeBass));
         }
     }
 
@@ -859,5 +876,14 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable whe
     {
         ManagerStopped = true;
         FreeBass();
+    }
+
+    /// <inheritdoc />
+    public event EventHandler<ExceptionOccurredEventArgs>? ExceptionOccurred;
+
+    /// <inheritdoc />
+    public void RaiseExceptionOccurred(Exception exception, string @class, string method)
+    {
+        ExceptionOccurred?.Invoke(this, new ExceptionOccurredEventArgs(exception, @class, method));
     }
 }
