@@ -130,7 +130,7 @@ public class QueryDivider<T>
         try
         {
             token = cancellationToken;
-            queryTaskTask = Task.Factory.StartNew(QueryThreadMethodParallel, cancellationToken);
+            Task.Factory.StartNew(QueryThreadMethodParallel, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -164,7 +164,7 @@ public class QueryDivider<T>
         try
         {
             token = cancellationToken;
-            queryTaskTask = Task.Factory.StartNew(QueryThreadMethodLinear, cancellationToken);
+            Task.Factory.StartNew(QueryThreadMethodLinear, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -276,7 +276,6 @@ public class QueryDivider<T>
 
     private volatile bool starCalled;
     private volatile bool queryRunning;
-    private Task? queryTaskTask;
     private volatile List<T> resultList = new();
     private volatile int currentCount;
     private volatile int totalCount;
