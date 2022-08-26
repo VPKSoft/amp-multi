@@ -42,7 +42,6 @@ public partial class FormMain
             if (testIndex == -1)
             {
                 Globals.Settings.SelectedAlbum = 1;
-
             }
 
             return Globals.Settings.SelectedAlbum < 1 ? 1 : Globals.Settings.SelectedAlbum;
