@@ -36,7 +36,16 @@ public partial class FormMain
     /// <value>The current album identifier.</value>
     private long CurrentAlbumId
     {
-        get => Globals.Settings.SelectedAlbum < 1 ? 1 : Globals.Settings.SelectedAlbum;
+        get
+        {
+            var testIndex = albums.FindIndex(f => f.Id == Globals.Settings.SelectedAlbum);
+            if (testIndex == -1)
+            {
+                Globals.Settings.SelectedAlbum = 1;
+            }
+
+            return Globals.Settings.SelectedAlbum < 1 ? 1 : Globals.Settings.SelectedAlbum;
+        }
 
         set
         {
