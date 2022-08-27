@@ -58,8 +58,9 @@ partial class FormMain
     {
         if (Equals(sender, tbSearch))
         {
-            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or Keys.F2 or Keys.F6
-                    or Keys.F8 or Keys.F9 || !e.IsChar)
+            if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or
+                Keys.F1 or Keys.F2 or Keys.F3 or Keys.F4 or Keys.F5 or Keys.F6 or Keys.F7 or Keys.F8 or Keys.F9 or
+                Keys.Escape or Keys.Enter or Keys.Add or Keys.Multiply)
             {
                 if (gvAudioTracks.SelectedItem == null && gvAudioTracks.DataStore.Any())
                 {
@@ -77,6 +78,13 @@ partial class FormMain
         {
             tbSearch.Focus();
             tbSearch.Text = string.Empty;
+            e.Handled = true;
+            return;
+        }
+
+        if (e.Key == Keys.F && e.Modifiers.HasFlag(Application.Instance.CommonModifier))
+        {
+            tbSearch.Focus();
             e.Handled = true;
             return;
         }
