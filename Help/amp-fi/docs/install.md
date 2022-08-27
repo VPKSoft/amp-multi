@@ -9,6 +9,11 @@ Ohjelman asennus tarvitsee hiukan lisätyötä, koska ohjelmistoa ei ole digitaa
 ## Riippuvuudet
 Tämän voi joutua asentamaan, että ohjelma toimisi [FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE): `sudo apt install libfuse2`
 
+## AppImage-työpöytäintegraatio
+Työpöytäintegraatiota varten, asenna [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher/wiki). Tämä näyttää ohjelman ikonin, jne.
+
+![image](img/mixed/linux_desktop_1.png)
+
 *Tämä asennusohje on testattu: Ubuntu (Ubuntu 22.04.1 LTS)*
 
 # Windows-asennus

@@ -9,6 +9,11 @@ The installation of the software needs some additional work as the software pack
 ## Dependencies
 You might need to install [FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE): `sudo apt install libfuse2`
 
+## AppImage desktop integration
+For desktop integration, install the [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher/wiki). This enables the icon display, etc.
+
+![image](img/mixed/linux_desktop_1.png)
+
 *This was tested on clean Ubuntu install (Ubuntu 22.04.1 LTS)*
 
 # Windows install
