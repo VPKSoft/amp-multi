@@ -539,4 +539,10 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="SynchronizeColors" xml:space="preserve">
     <value>Synchronize colors</value>
   </data>
+  <data name="AudioVisualization" xml:space="preserve">
+    <value>Audio visualization</value>
+  </data>
+  <data name="VisualizeAudioLevels" xml:space="preserve">
+    <value>Visualize audio levels</value>
+  </data>
 </root>

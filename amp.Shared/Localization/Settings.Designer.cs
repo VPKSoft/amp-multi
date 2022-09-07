@@ -142,6 +142,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Horizontal level visualization.
+        /// </summary>
+        public static string HorizontalLevelVisualization {
+            get {
+                return ResourceManager.GetString("HorizontalLevelVisualization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language (requires restart).
         /// </summary>
         public static string LanguageRequiresRestart {

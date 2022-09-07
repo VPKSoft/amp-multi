@@ -232,6 +232,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Audio visualization.
+        /// </summary>
+        public static string AudioVisualization {
+            get {
+                return ResourceManager.GetString("AudioVisualization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bar visualization mode.
         /// </summary>
         public static string BarVisualizationMode {
@@ -1327,6 +1336,15 @@ namespace amp.Shared.Localization {
         public static string VersionPrefix {
             get {
                 return ResourceManager.GetString("VersionPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visualize audio levels.
+        /// </summary>
+        public static string VisualizeAudioLevels {
+            get {
+                return ResourceManager.GetString("VisualizeAudioLevels", resourceCulture);
             }
         }
         

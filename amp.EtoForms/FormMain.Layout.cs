@@ -218,16 +218,11 @@ partial class FormMain
             AllowColumnReordering = true,
         };
 
-        audioVisualizationControl = Globals.Settings.DisplayAudioVisualization
-            ? new Panel
-            {
-                Content = spectrumAnalyzer,
-                Height = 100,
-                Padding = new Padding(Globals.DefaultPadding, 2),
-            }
-            : new Panel();
+        audioVisualizationControl = CreateAudioVisualization(Globals.Settings.AudioLevelsVertical, Globals.Settings.DisplayAudioLevels);
 
         audioVisualizationControl.Visible = false;
+        spectrumAnalyzer.AudioLevelsChanged += SpectrumAnalyzer_AudioLevelsChanged;
+        spectrumAnalyzer.RaiseAudioLevelsChanged = true;
 
         btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Color.Parse(Globals.ColorConfiguration.ClearSearchButtonColor), Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
 
@@ -471,4 +466,60 @@ partial class FormMain
         ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorRatingSlider),
         ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorRatingSliderValueIndicator),
     };
+
+    private Control CreateAudioVisualization(bool vertical, bool bars)
+    {
+        Control control;
+
+        if (Globals.Settings.DisplayAudioVisualization)
+        {
+            if (vertical)
+            {
+                levelBarLeft = new LevelBar { MinimumSize = new Size(15, 50), Orientation = Orientation.Vertical, };
+                levelBarRight = new LevelBar { MinimumSize = new Size(15, 50), Orientation = Orientation.Vertical, };
+
+                control = new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow
+                        {
+                            Cells =
+                            {
+                                bars ? levelBarLeft : new Panel(),
+                                new TableCell(spectrumAnalyzer, true),
+                                bars ? levelBarRight : new Panel(),
+                            },
+                            ScaleHeight = true,
+                        },
+                    },
+                    Height = 100,
+                    Padding = new Padding(Globals.DefaultPadding, 0),
+                };
+            }
+            else
+            {
+                levelBarLeft = new LevelBar { MinimumSize = new Size(20, 10), Orientation = Orientation.Horizontal, };
+                levelBarRight = new LevelBar { MinimumSize = new Size(20, 10), Orientation = Orientation.Horizontal, };
+
+                control = new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow(new TableCell(spectrumAnalyzer, true)) { ScaleHeight = true, },
+                        bars ? new TableRow(new TableCell(levelBarLeft, true)) { ScaleHeight = false, } : new Panel(),
+                        bars ? new TableRow(new TableCell(levelBarRight, true)) { ScaleHeight = false, } : new Panel(),
+                    },
+                    Height = 100,
+                    Padding = new Padding(Globals.DefaultPadding, 0),
+                };
+            }
+        }
+        else
+        {
+            control = new Panel();
+        }
+
+        return control;
+    }
 }
