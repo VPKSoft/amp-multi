@@ -160,4 +160,7 @@
   <data name="AudioVisualizerFFTWindowFunction" xml:space="preserve">
     <value>Audio visualizer FFT Window function</value>
   </data>
+  <data name="HorizontalLevelVisualization" xml:space="preserve">
+    <value>Horizontal level visualization</value>
+  </data>
 </root>

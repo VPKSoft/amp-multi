@@ -52,10 +52,13 @@ partial class FormMain
     private readonly SpectrumVisualizer spectrumAnalyzer = new(true)
     {
         Width = 50,
-        Height = 100,
+        Height = 50,
         BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorSpectrumVisualizerBackground),
         SpectrumType = Globals.Settings.AudioVisualizationBars ? SpectrumType.Bar : SpectrumType.Line,
     };
+
+    private LevelBar? levelBarLeft;
+    private LevelBar? levelBarRight;
 
     private readonly StackLayout toolBar;
     private readonly Expander trackAdjustControls;

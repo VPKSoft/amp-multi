@@ -28,6 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using amp.EtoForms.Settings;
+using amp.EtoForms.Settings.AttributeClasses;
 using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -124,7 +125,7 @@ internal class FormColorSettings : Dialog
         var row = new LabelColorPickerRow<ColorUiData>(text, nullable, color, Size20.ic_fluent_eraser_20_filled,
             new Size(20, 20), Color.Parse(Globals.ColorConfiguration.ButtonImageDefaultColor))
         {
-            DataObject = new ColorUiData(propertyInfo.Name, text, -1),
+            DataObject = new ColorUiData(propertyInfo.Name, text, -1, propertyInfo.CustomAttributes.Any(f => f.AttributeType == typeof(NoSyncColorAttribute))),
         };
 
         row.ColorValueChanged += colorChangedHandler;
@@ -134,11 +135,19 @@ internal class FormColorSettings : Dialog
 
     private void Row_ColorValueChanged(object? sender, ColorChangedEventArgs e)
     {
+        if (sender is LabelColorPickerRow<ColorUiData> selectedRow)
+        {
+            if (selectedRow.DataObject?.NoColorSynchronization == true)
+            {
+                return;
+            }
+        }
+
         if (cbSynchronizeColors.Checked == true)
         {
             foreach (var row in configRows)
             {
-                if (!Equals(sender, row))
+                if (!Equals(sender, row) && row.DataObject?.NoColorSynchronization != true)
                 {
                     row.ColorPickerValue = e.Color;
                 }
@@ -146,7 +155,7 @@ internal class FormColorSettings : Dialog
         }
     }
 
-    private static LabelColorPickerRow<ColorUiData> CreateRow(int listIndex, string colorValue, EventHandler<ColorChangedEventArgs> colorChangedHandler)
+    private static LabelColorPickerRow<ColorUiData> CreateRow(int listIndex, string colorValue, EventHandler<ColorChangedEventArgs> colorChangedHandler, bool noSyncValue)
     {
         var index = listIndex / 2 + 1;
 
@@ -159,7 +168,7 @@ internal class FormColorSettings : Dialog
         var row = new LabelColorPickerRow<ColorUiData>(text, false, color, Size20.ic_fluent_eraser_20_filled,
             new Size(20, 20), Color.Parse(Globals.ColorConfiguration.ButtonImageDefaultColor))
         {
-            DataObject = new ColorUiData(nameof(ColorConfiguration.ColorsSpectrumVisualizerChannels), text, listIndex),
+            DataObject = new ColorUiData(nameof(ColorConfiguration.ColorsSpectrumVisualizerChannels), text, listIndex, noSyncValue),
         };
 
         row.ColorValueChanged += colorChangedHandler;
@@ -197,13 +206,13 @@ internal class FormColorSettings : Dialog
         {
             var color = colorConfig.ColorsSpectrumVisualizerChannels[i];
 
-            var row = CreateRow(i, color, Row_ColorValueChanged);
+            var row = CreateRow(i, color, Row_ColorValueChanged, false);
             configRows.Add(row);
             i++;
 
 
             color = colorConfig.ColorsSpectrumVisualizerChannels[i];
-            row = CreateRow(i, color, Row_ColorValueChanged);
+            row = CreateRow(i, color, Row_ColorValueChanged, false);
             configRows.Add(row);
             i++;
         }

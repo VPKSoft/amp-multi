@@ -28,15 +28,6 @@ Tämä asetus joko piilottaa tai näyttää sarakeotsikot pääikkunan kappaleli
 **Uudelleenyritysten määrä toiston epäonnistuessa**
 Arvo, joka ilmaisee kuinka monta kertaa ohjelma yrittää toistaa toista kappaletta virheen sattuessa ennen toiston yrittämisen lopettamista.
 
-**Audion visualisointi**
-*Näytä audiovisualisointi* -asetus määrittää, näytetäänkö audion visualisointi kappalelistan alaosassa kappaletta toistettaessa.
-
-*Audion visualisoinnin FFT-ikkunafunktio*
-Tällä asetuksella FFT ([Nopea Fourier-muunnoksen](https://fi.wikipedia.org/wiki/Fourier-muunnos#FFT)) [ikkunafunktiota](https://en.wikipedia.org/wiki/Window_function) voidaan vaihtaa. Arvo kannattaa pitää kohdassa Hanning, jos et tiedä, mitä termit tarkoittavat. FFT vaikuttaa visualisoidun signaalin muotoon painottamalla eri taajuuskaistoja eri tavalla - näin ainakin allekirjoittanut (erittäin rajoittuneella tietämyksellä) ymmärtää asian.
-
-*Visualisointi pylväsmuodossa*
-Audion visualisointi näytetään pylväinä, jos tämä asetus on päällä. Muussa tapauksessa visualisointi tehdään viivana.
-
 **Aputiedostokansio**
 Koska aputiedostot ovat erillisessä paketissa, tähän syötettään se polku, minne aputiedostot on purettu. Tämä tulisi asettaa purettuun `help_pack`-hakemistoon, jossa on useita alihakemistoja.
 
@@ -62,3 +53,32 @@ Sallitut kaavan osat on selitetty välilehdellä ja arvot voi aina palauttaa ole
 
 ![image](img/settings3.png)
 
+## Äänen visualisointi
+
+**Audion visualisointi**
+*Näytä audiovisualisointi* -asetus määrittää, näytetäänkö äänen visualisointi kappalelistan alaosassa kappaletta toistettaessa.
+
+**Audion visualisoinnin FFT-ikkunafunktio**
+Tällä asetuksella FFT ([Nopea Fourier-muunnoksen](https://fi.wikipedia.org/wiki/Fourier-muunnos#FFT)) [ikkunafunktiota](https://en.wikipedia.org/wiki/Window_function) voidaan vaihtaa. Arvo kannattaa pitää kohdassa Hanning, jos et tiedä, mitä termit tarkoittavat. FFT vaikuttaa visualisoidun signaalin muotoon painottamalla eri taajuuskaistoja eri tavalla - näin ainakin allekirjoittanut (erittäin rajoittuneella tietämyksellä) ymmärtää asian.
+
+**Visualisointi pylväsmuodossa**
+Äänen visualisointi näytetään pylväinä, jos tämä asetus on päällä. Muussa tapauksessa visualisointi tehdään viivana.
+
+**Visualisoi äänen tasot**
+Ilmaisee, visualisoidaanko äänen tasot äänen visualisointialueella.
+
+**Vaaka-suuntainen äänen tason visualisointi**
+Arvo, millä ilmaistaan visualisoidaanko äänen voimakkuus vaaka- vai pystysuunnassa.
+
+*Äänen voimakkuudet pystysuunnassa*
+
+![image](img/audio_visualization1.png)
+
+*Äänenvoimakkuudet vaaka-suunnassa*
+
+![image](img/audio_visualization2.png)
+
+
+*Äänen visualisointi -välilehti*
+
+![image](img/settings4.png)

@@ -539,4 +539,10 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="SynchronizeColors" xml:space="preserve">
     <value>Synkronoi värit</value>
   </data>
+  <data name="AudioVisualization" xml:space="preserve">
+    <value>Äänen visualisointi</value>
+  </data>
+  <data name="VisualizeAudioLevels" xml:space="preserve">
+    <value>Visualisoi äänen tasot</value>
+  </data>
 </root>

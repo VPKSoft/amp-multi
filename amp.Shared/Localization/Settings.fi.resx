@@ -160,4 +160,7 @@
   <data name="AudioVisualizerFFTWindowFunction" xml:space="preserve">
     <value>Audion visualisoinnin FFT-ikkunafunktio</value>
   </data>
+  <data name="HorizontalLevelVisualization" xml:space="preserve">
+    <value>Vaakasuuntainen äänen tason visualisointi</value>
+  </data>
 </root>

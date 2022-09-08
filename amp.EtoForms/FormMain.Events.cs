@@ -332,7 +332,7 @@ partial class FormMain
 
             btnPreviousTrack.Enabled = playbackManager.CanGoPrevious;
 
-            spectrumAnalyzer.SignalProvider?.SetChannel(e.BassHandle);
+            spectrumAnalyzer.SetChannel(e.BassHandle);
         });
     }
 
@@ -883,5 +883,17 @@ partial class FormMain
     private void IExceptionReporter_ExceptionOccurred(object? sender, VPKSoft.Utils.Common.EventArgs.ExceptionOccurredEventArgs e)
     {
         Globals.Logger?.Error(e.Exception, "");
+    }
+
+    private void SpectrumAnalyzer_AudioLevelsChanged(object? sender, global::EtoForms.SpectrumVisualizer.AudioLevelsChangeEventArgs e)
+    {
+        Application.Instance.InvokeAsync(() =>
+        {
+            if (levelBarLeft != null && levelBarRight != null)
+            {
+                levelBarLeft.Value = e.LevelLeftChannel;
+                levelBarRight.Value = e.LevelRightChannel;
+            }
+        });
     }
 }

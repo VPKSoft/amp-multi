@@ -58,6 +58,7 @@ public class FormSettings : Dialog<bool>
         CreateSettingsTabCommon();
         CreateSettingsTabRandom();
         CreateSettingsTabTrackNaming();
+        CreateVisualizationSettingsTab();
         LoadSettings();
 
         btnCancel.Click += delegate
@@ -112,6 +113,9 @@ public class FormSettings : Dialog<bool>
         cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
         cmbFftWindowSelect.SelectedValue = ((WindowType)Globals.Settings.FftWindow).ToString();
         cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
+        cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
+        cbVisualizeAudioLevels.Checked = Globals.Settings.DisplayAudioLevels;
+        cbLevelsVertical.Checked = Globals.Settings.AudioLevelsHorizontal;
 
         // Album image
         cbShowAlbumImage.Checked = Globals.Settings.ShowAlbumImage;
@@ -172,6 +176,9 @@ public class FormSettings : Dialog<bool>
         }
 
         Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
+        Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
+        Globals.Settings.DisplayAudioLevels = cbVisualizeAudioLevels.Checked == true;
+        Globals.Settings.AudioLevelsHorizontal = cbLevelsVertical.Checked == true;
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
@@ -257,10 +264,6 @@ public class FormSettings : Dialog<bool>
                     cbAutoHideAlbumImage,
                     cbDisplayColumnHeaders,
                     retryCountRow,
-                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
-                    cbDisplayAudioVisualization,
-                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
-                    cbAudioVisualizationBars,
                     selectHelpFolder,
                     new TableRow { ScaleHeight = true,}, // Keep this to the last!
                 },
@@ -461,6 +464,32 @@ public class FormSettings : Dialog<bool>
         tbcSettings.Pages.Add(tabTrackNaming);
     }
 
+    [MemberNotNull(nameof(tabVisualizationSettings))]
+    private void CreateVisualizationSettingsTab()
+    {
+        tabVisualizationSettings = new TabPage
+        {
+            Text = UI.AudioVisualization,
+            Content = new TableLayout
+            {
+                Rows =
+                {
+                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
+                    cbDisplayAudioVisualization,
+                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
+                    cbAudioVisualizationBars,
+                    cbVisualizeAudioLevels,
+                    cbLevelsVertical,
+                    new TableRow { ScaleHeight = true,},
+                },
+                Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+                Padding = Globals.DefaultPadding,
+            },
+        };
+
+        tbcSettings.Pages.Add(tabVisualizationSettings);
+    }
+
     private void BtFormulaDefaults_Click(object? sender, EventArgs e)
     {
         tbTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaDefault;
@@ -482,52 +511,59 @@ public class FormSettings : Dialog<bool>
     }
 
     #region UiElements
-    private readonly CheckBox cbWeightedRandomEnabled = new() { Text = Shared.Localization.Settings.WeightedRandomizationEnabled, };
-    private readonly CheckBox cbWeightedRating = new();
+    // Common controls
+    private readonly TabControl tbcSettings = new();
+    private readonly Button btnOk = new() { Text = UI.OK, };
+    private readonly Button btnCancel = new() { Text = UI.Cancel, };
+
+    // Common settings tab page
+    private TabPage tabCommon;
+    private CheckBox cbEnableQuietHours;
+    private DateTimePicker dtpStartQuietHours;
+    private DateTimePicker dtpEndQuietHours;
+    private CheckBox cbPauseOnQuietHours;
+    private CheckBox cbDecreaseVolumeOnQuietHours;
+    private NumericStepper nsQuietHourSilenceAmount;
+    private ComboBox cmbUiLocale;
+    private CheckBox cbCheckUpdates;
+    private NumericStepper nsStackQueue;
+    private CheckBox cbShowAlbumImage;
+    private CheckBox cbAutoHideAlbumImage;
+    private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
+    private readonly NumericStepper nsRetryCount = new() { MinValue = 5, MaxValue = 1000, Value = 20, };
+    private readonly Button btnSelectFolder = new() { Text = UI.ThreeDots, };
+    private readonly TextBox tbHelpFolder = new() { ReadOnly = true, };
+
+    // Weighted random settings
+    private TabPage tabWeightedRandom;
     private readonly Slider sldRating = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
-    private readonly CheckBox cbWeightedPlayedCount = new();
+    private readonly CheckBox cbWeightedRating = new();
     private readonly Slider sldPlayedCount = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
-    private readonly CheckBox cbWeightedRandomizedCount = new();
+    private readonly CheckBox cbWeightedPlayedCount = new();
     private readonly Slider sldRandomizedCount = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
-    private readonly CheckBox cbWeightedSkippedCount = new();
+    private readonly CheckBox cbWeightedRandomizedCount = new();
     private readonly Slider sldSkippedCount = new() { MinValue = 0, MaxValue = 1000, TickFrequency = 100, };
+    private readonly CheckBox cbWeightedSkippedCount = new();
     private readonly Slider sldWeightedTolerance = new() { MinValue = 0, MaxValue = 100, TickFrequency = 10, };
     private readonly Label lbWeightedToleranceValue = new() { Text = "0", };
+    private readonly CheckBox cbWeightedRandomEnabled = new() { Text = Shared.Localization.Settings.WeightedRandomizationEnabled, };
     private readonly Button btnRandomDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
-
+    // Track naming tab page
+    private TabPage tabTrackNaming;
     private readonly TextBox tbTrackNamingFormula = new();
     private readonly TextBox tbRenamedTrackNamingFormula = new();
     private readonly NumericStepper nsTitleMinimumLength = new() { MinValue = 3, MaxValue = 100, };
     private readonly CheckBox cbFallBackToFileNameIfNoLetters = new() { Text = UI.IfGeneratedNameContainsNoLettersFallBackToFileName, };
     private readonly Button btFormulaDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 
-    private readonly CheckBox cbDisplayColumnHeaders = new() { Text = Shared.Localization.Settings.DisplayPlaylistColumnHeaders, };
-    private CheckBox cbAutoHideAlbumImage;
-    private CheckBox cbShowAlbumImage;
-    private CheckBox cbCheckUpdates;
-    private ComboBox cmbUiLocale;
-    private NumericStepper nsQuietHourSilenceAmount;
-    private NumericStepper nsStackQueue;
-    private readonly NumericStepper nsRetryCount = new() { MinValue = 5, MaxValue = 1000, Value = 20, };
-    private DateTimePicker dtpStartQuietHours;
-    private DateTimePicker dtpEndQuietHours;
-    private CheckBox cbEnableQuietHours;
-    private CheckBox cbPauseOnQuietHours;
-    private CheckBox cbDecreaseVolumeOnQuietHours;
-    private TabPage tabCommon;
-    private TabPage tabWeightedRandom;
-    private TabPage tabTrackNaming;
-    private readonly TabControl tbcSettings = new();
-    private readonly Button btnOk = new() { Text = UI.OK, };
-    private readonly Button btnCancel = new() { Text = UI.Cancel, };
-    private readonly Button btnSelectFolder = new() { Text = UI.ThreeDots, };
-    private readonly TextBox tbHelpFolder = new() { ReadOnly = true, };
-
+    // Audio visualization tab page
+    private TabPage tabVisualizationSettings;
     private readonly CheckBox cbDisplayAudioVisualization = new() { Text = UI.DisplayAudioVisualization, };
     private readonly ComboBox cmbFftWindowSelect = new()
     { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
-
     private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
+    private readonly CheckBox cbVisualizeAudioLevels = new() { Text = UI.VisualizeAudioLevels, };
+    private readonly CheckBox cbLevelsVertical = new() { Text = amp.Shared.Localization.Settings.HorizontalLevelVisualization, };
     #endregion
 }

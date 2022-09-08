@@ -243,6 +243,20 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     public bool DisplayAudioVisualization { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to display the audio levels (Right/Left).
+    /// </summary>
+    /// <value><c>true</c> if to display the audio levels; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool DisplayAudioLevels { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to visualize the audio levels horizontally.
+    /// </summary>
+    /// <value><c>true</c> if to visualize the audio levels horizontally; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool AudioLevelsHorizontal { get; set; }
+
+    /// <summary>
     /// Gets or sets the FFT window function.
     /// </summary>
     /// <value>The FFT window function.</value>

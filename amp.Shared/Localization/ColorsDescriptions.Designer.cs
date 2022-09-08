@@ -79,6 +79,60 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left audio level bar background color.
+        /// </summary>
+        public static string ColorLevelBarLeftBackground {
+            get {
+                return ResourceManager.GetString("ColorLevelBarLeftBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left audio level bar end color.
+        /// </summary>
+        public static string ColorLevelBarLeftEnd {
+            get {
+                return ResourceManager.GetString("ColorLevelBarLeftEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left audio level bar start color.
+        /// </summary>
+        public static string ColorLevelBarLeftStart {
+            get {
+                return ResourceManager.GetString("ColorLevelBarLeftStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right audio level bar background color.
+        /// </summary>
+        public static string ColorLevelBarRightBackground {
+            get {
+                return ResourceManager.GetString("ColorLevelBarRightBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right audio level bar end color.
+        /// </summary>
+        public static string ColorLevelBarRightEnd {
+            get {
+                return ResourceManager.GetString("ColorLevelBarRightEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right audio level bar start color.
+        /// </summary>
+        public static string ColorLevelBarRightStart {
+            get {
+                return ResourceManager.GetString("ColorLevelBarRightStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main volume slider image color.
         /// </summary>
         public static string ColorMainVolumeSlider {
