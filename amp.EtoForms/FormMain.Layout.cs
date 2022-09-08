@@ -218,7 +218,7 @@ partial class FormMain
             AllowColumnReordering = true,
         };
 
-        audioVisualizationControl = CreateAudioVisualization(Globals.Settings.AudioLevelsVertical, Globals.Settings.DisplayAudioLevels);
+        audioVisualizationControl = CreateAudioVisualization(Globals.Settings.AudioLevelsHorizontal, Globals.Settings.DisplayAudioLevels);
 
         audioVisualizationControl.Visible = false;
         spectrumAnalyzer.AudioLevelsChanged += SpectrumAnalyzer_AudioLevelsChanged;
@@ -467,17 +467,49 @@ partial class FormMain
         ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorRatingSliderValueIndicator),
     };
 
-    private Control CreateAudioVisualization(bool vertical, bool bars)
+    private Control CreateAudioVisualization(bool horizontal, bool bars)
     {
         Control control;
 
         if (Globals.Settings.DisplayAudioVisualization)
         {
-            if (vertical)
+            if (horizontal)
             {
                 levelBarLeft = new LevelBar
                 {
-                    MinimumSize = new Size(15, 50),
+                    MinimumSize = new Size(15, 10),
+                    Orientation = Orientation.Horizontal,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftEnd),
+                };
+
+                levelBarRight = new LevelBar
+                {
+                    MinimumSize = new Size(15, 10),
+                    Orientation = Orientation.Horizontal,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightEnd),
+                };
+
+                control = new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow(new TableCell(spectrumAnalyzer, true)) { ScaleHeight = true, },
+                        bars ? new TableRow(new TableCell(levelBarLeft, true)) { ScaleHeight = false, } : new Panel(),
+                        bars ? new TableRow(new TableCell(levelBarRight, true)) { ScaleHeight = false, } : new Panel(),
+                    },
+                    Height = 100,
+                    Padding = new Padding(Globals.DefaultPadding, 0),
+                };
+            }
+            else
+            {
+                levelBarLeft = new LevelBar
+                {
+                    MinimumSize = new Size(20, 10),
                     Orientation = Orientation.Vertical,
                     BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftBackground),
                     ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftStart),
@@ -486,7 +518,7 @@ partial class FormMain
 
                 levelBarRight = new LevelBar
                 {
-                    MinimumSize = new Size(15, 50),
+                    MinimumSize = new Size(20, 10),
                     Orientation = Orientation.Vertical,
                     BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightBackground),
                     ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightStart),
@@ -507,38 +539,6 @@ partial class FormMain
                             },
                             ScaleHeight = true,
                         },
-                    },
-                    Height = 100,
-                    Padding = new Padding(Globals.DefaultPadding, 0),
-                };
-            }
-            else
-            {
-                levelBarLeft = new LevelBar
-                {
-                    MinimumSize = new Size(20, 10),
-                    Orientation = Orientation.Horizontal,
-                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftBackground),
-                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftStart),
-                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftEnd),
-                };
-
-                levelBarRight = new LevelBar
-                {
-                    MinimumSize = new Size(20, 10),
-                    Orientation = Orientation.Horizontal,
-                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightBackground),
-                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightStart),
-                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightEnd),
-                };
-
-                control = new TableLayout
-                {
-                    Rows =
-                    {
-                        new TableRow(new TableCell(spectrumAnalyzer, true)) { ScaleHeight = true, },
-                        bars ? new TableRow(new TableCell(levelBarLeft, true)) { ScaleHeight = false, } : new Panel(),
-                        bars ? new TableRow(new TableCell(levelBarRight, true)) { ScaleHeight = false, } : new Panel(),
                     },
                     Height = 100,
                     Padding = new Padding(Globals.DefaultPadding, 0),

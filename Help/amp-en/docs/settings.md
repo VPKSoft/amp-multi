@@ -27,15 +27,6 @@ This option simply disables or enables the column headers of the main window tra
 **Retry count on playback failure**
 A value of how many times the software tries playback with a different track if the playback fails before stopping to retry.
 
-**Audio visualizer**
-*Display audio visualization* indicates whether to display audio visualization on bottom of the track list during playback.
-
-*Audio visualizer FFT Window function*
-With this option the FFT ([Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform)) [windowing function](https://en.wikipedia.org/wiki/Window_function) can be changed. Just keep it to Hanning if you do not know what this means. It affects the form of the visualized audio signal bu assigning weight to the different frequency bands - thats how the author (with extremely limited knowledge) understands the thing.
-
-*Bar visualization mode*
-The audio visualization is rendered in bars if this is checked. Otherwise a line is rendered.
-
 **Help folder**
 As the help files are in a different package this is the location where the package was extracted. This should be set to the location of the extracted `help_pack` folder which contains many sub-folders.
 
@@ -61,3 +52,32 @@ The allowed formula sections are explained in the track naming tab and they can 
 
 ![image](img/settings3.png)
 
+## Audio visualization
+
+**Display Audio visualization**
+*Display audio visualization* indicates whether to display audio visualization on bottom of the track list during playback.
+
+*Audio visualizer FFT Window function*
+With this option the FFT ([Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform)) [windowing function](https://en.wikipedia.org/wiki/Window_function) can be changed. Just keep it to Hanning if you do not know what this means. It affects the form of the visualized audio signal bu assigning weight to the different frequency bands - thats how the author (with extremely limited knowledge) understands the thing.
+
+**Bar visualization mode**
+The audio visualization is rendered in bars if this is checked. Otherwise a line is rendered.
+
+**Visualize audio levels**
+A value indicating whether to visualize the audio levels with the audio visualization area.
+
+**Horizontal level visualization**
+A value indicating whether to visualize the audio levels vertical or horizontal.
+
+*The audio levels in vertical*
+
+![image](img/audio_visualization1.png)
+
+*The audio levels in horizontal*
+
+![image](img/audio_visualization2.png)
+
+
+*The audio visualization tab*
+
+![image](img/settings4.png)

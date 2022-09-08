@@ -115,7 +115,7 @@ public class FormSettings : Dialog<bool>
         cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
         cbAudioVisualizationBars.Checked = Globals.Settings.AudioVisualizationBars;
         cbVisualizeAudioLevels.Checked = Globals.Settings.DisplayAudioLevels;
-        cbLevelsVertical.Checked = Globals.Settings.AudioLevelsVertical;
+        cbLevelsVertical.Checked = Globals.Settings.AudioLevelsHorizontal;
 
         // Album image
         cbShowAlbumImage.Checked = Globals.Settings.ShowAlbumImage;
@@ -178,7 +178,7 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
         Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
         Globals.Settings.DisplayAudioLevels = cbVisualizeAudioLevels.Checked == true;
-        Globals.Settings.AudioLevelsVertical = cbLevelsVertical.Checked == true;
+        Globals.Settings.AudioLevelsHorizontal = cbLevelsVertical.Checked == true;
 
         // Track title naming.
         Globals.Settings.TrackNameFormula = tbTrackNamingFormula.Text;
