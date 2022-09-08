@@ -190,4 +190,22 @@
   <data name="SpectrumChannel0EndColor" xml:space="preserve">
     <value>Spektrikanavan  {0} loppuväri</value>
   </data>
+  <data name="ColorLevelBarLeftStart" xml:space="preserve">
+    <value>Vasemman äänenvoimakkuustason mittarin aloitusväri</value>
+  </data>
+  <data name="ColorLevelBarLeftEnd" xml:space="preserve">
+    <value>Vasemman äänenvoimakkuustason mittarin lopetusväri</value>
+  </data>
+  <data name="ColorLevelBarLeftBackground" xml:space="preserve">
+    <value>Vasemman äänenvoimakkuustason mittarin taustaväri</value>
+  </data>
+  <data name="ColorLevelBarRightStart" xml:space="preserve">
+    <value>Oikean äänenvoimakkuustason mittarin aloitusväri</value>
+  </data>
+  <data name="ColorLevelBarRightEnd" xml:space="preserve">
+    <value>Oikean äänenvoimakkuustason mittarin lopetusväri</value>
+  </data>
+  <data name="ColorLevelBarRightBackground" xml:space="preserve">
+    <value>Oikean äänenvoimakkuustason mittarin taustaväri</value>
+  </data>
 </root>

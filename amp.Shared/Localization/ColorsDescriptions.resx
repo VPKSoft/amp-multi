@@ -190,4 +190,22 @@
   <data name="SpectrumChannel0EndColor" xml:space="preserve">
     <value>Spectrum channel {0} end color</value>
   </data>
+  <data name="ColorLevelBarLeftStart" xml:space="preserve">
+    <value>Left audio level bar start color</value>
+  </data>
+  <data name="ColorLevelBarLeftEnd" xml:space="preserve">
+    <value>Left audio level bar end color</value>
+  </data>
+  <data name="ColorLevelBarLeftBackground" xml:space="preserve">
+    <value>Left audio level bar background color</value>
+  </data>
+  <data name="ColorLevelBarRightStart" xml:space="preserve">
+    <value>Right audio level bar start color</value>
+  </data>
+  <data name="ColorLevelBarRightEnd" xml:space="preserve">
+    <value>Right audio level bar end color</value>
+  </data>
+  <data name="ColorLevelBarRightBackground" xml:space="preserve">
+    <value>Right audio level bar background color</value>
+  </data>
 </root>

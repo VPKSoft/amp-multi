@@ -232,6 +232,48 @@ public class ColorConfiguration : ApplicationJsonSettings
     public string ColorTrackMissingImage { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the start color of left audio level bar.
+    /// </summary>
+    /// <value>The start color of left audio level bar.</value>
+    [Settings(Default = "4682B4")] // SteelBlue
+    public string ColorLevelBarLeftStart { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the end color of left audio level bar.
+    /// </summary>
+    /// <value>The end color of left audio level bar.</value>
+    [Settings(Default = "000080")] // Navy
+    public string ColorLevelBarLeftEnd { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the background color of left audio level bar.
+    /// </summary>
+    /// <value>The background color of left audio level bar.</value>
+    [Settings(Default = "#000000")] // Black
+    public string ColorLevelBarLeftBackground { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the start color of right audio level bar.
+    /// </summary>
+    /// <value>The start color of right audio level bar.</value>
+    [Settings(Default = "4682B4")] // SteelBlue
+    public string ColorLevelBarRightStart { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the end color of right audio level bar.
+    /// </summary>
+    /// <value>The end color of right audio level bar.</value>
+    [Settings(Default = "000080")] // Navy
+    public string ColorLevelBarRightEnd { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the background color of right audio level bar.
+    /// </summary>
+    /// <value>The background color of right audio level bar.</value>
+    [Settings(Default = "#000000")] // Black
+    public string ColorLevelBarRightBackground { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the background color for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> control.
     /// </summary>
     /// <value>The background color for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> control.</value>
