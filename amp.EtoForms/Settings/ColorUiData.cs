@@ -37,28 +37,36 @@ internal class ColorUiData
     /// <param name="colorPropertyName">Name of the color property.</param>
     /// <param name="colorDescription">The color description.</param>
     /// <param name="arrayIndex">Index in the array.</param>
-    public ColorUiData(string colorPropertyName, string colorDescription, int arrayIndex)
+    /// <param name="noColorSynchronization">A value indicating whether to disable color synchronization for this property.</param>
+    public ColorUiData(string colorPropertyName, string colorDescription, int arrayIndex, bool noColorSynchronization)
     {
         ColorPropertyName = colorPropertyName;
         ColorDescription = colorDescription;
         ArrayIndex = arrayIndex;
+        NoColorSynchronization = noColorSynchronization;
     }
 
     /// <summary>
     /// Gets or sets the name of the color property.
     /// </summary>
     /// <value>The name of the color property.</value>
-    internal string ColorPropertyName { get; set; }
+    internal string ColorPropertyName { get; }
 
     /// <summary>
     /// Gets or sets the color description.
     /// </summary>
     /// <value>The color description.</value>
-    internal string ColorDescription { get; set; }
+    internal string ColorDescription { get; }
 
     /// <summary>
     /// Gets or sets the index in the array in case the color property is an array of colors.
     /// </summary>
     /// <value>The index in the array.</value>
-    internal int ArrayIndex { get; set; }
+    internal int ArrayIndex { get; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether disable synchronization for this color property.
+    /// </summary>
+    /// <value><c>true</c> if to disable synchronization; otherwise, <c>false</c>.</value>
+    internal bool NoColorSynchronization { get; }
 }

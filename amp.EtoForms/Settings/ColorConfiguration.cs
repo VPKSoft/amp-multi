@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.EtoForms.Settings.AttributeClasses;
 using VPKSoft.ApplicationSettingsJson;
 
 namespace amp.EtoForms.Settings;
@@ -61,6 +62,7 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// </summary>
     /// <value>The color of the disabled button image.</value>
     [Settings(Default = "#B6BCB6")] // Gray-ish
+    [NoSyncColor]
     public string DisabledButtonImageColor { get; set; } = string.Empty;
 
     /// <summary>
@@ -235,14 +237,14 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// Gets or sets the start color of left audio level bar.
     /// </summary>
     /// <value>The start color of left audio level bar.</value>
-    [Settings(Default = "4682B4")] // SteelBlue
+    [Settings(Default = "#4682B4")] // SteelBlue
     public string ColorLevelBarLeftStart { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the end color of left audio level bar.
     /// </summary>
     /// <value>The end color of left audio level bar.</value>
-    [Settings(Default = "000080")] // Navy
+    [Settings(Default = "#000080")] // Navy
     public string ColorLevelBarLeftEnd { get; set; } = string.Empty;
 
     /// <summary>
@@ -250,20 +252,21 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// </summary>
     /// <value>The background color of left audio level bar.</value>
     [Settings(Default = "#000000")] // Black
+    [NoSyncColor]
     public string ColorLevelBarLeftBackground { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the start color of right audio level bar.
     /// </summary>
     /// <value>The start color of right audio level bar.</value>
-    [Settings(Default = "4682B4")] // SteelBlue
+    [Settings(Default = "#4682B4")] // SteelBlue
     public string ColorLevelBarRightStart { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the end color of right audio level bar.
     /// </summary>
     /// <value>The end color of right audio level bar.</value>
-    [Settings(Default = "000080")] // Navy
+    [Settings(Default = "#000080")] // Navy
     public string ColorLevelBarRightEnd { get; set; } = string.Empty;
 
     /// <summary>
@@ -271,6 +274,7 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// </summary>
     /// <value>The background color of right audio level bar.</value>
     [Settings(Default = "#000000")] // Black
+    [NoSyncColor]
     public string ColorLevelBarRightBackground { get; set; } = string.Empty;
 
     /// <summary>
@@ -278,6 +282,7 @@ public class ColorConfiguration : ApplicationJsonSettings
     /// </summary>
     /// <value>The background color for the <see cref="global::EtoForms.SpectrumVisualizer.SpectrumVisualizer"/> control.</value>
     [Settings(Default = "#000000")] // Black
+    [NoSyncColor]
     public string ColorSpectrumVisualizerBackground { get; set; } = string.Empty;
 
     /// <summary>

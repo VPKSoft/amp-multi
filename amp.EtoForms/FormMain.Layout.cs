@@ -475,8 +475,23 @@ partial class FormMain
         {
             if (vertical)
             {
-                levelBarLeft = new LevelBar { MinimumSize = new Size(15, 50), Orientation = Orientation.Vertical, };
-                levelBarRight = new LevelBar { MinimumSize = new Size(15, 50), Orientation = Orientation.Vertical, };
+                levelBarLeft = new LevelBar
+                {
+                    MinimumSize = new Size(15, 50),
+                    Orientation = Orientation.Vertical,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftEnd),
+                };
+
+                levelBarRight = new LevelBar
+                {
+                    MinimumSize = new Size(15, 50),
+                    Orientation = Orientation.Vertical,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightEnd),
+                };
 
                 control = new TableLayout
                 {
@@ -499,8 +514,23 @@ partial class FormMain
             }
             else
             {
-                levelBarLeft = new LevelBar { MinimumSize = new Size(20, 10), Orientation = Orientation.Horizontal, };
-                levelBarRight = new LevelBar { MinimumSize = new Size(20, 10), Orientation = Orientation.Horizontal, };
+                levelBarLeft = new LevelBar
+                {
+                    MinimumSize = new Size(20, 10),
+                    Orientation = Orientation.Horizontal,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarLeftEnd),
+                };
+
+                levelBarRight = new LevelBar
+                {
+                    MinimumSize = new Size(20, 10),
+                    Orientation = Orientation.Horizontal,
+                    BackgroundColor = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightBackground),
+                    ColorStart = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightStart),
+                    ColorEnd = Color.Parse(Globals.ColorConfiguration.ColorLevelBarRightEnd),
+                };
 
                 control = new TableLayout
                 {
