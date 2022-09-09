@@ -498,10 +498,19 @@ partial class FormMain
         await playbackManager.PreviousTrack();
     }
 
-    private void ManageSavedQueues_Executed(object? sender, EventArgs e)
+    private async void ManageSavedQueues_Executed(object? sender, EventArgs e)
     {
         using var form = new FormSavedQueues(context, LoadOrAppendQueue);
-        form.ShowModal(this);
+        var task = form.ShowModal(this);
+        if (task != null)
+        {
+            await task;
+        }
+
+        await Application.Instance.InvokeAsync(() =>
+        {
+            tbSearch.Focus();
+        });
     }
 
     private async void SaveQueueCommand_Executed(object? sender, EventArgs e)

@@ -24,7 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using System.Reflection;
 using amp.Shared.Classes;
 using Eto.Forms;
 
@@ -35,54 +34,6 @@ namespace amp.EtoForms.Utilities;
 /// </summary>
 internal static class Help
 {
-    /// <summary>
-    /// Launches a web browser to display the software help.
-    /// </summary>
-    internal static void LaunchHelp()
-    {
-        Globals.LoggerSafeInvoke(() =>
-        {
-            var helpPath = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
-            if (string.IsNullOrWhiteSpace(helpPath))
-            {
-                var args = Environment.GetCommandLineArgs();
-                if (args.Length > 0)
-                {
-                    helpPath = args[0];
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(helpPath))
-            {
-                var directoryName = Path.GetDirectoryName(helpPath);
-                if (directoryName != null)
-                {
-                    helpPath = directoryName;
-                }
-            }
-
-            var helpPathNative = Path.Join(helpPath, $"amp-help-{Globals.Settings.Locale}");
-            var helpPathFallback = Path.Join(helpPath, "amp-help-en");
-
-            var fileName = string.Empty;
-
-            if (Directory.Exists(helpPathNative))
-            {
-                fileName = Path.Join(helpPathNative, "index.html");
-            }
-            else if (Directory.Exists(helpPathFallback))
-            {
-                fileName = Path.Join(helpPathFallback, "index.html");
-            }
-
-            if (File.Exists(fileName))
-            {
-                var uri = new Uri(fileName).AbsoluteUri;
-                Application.Instance.Open(uri);
-            }
-        });
-    }
-
     /// <summary>
     /// Launches the help from the folder specified in the settings.
     /// </summary>

@@ -48,7 +48,7 @@ namespace amp.EtoForms.Forms;
 /// Implements the <see cref="Dialog" />
 /// </summary>
 /// <seealso cref="Dialog" />
-public class FormSavedQueues : Dialog<bool>
+public class FormSavedQueues : Dialog<Task?>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormSavedQueues"/> class.
@@ -189,7 +189,7 @@ public class FormSavedQueues : Dialog<bool>
         defaultCancelButtonHandler.Dispose();
     }
 
-    private async void BtnLoadQueueClick(object? sender, EventArgs e)
+    private void BtnLoadQueueClick(object? sender, EventArgs e)
     {
         var albumId = ((Album?)(cmbAlbumSelect.SelectedValue))?.Id;
         if (SelectedQueueId != 0 && albumId != null)
@@ -200,8 +200,7 @@ public class FormSavedQueues : Dialog<bool>
 
             if (sender is Control { Tag: QueueAppendInsertMode mode, })
             {
-                await loadOrAppendQueueFunc(queueData, albumId.Value, mode);
-                Close(true);
+                Close(loadOrAppendQueueFunc(queueData, albumId.Value, mode));
             }
         }
     }
@@ -230,10 +229,9 @@ public class FormSavedQueues : Dialog<bool>
         }
     }
 
-    private async void BtnSaveAndClose_Click(object? sender, EventArgs e)
+    private void BtnSaveAndClose_Click(object? sender, EventArgs e)
     {
-        await Save();
-        Close(true);
+        Close(Save());
     }
 
     private async Task Save()
@@ -265,7 +263,7 @@ public class FormSavedQueues : Dialog<bool>
 
     private void BtnCancel_Click(object? sender, EventArgs e)
     {
-        Close(false);
+        Close(null);
     }
 
     private void GvAlbumQueues_SelectionChanged(object? sender, EventArgs e)
