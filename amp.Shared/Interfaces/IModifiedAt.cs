@@ -27,8 +27,13 @@ SOFTWARE.
 namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The base interface for database entities.
+/// An interface for an entity to add a <see cref="IModifiedAt.ModifiedAtUtc"/> property.
 /// </summary>
-public interface IEntity : IEntityBase<long>, IModifiedAt, ICreatedAt
+public interface IModifiedAt
 {
+    /// <summary>
+    /// Gets or sets the date and time the entity was modified at UTC time zone.
+    /// </summary>
+    /// <value>The date and time the entity was modified at UTC.</value>
+    DateTime? ModifiedAtUtc { get; set; }
 }

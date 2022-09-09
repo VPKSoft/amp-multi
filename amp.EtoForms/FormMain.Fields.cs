@@ -84,6 +84,9 @@ partial class FormMain
     private readonly Command checkUpdates = new() { MenuText = UI.CheckForNewVersion, };
     private readonly Command openHelp = new() { MenuText = UI.Help, Shortcut = Keys.F1, };
 
+    private readonly Command stashPopQueueCommand = new()
+    { MenuText = UI.StashCurrentQueue, Shortcut = Application.Instance.CommonModifier | Keys.T, };
+
     // The album select combo box.
     private readonly ComboBox cmbAlbumSelect = new();
     private List<Album> albums = new();

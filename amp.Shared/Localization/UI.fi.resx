@@ -545,4 +545,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="VisualizeAudioLevels" xml:space="preserve">
     <value>Visualisoi äänen tasot</value>
   </data>
+  <data name="StashCurrentQueue" xml:space="preserve">
+    <value>Varastoi nykyinen jono</value>
+  </data>
 </root>

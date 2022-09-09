@@ -26,7 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.DtoClasses;
+using amp.Database.DataModel;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -36,6 +36,8 @@ using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
+using Album = amp.EtoForms.DtoClasses.Album;
+using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
 
 namespace amp.EtoForms;
 
@@ -353,6 +355,9 @@ partial class FormMain
         openHelp.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size20.ic_fluent_book_search_20_filled, Globals.ButtonDefaultSize);
 
+        stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_arrow_down_20_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
@@ -379,7 +384,7 @@ partial class FormMain
             {
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
-                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
+                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashPopQueueCommand,},},
                 new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
                 new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
@@ -412,6 +417,18 @@ partial class FormMain
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
         checkUpdates.Executed += CheckUpdates_Executed;
         openHelp.Executed += OpenHelp_Executed;
+        stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
+    }
+
+    private async void StashPopQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        var result = await playbackOrder.StashQueue(tracks);
+        context.QueueStashes.RemoveRange(
+            context.QueueStashes.Where(f => f.AlbumId == CurrentAlbumId));
+        var toSave = result.Select(f => new QueueStash
+        { AlbumId = CurrentAlbumId, AudioTrackId = f.Key, QueueIndex = f.Value, CreatedAtUtc = DateTime.UtcNow, }).ToList();
+        context.QueueStashes.AddRange(toSave);
+        await context.SaveChangesAsync();
     }
 
     private Control CreateStatusBar()

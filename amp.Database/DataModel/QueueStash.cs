@@ -24,11 +24,38 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.Shared.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using amp.Shared.Interfaces;
+
+namespace amp.Database.DataModel;
 
 /// <summary>
-/// The base interface for database entities.
+/// An entity for stashing and popping the current queue from and into the database.
+/// Implements the <see cref="IQueueStash" />
 /// </summary>
-public interface IEntity : IEntityBase<long>, IModifiedAt, ICreatedAt
+/// <seealso cref="IQueueStash" />
+[Table(nameof(QueueStash))]
+public class QueueStash : IQueueStash, IRowVersionEntity, ICreatedAt
 {
+    /// <inheritdoc cref="IEntityBase{T}.Id"/>
+    [Key]
+    public long Id { get; set; }
+
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc" />
+    public DateTime CreatedAtUtc { get; set; }
+
+    /// <inheritdoc cref="IQueueStash.AudioTrackId" />
+    public long AudioTrackId { get; set; }
+
+    /// <inheritdoc cref="IQueueStash.AlbumId" />
+    public long AlbumId { get; set; }
+
+    /// <inheritdoc cref="IQueueStash.QueueIndex" />
+    public int QueueIndex { get; set; }
+
+    /// <inheritdoc cref="IRowVersionEntity.RowVersion" />
+    [Timestamp]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public byte[]? RowVersion { get; set; }
 }

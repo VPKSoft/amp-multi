@@ -545,4 +545,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="VisualizeAudioLevels" xml:space="preserve">
     <value>Visualize audio levels</value>
   </data>
+  <data name="StashCurrentQueue" xml:space="preserve">
+    <value>Stash current queue</value>
+  </data>
 </root>

@@ -1142,6 +1142,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stash current queue.
+        /// </summary>
+        public static string StashCurrentQueue {
+            get {
+                return ResourceManager.GetString("StashCurrentQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Synchronize colors.
         /// </summary>
         public static string SynchronizeColors {
