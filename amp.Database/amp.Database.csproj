@@ -10,16 +10,16 @@
 		<Product>amp#</Product>
 		<Description>A database library for the amp# software.</Description>
 		<Copyright>Copyright © VPKSoft 2022</Copyright>
-		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 		<PackageIcon>amp.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="SQLitePCLRaw.core" />
-	  <None Remove="SQLitePCLRaw.bundle_e_sqlite3" />
+		<None Remove="SQLitePCLRaw.core" />
+		<None Remove="SQLitePCLRaw.bundle_e_sqlite3" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\amp.licenseheader" Link="amp.licenseheader" />

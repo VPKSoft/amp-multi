@@ -34,6 +34,8 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
+using VPKSoft.Utils.Common.EventArgs;
+using VPKSoft.Utils.Common.Interfaces;
 using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
 using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
 
@@ -42,9 +44,11 @@ namespace amp.EtoForms;
 /// <summary>
 /// The application main form.
 /// Implements the <see cref="Form" />
+/// Implements the <see cref="IExceptionReporter" />
 /// </summary>
 /// <seealso cref="Form" />
-public partial class FormMain : Form
+/// <seealso cref="IExceptionReporter" />
+public partial class FormMain : Form, IExceptionReporter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -120,4 +124,14 @@ public partial class FormMain : Form
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
     private DateTime? previousMessageTime;
     private bool shownCalled;
+
+    /// <inheritdoc />
+    public event EventHandler<ExceptionOccurredEventArgs>? ExceptionOccurred;
+
+    /// <inheritdoc />
+    public void RaiseExceptionOccurred(Exception exception, string @class, string method)
+    {
+        ExceptionOccurred?.Invoke(this, new ExceptionOccurredEventArgs(exception, @class, method));
+        Globals.Logger?.Error(exception, "");
+    }
 }

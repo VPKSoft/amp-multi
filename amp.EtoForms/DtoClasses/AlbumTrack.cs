@@ -68,7 +68,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
@@ -83,7 +83,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
         }
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;

@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace amp.Shared.Localization {
+namespace amp.Shared.Localization
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,593 +23,723 @@ namespace amp.Shared.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class UI {
-        
+    public class UI
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UI() {
+        internal UI()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("amp.Shared.Localization.UI", typeof(UI).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to -.
         /// </summary>
-        public static string _ {
-            get {
+        public static string _
+        {
+            get
+            {
                 return ResourceManager.GetString("_", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        public static string About {
-            get {
+        public static string About
+        {
+            get
+            {
                 return ResourceManager.GetString("About", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add files....
         /// </summary>
-        public static string AddFiles {
-            get {
+        public static string AddFiles
+        {
+            get
+            {
                 return ResourceManager.GetString("AddFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add files to album....
         /// </summary>
-        public static string AddFilesToAlbum {
-            get {
+        public static string AddFilesToAlbum
+        {
+            get
+            {
                 return ResourceManager.GetString("AddFilesToAlbum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add folder contents....
         /// </summary>
-        public static string AddFolderContents {
-            get {
+        public static string AddFolderContents
+        {
+            get
+            {
                 return ResourceManager.GetString("AddFolderContents", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add folder contents to album....
         /// </summary>
-        public static string AddFolderContentsToAlbum {
-            get {
+        public static string AddFolderContentsToAlbum
+        {
+            get
+            {
                 return ResourceManager.GetString("AddFolderContentsToAlbum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add music....
         /// </summary>
-        public static string AddMusic {
-            get {
+        public static string AddMusic
+        {
+            get
+            {
                 return ResourceManager.GetString("AddMusic", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add music files....
         /// </summary>
-        public static string AddMusicFiles {
-            get {
+        public static string AddMusicFiles
+        {
+            get
+            {
                 return ResourceManager.GetString("AddMusicFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add music to album: &apos;{0}&apos;....
         /// </summary>
-        public static string AddMusicToAlbum0 {
-            get {
+        public static string AddMusicToAlbum0
+        {
+            get
+            {
                 return ResourceManager.GetString("AddMusicToAlbum0", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add new album.
         /// </summary>
-        public static string AddNewAlbum {
-            get {
+        public static string AddNewAlbum
+        {
+            get
+            {
                 return ResourceManager.GetString("AddNewAlbum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Album.
         /// </summary>
-        public static string Album {
-            get {
+        public static string Album
+        {
+            get
+            {
                 return ResourceManager.GetString("Album", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Album artist.
         /// </summary>
-        public static string AlbumArtist {
-            get {
+        public static string AlbumArtist
+        {
+            get
+            {
                 return ResourceManager.GetString("AlbumArtist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Album entries.
         /// </summary>
-        public static string AlbumEntries {
-            get {
+        public static string AlbumEntries
+        {
+            get
+            {
                 return ResourceManager.GetString("AlbumEntries", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Album name.
         /// </summary>
-        public static string AlbumName {
-            get {
+        public static string AlbumName
+        {
+            get
+            {
                 return ResourceManager.GetString("AlbumName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Albums.
         /// </summary>
-        public static string Albums {
-            get {
+        public static string Albums
+        {
+            get
+            {
                 return ResourceManager.GetString("Albums", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Append to queue.
         /// </summary>
-        public static string AppendToQueue {
-            get {
+        public static string AppendToQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("AppendToQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Artist.
         /// </summary>
-        public static string Artist {
-            get {
+        public static string Artist
+        {
+            get
+            {
                 return ResourceManager.GetString("Artist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Audio channels.
         /// </summary>
-        public static string AudioChannels {
-            get {
+        public static string AudioChannels
+        {
+            get
+            {
                 return ResourceManager.GetString("AudioChannels", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Audio format.
         /// </summary>
-        public static string AudioFormat {
-            get {
+        public static string AudioFormat
+        {
+            get
+            {
                 return ResourceManager.GetString("AudioFormat", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Audio visualization.
         /// </summary>
-        public static string AudioVisualization {
-            get {
+        public static string AudioVisualization
+        {
+            get
+            {
                 return ResourceManager.GetString("AudioVisualization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Bar visualization mode.
         /// </summary>
-        public static string BarVisualizationMode {
-            get {
+        public static string BarVisualizationMode
+        {
+            get
+            {
                 return ResourceManager.GetString("BarVisualizationMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Bit rate.
         /// </summary>
-        public static string BitRate {
-            get {
+        public static string BitRate
+        {
+            get
+            {
                 return ResourceManager.GetString("BitRate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string Cancel {
-            get {
+        public static string Cancel
+        {
+            get
+            {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes.
         /// </summary>
-        public static string Changes {
-            get {
+        public static string Changes
+        {
+            get
+            {
                 return ResourceManager.GetString("Changes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Check for new version.
         /// </summary>
-        public static string CheckForNewVersion {
-            get {
+        public static string CheckForNewVersion
+        {
+            get
+            {
                 return ResourceManager.GetString("CheckForNewVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clear queue.
         /// </summary>
-        public static string ClearQueue {
-            get {
+        public static string ClearQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("ClearQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clear search.
         /// </summary>
-        public static string ClearSearch {
-            get {
+        public static string ClearSearch
+        {
+            get
+            {
                 return ResourceManager.GetString("ClearSearch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string Close {
-            get {
+        public static string Close
+        {
+            get
+            {
                 return ResourceManager.GetString("Close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to :.
         /// </summary>
-        public static string ColonDelimiter {
-            get {
+        public static string ColonDelimiter
+        {
+            get
+            {
                 return ResourceManager.GetString("ColonDelimiter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Colors.
         /// </summary>
-        public static string Colors {
-            get {
+        public static string Colors
+        {
+            get
+            {
                 return ResourceManager.GetString("Colors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Color settings.
         /// </summary>
-        public static string ColorSettings {
-            get {
+        public static string ColorSettings
+        {
+            get
+            {
                 return ResourceManager.GetString("ColorSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
-        public static string Comment {
-            get {
+        public static string Comment
+        {
+            get
+            {
                 return ResourceManager.GetString("Comment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Conductor.
         /// </summary>
-        public static string Conductor {
-            get {
+        public static string Conductor
+        {
+            get
+            {
                 return ResourceManager.GetString("Conductor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
-        public static string Copy {
-            get {
+        public static string Copy
+        {
+            get
+            {
                 return ResourceManager.GetString("Copy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy amp# data to tag.
         /// </summary>
-        public static string CopyAmpDataToTag {
-            get {
+        public static string CopyAmpDataToTag
+        {
+            get
+            {
                 return ResourceManager.GetString("CopyAmpDataToTag", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copyright.
         /// </summary>
-        public static string Copyright {
-            get {
+        public static string Copyright
+        {
+            get
+            {
                 return ResourceManager.GetString("Copyright", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy tag data to amp#.
         /// </summary>
-        public static string CopyTagDataToAmp {
-            get {
+        public static string CopyTagDataToAmp
+        {
+            get
+            {
                 return ResourceManager.GetString("CopyTagDataToAmp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy track files to folder....
         /// </summary>
-        public static string CopyTrackFilesToFolder {
-            get {
+        public static string CopyTrackFilesToFolder
+        {
+            get
+            {
                 return ResourceManager.GetString("CopyTrackFilesToFolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Current version.
         /// </summary>
-        public static string CurrentVersion {
-            get {
+        public static string CurrentVersion
+        {
+            get
+            {
                 return ResourceManager.GetString("CurrentVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cut.
         /// </summary>
-        public static string Cut {
-            get {
+        public static string Cut
+        {
+            get
+            {
                 return ResourceManager.GetString("Cut", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Database conversion.
         /// </summary>
-        public static string DatabaseConversion {
-            get {
+        public static string DatabaseConversion
+        {
+            get
+            {
                 return ResourceManager.GetString("DatabaseConversion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Database updated.
         /// </summary>
-        public static string DatabaseUpdated {
-            get {
+        public static string DatabaseUpdated
+        {
+            get
+            {
                 return ResourceManager.GetString("DatabaseUpdated", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Default.
         /// </summary>
-        public static string DefaultAlbumName {
-            get {
+        public static string DefaultAlbumName
+        {
+            get
+            {
                 return ResourceManager.GetString("DefaultAlbumName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
-        public static string Delete {
-            get {
+        public static string Delete
+        {
+            get
+            {
                 return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete album.
         /// </summary>
-        public static string DeleteAlbum {
-            get {
+        public static string DeleteAlbum
+        {
+            get
+            {
                 return ResourceManager.GetString("DeleteAlbum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete saved queue.
         /// </summary>
-        public static string DeleteSavedQueue {
-            get {
+        public static string DeleteSavedQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("DeleteSavedQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Directories searched.
         /// </summary>
-        public static string DirectoriesCrawled {
-            get {
+        public static string DirectoriesCrawled
+        {
+            get
+            {
                 return ResourceManager.GetString("DirectoriesCrawled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Display audio visualization.
         /// </summary>
-        public static string DisplayAudioVisualization {
-            get {
+        public static string DisplayAudioVisualization
+        {
+            get
+            {
                 return ResourceManager.GetString("DisplayAudioVisualization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Do not remind of this version again.
         /// </summary>
-        public static string DoNotRemindOfThisVersionAgain {
-            get {
+        public static string DoNotRemindOfThisVersionAgain
+        {
+            get
+            {
                 return ResourceManager.GetString("DoNotRemindOfThisVersionAgain", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download.
         /// </summary>
-        public static string Download {
-            get {
+        public static string Download
+        {
+            get
+            {
                 return ResourceManager.GetString("Download", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
-        public static string Duration {
-            get {
+        public static string Duration
+        {
+            get
+            {
                 return ResourceManager.GetString("Duration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
-        public static string Edit {
-            get {
+        public static string Edit
+        {
+            get
+            {
                 return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Edit the queue tracks.
         /// </summary>
-        public static string EditTheQueueTracks {
-            get {
+        public static string EditTheQueueTracks
+        {
+            get
+            {
                 return ResourceManager.GetString("EditTheQueueTracks", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ERROR: NO TEXT.
         /// </summary>
-        public static string ERRORNOTEXT {
-            get {
+        public static string ERRORNOTEXT
+        {
+            get
+            {
                 return ResourceManager.GetString("ERRORNOTEXT", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Errors.
         /// </summary>
-        public static string Errors {
-            get {
+        public static string Errors
+        {
+            get
+            {
                 return ResourceManager.GetString("Errors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Export to file.
         /// </summary>
-        public static string ExportToFile {
-            get {
+        public static string ExportToFile
+        {
+            get
+            {
                 return ResourceManager.GetString("ExportToFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File data (amp#).
         /// </summary>
-        public static string FileDataAmp {
-            get {
+        public static string FileDataAmp
+        {
+            get
+            {
                 return ResourceManager.GetString("FileDataAmp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File data (tag).
         /// </summary>
-        public static string FileDataTag {
-            get {
+        public static string FileDataTag
+        {
+            get
+            {
                 return ResourceManager.GetString("FileDataTag", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File name.
         /// </summary>
-        public static string FileName {
-            get {
+        public static string FileName
+        {
+            get
+            {
                 return ResourceManager.GetString("FileName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Files found.
         /// </summary>
-        public static string FilesFound {
-            get {
+        public static string FilesFound
+        {
+            get
+            {
                 return ResourceManager.GetString("FilesFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File size (bytes).
         /// </summary>
-        public static string FileSizeBytes {
-            get {
+        public static string FileSizeBytes
+        {
+            get
+            {
                 return ResourceManager.GetString("FileSizeBytes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 
         ///Formula types:
@@ -622,774 +753,957 @@ namespace amp.Shared.Localization {
         ///Any text placed inside a formula part is included in the
         ///result if the actual variable e.g. Artist exists. ({@Ar /})..
         /// </summary>
-        public static string FormulaInstructions {
-            get {
+        public static string FormulaInstructions
+        {
+            get
+            {
                 return ResourceManager.GetString("FormulaInstructions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Full file name.
         /// </summary>
-        public static string FullFileName {
-            get {
+        public static string FullFileName
+        {
+            get
+            {
                 return ResourceManager.GetString("FullFileName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Genre.
         /// </summary>
-        public static string Genre {
-            get {
+        public static string Genre
+        {
+            get
+            {
                 return ResourceManager.GetString("Genre", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
-        public static string Help {
-            get {
+        public static string Help
+        {
+            get
+            {
                 return ResourceManager.GetString("Help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Help folder.
         /// </summary>
-        public static string HelpFolder {
-            get {
+        public static string HelpFolder
+        {
+            get
+            {
                 return ResourceManager.GetString("HelpFolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Hide.
         /// </summary>
-        public static string Hide {
-            get {
+        public static string Hide
+        {
+            get
+            {
                 return ResourceManager.GetString("Hide", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to If generated name contains no letters, fall back to file name.
         /// </summary>
-        public static string IfGeneratedNameContainsNoLettersFallBackToFileName {
-            get {
+        public static string IfGeneratedNameContainsNoLettersFallBackToFileName
+        {
+            get
+            {
                 return ResourceManager.GetString("IfGeneratedNameContainsNoLettersFallBackToFileName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Image files.
         /// </summary>
-        public static string ImageFiles {
-            get {
+        public static string ImageFiles
+        {
+            get
+            {
                 return ResourceManager.GetString("ImageFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Insert to queue start.
         /// </summary>
-        public static string InsertToQueue {
-            get {
+        public static string InsertToQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("InsertToQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Load image from file.
         /// </summary>
-        public static string LoadImageFromFile {
-            get {
+        public static string LoadImageFromFile
+        {
+            get
+            {
                 return ResourceManager.GetString("LoadImageFromFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Loading {0} percentage....
         /// </summary>
-        public static string Loading0Percentage {
-            get {
+        public static string Loading0Percentage
+        {
+            get
+            {
                 return ResourceManager.GetString("Loading0Percentage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Load queue.
         /// </summary>
-        public static string LoadQueue {
-            get {
+        public static string LoadQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("LoadQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lyrics.
         /// </summary>
-        public static string Lyrics {
-            get {
+        public static string Lyrics
+        {
+            get
+            {
                 return ResourceManager.GetString("Lyrics", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Minimize.
         /// </summary>
-        public static string Minimize {
-            get {
+        public static string Minimize
+        {
+            get
+            {
                 return ResourceManager.GetString("Minimize", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Minimum name length.
         /// </summary>
-        public static string MinimumNameLength {
-            get {
+        public static string MinimumNameLength
+        {
+            get
+            {
                 return ResourceManager.GetString("MinimumNameLength", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Modify queue.
         /// </summary>
-        public static string ModifyQueue {
-            get {
+        public static string ModifyQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("ModifyQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Move downwards in queue.
         /// </summary>
-        public static string MoveDownwardsInQueue {
-            get {
+        public static string MoveDownwardsInQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("MoveDownwardsInQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Move upwards in queue.
         /// </summary>
-        public static string MoveUpwardsInQueue {
-            get {
+        public static string MoveUpwardsInQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("MoveUpwardsInQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Music files.
         /// </summary>
-        public static string MusicFiles {
-            get {
+        public static string MusicFiles
+        {
+            get
+            {
                 return ResourceManager.GetString("MusicFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New version.
         /// </summary>
-        public static string NewVersion {
-            get {
+        public static string NewVersion
+        {
+            get
+            {
                 return ResourceManager.GetString("NewVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} / {1}.
         /// </summary>
-        public static string NoOfNo {
-            get {
+        public static string NoOfNo
+        {
+            get
+            {
                 return ResourceManager.GetString("NoOfNo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0}/{1}.
         /// </summary>
-        public static string NumberOfNumber {
-            get {
+        public static string NumberOfNumber
+        {
+            get
+            {
                 return ResourceManager.GetString("NumberOfNumber", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        public static string OK {
-            get {
+        public static string OK
+        {
+            get
+            {
                 return ResourceManager.GetString("OK", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Original artist.
         /// </summary>
-        public static string OriginalArtist {
-            get {
+        public static string OriginalArtist
+        {
+            get
+            {
                 return ResourceManager.GetString("OriginalArtist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Page Setup....
         /// </summary>
-        public static string PageSetup {
-            get {
+        public static string PageSetup
+        {
+            get
+            {
                 return ResourceManager.GetString("PageSetup", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Paste.
         /// </summary>
-        public static string Paste {
-            get {
+        public static string Paste
+        {
+            get
+            {
                 return ResourceManager.GetString("Paste", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
-        public static string Play {
-            get {
+        public static string Play
+        {
+            get
+            {
                 return ResourceManager.GetString("Play", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Playback error: &apos;{0}&apos;..
         /// </summary>
-        public static string PlaybackError0 {
-            get {
+        public static string PlaybackError0
+        {
+            get
+            {
                 return ResourceManager.GetString("PlaybackError0", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Print....
         /// </summary>
-        public static string Print {
-            get {
+        public static string Print
+        {
+            get
+            {
                 return ResourceManager.GetString("Print", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue.
         /// </summary>
-        public static string Queue {
-            get {
+        public static string Queue
+        {
+            get
+            {
                 return ResourceManager.GetString("Queue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue count.
         /// </summary>
-        public static string QueueCount {
-            get {
+        public static string QueueCount
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue created.
         /// </summary>
-        public static string QueueCreated {
-            get {
+        public static string QueueCreated
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueCreated", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue entries.
         /// </summary>
-        public static string QueueEntries {
-            get {
+        public static string QueueEntries
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueEntries", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue index.
         /// </summary>
-        public static string QueueIndex {
-            get {
+        public static string QueueIndex
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueIndex", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Queue name.
         /// </summary>
-        public static string QueueName {
-            get {
+        public static string QueueName
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Q.
         /// </summary>
-        public static string QueueShort {
-            get {
+        public static string QueueShort
+        {
+            get
+            {
                 return ResourceManager.GetString("QueueShort", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Quiet time ({0}-{1}).
         /// </summary>
-        public static string QuietTime01 {
-            get {
+        public static string QuietTime01
+        {
+            get
+            {
                 return ResourceManager.GetString("QuietTime01", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
-        public static string Quit {
-            get {
+        public static string Quit
+        {
+            get
+            {
                 return ResourceManager.GetString("Quit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Rating.
         /// </summary>
-        public static string Rating {
-            get {
+        public static string Rating
+        {
+            get
+            {
                 return ResourceManager.GetString("Rating", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Redo.
         /// </summary>
-        public static string Redo {
-            get {
+        public static string Redo
+        {
+            get
+            {
                 return ResourceManager.GetString("Redo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remove track image.
         /// </summary>
-        public static string RemoveTrackImage {
-            get {
+        public static string RemoveTrackImage
+        {
+            get
+            {
                 return ResourceManager.GetString("RemoveTrackImage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Renamed track naming formula.
         /// </summary>
-        public static string RenamedTrackNamingFormula {
-            get {
+        public static string RenamedTrackNamingFormula
+        {
+            get
+            {
                 return ResourceManager.GetString("RenamedTrackNamingFormula", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Retry count on playback failure.
         /// </summary>
-        public static string RetryCountOnPlaybackFailure {
-            get {
+        public static string RetryCountOnPlaybackFailure
+        {
+            get
+            {
                 return ResourceManager.GetString("RetryCountOnPlaybackFailure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sample rate.
         /// </summary>
-        public static string SampleRate {
-            get {
+        public static string SampleRate
+        {
+            get
+            {
                 return ResourceManager.GetString("SampleRate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save active tab changes.
         /// </summary>
-        public static string SaveActiveTabChanges {
-            get {
+        public static string SaveActiveTabChanges
+        {
+            get
+            {
                 return ResourceManager.GetString("SaveActiveTabChanges", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save &amp;&amp; Close.
         /// </summary>
-        public static string SaveClose {
-            get {
+        public static string SaveClose
+        {
+            get
+            {
                 return ResourceManager.GetString("SaveClose", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save current queue.
         /// </summary>
-        public static string SaveCurrentQueue {
-            get {
+        public static string SaveCurrentQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("SaveCurrentQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Saved queues.
         /// </summary>
-        public static string SavedQueues {
-            get {
+        public static string SavedQueues
+        {
+            get
+            {
                 return ResourceManager.GetString("SavedQueues", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save failed.
         /// </summary>
-        public static string SaveFailed {
-            get {
+        public static string SaveFailed
+        {
+            get
+            {
                 return ResourceManager.GetString("SaveFailed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Scramble queue.
         /// </summary>
-        public static string ScrambleQueue {
-            get {
+        public static string ScrambleQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("ScrambleQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
-        public static string SelectAll {
-            get {
+        public static string SelectAll
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select destination directory.
         /// </summary>
-        public static string SelectDestinationDirectory {
-            get {
+        public static string SelectDestinationDirectory
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectDestinationDirectory", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select music folder....
         /// </summary>
-        public static string SelectMusicFolder {
-            get {
+        public static string SelectMusicFolder
+        {
+            get
+            {
                 return ResourceManager.GetString("SelectMusicFolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
-        public static string Settings {
-            get {
+        public static string Settings
+        {
+            get
+            {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Show queue.
         /// </summary>
-        public static string ShowQueue {
-            get {
+        public static string ShowQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("ShowQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sound &amp;&amp; rating.
         /// </summary>
-        public static string SoundRating {
-            get {
+        public static string SoundRating
+        {
+            get
+            {
                 return ResourceManager.GetString("SoundRating", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to *.
         /// </summary>
-        public static string StarChar {
-            get {
+        public static string StarChar
+        {
+            get
+            {
                 return ResourceManager.GetString("StarChar", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stars.
         /// </summary>
-        public static string Stars {
-            get {
+        public static string Stars
+        {
+            get
+            {
                 return ResourceManager.GetString("Stars", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stash current queue.
         /// </summary>
-        public static string StashCurrentQueue {
-            get {
+        public static string StashCurrentQueue
+        {
+            get
+            {
                 return ResourceManager.GetString("StashCurrentQueue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Synchronize colors.
         /// </summary>
-        public static string SynchronizeColors {
-            get {
+        public static string SynchronizeColors
+        {
+            get
+            {
                 return ResourceManager.GetString("SynchronizeColors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tag save failed..
         /// </summary>
-        public static string TagSaveFailed {
-            get {
+        public static string TagSaveFailed
+        {
+            get
+            {
                 return ResourceManager.GetString("TagSaveFailed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Test stuff.
         /// </summary>
-        public static string TestStuff {
-            get {
+        public static string TestStuff
+        {
+            get
+            {
                 return ResourceManager.GetString("TestStuff", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
-        public static string ThreeDots {
-            get {
+        public static string ThreeDots
+        {
+            get
+            {
                 return ResourceManager.GetString("ThreeDots", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Time estimate (ready).
         /// </summary>
-        public static string TimeEstimateReady {
-            get {
+        public static string TimeEstimateReady
+        {
+            get
+            {
                 return ResourceManager.GetString("TimeEstimateReady", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
-        public static string Title {
-            get {
+        public static string Title
+        {
+            get
+            {
                 return ResourceManager.GetString("Title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tools.
         /// </summary>
-        public static string Tools {
-            get {
+        public static string Tools
+        {
+            get
+            {
                 return ResourceManager.GetString("Tools", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
-        public static string Total {
-            get {
+        public static string Total
+        {
+            get
+            {
                 return ResourceManager.GetString("Total", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Total percentage (%).
         /// </summary>
-        public static string TotalPercentage {
-            get {
+        public static string TotalPercentage
+        {
+            get
+            {
                 return ResourceManager.GetString("TotalPercentage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track.
         /// </summary>
-        public static string Track {
-            get {
+        public static string Track
+        {
+            get
+            {
                 return ResourceManager.GetString("Track", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track information.
         /// </summary>
-        public static string TrackInformation {
-            get {
+        public static string TrackInformation
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackInformation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track naming.
         /// </summary>
-        public static string TrackNaming {
-            get {
+        public static string TrackNaming
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackNaming", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track naming formula.
         /// </summary>
-        public static string TrackNamingFormula {
-            get {
+        public static string TrackNamingFormula
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackNamingFormula", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track number.
         /// </summary>
-        public static string TrackNumber {
-            get {
+        public static string TrackNumber
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackNumber", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tracks.
         /// </summary>
-        public static string Tracks {
-            get {
+        public static string Tracks
+        {
+            get
+            {
                 return ResourceManager.GetString("Tracks", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tracks added to album.
         /// </summary>
-        public static string TracksAddedToAlbum {
-            get {
+        public static string TracksAddedToAlbum
+        {
+            get
+            {
                 return ResourceManager.GetString("TracksAddedToAlbum", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track total.
         /// </summary>
-        public static string TrackTotal {
-            get {
+        public static string TrackTotal
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackTotal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Audio track volume.
         /// </summary>
-        public static string TrackVolume {
-            get {
+        public static string TrackVolume
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackVolume", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Undo.
         /// </summary>
-        public static string Undo {
-            get {
+        public static string Undo
+        {
+            get
+            {
                 return ResourceManager.GetString("Undo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update track metadata.
         /// </summary>
-        public static string UpdateTrackMetadata {
-            get {
+        public static string UpdateTrackMetadata
+        {
+            get
+            {
                 return ResourceManager.GetString("UpdateTrackMetadata", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use track image window.
         /// </summary>
-        public static string UseTrackImageWindow {
-            get {
+        public static string UseTrackImageWindow
+        {
+            get
+            {
                 return ResourceManager.GetString("UseTrackImageWindow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to v..
         /// </summary>
-        public static string VersionPrefix {
-            get {
+        public static string VersionPrefix
+        {
+            get
+            {
                 return ResourceManager.GetString("VersionPrefix", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visualize audio levels.
         /// </summary>
-        public static string VisualizeAudioLevels {
-            get {
+        public static string VisualizeAudioLevels
+        {
+            get
+            {
                 return ResourceManager.GetString("VisualizeAudioLevels", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Volume.
         /// </summary>
-        public static string Volume {
-            get {
+        public static string Volume
+        {
+            get
+            {
                 return ResourceManager.GetString("Volume", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &amp;Window.
         /// </summary>
-        public static string Window {
-            get {
+        public static string Window
+        {
+            get
+            {
                 return ResourceManager.GetString("Window", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Year.
         /// </summary>
-        public static string Year {
-            get {
+        public static string Year
+        {
+            get
+            {
                 return ResourceManager.GetString("Year", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Zoom.
         /// </summary>
-        public static string Zoom {
-            get {
+        public static string Zoom
+        {
+            get
+            {
                 return ResourceManager.GetString("Zoom", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stash current queue.
+        /// </summary>
+        public static string PopStashedQueue
+        {
+            get
+            {
+                return ResourceManager.GetString("PopStashedQueue", resourceCulture);
             }
         }
     }

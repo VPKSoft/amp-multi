@@ -73,14 +73,14 @@ public class QueueTrack : IQueueTrack, INotifyPropertyChanged
         set => SetField(ref queueIndex, value);
     }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
         set => SetField(ref modifiedAtUtc, value);
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;

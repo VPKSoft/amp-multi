@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amp.Tests", "amp.Tests\amp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EtoForms.FormPositions", "EtoForms.FormPositions\EtoForms.FormPositions.csproj", "{ED3F0851-5782-4029-A236-96B5DB5F9600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPKSoft.Utils.Common", "VPKSoft.Utils.Common\VPKSoft.Utils.Common.csproj", "{9A6BC62D-1C00-49D6-BF62-87B94D68C434}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPKSoft.Utils.Common", "VPKSoft.Utils.Common\VPKSoft.Utils.Common.csproj", "{9A6BC62D-1C00-49D6-BF62-87B94D68C434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "amp.DataAccessLayer", "amp.DataAccessLayer\amp.DataAccessLayer.csproj", "{3966C632-3B09-43E5-8959-9B2EDB98E2D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +172,22 @@ Global
 		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x64.Build.0 = Release|Any CPU
 		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x86.ActiveCfg = Release|Any CPU
 		{9A6BC62D-1C00-49D6-BF62-87B94D68C434}.Release|x86.Build.0 = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|x64.Build.0 = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Debug|x86.Build.0 = Debug|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|x64.Build.0 = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|x86.ActiveCfg = Release|Any CPU
+		{3966C632-3B09-43E5-8959-9B2EDB98E2D0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using amp.DataAccessLayer;
 using amp.Database.DataModel;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
@@ -36,6 +37,7 @@ using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
+using Microsoft.EntityFrameworkCore;
 using Album = amp.EtoForms.DtoClasses.Album;
 using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
 
@@ -355,8 +357,11 @@ partial class FormMain
         openHelp.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size20.ic_fluent_book_search_20_filled, Globals.ButtonDefaultSize);
 
-        stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+        stashQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size20.ic_fluent_arrow_down_20_filled, Globals.ButtonDefaultSize);
+
+        stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_arrow_export_up_20_filled, Globals.ButtonDefaultSize);
 
         var addFilesSubMenu = new SubMenuItem
         {
@@ -364,7 +369,6 @@ partial class FormMain
                 Globals.MenuImageDefaultSize),
             Text = UI.AddMusicFiles,
         };
-
 
         if (!Globals.Settings.HideAddFilesToNonAlbum)
         {
@@ -384,7 +388,7 @@ partial class FormMain
             {
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
-                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashPopQueueCommand,},},
+                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashQueueCommand, stashPopQueueCommand, },},
                 new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
                 new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
@@ -417,10 +421,29 @@ partial class FormMain
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
         checkUpdates.Executed += CheckUpdates_Executed;
         openHelp.Executed += OpenHelp_Executed;
+        stashQueueCommand.Executed += StashQueueCommandExecuted;
         stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
     }
 
     private async void StashPopQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        var stashes = await context.QueueStashes.Where(f => f.AlbumId == CurrentAlbumId).ToListAsync();
+
+        if (stashes.Count > 0)
+        {
+            var toUpdate = new Dictionary<long, int>();
+            foreach (var queueStash in stashes)
+            {
+                toUpdate.Add(queueStash.AudioTrackId, queueStash.QueueIndex);
+            }
+
+            await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
+
+            await UpdateQueueFunc(toUpdate, false);
+        }
+    }
+
+    private async void StashQueueCommandExecuted(object? sender, EventArgs e)
     {
         var result = await playbackOrder.StashQueue(tracks);
         context.QueueStashes.RemoveRange(

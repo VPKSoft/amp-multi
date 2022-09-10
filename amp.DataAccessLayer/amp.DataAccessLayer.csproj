@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<DocumentationFile>bin\$(Configuration)\amp.DataAccessLayer.xml</DocumentationFile>
+		<AssemblyTitle>amp.DataAccessLayer</AssemblyTitle>
+		<Company>VPKSoft</Company>
+		<Product>amp#</Product>
+		<Description>A data access abstraction for the amp# software.</Description>
+		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
+		<PackageIcon>amp.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
+		<ProjectReference Include="..\amp.Shared\amp.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

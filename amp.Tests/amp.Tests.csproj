@@ -15,13 +15,13 @@
 
 		<Description>Unit tests for the amp# software.</Description>
 
-		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 
 		<PackageIcon>amp.png</PackageIcon>
 
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
 
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>

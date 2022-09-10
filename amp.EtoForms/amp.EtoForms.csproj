@@ -8,10 +8,10 @@
 		<ApplicationIcon>Images/amp.ico</ApplicationIcon>
 		<Copyright>Copyright © VPKSoft 2022</Copyright>
 		<Description>Music player for common audio formats.</Description>
-		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 		<PackageIcon>amp.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
 		<Company>VPKSoft</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
@@ -65,6 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\amp.DataAccessLayer\amp.DataAccessLayer.csproj" />
 		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
 		<ProjectReference Include="..\amp.Playback\amp.Playback.csproj" />
 		<ProjectReference Include="..\EtoForms.Controls.Custom\EtoForms.Controls.Custom.csproj" />

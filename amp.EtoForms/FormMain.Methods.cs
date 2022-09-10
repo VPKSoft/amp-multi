@@ -489,6 +489,10 @@ SOFTWARE.
         {
             Title = $"amp# {UI._} [{album?.AlbumName}]";
         }
+
+        var stashCount = context?.QueueStashes.Count(f => f.AlbumId == CurrentAlbumId);
+
+        stashPopQueueCommand.Enabled = stashCount > 0;
     }
 
     private async Task UpdateCheck(bool autoCheck)

@@ -46,7 +46,7 @@ public class Album : IAlbum, INotifyPropertyChanged
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
@@ -61,7 +61,7 @@ public class Album : IAlbum, INotifyPropertyChanged
         }
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;
