@@ -25,8 +25,8 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -218,7 +218,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
     {
         queueTracks.Clear();
         foreach (var queueTrack in await context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
-                     .OrderBy(f => f.QueueIndex).Select(f => Globals.AutoMapper.Map<QueueTrack>(f)).ToListAsync())
+                     .OrderBy(f => f.QueueIndex).Select(f => DataAccessLayer.Globals.AutoMapper.Map<QueueTrack>(f)).ToListAsync())
         {
             queueTracks.Add(queueTrack);
         }

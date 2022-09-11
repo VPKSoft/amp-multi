@@ -26,11 +26,10 @@ SOFTWARE.
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using amp.EtoForms.Utilities;
 using amp.Shared.Enumerations;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// The track entity-independent representation.
@@ -424,7 +423,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     /// Gets or sets the display name for the track.
     /// </summary>
     /// <value>The display name of the track.</value>
-    public string DisplayName => TrackDisplayNameGenerate.GetAudioTrackName(this);
+    public string DisplayName => GenerateDisplayNameFunc?.Invoke(this) ?? string.Empty;
+
+    /// <summary>
+    /// Gets or sets the generate display name function.
+    /// </summary>
+    /// <value>The generate display name function.</value>
+    public static Func<AudioTrack, string>? GenerateDisplayNameFunc { get; set; }
 
     /// <summary>
     /// Called when property value changes.

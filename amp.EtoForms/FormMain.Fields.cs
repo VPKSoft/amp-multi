@@ -24,8 +24,8 @@ SOFTWARE.
 */
 #endregion
 
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database.QueryHelpers;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms;
 using amp.Shared.Localization;
 using Eto.Drawing;

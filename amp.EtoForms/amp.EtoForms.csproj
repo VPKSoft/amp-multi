@@ -87,4 +87,8 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="DtoClasses\" />
+	</ItemGroup>
+
 </Project>

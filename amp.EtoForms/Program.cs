@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics;
+using amp.DataAccessLayer.DtoClasses;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Forms;
@@ -64,6 +65,9 @@ public static class Program
         {
             Thread.CurrentThread.CurrentUICulture =
                 Thread.CurrentThread.CurrentCulture;
+
+            AudioTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
+            AlbumTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
 
             Shared.Globals.Locale = Globals.Settings.Locale;
             LocalizeExternals();

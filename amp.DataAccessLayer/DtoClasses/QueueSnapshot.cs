@@ -28,7 +28,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// An entity to save queues into the database.

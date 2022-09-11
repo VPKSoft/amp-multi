@@ -18,6 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="11.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\amp.Database\amp.Database.csproj" />
 		<ProjectReference Include="..\amp.Shared\amp.Shared.csproj" />
 	</ItemGroup>

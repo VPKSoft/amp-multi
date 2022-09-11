@@ -27,9 +27,9 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Properties;
@@ -180,7 +180,7 @@ partial class FormMain
 
 
         var query = context.AlbumTracks.Where(f => f.AlbumId == CurrentAlbumId).Include(f => f.AudioTrack)
-            .Select(f => Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
+            .Select(f => DataAccessLayer.Globals.AutoMapper.Map<AlbumTrack>(f)).AsNoTracking();
 
         if (queryDivider is { QueryRunning: true, })
         {

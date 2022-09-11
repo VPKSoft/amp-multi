@@ -36,8 +36,9 @@ using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
 using VPKSoft.Utils.Common.EventArgs;
 using VPKSoft.Utils.Common.Interfaces;
-using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
-using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
+using Album = amp.DataAccessLayer.DtoClasses.Album;
+using AlbumTrack = amp.DataAccessLayer.DtoClasses.AlbumTrack;
+using AudioTrack = amp.DataAccessLayer.DtoClasses.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -66,7 +67,7 @@ public partial class FormMain : Form, IExceptionReporter
 
         positionSaveLoad = new FormSaveLoadPosition(this);
 
-        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, DtoClasses.Album>(Globals.Settings,
+        playbackOrder = new PlaybackOrder<AudioTrack, AlbumTrack, Album>(Globals.Settings,
             Globals.Settings.StackQueueRandomPercentage, UpdateQueueFunc);
 
         // ReSharper disable once StringLiteralTypo
@@ -80,7 +81,7 @@ public partial class FormMain : Form, IExceptionReporter
 
         Database.Globals.ConnectionString = $"Data Source={databaseFile}";
 
-        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album>(GetNextAudioTrackFunc, GetTrackById,
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Album>(GetNextAudioTrackFunc, GetTrackById,
             Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
@@ -94,7 +95,7 @@ public partial class FormMain : Form, IExceptionReporter
         // There must always be the default album.
         if (!context.Albums.Any(f => f.Id == 1))
         {
-            context.Albums.Add(new Album { Id = 1, AlbumName = UI.DefaultAlbumName, CreatedAtUtc = DateTime.UtcNow, });
+            context.Albums.Add(new Database.DataModel.Album { Id = 1, AlbumName = UI.DefaultAlbumName, CreatedAtUtc = DateTime.UtcNow, });
             context.SaveChanges();
         }
 
@@ -116,9 +117,9 @@ public partial class FormMain : Form, IExceptionReporter
 
     private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
-    private readonly PlaybackManager<AudioTrack, AlbumTrack, DtoClasses.Album> playbackManager;
-    private QuietHourHandler<AudioTrack, AlbumTrack, DtoClasses.Album> quietHourHandler;
-    private readonly PlaybackOrder<AudioTrack, AlbumTrack, DtoClasses.Album> playbackOrder;
+    private readonly PlaybackManager<AudioTrack, AlbumTrack, Album> playbackManager;
+    private QuietHourHandler<AudioTrack, AlbumTrack, Album> quietHourHandler;
+    private readonly PlaybackOrder<AudioTrack, AlbumTrack, Album> playbackOrder;
     private readonly AmpContext context;
     private readonly UserIdleChecker idleChecker;
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);

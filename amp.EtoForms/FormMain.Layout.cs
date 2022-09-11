@@ -38,8 +38,8 @@ using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
 using Microsoft.EntityFrameworkCore;
-using Album = amp.EtoForms.DtoClasses.Album;
-using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
+using Album = amp.DataAccessLayer.DtoClasses.Album;
+using AlbumTrack = amp.DataAccessLayer.DtoClasses.AlbumTrack;
 
 namespace amp.EtoForms;
 
@@ -47,7 +47,7 @@ partial class FormMain
 {
     private Control CreateAlbumSelector()
     {
-        albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+        albums = context.Albums.Select(f => DataAccessLayer.Globals.AutoMapper.Map<Album>(f)).ToList();
         cmbAlbumSelect.DataStore = albums;
         cmbAlbumSelect.SelectedIndex = albums.FindIndex(f => f.Id == CurrentAlbumId);
         cmbAlbumSelect.SelectedIndexChanged += CmbAlbumSelect_SelectedIndexChanged;
@@ -427,15 +427,11 @@ partial class FormMain
 
     private async void StashPopQueueCommand_Executed(object? sender, EventArgs e)
     {
-        var stashes = await context.QueueStashes.Where(f => f.AlbumId == CurrentAlbumId).ToListAsync();
+        var stashes = await QueueHandling.GetStashForAlbum(CurrentAlbumId, context, this);
 
         if (stashes.Count > 0)
         {
-            var toUpdate = new Dictionary<long, int>();
-            foreach (var queueStash in stashes)
-            {
-                toUpdate.Add(queueStash.AudioTrackId, queueStash.QueueIndex);
-            }
+            var toUpdate = stashes.ToDictionary(queueStash => queueStash.AudioTrackId, queueStash => queueStash.QueueIndex);
 
             await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
 
@@ -446,8 +442,7 @@ partial class FormMain
     private async void StashQueueCommandExecuted(object? sender, EventArgs e)
     {
         var result = await playbackOrder.StashQueue(tracks);
-        context.QueueStashes.RemoveRange(
-            context.QueueStashes.Where(f => f.AlbumId == CurrentAlbumId));
+        await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
         var toSave = result.Select(f => new QueueStash
         { AlbumId = CurrentAlbumId, AudioTrackId = f.Key, QueueIndex = f.Value, CreatedAtUtc = DateTime.UtcNow, }).ToList();
         context.QueueStashes.AddRange(toSave);

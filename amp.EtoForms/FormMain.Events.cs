@@ -46,9 +46,9 @@ using EtoForms.Controls.Custom.Helpers;
 using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
-using Album = amp.EtoForms.DtoClasses.Album;
-using AlbumTrack = amp.EtoForms.DtoClasses.AlbumTrack;
-using AudioTrack = amp.EtoForms.DtoClasses.AudioTrack;
+using Album = amp.DataAccessLayer.DtoClasses.Album;
+using AlbumTrack = amp.DataAccessLayer.DtoClasses.AlbumTrack;
+using AudioTrack = amp.DataAccessLayer.DtoClasses.AudioTrack;
 
 namespace amp.EtoForms;
 
@@ -605,7 +605,7 @@ partial class FormMain
         if (changed)
         {
             suspendAlbumChange = true;
-            albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+            albums = context.Albums.Select(f => DataAccessLayer.Globals.AutoMapper.Map<Album>(f)).ToList();
             cmbAlbumSelect.DataStore = albums;
             var index = albums.FindIndex(f => f.Id == CurrentAlbumId);
             if (index == -1)
@@ -695,7 +695,7 @@ partial class FormMain
                 var index = tracks.FindIndex(f => f.AudioTrackId == e.AudioTrack.Id);
                 if (index != -1)
                 {
-                    tracks[index].AudioTrack = Globals.AutoMapper.Map<AudioTrack>(track);
+                    tracks[index].AudioTrack = DataAccessLayer.Globals.AutoMapper.Map<AudioTrack>(track);
                 }
             }
         }

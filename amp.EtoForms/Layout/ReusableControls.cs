@@ -24,9 +24,9 @@ SOFTWARE.
 */
 #endregion
 
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
 using amp.Database.ExtensionClasses;
-using amp.EtoForms.DtoClasses;
 using Eto.Forms;
 
 namespace amp.EtoForms.Layout;
@@ -56,7 +56,7 @@ internal static class ReusableControls
     {
         var albumsEntity = await context.Albums.GetUnTrackedList(f => f.AlbumName, new long[] { 1, });
 
-        var albums = albumsEntity.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+        var albums = albumsEntity.Select(f => DataAccessLayer.Globals.AutoMapper.Map<Album>(f)).ToList();
 
         cmbAlbumSelect.DataStore = albums;
         if (albums.Any(f => f.Id == currentAlbumId))

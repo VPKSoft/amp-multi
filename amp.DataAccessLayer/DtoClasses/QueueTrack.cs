@@ -24,11 +24,11 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Interfaces;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// A DTO class for queue track data.

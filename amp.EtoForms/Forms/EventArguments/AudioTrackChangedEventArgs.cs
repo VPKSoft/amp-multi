@@ -24,7 +24,7 @@ SOFTWARE.
 */
 #endregion
 
-using amp.EtoForms.DtoClasses;
+using amp.DataAccessLayer.DtoClasses;
 
 namespace amp.EtoForms.Forms.EventArguments;
 

@@ -314,36 +314,4 @@ internal static class Globals
     /// </summary>
     /// <value>The floating point comparison tolerance.</value>
     public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
-
-    private static MapperConfiguration? mapperConfiguration;
-    private static IMapper? mapper;
-
-    /// <summary>
-    /// Gets the automatic mapper.
-    /// </summary>
-    /// <value>The automatic mapper.</value>
-    internal static IMapper AutoMapper
-    {
-        get
-        {
-            mapperConfiguration ??= new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AlbumTrack, DtoClasses.AlbumTrack>();
-                cfg.CreateMap<AudioTrack, DtoClasses.AudioTrack>();
-                cfg.CreateMap<Album, DtoClasses.Album>();
-                cfg.CreateMap<QueueTrack, DtoClasses.QueueTrack>();
-                cfg.CreateMap<QueueSnapshot, DtoClasses.QueueSnapshot>();
-
-                cfg.CreateMap<DtoClasses.AlbumTrack, AlbumTrack>();
-                cfg.CreateMap<DtoClasses.AudioTrack, AudioTrack>();
-                cfg.CreateMap<DtoClasses.Album, Album>();
-                cfg.CreateMap<DtoClasses.QueueTrack, QueueTrack>();
-                cfg.CreateMap<DtoClasses.QueueSnapshot, QueueSnapshot>();
-            });
-
-            mapper ??= mapperConfiguration.CreateMapper();
-
-            return mapper;
-        }
-    }
 }
