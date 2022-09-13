@@ -26,12 +26,14 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using amp.DataAccessLayer;
 using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
+using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Forms.EventArguments;
 using amp.EtoForms.Utilities;
 using amp.Playback.Converters;
@@ -904,5 +906,84 @@ partial class FormMain
                 levelBarRight.Value = e.LevelRightChannel;
             }
         });
+    }
+
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        if (UtilityOS.IsMacOS)
+        {
+            Application.Instance.Quit();
+        }
+    }
+
+    private async void TmMessageQueueTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            tmMessageQueueTimer.Enabled = false;
+            if (previousMessageTime == null || (DateTime.Now - previousMessageTime.Value).TotalSeconds > 30)
+            {
+                if (DisplayMessageQueue.TryDequeue(out var messagePair))
+                {
+                    await Application.Instance.InvokeAsync(() =>
+                    {
+                        lbStatusMessage.Text = messagePair.Key;
+                        previousMessageTime = DateTime.Now;
+                    });
+                }
+                else
+                {
+                    previousMessageTime = null;
+                }
+            }
+
+            if (previousMessageTime == null)
+            {
+                await Application.Instance.InvokeAsync(() =>
+                {
+                    if (lbStatusMessage.Text != string.Empty)
+                    {
+                        lbStatusMessage.Text = string.Empty;
+                    }
+                });
+            }
+
+            tmMessageQueueTimer.Enabled = true;
+        });
+    }
+
+    private async void StashPopQueueCommand_Executed(object? sender, EventArgs e)
+    {
+        var stashes = await QueueHandling.GetStashForAlbum(CurrentAlbumId, context, this);
+
+        if (stashes.Count > 0)
+        {
+            var toUpdate = stashes.ToDictionary(queueStash => queueStash.AudioTrackId, queueStash => queueStash.QueueIndex);
+            await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
+            await LoadOrAppendQueue(toUpdate, CurrentAlbumId, QueueAppendInsertMode.Load);
+
+            await Application.Instance.InvokeAsync(EnabledDisableStashItems);
+            FilterTracks(false);
+        }
+    }
+
+    private async void StashQueueCommandExecuted(object? sender, EventArgs e)
+    {
+        var stashes = await QueueHandling.GetStashForAlbum(CurrentAlbumId, context, this);
+
+        if (stashes.Count > 0)
+        {
+            if (MessageBox.Show(this, Messages.OverrideCurrentQueueStash, Messages.Confirmation, MessageBoxButtons.OKCancel,
+                    MessageBoxType.Question) == DialogResult.Cancel)
+            {
+                return;
+            }
+        }
+
+        var result = await playbackOrder.StashQueue(tracks);
+        await QueueHandling.SaveQueueStash(CurrentAlbumId, result, context, this);
+        await playbackOrder.ClearQueue(tracks, false);
+
+        await Application.Instance.InvokeAsync(EnabledDisableStashItems);
     }
 }

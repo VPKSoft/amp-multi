@@ -26,8 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.DataAccessLayer;
-using amp.Database.DataModel;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -37,7 +35,6 @@ using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
-using Microsoft.EntityFrameworkCore;
 using Album = amp.DataAccessLayer.DtoClasses.Album;
 using AlbumTrack = amp.DataAccessLayer.DtoClasses.AlbumTrack;
 
@@ -423,30 +420,6 @@ partial class FormMain
         openHelp.Executed += OpenHelp_Executed;
         stashQueueCommand.Executed += StashQueueCommandExecuted;
         stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
-    }
-
-    private async void StashPopQueueCommand_Executed(object? sender, EventArgs e)
-    {
-        var stashes = await QueueHandling.GetStashForAlbum(CurrentAlbumId, context, this);
-
-        if (stashes.Count > 0)
-        {
-            var toUpdate = stashes.ToDictionary(queueStash => queueStash.AudioTrackId, queueStash => queueStash.QueueIndex);
-
-            await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
-
-            await UpdateQueueFunc(toUpdate, false);
-        }
-    }
-
-    private async void StashQueueCommandExecuted(object? sender, EventArgs e)
-    {
-        var result = await playbackOrder.StashQueue(tracks);
-        await QueueHandling.DeleteStashFromAlbum(CurrentAlbumId, context, this);
-        var toSave = result.Select(f => new QueueStash
-        { AlbumId = CurrentAlbumId, AudioTrackId = f.Key, QueueIndex = f.Value, CreatedAtUtc = DateTime.UtcNow, }).ToList();
-        context.QueueStashes.AddRange(toSave);
-        await context.SaveChangesAsync();
     }
 
     private Control CreateStatusBar()

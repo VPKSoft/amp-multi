@@ -142,6 +142,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Override current queue stash?.
+        /// </summary>
+        public static string OverrideCurrentQueueStash {
+            get {
+                return ResourceManager.GetString("OverrideCurrentQueueStash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please set the help path from the settings..
         /// </summary>
         public static string PleaseSetTheHelpPathFromTheSettings {

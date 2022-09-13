@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using amp.DataAccessLayer;
 using amp.DataAccessLayer.DtoClasses;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
@@ -35,7 +36,6 @@ using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Utilities;
 using amp.Playback.Classes;
-using amp.Shared.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -399,54 +399,11 @@ SOFTWARE.
         }
     }
 
-    private void OnClosed(object? sender, EventArgs e)
-    {
-        if (UtilityOS.IsMacOS)
-        {
-            Application.Instance.Quit();
-        }
-    }
-
-    private async void TmMessageQueueTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {
-        await Globals.LoggerSafeInvokeAsync(async () =>
-        {
-            tmMessageQueueTimer.Enabled = false;
-            if (previousMessageTime == null || (DateTime.Now - previousMessageTime.Value).TotalSeconds > 30)
-            {
-                if (DisplayMessageQueue.TryDequeue(out var messagePair))
-                {
-                    await Application.Instance.InvokeAsync(() =>
-                    {
-                        lbStatusMessage.Text = messagePair.Key;
-                        previousMessageTime = DateTime.Now;
-                    });
-                }
-                else
-                {
-                    previousMessageTime = null;
-                }
-            }
-
-            if (previousMessageTime == null)
-            {
-                await Application.Instance.InvokeAsync(() =>
-                {
-                    if (lbStatusMessage.Text != string.Empty)
-                    {
-                        lbStatusMessage.Text = string.Empty;
-                    }
-                });
-            }
-
-            tmMessageQueueTimer.Enabled = true;
-        });
-    }
-
     private void UpdateCounters()
     {
         lbTrackCountValue.Text = string.Format(UI.NumberOfNumber, filteredTracks.Count, tracks.Count);
         lbQueueCountValue.Text = $"{tracks.Count(f => f.QueueIndex > 0)}";
+        EnabledDisableStashItems();
     }
 
     private void AttachDetachKeyDownHandler(bool attach)
@@ -489,10 +446,13 @@ SOFTWARE.
         {
             Title = $"amp# {UI._} [{album?.AlbumName}]";
         }
+    }
 
-        var stashCount = context?.QueueStashes.Count(f => f.AlbumId == CurrentAlbumId);
-
+    private void EnabledDisableStashItems()
+    {
+        var stashCount = QueueHandling.GetQueueStashCount(CurrentAlbumId, context, this);
         stashPopQueueCommand.Enabled = stashCount > 0;
+        stashQueueCommand.Enabled = tracks.Any(f => f.QueueIndex > 0);
     }
 
     private async Task UpdateCheck(bool autoCheck)
