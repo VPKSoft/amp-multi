@@ -21,8 +21,14 @@
 ## Näytä kaikki albumin kappaleet
 <kbd>F9</kbd> - Tämä toiminto tyhjentää hakusuodattimet.
 
+## Varastoi nykyinen jono
+<kbd>Ctrl</kbd>+<kbd>T</kbd> - Tallentaa nykyisen jonon väliaikaiseen varastoon.
+
+## Palauta jono varastosta
+<kbd>Ctrl</kbd>+<kbd>P</kbd> - Palauttaa väliaikaiseen varastoon tallennetun.
+
 ## Valitse kaikki
-<kbd>Ctrl</kbd>+<kbd>A</kbd> or <kbd>⌘</kbd>+<kbd>A</kbd>
+<kbd>Ctrl</kbd>+<kbd>A</kbd> tai <kbd>⌘</kbd>+<kbd>A</kbd>
 
 ## Lopeta ohjelma
 <kbd>Ctrl</kbd>+<kbd>Q</kbd> tai <kbd>⌘</kbd>+<kbd>Q</kbd>
