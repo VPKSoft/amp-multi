@@ -24,8 +24,8 @@ SOFTWARE.
 */
 #endregion
 
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database.QueryHelpers;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -83,6 +83,12 @@ partial class FormMain
     private readonly Command updateTrackMetadata = new() { MenuText = UI.UpdateTrackMetadata, };
     private readonly Command checkUpdates = new() { MenuText = UI.CheckForNewVersion, };
     private readonly Command openHelp = new() { MenuText = UI.Help, Shortcut = Keys.F1, };
+
+    private readonly Command stashQueueCommand = new()
+    { MenuText = UI.StashCurrentQueue, Shortcut = Application.Instance.CommonModifier | Keys.T, };
+
+    private readonly Command stashPopQueueCommand = new()
+    { MenuText = UI.PopStashedQueue, Shortcut = Application.Instance.CommonModifier | Keys.P, };
 
     // The album select combo box.
     private readonly ComboBox cmbAlbumSelect = new();

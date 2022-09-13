@@ -139,4 +139,7 @@
   <data name="PleaseSetTheHelpPathFromTheSettings" xml:space="preserve">
     <value>Please set the help path from the settings.</value>
   </data>
+  <data name="OverrideCurrentQueueStash" xml:space="preserve">
+    <value>Override current queue stash?</value>
+  </data>
 </root>

@@ -24,11 +24,11 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Interfaces;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// A DTO class for queue track data.
@@ -73,14 +73,14 @@ public class QueueTrack : IQueueTrack, INotifyPropertyChanged
         set => SetField(ref queueIndex, value);
     }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
         set => SetField(ref modifiedAtUtc, value);
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;

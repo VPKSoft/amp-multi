@@ -28,7 +28,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// An entity to save queues into the database.
@@ -74,14 +74,14 @@ public class QueueSnapshot : IQueueSnapshot, INotifyPropertyChanged
         set => SetField(ref snapshotDate, value);
     }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
         set => SetField(ref modifiedAtUtc, value);
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;

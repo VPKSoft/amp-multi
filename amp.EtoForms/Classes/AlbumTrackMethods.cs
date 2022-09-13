@@ -25,8 +25,8 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
-using amp.EtoForms.DtoClasses;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;

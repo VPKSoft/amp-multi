@@ -26,10 +26,9 @@ SOFTWARE.
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using amp.EtoForms.Utilities;
 using amp.Shared.Interfaces;
 
-namespace amp.EtoForms.DtoClasses;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
 /// A class for album tracks.
@@ -68,7 +67,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
     /// <inheritdoc cref="IEntityBase{T}.Id"/>
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc
     {
         get => modifiedAtUtc;
@@ -83,7 +82,7 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
         }
     }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc
     {
         get => createdAtUtc;
@@ -195,7 +194,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
     /// Gets the display name for the audio track.
     /// </summary>
     /// <value>The display name.</value>
-    public string DisplayName => this.GetAudioTrackName();
+    public string DisplayName => GenerateDisplayNameFunc?.Invoke(this) ?? string.Empty;
+
+    /// <summary>
+    /// Gets or sets the generate display name function.
+    /// </summary>
+    /// <value>The generate display name function.</value>
+    public static Func<AlbumTrack, string>? GenerateDisplayNameFunc { get; set; }
 
     /// <summary>
     /// Occurs when a property value changes.

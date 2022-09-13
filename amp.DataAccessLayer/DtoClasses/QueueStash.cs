@@ -24,36 +24,31 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using amp.Shared.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace amp.Database.DataModel;
+namespace amp.DataAccessLayer.DtoClasses;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// A DTO class for stashing and popping the current queue from and into the database.
+/// Implements the <see cref="IQueueStash" />
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum, IRowVersionEntity
+/// <seealso cref="IQueueStash" />
+public class QueueStash : IQueueStash
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
+    /// <inheritdoc cref="IEntityBase{T}.Id" />
     public long Id { get; set; }
 
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
+    /// <inheritdoc cref="IQueueStash.AudioTrackId" />
+    public long AudioTrackId { get; set; }
 
-    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
+    /// <inheritdoc cref="IQueueStash.AlbumId" />
+    public long AlbumId { get; set; }
 
-    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
-    [Timestamp]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public byte[]? RowVersion { get; set; }
+    /// <inheritdoc cref="IQueueStash.QueueIndex" />
+    public int QueueIndex { get; set; }
 }

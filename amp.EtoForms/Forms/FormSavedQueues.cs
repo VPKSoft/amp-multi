@@ -25,10 +25,10 @@ SOFTWARE.
 #endregion
 
 using System.Collections.ObjectModel;
+using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
 using amp.Database.ExtensionClasses;
 using amp.EtoForms.Dialogs;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Layout;
 using amp.EtoForms.Utilities;
@@ -39,7 +39,7 @@ using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using Microsoft.EntityFrameworkCore;
-using Album = amp.EtoForms.DtoClasses.Album;
+using Album = amp.DataAccessLayer.DtoClasses.Album;
 
 namespace amp.EtoForms.Forms;
 
@@ -250,7 +250,7 @@ public class FormSavedQueues : Dialog<Task?>
             context.QueueSnapshots.RemoveRange(removeQueues);
             await context.SaveChangesAsync();
 
-            var updateData = queueSnapshots.Select(f => Globals.AutoMapper.Map<amp.Database.DataModel.QueueSnapshot>(f)).ToArray();
+            var updateData = queueSnapshots.Select(f => DataAccessLayer.Globals.AutoMapper.Map<amp.Database.DataModel.QueueSnapshot>(f)).ToArray();
 
             await context.UpsertRange(updateData);
             await context.SaveChangesAsync();
@@ -275,7 +275,7 @@ public class FormSavedQueues : Dialog<Task?>
         foreach (var queueSnapshot in context.QueueTracks.Include(f => f.AudioTrack).Where(f => f.QueueSnapshotId == queueId)
                      .OrderBy(f => f.QueueIndex).AsNoTracking())
         {
-            queueTracks.Add(Globals.AutoMapper.Map<QueueTrack>(queueSnapshot));
+            queueTracks.Add(DataAccessLayer.Globals.AutoMapper.Map<QueueTrack>(queueSnapshot));
         }
     }
 
@@ -287,7 +287,7 @@ public class FormSavedQueues : Dialog<Task?>
 
         foreach (var queueSnapshot in context.QueueSnapshots.Where(f => !queuesToDelete.Contains(f.Id) && f.AlbumId == arg).OrderBy(f => f.SnapshotName).AsNoTracking())
         {
-            queueSnapshots.Add(Globals.AutoMapper.Map<QueueSnapshot>(queueSnapshot));
+            queueSnapshots.Add(DataAccessLayer.Globals.AutoMapper.Map<QueueSnapshot>(queueSnapshot));
         }
     }
 

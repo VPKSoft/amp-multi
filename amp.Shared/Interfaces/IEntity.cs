@@ -29,17 +29,6 @@ namespace amp.Shared.Interfaces;
 /// <summary>
 /// The base interface for database entities.
 /// </summary>
-public interface IEntity : IEntityBase<long>
+public interface IEntity : IEntityBase<long>, IModifiedAt, ICreatedAt
 {
-    /// <summary>
-    /// Gets or sets the date and time the entity was modified at UTC time zone.
-    /// </summary>
-    /// <value>The date and time the entity was modified at UTC.</value>
-    DateTime? ModifiedAtUtc { get; set; }
-
-    /// <summary>
-    /// Gets or sets the date and time the entity was created at UTC time zone.
-    /// </summary>
-    /// <value>The date and time the entity was created at UTC.</value>
-    DateTime CreatedAtUtc { get; set; }
 }

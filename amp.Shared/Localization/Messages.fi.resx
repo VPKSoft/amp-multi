@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
 		Microsoft ResX Schema
 
 		Version 1.3
@@ -58,85 +58,88 @@
 			: using a System.ComponentModel.TypeConverter
 			: and then encoded with base64 encoding.
 	-->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="ConvertDatabase" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConvertDatabase" xml:space="preserve">
     <value>Muunna tietokanta</value>
   </data>
-	<data name="DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes" xml:space="preserve">
+  <data name="DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes" xml:space="preserve">
     <value>Muunnetaanko aiempi tietokanta uuteen muotoon. Siihen voi kulua muutama minuutti.</value>
   </data>
-	<data name="ConversionStatistics" xml:space="preserve">
+  <data name="ConversionStatistics" xml:space="preserve">
     <value>{0}{1} kappaletta, {2} albumia, {3} albumimerkintää ja {4} jonomerkintää muunnetaan.</value>
   </data>
-	<data name="File0WasNotFound" xml:space="preserve">
+  <data name="File0WasNotFound" xml:space="preserve">
     <value>Tiedostoa '{0}' ei löytynyt.</value>
   </data>
-	<data name="Notification" xml:space="preserve">
+  <data name="Notification" xml:space="preserve">
     <value>Huomautus</value>
   </data>
-	<data name="TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible" xml:space="preserve">
+  <data name="TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible" xml:space="preserve">
     <value>Oletusalbumia ei voi poistaa. Ainoastaan uudelleennimeäminen on mahdollista.</value>
   </data>
-	<data name="Untitled" xml:space="preserve">
+  <data name="Untitled" xml:space="preserve">
     <value>Nimetön</value>
   </data>
-	<data name="AlbumNameCanNotBeAnEmptyString" xml:space="preserve">
+  <data name="AlbumNameCanNotBeAnEmptyString" xml:space="preserve">
     <value>Albumin nimi ei voi olla tyhjä merkkijono.</value>
   </data>
-	<data name="SaveTheTagChangedThisWillModifyTheActualAudioFile" xml:space="preserve">
+  <data name="SaveTheTagChangedThisWillModifyTheActualAudioFile" xml:space="preserve">
     <value>Tallennetaanko tunnisteen muutokset? Tämä muokkaa varsinaista musiikkitiedostoa.</value>
   </data>
-	<data name="Confirmation" xml:space="preserve">
+  <data name="Confirmation" xml:space="preserve">
     <value>Varmistus</value>
   </data>
-	<data name="LoadingPercentage" xml:space="preserve">
+  <data name="LoadingPercentage" xml:space="preserve">
     <value>Latataan {0:F1} %</value>
   </data>
-	<data name="YouAreAlreadyUsingTheLatestVersionOfTheSoftware" xml:space="preserve">
+  <data name="YouAreAlreadyUsingTheLatestVersionOfTheSoftware" xml:space="preserve">
     <value>Sinulla on jo käytössäsi viimeisin versio sovelluksesta.</value>
   </data>
-	<data name="Information" xml:space="preserve">
+  <data name="Information" xml:space="preserve">
     <value>Ilmoitus</value>
   </data>
-	<data name="PleaseSetTheHelpPathFromTheSettings" xml:space="preserve">
+  <data name="PleaseSetTheHelpPathFromTheSettings" xml:space="preserve">
     <value>Määritä apukansion polku asetuksista.</value>
+  </data>
+  <data name="OverrideCurrentQueueStash" xml:space="preserve">
+    <value>Kirjoitetaanko aiempi jonotallennus yli?</value>
   </data>
 </root>

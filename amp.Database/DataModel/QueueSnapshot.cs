@@ -52,10 +52,10 @@ public class QueueSnapshot : IQueueSnapshot, IRowVersionEntity
     /// <inheritdoc cref="IQueueSnapshot.SnapshotDate"/>
     public DateTime SnapshotDate { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc { get; set; }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
 
     /// <summary>

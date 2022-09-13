@@ -24,36 +24,30 @@ SOFTWARE.
 */
 #endregion
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using amp.Shared.Interfaces;
-
-namespace amp.Database.DataModel;
+namespace amp.Shared.Interfaces;
 
 /// <summary>
-/// The database table for the album data.
-/// Implements the <see cref="IAlbum" />
+/// An interface for the queue stash data.
+/// Implements the <see cref="amp.Shared.Interfaces.IEntity" />
 /// </summary>
-/// <seealso cref="IAlbum" />
-[Table(nameof(Album))]
-// ReSharper disable once ClassNeverInstantiated.Global, EF Core class
-public class Album : IAlbum, IRowVersionEntity
+/// <seealso cref="amp.Shared.Interfaces.IEntity" />
+public interface IQueueStash : IEntityBase<long>
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id"/>
-    [Key]
-    public long Id { get; set; }
+    /// <summary>
+    /// Gets or sets the audio track reference identifier.
+    /// </summary>
+    /// <value>The audio track reference identifier.</value>
+    long AudioTrackId { get; set; }
 
-    /// <inheritdoc cref="IAlbum.AlbumName"/>
-    public string AlbumName { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets the album reference identifier.
+    /// </summary>
+    /// <value>The album reference identifier.</value>
+    long AlbumId { get; set; }
 
-    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
-    public DateTime? ModifiedAtUtc { get; set; }
-
-    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
-    public DateTime CreatedAtUtc { get; set; }
-
-    /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>
-    [Timestamp]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public byte[]? RowVersion { get; set; }
+    /// <summary>
+    /// Gets or sets the index of audio track in the queue.
+    /// </summary>
+    /// <value>The index of audio track in the queue.</value>
+    int QueueIndex { get; set; }
 }
