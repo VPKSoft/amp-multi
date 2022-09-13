@@ -21,6 +21,12 @@
 ## Display all the album tracks
 <kbd>F9</kbd> - This function clears all search filters.
 
+## Stash current queue
+<kbd>Ctrl</kbd>+<kbd>T</kbd> or <kbd>⌘</kbd>+<kbd>T</kbd> - Saves to current queue into the stash.
+
+## Pop stashed queue
+<kbd>Ctrl</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>P</kbd> - Restores the stashed queue.
+
 ## Select all
 <kbd>Ctrl</kbd>+<kbd>A</kbd> or <kbd>⌘</kbd>+<kbd>A</kbd>
 

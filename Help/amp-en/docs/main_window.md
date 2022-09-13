@@ -35,6 +35,12 @@ Clears the queued tracks from the current album. Keyboard shortcut: <kbd>Ctrl</k
 #### Scramble queue
 Re-randomizes the current queue playback order. If two or more queued items are selected, only the selection is re-randomized. Keyboard shortcut: <kbd>F7</kbd>.
 
+#### Stash current queue
+Saves to current queue into the stash clearing the current queue in the process. The function can be used to listen something else in between the current queue playback. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>T</kbd> or <kbd>⌘</kbd>+<kbd>T</kbd>.
+
+#### Pop stashed queue
+Restores the stashed queue overriding the current queue in the process. Keyboard shortcut: <kbd>Ctrl</kbd>+<kbd>P</kbd> or <kbd>⌘</kbd>+<kbd>P</kbd>.
+
 ### The Tools menu
 
 #### Settings
