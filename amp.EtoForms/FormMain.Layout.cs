@@ -26,7 +26,6 @@ SOFTWARE.
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using amp.EtoForms.DtoClasses;
 using amp.EtoForms.Properties;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -36,6 +35,8 @@ using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
 using ManagedBass.FftSignalProvider;
+using Album = amp.DataAccessLayer.DtoClasses.Album;
+using AlbumTrack = amp.DataAccessLayer.DtoClasses.AlbumTrack;
 
 namespace amp.EtoForms;
 
@@ -43,7 +44,7 @@ partial class FormMain
 {
     private Control CreateAlbumSelector()
     {
-        albums = context.Albums.Select(f => Globals.AutoMapper.Map<Album>(f)).ToList();
+        albums = context.Albums.Select(f => DataAccessLayer.Globals.AutoMapper.Map<Album>(f)).ToList();
         cmbAlbumSelect.DataStore = albums;
         cmbAlbumSelect.SelectedIndex = albums.FindIndex(f => f.Id == CurrentAlbumId);
         cmbAlbumSelect.SelectedIndexChanged += CmbAlbumSelect_SelectedIndexChanged;
@@ -353,13 +354,18 @@ partial class FormMain
         openHelp.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size20.ic_fluent_book_search_20_filled, Globals.ButtonDefaultSize);
 
+        stashQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_arrow_down_20_filled, Globals.ButtonDefaultSize);
+
+        stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_arrow_export_up_20_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
                 Globals.MenuImageDefaultSize),
             Text = UI.AddMusicFiles,
         };
-
 
         if (!Globals.Settings.HideAddFilesToNonAlbum)
         {
@@ -379,7 +385,7 @@ partial class FormMain
             {
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
-                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand,},},
+                new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashQueueCommand, stashPopQueueCommand, },},
                 new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
                 new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
@@ -412,6 +418,8 @@ partial class FormMain
         updateTrackMetadata.Executed += UpdateTrackMetadata_Executed;
         checkUpdates.Executed += CheckUpdates_Executed;
         openHelp.Executed += OpenHelp_Executed;
+        stashQueueCommand.Executed += StashQueueCommandExecuted;
+        stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
     }
 
     private Control CreateStatusBar()

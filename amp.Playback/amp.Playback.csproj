@@ -7,8 +7,8 @@
 		<Company>VPKSoft</Company>
 		<Description>Audio playback library for the amp#.</Description>
 		<Copyright>Copyright © VPKSoft 2022</Copyright>
-		<PackageProjectUrl>https://github.com/VPKSoft/amp</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/VPKSoft/amp</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
 		<PackageIcon>amp.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

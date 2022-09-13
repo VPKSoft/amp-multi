@@ -381,6 +381,33 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
     }
 
     /// <summary>
+    /// Clears the current queue and returns the items to save into the stash.
+    /// </summary>
+    /// <param name="tracks">The tracks which queue index to stash.</param>
+    /// <returns>A <see cref="Dictionary{TKey,TValue}"/> of track reference identifiers and their queue indices to save into the stash.</returns>
+    public async Task<Dictionary<long, int>> StashQueue(IEnumerable<TAlbumTrack> tracks)
+    {
+        var result = new Dictionary<long, int>();
+        var toUpdate = new Dictionary<long, int>();
+        foreach (var albumTrack in tracks)
+        {
+            if (GetQueueIndex(albumTrack, false) != 0)
+            {
+                albumTrack.ModifiedAtUtc = DateTime.UtcNow;
+                toUpdate.Add(albumTrack.Id, 0);
+                result.Add(albumTrack.AudioTrackId, albumTrack.QueueIndex);
+            }
+        }
+
+        if (toUpdate.Any())
+        {
+            await updateQueueFunc(toUpdate, false);
+        }
+
+        return result;
+    }
+
+    /// <summary>
     /// Shifts the current queue down by the specified amount.
     /// </summary>
     /// <param name="tracks">The tracks which queue index to update.</param>

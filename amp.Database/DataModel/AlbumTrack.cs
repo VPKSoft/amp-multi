@@ -55,10 +55,10 @@ public class AlbumTrack : IAlbumTrack<AudioTrack, Album>, IRowVersionEntity
     /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.QueueIndexAlternate"/>
     public int QueueIndexAlternate { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc { get; set; }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
 
     /// <inheritdoc cref="IAlbumTrack{TAudioTrack,TAlbum}.Album"/>

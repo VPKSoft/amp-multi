@@ -101,10 +101,10 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
     /// <inheritdoc cref="IAudioTrack.MusicFileType"/>
     public MusicFileType MusicFileType { get; set; }
 
-    /// <inheritdoc cref="IEntity.ModifiedAtUtc"/>
+    /// <inheritdoc cref="IModifiedAt.ModifiedAtUtc"/>
     public DateTime? ModifiedAtUtc { get; set; }
 
-    /// <inheritdoc cref="IEntity.CreatedAtUtc"/>
+    /// <inheritdoc cref="ICreatedAt.CreatedAtUtc"/>
     public DateTime CreatedAtUtc { get; set; }
 
     /// <inheritdoc cref="IRowVersionEntity.RowVersion"/>

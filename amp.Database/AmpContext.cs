@@ -50,6 +50,7 @@ public class AmpContext : DbContext
         AlbumTracks = base.Set<AlbumTrack>();
         QueueSnapshots = base.Set<QueueSnapshot>();
         QueueTracks = base.Set<QueueTrack>();
+        QueueStashes = base.Set<QueueStash>();
     }
 
     // ReSharper disable five times MemberCanBePrivate.Global, these entities will be used.
@@ -85,6 +86,12 @@ public class AmpContext : DbContext
     /// <value>The queued audio tracks.</value>
     public DbSet<QueueTrack> QueueTracks { get; }
 
+    /// <summary>
+    /// Gets the stashed queue tracks.
+    /// </summary>
+    /// <value>The stashed queue tracks.</value>
+    public DbSet<QueueStash> QueueStashes { get; }
+
     /// <inheritdoc cref="DbContext.OnConfiguring"/>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -107,12 +114,14 @@ public class AmpContext : DbContext
         modelBuilder.Entity<AlbumTrack>().SpecifyUtcKind();
         modelBuilder.Entity<QueueSnapshot>().SpecifyUtcKind();
         modelBuilder.Entity<QueueTrack>().SpecifyUtcKind();
+        modelBuilder.Entity<QueueStash>().SpecifyUtcKindCreated();
 
         modelBuilder.Entity<AudioTrack>().SpecifyRowVersion();
         modelBuilder.Entity<Album>().SpecifyRowVersion();
         modelBuilder.Entity<AlbumTrack>().SpecifyRowVersion();
         modelBuilder.Entity<QueueSnapshot>().SpecifyRowVersion();
         modelBuilder.Entity<QueueTrack>().SpecifyRowVersion();
+        modelBuilder.Entity<QueueStash>().SpecifyRowVersion();
 
         base.OnModelCreating(modelBuilder);
     }

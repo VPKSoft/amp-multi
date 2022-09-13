@@ -35,6 +35,12 @@ Tyhjentää jonon nykyisestä albumista. Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>
 #### Sekoita jono
 Arpoo jonon järjestyksen uudelleen. Jos kaksi tai useampi kappale on valittuna jonon kappaleista, ainoastaan valittujen kappaleiden järjestys arvotaan uudelleen. Näppäinoikotie: <kbd>F7</kbd>.
 
+#### Varastoi nykyinen jono
+Tallentaa nykyisen jonon väliaikaiseen varastoon samalla tyhjentäen nykyisen jonon. Toimintoa voi käyttää jos haluaa kuunnella jonon toiston välissä jotain muuta. Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>T</kbd>.
+
+#### Palauta jono varastosta
+Palauttaa väliaikaiseen varastoon tallennetun jonon samalla kirjoittaen yli nykyisen jonon. Näppäinoikotie: <kbd>Ctrl</kbd>+<kbd>P</kbd>.
+
 ### Työkalut-valikko
 
 #### Asetukset
