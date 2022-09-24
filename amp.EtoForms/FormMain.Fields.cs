@@ -84,6 +84,7 @@ partial class FormMain
     private readonly Command updateTrackMetadata = new() { MenuText = UI.UpdateTrackMetadata, };
     private readonly Command checkUpdates = new() { MenuText = UI.CheckForNewVersion, };
     private readonly Command openHelp = new() { MenuText = UI.Help, Shortcut = Keys.F1, };
+    private readonly Command iconSettingsCommand = new() { MenuText = UI.IconSettings, };
 
     private readonly Command stashQueueCommand = new()
     { MenuText = UI.StashCurrentQueue, Shortcut = Application.Instance.CommonModifier | Keys.T, };

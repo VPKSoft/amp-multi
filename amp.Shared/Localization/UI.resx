@@ -551,4 +551,7 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="PopStashedQueue" xml:space="preserve">
     <value>Pop stashed queue</value>
   </data>
+  <data name="IconSettings" xml:space="preserve">
+    <value>Icon settings</value>
+  </data>
 </root>

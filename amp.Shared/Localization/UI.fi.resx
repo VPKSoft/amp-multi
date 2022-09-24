@@ -551,4 +551,7 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="PopStashedQueue" xml:space="preserve">
     <value>Palauta jono varastosta</value>
   </data>
+  <data name="IconSettings" xml:space="preserve">
+    <value>Ikonien asetukset</value>
+  </data>
 </root>

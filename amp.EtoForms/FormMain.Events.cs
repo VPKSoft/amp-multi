@@ -986,4 +986,10 @@ partial class FormMain
 
         await Application.Instance.InvokeAsync(EnabledDisableStashItems);
     }
+
+    private void IconSettingsCommand_Executed(object? sender, EventArgs e)
+    {
+        using var form = new FormIconSettings();
+        form.ShowModal();
+    }
 }

@@ -271,7 +271,7 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
+    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack), nameof(btnNextTrack))]
     private void CreateButtons()
     {
         btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
@@ -367,6 +367,9 @@ partial class FormMain
         stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
             Size20.ic_fluent_arrow_export_up_20_filled, Globals.ButtonDefaultSize);
 
+        iconSettingsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
+            Size20.ic_fluent_icons_20_filled, Globals.ButtonDefaultSize);
+
         var addFilesSubMenu = new SubMenuItem
         {
             Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
@@ -393,7 +396,7 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashQueueCommand, stashPopQueueCommand, },},
-                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, iconSettingsCommand, updateTrackMetadata, },},
                 new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
             ApplicationItems =
@@ -427,6 +430,7 @@ partial class FormMain
         openHelp.Executed += OpenHelp_Executed;
         stashQueueCommand.Executed += StashQueueCommandExecuted;
         stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
+        iconSettingsCommand.Executed += IconSettingsCommand_Executed;
     }
 
     private Control CreateStatusBar()
