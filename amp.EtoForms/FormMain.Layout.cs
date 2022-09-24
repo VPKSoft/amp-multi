@@ -83,7 +83,7 @@ partial class FormMain
             {
                 btnPreviousTrack,
                 btnPlayPause,
-                new Button(PlayNextAudioTrackClick) { Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.NextButtonColor), Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnNextTrack,
                 new Panel {Width =  Globals.DefaultPadding,},
                 btnShowQueue,
                 new Panel {Width =  Globals.DefaultPadding,},
@@ -303,6 +303,13 @@ partial class FormMain
             ImageSize = Globals.ButtonDefaultSize,
             SolidImageColor = Color.Parse(Globals.ColorConfiguration.PreviousButtonColor),
             Enabled = false,
+        };
+
+        btnNextTrack = new Button(PlayNextAudioTrackClick)
+        {
+            Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.NextButtonColor),
+                Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize),
+            Size = Globals.ButtonDefaultSize,
         };
     }
 

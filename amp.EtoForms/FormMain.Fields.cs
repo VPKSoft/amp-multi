@@ -47,6 +47,7 @@ partial class FormMain
     private ImageOnlyButton btnClearSearch;
     private CheckedButton btnPlayPause;
     private SvgImageButton btnPreviousTrack;
+    private Button btnNextTrack;
     private readonly Label lbTracksTitle = new();
 
     private readonly SpectrumVisualizer spectrumAnalyzer = new(true)

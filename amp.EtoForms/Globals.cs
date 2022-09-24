@@ -25,9 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics.CodeAnalysis;
-using amp.Database.DataModel;
 using amp.Shared.Classes;
-using AutoMapper;
 using Eto.Drawing;
 using Serilog.Core;
 using VPKSoft.ApplicationSettingsJson;
@@ -41,10 +39,12 @@ internal static class Globals
 {
     private static Settings.Settings? settings;
     private static Settings.ColorConfiguration? colorSettings;
+    private static Settings.CustomIcons? customIcons;
     private static Settings.PositionAndLayoutSettings? positionAndLayoutSettings;
     private const string SettingsFile = "settings.json";
     private const string ColorSettingsFile = "colorSettings.json";
     private const string LayoutSettingsFile = "layoutSettings.json";
+    private const string CustomIconSettingsFile = "icons.json";
     private static string? dataFolder;
 
     /// <summary>
@@ -126,6 +126,20 @@ internal static class Globals
             return colorSettings;
         }
     }
+
+    /// <summary>
+    /// Gets the color configuration.
+    /// </summary>
+    /// <value>The color configuration.</value>
+    internal static Settings.CustomIcons CustomIconSettings
+    {
+        get
+        {
+            CreateSettings(ref customIcons, CustomIconSettingsFile);
+            return customIcons;
+        }
+    }
+
 
     internal static Settings.PositionAndLayoutSettings PositionAndLayoutSettings
     {
@@ -301,6 +315,14 @@ internal static class Globals
     internal static void SaveColorConfiguration()
     {
         ColorConfiguration.Save(Path.Combine(DataFolder, ColorSettingsFile));
+    }
+
+    /// <summary>
+    /// Saves the custom icon configuration.
+    /// </summary>
+    internal static void SaveCustomIcons()
+    {
+        CustomIconSettings.Save(Path.Combine(DataFolder, CustomIconSettingsFile));
     }
 
     /// <summary>
