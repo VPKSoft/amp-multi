@@ -990,6 +990,6 @@ partial class FormMain
     private void IconSettingsCommand_Executed(object? sender, EventArgs e)
     {
         using var form = new FormIconSettings();
-        form.ShowModal();
+        form.ShowModal(this);
     }
 }

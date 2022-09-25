@@ -150,7 +150,8 @@ public static class EtoHelpers
     /// <param name="space">A space between the specified control and the button.</param>
     /// <returns>A new instance to a <see cref="TableRow"/> control.</returns>
     public static TableRow LabelWrapperWithButton(string labelText, string? buttonText, Control control,
-        EventHandler<EventArgs> clickHandler, byte[] svgImageBytes, Color buttonColor, int imagePadding = 6, int space = 5)
+        EventHandler<EventArgs> clickHandler, byte[] svgImageBytes, Color buttonColor, int imagePadding = 6,
+        int space = 5)
     {
         return new TableRow(
             LabelWrap(labelText,
@@ -164,7 +165,8 @@ public static class EtoHelpers
                             {
                                 new TableCell(control, true),
                                 new TableCell(new Panel { Width = space, }),
-                                new TableCell(CreateImageButton(SvgColorize.FromBytes(svgImageBytes), buttonColor, imagePadding, clickHandler)),
+                                new TableCell(CreateImageButton(SvgColorize.FromBytes(svgImageBytes), buttonColor,
+                                    imagePadding, clickHandler)),
                             },
                         },
                     },
@@ -180,7 +182,8 @@ public static class EtoHelpers
     /// <param name="padding">The padding to use.</param>
     /// <param name="spacing">A space to use with the controls. A <see cref="Panel"/> controls are used to define the spacing.</param>
     /// <returns>A new instance to a <see cref="TableRow"/> control.</returns>
-    public static TableRow LabelWrapperWithControls(string labelText, int padding, int spacing, params Control[] controls)
+    public static TableRow LabelWrapperWithControls(string labelText, int padding, int spacing,
+        params Control[] controls)
     {
         var result = new TableRow();
 
@@ -200,8 +203,8 @@ public static class EtoHelpers
         result.Cells.Add(new TableCell(new Panel()) { ScaleWidth = true, });
 
         return new TableRow(new TableLayout(
-            new TableRow(new TableCell(PaddingBottomWrap(new Label { Text = labelText, }))),
-            new TableRow(new TableLayout(result)))
+                new TableRow(new TableCell(PaddingBottomWrap(new Label { Text = labelText, }))),
+                new TableRow(new TableLayout(result)))
         { Padding = new Padding(padding), });
     }
 
@@ -234,8 +237,10 @@ public static class EtoHelpers
     public static TableCell WidthLimitWrap(Control control, bool leftCell)
     {
         return leftCell
-            ? new TableCell(new TableLayout { Rows = { new TableRow(control, new TableCell { ScaleWidth = true, }), }, })
-            : new TableCell(new TableLayout { Rows = { new TableRow(new TableCell { ScaleWidth = true, }, control), }, });
+            ? new TableCell(
+                new TableLayout { Rows = { new TableRow(control, new TableCell { ScaleWidth = true, }), }, })
+            : new TableCell(
+                new TableLayout { Rows = { new TableRow(new TableCell { ScaleWidth = true, }, control), }, });
     }
 
     /// <summary>
@@ -300,6 +305,17 @@ public static class EtoHelpers
             .ColorizeElementsStroke(SvgElement.All, color);
 
         return SvgToImage.ImageFromSvg(svgData.ToBytes(), size);
+    }
+
+    /// <summary>
+    /// Generates an image from the specified SVG image data.
+    /// </summary>
+    /// <param name="imageData">The SVG image data.</param>
+    /// <param name="size">The size for the image.</param>
+    /// <returns>A <see cref="Image"/> class instance with the SVG sized to the specified size.</returns>
+    public static Image ImageFromSvg(byte[] imageData, Size size)
+    {
+        return SvgToImage.ImageFromSvg(imageData, size);
     }
 
     /// <summary>

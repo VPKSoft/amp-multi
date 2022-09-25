@@ -42,4 +42,10 @@ public class CustomIcon
     /// </summary>
     /// <value>The icon color.</value>
     public string? Color { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to preserve original SVG color information.
+    /// </summary>
+    /// <value><c>true</c> if to preserve original SVG color information; otherwise, <c>false</c>.</value>
+    public bool PreserveOriginalColor { get; set; }
 }

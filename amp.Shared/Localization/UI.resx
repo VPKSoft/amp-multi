@@ -554,4 +554,19 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="IconSettings" xml:space="preserve">
     <value>Icon settings</value>
   </data>
+  <data name="SingleIconSetting" xml:space="preserve">
+    <value>Icon setting</value>
+  </data>
+  <data name="IconColor" xml:space="preserve">
+    <value>Icon color</value>
+  </data>
+  <data name="ColorizeIcon" xml:space="preserve">
+    <value>Colorize icon</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="ScalableVectorGraphicFiles" xml:space="preserve">
+    <value>Scalable Vector Graphic Files</value>
+  </data>
 </root>

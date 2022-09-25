@@ -63,4 +63,34 @@ public class IconData
     /// </summary>
     /// <value>The image.</value>
     public Image Image { get; set; }
+
+    /// <summary>
+    /// Gets or sets the SVG data.
+    /// </summary>
+    /// <value>The SVG data.</value>
+    public byte[] SvgData { get; set; } = Array.Empty<byte>();
+
+    /// <summary>
+    /// Gets or sets the color for the icon to override the color setting value.
+    /// </summary>
+    /// <value>The color for the icon to override the color setting value.</value>
+    public string? OverrideColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the color of the SVG will not be adjusted.
+    /// </summary>
+    /// <value><c>true</c> if the color of the SVG is kept as is; otherwise, <c>false</c>.</value>
+    public bool NoColorChange { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether icon represented by this instance is user customized.
+    /// </summary>
+    /// <value><c>true</c> if the icon represented by this instance is user customized; otherwise, <c>false</c>.</value>
+    public bool IsCustom { get; set; }
+
+    /// <summary>
+    /// Gets or sets the display size of the image.
+    /// </summary>
+    /// <value>The display size of the image.</value>
+    public Size ImageDisplaySize { get; set; }
 }

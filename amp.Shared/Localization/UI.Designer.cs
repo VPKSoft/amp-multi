@@ -322,6 +322,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colorize icon.
+        /// </summary>
+        public static string ColorizeIcon {
+            get {
+                return ResourceManager.GetString("ColorizeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Colors.
         /// </summary>
         public static string Colors {
@@ -670,6 +679,24 @@ namespace amp.Shared.Localization {
         public static string Hide {
             get {
                 return ResourceManager.GetString("Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon.
+        /// </summary>
+        public static string Icon {
+            get {
+                return ResourceManager.GetString("Icon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon color.
+        /// </summary>
+        public static string IconColor {
+            get {
+                return ResourceManager.GetString("IconColor", resourceCulture);
             }
         }
         
@@ -1079,6 +1106,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scalable Vector Graphic Files.
+        /// </summary>
+        public static string ScalableVectorGraphicFiles {
+            get {
+                return ResourceManager.GetString("ScalableVectorGraphicFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scramble queue.
         /// </summary>
         public static string ScrambleQueue {
@@ -1129,6 +1165,15 @@ namespace amp.Shared.Localization {
         public static string ShowQueue {
             get {
                 return ResourceManager.GetString("ShowQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon setting.
+        /// </summary>
+        public static string SingleIconSetting {
+            get {
+                return ResourceManager.GetString("SingleIconSetting", resourceCulture);
             }
         }
         

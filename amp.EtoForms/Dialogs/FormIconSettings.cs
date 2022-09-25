@@ -24,42 +24,192 @@ SOFTWARE.
 */
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Settings;
-using amp.Shared.Classes;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
-using EtoForms.Controls.Custom;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
+using TableLayout = Eto.Forms.TableLayout;
 
 namespace amp.EtoForms.Dialogs;
 
 internal class FormIconSettings : Dialog
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FormIconSettings"/> class.
+    /// </summary>
     public FormIconSettings()
     {
-        MinimumSize = new Size(500, 500);
-        Content = listCustomIcons;
-        ListIconSettings();
+        Title = $"amp# {UI._} {UI.IconSettings}";
+        CreateLayout();
+        _ = DefaultCancelButtonHandler.WithWindow(this).WithCancelButton(btnCancel).WithDefaultButton(btnOk);
     }
 
-    private void ListIconSettings()
+    private void CreateLayout()
+    {
+        MinimumSize = new Size(600, 600);
+
+        var tableLayout = new TableLayout
+        {
+            Rows =
+            {
+                new TableRow(
+                    new TableLayout
+                    {
+                        Rows =
+                        {
+                            new TableRow(
+                                new TableCell(listCustomIcons),
+                                new TableCell
+                                {
+                                    Control = new TableLayout
+                                    {
+                                        Rows =
+                                        {
+                                            new Label { Text = UI.SingleIconSetting,},
+                                            new Label { Text = UI.Icon,},
+                                            ivCustomIcon,
+                                            new Label { Text = UI.IconColor,},
+                                            cpCustomIconSelector,
+                                            cbColorizeIcon,
+                                            new TableRow { ScaleHeight = true,},
+                                        },
+                                    }
+                                }
+                            ) { ScaleHeight = true, },
+                        },
+                        Spacing = Globals.DefaultSpacing,
+                        Padding = Globals.DefaultPadding,
+                    }),
+            },
+            Spacing = Globals.DefaultSpacing,
+            Padding = Globals.DefaultPadding,
+        };
+
+        Content = tableLayout;
+
+        NegativeButtons.Add(btnCancel);
+        PositiveButtons.Add(btnOk);
+        PositiveButtons.Add(btnDefaults);
+
+        ListIconSettings(false);
+        listCustomIcons.SelectedValueChanged += ListCustomIcons_SelectedValueChanged;
+        ivCustomIcon.MouseDown += IvCustomIcon_MouseDown;
+        btnDefaults.Click += BtnDefaults_Click;
+        btnOk.Click += BtnOk_Click;
+        btnCancel.Click += BtnCancel_Click;
+        cpCustomIconSelector.ValueChanged += CpCustomIconSelector_ValueChanged;
+        cbColorizeIcon.CheckedChanged += CbColorizeIcon_CheckedChanged;
+    }
+
+    private void BtnCancel_Click(object? sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void BtnOk_Click(object? sender, EventArgs e)
+    {
+        Globals.SaveCustomIcons();
+        Close();
+    }
+
+    void RefreshList()
+    {
+        // Dummy update via data store.
+        listCustomIcons.DataStore = listCustomIcons.DataStore;
+    }
+
+    private void DisplaySelected()
+    {
+        var iconData = (IconData?)listCustomIcons.SelectedValue;
+        if (iconData != null)
+        {
+            ivCustomIcon.Image = CreateImage(iconData);
+            cpCustomIconSelector.Value = iconData.NoColorChange || iconData.OverrideColor == null
+                ? default
+                : Color.Parse(iconData.OverrideColor);
+            cbColorizeIcon.Checked = !iconData.NoColorChange;
+        }
+        else
+        {
+            ivCustomIcon.Image = null;
+            cpCustomIconSelector.Value = default;
+            cbColorizeIcon.Checked = false;
+        }
+    }
+
+    private void IvCustomIcon_MouseDown(object? sender, MouseEventArgs e)
+    {
+        SetIconDataAction(iconData =>
+        {
+            using var dialog = new OpenFileDialog();
+            dialog.Filters.Add(new FileFilter(UI.ScalableVectorGraphicFiles, ".svg"));
+            if (dialog.ShowDialog(this) == DialogResult.Ok)
+            {
+                iconData.SvgData = File.ReadAllBytes(dialog.FileName);
+                iconData.IsCustom = true;
+                iconData.Image.Dispose();
+                iconData.Image = CreateListImage(iconData);
+            }
+        });
+    }
+
+    private void CpCustomIconSelector_ValueChanged(object? sender, EventArgs e)
+    {
+        SetIconDataAction(iconData =>
+        {
+            iconData.OverrideColor = cpCustomIconSelector.Value.ToString();
+            iconData.Image = CreateListImage(iconData);
+        });
+    }
+
+    private void CbColorizeIcon_CheckedChanged(object? sender, EventArgs e)
+    {
+        SetIconDataAction(iconData =>
+        {
+            iconData.NoColorChange = cbColorizeIcon.Checked == false;
+            cpCustomIconSelector.Enabled = cbColorizeIcon.Checked == true;
+            iconData.Image = CreateListImage(iconData);
+        });
+    }
+
+    private void SetIconDataAction(Action<IconData> action)
+    {
+        var iconData = (IconData?)listCustomIcons.SelectedValue;
+        if (iconData != null)
+        {
+            action(iconData);
+            RefreshList();
+            DisplaySelected();
+        }
+    }
+
+
+    private void BtnDefaults_Click(object? sender, EventArgs e)
+    {
+        ListIconSettings(true);
+    }
+
+    private void ListCustomIcons_SelectedValueChanged(object? sender, EventArgs e)
+    {
+        DisplaySelected();
+    }
+
+    private void ListIconSettings(bool defaults)
     {
         var iconList = new List<IconData>();
 
         var menuColor = Color.Parse(Globals.ColorConfiguration.MenuItemImageColor);
         var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor);
+
+        if (defaults)
+        {
+            Globals.CustomIconSettings.Defaults();
+        }
 
         // File menu.
         var item = CreateItemImage(nameof(CustomIcons.AddMusicFiles), Globals.CustomIconSettings.AddMusicFiles,
@@ -217,38 +367,57 @@ internal class FormIconSettings : Dialog
             itemColor, Size20.ic_fluent_eraser_20_filled);
         iconList.Add(item);
 
-        //itemColor = Color.Parse(Globals.ColorConfiguration.);
-        //item = CreateItemImage(nameof(CustomIcons.MainVolumeSlider), Globals.CustomIconSettings.MainVolumeSlider,
-        //    itemColor, global::EtoForms.Controls.Custom.Properties.Resources.volume_slider);
-        //iconList.Add(item);
-
-        //itemColor = Color.Parse(Globals.ColorConfiguration.);
-        //item = CreateItemImage(nameof(CustomIcons.), Globals.CustomIconSettings.,
-        //    itemColor, );
-        //iconList.Add(item);
-
         listCustomIcons.ItemTextBinding = new PropertyBinding<string>(nameof(IconData.Description));
         listCustomIcons.ItemImageBinding = new PropertyBinding<Image>(nameof(IconData.Image));
 
-
         listCustomIcons.DataStore = iconList;
-        // TODO::Queue menu
     }
 
     private static IconData CreateItemImage(
         string name,
         CustomIcon? customIcon,
-        Color itemColor,
+        Color? itemColor,
         byte[] defaultSvgData, Size? customSize = null)
     {
         var resMan = UiImageNames.ResourceManager;
         var size = customSize ?? new Size(30, 30);
         var iconText = resMan.GetString(name, new CultureInfo(Globals.Settings.Locale)) ?? UI.ERRORNOTEXT;
         var color = customIcon?.Color == null ? itemColor : Color.Parse(customIcon.Color);
-        var svg = EtoHelpers.ImageFromSvg(color,
+
+        var svg = color == null
+        ? EtoHelpers.ImageFromSvg(customIcon?.IconData ?? defaultSvgData, size)
+        : EtoHelpers.ImageFromSvg(color.Value,
                 customIcon?.IconData ?? defaultSvgData, size);
-        return new IconData(name, iconText, svg);
+
+        return new IconData(name, iconText, svg)
+        {
+            NoColorChange = customIcon?.PreserveOriginalColor == true,
+            OverrideColor = itemColor?.ToString(),
+            SvgData = customIcon?.IconData ?? defaultSvgData,
+            IsCustom = customIcon != null,
+            ImageDisplaySize = size,
+        };
     }
 
-    private readonly ListBox listCustomIcons = new() { Height = 400, Width = 200, };
+    private static Image CreateListImage(IconData iconData)
+    {
+        return CreateImage(iconData, iconData.ImageDisplaySize);
+    }
+
+    private static Image CreateImage(IconData iconData, Size? size = null)
+    {
+        return iconData.NoColorChange && iconData.OverrideColor != null ?
+        EtoHelpers.ImageFromSvg(iconData.SvgData, imageViewSize)
+            : EtoHelpers.ImageFromSvg(Color.Parse(iconData.OverrideColor),
+            iconData.SvgData, size ?? imageViewSize);
+    }
+
+    private static readonly Size imageViewSize = new(300, 300);
+    private readonly ListBox listCustomIcons = new() { Height = 400, Width = 300, };
+    private readonly ImageView ivCustomIcon = new() { Width = 300, Height = 300, Cursor = Cursors.Pointer, };
+    private readonly ColorPicker cpCustomIconSelector = new();
+    private readonly CheckBox cbColorizeIcon = new() { Text = UI.ColorizeIcon, };
+    private readonly Button btnOk = new() { Text = UI.OK, };
+    private readonly Button btnCancel = new() { Text = UI.Cancel, };
+    private readonly Button btnDefaults = new() { Text = Shared.Localization.Settings.Defaults, };
 }
