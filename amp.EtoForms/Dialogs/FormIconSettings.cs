@@ -123,7 +123,9 @@ internal class FormIconSettings : Dialog
     void RefreshList()
     {
         // Dummy update via data store.
+        var index = listCustomIcons.SelectedIndex;
         listCustomIcons.DataStore = listCustomIcons.DataStore;
+        listCustomIcons.SelectedIndex = index;
     }
 
     private void DisplaySelected()
