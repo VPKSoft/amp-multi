@@ -371,7 +371,7 @@ public abstract class SliderBase : Drawable
         var width = sliderPadding.Size.Width < sliderWidth ? sliderPadding.Size.Width : sliderWidth;
 
         sliderMarkImage =
-            EtoHelpers.ImageFromSvg(colorSliderMarker, Resources.slider_mark, new Size(width, Height));
+            EtoHelpers.ImageFromSvg(colorSliderMarker, SliderMarkerImageSvg, new Size(width, Height));
     }
 
     /// <summary>

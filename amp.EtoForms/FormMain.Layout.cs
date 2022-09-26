@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using amp.EtoForms.Properties;
+using amp.EtoForms.Settings;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -54,8 +55,7 @@ partial class FormMain
         {
             var wh = Math.Min(imageView.Width, imageView.Height);
             var size = new Size(wh, wh);
-            imageView.Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.TheMusicNoteColor), Size16.ic_fluent_music_note_2_16_filled,
-                size);
+            imageView.Image = CreateImage(Globals.CustomIconSettings.AlbumLookup, Size16.ic_fluent_music_note_2_16_filled, Color.Parse(Globals.ColorConfiguration.TheMusicNoteColor), size);
         };
 
         var result = new StackLayout
@@ -83,7 +83,7 @@ partial class FormMain
             {
                 btnPreviousTrack,
                 btnPlayPause,
-                new Button(PlayNextAudioTrackClick) { Image = EtoHelpers.ImageFromSvg(Color.Parse(Globals.ColorConfiguration.NextButtonColor), Size16.ic_fluent_next_16_filled, Globals.ButtonDefaultSize), Size = Globals.ButtonDefaultSize, },
+                btnNextTrack,
                 new Panel {Width =  Globals.DefaultPadding,},
                 btnShowQueue,
                 new Panel {Width =  Globals.DefaultPadding,},
@@ -99,6 +99,32 @@ partial class FormMain
 
     private Expander CreateValueSliders()
     {
+        totalVolumeSlider.SpeakerImageSvg =
+            Globals.CustomIconSettings.MainVolumeSliderSpeaker?.IconData ?? Size16.ic_fluent_speaker_2_16_filled;
+        totalVolumeSlider.ColorSpeaker = MakeColor(Globals.CustomIconSettings.MainVolumeSliderSpeaker,
+            Globals.ColorConfiguration.ColorSpeakerMainVolume);
+
+        totalVolumeSlider.SliderMarkerImageSvg = Globals.CustomIconSettings.MainVolumeSliderSpeaker?.IconData ??
+                                                 global::EtoForms.Controls.Custom.Properties.Resources.slider_mark;
+        totalVolumeSlider.ColorSliderMarker = MakeColor(Globals.CustomIconSettings.MainVolumeSlider,
+            Globals.ColorConfiguration.ColorMainVolumeValueIndicator);
+
+
+        trackVolumeSlider.SpeakerImageSvg =
+            Globals.CustomIconSettings.TrackVolumeSliderSpeaker?.IconData ?? Size16.ic_fluent_speaker_2_16_filled;
+        trackVolumeSlider.ColorSpeaker = MakeColor(Globals.CustomIconSettings.TrackVolumeSliderSpeaker,
+            Globals.ColorConfiguration.ColorSpeakerTrackVolume);
+
+        trackVolumeSlider.SliderMarkerImageSvg = Globals.CustomIconSettings.TrackVolumeSlider?.IconData ??
+                                           global::EtoForms.Controls.Custom.Properties.Resources.slider_mark;
+        trackVolumeSlider.ColorSliderMarker = MakeColor(Globals.CustomIconSettings.TrackVolumeSlider,
+            Globals.ColorConfiguration.ColorTrackVolumeValueIndicator);
+
+        trackRatingSlider.SliderImageSvg =
+            Globals.CustomIconSettings.Rating?.IconData ?? Size16.ic_fluent_star_16_filled;
+        trackRatingSlider.ColorSlider = MakeColor(Globals.CustomIconSettings.Rating,
+            Globals.ColorConfiguration.ColorRatingSlider);
+
         var tableLayout = new TableLayout
         {
             Rows =
@@ -158,6 +184,11 @@ partial class FormMain
             ColorSlider = Color.Parse(Globals.ColorConfiguration.ColorPositionSlider),
             ColorSliderMarker = Color.Parse(Globals.ColorConfiguration.ColorPositionSliderValueIndicator),
         };
+
+        playbackPosition.SliderMarkerImageSvg = Globals.CustomIconSettings.PositionSlider?.IconData ??
+                                                global::EtoForms.Controls.Custom.Properties.Resources.slider_mark;
+        playbackPosition.ColorSliderMarker = MakeColor(Globals.CustomIconSettings.PositionSlider,
+            Globals.ColorConfiguration.ColorPositionSliderValueIndicator);
 
         playbackPosition.ValueChanged += PlaybackPosition_ValueChanged;
 
@@ -225,7 +256,11 @@ partial class FormMain
         spectrumAnalyzer.AudioLevelsChanged += SpectrumAnalyzer_AudioLevelsChanged;
         spectrumAnalyzer.RaiseAudioLevelsChanged = true;
 
-        btnClearSearch = new ImageOnlyButton(ClearSearchClick, Size20.ic_fluent_eraser_20_filled) { ImageColor = Color.Parse(Globals.ColorConfiguration.ClearSearchButtonColor), Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
+
+        var color = MakeColor(Globals.CustomIconSettings.ClearSearch,
+            Globals.ColorConfiguration.ClearSearchButtonColor);
+
+        btnClearSearch = new ImageOnlyButton(ClearSearchClick, Globals.CustomIconSettings.ClearSearch?.IconData ?? Size20.ic_fluent_eraser_20_filled) { ImageColor = color, Size = Globals.SmallImageButtonDefaultSize, ToolTip = UI.ClearSearch, };
 
         lbTracksTitle.Cursor = Cursors.Pointer;
         lbTracksTitle.MouseDown += LbTracksTitle_MouseDown;
@@ -271,39 +306,105 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack))]
+    [MemberNotNull(nameof(btnPlayPause), nameof(btnShuffleToggle), nameof(btnShowQueue), nameof(btnRepeatToggle), nameof(btnStackQueueToggle), nameof(btnPreviousTrack), nameof(btnNextTrack))]
     private void CreateButtons()
     {
-        btnPlayPause = new CheckedButton(Size16.ic_fluent_pause_16_filled,
-            Size16.ic_fluent_play_16_filled,
-            Color.Parse(Globals.ColorConfiguration.PlayButtonPauseColor),
-            Color.Parse(Globals.ColorConfiguration.PlayButtonPlayColor),
+        var icon = Globals.CustomIconSettings.Pause;
+        var iconBytes = icon?.IconData ?? Size16.ic_fluent_pause_16_filled;
+        var iconColor = MakeColor(icon, Globals.ColorConfiguration.PlayButtonPauseColor);
+        icon = Globals.CustomIconSettings.Play;
+        var iconBytes2 = icon?.IconData ?? Size16.ic_fluent_play_16_filled;
+        var iconColor2 = MakeColor(icon, Globals.ColorConfiguration.PlayButtonPlayColor);
+
+        btnPlayPause = new CheckedButton(iconBytes,
+            iconBytes2,
+            iconColor,
+            iconColor2,
             Globals.ButtonDefaultSize);
 
-        btnShuffleToggle = new CheckedButton(Resources.shuffle_random_svgrepo_com_modified,
-            Color.Parse(Globals.ColorConfiguration.ShuffleButtonColor),
+
+        icon = Globals.CustomIconSettings.Shuffle;
+        iconBytes = icon?.IconData ?? Resources.shuffle_random_svgrepo_com_modified;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.ShuffleButtonColor);
+
+        btnShuffleToggle = new CheckedButton(iconBytes,
+            iconColor,
             Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize, true);
 
-        btnShowQueue = new CheckedButton(Resources.queue_three_dots,
-                Color.Parse(Globals.ColorConfiguration.QueueButtonColor),
+
+        icon = Globals.CustomIconSettings.ShowQueue;
+        iconBytes = icon?.IconData ?? Resources.queue_three_dots;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.QueueButtonColor);
+        btnShowQueue = new CheckedButton(iconBytes,
+                iconColor,
                 Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize)
         { ToolTip = UI.ShowQueue, };
 
-        btnRepeatToggle = new CheckedButton(Resources.repeat_svgrepo_com_modified,
-            Color.Parse(Globals.ColorConfiguration.RepeatButtonColor),
+        icon = Globals.CustomIconSettings.Repeat;
+        iconBytes = icon?.IconData ?? Resources.repeat_svgrepo_com_modified;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.RepeatButtonColor);
+        btnRepeatToggle = new CheckedButton(iconBytes,
+            iconColor,
             Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize, true);
 
-        btnStackQueueToggle = new CheckedButton(Resources.stack_queue_three_dots,
-            Color.Parse(Globals.ColorConfiguration.StackQueueButtonColor),
+        icon = Globals.CustomIconSettings.StackQueue;
+        iconBytes = icon?.IconData ?? Resources.stack_queue_three_dots;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.StackQueueButtonColor);
+        btnStackQueueToggle = new CheckedButton(iconBytes,
+            iconColor,
             Color.Parse(Globals.ColorConfiguration.DisabledButtonImageColor), Globals.ButtonDefaultSize);
 
+        icon = Globals.CustomIconSettings.PreviousTrack;
+        iconBytes = icon?.IconData ?? Size16.ic_fluent_previous_16_filled;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.PreviousButtonColor);
         btnPreviousTrack = new SvgImageButton(PlayPreviousClick)
         {
-            Image = Size16.ic_fluent_previous_16_filled,
+            Image = iconBytes,
             ImageSize = Globals.ButtonDefaultSize,
-            SolidImageColor = Color.Parse(Globals.ColorConfiguration.PreviousButtonColor),
+            SolidImageColor = iconColor,
             Enabled = false,
         };
+
+        icon = Globals.CustomIconSettings.PreviousTrack;
+        iconBytes = icon?.IconData ?? Size16.ic_fluent_next_16_filled;
+        iconColor = MakeColor(icon, Globals.ColorConfiguration.NextButtonColor);
+        btnNextTrack = new Button(PlayNextAudioTrackClick)
+        {
+            Image = EtoHelpers.ImageFromSvg(iconColor,
+                iconBytes, Globals.ButtonDefaultSize),
+            Size = Globals.ButtonDefaultSize,
+        };
+    }
+
+    private Color MakeColor(CustomIcon? customIcon, string defaultColor)
+    {
+        if (customIcon != null)
+        {
+            if (customIcon.PreserveOriginalColor)
+            {
+                return default;
+            }
+
+            return customIcon.Color != null ? Color.Parse(customIcon.Color) : Color.Parse(defaultColor);
+        }
+
+        return Color.Parse(defaultColor);
+    }
+
+    private Image CreateImage(CustomIcon? customIcon, byte[] defaultIconSvgData, Color defaultColor, Size size)
+    {
+        if (customIcon != null)
+        {
+            if (customIcon.PreserveOriginalColor)
+            {
+                return EtoHelpers.ImageFromSvg(customIcon.IconData, size);
+            }
+
+            var color = customIcon.Color != null ? Color.Parse(customIcon.Color) : defaultColor;
+            return EtoHelpers.ImageFromSvg(color, customIcon.IconData, size);
+        }
+
+        return EtoHelpers.ImageFromSvg(defaultColor, defaultIconSvgData, size);
     }
 
     private void CreateMenu()
@@ -311,59 +412,62 @@ partial class FormMain
         var menuColor = Color.Parse(Globals.ColorConfiguration.MenuItemImageColor);
         var menuColorAlternate = Color.Parse(Globals.ColorConfiguration.MenuItemImageAlternateColor);
 
-        quitCommand.Image =
-            EtoHelpers.ImageFromSvg(menuColor, Size20.ic_fluent_arrow_exit_20_filled, Globals.MenuImageDefaultSize);
+        quitCommand.Image = CreateImage(Globals.CustomIconSettings.QuitApplication,
+            Size20.ic_fluent_arrow_exit_20_filled, menuColor, Globals.MenuImageDefaultSize);
 
-        aboutCommand.Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_question_circle_20_filled,
-            Globals.MenuImageDefaultSize);
+        aboutCommand.Image = CreateImage(Globals.CustomIconSettings.HelpAbout,
+            Size20.ic_fluent_question_circle_20_filled, menuColorAlternate, Globals.MenuImageDefaultSize);
 
         commandPlayPause.MenuText = UI.Play;
-        commandPlayPause.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_play_16_filled, Globals.ButtonDefaultSize);
+        commandPlayPause.Image = CreateImage(Globals.CustomIconSettings.Play,
+            Size16.ic_fluent_play_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        settingsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_settings_16_filled, Globals.ButtonDefaultSize);
+        settingsCommand.Image = CreateImage(Globals.CustomIconSettings.Settings,
+            Size16.ic_fluent_settings_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        updateTrackMetadata.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_arrow_clockwise_16_filled, Globals.ButtonDefaultSize);
+        updateTrackMetadata.Image = CreateImage(Globals.CustomIconSettings.UpdateTrackMetadata,
+            Size16.ic_fluent_arrow_clockwise_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        colorSettingsCommand.Image =
-            EtoHelpers.ImageFromSvg(menuColor, Size16.ic_fluent_color_16_filled, Globals.ButtonDefaultSize);
+        colorSettingsCommand.Image = CreateImage(Globals.CustomIconSettings.ColorSettings,
+            Size16.ic_fluent_color_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        manageAlbumsCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_music_note_2_16_filled, Globals.ButtonDefaultSize);
+        manageAlbumsCommand.Image = CreateImage(Globals.CustomIconSettings.Album,
+            Size16.ic_fluent_music_note_2_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        saveQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_save_16_filled, Globals.ButtonDefaultSize);
+        saveQueueCommand.Image = CreateImage(Globals.CustomIconSettings.SaveCurrentQueue,
+            Size16.ic_fluent_save_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        manageSavedQueues.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Resources.queue_three_dots, Globals.ButtonDefaultSize);
+        manageSavedQueues.Image = CreateImage(Globals.CustomIconSettings.SavedQueues,
+            Resources.queue_three_dots, menuColor, Globals.ButtonDefaultSize);
 
-        clearQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Resources.queue_three_dots_clear, Globals.ButtonDefaultSize);
+        clearQueueCommand.Image = CreateImage(Globals.CustomIconSettings.ClearQueue,
+            Resources.queue_three_dots_clear, menuColor, Globals.ButtonDefaultSize);
 
-        scrambleQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_re_order_dots_vertical_16_filled, Globals.ButtonDefaultSize);
+        scrambleQueueCommand.Image = CreateImage(Globals.CustomIconSettings.ScrambleQueue,
+            Size16.ic_fluent_re_order_dots_vertical_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        trackInfoCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_info_16_filled, Globals.ButtonDefaultSize);
+        trackInfoCommand.Image = CreateImage(Globals.CustomIconSettings.TrackInformation,
+            Size16.ic_fluent_info_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        checkUpdates.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size16.ic_fluent_arrow_download_16_filled, Globals.ButtonDefaultSize);
+        checkUpdates.Image = CreateImage(Globals.CustomIconSettings.CheckNewVersion,
+            Size16.ic_fluent_arrow_download_16_filled, menuColor, Globals.ButtonDefaultSize);
 
-        openHelp.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size20.ic_fluent_book_search_20_filled, Globals.ButtonDefaultSize);
+        openHelp.Image = CreateImage(Globals.CustomIconSettings.Help,
+            Size20.ic_fluent_book_search_20_filled, menuColor, Globals.ButtonDefaultSize);
 
-        stashQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size20.ic_fluent_arrow_down_20_filled, Globals.ButtonDefaultSize);
+        stashQueueCommand.Image = CreateImage(Globals.CustomIconSettings.StashQueue,
+            Size20.ic_fluent_arrow_down_20_filled, menuColor, Globals.ButtonDefaultSize);
 
-        stashPopQueueCommand.Image = EtoHelpers.ImageFromSvg(menuColor,
-            Size20.ic_fluent_arrow_export_up_20_filled, Globals.ButtonDefaultSize);
+        stashPopQueueCommand.Image = CreateImage(Globals.CustomIconSettings.PopStashedQueue,
+            Size20.ic_fluent_arrow_export_up_20_filled, menuColor, Globals.ButtonDefaultSize);
+
+        iconSettingsCommand.Image = CreateImage(Globals.CustomIconSettings.IconSettings,
+            Size20.ic_fluent_icons_20_filled, menuColor, Globals.ButtonDefaultSize);
 
         var addFilesSubMenu = new SubMenuItem
         {
-            Image = EtoHelpers.ImageFromSvg(menuColorAlternate, Size20.ic_fluent_collections_add_20_filled,
-                Globals.MenuImageDefaultSize),
+            Image = CreateImage(Globals.CustomIconSettings.AddMusicFiles,
+                Size20.ic_fluent_collections_add_20_filled, menuColorAlternate, Globals.MenuImageDefaultSize),
             Text = UI.AddMusicFiles,
         };
 
@@ -386,7 +490,7 @@ partial class FormMain
                 // File submenu
                 new SubMenuItem { Text = UI.TestStuff, Items = { testStuff, }, Visible = Debugger.IsAttached, },
                 new SubMenuItem { Text = UI.Queue, Items = { saveQueueCommand, manageSavedQueues, clearQueueCommand, scrambleQueueCommand, stashQueueCommand, stashPopQueueCommand, },},
-                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, updateTrackMetadata, },},
+                new SubMenuItem { Text = UI.Tools, Items = { settingsCommand, colorSettingsCommand, iconSettingsCommand, updateTrackMetadata, },},
                 new SubMenuItem { Text = UI.Help, Items = { aboutCommand, openHelp, checkUpdates, },},
             },
             ApplicationItems =
@@ -420,6 +524,7 @@ partial class FormMain
         openHelp.Executed += OpenHelp_Executed;
         stashQueueCommand.Executed += StashQueueCommandExecuted;
         stashPopQueueCommand.Executed += StashPopQueueCommand_Executed;
+        iconSettingsCommand.Executed += IconSettingsCommand_Executed;
     }
 
     private Control CreateStatusBar()

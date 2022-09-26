@@ -551,4 +551,22 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="PopStashedQueue" xml:space="preserve">
     <value>Palauta jono varastosta</value>
   </data>
+  <data name="IconSettings" xml:space="preserve">
+    <value>Ikonien asetukset</value>
+  </data>
+  <data name="SingleIconSetting" xml:space="preserve">
+    <value>Ikonin asetukset</value>
+  </data>
+  <data name="IconColor" xml:space="preserve">
+    <value>Ikonin väri</value>
+  </data>
+  <data name="ColorizeIcon" xml:space="preserve">
+    <value>Värjää ikoni</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Ikoni</value>
+  </data>
+  <data name="ScalableVectorGraphicFiles" xml:space="preserve">
+    <value>Scalable Vector Graphic -tiedostot</value>
+  </data>
 </root>

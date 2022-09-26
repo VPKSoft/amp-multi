@@ -58,6 +58,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 		</Compile>
+		<Compile Update="Localization\UiImageNames.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>UiImageNames.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -84,6 +89,10 @@
 		<EmbeddedResource Update="Localization\UI.resx">
 			<LastGenOutput>UI.Designer.cs</LastGenOutput>
 			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Localization\UiImageNames.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>UiImageNames.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

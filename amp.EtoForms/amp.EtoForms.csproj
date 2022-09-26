@@ -16,7 +16,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DocumentationFile>bin\$(Configuration)\amp.EtoForms.xml</DocumentationFile>
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
-		<Version>1.0.1.1</Version>
+		<Version>1.0.1.2</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsOSX)'=='true'">
@@ -30,8 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Remove="DtoClasses\**" />
 		<Compile Remove="EventArguments\**" />
+		<EmbeddedResource Remove="DtoClasses\**" />
 		<EmbeddedResource Remove="EventArguments\**" />
+		<None Remove="DtoClasses\**" />
 		<None Remove="EventArguments\**" />
 	</ItemGroup>
 
@@ -85,10 +88,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="DtoClasses\" />
 	</ItemGroup>
 
 </Project>

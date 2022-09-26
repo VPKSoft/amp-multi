@@ -49,6 +49,9 @@ Opens the [settings dialog](settings.md) for various software settings.
 #### Color settings
 Opens a [dialog where the software colors can be set](color_settings.md).
 
+#### Icon settings
+The [icon settings](icon_settings.md) dialog allows user to specify SVG images as custom UI icons.
+
 #### Update track metadata
 Goes through all the tracks in all albums and reads the track file metadata and updates it to the corresponding record of software. This tool is designed to be used if the track metadata is modified elsewhere as the amp# only reads the metadata tags once.
 
