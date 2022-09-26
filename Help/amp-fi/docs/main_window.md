@@ -49,6 +49,9 @@ Avaa [asetukset-dialogin](settings.md) ohjelman asetusten muokkaamista varten.
 #### Värien asetukset
 Avaa [dialogin, missä ohjelmassa käytettyjä värejä voi vaihtaa](color_settings.md).
 
+#### Ikonien asetukset
+[Ikonien asetukset](icon_settings.md) -dialogissa käyttäjä voi valita SVG-kuvia ohjelmaan sisältyvien kuvakkeiden tilalle.
+
 #### Päivitä kappaleiden metatiedot
 Käy läpi kaikki kappaleet kaikista albumeista ja päivittää vastaavat tiedot ohjelmaan. Tämä työkalu on tarkoitettu sitä varten, jos kappaleiden metatietoja on muokattu muualla, kuin amp#-ohjelmassa, koska amp# lukee metadatatiedot ainoastaan kerran.
 
