@@ -48,4 +48,16 @@ public class CustomIcon
     /// </summary>
     /// <value><c>true</c> if to preserve original SVG color information; otherwise, <c>false</c>.</value>
     public bool PreserveOriginalColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the width of the icon.
+    /// </summary>
+    /// <value>The width of the icon.</value>
+    public int IconWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon height.
+    /// </summary>
+    /// <value>The icon height.</value>
+    public int IconHeight { get; set; }
 }

@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using System.Globalization;
+using System.Reflection;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Settings;
@@ -33,6 +34,7 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
+using VPKSoft.ApplicationSettingsJson;
 using TableLayout = Eto.Forms.TableLayout;
 
 namespace amp.EtoForms.Dialogs;
@@ -113,6 +115,7 @@ internal class FormIconSettings : Dialog
 
     private void BtnOk_Click(object? sender, EventArgs e)
     {
+        UpdateIconSettings();
         Globals.SaveCustomIcons();
         Close();
     }
@@ -125,6 +128,7 @@ internal class FormIconSettings : Dialog
 
     private void DisplaySelected()
     {
+        SuspendChangedEvents = true;
         var iconData = (IconData?)listCustomIcons.SelectedValue;
         if (iconData != null)
         {
@@ -140,6 +144,8 @@ internal class FormIconSettings : Dialog
             cpCustomIconSelector.Value = default;
             cbColorizeIcon.Checked = false;
         }
+
+        SuspendChangedEvents = false;
     }
 
     private void IvCustomIcon_MouseDown(object? sender, MouseEventArgs e)
@@ -177,14 +183,40 @@ internal class FormIconSettings : Dialog
         });
     }
 
+    private int suspendCount;
+
+    private bool SuspendChangedEvents
+    {
+        get => suspendCount < 0;
+
+        set
+        {
+            if (value)
+            {
+                suspendCount--;
+            }
+            else
+            {
+                suspendCount++;
+            }
+        }
+    }
+
     private void SetIconDataAction(Action<IconData> action)
     {
+        if (SuspendChangedEvents)
+        {
+            return;
+        }
+
         var iconData = (IconData?)listCustomIcons.SelectedValue;
         if (iconData != null)
         {
+            SuspendChangedEvents = true;
             action(iconData);
             RefreshList();
             DisplaySelected();
+            SuspendChangedEvents = false;
         }
     }
 
@@ -197,6 +229,33 @@ internal class FormIconSettings : Dialog
     private void ListCustomIcons_SelectedValueChanged(object? sender, EventArgs e)
     {
         DisplaySelected();
+    }
+
+    private void UpdateIconSettings()
+    {
+        var dataSource = (List<IconData>)listCustomIcons.DataStore;
+        var publicMembers = typeof(CustomIcons).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SettingsAttribute))).ToList();
+
+        foreach (var item in dataSource)
+        {
+            if (item.IsCustom)
+            {
+                var propertyInfo = publicMembers.FirstOrDefault(f => f.Name == item.Name);
+                if (propertyInfo != null)
+                {
+                    propertyInfo.SetValue(Globals.CustomIconSettings,
+                        new CustomIcon
+                        {
+                            Color = item.OverrideColor,
+                            IconData = item.SvgData,
+                            PreserveOriginalColor = item.NoColorChange,
+                            IconHeight = item.ImageDisplaySize.Height,
+                            IconWidth = item.ImageDisplaySize.Width,
+                        });
+                }
+            }
+        }
     }
 
     private void ListIconSettings(bool defaults)
@@ -382,7 +441,13 @@ internal class FormIconSettings : Dialog
         var resMan = UiImageNames.ResourceManager;
         var size = customSize ?? new Size(30, 30);
         var iconText = resMan.GetString(name, new CultureInfo(Globals.Settings.Locale)) ?? UI.ERRORNOTEXT;
-        var color = customIcon?.Color == null ? itemColor : Color.Parse(customIcon.Color);
+
+        var color = customIcon?.Color == null && customIcon?.PreserveOriginalColor != true ? itemColor : Color.Parse(customIcon.Color);
+
+        if (customIcon?.PreserveOriginalColor == true)
+        {
+            color = null;
+        }
 
         var svg = color == null
         ? EtoHelpers.ImageFromSvg(customIcon?.IconData ?? defaultSvgData, size)
@@ -392,7 +457,7 @@ internal class FormIconSettings : Dialog
         return new IconData(name, iconText, svg)
         {
             NoColorChange = customIcon?.PreserveOriginalColor == true,
-            OverrideColor = itemColor?.ToString(),
+            OverrideColor = color?.ToString(),
             SvgData = customIcon?.IconData ?? defaultSvgData,
             IsCustom = customIcon != null,
             ImageDisplaySize = size,
@@ -406,8 +471,8 @@ internal class FormIconSettings : Dialog
 
     private static Image CreateImage(IconData iconData, Size? size = null)
     {
-        return iconData.NoColorChange && iconData.OverrideColor != null ?
-        EtoHelpers.ImageFromSvg(iconData.SvgData, imageViewSize)
+        return iconData.NoColorChange || iconData.OverrideColor == null ?
+        EtoHelpers.ImageFromSvg(iconData.SvgData, size ?? imageViewSize)
             : EtoHelpers.ImageFromSvg(Color.Parse(iconData.OverrideColor),
             iconData.SvgData, size ?? imageViewSize);
     }
