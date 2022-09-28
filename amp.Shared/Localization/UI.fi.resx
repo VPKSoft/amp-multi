@@ -569,4 +569,13 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ScalableVectorGraphicFiles" xml:space="preserve">
     <value>Scalable Vector Graphic -tiedostot</value>
   </data>
+  <data name="Miscellaneous" xml:space="preserve">
+    <value>Sekalaista</value>
+  </data>
+  <data name="FirstActionWhenQueueIsFinished" xml:space="preserve">
+    <value>Ensimmäinen toimenpide jonon loputtua</value>
+  </data>
+  <data name="SecondActionWhenQueueIsFinished" xml:space="preserve">
+    <value>Toinen toimenpide jonon loputtua</value>
+  </data>
 </root>

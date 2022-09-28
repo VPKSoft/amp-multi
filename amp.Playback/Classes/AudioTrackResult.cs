@@ -60,4 +60,10 @@ public class AudioTrackResult : IPlayBackStatistics
 
     /// <inheritdoc cref="IPlayBackStatistics.SkippedEarlyCount"/>
     public int? SkippedEarlyCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether track result was gotten from the queue.
+    /// </summary>
+    /// <value><c>true</c> if the track result was gotten from the queue; otherwise, <c>false</c>.</value>
+    public bool FromQueue { get; set; }
 }

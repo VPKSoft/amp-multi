@@ -144,6 +144,7 @@ public class PlaybackOrder<TAudioTrack, TAlbumTrack, TAlbum> : BiasedRandomSetti
             NextTrackIndex = nextTrackIndex,
             PlayedByRandomize = randomized ? 1 : 0,
             PlayedByUser = queued ? 1 : 0,
+            FromQueue = queued,
         };
     }
 

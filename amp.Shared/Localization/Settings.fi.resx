@@ -163,4 +163,16 @@
   <data name="HorizontalLevelVisualization" xml:space="preserve">
     <value>Vaakasuuntainen äänen tason visualisointi</value>
   </data>
+  <data name="QueueActionNone" xml:space="preserve">
+    <value>Ei mitään</value>
+  </data>
+  <data name="QueueActionStopPlayback" xml:space="preserve">
+    <value>Pysäytä toisto</value>
+  </data>
+  <data name="QueueActionPopStashedQueue" xml:space="preserve">
+    <value>Palauta varastoitu jono</value>
+  </data>
+  <data name="QueueActionQuitApplication" xml:space="preserve">
+    <value>Lopeta sovellus</value>
+  </data>
 </root>

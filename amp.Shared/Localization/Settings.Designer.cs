@@ -196,6 +196,42 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string QueueActionNone {
+            get {
+                return ResourceManager.GetString("QueueActionNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pop stashed queue.
+        /// </summary>
+        public static string QueueActionPopStashedQueue {
+            get {
+                return ResourceManager.GetString("QueueActionPopStashedQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit the application.
+        /// </summary>
+        public static string QueueActionQuitApplication {
+            get {
+                return ResourceManager.GetString("QueueActionQuitApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop playback.
+        /// </summary>
+        public static string QueueActionStopPlayback {
+            get {
+                return ResourceManager.GetString("QueueActionStopPlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Randomized count.
         /// </summary>
         public static string RandomizedCount {

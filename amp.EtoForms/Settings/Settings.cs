@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.EtoForms.Settings.Enumerations;
 using amp.Playback.Interfaces;
 using ManagedBass.FftSignalProvider;
 using VPKSoft.ApplicationSettingsJson;
@@ -283,6 +284,20 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     /// <value>The help folder.</value>
     [Settings(Default = "")]
     public string HelpFolder { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the first queue finish action.
+    /// </summary>
+    /// <value>The first queue finish action.</value>
+    [Settings(Default = QueueFinishActionType.None)]
+    public QueueFinishActionType QueueFinishActionFirst { get; set; }
+
+    /// <summary>
+    /// Gets or sets the second queue finish action.
+    /// </summary>
+    /// <value>The first second finish action.</value>
+    [Settings(Default = QueueFinishActionType.None)]
+    public QueueFinishActionType QueueFinishActionSecond { get; set; }
     #endregion
 
     #region Runtime    
