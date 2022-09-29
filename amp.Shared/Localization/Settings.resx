@@ -163,4 +163,16 @@
   <data name="HorizontalLevelVisualization" xml:space="preserve">
     <value>Horizontal level visualization</value>
   </data>
+  <data name="QueueActionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="QueueActionStopPlayback" xml:space="preserve">
+    <value>Stop playback</value>
+  </data>
+  <data name="QueueActionPopStashedQueue" xml:space="preserve">
+    <value>Pop stashed queue</value>
+  </data>
+  <data name="QueueActionQuitApplication" xml:space="preserve">
+    <value>Quit the application</value>
+  </data>
 </root>

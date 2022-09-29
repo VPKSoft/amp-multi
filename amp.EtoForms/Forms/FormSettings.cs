@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using amp.EtoForms.Settings.Enumerations;
 using amp.EtoForms.Utilities;
 using amp.Shared.Classes;
 using amp.Shared.Localization;
@@ -33,6 +34,7 @@ using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using ManagedBass.FftSignalProvider;
+using VPKSoft.Utils.Common.Classes;
 using static EtoForms.Controls.Custom.Utilities.TableLayoutHelpers;
 
 namespace amp.EtoForms.Forms;
@@ -55,10 +57,13 @@ public class FormSettings : Dialog<bool>
         Content = new Panel { Content = tbcSettings, Padding = Globals.DefaultPadding, };
         NegativeButtons.Add(btnCancel);
         PositiveButtons.Add(btnOk);
+        dataStoreQueueFinishAction = Enum.GetValues<QueueFinishActionType>().OrderBy(f => (int)f)
+            .Select(f => new Pair<QueueFinishActionType, string>(f, Shared.Localization.Settings.ResourceManager.GetString(LocalizationActionPrefix + f, new CultureInfo(Globals.Settings.Locale)) ?? string.Empty)).ToList();
         CreateSettingsTabCommon();
         CreateSettingsTabRandom();
         CreateSettingsTabTrackNaming();
         CreateVisualizationSettingsTab();
+        CreateMiscellaneousSettings();
         LoadSettings();
 
         btnCancel.Click += delegate
@@ -103,6 +108,11 @@ public class FormSettings : Dialog<bool>
         // Misc.
         cmbUiLocale.SelectedValue =
             new CultureExtended(string.IsNullOrWhiteSpace(Globals.Settings.Locale) ? "en" : Globals.Settings.Locale, true);
+
+        cmbQueueFinishActionFirst.SelectedValue =
+            dataStoreQueueFinishAction.First(f => f.First == Globals.Settings.QueueFinishActionFirst);
+        cmbQueueFinishActionSecond.SelectedValue =
+            dataStoreQueueFinishAction.First(f => f.First == Globals.Settings.QueueFinishActionSecond);
 
         cbCheckUpdates.Checked = Globals.Settings.AutoCheckUpdates;
         nsStackQueue.Value = Globals.Settings.StackQueueRandomPercentage;
@@ -157,6 +167,12 @@ public class FormSettings : Dialog<bool>
             var culture = (CultureInfo)cmbUiLocale.SelectedValue;
             Globals.Settings.Locale = culture.Name;
         }
+
+        Globals.Settings.QueueFinishActionFirst =
+            ((Pair<QueueFinishActionType, string>)cmbQueueFinishActionFirst.SelectedValue).First;
+
+        Globals.Settings.QueueFinishActionSecond =
+            ((Pair<QueueFinishActionType, string>)cmbQueueFinishActionSecond.SelectedValue).First;
 
         Globals.Settings.AutoCheckUpdates = cbCheckUpdates.Checked == true;
         Globals.Settings.StackQueueRandomPercentage = (int)nsStackQueue.Value;
@@ -490,6 +506,28 @@ public class FormSettings : Dialog<bool>
         tbcSettings.Pages.Add(tabVisualizationSettings);
     }
 
+    private void CreateMiscellaneousSettings()
+    {
+        cmbQueueFinishActionFirst.ItemTextBinding = new PropertyBinding<string>("Second");
+        cmbQueueFinishActionSecond.ItemTextBinding = new PropertyBinding<string>("Second");
+        cmbQueueFinishActionFirst.DataStore = dataStoreQueueFinishAction;
+        cmbQueueFinishActionSecond.DataStore = dataStoreQueueFinishAction;
+
+        tabMiscellaneous.Content = new TableLayout
+        {
+            Rows =
+            {
+                new TableRow(lbQueueFinishActionFirst, new TableCell(cmbQueueFinishActionFirst, true)),
+                new TableRow(lbQueueFinishActionSecond, new TableCell(cmbQueueFinishActionSecond, true)),
+                new TableRow { ScaleHeight = true,},
+            },
+            Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+            Padding = Globals.DefaultPadding,
+        };
+
+        tbcSettings.Pages.Add(tabMiscellaneous);
+    }
+
     private void BtFormulaDefaults_Click(object? sender, EventArgs e)
     {
         tbTrackNamingFormula.Text = TrackDisplayNameGenerate.FormulaDefault;
@@ -565,5 +603,16 @@ public class FormSettings : Dialog<bool>
     private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
     private readonly CheckBox cbVisualizeAudioLevels = new() { Text = UI.VisualizeAudioLevels, };
     private readonly CheckBox cbLevelsVertical = new() { Text = amp.Shared.Localization.Settings.HorizontalLevelVisualization, };
+
+    // Miscellaneous settings tab page
+    private readonly TabPage tabMiscellaneous = new() { Text = UI.Miscellaneous, };
+    private readonly Label lbQueueFinishActionFirst = new() { Text = UI.FirstActionWhenQueueIsFinished, };
+    private readonly ComboBox cmbQueueFinishActionFirst = new();
+    private readonly Label lbQueueFinishActionSecond = new() { Text = UI.SecondActionWhenQueueIsFinished, };
+    private readonly ComboBox cmbQueueFinishActionSecond = new();
+
+    private const string LocalizationActionPrefix = "QueueAction";
+
+    private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction;
     #endregion
 }

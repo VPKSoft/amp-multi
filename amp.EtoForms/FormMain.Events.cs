@@ -247,13 +247,19 @@ partial class FormMain
         idleChecker.Dispose();
     }
 
+    private bool previousQueued;
+
     private async Task<AlbumTrack?> GetNextAudioTrackFunc()
     {
         AlbumTrack? result = null;
+        var queued = false;
         await Application.Instance.InvokeAsync(async () =>
         {
             var nextTrackData = await playbackOrder.NextTrack(tracks);
             result = tracks[nextTrackData.NextTrackIndex];
+
+            queued = nextTrackData.FromQueue;
+
             if (result.AudioTrack != null)
             {
                 result.AudioTrack.PlayedByRandomize ??= 0;
@@ -268,7 +274,18 @@ partial class FormMain
 
                 await context.SaveChangesAsync();
             }
+
         });
+
+        // The queue finished. Launch some action.
+        if (previousQueued && !queued)
+        {
+            previousQueued = false;
+            return await CheckQueueFinishAction(Globals.Settings.QueueFinishActionFirst, true, result);
+        }
+
+        previousQueued = queued;
+
 
         return result;
     }

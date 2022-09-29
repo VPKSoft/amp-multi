@@ -34,6 +34,7 @@ using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Properties;
+using amp.EtoForms.Settings.Enumerations;
 using amp.EtoForms.Utilities;
 using amp.Playback.Classes;
 using amp.Shared.Constants;
@@ -494,5 +495,46 @@ SOFTWARE.
             gvAudioTracks.ScrollToRow(displayTrack);
             gvAudioTracks.Focus();
         }
+    }
+
+    
+    private async Task<AlbumTrack?> CheckQueueFinishAction(QueueFinishActionType actionType, bool first, AlbumTrack? current)
+    {
+        if (actionType == QueueFinishActionType.QuitApplication ||
+            actionType == QueueFinishActionType.StopPlayback)
+        {
+            previousQueued = false;
+            playbackManager.Pause();
+
+            if (actionType == QueueFinishActionType.QuitApplication)
+            {
+                await Application.Instance.InvokeAsync(() =>
+                {
+                    quitCommand.Execute();
+                });
+            }
+
+            return null;
+        }
+
+        if (actionType == QueueFinishActionType.PopStashedQueue)
+        {
+            var stashCount = QueueHandling.GetQueueStashCount(CurrentAlbumId, context, this);
+            if (stashCount > 0)
+            {
+                await Application.Instance.InvokeAsync(() =>
+                {
+                    stashPopQueueCommand.Execute();
+                });
+                return await GetNextAudioTrackFunc();
+            }
+            
+            if (first)
+            {
+                return await CheckQueueFinishAction(Globals.Settings.QueueFinishActionSecond, false, current);
+            }
+        }
+
+        return current;
     }
 }

@@ -569,4 +569,13 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ScalableVectorGraphicFiles" xml:space="preserve">
     <value>Scalable Vector Graphic Files</value>
   </data>
+  <data name="Miscellaneous" xml:space="preserve">
+    <value>Miscellaneous</value>
+  </data>
+  <data name="FirstActionWhenQueueIsFinished" xml:space="preserve">
+    <value>First action when queue is finished</value>
+  </data>
+  <data name="SecondActionWhenQueueIsFinished" xml:space="preserve">
+    <value>Second action when queue is finished</value>
+  </data>
 </root>

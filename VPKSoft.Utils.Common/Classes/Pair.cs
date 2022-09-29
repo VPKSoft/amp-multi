@@ -24,26 +24,41 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Interfaces;
-
-namespace amp.DataAccessLayer.DtoClasses;
+namespace VPKSoft.Utils.Common.Classes;
 
 /// <summary>
-/// A DTO class for stashing and popping the current queue from and into the database.
-/// Implements the <see cref="IQueueStash" />
+/// A simple pair class.
 /// </summary>
-/// <seealso cref="IQueueStash" />
-public class QueueStash : IQueueStash
+/// <typeparam name="TFirst">The type of the first member.</typeparam>
+/// <typeparam name="TSecond">The type of the second member.</typeparam>
+public class Pair<TFirst, TSecond>
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id" />
-    public long Id { get; set; }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Pair{TFirst, TSecond}"/> class.
+    /// </summary>
+    /// <param name="first">The first member value.</param>
+    /// <param name="second">The second member value.</param>
+    public Pair(TFirst? first, TSecond? second)
+    {
+        First = first;
+        Second = second;
+    }
 
-    /// <inheritdoc cref="IQueueStash.AudioTrackId" />
-    public long AudioTrackId { get; set; }
+    /// <summary>
+    /// Gets or sets the first member.
+    /// </summary>
+    /// <value>The first member.</value>
+    public TFirst? First { get; set; }
 
-    /// <inheritdoc cref="IQueueStash.AlbumId" />
-    public long AlbumId { get; set; }
+    /// <summary>
+    /// Gets or sets the second member.
+    /// </summary>
+    /// <value>The second member.</value>
+    public TSecond? Second { get; set; }
 
-    /// <inheritdoc cref="IQueueStash.QueueIndex" />
-    public int QueueIndex { get; set; }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Second?.GetType() == typeof(string) ? Second.ToString() : $"{{ {nameof(First)} = {First}, {nameof(Second)} = {Second} }}";
+    }
 }

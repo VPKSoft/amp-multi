@@ -60,6 +60,7 @@ public partial class FormMain
                 var index = albums.FindIndex(f => f.Id == value);
                 cmbAlbumSelect.SelectedIndex = index;
                 suspendAlbumChange = false;
+                previousQueued = false;
 
                 Globals.Settings.SelectedAlbum = value;
                 Globals.SaveSettings();

@@ -82,3 +82,22 @@ Arvo, millä ilmaistaan visualisoidaanko äänen voimakkuus vaaka- vai pystysuun
 *Äänen visualisointi -välilehti*
 
 ![image](img/settings4.png)
+
+## Sekalaista
+Tällä välilehdellä on sekalaiset asetukset jotka eivät suoraan kuulu mihinkään kategoriaan.
+
+**Toimenpiteet jonon loputtua**
+Ohjelmassa voi määritellä 2 toimenpidettä, jotka suoritetaan jonon loputtua.
+
+Toimenpiteet ovat:
+
+* Ei mitään
+* Pysäytä toisto
+* Palauta varastoitu jono
+* Lopeta sovellus
+
+Jos ensimmäistä toimenpidettä ei voida suorittaa, suoritetaan seuraava, muussa tapauksessa pysähdytään ensimmäiseen toimenpiteeseen ja arvioidaan tilanne uudelleen jonon loputtua.
+
+*Sekalaista-välilehti*
+
+![image](img/settings5.png)

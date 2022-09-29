@@ -619,6 +619,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First action when queue is finished.
+        /// </summary>
+        public static string FirstActionWhenQueueIsFinished {
+            get {
+                return ResourceManager.GetString("FirstActionWhenQueueIsFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///Formula types:
         ///{@Ar} Artist
@@ -787,6 +796,15 @@ namespace amp.Shared.Localization {
         public static string MinimumNameLength {
             get {
                 return ResourceManager.GetString("MinimumNameLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Miscellaneous.
+        /// </summary>
+        public static string Miscellaneous {
+            get {
+                return ResourceManager.GetString("Miscellaneous", resourceCulture);
             }
         }
         
@@ -1120,6 +1138,15 @@ namespace amp.Shared.Localization {
         public static string ScrambleQueue {
             get {
                 return ResourceManager.GetString("ScrambleQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Second action when queue is finished.
+        /// </summary>
+        public static string SecondActionWhenQueueIsFinished {
+            get {
+                return ResourceManager.GetString("SecondActionWhenQueueIsFinished", resourceCulture);
             }
         }
         

@@ -73,6 +73,7 @@ public class Globals
             EtoForms.Culture = value;
             Settings.Culture = value;
             ColorsDescriptions.Culture = value;
+            UiImageNames.Culture = value;
         }
     }
 

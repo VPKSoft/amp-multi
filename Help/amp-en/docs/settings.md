@@ -81,3 +81,22 @@ A value indicating whether to visualize the audio levels vertical or horizontal.
 *The audio visualization tab*
 
 ![image](img/settings4.png)
+
+## Miscellaneous
+On this tab there are the miscellaneous settings which do not belong to any specific category directly.
+
+**Actions after the queue has finished**
+Tow actions can be defined to in the programs which are run when the queue has finished playing.
+
+The actions are: 
+
+* None
+* Stop playback
+* Pop stashed queue
+* Quit the application
+
+If the first action can not be run, the second action is run. Otherwise the first action is run and the situation is re-evaluated after the queue has finished playing again.
+
+*The Miscellaneous tab*
+
+![image](img/settings5.png)

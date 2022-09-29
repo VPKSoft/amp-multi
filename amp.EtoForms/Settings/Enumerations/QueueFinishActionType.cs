@@ -24,26 +24,30 @@ SOFTWARE.
 */
 #endregion
 
-using amp.Shared.Interfaces;
-
-namespace amp.DataAccessLayer.DtoClasses;
+namespace amp.EtoForms.Settings.Enumerations;
 
 /// <summary>
-/// A DTO class for stashing and popping the current queue from and into the database.
-/// Implements the <see cref="IQueueStash" />
+/// Action types to perform after the queue has finished playing.
 /// </summary>
-/// <seealso cref="IQueueStash" />
-public class QueueStash : IQueueStash
+public enum QueueFinishActionType
 {
-    /// <inheritdoc cref="IEntityBase{T}.Id" />
-    public long Id { get; set; }
+    /// <summary>
+    /// No action is to be performed when the queue is finished.
+    /// </summary>
+    None,
 
-    /// <inheritdoc cref="IQueueStash.AudioTrackId" />
-    public long AudioTrackId { get; set; }
+    /// <summary>
+    /// The playback will be stopped when the queue is finished.
+    /// </summary>
+    StopPlayback,
 
-    /// <inheritdoc cref="IQueueStash.AlbumId" />
-    public long AlbumId { get; set; }
+    /// <summary>
+    /// The possible stashed queue us popped when the queue is finished.
+    /// </summary>
+    PopStashedQueue,
 
-    /// <inheritdoc cref="IQueueStash.QueueIndex" />
-    public int QueueIndex { get; set; }
+    /// <summary>
+    /// The application will quit after the queue has finished.
+    /// </summary>
+    QuitApplication,
 }
