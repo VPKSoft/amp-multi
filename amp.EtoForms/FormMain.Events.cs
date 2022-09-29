@@ -281,11 +281,7 @@ partial class FormMain
         if (previousQueued && !queued)
         {
             previousQueued = false;
-            playbackManager.Pause();
-            return null;
-            // TODO::Quit
-            // TODO::Stop
-            // TODO::Pop stash
+            return await CheckQueueFinishAction(Globals.Settings.QueueFinishActionFirst, true, result);
         }
 
         previousQueued = queued;

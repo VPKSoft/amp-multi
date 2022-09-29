@@ -611,8 +611,7 @@ public class FormSettings : Dialog<bool>
 
     private const string LocalizationActionPrefix = "QueueAction";
 
-
     private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction = Enum.GetValues<QueueFinishActionType>().OrderBy(f => (int)f)
-        .Select(f => new Pair<QueueFinishActionType, string> { First = f, Second = Shared.Localization.Settings.ResourceManager.GetString(LocalizationActionPrefix + f) ?? string.Empty }).ToList();
+        .Select(f => new Pair<QueueFinishActionType, string>(f, Shared.Localization.Settings.ResourceManager.GetString(LocalizationActionPrefix + f) ?? string.Empty)).ToList();
     #endregion
 }

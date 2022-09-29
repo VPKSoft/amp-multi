@@ -34,20 +34,31 @@ namespace VPKSoft.Utils.Common.Classes;
 public class Pair<TFirst, TSecond>
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="Pair{TFirst, TSecond}"/> class.
+    /// </summary>
+    /// <param name="first">The first member value.</param>
+    /// <param name="second">The second member value.</param>
+    public Pair(TFirst? first, TSecond? second)
+    {
+        First = first;
+        Second = second;
+    }
+
+    /// <summary>
     /// Gets or sets the first member.
     /// </summary>
     /// <value>The first member.</value>
-    public TFirst First { get; set; }
+    public TFirst? First { get; set; }
 
     /// <summary>
     /// Gets or sets the second member.
     /// </summary>
     /// <value>The second member.</value>
-    public TSecond Second { get; set; }
+    public TSecond? Second { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return Second?.GetType() == typeof(string) ? Second.ToString() : $"{{ First = {First}, Second = {Second} }}";
+        return Second?.GetType() == typeof(string) ? Second.ToString() : $"{{ {nameof(First)} = {First}, {nameof(Second)} = {Second} }}";
     }
 }
