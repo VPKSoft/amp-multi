@@ -57,6 +57,8 @@ public class FormSettings : Dialog<bool>
         Content = new Panel { Content = tbcSettings, Padding = Globals.DefaultPadding, };
         NegativeButtons.Add(btnCancel);
         PositiveButtons.Add(btnOk);
+        dataStoreQueueFinishAction = Enum.GetValues<QueueFinishActionType>().OrderBy(f => (int)f)
+            .Select(f => new Pair<QueueFinishActionType, string>(f, Shared.Localization.Settings.ResourceManager.GetString(LocalizationActionPrefix + f, new CultureInfo(Globals.Settings.Locale)) ?? string.Empty)).ToList();
         CreateSettingsTabCommon();
         CreateSettingsTabRandom();
         CreateSettingsTabTrackNaming();
@@ -611,7 +613,6 @@ public class FormSettings : Dialog<bool>
 
     private const string LocalizationActionPrefix = "QueueAction";
 
-    private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction = Enum.GetValues<QueueFinishActionType>().OrderBy(f => (int)f)
-        .Select(f => new Pair<QueueFinishActionType, string>(f, Shared.Localization.Settings.ResourceManager.GetString(LocalizationActionPrefix + f) ?? string.Empty)).ToList();
+    private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction;
     #endregion
 }
