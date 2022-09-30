@@ -461,6 +461,7 @@ partial class FormMain
                 "Print..." => UI.Print,
                 "&Edit" => UI.Edit,
                 "&Window" => UI.Window,
+                "License" => UI.License,
                 _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
             };
         }
