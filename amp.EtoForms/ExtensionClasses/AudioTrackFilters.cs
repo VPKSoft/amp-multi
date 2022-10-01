@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Globalization;
 using System.Text.RegularExpressions;
 using amp.EtoForms.Utilities;
+using amp.Shared.Extensions;
 using amp.Shared.Interfaces;
 
 namespace amp.EtoForms.ExtensionClasses;
@@ -99,8 +100,8 @@ internal static class AudioTrackFilters
                 try
                 {
                     var searches = search.Split('&');
-                    var match1 = YearMatch(searches[0], audioTrack.FileName);
-                    var match2 = YearMatch(searches[1].TrimStart(), audioTrack.FileName);
+                    var match1 = YearMatch(searches[0], audioTrack.FileNameFull());
+                    var match2 = YearMatch(searches[1].TrimStart(), audioTrack.FileNameFull());
                     if (match1 != null && match2 != null)
                     {
                         return (bool)match1 && (bool)match2;
@@ -113,7 +114,7 @@ internal static class AudioTrackFilters
             }
             else
             {
-                var match1 = YearMatch(search, audioTrack.FileName);
+                var match1 = YearMatch(search, audioTrack.FileNameFull());
                 if (match1 != null)
                 {
                     return (bool)match1;
@@ -127,7 +128,7 @@ internal static class AudioTrackFilters
                       audioTrack.Title?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.Year?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.Track?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.FileName.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      audioTrack.FileNameFull().IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.OverrideName?.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       MatchTagFindString(audioTrack.TagFindString, search);
@@ -147,7 +148,7 @@ internal static class AudioTrackFilters
                       audioTrack.Title?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.Year?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.Track?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.FileName.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                      audioTrack.FileNameFull().IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       audioTrack.OverrideName?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                       MatchTagFindString(audioTrack.TagFindString, tmpStr);

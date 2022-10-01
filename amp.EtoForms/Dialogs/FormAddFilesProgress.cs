@@ -28,6 +28,7 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
+using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -394,7 +395,7 @@ public class FormAddFilesProgress : Form
 
             try
             {
-                var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new AudioTrack();
+                var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileNameFull() == fileInfo.Name, cancellationToken: userAbortToken) ?? new AudioTrack();
                 track.UpdateTrackInfo(fileInfo);
                 if (track.Id == 0)
                 {

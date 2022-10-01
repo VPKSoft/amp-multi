@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.Shared.Extensions;
 using Eto.Drawing;
 
 namespace amp.EtoForms.Forms;
@@ -181,8 +182,8 @@ partial class FormDialogTrackInfo
         tbSampleRate.Text = $"{trackTag.SampleRate:F0}";
         tbDuration.Text = $"{TimeSpan.FromSeconds(trackTag.Duration):hh\\:mm\\:ss}";
         tbAudioFormat.Text = $"{trackTag.AudioFormat.Name}";
-        tbFileName.Text = $"{audioTrack.FileNameNoPath}";
-        tbFileNameFull.Text = $"{audioTrack.FileName}";
+        tbFileName.Text = $"{audioTrack.FileName}";
+        tbFileNameFull.Text = $"{audioTrack.FileNameFull()}";
         tbFileSizeBytes.Text = $"{audioTrack.FileSizeBytes}";
         tbLyricsTag.Text = $"{trackTag.Lyrics.UnsynchronizedLyrics}";
 

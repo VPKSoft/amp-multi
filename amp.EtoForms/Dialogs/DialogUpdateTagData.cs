@@ -27,6 +27,7 @@ SOFTWARE.
 using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
 using amp.Shared.Classes;
+using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -211,7 +212,7 @@ public class DialogUpdateTagData : Dialog
             {
                 try
                 {
-                    track.UpdateTrackInfo(new FileInfo(track.FileName));
+                    track.UpdateTrackInfo(new FileInfo(track.FileNameFull()));
                 }
                 catch (Exception ex)
                 {

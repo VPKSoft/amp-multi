@@ -58,7 +58,6 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private string? overrideName;
     private string? tagFindString;
     private bool? tagRead;
-    private string? fileNameNoPath;
     private string? title;
     private byte[]? trackImageData;
     private MusicFileType musicFileType;
@@ -365,21 +364,6 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (tagRead != value)
             {
                 tagRead = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    /// <inheritdoc cref="IAudioTrack.FileNameNoPath"/>
-    public string? FileNameNoPath
-    {
-        get => fileNameNoPath;
-
-        set
-        {
-            if (fileNameNoPath != value)
-            {
-                fileNameNoPath = value;
                 OnPropertyChanged();
             }
         }
