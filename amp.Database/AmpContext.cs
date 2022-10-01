@@ -51,7 +51,21 @@ public class AmpContext : DbContext
         QueueSnapshots = base.Set<QueueSnapshot>();
         QueueTracks = base.Set<QueueTrack>();
         QueueStashes = base.Set<QueueStash>();
+        VersionInfo = base.Set<VersionInfo>();
+        SoftwareMigrationVersion = base.Set<SoftwareMigrationVersion>();
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AmpContext"/> class with a custom SQLite database file.
+    /// </summary>
+    /// <param name="databaseFile">The custom SQLite database file.</param>
+    public AmpContext(string databaseFile)
+        : this()
+    {
+        this.databaseFile = databaseFile;
+    }
+
+    private readonly string? databaseFile;
 
     // ReSharper disable five times MemberCanBePrivate.Global, these entities will be used.
     // ReSharper disable five times UnusedAutoPropertyAccessor.Global, these entities will be used.
@@ -92,10 +106,22 @@ public class AmpContext : DbContext
     /// <value>The stashed queue tracks.</value>
     public DbSet<QueueStash> QueueStashes { get; }
 
+    /// <summary>
+    /// Gets the version information for the <see cref="FluentMigrator"/>.
+    /// </summary>
+    /// <value>The version information for the <see cref="FluentMigrator"/>.</value>
+    public DbSet<VersionInfo> VersionInfo { get; }
+
+    /// <summary>
+    /// Gets the software migration versions.
+    /// </summary>
+    /// <value>The software migration versions.</value>
+    public DbSet<SoftwareMigrationVersion> SoftwareMigrationVersion { get; }
+
     /// <inheritdoc cref="DbContext.OnConfiguring"/>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite(Globals.ConnectionString);
+        optionsBuilder.UseSqlite(databaseFile ?? Globals.ConnectionString);
         optionsBuilder.EnableSensitiveDataLogging();
 #if DEBUG
         optionsBuilder.LogTo(s =>

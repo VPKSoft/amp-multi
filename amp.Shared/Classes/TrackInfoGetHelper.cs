@@ -47,8 +47,8 @@ public static class TrackInfoGetHelper
 
         audioTrack.Album = track.Album;
         audioTrack.Artist = track.Artist;
-        audioTrack.FileName = fileInfo.FullName;
-        audioTrack.FileNameNoPath = fileInfo.Name;
+        audioTrack.FileName = fileInfo.Name;
+        audioTrack.FilePath = fileInfo.DirectoryName ?? string.Empty;
         audioTrack.FileSizeBytes = fileInfo.Length;
         audioTrack.MusicFileType = FileExtensionConvert.FileNameToFileType(fileInfo.FullName);
         audioTrack.Lyrics = updating && !string.IsNullOrWhiteSpace(audioTrack.Lyrics) ? audioTrack.Lyrics : track.Lyrics.UnsynchronizedLyrics;

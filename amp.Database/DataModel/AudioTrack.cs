@@ -47,6 +47,9 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
     /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string FileName { get; set; } = string.Empty;
 
+    /// <inheritdoc cref="IAudioTrack.FilePath"/>
+    public string FilePath { get; set; } = string.Empty;
+
     /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string? Artist { get; set; }
 
@@ -85,9 +88,6 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
 
     /// <inheritdoc cref="IAudioTrack.FileName"/>
     public bool? TagRead { get; set; }
-
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
-    public string? FileNameNoPath { get; set; }
 
     /// <inheritdoc cref="IAudioTrack.FileName"/>
     public int? SkippedEarlyCount { get; set; }

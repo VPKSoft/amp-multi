@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using amp.Database;
+using amp.Database.Migration;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Playback.Classes;
@@ -84,6 +85,8 @@ public partial class FormMain : Form, IExceptionReporter
             Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
+        SoftwareMigration.RunSoftwareMigration(context);
+
         CreateButtons();
         toolBar = CreateToolbar();
         trackAdjustControls = CreateValueSliders();

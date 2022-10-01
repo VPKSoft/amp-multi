@@ -64,7 +64,7 @@ public class CreateInitialDatabase : FluentMigrator.Migration
             .WithColumn(nameof(AudioTrack.OverrideName)).AsString().Nullable()
             .WithColumn(nameof(AudioTrack.TagFindString)).AsString().Nullable()
             .WithColumn(nameof(AudioTrack.TagRead)).AsBoolean().Nullable()
-            .WithColumn(nameof(AudioTrack.FileNameNoPath)).AsString().Nullable()
+            .WithColumn("FileNameNoPath").AsString().Nullable()
             .WithColumn(nameof(AudioTrack.SkippedEarlyCount)).AsInt32().Nullable()
             .WithColumn(nameof(AudioTrack.Title)).AsString().Nullable()
             .WithColumn(nameof(AudioTrack.TrackImageData)).AsBinary().Nullable()
