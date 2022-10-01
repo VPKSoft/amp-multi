@@ -130,7 +130,7 @@ public static class TrackDisplayNameGenerate
                     FormulaType.TrackNo => audioTrack.Track,
                     FormulaType.Title => audioTrack.Title,
                     FormulaType.Renamed => audioTrack.OverrideName,
-                    FormulaType.FileName => Path.GetFileNameWithoutExtension(audioTrack.FileNameNoPath),
+                    FormulaType.FileName => audioTrack.FileName,
                     _ => null,
                 };
 
@@ -174,8 +174,7 @@ public static class TrackDisplayNameGenerate
             (TrackNamingFallbackToFileNameWhenNoLetters && allNonAlphabets) ||
             pseudoMatch)
         {
-            formula = Path.GetFileNameWithoutExtension(audioTrack.FileNameNoPath) ??
-                      Path.GetFileNameWithoutExtension(Path.GetFileName(audioTrack.FileName));
+            formula = Path.GetFileNameWithoutExtension(audioTrack.FileName);
         }
 
         return formula;
