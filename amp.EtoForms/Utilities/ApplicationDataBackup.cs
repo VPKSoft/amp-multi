@@ -58,4 +58,16 @@ public static class ApplicationDataBackup
             archive.CreateEntryFromFile(fullFileName, file);
         }
     }
+
+    /// <summary>
+    /// Restores the application data files from the backup.
+    /// </summary>
+    /// <param name="applicationDataFolder">The application data folder to restore the backup to.</param>
+    /// <param name="backupFileName">Name of the backup file.</param>
+    /// <remarks>The files in the <paramref name="applicationDataFolder"/> will be overridden if they already exist.</remarks>
+    public static void RestoreBackupZip(string applicationDataFolder, string backupFileName)
+    {
+        using var archive = ZipFile.Open(backupFileName, ZipArchiveMode.Read);
+        archive.ExtractToDirectory(applicationDataFolder, true);
+    }
 }

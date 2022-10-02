@@ -47,4 +47,11 @@ public class CommandLineArguments
     /// <value>The name of the backup file.</value>
     [Option('b', "backup", Required = false, HelpText = "A file name to backup the application data before complete startup.")]
     public string? BackupFileName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the archive file to restore the backed up application data settings from.
+    /// </summary>
+    /// <value>The file name to restore backup the backup from.</value>
+    [Option('r', "restore", Required = false, HelpText = "Restores a backup from a zipped file into the program application data folder overriding the existing.")]
+    public string? RestoreBackupFile { get; set; }
 }

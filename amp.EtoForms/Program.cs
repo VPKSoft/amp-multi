@@ -93,7 +93,7 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
         const int maxPidWait = 1000 * 30;
 
         Parser.Default.ParseArguments<CommandLineArguments>(args)
-            .WithParsed<CommandLineArguments>(o =>
+            .WithParsed(o =>
             {
                 if (o.PidWait != null)
                 {
@@ -109,6 +109,15 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
                     Globals.LoggerSafeInvoke(() =>
                     {
                         ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, o.BackupFileName);
+                    });
+                }
+
+                if (o.RestoreBackupFile != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, o.RestoreBackupFile);
+                        Globals.ReloadSettings();
                     });
                 }
             });
