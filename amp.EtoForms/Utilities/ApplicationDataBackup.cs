@@ -41,6 +41,8 @@ public static class ApplicationDataBackup
     /// <remarks>The <paramref name="backupFileName"/> will be overridden if one already exists.</remarks>
     public static void CreateBackupZip(string backupFolder, string backupFileName)
     {
+        backupFileName = backupFileName.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+        
         if (File.Exists(backupFileName))
         {
             File.Delete(backupFileName);
@@ -58,10 +60,17 @@ public static class ApplicationDataBackup
                 "settings.json",
                 "amp_ef_core.sqlite",
             };
-
+        
         foreach (var file in files)
         {
             var fullFileName = Path.Combine(backupFolder, file);
+            
+            // All predefined files might not exist.
+            if (!File.Exists(fullFileName))
+            {
+                continue;
+            }
+            
             archive.CreateEntryFromFile(fullFileName, file);
         }
     }
