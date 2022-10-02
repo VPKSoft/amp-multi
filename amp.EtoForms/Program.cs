@@ -26,8 +26,10 @@ SOFTWARE.
 
 using System.Diagnostics;
 using amp.DataAccessLayer.DtoClasses;
+using amp.EtoForms.Classes;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
+using CommandLine;
 using Eto.Forms;
 using VPKSoft.Utils.Common.EventArgs;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
@@ -53,13 +55,15 @@ public static class Program
 
         try
         {
-            Process.GetProcessesByName("amp.EtoForms");
+            processes = Process.GetProcessesByName("amp.EtoForms");
         }
         catch (Exception ex)
         {
             Globals.Logger?.Error("Multi-instance process check failed.");
             Globals.Logger?.Error(ex, string.Empty);
         }
+
+        HandleCommandLineArgs(args);
 
         if (processes.All(f => f.Id == Environment.ProcessId))
         {
@@ -82,6 +86,32 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
             Globals.Logger?.Information("The application is already running.");
             Process.GetCurrentProcess().Kill();
         }
+    }
+
+    private static void HandleCommandLineArgs(string[] args)
+    {
+        const int maxPidWait = 1000 * 30;
+
+        Parser.Default.ParseArguments<CommandLineArguments>(args)
+            .WithParsed<CommandLineArguments>(o =>
+            {
+                if (o.PidWait != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        var process = Process.GetProcessById(o.PidWait.Value);
+                        process.WaitForExit(maxPidWait);
+                    });
+                }
+
+                if (o.BackupFileName != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, o.BackupFileName);
+                    });
+                }
+            });
     }
 
     private static void ExternalExceptionOccurred(object? sender, ExceptionOccurredEventArgs e)
