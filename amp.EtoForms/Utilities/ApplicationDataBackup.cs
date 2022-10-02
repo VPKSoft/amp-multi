@@ -42,6 +42,7 @@ public static class ApplicationDataBackup
     public static void CreateBackupZip(string backupFolder, string backupFileName)
     {
         backupFileName = backupFileName.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+        backupFolder = backupFolder.Replace("~", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
         
         if (File.Exists(backupFileName))
         {
