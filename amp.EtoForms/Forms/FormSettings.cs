@@ -24,7 +24,6 @@ SOFTWARE.
 */
 #endregion
 
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using amp.EtoForms.Settings.Enumerations;
@@ -491,9 +490,9 @@ public class FormSettings : Dialog<bool>
             {
                 Rows =
                 {
-                    new Label { Text = Shared.Localization.Settings.AudioVisualizer, },
+                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
                     cbDisplayAudioVisualization,
-                    EtoHelpers.LabelWrap(Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
+                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
                     cbAudioVisualizationBars,
                     cbVisualizeAudioLevels,
                     cbLevelsVertical,
@@ -518,71 +517,15 @@ public class FormSettings : Dialog<bool>
         {
             Rows =
             {
-                new TableLayout
-                {
-                    Rows =
-                    {
-                        new TableRow(lbQueueFinishActionFirst, new TableCell(cmbQueueFinishActionFirst, true)),
-                        new TableRow(lbQueueFinishActionSecond, new TableCell(cmbQueueFinishActionSecond, true)),
-                        new TableRow { ScaleHeight = true,},
-                    },
-                    Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
-                },
-                new Label { Text = UI.BackupAndRestore,},
-                new TableLayout
-                {
-                    Rows =
-                    {
-                        new TableRow(btnBackupAppData, btnRestoreAppData, new TableCell { ScaleWidth = true, }),
-                        new TableRow { ScaleHeight = true,},
-                    },
-                    Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
-                },
-                new Label { Text = Messages.NOTEBackupAndRestoreRequiresApplicationRestart,},
-
+                new TableRow(lbQueueFinishActionFirst, new TableCell(cmbQueueFinishActionFirst, true)),
+                new TableRow(lbQueueFinishActionSecond, new TableCell(cmbQueueFinishActionSecond, true)),
                 new TableRow { ScaleHeight = true,},
             },
             Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
             Padding = Globals.DefaultPadding,
         };
 
-        btnBackupAppData.Click += BtnBackupAppData_Click;
-        btnRestoreAppData.Click += BtnRestoreAppData_Click;
-
         tbcSettings.Pages.Add(tabMiscellaneous);
-    }
-
-    private void BtnRestoreAppData_Click(object? sender, EventArgs e)
-    {
-        RestoreBackupApplicationData(true);
-    }
-
-    private void BtnBackupAppData_Click(object? sender, EventArgs e)
-    {
-        RestoreBackupApplicationData(false);
-    }
-
-    private void RestoreBackupApplicationData(bool restore)
-    {
-        using FileDialog dialog = restore ? new OpenFileDialog() : new SaveFileDialog();
-        dialog.Filters.Add(new FileFilter(UI.ZIPArchives, ".zip"));
-
-        if (dialog.ShowDialog(this) == DialogResult.Ok)
-        {
-            if (MessageBox.Show(this, Messages.TheApplicationWillNowExitReOpenTheApplicationManually,
-                    Messages.Notification,
-                    MessageBoxButtons.OKCancel) == DialogResult.Ok)
-            {
-                var path = Path.Combine(
-                    Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? string.Empty,
-                    "amp.EtoForms.Exe");
-
-                var pid = Process.GetCurrentProcess().Id.ToString();
-
-                Process.Start(path, new[] { "-p", pid, restore ? "-r" : "-b", dialog.FileName, });
-                Application.Instance.Quit();
-            }
-        }
     }
 
     private void BtFormulaDefaults_Click(object? sender, EventArgs e)
@@ -610,8 +553,6 @@ public class FormSettings : Dialog<bool>
     private readonly TabControl tbcSettings = new();
     private readonly Button btnOk = new() { Text = UI.OK, };
     private readonly Button btnCancel = new() { Text = UI.Cancel, };
-    private readonly Button btnBackupAppData = new() { Text = UI.BackupApplicationData, };
-    private readonly Button btnRestoreAppData = new() { Text = UI.RestoreApplicationData, };
 
     // Common settings tab page
     private TabPage tabCommon;
@@ -661,7 +602,7 @@ public class FormSettings : Dialog<bool>
     { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
     private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
     private readonly CheckBox cbVisualizeAudioLevels = new() { Text = UI.VisualizeAudioLevels, };
-    private readonly CheckBox cbLevelsVertical = new() { Text = Shared.Localization.Settings.HorizontalLevelVisualization, };
+    private readonly CheckBox cbLevelsVertical = new() { Text = amp.Shared.Localization.Settings.HorizontalLevelVisualization, };
 
     // Miscellaneous settings tab page
     private readonly TabPage tabMiscellaneous = new() { Text = UI.Miscellaneous, };
