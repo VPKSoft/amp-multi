@@ -109,6 +109,7 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
                     Globals.LoggerSafeInvoke(() =>
                     {
                         ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, o.BackupFileName);
+                        Process.GetCurrentProcess().Kill();
                     });
                 }
 
@@ -117,7 +118,7 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
                     Globals.LoggerSafeInvoke(() =>
                     {
                         ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, o.RestoreBackupFile);
-                        Globals.ReloadSettings();
+                        Process.GetCurrentProcess().Kill();
                     });
                 }
             });

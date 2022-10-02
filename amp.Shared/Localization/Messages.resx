@@ -142,4 +142,10 @@
   <data name="OverrideCurrentQueueStash" xml:space="preserve">
     <value>Override current queue stash?</value>
   </data>
+  <data name="NOTEBackupAndRestoreRequiresApplicationRestart" xml:space="preserve">
+    <value>NOTE: Backup and restore requires application restart.</value>
+  </data>
+  <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
+    <value>The application will now exit. Re-open the application manually.</value>
+  </data>
 </root>

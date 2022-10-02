@@ -50,7 +50,14 @@ public static class ApplicationDataBackup
 
         var files = new[]
             // ReSharper disable once StringLiteralTypo, SQLite in lower case.
-            { "colorSettings.json", "FormMain.json", "icons.json", "layoutSettings.json", "settings.json", "amp_ef_core.sqlite", };
+            {
+                "colorSettings.json",
+                "FormMain.json",
+                "icons.json",
+                "layoutSettings.json",
+                "settings.json",
+                "amp_ef_core.sqlite",
+            };
 
         foreach (var file in files)
         {

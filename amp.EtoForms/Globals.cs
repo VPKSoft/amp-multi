@@ -336,12 +336,4 @@ internal static class Globals
     /// </summary>
     /// <value>The floating point comparison tolerance.</value>
     public static float FloatingPointSingleTolerance { get; set; } = 0.00001f;
-
-    /// <summary>
-    /// Flags the <see cref="Settings"/> instance to be reloaded.
-    /// </summary>
-    internal static void ReloadSettings()
-    {
-        settings = null;
-    }
 }

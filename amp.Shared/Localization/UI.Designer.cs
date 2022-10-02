@@ -241,6 +241,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup and restore.
+        /// </summary>
+        public static string BackupAndRestore {
+            get {
+                return ResourceManager.GetString("BackupAndRestore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup application data.
+        /// </summary>
+        public static string BackupApplicationData {
+            get {
+                return ResourceManager.GetString("BackupApplicationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bar visualization mode.
         /// </summary>
         public static string BarVisualizationMode {
@@ -1070,6 +1088,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore application data.
+        /// </summary>
+        public static string RestoreApplicationData {
+            get {
+                return ResourceManager.GetString("RestoreApplicationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retry count on playback failure.
         /// </summary>
         public static string RetryCountOnPlaybackFailure {
@@ -1480,6 +1507,15 @@ namespace amp.Shared.Localization {
         public static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ZIP archives.
+        /// </summary>
+        public static string ZIPArchives {
+            get {
+                return ResourceManager.GetString("ZIPArchives", resourceCulture);
             }
         }
         

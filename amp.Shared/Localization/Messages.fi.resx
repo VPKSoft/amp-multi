@@ -142,4 +142,10 @@
   <data name="OverrideCurrentQueueStash" xml:space="preserve">
     <value>Kirjoitetaanko aiempi jonotallennus yli?</value>
   </data>
+  <data name="NOTEBackupAndRestoreRequiresApplicationRestart" xml:space="preserve">
+    <value>HUOM: Varmuuskopiointi ja palautus tarvitsevat sovelluksen uudelleenkäynnistämisen.</value>
+  </data>
+  <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
+    <value>Sovellus suljetaan. Avaa sovellus uudelleen manuaalisesti.</value>
+  </data>
 </root>

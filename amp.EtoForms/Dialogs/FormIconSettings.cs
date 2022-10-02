@@ -80,7 +80,7 @@ internal class FormIconSettings : Dialog
                                             cbColorizeIcon,
                                             new TableRow { ScaleHeight = true,},
                                         },
-                                    }
+                                    },
                                 }
                             ) { ScaleHeight = true, },
                         },

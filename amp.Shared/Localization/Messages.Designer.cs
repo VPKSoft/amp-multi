@@ -133,6 +133,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NOTE: Backup and restore requires application restart..
+        /// </summary>
+        public static string NOTEBackupAndRestoreRequiresApplicationRestart {
+            get {
+                return ResourceManager.GetString("NOTEBackupAndRestoreRequiresApplicationRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notification.
         /// </summary>
         public static string Notification {
@@ -165,6 +174,15 @@ namespace amp.Shared.Localization {
         public static string SaveTheTagChangedThisWillModifyTheActualAudioFile {
             get {
                 return ResourceManager.GetString("SaveTheTagChangedThisWillModifyTheActualAudioFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application will now exit. Re-open the application manually..
+        /// </summary>
+        public static string TheApplicationWillNowExitReOpenTheApplicationManually {
+            get {
+                return ResourceManager.GetString("TheApplicationWillNowExitReOpenTheApplicationManually", resourceCulture);
             }
         }
         
