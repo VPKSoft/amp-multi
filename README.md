@@ -44,7 +44,7 @@ dotnet run ./amp.EtoForms.csproj
 * [ResX Resource Manager](https://github.com/dotnet/ResXResourceManager)
 * [action gh-release](https://github.com/softprops/action-gh-release)
 * [Nullsoft scriptable install system GitHub action](https://github.com/joncloud/makensis-action)
+* [CommandLineParser](https://github.com/commandlineparser/commandline)
 * [JetBrains](https://www.jetbrains.com/?from=amp#) for their open source license(s).
-
 
 ![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
