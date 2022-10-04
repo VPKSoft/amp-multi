@@ -655,7 +655,7 @@ partial class FormMain
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
     {
-        using var settingsForm = new FormSettings();
+        using var settingsForm = new FormSettings(SuspendBackgroundTasks, ResumeBackgroundTasks);
         playbackOrder.StackQueueRandomPercentage = Globals.Settings.StackQueueRandomPercentage;
         settingsForm.ShowModal(this);
         if (Globals.Settings.QuietHours)

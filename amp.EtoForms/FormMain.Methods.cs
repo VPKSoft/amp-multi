@@ -346,6 +346,32 @@ SOFTWARE.
         }
     }
 
+    private void AttachDetachPlaybackManagerEvents(bool attach)
+    {
+        if (attach)
+        {
+            playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
+            playbackManager.TrackChanged += PlaybackManagerTrackChanged;
+            playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
+            playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
+            playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
+            playbackManager.PlaybackError += PlaybackManager_PlaybackError;
+            playbackManager.TrackVolumeChanged += PlaybackManager_TrackVolumeChanged;
+            playbackManager.TrackRatingChanged += PlaybackManager_TrackRatingChanged;
+        }
+        else
+        {
+            playbackManager.PlaybackStateChanged -= PlaybackManager_PlaybackStateChanged;
+            playbackManager.TrackChanged -= PlaybackManagerTrackChanged;
+            playbackManager.PlaybackPositionChanged -= PlaybackManager_PlaybackPositionChanged;
+            playbackManager.TrackSkipped -= PlaybackManagerTrackSkipped;
+            playbackManager.PlaybackErrorFileNotFound -= PlaybackManager_PlaybackErrorFileNotFound;
+            playbackManager.PlaybackError -= PlaybackManager_PlaybackError;
+            playbackManager.TrackVolumeChanged -= PlaybackManager_TrackVolumeChanged;
+            playbackManager.TrackRatingChanged -= PlaybackManager_TrackRatingChanged;
+        }
+    }
+
     private void AssignEventListeners()
     {
         btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
@@ -357,14 +383,7 @@ SOFTWARE.
         Closing += FormMain_Closing;
         Closed += OnClosed;
         AttachDetachKeyDownHandler(true);
-        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
-        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
-        playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
-        playbackManager.PlaybackError += PlaybackManager_PlaybackError;
-        playbackManager.TrackVolumeChanged += PlaybackManager_TrackVolumeChanged;
-        playbackManager.TrackRatingChanged += PlaybackManager_TrackRatingChanged;
+        AttachDetachPlaybackManagerEvents(true);
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdleChanged;
         idleChecker.UserActivated += IdleChecker_UserIdleChanged;

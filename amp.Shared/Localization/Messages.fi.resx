@@ -148,4 +148,10 @@
   <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
     <value>Sovellus suljetaan. Avaa sovellus uudelleen manuaalisesti.</value>
   </data>
+  <data name="BackupCompleted" xml:space="preserve">
+    <value>Varmuuskopiointi valmis.</value>
+  </data>
+  <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
+    <value>Toisto pysäytetään varmuuskopiointia varten.</value>
+  </data>
 </root>

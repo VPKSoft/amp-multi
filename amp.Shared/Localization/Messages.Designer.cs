@@ -70,6 +70,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup completed.
+        /// </summary>
+        public static string BackupCompleted {
+            get {
+                return ResourceManager.GetString("BackupCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         public static string Confirmation {
@@ -192,6 +201,15 @@ namespace amp.Shared.Localization {
         public static string TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible {
             get {
                 return ResourceManager.GetString("TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The playback will be stopped for the backup..
+        /// </summary>
+        public static string ThePlaybackWillBeStoppedForTheBackup {
+            get {
+                return ResourceManager.GetString("ThePlaybackWillBeStoppedForTheBackup", resourceCulture);
             }
         }
         

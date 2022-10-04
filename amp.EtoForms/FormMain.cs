@@ -34,6 +34,7 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.UserIdle;
+using Microsoft.Data.Sqlite;
 using VPKSoft.Utils.Common.EventArgs;
 using VPKSoft.Utils.Common.Interfaces;
 using Album = amp.DataAccessLayer.DtoClasses.Album;
@@ -111,6 +112,27 @@ public partial class FormMain : Form, IExceptionReporter
         CreateMenu();
     }
 
+    private void SuspendBackgroundTasks()
+    {
+        idleChecker.Dispose();
+        AttachDetachPlaybackManagerEvents(false);
+        playbackManager.Dispose();
+        context.Dispose();
+        SqliteConnection.ClearAllPools();
+    }
+
+    private void ResumeBackgroundTasks()
+    {
+        context = new AmpContext();
+        SoftwareMigration.RunSoftwareMigration(context);
+        idleChecker = new UserIdleChecker(this);
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Album>(GetNextAudioTrackFunc, GetTrackById,
+            Globals.Settings.PlaybackRetryCount);
+        AttachDetachPlaybackManagerEvents(true);
+        playbackManager.ManagerStopped = false;
+    }
+
+
     private void TestStuff_Executed(object? sender, EventArgs e)
     {
         // Test stuff here:
@@ -119,11 +141,11 @@ public partial class FormMain : Form, IExceptionReporter
 
     private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
-    private readonly PlaybackManager<AudioTrack, AlbumTrack, Album> playbackManager;
+    private PlaybackManager<AudioTrack, AlbumTrack, Album> playbackManager;
     private QuietHourHandler<AudioTrack, AlbumTrack, Album> quietHourHandler;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Album> playbackOrder;
-    private readonly AmpContext context;
-    private readonly UserIdleChecker idleChecker;
+    private AmpContext context;
+    private UserIdleChecker idleChecker;
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
     private DateTime? previousMessageTime;
     private bool shownCalled;

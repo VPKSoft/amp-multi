@@ -148,4 +148,10 @@
   <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
     <value>The application will now exit. Re-open the application manually.</value>
   </data>
+  <data name="BackupCompleted" xml:space="preserve">
+    <value>Backup completed</value>
+  </data>
+  <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
+    <value>The playback will be stopped for the backup.</value>
+  </data>
 </root>
