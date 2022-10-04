@@ -79,6 +79,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup restore completed..
+        /// </summary>
+        public static string BackupRestoreCompleted {
+            get {
+                return ResourceManager.GetString("BackupRestoreCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         public static string Confirmation {
@@ -192,6 +201,16 @@ namespace amp.Shared.Localization {
         public static string TheApplicationWillNowExitReOpenTheApplicationManually {
             get {
                 return ResourceManager.GetString("TheApplicationWillNowExitReOpenTheApplicationManually", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application will shut down after the backup has been restored. Start the software again manually..
+        /// </summary>
+        public static string TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually {
+            get {
+                return ResourceManager.GetString("TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManua" +
+                        "lly", resourceCulture);
             }
         }
         

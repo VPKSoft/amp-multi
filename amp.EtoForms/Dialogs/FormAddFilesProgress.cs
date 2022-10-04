@@ -28,7 +28,6 @@ using amp.Database;
 using amp.Database.DataModel;
 using amp.Shared.Classes;
 using amp.Shared.Constants;
-using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;

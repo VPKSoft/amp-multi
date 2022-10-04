@@ -154,4 +154,10 @@
   <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
     <value>Toisto pysäytetään varmuuskopiointia varten.</value>
   </data>
+  <data name="TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually" xml:space="preserve">
+    <value>Sovellus sammutetaan varmuuskopion palauttamisen jälkeen. Käynnistä sovellus uudelleen manuaalisesti.</value>
+  </data>
+  <data name="BackupRestoreCompleted" xml:space="preserve">
+    <value>Varmuuskopioinnin palautus valmis.</value>
+  </data>
 </root>

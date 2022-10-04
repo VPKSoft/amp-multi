@@ -547,8 +547,28 @@ public class FormSettings : Dialog<bool>
         };
 
         btnBackupUserData.Click += BtnBackupUserData_Click;
+        btnRestoreUserData.Click += BtnRestoreUserData_Click;
 
         tbcSettings.Pages.Add(tabMiscellaneous);
+    }
+
+    private void BtnRestoreUserData_Click(object? sender, EventArgs e)
+    {
+        if (MessageBox.Show(this, Messages.TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually, Messages.Information,
+                MessageBoxButtons.OKCancel) ==
+            DialogResult.Ok)
+        {
+            var dialog = new OpenFileDialog()
+                { Title = UI.RestoreApplicationData, Filters = { new FileFilter(UI.ZIPArchives, ".zip"), }, };
+            if (dialog.ShowDialog(this) == DialogResult.Ok)
+            {
+                backupStopAction();
+                ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, dialog.FileName);
+                MessageBox.Show(this, Messages.BackupRestoreCompleted, Messages.Information, MessageBoxButtons.OK);
+                Close();
+                Application.Instance.Quit();
+            }
+        }
     }
 
     private void BtnBackupUserData_Click(object? sender, EventArgs e)

@@ -154,4 +154,10 @@
   <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
     <value>The playback will be stopped for the backup.</value>
   </data>
+  <data name="TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually" xml:space="preserve">
+    <value>The application will shut down after the backup has been restored. Start the software again manually.</value>
+  </data>
+  <data name="BackupRestoreCompleted" xml:space="preserve">
+    <value>Backup restore completed.</value>
+  </data>
 </root>
