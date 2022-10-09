@@ -25,10 +25,12 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using amp.DataAccessLayer.DtoClasses;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
+using AutoMapper.Features;
 using CommandLine;
 using Eto.Forms;
 using VPKSoft.Utils.Common.EventArgs;
@@ -49,6 +51,13 @@ public static class Program
     // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
     static void Main(string[] args)
     {
+        #if Windows
+        if (args.Length > 0)
+        {
+            AllocConsole();
+        }
+        #endif
+
         var processes = Array.Empty<Process>();
 
         ExceptionProvider.Instance.ExceptionOccurred += ExternalExceptionOccurred;
@@ -88,7 +97,13 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
         }
     }
 
-    private static void HandleCommandLineArgs(string[] args)
+    #if Windows
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool AllocConsole();
+    #endif
+
+    private static void HandleCommandLineArgs(IEnumerable<string> args)
     {
         const int maxPidWait = 1000 * 30;
 
