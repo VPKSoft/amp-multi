@@ -61,11 +61,56 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A file name to backup the application data before complete startup..
+        /// </summary>
+        public static string AFileNameToBackupTheApplicationDataBeforeCompleteStartup {
+            get {
+                return ResourceManager.GetString("AFileNameToBackupTheApplicationDataBeforeCompleteStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album name can not be an empty string..
         /// </summary>
         public static string AlbumNameCanNotBeAnEmptyString {
             get {
                 return ResourceManager.GetString("AlbumNameCanNotBeAnEmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A process identifier (PID) to wait for exit before starting the application..
+        /// </summary>
+        public static string AProcessIdentifierPIDToWaitForExitBeforeStartingTheApplication {
+            get {
+                return ResourceManager.GetString("AProcessIdentifierPIDToWaitForExitBeforeStartingTheApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A sequence option &apos;{0}&apos; is defined with fewer or more items than required..
+        /// </summary>
+        public static string ASequenceOption0IsDefinedWithFewerOrMoreItemsThanRequired {
+            get {
+                return ResourceManager.GetString("ASequenceOption0IsDefinedWithFewerOrMoreItemsThanRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A sequence value not bound to option name is defined with few items than required..
+        /// </summary>
+        public static string ASequenceValueNotBoundToOptionNameIsDefinedWithFewItemsThanRequired {
+            get {
+                return ResourceManager.GetString("ASequenceValueNotBoundToOptionNameIsDefinedWithFewItemsThanRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value not bound to option name is defined with a bad format..
+        /// </summary>
+        public static string AValueNotBoundToOptionNameIsDefinedWithABadFormat {
+            get {
+                return ResourceManager.GetString("AValueNotBoundToOptionNameIsDefinedWithABadFormat", resourceCulture);
             }
         }
         
@@ -115,6 +160,33 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display more information on a specific command..
+        /// </summary>
+        public static string DisplayMoreInformationOnASpecificCommand {
+            get {
+                return ResourceManager.GetString("DisplayMoreInformationOnASpecificCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display this help screen..
+        /// </summary>
+        public static string DisplayThisHelpScreen {
+            get {
+                return ResourceManager.GetString("DisplayThisHelpScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display version information..
+        /// </summary>
+        public static string DisplayVersionInformation {
+            get {
+                return ResourceManager.GetString("DisplayVersionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to convert the old database into the new format? The operation might take few minutes..
         /// </summary>
         public static string DoYouWantToConvertTheOldDatabaseIntoTheNewFormatTheOperationMightTakeFewMinutes {
@@ -124,11 +196,38 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR(S): .
+        /// </summary>
+        public static string ERRORS {
+            get {
+                return ResourceManager.GetString("ERRORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error setting value to option &apos;{0}&apos;: {1}.
+        /// </summary>
+        public static string ErrorSettingValueToOption01 {
+            get {
+                return ResourceManager.GetString("ErrorSettingValueToOption01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File &apos;{0}&apos; was not found..
         /// </summary>
         public static string File0WasNotFound {
             get {
                 return ResourceManager.GetString("File0WasNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string Group {
+            get {
+                return ResourceManager.GetString("Group", resourceCulture);
             }
         }
         
@@ -169,6 +268,51 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No verb selected..
+        /// </summary>
+        public static string NoVerbSelected {
+            get {
+                return ResourceManager.GetString("NoVerbSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option &apos;{0}&apos; has no value..
+        /// </summary>
+        public static string Option0HasNoValue {
+            get {
+                return ResourceManager.GetString("Option0HasNoValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option &apos;{0}&apos; is defined multiple times..
+        /// </summary>
+        public static string Option0IsDefinedMultipleTimes {
+            get {
+                return ResourceManager.GetString("Option0IsDefinedMultipleTimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option &apos;{0}&apos; is defined with a bad format..
+        /// </summary>
+        public static string Option0IsDefinedWithABadFormat {
+            get {
+                return ResourceManager.GetString("Option0IsDefinedWithABadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options: {0} are not compatible with {1}..
+        /// </summary>
+        public static string Options0AreNotCompatibleWith1 {
+            get {
+                return ResourceManager.GetString("Options0AreNotCompatibleWith1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Override current queue stash?.
         /// </summary>
         public static string OverrideCurrentQueueStash {
@@ -183,6 +327,25 @@ namespace amp.Shared.Localization {
         public static string PleaseSetTheHelpPathFromTheSettings {
             get {
                 return ResourceManager.GetString("PleaseSetTheHelpPathFromTheSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required option &apos;{0}&apos; is missing..
+        /// </summary>
+        public static string RequiredOption0IsMissing {
+            get {
+                return ResourceManager.GetString("RequiredOption0IsMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restores a backup from a zipped file into the program application data folder overriding the existing..
+        /// </summary>
+        public static string RestoresABackupFromAZippedFileIntoTheProgramApplicationDataFolderOverridingTheExisting {
+            get {
+                return ResourceManager.GetString("RestoresABackupFromAZippedFileIntoTheProgramApplicationDataFolderOverridingTheExi" +
+                        "sting", resourceCulture);
             }
         }
         
@@ -233,11 +396,38 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token &apos;{0}&apos; is not recognized..
+        /// </summary>
+        public static string Token0IsNotRecognized {
+            get {
+                return ResourceManager.GetString("Token0IsNotRecognized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Untitled.
         /// </summary>
         public static string Untitled {
             get {
                 return ResourceManager.GetString("Untitled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USAGE:.
+        /// </summary>
+        public static string USAGE {
+            get {
+                return ResourceManager.GetString("USAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verb &apos;{0}&apos; is not recognized..
+        /// </summary>
+        public static string Verb0IsNotRecognized {
+            get {
+                return ResourceManager.GetString("Verb0IsNotRecognized", resourceCulture);
             }
         }
         

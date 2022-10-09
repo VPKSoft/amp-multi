@@ -30,8 +30,8 @@ using amp.DataAccessLayer.DtoClasses;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
-using AutoMapper.Features;
 using CommandLine;
+using CommandLine.Text;
 using Eto.Forms;
 using VPKSoft.Utils.Common.EventArgs;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
@@ -72,13 +72,18 @@ public static class Program
             Globals.Logger?.Error(ex, string.Empty);
         }
 
-        HandleCommandLineArgs(args);
+        Thread.CurrentThread.CurrentUICulture =
+            Thread.CurrentThread.CurrentCulture;
+
+        SentenceBuilder.Factory = () => new LocalizableSentenceBuilder();
+
+        if (HandleCommandLineArgs(args))
+        {
+            return;
+        }
 
         if (processes.All(f => f.Id == Environment.ProcessId))
         {
-            Thread.CurrentThread.CurrentUICulture =
-                Thread.CurrentThread.CurrentCulture;
-
             AudioTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
             AlbumTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
 
@@ -103,9 +108,10 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
     private static extern bool AllocConsole();
     #endif
 
-    private static void HandleCommandLineArgs(IEnumerable<string> args)
+    private static bool HandleCommandLineArgs(IEnumerable<string> args)
     {
         const int maxPidWait = 1000 * 30;
+        var result = false;
 
         Parser.Default.ParseArguments<CommandLineArguments>(args)
             .WithParsed(o =>
@@ -124,7 +130,7 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
                     Globals.LoggerSafeInvoke(() =>
                     {
                         ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, o.BackupFileName);
-                        Process.GetCurrentProcess().Kill();
+                        result = true;
                     });
                 }
 
@@ -133,10 +139,11 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
                     Globals.LoggerSafeInvoke(() =>
                     {
                         ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, o.RestoreBackupFile);
-                        Process.GetCurrentProcess().Kill();
+                        result = true;
                     });
                 }
             });
+        return result;
     }
 
     private static void ExternalExceptionOccurred(object? sender, ExceptionOccurredEventArgs e)

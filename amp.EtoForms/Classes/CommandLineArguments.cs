@@ -38,20 +38,20 @@ public class CommandLineArguments
     /// Gets or sets the PID (Process Identifier) to wait for before starting the application.
     /// </summary>
     /// <value>The PID to wait for before starting the application.</value>
-    [Option('p', "pid", Required = false, HelpText = "A process identifier (PID) to wait for exit before starting the application.")]
+    [Option('p', "pid", Required = false, HelpText = nameof(amp.Shared.Localization.Messages.AProcessIdentifierPIDToWaitForExitBeforeStartingTheApplication), ResourceType = typeof(amp.Shared.Localization.Messages))]
     public int? PidWait { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the backup file to backup the application data before complete startup.
     /// </summary>
     /// <value>The name of the backup file.</value>
-    [Option('b', "backup", Required = false, HelpText = "A file name to backup the application data before complete startup.")]
+    [Option('b', "backup", Required = false, HelpText = nameof(amp.Shared.Localization.Messages.AFileNameToBackupTheApplicationDataBeforeCompleteStartup), ResourceType = typeof(amp.Shared.Localization.Messages))]
     public string? BackupFileName { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the archive file to restore the backed up application data settings from.
     /// </summary>
     /// <value>The file name to restore backup the backup from.</value>
-    [Option('r', "restore", Required = false, HelpText = "Restores a backup from a zipped file into the program application data folder overriding the existing.")]
+    [Option('r', "restore", Required = false, HelpText = nameof(amp.Shared.Localization.Messages.RestoresABackupFromAZippedFileIntoTheProgramApplicationDataFolderOverridingTheExisting), ResourceType = typeof(amp.Shared.Localization.Messages))]
     public string? RestoreBackupFile { get; set; }
 }
