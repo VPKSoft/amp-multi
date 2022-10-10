@@ -87,6 +87,7 @@ Arvo, millä ilmaistaan visualisoidaanko äänen voimakkuus vaaka- vai pystysuun
 Tällä välilehdellä on sekalaiset asetukset jotka eivät suoraan kuulu mihinkään kategoriaan.
 
 **Toimenpiteet jonon loputtua**
+
 Ohjelmassa voi määritellä 2 toimenpidettä, jotka suoritetaan jonon loputtua.
 
 Toimenpiteet ovat:
@@ -97,6 +98,17 @@ Toimenpiteet ovat:
 * Lopeta sovellus
 
 Jos ensimmäistä toimenpidettä ei voida suorittaa, suoritetaan seuraava, muussa tapauksessa pysähdytään ensimmäiseen toimenpiteeseen ja arvioidaan tilanne uudelleen jonon loputtua.
+
+**Varmuuskopioi sovelluksen tiedot**
+Antaa käyttäjän varmuuskopioida SQLite-tietokanta ja asetustiedostot ohjelmasta yksittäiseen zip-tiedostoon. Varmuuskopiointi ei tarvitse sovelluksen uudelleen käynnistämistä, pelkkä toiston pysäyttäminen riittää.
+
+Ennen varmuuskopioinnin suorittamista näytetään seuraava viesti:
+*"Toisto pysäytetään varmuuskopiointia varten."* jota seuraa *"Varmuuskopiointi valmis."* viesti.
+
+**Palauta sovelluksen tiedot**
+Antaa käyttäjän palauttaa sovelluksen tiedot zip-tiedostosta. Zip-tiedoston sisältöä ei tarkasteta. Toisto pysäytetään varmuuskopiota palautettaessa ja sovellus sulkeutuu ja se pitää käynnistää uudelleen manuaalisesti.
+
+Ennen varmuuskopion palauttamista näytetään seuraava viesti: *"Sovellus sammutetaan varmuuskopion palauttamisen jälkeen. Käynnistä sovellus uudelleen manuaalisesti."*. Kun varmuuskopion palautus on valmis näytetään vielä viesti: *"Varmuuskopioinnin palautus valmis."*.
 
 *Sekalaista-välilehti*
 
