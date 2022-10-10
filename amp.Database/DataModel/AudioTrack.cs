@@ -47,55 +47,55 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
     /// <inheritdoc cref="IAudioTrack.FileName"/>
     public string FileName { get; set; } = string.Empty;
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FilePath"/>
+    public string FilePath { get; set; } = string.Empty;
+
+    /// <inheritdoc cref="IAudioTrack.Artist"/>
     public string? Artist { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Album"/>
     public string? Album { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Track"/>
     public string? Track { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Year"/>
     public string? Year { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Lyrics"/>
     public string? Lyrics { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Rating"/>
     public int? Rating { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IPlayBackStatistics.PlayedByRandomize"/>
     public int? PlayedByRandomize { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IPlayBackStatistics.PlayedByUser"/>
     public int? PlayedByUser { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.FileSizeBytes"/>
     public long? FileSizeBytes { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.PlaybackVolume"/>
     public double PlaybackVolume { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.OverrideName"/>
     public string? OverrideName { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.TagFindString"/>
     public string? TagFindString { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.TagRead"/>
     public bool? TagRead { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
-    public string? FileNameNoPath { get; set; }
-
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IPlayBackStatistics.SkippedEarlyCount"/>
     public int? SkippedEarlyCount { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.Title"/>
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="IAudioTrack.FileName"/>
+    /// <inheritdoc cref="IAudioTrack.TrackImageData"/>
     public byte[]? TrackImageData { get; set; }
 
     /// <inheritdoc cref="IAudioTrack.MusicFileType"/>

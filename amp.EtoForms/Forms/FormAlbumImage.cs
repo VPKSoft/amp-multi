@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using amp.Shared.Extensions;
 using amp.Shared.Interfaces;
 using ATL;
 using Eto.Drawing;
@@ -139,7 +140,7 @@ public class FormAlbumImage : Form
         Location = new Point(main.Location.X + main.Width, main.Location.Y + 200);
         Globals.LoggerSafeInvoke(() =>
         {
-            var track = new Track(audioTrack.FileName);
+            var track = new Track(audioTrack.FileNameFull());
             if (audioTrack.TrackImageData?.Length > 0)
             {
                 using var stream = new MemoryStream(audioTrack.TrackImageData);

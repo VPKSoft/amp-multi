@@ -25,9 +25,13 @@ SOFTWARE.
 #endregion
 
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using amp.DataAccessLayer.DtoClasses;
+using amp.EtoForms.Classes;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
+using CommandLine;
+using CommandLine.Text;
 using Eto.Forms;
 using VPKSoft.Utils.Common.EventArgs;
 using UnhandledExceptionEventArgs = Eto.UnhandledExceptionEventArgs;
@@ -47,13 +51,20 @@ public static class Program
     // ReSharper disable once UnusedParameter.Local, lets keep these arguments as this is the entry point of the application.
     static void Main(string[] args)
     {
+        #if Windows
+        if (args.Length > 0)
+        {
+            AllocConsole();
+        }
+        #endif
+
         var processes = Array.Empty<Process>();
 
         ExceptionProvider.Instance.ExceptionOccurred += ExternalExceptionOccurred;
 
         try
         {
-            Process.GetProcessesByName("amp.EtoForms");
+            processes = Process.GetProcessesByName("amp.EtoForms");
         }
         catch (Exception ex)
         {
@@ -61,11 +72,18 @@ public static class Program
             Globals.Logger?.Error(ex, string.Empty);
         }
 
+        Thread.CurrentThread.CurrentUICulture =
+            Thread.CurrentThread.CurrentCulture;
+
+        SentenceBuilder.Factory = () => new LocalizableSentenceBuilder();
+
+        if (HandleCommandLineArgs(args))
+        {
+            return;
+        }
+
         if (processes.All(f => f.Id == Environment.ProcessId))
         {
-            Thread.CurrentThread.CurrentUICulture =
-                Thread.CurrentThread.CurrentCulture;
-
             AudioTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
             AlbumTrack.GenerateDisplayNameFunc = TrackDisplayNameGenerate.GetAudioTrackName;
 
@@ -82,6 +100,50 @@ Eto.Style.Add<Eto.Mac.Forms.ApplicationHandler>(null, handler => handler.AllowCl
             Globals.Logger?.Information("The application is already running.");
             Process.GetCurrentProcess().Kill();
         }
+    }
+
+    #if Windows
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool AllocConsole();
+    #endif
+
+    private static bool HandleCommandLineArgs(IEnumerable<string> args)
+    {
+        const int maxPidWait = 1000 * 30;
+        var result = false;
+
+        Parser.Default.ParseArguments<CommandLineArguments>(args)
+            .WithParsed(o =>
+            {
+                if (o.PidWait != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        var process = Process.GetProcessById(o.PidWait.Value);
+                        process.WaitForExit(maxPidWait);
+                    });
+                }
+
+                if (o.BackupFileName != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, o.BackupFileName);
+                        result = true;
+                    });
+                }
+
+                if (o.RestoreBackupFile != null)
+                {
+                    Globals.LoggerSafeInvoke(() =>
+                    {
+                        ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, o.RestoreBackupFile);
+                        result = true;
+                    });
+                }
+            });
+        return result;
     }
 
     private static void ExternalExceptionOccurred(object? sender, ExceptionOccurredEventArgs e)

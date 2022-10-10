@@ -142,4 +142,85 @@
   <data name="OverrideCurrentQueueStash" xml:space="preserve">
     <value>Override current queue stash?</value>
   </data>
+  <data name="NOTEBackupAndRestoreRequiresApplicationRestart" xml:space="preserve">
+    <value>NOTE: Backup and restore requires application restart.</value>
+  </data>
+  <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
+    <value>The application will now exit. Re-open the application manually.</value>
+  </data>
+  <data name="BackupCompleted" xml:space="preserve">
+    <value>Backup completed</value>
+  </data>
+  <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
+    <value>The playback will be stopped for the backup.</value>
+  </data>
+  <data name="TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually" xml:space="preserve">
+    <value>The application will shut down after the backup has been restored. Start the software again manually.</value>
+  </data>
+  <data name="BackupRestoreCompleted" xml:space="preserve">
+    <value>Backup restore completed.</value>
+  </data>
+  <data name="AProcessIdentifierPIDToWaitForExitBeforeStartingTheApplication" xml:space="preserve">
+    <value>A process identifier (PID) to wait for exit before starting the application.</value>
+  </data>
+  <data name="AFileNameToBackupTheApplicationDataBeforeCompleteStartup" xml:space="preserve">
+    <value>A file name to backup the application data before complete startup.</value>
+  </data>
+  <data name="RestoresABackupFromAZippedFileIntoTheProgramApplicationDataFolderOverridingTheExisting" xml:space="preserve">
+    <value>Restores a backup from a zipped file into the program application data folder overriding the existing.</value>
+  </data>
+  <data name="RequiredOption0IsMissing" xml:space="preserve">
+    <value>Required option '{0}' is missing.</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="ERRORS" xml:space="preserve">
+    <value>ERROR(S): </value>
+  </data>
+  <data name="USAGE" xml:space="preserve">
+    <value>USAGE:</value>
+  </data>
+  <data name="DisplayThisHelpScreen" xml:space="preserve">
+    <value>Display this help screen.</value>
+  </data>
+  <data name="DisplayMoreInformationOnASpecificCommand" xml:space="preserve">
+    <value>Display more information on a specific command.</value>
+  </data>
+  <data name="DisplayVersionInformation" xml:space="preserve">
+    <value>Display version information.</value>
+  </data>
+  <data name="Token0IsNotRecognized" xml:space="preserve">
+    <value>Token '{0}' is not recognized.</value>
+  </data>
+  <data name="Option0HasNoValue" xml:space="preserve">
+    <value>Option '{0}' has no value.</value>
+  </data>
+  <data name="AValueNotBoundToOptionNameIsDefinedWithABadFormat" xml:space="preserve">
+    <value>A value not bound to option name is defined with a bad format.</value>
+  </data>
+  <data name="Option0IsDefinedWithABadFormat" xml:space="preserve">
+    <value>Option '{0}' is defined with a bad format.</value>
+  </data>
+  <data name="ASequenceOption0IsDefinedWithFewerOrMoreItemsThanRequired" xml:space="preserve">
+    <value>A sequence option '{0}' is defined with fewer or more items than required.</value>
+  </data>
+  <data name="Verb0IsNotRecognized" xml:space="preserve">
+    <value>Verb '{0}' is not recognized.</value>
+  </data>
+  <data name="ASequenceValueNotBoundToOptionNameIsDefinedWithFewItemsThanRequired" xml:space="preserve">
+    <value>A sequence value not bound to option name is defined with few items than required.</value>
+  </data>
+  <data name="NoVerbSelected" xml:space="preserve">
+    <value>No verb selected.</value>
+  </data>
+  <data name="Option0IsDefinedMultipleTimes" xml:space="preserve">
+    <value>Option '{0}' is defined multiple times.</value>
+  </data>
+  <data name="ErrorSettingValueToOption01" xml:space="preserve">
+    <value>Error setting value to option '{0}': {1}</value>
+  </data>
+  <data name="Options0AreNotCompatibleWith1" xml:space="preserve">
+    <value>Options: {0} are not compatible with {1}.</value>
+  </data>
 </root>

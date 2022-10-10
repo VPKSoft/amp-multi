@@ -86,7 +86,8 @@ A value indicating whether to visualize the audio levels vertical or horizontal.
 On this tab there are the miscellaneous settings which do not belong to any specific category directly.
 
 **Actions after the queue has finished**
-Tow actions can be defined to in the programs which are run when the queue has finished playing.
+
+Two actions can be defined to in the programs which are run when the queue has finished playing.
 
 The actions are: 
 
@@ -96,6 +97,18 @@ The actions are:
 * Quit the application
 
 If the first action can not be run, the second action is run. Otherwise the first action is run and the situation is re-evaluated after the queue has finished playing again.
+
+**Backup application data**
+
+Allows user to backup the SQLite database and setting files of the software into a single zip file. The backup does not require application restart, only the playback is required to be stopped.
+
+Before the backup is made the following information is displayed: *"The playback will be stopped for the backup."* followed by *"Backup completed"* message.
+
+**Restore application data**
+
+Allows user to restore backed up application data from a zip file. The zip file contents will not validated. The playback will be stopped during the restore and afterwards the application will exit and it has to be started again manually.
+
+Before the backup is restored a following information is displayed: *"The application will shut down after the backup has been restored. Start the software again manually."*. After the backup has been restored a following message is displayed: *"Backup restore completed."*.
 
 *The Miscellaneous tab*
 

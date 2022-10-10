@@ -140,6 +140,87 @@
     <value>Määritä apukansion polku asetuksista.</value>
   </data>
   <data name="OverrideCurrentQueueStash" xml:space="preserve">
-    <value>Kirjoitetaanko aiempi jonotallennus yli?</value>
+    <value>Korvataanko nykyinen varastoitu jono?</value>
+  </data>
+  <data name="NOTEBackupAndRestoreRequiresApplicationRestart" xml:space="preserve">
+    <value>HUOM: Varmuuskopiointi ja palautus tarvitsevat sovelluksen uudelleenkäynnistämisen.</value>
+  </data>
+  <data name="TheApplicationWillNowExitReOpenTheApplicationManually" xml:space="preserve">
+    <value>Sovellus suljetaan. Avaa sovellus uudelleen manuaalisesti.</value>
+  </data>
+  <data name="BackupCompleted" xml:space="preserve">
+    <value>Varmuuskopiointi valmis.</value>
+  </data>
+  <data name="ThePlaybackWillBeStoppedForTheBackup" xml:space="preserve">
+    <value>Toisto pysäytetään varmuuskopiointia varten.</value>
+  </data>
+  <data name="TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually" xml:space="preserve">
+    <value>Sovellus sammutetaan varmuuskopion palauttamisen jälkeen. Käynnistä sovellus uudelleen manuaalisesti.</value>
+  </data>
+  <data name="BackupRestoreCompleted" xml:space="preserve">
+    <value>Varmuuskopioinnin palautus valmis.</value>
+  </data>
+  <data name="AProcessIdentifierPIDToWaitForExitBeforeStartingTheApplication" xml:space="preserve">
+    <value>Prosessitunniste (PID) jonka päättymistä odottaa ennen sovelluksen käynnistämistä.</value>
+  </data>
+  <data name="AFileNameToBackupTheApplicationDataBeforeCompleteStartup" xml:space="preserve">
+    <value>Tiedostonimi johon varmuuskopioida sovelluksen tiedot ennen käynnistymistä.</value>
+  </data>
+  <data name="RestoresABackupFromAZippedFileIntoTheProgramApplicationDataFolderOverridingTheExisting" xml:space="preserve">
+    <value>Palauttaa ZIP-pakatun  varmuuskopioin sovelluksen tietokansioon kirjoittaen yli olemassa olevat tiedostot.</value>
+  </data>
+  <data name="RequiredOption0IsMissing" xml:space="preserve">
+    <value>Pakollinen määre '{0}' puuttuu.</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Ryhmä</value>
+  </data>
+  <data name="ERRORS" xml:space="preserve">
+    <value>VIRHEITÄ: </value>
+  </data>
+  <data name="USAGE" xml:space="preserve">
+    <value>KÄYTTÖ:</value>
+  </data>
+  <data name="DisplayThisHelpScreen" xml:space="preserve">
+    <value>Näytä tämä apunäkymä.</value>
+  </data>
+  <data name="DisplayMoreInformationOnASpecificCommand" xml:space="preserve">
+    <value>Näytä lisätietoja määritetystä komennosta.</value>
+  </data>
+  <data name="DisplayVersionInformation" xml:space="preserve">
+    <value>Näytä versiotiedot.</value>
+  </data>
+  <data name="Token0IsNotRecognized" xml:space="preserve">
+    <value>Ilmausta '{0}' ei tunnisteta.</value>
+  </data>
+  <data name="Option0HasNoValue" xml:space="preserve">
+    <value>Valitsimella '{0}' ei ole arvoa.</value>
+  </data>
+  <data name="AValueNotBoundToOptionNameIsDefinedWithABadFormat" xml:space="preserve">
+    <value>Arvolla jota ei ole sidottu valitsimen nimeen on väärä muotoilu.</value>
+  </data>
+  <data name="Option0IsDefinedWithABadFormat" xml:space="preserve">
+    <value>Valitsimelle '{0}' on annettu arvo on väärässä muodossa.</value>
+  </data>
+  <data name="ASequenceOption0IsDefinedWithFewerOrMoreItemsThanRequired" xml:space="preserve">
+    <value>Sekvenssivalitsimelle '{0}' on annettu vähemmän tai liikaa arvoja kuin on vaadittu.</value>
+  </data>
+  <data name="Verb0IsNotRecognized" xml:space="preserve">
+    <value>Toimintoa '{0}' ei tunnisteta.</value>
+  </data>
+  <data name="ASequenceValueNotBoundToOptionNameIsDefinedWithFewItemsThanRequired" xml:space="preserve">
+    <value>Sekvenssivalitsimelle jota ei ole sidottu valitsimeen on annettu vähemmän arvoja, kuin on vaadittu.</value>
+  </data>
+  <data name="NoVerbSelected" xml:space="preserve">
+    <value>Toimintoa ei ole valittu.</value>
+  </data>
+  <data name="Option0IsDefinedMultipleTimes" xml:space="preserve">
+    <value>Valitsin '{0}'on määritelty useaan kertaan.</value>
+  </data>
+  <data name="ErrorSettingValueToOption01" xml:space="preserve">
+    <value>Virhe asettaessa arvoa valitsimelle '{0}': {1}</value>
+  </data>
+  <data name="Options0AreNotCompatibleWith1" xml:space="preserve">
+    <value>Valitsin {0} ei ole yhteensopiva valitsimen {1} kanssa.</value>
   </data>
 </root>

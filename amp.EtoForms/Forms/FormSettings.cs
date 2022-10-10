@@ -49,7 +49,9 @@ public class FormSettings : Dialog<bool>
     /// <summary>
     /// Initializes a new instance of the <see cref="FormSettings"/> class.
     /// </summary>
-    public FormSettings()
+    /// <param name="backupStopAction">An action to perform before taking a backup of the user data.</param>
+    /// <param name="backupResumeAction">An action to perform after the user data user data has been backed up.</param>
+    public FormSettings(Action backupStopAction, Action backupResumeAction)
     {
         Title = $"amp# {UI._} {Shared.Localization.Settings.SettingsLower}";
         ShowInTaskbar = false;
@@ -65,6 +67,9 @@ public class FormSettings : Dialog<bool>
         CreateVisualizationSettingsTab();
         CreateMiscellaneousSettings();
         LoadSettings();
+
+        this.backupResumeAction = backupResumeAction;
+        this.backupStopAction = backupStopAction;
 
         btnCancel.Click += delegate
         {
@@ -490,9 +495,9 @@ public class FormSettings : Dialog<bool>
             {
                 Rows =
                 {
-                    new Label { Text = amp.Shared.Localization.Settings.AudioVisualizer, },
+                    new Label { Text = Shared.Localization.Settings.AudioVisualizer, },
                     cbDisplayAudioVisualization,
-                    EtoHelpers.LabelWrap(amp.Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
+                    EtoHelpers.LabelWrap(Shared.Localization.Settings.AudioVisualizerFFTWindowFunction, cmbFftWindowSelect),
                     cbAudioVisualizationBars,
                     cbVisualizeAudioLevels,
                     cbLevelsVertical,
@@ -517,15 +522,73 @@ public class FormSettings : Dialog<bool>
         {
             Rows =
             {
-                new TableRow(lbQueueFinishActionFirst, new TableCell(cmbQueueFinishActionFirst, true)),
-                new TableRow(lbQueueFinishActionSecond, new TableCell(cmbQueueFinishActionSecond, true)),
-                new TableRow { ScaleHeight = true,},
+                new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow(lbQueueFinishActionFirst, new TableCell(cmbQueueFinishActionFirst, true)),
+                        new TableRow(lbQueueFinishActionSecond, new TableCell(cmbQueueFinishActionSecond, true)),
+                    },
+                    Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+                },
+                new Label { Text = UI.BackupAndRestore,},
+                new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow(btnBackupUserData, btnRestoreUserData, new TableCell { ScaleWidth = true,}),
+                    },
+                    Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+                },
+                new TableRow { ScaleHeight = true, },
             },
             Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
             Padding = Globals.DefaultPadding,
         };
 
+        btnBackupUserData.Click += BtnBackupUserData_Click;
+        btnRestoreUserData.Click += BtnRestoreUserData_Click;
+
         tbcSettings.Pages.Add(tabMiscellaneous);
+    }
+
+    private void BtnRestoreUserData_Click(object? sender, EventArgs e)
+    {
+        if (MessageBox.Show(this, Messages.TheApplicationWillShutDownAfterTheBackupHasBeenRestoredStartTheSoftwareAgainManually, Messages.Information,
+                MessageBoxButtons.OKCancel) ==
+            DialogResult.Ok)
+        {
+            var dialog = new OpenFileDialog()
+                { Title = UI.RestoreApplicationData, Filters = { new FileFilter(UI.ZIPArchives, ".zip"), }, };
+            if (dialog.ShowDialog(this) == DialogResult.Ok)
+            {
+                backupStopAction();
+                ApplicationDataBackup.RestoreBackupZip(Globals.DataFolder, dialog.FileName);
+                MessageBox.Show(this, Messages.BackupRestoreCompleted, Messages.Information, MessageBoxButtons.OK);
+                Close();
+                Application.Instance.Quit();
+            }
+        }
+    }
+
+    private void BtnBackupUserData_Click(object? sender, EventArgs e)
+    {
+        if (MessageBox.Show(this, Messages.ThePlaybackWillBeStoppedForTheBackup, Messages.Information,
+                MessageBoxButtons.OKCancel) ==
+            DialogResult.Ok)
+        {
+
+            var dialog = new SaveFileDialog
+                { Title = UI.BackupApplicationData, Filters = { new FileFilter(UI.ZIPArchives, ".zip"), }, };
+            if (dialog.ShowDialog(this) == DialogResult.Ok)
+            {
+                backupStopAction();
+                ApplicationDataBackup.CreateBackupZip(Globals.DataFolder, dialog.FileName);
+                backupResumeAction();
+                MessageBox.Show(this, Messages.BackupCompleted, Messages.Information, MessageBoxButtons.OK);
+                Close();
+            }
+        }
     }
 
     private void BtFormulaDefaults_Click(object? sender, EventArgs e)
@@ -602,7 +665,7 @@ public class FormSettings : Dialog<bool>
     { DataStore = Enum.GetValues<WindowType>().OrderBy(f => (int)f).Select(f => f.ToString()).ToList(), };
     private readonly CheckBox cbAudioVisualizationBars = new() { Text = UI.BarVisualizationMode, };
     private readonly CheckBox cbVisualizeAudioLevels = new() { Text = UI.VisualizeAudioLevels, };
-    private readonly CheckBox cbLevelsVertical = new() { Text = amp.Shared.Localization.Settings.HorizontalLevelVisualization, };
+    private readonly CheckBox cbLevelsVertical = new() { Text = Shared.Localization.Settings.HorizontalLevelVisualization, };
 
     // Miscellaneous settings tab page
     private readonly TabPage tabMiscellaneous = new() { Text = UI.Miscellaneous, };
@@ -614,5 +677,11 @@ public class FormSettings : Dialog<bool>
     private const string LocalizationActionPrefix = "QueueAction";
 
     private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction;
+
+    // Backup actions and controls.
+    private readonly Action backupStopAction;
+    private readonly Action backupResumeAction;
+    private readonly Button btnBackupUserData = new() { Text = UI.BackupApplicationData,};
+    private readonly Button btnRestoreUserData = new() { Text = UI.RestoreApplicationData,};
     #endregion
 }

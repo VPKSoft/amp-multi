@@ -578,4 +578,19 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="SecondActionWhenQueueIsFinished" xml:space="preserve">
     <value>Second action when queue is finished</value>
   </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="BackupApplicationData" xml:space="preserve">
+    <value>Backup application data</value>
+  </data>
+  <data name="RestoreApplicationData" xml:space="preserve">
+    <value>Restore application data</value>
+  </data>
+  <data name="BackupAndRestore" xml:space="preserve">
+    <value>Backup and restore</value>
+  </data>
+  <data name="ZIPArchives" xml:space="preserve">
+    <value>ZIP archives</value>
+  </data>
 </root>

@@ -29,6 +29,7 @@ using amp.Playback.Converters;
 using amp.Playback.EventArguments;
 using amp.Shared.Classes;
 using amp.Shared.Enumerations;
+using amp.Shared.Extensions;
 using amp.Shared.Interfaces;
 using ManagedBass;
 using ManagedBass.Flac;
@@ -78,13 +79,13 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable, IE
 
         DisposeCurrentChannel();
 
-        if (!File.Exists(track.AudioTrack?.FileName))
+        if (!File.Exists(track.AudioTrack?.FileNameFull()))
         {
             // ReSharper disable once ConvertToCompoundAssignment, volatile field
             errorCount = errorCount + 1;
 
             var args = new PlaybackErrorFileNotFoundEventArgs
-            { FileName = track.AudioTrack?.FileName ?? "", PlayAnother = errorCount >= retryBeforeStopCount, AudioTrackId = track.AudioTrackId, };
+            { FileName = track.AudioTrack?.FileNameFull() ?? "", PlayAnother = errorCount >= retryBeforeStopCount, AudioTrackId = track.AudioTrackId, };
 
             PlaybackErrorFileNotFound?.Invoke(this, args);
 
@@ -98,7 +99,7 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable, IE
 
         if (FileExtensionConvert.FileNameToFileType(track.AudioTrack?.FileName) == MusicFileType.Flac)
         {
-            currentStreamHandle = BassFlac.CreateStream(track.AudioTrack?.FileName ??
+            currentStreamHandle = BassFlac.CreateStream(track.AudioTrack?.FileNameFull() ??
                                                       throw new InvalidOperationException(
                                                           "The IAlbumTrack.AudioTrack must be not null."));
 
@@ -106,13 +107,13 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable, IE
 
         if (FileExtensionConvert.FileNameToFileType(track.AudioTrack?.FileName) == MusicFileType.Wma && UtilityOS.IsWindowsOS)
         {
-            currentStreamHandle = BassWma.CreateStream(track.AudioTrack?.FileName ??
+            currentStreamHandle = BassWma.CreateStream(track.AudioTrack?.FileNameFull() ??
                                                      throw new InvalidOperationException(
                                                          "The IAlbumTrack.AudioTrack must be not null."));
         }
         else
         {
-            currentStreamHandle = Bass.CreateStream(track.AudioTrack?.FileName ??
+            currentStreamHandle = Bass.CreateStream(track.AudioTrack?.FileNameFull() ??
                                                   throw new InvalidOperationException(
                                                       "The IAlbumTrack.AudioTrack must be not null."));
         }

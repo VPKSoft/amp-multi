@@ -29,6 +29,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using amp.DataAccessLayer;
 using amp.DataAccessLayer.DtoClasses;
+using amp.Database;
+using amp.Database.Migration;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
 using amp.EtoForms.ExtensionClasses;
@@ -36,14 +38,17 @@ using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Settings.Enumerations;
 using amp.EtoForms.Utilities;
+using amp.Playback;
 using amp.Playback.Classes;
 using amp.Shared.Constants;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Helpers;
+using EtoForms.Controls.Custom.UserIdle;
 using EtoForms.Controls.Custom.Utilities;
 using EtoForms.SpectrumVisualizer;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using VPKSoft.Utils.Common.UpdateCheck;
 
@@ -346,6 +351,32 @@ SOFTWARE.
         }
     }
 
+    private void AttachDetachPlaybackManagerEvents(bool attach)
+    {
+        if (attach)
+        {
+            playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
+            playbackManager.TrackChanged += PlaybackManagerTrackChanged;
+            playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
+            playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
+            playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
+            playbackManager.PlaybackError += PlaybackManager_PlaybackError;
+            playbackManager.TrackVolumeChanged += PlaybackManager_TrackVolumeChanged;
+            playbackManager.TrackRatingChanged += PlaybackManager_TrackRatingChanged;
+        }
+        else
+        {
+            playbackManager.PlaybackStateChanged -= PlaybackManager_PlaybackStateChanged;
+            playbackManager.TrackChanged -= PlaybackManagerTrackChanged;
+            playbackManager.PlaybackPositionChanged -= PlaybackManager_PlaybackPositionChanged;
+            playbackManager.TrackSkipped -= PlaybackManagerTrackSkipped;
+            playbackManager.PlaybackErrorFileNotFound -= PlaybackManager_PlaybackErrorFileNotFound;
+            playbackManager.PlaybackError -= PlaybackManager_PlaybackError;
+            playbackManager.TrackVolumeChanged -= PlaybackManager_TrackVolumeChanged;
+            playbackManager.TrackRatingChanged -= PlaybackManager_TrackRatingChanged;
+        }
+    }
+
     private void AssignEventListeners()
     {
         btnShuffleToggle.CheckedChange += BtnShuffleToggle_CheckedChange;
@@ -357,14 +388,7 @@ SOFTWARE.
         Closing += FormMain_Closing;
         Closed += OnClosed;
         AttachDetachKeyDownHandler(true);
-        playbackManager.PlaybackStateChanged += PlaybackManager_PlaybackStateChanged;
-        playbackManager.TrackChanged += PlaybackManagerTrackChanged;
-        playbackManager.PlaybackPositionChanged += PlaybackManager_PlaybackPositionChanged;
-        playbackManager.TrackSkipped += PlaybackManagerTrackSkipped;
-        playbackManager.PlaybackErrorFileNotFound += PlaybackManager_PlaybackErrorFileNotFound;
-        playbackManager.PlaybackError += PlaybackManager_PlaybackError;
-        playbackManager.TrackVolumeChanged += PlaybackManager_TrackVolumeChanged;
-        playbackManager.TrackRatingChanged += PlaybackManager_TrackRatingChanged;
+        AttachDetachPlaybackManagerEvents(true);
         LocationChanged += FormMain_LocationChanged;
         idleChecker.UserIdle += IdleChecker_UserIdleChanged;
         idleChecker.UserActivated += IdleChecker_UserIdleChanged;
@@ -536,5 +560,25 @@ SOFTWARE.
         }
 
         return current;
+    }
+
+    private void SuspendBackgroundTasks()
+    {
+        idleChecker.Dispose();
+        AttachDetachPlaybackManagerEvents(false);
+        playbackManager.Dispose();
+        context.Dispose();
+        SqliteConnection.ClearAllPools();
+    }
+
+    private void ResumeBackgroundTasks()
+    {
+        context = new AmpContext();
+        SoftwareMigration.RunSoftwareMigration(context);
+        idleChecker = new UserIdleChecker(this);
+        playbackManager = new PlaybackManager<AudioTrack, AlbumTrack, Album>(GetNextAudioTrackFunc, GetTrackById,
+            Globals.Settings.PlaybackRetryCount);
+        AttachDetachPlaybackManagerEvents(true);
+        playbackManager.ManagerStopped = false;
     }
 }

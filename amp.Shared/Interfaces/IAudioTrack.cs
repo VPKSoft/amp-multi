@@ -42,6 +42,12 @@ public interface IAudioTrack : IEntity, IPlayBackStatistics
     string FileName { get; set; }
 
     /// <summary>
+    /// Gets or sets the audio track file path.
+    /// </summary>
+    /// <value>The audio track file path.</value>
+    string FilePath { get; set; }
+
+    /// <summary>
     /// Gets or sets the name of the artist of the audio track.
     /// </summary>
     /// <value>The name of the artist.</value>
@@ -106,12 +112,6 @@ public interface IAudioTrack : IEntity, IPlayBackStatistics
     /// </summary>
     /// <value><c>true</c> if audio track tag data has been read; otherwise, <c>false</c>.</value>
     bool? TagRead { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name of the file of the audio track without the path.
-    /// </summary>
-    /// <value>The name of the file without the path.</value>
-    string? FileNameNoPath { get; set; }
 
     /// <summary>
     /// Gets or sets the title of the audio track.

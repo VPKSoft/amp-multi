@@ -578,4 +578,19 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="SecondActionWhenQueueIsFinished" xml:space="preserve">
     <value>Toinen toimenpide jonon loputtua</value>
   </data>
+  <data name="License" xml:space="preserve">
+    <value>Lisenssi</value>
+  </data>
+  <data name="BackupApplicationData" xml:space="preserve">
+    <value>Varmuuskopioi sovelluksen tiedot</value>
+  </data>
+  <data name="RestoreApplicationData" xml:space="preserve">
+    <value>Palauta sovelluksen tiedot</value>
+  </data>
+  <data name="BackupAndRestore" xml:space="preserve">
+    <value>Varmuuskopioi ja palauta</value>
+  </data>
+  <data name="ZIPArchives" xml:space="preserve">
+    <value>ZIP-paketit</value>
+  </data>
 </root>

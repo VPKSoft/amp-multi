@@ -394,7 +394,7 @@ public class FormAddFilesProgress : Form
 
             try
             {
-                var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name, cancellationToken: userAbortToken) ?? new AudioTrack();
+                var track = await context.AudioTracks.FirstOrDefaultAsync(f => f.FileName == fileInfo.Name && f.FilePath == fileInfo.DirectoryName, cancellationToken: userAbortToken) ?? new AudioTrack();
                 track.UpdateTrackInfo(fileInfo);
                 if (track.Id == 0)
                 {

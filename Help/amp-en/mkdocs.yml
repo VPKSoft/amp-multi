@@ -17,6 +17,7 @@ nav:
   - Icon settings: icon_settings.md
   - Keyboard shortcuts: keyboard_shortcuts.md
   - Data storing: data_storing.md
+  - Command line arguments: command_line.md
   - License: license.md
 
 copyright: Copyright &copy; 2022 VPKSoft

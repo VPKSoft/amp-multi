@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.Collections.ObjectModel;
 using amp.Database;
+using amp.Database.Migration;
 using amp.EtoForms.Utilities;
 using amp.Playback;
 using amp.Playback.Classes;
@@ -84,6 +85,8 @@ public partial class FormMain : Form, IExceptionReporter
             Globals.Settings.PlaybackRetryCount);
 
         context = new AmpContext();
+        SoftwareMigration.RunSoftwareMigration(context);
+
         CreateButtons();
         toolBar = CreateToolbar();
         trackAdjustControls = CreateValueSliders();
@@ -116,11 +119,11 @@ public partial class FormMain : Form, IExceptionReporter
 
     private ObservableCollection<AlbumTrack> tracks = new();
     private ObservableCollection<AlbumTrack> filteredTracks = new();
-    private readonly PlaybackManager<AudioTrack, AlbumTrack, Album> playbackManager;
+    private PlaybackManager<AudioTrack, AlbumTrack, Album> playbackManager;
     private QuietHourHandler<AudioTrack, AlbumTrack, Album> quietHourHandler;
     private readonly PlaybackOrder<AudioTrack, AlbumTrack, Album> playbackOrder;
-    private readonly AmpContext context;
-    private readonly UserIdleChecker idleChecker;
+    private AmpContext context;
+    private UserIdleChecker idleChecker;
     private readonly System.Timers.Timer tmMessageQueueTimer = new(1000);
     private DateTime? previousMessageTime;
     private bool shownCalled;

@@ -207,7 +207,7 @@ public class FormSavedQueues : Dialog<Task?>
 
     private void CopyToFolderClick(object? sender, EventArgs e)
     {
-        var fileNames = queueTracks.Select(f => f.AudioTrack.FileName).ToList();
+        var fileNames = queueTracks.Select(f => f.AudioTrack.FileNameFull()).ToList();
         if (selectFolderDialog.ShowDialog(this) == DialogResult.Ok)
         {
             Globals.LoggerSafeInvoke(() =>

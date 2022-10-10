@@ -46,6 +46,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private int? playedByUser;
     private int? skippedEarlyCount;
     private string fileName = string.Empty;
+    private string filePath = string.Empty;
     private string? artist;
     private string? album;
     private string? track;
@@ -57,7 +58,6 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private string? overrideName;
     private string? tagFindString;
     private bool? tagRead;
-    private string? fileNameNoPath;
     private string? title;
     private byte[]? trackImageData;
     private MusicFileType musicFileType;
@@ -89,7 +89,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
         audioTrack.MusicFileType = MusicFileType;
         audioTrack.TagFindString = TagFindString;
         audioTrack.TagRead = TagRead;
-        audioTrack.FileNameNoPath = FileNameNoPath;
+        audioTrack.FilePath = FilePath;
         audioTrack.Title = Title;
         audioTrack.TrackImageData = TrackImageData;
         audioTrack.OverrideName = OverrideName;
@@ -187,6 +187,21 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
                 OnPropertyChanged();
             }
         }
+    }
+
+    /// <inheritdoc cref="IAudioTrack.FilePath"/>
+    public string FilePath
+    {
+        get => filePath;
+        set
+        {
+            if (filePath != value)
+            {
+                filePath = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 
     /// <inheritdoc cref="IAudioTrack.Artist"/>
@@ -349,21 +364,6 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (tagRead != value)
             {
                 tagRead = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    /// <inheritdoc cref="IAudioTrack.FileNameNoPath"/>
-    public string? FileNameNoPath
-    {
-        get => fileNameNoPath;
-
-        set
-        {
-            if (fileNameNoPath != value)
-            {
-                fileNameNoPath = value;
                 OnPropertyChanged();
             }
         }

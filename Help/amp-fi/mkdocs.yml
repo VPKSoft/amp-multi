@@ -17,6 +17,7 @@ nav:
   - Ikonien asetukset: icon_settings.md
   - Näppäinoikotiet: keyboard_shortcuts.md
   - Tiedon tallennus: data_storing.md
+  - Komentoriviparametrit: command_line.md  
   - Lisenssi: license.md
 
 copyright: Copyright &copy; 2022 VPKSoft

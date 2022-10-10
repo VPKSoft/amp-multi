@@ -27,6 +27,7 @@ SOFTWARE.
 using amp.DataAccessLayer.DtoClasses;
 using amp.EtoForms.Forms.EventArguments;
 using amp.Shared.Classes;
+using amp.Shared.Extensions;
 using amp.Shared.Localization;
 using ATL;
 using Eto.Drawing;
@@ -62,7 +63,7 @@ public partial class FormDialogTrackInfo : Dialog
         LayoutAmpData();
         LayoutRest();
 
-        trackTag = new Track(audioTrack.FileName);
+        trackTag = new Track(audioTrack.FileNameFull());
         SetData();
         AttachEvents();
         defaultCancelButtonHandler = DefaultCancelButtonHandler.WithWindow(this).WithBoth(btnClose);
@@ -130,7 +131,7 @@ public partial class FormDialogTrackInfo : Dialog
         if (tcTagTabs.SelectedIndex == 1)
         {
             ModifyAmpData();
-            audioTrack.TagFindString = new Track(audioTrack.FileName).GetTagString();
+            audioTrack.TagFindString = new Track(audioTrack.FileNameFull()).GetTagString();
             var args = new AudioTrackChangedEventArgs(audioTrack);
             AudioTrackChanged?.Invoke(this, args);
             if (!args.SaveSuccess)

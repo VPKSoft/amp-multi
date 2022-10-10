@@ -461,6 +461,7 @@ partial class FormMain
                 "Print..." => UI.Print,
                 "&Edit" => UI.Edit,
                 "&Window" => UI.Window,
+                "License" => UI.License,
                 _ => throw new ArgumentOutOfRangeException(nameof(e.LocalizedText)),
             };
         }
@@ -654,7 +655,7 @@ partial class FormMain
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
     {
-        using var settingsForm = new FormSettings();
+        using var settingsForm = new FormSettings(SuspendBackgroundTasks, ResumeBackgroundTasks);
         playbackOrder.StackQueueRandomPercentage = Globals.Settings.StackQueueRandomPercentage;
         settingsForm.ShowModal(this);
         if (Globals.Settings.QuietHours)
