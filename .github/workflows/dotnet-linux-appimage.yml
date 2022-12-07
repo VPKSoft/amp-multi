@@ -17,7 +17,12 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x          
-          
+
+      - name: Install LibFuse2
+        run: |
+          sudo add-apt-repository universe
+          sudo apt install libfuse2
+
       - name: Dotnet publish
         run: |
           cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
