@@ -298,6 +298,37 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     /// <value>The first second finish action.</value>
     [Settings(Default = QueueFinishActionType.None)]
     public QueueFinishActionType QueueFinishActionSecond { get; set; }
+
+    #endregion
+
+    #region SearchSettings
+    /// <summary>
+    /// Gets or sets a value indicating whether use FuzzyWuzzy algorithm in the search.
+    /// </summary>
+    /// <value><c>true</c> if FuzzyWuzzy algorithm with the search; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool UseFuzzyWuzzySearch { get; set; }
+
+    /// <summary>
+    /// Gets or sets the FuzzyWuzzy search tolerance.
+    /// </summary>
+    /// <value>The FuzzyWuzzy search tolerance.</value>
+    [Settings(Default = 70)]
+    public int FuzzyWuzzyTolerance { get; set; }
+
+    /// <summary>
+    /// Gets or sets the FuzzyWuzzy maximum result amount.
+    /// </summary>
+    /// <value>The FuzzyWuzzy maximum result amount.</value>
+    [Settings(Default = 50)]
+    public int FuzzyWuzzyMaxResults { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to use FuzzyWuzzy algorithm always when searching for tracks.
+    /// </summary>
+    /// <value><c>true</c> if to use FuzzyWuzzy algorithm always; otherwise, <c>false</c>.</value>
+    [Settings(Default = false)]
+    public bool FuzzyWuzzyAlwaysOn { get; set; }
     #endregion
 
     #region Runtime    

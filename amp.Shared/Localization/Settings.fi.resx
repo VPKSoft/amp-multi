@@ -175,4 +175,16 @@
   <data name="QueueActionQuitApplication" xml:space="preserve">
     <value>Lopeta sovellus</value>
   </data>
+  <data name="MinimumTolerance" xml:space="preserve">
+    <value>Minimitoleranssi</value>
+  </data>
+  <data name="MaximumResults" xml:space="preserve">
+    <value>Tulosjoukon maksimikoko</value>
+  </data>
+  <data name="ErrorTolerantSearch" xml:space="preserve">
+    <value>Virhesietoinen haku</value>
+  </data>
+  <data name="AlwaysUseErrorTolerantSearch" xml:space="preserve">
+    <value>Käytä aina virhesietoista hakua</value>
+  </data>
 </root>

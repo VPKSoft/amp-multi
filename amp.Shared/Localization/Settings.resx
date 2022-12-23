@@ -175,4 +175,16 @@
   <data name="QueueActionQuitApplication" xml:space="preserve">
     <value>Quit the application</value>
   </data>
+  <data name="MinimumTolerance" xml:space="preserve">
+    <value>Minimum tolerance</value>
+  </data>
+  <data name="MaximumResults" xml:space="preserve">
+    <value>Maximum results</value>
+  </data>
+  <data name="ErrorTolerantSearch" xml:space="preserve">
+    <value>Error-tolerant search</value>
+  </data>
+  <data name="AlwaysUseErrorTolerantSearch" xml:space="preserve">
+    <value>Always use error-tolerant search</value>
+  </data>
 </root>
