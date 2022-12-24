@@ -734,6 +734,7 @@ partial class FormMain
                     filtered =
                         new ObservableCollection<AlbumTrack>(sourceTracks
                             .Where(f => f.AudioTrack!.Match(searchText))
+                            .OrderBy(f => f.DisplayName)
                             .ToList());
                 }
 
@@ -743,6 +744,7 @@ partial class FormMain
                         new ObservableCollection<AlbumTrack>(sourceTracks
                             .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
                             .OrderBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
+                            .ThenBy(f => f.DisplayName)
                             .Take(Globals.Settings.FuzzyWuzzyMaxResults)
                             .ToList());
                 }
@@ -752,6 +754,7 @@ partial class FormMain
                 filtered =
                     new ObservableCollection<AlbumTrack>(sourceTracks
                         .Where(f => f.AudioTrack!.Match(searchText))
+                        .OrderBy(f => f.DisplayName)
                         .ToList());
             }
         }
