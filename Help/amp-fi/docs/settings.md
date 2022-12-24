@@ -110,6 +110,14 @@ Antaa käyttäjän palauttaa sovelluksen tiedot zip-tiedostosta. Zip-tiedoston s
 
 Ennen varmuuskopion palauttamista näytetään seuraava viesti: *"Sovellus sammutetaan varmuuskopion palauttamisen jälkeen. Käynnistä sovellus uudelleen manuaalisesti."*. Kun varmuuskopion palautus on valmis näytetään vielä viesti: *"Varmuuskopioinnin palautus valmis."*.
 
+**Virhesietoinen haku**
+Asettaa käyttöön virhesietoisen haun kappaleiden suodatukseen käyttäen *FuzzyWuzzy*-algoritmia.
+
+*Minimitoleranssi* määrittää suodatuksen toleranssin välillä 0 - 100.
+
+*Tulosjoukon koko* määrittää suodatettujen tuloksien maksimimäärän.
+*Käytä aina virhesietoista hakua* määrittää, onko *FuzzyWuzzy*-algoritmi aina käytössä kappaleiden suodatukseen, muussa tapauksessa algoritmia käytetään ainoastaan, jos normaalisuodatus ei palauta yhtään tulosta.
+
 *Sekalaista-välilehti*
 
 ![image](img/settings5.png)

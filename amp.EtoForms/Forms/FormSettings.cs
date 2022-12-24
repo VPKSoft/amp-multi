@@ -142,6 +142,12 @@ public class FormSettings : Dialog<bool>
         nsTitleMinimumLength.Value = Globals.Settings.TrackNamingMinimumTitleLength;
         cbFallBackToFileNameIfNoLetters.Checked = Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters;
         tbHelpFolder.Text = Globals.Settings.HelpFolder;
+
+        // FuzzyWuzzy search
+        cbFuzzyWuzzySearch.Checked = Globals.Settings.UseFuzzyWuzzySearch;
+        nsFuzzyWuzzySearchResults.Value = Globals.Settings.FuzzyWuzzyMaxResults;
+        nsFuzzyWuzzySearchTolerance.Value = Globals.Settings.FuzzyWuzzyTolerance;
+        cbFuzzyWuzzySearchAlwaysOn.Checked = Globals.Settings.FuzzyWuzzyAlwaysOn;
     }
 
     private void SaveSettings()
@@ -197,7 +203,6 @@ public class FormSettings : Dialog<bool>
         }
 
         Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
-        Globals.Settings.AudioVisualizationBars = cbAudioVisualizationBars.Checked == true;
         Globals.Settings.DisplayAudioLevels = cbVisualizeAudioLevels.Checked == true;
         Globals.Settings.AudioLevelsHorizontal = cbLevelsVertical.Checked == true;
 
@@ -208,6 +213,12 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.TrackNamingFallbackToFileNameWhenNoLetters = cbFallBackToFileNameIfNoLetters.Checked == true;
 
         Globals.Settings.HelpFolder = tbHelpFolder.Text;
+
+        // FuzzyWuzzy search
+        Globals.Settings.UseFuzzyWuzzySearch = cbFuzzyWuzzySearch.Checked == true;
+        Globals.Settings.FuzzyWuzzyMaxResults = (int)nsFuzzyWuzzySearchResults.Value;
+        Globals.Settings.FuzzyWuzzyTolerance = (int)nsFuzzyWuzzySearchTolerance.Value;
+        Globals.Settings.FuzzyWuzzyAlwaysOn = cbFuzzyWuzzySearchAlwaysOn.Checked == true;
 
         Globals.SaveSettings();
     }
@@ -540,6 +551,17 @@ public class FormSettings : Dialog<bool>
                     },
                     Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
                 },
+                cbFuzzyWuzzySearch,
+                new TableLayout
+                {
+                    Rows =
+                    {
+                        new TableRow(new Label { Text = Shared.Localization.Settings.MinimumTolerance, }, nsFuzzyWuzzySearchTolerance, new TableCell(), new TableCell { ScaleWidth = true,}),
+                        new TableRow(new Label { Text = Shared.Localization.Settings.MaximumResults, }, nsFuzzyWuzzySearchResults, new TableCell(), new TableCell { ScaleWidth = true,}),
+                        new TableRow(new Label { Text = Shared.Localization.Settings.AlwaysUseErrorTolerantSearch, }, cbFuzzyWuzzySearchAlwaysOn, new TableCell(), new TableCell { ScaleWidth = true,}),
+                    },
+                    Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
+                },
                 new TableRow { ScaleHeight = true, },
             },
             Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
@@ -548,8 +570,16 @@ public class FormSettings : Dialog<bool>
 
         btnBackupUserData.Click += BtnBackupUserData_Click;
         btnRestoreUserData.Click += BtnRestoreUserData_Click;
+        cbFuzzyWuzzySearch.CheckedChanged += CbFuzzyWuzzySearch_CheckedChanged;
 
         tbcSettings.Pages.Add(tabMiscellaneous);
+    }
+
+    private void CbFuzzyWuzzySearch_CheckedChanged(object? sender, EventArgs e)
+    {
+        cbFuzzyWuzzySearchAlwaysOn.Enabled = cbFuzzyWuzzySearch.Checked == true;
+        nsFuzzyWuzzySearchResults.Enabled = cbFuzzyWuzzySearch.Checked == true;
+        nsFuzzyWuzzySearchTolerance.Enabled = cbFuzzyWuzzySearch.Checked == true;
     }
 
     private void BtnRestoreUserData_Click(object? sender, EventArgs e)
@@ -674,6 +704,11 @@ public class FormSettings : Dialog<bool>
     private readonly Label lbQueueFinishActionSecond = new() { Text = UI.SecondActionWhenQueueIsFinished, };
     private readonly ComboBox cmbQueueFinishActionSecond = new();
 
+    private readonly CheckBox cbFuzzyWuzzySearch = new() { Text = Shared.Localization.Settings.ErrorTolerantSearch, };
+    private readonly NumericStepper nsFuzzyWuzzySearchTolerance = new() { MinValue = 10, MaxValue = 100, Value = 70,};
+    private readonly NumericStepper nsFuzzyWuzzySearchResults = new() { MinValue = 10, MaxValue = 1000, Value = 50, };
+    private readonly CheckBox cbFuzzyWuzzySearchAlwaysOn = new();
+
     private const string LocalizationActionPrefix = "QueueAction";
 
     private readonly List<Pair<QueueFinishActionType, string>> dataStoreQueueFinishAction;
@@ -683,5 +718,6 @@ public class FormSettings : Dialog<bool>
     private readonly Action backupResumeAction;
     private readonly Button btnBackupUserData = new() { Text = UI.BackupApplicationData,};
     private readonly Button btnRestoreUserData = new() { Text = UI.RestoreApplicationData,};
+
     #endregion
 }

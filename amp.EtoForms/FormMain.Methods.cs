@@ -301,10 +301,7 @@ SOFTWARE.
             // These filters only apply when the user is active.
             if (!userIdle)
             {
-                if (!string.IsNullOrWhiteSpace(text))
-                {
-                    filteredTracks = new ObservableCollection<AlbumTrack>(tracks.Where(f => f.AudioTrack!.Match(text)));
-                }
+                filteredTracks = FilterTracks(tbSearch.Text, tracks);
             }
 
             if (queueOnly)

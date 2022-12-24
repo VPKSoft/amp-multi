@@ -61,6 +61,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always use error-tolerant search.
+        /// </summary>
+        public static string AlwaysUseErrorTolerantSearch {
+            get {
+                return ResourceManager.GetString("AlwaysUseErrorTolerantSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audio visualizer.
         /// </summary>
         public static string AudioVisualizer {
@@ -142,6 +151,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error-tolerant search.
+        /// </summary>
+        public static string ErrorTolerantSearch {
+            get {
+                return ResourceManager.GetString("ErrorTolerantSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Horizontal level visualization.
         /// </summary>
         public static string HorizontalLevelVisualization {
@@ -156,6 +174,24 @@ namespace amp.Shared.Localization {
         public static string LanguageRequiresRestart {
             get {
                 return ResourceManager.GetString("LanguageRequiresRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum results.
+        /// </summary>
+        public static string MaximumResults {
+            get {
+                return ResourceManager.GetString("MaximumResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum tolerance.
+        /// </summary>
+        public static string MinimumTolerance {
+            get {
+                return ResourceManager.GetString("MinimumTolerance", resourceCulture);
             }
         }
         

@@ -721,23 +721,56 @@ partial class FormMain
         }
     }
 
+    private static ObservableCollection<AlbumTrack> FilterTracks(string? searchText, ObservableCollection<AlbumTrack> sourceTracks)
+    {
+        var filtered = sourceTracks;
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            if (Globals.Settings.UseFuzzyWuzzySearch)
+            {
+                if (!Globals.Settings.FuzzyWuzzyAlwaysOn)
+                {
+                    filtered =
+                        new ObservableCollection<AlbumTrack>(sourceTracks
+                            .Where(f => f.AudioTrack!.Match(searchText))
+                            .OrderBy(f => f.DisplayName)
+                            .ToList());
+                }
+
+                if (filtered.Count == 0 || Globals.Settings.FuzzyWuzzyAlwaysOn)
+                {
+                    filtered =
+                        new ObservableCollection<AlbumTrack>(sourceTracks
+                            .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
+                            .OrderBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
+                            .ThenBy(f => f.DisplayName)
+                            .Take(Globals.Settings.FuzzyWuzzyMaxResults)
+                            .ToList());
+                }
+            }
+            else
+            {
+                filtered =
+                    new ObservableCollection<AlbumTrack>(sourceTracks
+                        .Where(f => f.AudioTrack!.Match(searchText))
+                        .OrderBy(f => f.DisplayName)
+                        .ToList());
+            }
+        }
+
+        return filtered;
+    }
+
     private async void QueryDivider_QueryCompleted(object? sender, QueryCompletedEventArgs<AlbumTrack> e)
     {
         tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
 
         tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
-
+        
         await Application.Instance.InvokeAsync(() =>
         {
-            filteredTracks = tracks;
-
-            if (!string.IsNullOrWhiteSpace(tbSearch.Text))
-            {
-                filteredTracks =
-                    new ObservableCollection<AlbumTrack>(tracks
-                        .Where(f => f.AudioTrack!.Match(tbSearch.Text))
-                        .ToList());
-            }
+            filteredTracks = FilterTracks(tbSearch.Text, tracks);
 
             gvAudioTracks.DataStore = filteredTracks;
             lbLoadingText.Visible = false;
