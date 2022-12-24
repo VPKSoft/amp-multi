@@ -32,6 +32,7 @@ using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
+using EtoForms.Controls.Custom.Drawing;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 using ManagedBass;
@@ -210,45 +211,30 @@ partial class FormMain
             },
         };
 
+//        (columnTrackRating.DataCell as DrawableCell)!.Paint += Cell_Paint;
+
         gvAudioTracks = new GridView
         {
             Columns =
             {
-                new GridColumn
-                {
-                    DataCell = new TextBoxCell(nameof(AlbumTrack.DisplayName)), Expand = true,
-                    HeaderText = UI.Track,
-                    Resizable = false,
-                },
-                new GridColumn
-                {
-                    DataCell = new TextBoxCell
-                    {
-                        Binding = Binding
-                            .Property((AlbumTrack s) => s.QueueIndex)
-                            .Convert(q => q == 0 ? null : q.ToString())
-                            .Cast<string?>(),
-                    },
-                    HeaderText = UI.QueueShort,
-                    Resizable = false,
-                },
-                new GridColumn
-                {
-                    DataCell = new TextBoxCell
-                    {
-                        Binding = Binding
-                            .Property((AlbumTrack s) => s.QueueIndexAlternate)
-                            .Convert(qa => qa == 0 ? null : qa.ToString())
-                            .Cast<string?>(),
-                    },
-                    HeaderText = UI.StarChar,
-                    Resizable = false,
-                },
+                columnTrackName,
+                columnTrackRating,
+                columnQueueIndex,
+                columnAlternateQueueIndex,
             },
             ShowHeader = Globals.Settings.DisplayPlaylistHeader,
             AllowMultipleSelection = true,
             AllowColumnReordering = true,
         };
+
+        painter = new CellPainterRange<AlbumTrack>(gvAudioTracks, columnTrackRating, 1000,
+            track => track.AudioTrack!.Rating)
+        {
+            SvgImageBytes = Globals.CustomIconSettings.RatingPlaylist?.IconData ?? Size16.ic_fluent_star_16_filled,
+            ForegroundColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist),
+        };
+
+        gvAudioTracks.ColumnHeaderClick += GvAudioTracks_ColumnHeaderClick;
 
         audioVisualizationControl = CreateAudioVisualization(Globals.Settings.AudioLevelsHorizontal, Globals.Settings.DisplayAudioLevels);
 

@@ -33,7 +33,7 @@ using amp.Database;
 using amp.Database.Migration;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Dialogs;
-using amp.EtoForms.ExtensionClasses;
+using amp.EtoForms.Enumerations;
 using amp.EtoForms.Forms.Enumerations;
 using amp.EtoForms.Properties;
 using amp.EtoForms.Settings.Enumerations;
@@ -301,7 +301,7 @@ SOFTWARE.
             // These filters only apply when the user is active.
             if (!userIdle)
             {
-                filteredTracks = FilterTracks(tbSearch.Text, tracks);
+                filteredTracks = FilterTracks(tbSearch.Text, tracks, ratingSort);
             }
 
             if (queueOnly)
@@ -577,5 +577,16 @@ SOFTWARE.
             Globals.Settings.PlaybackRetryCount);
         AttachDetachPlaybackManagerEvents(true);
         playbackManager.ManagerStopped = false;
+    }
+
+    private static string GetColumnSortingText(ColumnSorting sorting)
+    {
+        return sorting switch
+        {
+            ColumnSorting.None => UI.RatingSortNone,
+            ColumnSorting.Ascending => UI.RatingSortAscending,
+            ColumnSorting.Descending => UI.RatingSortDescending,
+            _ => throw new ArgumentOutOfRangeException(nameof(sorting), sorting, null),
+        };
     }
 }

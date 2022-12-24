@@ -197,6 +197,13 @@ public class CustomIcons : ApplicationJsonSettings
     public CustomIcon? Rating { get; set; }
 
     /// <summary>
+    /// Gets or sets the playlist rating column icon image data.
+    /// </summary>
+    /// <value>The playlist rating column icon image data.</value>
+    [Settings(Default = null)]
+    public CustomIcon? RatingPlaylist { get; set; }
+
+    /// <summary>
     /// Gets or sets the position slider icon image data.
     /// </summary>
     /// <value>The position slider icon image data.</value>

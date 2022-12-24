@@ -593,4 +593,13 @@ result if the actual variable e.g. Artist exists. ({@Ar /}).</value>
   <data name="ZIPArchives" xml:space="preserve">
     <value>ZIP archives</value>
   </data>
+  <data name="RatingSortNone" xml:space="preserve">
+    <value>- Rating</value>
+  </data>
+  <data name="RatingSortAscending" xml:space="preserve">
+    <value>↑ Rating</value>
+  </data>
+  <data name="RatingSortDescending" xml:space="preserve">
+    <value>↓ Rating</value>
+  </data>
 </root>

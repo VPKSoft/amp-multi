@@ -406,6 +406,11 @@ internal class FormIconSettings : Dialog
             itemColor, Size16.ic_fluent_star_16_filled);
         iconList.Add(item);
 
+        itemColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist);
+        item = CreateItemImage(nameof(CustomIcons.RatingPlaylist), Globals.CustomIconSettings.RatingPlaylist,
+            itemColor, Size16.ic_fluent_star_16_filled);
+        iconList.Add(item);
+
         // Sliders, etc.
         itemColor = Color.Parse(Globals.ColorConfiguration.ColorMainVolumeValueIndicator);
         item = CreateItemImage(nameof(CustomIcons.MainVolumeSlider), Globals.CustomIconSettings.MainVolumeSlider,

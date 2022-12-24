@@ -196,4 +196,7 @@
   <data name="ClearSearch" xml:space="preserve">
     <value>Clear search</value>
   </data>
+  <data name="RatingPlaylist" xml:space="preserve">
+    <value>Playlist rating column</value>
+  </data>
 </root>

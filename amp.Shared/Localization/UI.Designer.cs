@@ -1061,6 +1061,33 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ↑ Rating.
+        /// </summary>
+        public static string RatingSortAscending {
+            get {
+                return ResourceManager.GetString("RatingSortAscending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ↓ Rating.
+        /// </summary>
+        public static string RatingSortDescending {
+            get {
+                return ResourceManager.GetString("RatingSortDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Rating.
+        /// </summary>
+        public static string RatingSortNone {
+            get {
+                return ResourceManager.GetString("RatingSortNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Redo.
         /// </summary>
         public static string Redo {
