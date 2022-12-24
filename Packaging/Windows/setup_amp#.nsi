@@ -44,13 +44,13 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile "setup_amp#.exe"
+OutFile "setup_amp.exe"
 InstallDir "$LOCALAPPDATA\VPKSoft\amp\Application\amp#"
 
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-BrandingText "amp# © VPKSoft 2022"
+BrandingText "amp# ¬© VPKSoft 2022"
 VIProductVersion 1.0.0.0
 VIAddVersionKey ProductName "amp#"
 VIAddVersionKey ProductVersion "${VERSION}"
@@ -133,5 +133,5 @@ Function un.DeleteLocalData
 	nodeletelocal:
 FunctionEnd
 
-LangString DeleteUserData ${LANG_FINNISH} "Poista paikalliset k‰ytt‰j‰tiedot?"
+LangString DeleteUserData ${LANG_FINNISH} "Poista paikalliset k√§ytt√§j√§tiedot?"
 LangString DeleteUserData ${LANG_ENGLISH} "Delete local user data?"
