@@ -111,7 +111,11 @@ Allows user to restore backed up application data from a zip file. The zip file 
 Before the backup is restored a following information is displayed: *"The application will shut down after the backup has been restored. Start the software again manually."*. After the backup has been restored a following message is displayed: *"Backup restore completed."*.
 
 **Error-tolerant search**
-Allows to use error-tolerant search for audio track filtering using *FuzzyWuzzy* algorithm. The *Minimum tolerance* defines the filtering tolerance between 0 to 100. The *Maximum results* defines the amount of filtered results the filtering should return.
+
+Allows to use error-tolerant search for audio track filtering using *FuzzyWuzzy* algorithm.
+
+The *Minimum tolerance* defines the filtering tolerance between 0 to 100. The *Maximum results* defines the amount of filtered results the filtering should return.
+
 The *Always use error-tolerant search* defines if the *FuzzyWuzzy* algorithm should always be used for filtering, otherwise the algorithm is only used if the normal filtering yields no results.
 
 *The Miscellaneous tab*
