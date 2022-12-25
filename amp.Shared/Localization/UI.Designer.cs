@@ -520,6 +520,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display track rating column.
+        /// </summary>
+        public static string DisplayTrackRatingColumn {
+            get {
+                return ResourceManager.GetString("DisplayTrackRatingColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not remind of this version again.
         /// </summary>
         public static string DoNotRemindOfThisVersionAgain {

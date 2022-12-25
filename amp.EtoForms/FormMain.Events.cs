@@ -678,21 +678,21 @@ partial class FormMain
 
     private void GvAudioTracksSizeChanged(object? sender, EventArgs e)
     {
-        var index1 = gvAudioTracks.Columns.IndexOf(columnTrackName);
-        var index2 = gvAudioTracks.Columns.IndexOf(columnTrackRating);
-        var index3 = gvAudioTracks.Columns.IndexOf(columnQueueIndex);
-        var index4 = gvAudioTracks.Columns.IndexOf(columnAlternateQueueIndex);
+        var indexTrack = gvAudioTracks.Columns.IndexOf(columnTrackName);
+        var indexRating = gvAudioTracks.Columns.IndexOf(columnTrackRating);
+        var indexQueueIndex = gvAudioTracks.Columns.IndexOf(columnQueueIndex);
+        var indexAlternate = gvAudioTracks.Columns.IndexOf(columnAlternateQueueIndex);
 
         var otherColumnWidths = 0;
-        gvAudioTracks.Columns[index2].Width = 80;
+        gvAudioTracks.Columns[indexRating].Width = 80;
         otherColumnWidths += 80;
-        gvAudioTracks.Columns[index3].Width = 30; 
+        gvAudioTracks.Columns[indexQueueIndex].Width = 30;
         otherColumnWidths += 30;
-        gvAudioTracks.Columns[index4].Width = 30;
+        gvAudioTracks.Columns[indexAlternate].Width = 30;
         otherColumnWidths += 30;
-        otherColumnWidths += 20; // The scroll bar (TODO:Should be gotten from some kind of system data provider)
+        otherColumnWidths += 20; // The scroll bar (TODO:Should be gotten from some kind of system data provider to get the system scroll bar width)
 
-        gvAudioTracks.Columns[index1].Width = gvAudioTracks.Width - otherColumnWidths;
+        gvAudioTracks.Columns[indexTrack].Width = gvAudioTracks.Width - otherColumnWidths;
     }
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
@@ -855,6 +855,7 @@ partial class FormMain
     private void TrackRatingSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         playbackManager.Rating = (int)e.Value;
+        gvAudioTracks.Invalidate();
     }
 
     private async void PlaybackManager_TrackRatingChanged(object? sender, TrackRatingChangedEventArgs e)

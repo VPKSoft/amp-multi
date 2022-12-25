@@ -482,7 +482,7 @@ SOFTWARE.
         UpdateChecker.SkipVersion = string.Empty;
         if (autoCheck)
         {
-            UpdateChecker.SkipVersion = Globals.Settings.ForgerVersionUpdate;
+            UpdateChecker.SkipVersion = Globals.Settings.ForgetVersionUpdate;
         }
 
         var result = await DialogCheckNewVersion.CheckNewVersion(this, Assembly.GetEntryAssembly()!.GetName().Version!,

@@ -176,7 +176,8 @@ partial class FormMain
         return result;
     }
 
-    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks), nameof(audioVisualizationControl), nameof(btnClearSearch))]
+    [MemberNotNull(nameof(playbackPosition), nameof(lbPlaybackPosition), nameof(gvAudioTracks),
+        nameof(audioVisualizationControl), nameof(btnClearSearch))]
     private StackLayout CreateMainContent()
     {
         playbackPosition = new PositionSlider
@@ -204,14 +205,12 @@ partial class FormMain
                     Cells =
                     {
                         new TableCell(playbackPosition, true),
-                        new Panel{Width = Globals.DefaultPadding,},
+                        new Panel { Width = Globals.DefaultPadding, },
                         new TableCell(lbPlaybackPosition),
                     },
                 },
             },
         };
-
-//        (columnTrackRating.DataCell as DrawableCell)!.Paint += Cell_Paint;
 
         gvAudioTracks = new GridView
         {
@@ -227,12 +226,20 @@ partial class FormMain
             AllowColumnReordering = true,
         };
 
-        painter = new CellPainterRange<AlbumTrack>(gvAudioTracks, columnTrackRating, 1000,
-            track => track.AudioTrack!.Rating)
+        if (!Globals.Settings.DisplayRatingColumn)
         {
-            SvgImageBytes = Globals.CustomIconSettings.RatingPlaylist?.IconData ?? Size16.ic_fluent_star_16_filled,
-            ForegroundColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist),
-        };
+            gvAudioTracks.Columns.Remove(columnTrackRating);
+        }
+
+        if (Globals.Settings.DisplayRatingColumn)
+        {
+            painter = new CellPainterRange<AlbumTrack>(gvAudioTracks, columnTrackRating, 1000,
+                track => track.AudioTrack!.Rating)
+            {
+                SvgImageBytes = Globals.CustomIconSettings.RatingPlaylist?.IconData ?? Size16.ic_fluent_star_16_filled,
+                ForegroundColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist),
+            };
+        }
 
         gvAudioTracks.ColumnHeaderClick += GvAudioTracks_ColumnHeaderClick;
 

@@ -124,6 +124,8 @@ public class FormSettings : Dialog<bool>
         cbDisplayColumnHeaders.Checked = Globals.Settings.DisplayPlaylistHeader;
         nsRetryCount.Value = Globals.Settings.PlaybackRetryCount;
 
+        cbDisplayRatingColumn.Checked = Globals.Settings.DisplayRatingColumn;
+
         // Audio visualization
         cbDisplayAudioVisualization.Checked = Globals.Settings.DisplayAudioVisualization;
         cmbFftWindowSelect.SelectedValue = ((WindowType)Globals.Settings.FftWindow).ToString();
@@ -188,6 +190,8 @@ public class FormSettings : Dialog<bool>
         Globals.Settings.AutoCheckUpdates = cbCheckUpdates.Checked == true;
         Globals.Settings.StackQueueRandomPercentage = (int)nsStackQueue.Value;
         Globals.Settings.DisplayPlaylistHeader = cbDisplayColumnHeaders.Checked == true;
+
+        Globals.Settings.DisplayRatingColumn = cbDisplayRatingColumn.Checked == true;
 
         // Album image
         Globals.Settings.AutoHideEmptyAlbumImage = cbAutoHideAlbumImage.Checked == true;
@@ -708,6 +712,7 @@ public class FormSettings : Dialog<bool>
     private readonly NumericStepper nsFuzzyWuzzySearchTolerance = new() { MinValue = 10, MaxValue = 100, Value = 70,};
     private readonly NumericStepper nsFuzzyWuzzySearchResults = new() { MinValue = 10, MaxValue = 1000, Value = 50, };
     private readonly CheckBox cbFuzzyWuzzySearchAlwaysOn = new();
+    private readonly CheckBox cbDisplayRatingColumn = new() { Text = UI.DisplayTrackRatingColumn,};
 
     private const string LocalizationActionPrefix = "QueueAction";
 
@@ -718,6 +723,5 @@ public class FormSettings : Dialog<bool>
     private readonly Action backupResumeAction;
     private readonly Button btnBackupUserData = new() { Text = UI.BackupApplicationData,};
     private readonly Button btnRestoreUserData = new() { Text = UI.RestoreApplicationData,};
-
     #endregion
 }
