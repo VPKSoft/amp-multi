@@ -235,16 +235,14 @@ partial class FormMain
             return;
         }
 
-        var track = tracks.First(f => f.Id == SelectedAlbumTrackId);
-        if (track.AudioTrack?.PlayedByUser != null)
+        // BUG Here, EF Core concurrency.
+        if (gvAudioTracks.SelectedItem != null)
         {
-            track.AudioTrack.PlayedByUser++;
-            track.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
-            track.AudioTrack.UpdateDataModel(context.AudioTracks.FirstOrDefault(f => f.Id == track.AudioTrackId));
-            await context.SaveChangesAsync();
+            var albumTrack = tracks.First(f => f.Id == SelectedAlbumTrackId);
+            await AlbumTrackMethods.IncrementUserPlayed(albumTrack, context);
+            await playbackManager.PlayAudioTrack(albumTrack, true);
+            e.Handled = true;
         }
-
-        await playbackManager.PlayAudioTrack(track, true);
     }
 
     private void FormMain_LocationChanged(object? sender, EventArgs e)

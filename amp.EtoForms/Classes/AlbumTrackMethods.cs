@@ -127,4 +127,20 @@ internal static class AlbumTrackMethods
             await context.SaveChangesAsync();
         });
     }
+
+    public static async Task IncrementUserPlayed(AlbumTrack albumTrack, AmpContext context)
+    {
+        await Globals.LoggerSafeInvokeAsync(async () =>
+        {
+            var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
+            updateTrack.PlayedByUser++;
+            updateTrack.ModifiedAtUtc = DateTime.UtcNow;
+            if (albumTrack.AudioTrack != null)
+            {
+                albumTrack.AudioTrack.PlayedByUser = updateTrack.PlayedByUser;
+                albumTrack.AudioTrack.ModifiedAtUtc = updateTrack.ModifiedAtUtc;
+            }
+            await context.SaveChangesAsync();
+        });
+    }
 }
