@@ -196,4 +196,7 @@
   <data name="ClearSearch" xml:space="preserve">
     <value>Tyhjennä haku</value>
   </data>
+  <data name="RatingPlaylist" xml:space="preserve">
+    <value>Soittolistan pisteet -sarake</value>
+  </data>
 </root>

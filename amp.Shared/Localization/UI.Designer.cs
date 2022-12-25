@@ -520,6 +520,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display track rating column.
+        /// </summary>
+        public static string DisplayTrackRatingColumn {
+            get {
+                return ResourceManager.GetString("DisplayTrackRatingColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not remind of this version again.
         /// </summary>
         public static string DoNotRemindOfThisVersionAgain {
@@ -1057,6 +1066,33 @@ namespace amp.Shared.Localization {
         public static string Rating {
             get {
                 return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ↑ Rating.
+        /// </summary>
+        public static string RatingSortAscending {
+            get {
+                return ResourceManager.GetString("RatingSortAscending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ↓ Rating.
+        /// </summary>
+        public static string RatingSortDescending {
+            get {
+                return ResourceManager.GetString("RatingSortDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Rating.
+        /// </summary>
+        public static string RatingSortNone {
+            get {
+                return ResourceManager.GetString("RatingSortNone", resourceCulture);
             }
         }
         

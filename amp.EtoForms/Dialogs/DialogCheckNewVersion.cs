@@ -63,13 +63,13 @@ internal class DialogCheckNewVersion : Dialog
             {
                 if (versionInfo != null)
                 {
-                    Globals.Settings.ForgerVersionUpdate =
+                    Globals.Settings.ForgetVersionUpdate =
                         $"{versionInfo.Version}|{versionInfo.VersionTag ?? string.Empty}";
                 }
             }
             else
             {
-                Globals.Settings.ForgerVersionUpdate = string.Empty;
+                Globals.Settings.ForgetVersionUpdate = string.Empty;
             }
         };
 

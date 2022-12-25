@@ -31,6 +31,7 @@ using amp.Database.DataModel;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Dialogs;
+using amp.EtoForms.Enumerations;
 using amp.EtoForms.ExtensionClasses;
 using amp.EtoForms.Forms;
 using amp.EtoForms.Forms.Enumerations;
@@ -204,18 +205,44 @@ partial class FormMain
         playbackManager.PlaybackPositionPercentage = e.Value;
     }
 
+    private void GvAudioTracks_ColumnHeaderClick(object? sender, GridColumnEventArgs e)
+    {
+        if (e.Column.Equals(columnTrackRating))
+        {
+            if (ratingSort == ColumnSorting.None)
+            {
+                ratingSort = ColumnSorting.Ascending;
+            } else if (ratingSort == ColumnSorting.Ascending)
+            {
+                ratingSort = ColumnSorting.Descending;
+            }
+            else
+            {
+                ratingSort = ColumnSorting.None;
+            }
+
+            columnTrackRating.HeaderText = GetColumnSortingText(ratingSort);
+
+            filteredTracks = FilterTracks(tbSearch.Text, tracks, ratingSort);
+            gvAudioTracks.DataStore = filteredTracks;
+        }
+    }
+
     private async void GvAudioTracksMouseDoubleClick(object? sender, MouseEventArgs e)
     {
-        var track = tracks.First(f => f.Id == SelectedAlbumTrackId);
-        if (track.AudioTrack?.PlayedByUser != null)
+        if (tracks.All(f => f.Id != SelectedAlbumTrackId))
         {
-            track.AudioTrack.PlayedByUser++;
-            track.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
-            track.AudioTrack.UpdateDataModel(context.AudioTracks.FirstOrDefault(f => f.Id == track.AudioTrackId));
-            await context.SaveChangesAsync();
+            return;
         }
 
-        await playbackManager.PlayAudioTrack(track, true);
+        // BUG Here, EF Core concurrency.
+        if (gvAudioTracks.SelectedItem != null)
+        {
+            var albumTrack = tracks.First(f => f.Id == SelectedAlbumTrackId);
+            await AlbumTrackMethods.IncrementUserPlayed(albumTrack, context);
+            await playbackManager.PlayAudioTrack(albumTrack, true);
+            e.Handled = true;
+        }
     }
 
     private void FormMain_LocationChanged(object? sender, EventArgs e)
@@ -245,6 +272,7 @@ partial class FormMain
         formAlbumImage.DisposeClose();
         formAlbumImage.Dispose();
         idleChecker.Dispose();
+        painter?.Dispose();
     }
 
     private bool previousQueued;
@@ -648,9 +676,25 @@ partial class FormMain
 
     private void GvAudioTracksSizeChanged(object? sender, EventArgs e)
     {
-        gvAudioTracks.Columns[0].Width = gvAudioTracks.Width - 80;
-        gvAudioTracks.Columns[1].Width = 30;
-        gvAudioTracks.Columns[2].Width = 30;
+        var indexTrack = gvAudioTracks.Columns.IndexOf(columnTrackName);
+        var indexRating = gvAudioTracks.Columns.IndexOf(columnTrackRating);
+        var indexQueueIndex = gvAudioTracks.Columns.IndexOf(columnQueueIndex);
+        var indexAlternate = gvAudioTracks.Columns.IndexOf(columnAlternateQueueIndex);
+
+        var otherColumnWidths = 0;
+        if (Globals.Settings.DisplayRatingColumn)
+        {
+            gvAudioTracks.Columns[indexRating].Width = 80;
+            otherColumnWidths += 80;
+        }
+
+        gvAudioTracks.Columns[indexQueueIndex].Width = 30;
+        otherColumnWidths += 30;
+        gvAudioTracks.Columns[indexAlternate].Width = 30;
+        otherColumnWidths += 30;
+        otherColumnWidths += 20; // The scroll bar (TODO:Should be gotten from some kind of system data provider to get the system scroll bar width)
+
+        gvAudioTracks.Columns[indexTrack].Width = gvAudioTracks.Width - otherColumnWidths;
     }
 
     private void SettingsCommand_Executed(object? sender, EventArgs e)
@@ -721,7 +765,7 @@ partial class FormMain
         }
     }
 
-    private static ObservableCollection<AlbumTrack> FilterTracks(string? searchText, ObservableCollection<AlbumTrack> sourceTracks)
+    private static ObservableCollection<AlbumTrack> FilterTracks(string? searchText, ObservableCollection<AlbumTrack> sourceTracks, ColumnSorting sorting)
     {
         var filtered = sourceTracks;
 
@@ -732,31 +776,26 @@ partial class FormMain
                 if (!Globals.Settings.FuzzyWuzzyAlwaysOn)
                 {
                     filtered =
-                        new ObservableCollection<AlbumTrack>(sourceTracks
-                            .Where(f => f.AudioTrack!.Match(searchText))
-                            .OrderBy(f => f.DisplayName)
-                            .ToList());
+                        sourceTracks
+                            .DefaultFilterSort(sorting, false, searchText);
                 }
 
                 if (filtered.Count == 0 || Globals.Settings.FuzzyWuzzyAlwaysOn)
                 {
                     filtered =
-                        new ObservableCollection<AlbumTrack>(sourceTracks
-                            .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
-                            .OrderBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                            .ThenBy(f => f.DisplayName)
-                            .Take(Globals.Settings.FuzzyWuzzyMaxResults)
-                            .ToList());
+                        sourceTracks
+                            .DefaultFilterSort(sorting, true, searchText);
                 }
             }
             else
             {
                 filtered =
-                    new ObservableCollection<AlbumTrack>(sourceTracks
-                        .Where(f => f.AudioTrack!.Match(searchText))
-                        .OrderBy(f => f.DisplayName)
-                        .ToList());
+                    sourceTracks.Where(f => f.AudioTrack!.Match(searchText)).DefaultFilterSort(sorting, false, searchText);
             }
+        }
+        else
+        {
+            filtered = filtered.DefaultFilterSort(sorting, false);
         }
 
         return filtered;
@@ -766,11 +805,9 @@ partial class FormMain
     {
         tracks = new ObservableCollection<AlbumTrack>(e.ResultList);
 
-        tracks = new ObservableCollection<AlbumTrack>(tracks.OrderBy(f => f.DisplayName));
-        
         await Application.Instance.InvokeAsync(() =>
         {
-            filteredTracks = FilterTracks(tbSearch.Text, tracks);
+            filteredTracks = FilterTracks(tbSearch.Text, tracks, ratingSort);
 
             gvAudioTracks.DataStore = filteredTracks;
             lbLoadingText.Visible = false;
@@ -820,6 +857,7 @@ partial class FormMain
     private void TrackRatingSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         playbackManager.Rating = (int)e.Value;
+        gvAudioTracks.Invalidate();
     }
 
     private async void PlaybackManager_TrackRatingChanged(object? sender, TrackRatingChangedEventArgs e)

@@ -26,11 +26,13 @@ SOFTWARE.
 
 using amp.DataAccessLayer.DtoClasses;
 using amp.Database.QueryHelpers;
+using amp.EtoForms.Enumerations;
 using amp.EtoForms.Forms;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
 using EtoForms.Controls.Custom;
+using EtoForms.Controls.Custom.Drawing;
 using EtoForms.SpectrumVisualizer;
 
 namespace amp.EtoForms;
@@ -144,4 +146,51 @@ partial class FormMain
 
     // Track list filtering.
     private bool filterAlternateQueue;
+
+    // Grid (track list) columns
+    #region GridColumns
+    private readonly GridColumn columnTrackName = new()
+    {
+        DataCell = new TextBoxCell(nameof(AlbumTrack.DisplayName)), Expand = true,
+        HeaderText = UI.Track,
+        Resizable = false,
+    };
+
+    private readonly GridColumn columnQueueIndex = new()
+    {
+        DataCell = new TextBoxCell
+        {
+            Binding = Binding
+                .Property((AlbumTrack s) => s.QueueIndex)
+                .Convert(q => q == 0 ? null : q.ToString())
+                .Cast<string?>(),
+        },
+        HeaderText = UI.QueueShort,
+        Resizable = false,
+    };
+
+    private readonly GridColumn columnAlternateQueueIndex = new()
+    {
+        DataCell = new TextBoxCell
+        {
+            Binding = Binding
+                .Property((AlbumTrack s) => s.QueueIndexAlternate)
+                .Convert(qa => qa == 0 ? null : qa.ToString())
+                .Cast<string?>(),
+        },
+        HeaderText = UI.StarChar,
+        Resizable = false,
+    };
+
+    private ColumnSorting ratingSort;
+
+    private CellPainterRange<AlbumTrack>? painter;
+
+    private readonly GridColumn columnTrackRating = new()
+    {
+        DataCell = new DrawableCell(),
+        HeaderText = UI.RatingSortNone,
+        Sortable = true,
+    };
+    #endregion
 }

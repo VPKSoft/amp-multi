@@ -199,6 +199,13 @@ public class ColorConfiguration : ApplicationJsonSettings
     public string ColorRatingSlider { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the color of the rating column image.
+    /// </summary>
+    /// <value>The color rating slider.</value>
+    [Settings(Default = "#FFA500")] // Orange
+    public string ColorRatingPlaylist { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the color rating slider value indicator.
     /// </summary>
     /// <value>The color rating slider value indicator.</value>

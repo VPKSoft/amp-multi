@@ -593,4 +593,16 @@ lopputulokseen, jos muuttujalla on arvo esim. Artisti. ({@Ar /}).</value>
   <data name="ZIPArchives" xml:space="preserve">
     <value>ZIP-paketit</value>
   </data>
+  <data name="RatingSortNone" xml:space="preserve">
+    <value>- Arvostelu</value>
+  </data>
+  <data name="RatingSortAscending" xml:space="preserve">
+    <value>↑ Arvostelu</value>
+  </data>
+  <data name="RatingSortDescending" xml:space="preserve">
+    <value>↓ Arvostelu</value>
+  </data>
+  <data name="DisplayTrackRatingColumn" xml:space="preserve">
+    <value>Näytä kappaleen arvostelusarake</value>
+  </data>
 </root>

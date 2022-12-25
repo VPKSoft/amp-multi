@@ -169,6 +169,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Playlist rating column indicator color.
+        /// </summary>
+        public static string ColorRatingPlaylist {
+            get {
+                return ResourceManager.GetString("ColorRatingPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating slider image color.
         /// </summary>
         public static string ColorRatingSlider {

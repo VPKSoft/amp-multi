@@ -208,4 +208,7 @@
   <data name="ColorLevelBarRightBackground" xml:space="preserve">
     <value>Right audio level bar background color</value>
   </data>
+  <data name="ColorRatingPlaylist" xml:space="preserve">
+    <value>Playlist rating column indicator color</value>
+  </data>
 </root>

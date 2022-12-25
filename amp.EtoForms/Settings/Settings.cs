@@ -216,34 +216,6 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     public int StackQueueRandomPercentage { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to automatically hide the album track image view if no image exists.
-    /// </summary>
-    /// <value><c>true</c> if to automatically hide the album track image view if no image exists; otherwise, <c>false</c>.</value>
-    [Settings(Default = true)]
-    public bool AutoHideEmptyAlbumImage { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to display track image window.
-    /// </summary>
-    /// <value><c>true</c> if to display track image window; otherwise, <c>false</c>.</value>
-    [Settings(Default = true)]
-    public bool ShowAlbumImage { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether display playlist column headers.
-    /// </summary>
-    /// <value><c>true</c> if display playlist column headers; otherwise, <c>false</c>.</value>
-    [Settings(Default = true)]
-    public bool DisplayPlaylistHeader { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to display audio visualization when the music is playing.
-    /// </summary>
-    /// <value><c>true</c> if to display audio visualization; otherwise, <c>false</c>.</value>
-    [Settings(Default = true)]
-    public bool DisplayAudioVisualization { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to display the audio levels (Right/Left).
     /// </summary>
     /// <value><c>true</c> if to display the audio levels; otherwise, <c>false</c>.</value>
@@ -258,25 +230,11 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     public bool AudioLevelsHorizontal { get; set; }
 
     /// <summary>
-    /// Gets or sets the FFT window function.
-    /// </summary>
-    /// <value>The FFT window function.</value>
-    [Settings(Default = (int)WindowType.Hanning)]
-    public int FftWindow { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to visualize the audio in bar mode.
-    /// </summary>
-    /// <value><c>true</c> if to visualize the audio in bar mode; otherwise, <c>false</c>.</value>
-    [Settings(Default = true)]
-    public bool AudioVisualizationBars { get; set; }
-
-    /// <summary>
     /// Gets or sets the version data to not to check updates for.
     /// </summary>
     /// <value>The version data to not to check updates for.</value>
     [Settings(Default = "")]
-    public string ForgerVersionUpdate { get; set; } = string.Empty;
+    public string ForgetVersionUpdate { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the help folder for the software.
@@ -298,6 +256,59 @@ public class Settings : ApplicationJsonSettings, IBiasedRandomSettings, IQuietHo
     /// <value>The first second finish action.</value>
     [Settings(Default = QueueFinishActionType.None)]
     public QueueFinishActionType QueueFinishActionSecond { get; set; }
+    #endregion
+
+    #region AudioVisualization
+    /// <summary>
+    /// Gets or sets a value indicating whether to display audio visualization when the music is playing.
+    /// </summary>
+    /// <value><c>true</c> if to display audio visualization; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool DisplayAudioVisualization { get; set; }
+
+    /// <summary>
+    /// Gets or sets the FFT window function.
+    /// </summary>
+    /// <value>The FFT window function.</value>
+    [Settings(Default = (int)WindowType.Hanning)]
+    public int FftWindow { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to visualize the audio in bar mode.
+    /// </summary>
+    /// <value><c>true</c> if to visualize the audio in bar mode; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool AudioVisualizationBars { get; set; }
+    #endregion
+
+    #region Visual
+    /// <summary>
+    /// Gets or sets a value indicating whether display playlist column headers.
+    /// </summary>
+    /// <value><c>true</c> if display playlist column headers; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool DisplayPlaylistHeader { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically hide the album track image view if no image exists.
+    /// </summary>
+    /// <value><c>true</c> if to automatically hide the album track image view if no image exists; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool AutoHideEmptyAlbumImage { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to display track image window.
+    /// </summary>
+    /// <value><c>true</c> if to display track image window; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool ShowAlbumImage { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to display the rating column.
+    /// </summary>
+    /// <value><c>true</c> if to display the rating column; otherwise, <c>false</c>.</value>
+    [Settings(Default = true)]
+    public bool DisplayRatingColumn { get; set; }
 
     #endregion
 
