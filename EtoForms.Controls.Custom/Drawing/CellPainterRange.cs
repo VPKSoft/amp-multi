@@ -77,7 +77,7 @@ public class CellPainterRange<T> : CellPainter<T, int?>
 
             var drawCount = (int)Math.Ceiling((double)e.ClipRectangle.Width / wh);
 
-            e.Graphics.SetClip(new RectangleF(0, 0, left + 1, e.ClipRectangle.Height));
+            e.Graphics.SetClip(new RectangleF(e.ClipRectangle.Left, e.ClipRectangle.Top, left + 1, e.ClipRectangle.Height));
 
             for (var i = 0; i < drawCount; i++)
             {
