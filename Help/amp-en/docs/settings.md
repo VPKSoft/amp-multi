@@ -118,6 +118,10 @@ The *Minimum tolerance* defines the filtering tolerance between 0 to 100. The *M
 
 The *Always use error-tolerant search* defines if the *FuzzyWuzzy* algorithm should always be used for filtering, otherwise the algorithm is only used if the normal filtering yields no results.
 
+**Display track rating column**
+
+Indicates if the track rating column should be displayed in the playlist.
+
 *The Miscellaneous tab*
 
 ![image](img/settings5.png)

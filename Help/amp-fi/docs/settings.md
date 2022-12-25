@@ -118,6 +118,9 @@ Asettaa käyttöön virhesietoisen haun kappaleiden suodatukseen käyttäen *Fuz
 *Tulosjoukon koko* määrittää suodatettujen tuloksien maksimimäärän.
 *Käytä aina virhesietoista hakua* määrittää, onko *FuzzyWuzzy*-algoritmi aina käytössä kappaleiden suodatukseen, muussa tapauksessa algoritmia käytetään ainoastaan, jos normaalisuodatus ei palauta yhtään tulosta.
 
+**Näytä kappaleen arvostelusarake**
+Ilmaisee, näytetäänkö kappaleen arvostelu soittolistan sarakkeena.
+
 *Sekalaista-välilehti*
 
 ![image](img/settings5.png)
