@@ -682,8 +682,12 @@ partial class FormMain
         var indexAlternate = gvAudioTracks.Columns.IndexOf(columnAlternateQueueIndex);
 
         var otherColumnWidths = 0;
-        gvAudioTracks.Columns[indexRating].Width = 80;
-        otherColumnWidths += 80;
+        if (Globals.Settings.DisplayRatingColumn)
+        {
+            gvAudioTracks.Columns[indexRating].Width = 80;
+            otherColumnWidths += 80;
+        }
+
         gvAudioTracks.Columns[indexQueueIndex].Width = 30;
         otherColumnWidths += 30;
         gvAudioTracks.Columns[indexAlternate].Width = 30;

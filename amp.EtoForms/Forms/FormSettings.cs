@@ -566,6 +566,7 @@ public class FormSettings : Dialog<bool>
                     },
                     Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
                 },
+                cbDisplayRatingColumn,
                 new TableRow { ScaleHeight = true, },
             },
             Spacing = new Size(Globals.DefaultPadding, Globals.DefaultPadding),
