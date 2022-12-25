@@ -7,7 +7,7 @@ A music player for common audio formats with a simple and intuitive GUI.
 
 *Windows*
 
-![image](https://user-images.githubusercontent.com/40712699/187039283-2fa2b002-622f-46d4-be2a-a2d3224116aa.png)
+![image](https://user-images.githubusercontent.com/40712699/209475030-7976bb36-800e-449a-aeca-252e72fca65c.png)
 
 *macOS*
 
