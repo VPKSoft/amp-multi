@@ -108,13 +108,13 @@ The album can be changed from the album selector. The previous album is automati
 
 ## Sound and rating
 **The volume slider**
-The volume slider controls the main volume of the playback. The volume level has no effect on the system volume setting.
+The volume slider controls the main volume of the playback. The volume level has no effect on the system volume setting. Multiple selection volume can be updated using the <kbd>Ctrl</kbd> or <kbd>⌘</kbd> modifier key.
 
 **The audio track volume slider**
 The audio track volume slider controls the volume of an individual audio track playback. This value is saved to the internal database of the software.
 
 **The rating slider**
-With the rating slider the track can be given a rating. This value is saved to the internal database of the software.
+With the rating slider the track can be given a rating. This value is saved to the internal database of the software. Multiple selection rating can be updated using the <kbd>Ctrl</kbd> or <kbd>⌘</kbd> modifier key.
 
 ## The position slider
 The position slider allows to control the playback position of the current track.
