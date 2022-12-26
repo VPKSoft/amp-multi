@@ -79,7 +79,7 @@ jobs:
         arguments: "/V3"
         script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp.nsi
     - name: Release  
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: amp# installer
         path: ${{ github.workspace }}/Packaging/Windows/setup_amp.exe
