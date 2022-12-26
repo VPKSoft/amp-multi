@@ -236,7 +236,6 @@ partial class FormMain
             return;
         }
 
-        // BUG Here, EF Core concurrency.
         if (gvAudioTracks.SelectedItem != null)
         {
             var albumTrack = tracks.First(f => f.Id == SelectedAlbumTrackId);
@@ -832,9 +831,34 @@ partial class FormMain
         });
     }
 
-    private void TrackVolumeSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
+    private async void TrackVolumeSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
-        playbackManager.PlaybackVolume = e.Value / 100.0;
+        if (e.CommonModifier && gvAudioTracks.SelectedItems.Any())
+        {
+            await Globals.LoggerSafeInvokeAsync(async () =>
+            {
+                var albumTracks = gvAudioTracks.SelectedItems.Cast<AlbumTrack>().ToList();
+                var ids = albumTracks.Select(track => track.Id).ToList();
+                var tracksEntity = await context.AudioTracks.Where(f => ids.Contains(f.Id)).ToListAsync();
+                foreach (var albumTrack in albumTracks)
+                {
+                    albumTrack.AudioTrack!.PlaybackVolume = e.Value / 100.0;
+                    var audioTrackEntity =
+                        tracksEntity.FirstOrDefault(f => f.Id == albumTrack.AudioTrackId);
+                    if (audioTrackEntity != null)
+                    {
+                        audioTrackEntity.PlaybackVolume = e.Value / 100.0;
+                    }
+                }
+
+                await context.SaveChangesAsync();
+                context.ChangeTracker.Clear();
+            });
+        }
+        else
+        {
+            playbackManager.PlaybackVolume = e.Value / 100.0;
+        }
     }
 
     private void TotalVolumeSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
@@ -854,9 +878,34 @@ partial class FormMain
         }
     }
 
-    private void TrackRatingSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
+    private async void TrackRatingSlider_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
-        playbackManager.Rating = (int)e.Value;
+        if (e.CommonModifier && gvAudioTracks.SelectedItems.Any())
+        {
+            await Globals.LoggerSafeInvokeAsync(async () =>
+            {
+                var albumTracks = gvAudioTracks.SelectedItems.Cast<AlbumTrack>().ToList();
+                var ids = albumTracks.Select(track => track.Id).ToList();
+                var tracksEntity = await context.AudioTracks.Where(f => ids.Contains(f.Id)).ToListAsync();
+                foreach (var albumTrack in albumTracks)
+                {
+                    albumTrack.AudioTrack!.Rating = (int)e.Value;
+                    var audioTrackEntity =
+                        tracksEntity.FirstOrDefault(f => f.Id == albumTrack.AudioTrackId);
+                    if (audioTrackEntity != null)
+                    {
+                        audioTrackEntity.Rating = (int)e.Value;
+                    }
+                }
+
+                await context.SaveChangesAsync();
+                context.ChangeTracker.Clear();
+            });
+        }
+        else
+        {
+            playbackManager.Rating = (int)e.Value;
+        }
         gvAudioTracks.Invalidate();
     }
 

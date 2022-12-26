@@ -40,4 +40,13 @@ public class ValueChangedEventArgs : EventArgs
     /// </summary>
     /// <value>The value.</value>
     public double Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the common modifier key is down.
+    /// </summary>
+    /// <value><c>true</c> if the common modifier key is down; otherwise, <c>false</c>.</value>
+    /// <remarks>
+    /// On Windows/Linux, this will typically means <see cref="F:Eto.Forms.Keys.Control" />, and on OS X this will be <see cref="F:Eto.Forms.Keys.Application" /> (the command key).
+    /// </remarks>
+    public bool CommonModifier { get; set; }
 }
