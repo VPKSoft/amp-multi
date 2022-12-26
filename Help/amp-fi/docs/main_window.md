@@ -111,10 +111,10 @@ Albumin voi vaihtaa tästä pudotusvalikosta. Edellisen albumin mahdolliset muut
 Äänenvoimakkuus vaikuttaa kaikkien kappaleiden toiston voimakkuuteen. Asetuksen muuttaminen ei vaikuta järjestelmän äänenvoimakkuuteen.
 
 **Kappaleen äänenvoimakkuus**
-Kappaleen äänenvoimakkuus vaikuttaa yksittäisen kappaleen toiston voimakkuuteen. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan.
+Kappaleen äänenvoimakkuus vaikuttaa yksittäisen kappaleen toiston voimakkuuteen. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan. Usean kappaleen valinnan äänenvoimakkuuden voi päivittää käyttämällä <kbd>Ctrl</kbd> tai <kbd>⌘</kbd> vaihtonäppäintä.
 
 **Arvostelu/pisteet**
-Tällä toiminnolla voidaan antaa kappaleelle haluttu arvostelu. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan.
+Tällä toiminnolla voidaan antaa kappaleelle haluttu arvostelu. Tämä arvo tallennetaan ohjelman sisäiseen tietokantaan. Usean kappaleen valinnan arvostelun voi päivittää käyttämällä <kbd>Ctrl</kbd> tai <kbd>⌘</kbd> vaihtonäppäintä.
 
 ## Sijainnin säätö
 Tästä voi säätää nykyisen kappaleen toiston sijaintia ajallisesti.

@@ -48,6 +48,7 @@ public abstract class SliderBase : Drawable
     internal double currentValue;
     internal Padding sliderPadding = new(10, 5);
     private bool mouseDown;
+    private bool modifierDown;
     internal int sliderWidth = 10;
     private Color colorSlider = Colors.Teal;
     private Color colorSliderMarker = Colors.Navy;
@@ -179,7 +180,7 @@ public abstract class SliderBase : Drawable
 
             if (!SuspendEventInvocation)
             {
-                ValueChanged?.Invoke(this, new ValueChangedEventArgs { Value = Value, });
+                ValueChanged?.Invoke(this, new ValueChangedEventArgs { Value = Value, CommonModifier = modifierDown,});
             }
         }
     }
@@ -400,12 +401,14 @@ public abstract class SliderBase : Drawable
 
     private void Slider_MouseUp(object? sender, MouseEventArgs e)
     {
+        modifierDown = false;
         mouseDown = false;
     }
 
     private void Slider_MouseDown(object? sender, MouseEventArgs e)
     {
         mouseDown = e.Buttons == MouseButtons.Primary;
+        modifierDown = e.Modifiers.HasFlag(Application.Instance.CommonModifier);
         UpdateValueFromPoint(e.Location);
     }
 
