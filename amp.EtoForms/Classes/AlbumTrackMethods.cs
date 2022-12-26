@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
+using amp.Database.ExtensionClasses;
 using Eto.Forms;
 using EtoForms.Controls.Custom.Utilities;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ internal static class AlbumTrackMethods
                 var toRemove = await context.AlbumTracks.Where(f => selectedTrackIds.Contains(f.Id)).ToListAsync();
                 context.AlbumTracks.RemoveRange(toRemove);
                 await context.SaveChangesAsync();
+                context.ChangeTracker.Clear();
             });
 
             if (result)
@@ -88,7 +90,7 @@ internal static class AlbumTrackMethods
 
             gridView.ReloadData(gridView.SelectedRow);
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAndUntrackAsync(updateTrack);
         }
     }
 
@@ -106,7 +108,7 @@ internal static class AlbumTrackMethods
             updateTrack.PlaybackVolume = volume;
             updateTrack.ModifiedAtUtc = DateTime.UtcNow;
             albumTrack.AudioTrack!.PlaybackVolume = volume;
-            await context.SaveChangesAsync();
+            await context.SaveChangesAndUntrackAsync(updateTrack);
         });
     }
 
@@ -124,7 +126,7 @@ internal static class AlbumTrackMethods
             updateTrack.Rating = trackRating;
             updateTrack.ModifiedAtUtc = DateTime.UtcNow;
             albumTrack.AudioTrack!.Rating = trackRating;
-            await context.SaveChangesAsync();
+            await context.SaveChangesAndUntrackAsync(updateTrack);
         });
     }
 
@@ -140,7 +142,7 @@ internal static class AlbumTrackMethods
                 albumTrack.AudioTrack.PlayedByUser = updateTrack.PlayedByUser;
                 albumTrack.AudioTrack.ModifiedAtUtc = updateTrack.ModifiedAtUtc;
             }
-            await context.SaveChangesAsync();
+            await context.SaveChangesAndUntrackAsync(updateTrack);
         });
     }
 }

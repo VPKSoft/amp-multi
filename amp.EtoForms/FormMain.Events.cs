@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using amp.DataAccessLayer;
 using amp.Database.DataModel;
+using amp.Database.ExtensionClasses;
 using amp.Database.QueryHelpers;
 using amp.EtoForms.Classes;
 using amp.EtoForms.Dialogs;
@@ -300,7 +301,7 @@ partial class FormMain
                 var updateEntity = await context.AudioTracks.FirstOrDefaultAsync(f => f.Id == result.AudioTrackId);
                 result.AudioTrack.UpdateDataModel(updateEntity);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAndUntrackAsync(updateEntity);
             }
 
         });
@@ -395,8 +396,7 @@ partial class FormMain
                     : albumTrack.AudioTrack.SkippedEarlyCount + 1;
                 albumTrack.AudioTrack.ModifiedAtUtc = DateTime.UtcNow;
                 context.Update(albumTrack);
-                await context.SaveChangesAsync();
-                context.ChangeTracker.Clear();
+                await context.SaveChangesAndUntrackAsync(albumTrack);
             }
         });
     }
@@ -752,7 +752,7 @@ partial class FormMain
         if (track != null)
         {
             e.AudioTrack.UpdateDataModel(track);
-            var count = await context.SaveChangesAsync();
+            var count = await context.SaveChangesAndUntrackAsync(track);
             e.SaveSuccess = count > 0;
             if (e.SaveSuccess)
             {
