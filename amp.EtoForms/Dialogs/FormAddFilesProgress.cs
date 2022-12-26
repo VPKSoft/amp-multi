@@ -423,6 +423,7 @@ public class FormAddFilesProgress : Form
                 }
 
                 await context.SaveChangesAsync(userAbortToken);
+                context.ChangeTracker.Clear();
             }
             catch (Exception ex)
             {

@@ -64,6 +64,37 @@ public static class DbContextExtensions
         }
     }
 
+    /// <summary>
+    /// Save changes to database context and stops tracking the specified entities after saving the changes.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entities to untrack.</typeparam>
+    /// <param name="context">The database context.</param>
+    /// <param name="entities">The entities to untrack.</param>
+    /// <returns>A Task&lt;System.Int32&gt; representing the asynchronous operation.</returns>
+    public static async Task<int> SaveChangesAndUntrackAsync<TEntity>(this DbContext context, params TEntity[] entities)
+    {
+        var result = await context.SaveChangesAsync();
+        context.Untrack(entities);
+        return result;
+    }
+
+    /// <summary>
+    /// Removes the specified entities from being tracked.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entities to remove.</typeparam>
+    /// <param name="context">The database context.</param>
+    /// <param name="entities">The entities to untrack.</param>
+    private static void Untrack<TEntity>(this DbContext context, params TEntity[] entities)
+    {
+        foreach (var entity in entities)
+        {
+            if (entity != null)
+            {
+                context.Entry(entity).State = EntityState.Detached;
+            }
+        }
+    }
+
     private static void UpdateEntity(IEntity destination, IEntity source)
     {
         var propertyInfos = destination.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);

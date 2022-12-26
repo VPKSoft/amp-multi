@@ -27,6 +27,7 @@ SOFTWARE.
 using System.Collections.ObjectModel;
 using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
+using amp.Database.ExtensionClasses;
 using amp.EtoForms.Utilities;
 using amp.Shared.Localization;
 using Eto.Drawing;
@@ -248,6 +249,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
+            context.ChangeTracker.Clear();
         }, async (_) => await transaction.RollbackAsync());
 
         Close(true);
@@ -262,7 +264,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
         track.QueueSnapshotId = queueTrack.QueueSnapshotId;
         track.QueueIndex = queueTrack.QueueIndex;
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAndUntrackAsync(track);
     }
 
     private void BtnCancel_Click(object? sender, EventArgs e)

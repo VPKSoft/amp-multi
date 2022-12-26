@@ -242,6 +242,8 @@ public class DialogUpdateTagData : Dialog
             });
         }
 
+        context.ChangeTracker.Clear();
+
         await Application.Instance.InvokeAsync(() =>
         {
             btnClose.Enabled = true;

@@ -159,6 +159,7 @@ partial class FormMain
         }
 
         var count = await context.SaveChangesAsync();
+        context.ChangeTracker.Clear();
 
         gvAudioTracks.ReloadKeepSelection();
 
