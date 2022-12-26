@@ -78,9 +78,8 @@ jobs:
       with:
         arguments: "/V3"
         script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp.nsi
-    - name: Release  
-      uses: actions/upload-artifact@v3
+    - name: Release
+      uses: softprops/action-gh-release@v1        
       with:
-        name: amp# installer
-        path: ${{ github.workspace }}/Packaging/Windows/setup_amp.exe
-        if-no-files-found: error
+        files: ${{ github.workspace }}/Packaging/Windows/setup_amp.exe
+        token: ${{ secrets.RELEASE_TOKEN }}
