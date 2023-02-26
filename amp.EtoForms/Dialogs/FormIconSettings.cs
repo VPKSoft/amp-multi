@@ -401,6 +401,7 @@ internal class FormIconSettings : Dialog
             itemColor, Size16.ic_fluent_speaker_2_16_filled);
         iconList.Add(item);
 
+        // Rating
         itemColor = Color.Parse(Globals.ColorConfiguration.ColorRatingSlider);
         item = CreateItemImage(nameof(CustomIcons.Rating), Globals.CustomIconSettings.Rating,
             itemColor, Size16.ic_fluent_star_16_filled);
@@ -408,6 +409,16 @@ internal class FormIconSettings : Dialog
 
         itemColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist);
         item = CreateItemImage(nameof(CustomIcons.RatingPlaylist), Globals.CustomIconSettings.RatingPlaylist,
+            itemColor, Size16.ic_fluent_star_16_filled);
+        iconList.Add(item);
+
+        itemColor = Color.Parse(Globals.ColorConfiguration.ColorRatingSliderValueIndicatorUndefined);
+        item = CreateItemImage(nameof(CustomIcons.RatingUndefined), Globals.CustomIconSettings.RatingUndefined,
+            itemColor, Size16.ic_fluent_star_16_filled);
+        iconList.Add(item);
+
+        itemColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylistUndefined);
+        item = CreateItemImage(nameof(CustomIcons.RatingPlaylistUndefined), Globals.CustomIconSettings.RatingPlaylistUndefined,
             itemColor, Size16.ic_fluent_star_16_filled);
         iconList.Add(item);
 

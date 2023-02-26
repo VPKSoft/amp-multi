@@ -122,9 +122,10 @@ partial class FormMain
             Globals.ColorConfiguration.ColorTrackVolumeValueIndicator);
 
         trackRatingSlider.SliderImageUndefinedSvg = Globals.CustomIconSettings.RatingUndefined?.IconData ??
-                                                    Size20.ic_fluent_line_horizontal_1_20_filled;
+                                                    Size16.ic_fluent_star_16_filled;
+
         trackRatingSlider.ColorSliderUndefined = MakeColor(Globals.CustomIconSettings.RatingUndefined,
-            Globals.ColorConfiguration.ColorTrackVolumeValueIndicatorUndefined);
+            Globals.ColorConfiguration.ColorRatingSliderValueIndicatorUndefined);
 
         trackRatingSlider.SliderImageSvg =
             Globals.CustomIconSettings.Rating?.IconData ?? Size16.ic_fluent_star_16_filled;
@@ -244,7 +245,7 @@ partial class FormMain
                 SvgImageBytes = Globals.CustomIconSettings.RatingPlaylist?.IconData ?? Size16.ic_fluent_star_16_filled,
                 ForegroundColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist),
                 ForegroundColorUndefined = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylistUndefined),
-                SvgImageBytesUndefined = Globals.CustomIconSettings.RatingPlaylistUndefined?.IconData ?? Size20.ic_fluent_line_horizontal_1_20_filled,
+                SvgImageBytesUndefined = Globals.CustomIconSettings.RatingPlaylistUndefined?.IconData ?? Size16.ic_fluent_star_16_filled,
             };
         }
 

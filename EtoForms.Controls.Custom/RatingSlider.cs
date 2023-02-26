@@ -47,13 +47,14 @@ public class RatingSlider : SliderBase
     public RatingSlider()
     {
         sliderImageSvg = Size16.ic_fluent_star_16_filled;
+        sliderImageUndefinedSvg = Size16.ic_fluent_star_16_filled;
         ColorSlider = Colors.Orange;
     }
 
     private bool isRatingDefined = true;
     private byte[]? sliderImageUndefinedSvg;
     private Image? sliderImageUndefined;
-    private Color colorSliderUndefined = Colors.Orange;
+    private Color colorSliderUndefined = Colors.LightGrey;
 
 
     /// <summary>
@@ -113,7 +114,7 @@ public class RatingSlider : SliderBase
     /// <value>The SVG image for the slide area when the value is undefined.</value>
     public byte[] SliderImageUndefinedSvg
     {
-        get => sliderImageUndefinedSvg ?? Resources.line_horizontal;
+        get => sliderImageUndefinedSvg ?? Size16.ic_fluent_star_16_filled;
 
         set
         {

@@ -28,7 +28,7 @@ using System;
 using Eto.Drawing;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
-using EtoForms.Controls.Custom.Properties;
+using FluentIcons.Resources.Filled;
 
 namespace EtoForms.Controls.Custom;
 
@@ -44,7 +44,7 @@ public class PositionSlider : SliderBase
     /// </summary>
     public PositionSlider()
     {
-        SliderImageSvg = Resources.slider_line;
+        SliderImageSvg = Size16.ic_fluent_star_16_filled;
     }
 
     /// <summary>
