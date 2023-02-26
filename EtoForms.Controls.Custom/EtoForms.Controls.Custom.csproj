@@ -12,7 +12,7 @@
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<Description>Custom Eto.Forms controls.</Description>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<DocumentationFile>bin\$(Configuration)\EtoForms.Controls.Custom.xml</DocumentationFile>
 		<PackageIconUrl />
 		<RepositoryType>git</RepositoryType>

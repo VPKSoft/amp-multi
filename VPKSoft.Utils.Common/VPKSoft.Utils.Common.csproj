@@ -6,7 +6,7 @@
 		<DocumentationFile>bin\$(Configuration)\VPKSoft.Utils.Common.xml</DocumentationFile>
 		<LangVersion>latest</LangVersion>
 		<OutputType>Library</OutputType>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<Description>Basic utility classes and interfaces.</Description>
 		<PackageProjectUrl>https://github.com/VPKSoft</PackageProjectUrl>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>

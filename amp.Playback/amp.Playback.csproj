@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<Company>VPKSoft</Company>
 		<Description>Audio playback library for the amp#.</Description>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/VPKSoft/amp-multi</RepositoryUrl>
 		<PackageIcon>amp.png</PackageIcon>

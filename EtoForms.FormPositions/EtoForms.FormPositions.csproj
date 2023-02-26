@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<OutputType>Library</OutputType>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<Description>Form size and position libary for Eto.Forms.</Description>
 		<PackageProjectUrl>https://github.com/VPKSoft</PackageProjectUrl>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
