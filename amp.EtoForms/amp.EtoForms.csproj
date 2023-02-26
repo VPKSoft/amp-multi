@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ApplicationIcon>Images/amp.ico</ApplicationIcon>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<Description>Music player for common audio formats.</Description>
 		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 		<PackageIcon>amp.png</PackageIcon>
@@ -18,7 +18,7 @@
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
 		<IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
 		<IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
-		<Version>1.0.3.0</Version>
+		<Version>1.0.4.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsOSX)'=='true'">

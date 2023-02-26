@@ -9,7 +9,7 @@
 		<Company>VPKSoft</Company>
 		<Product>amp#</Product>
 		<Description>Shared interfaces and classes for the amp# software.</Description>
-		<Copyright>Copyright © VPKSoft 2022</Copyright>
+		<Copyright>Copyright © VPKSoft 2023</Copyright>
 		<PackageProjectUrl>https://github.com/VPKSoft/amp-multi</PackageProjectUrl>
 		<PackageIcon>amp.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

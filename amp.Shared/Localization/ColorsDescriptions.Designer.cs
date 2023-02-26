@@ -178,6 +178,15 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Playlist rating column indicator color with undefined value.
+        /// </summary>
+        public static string ColorRatingPlaylistUndefined {
+            get {
+                return ResourceManager.GetString("ColorRatingPlaylistUndefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating slider image color.
         /// </summary>
         public static string ColorRatingSlider {
@@ -192,6 +201,15 @@ namespace amp.Shared.Localization {
         public static string ColorRatingSliderValueIndicator {
             get {
                 return ResourceManager.GetString("ColorRatingSliderValueIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating slider value indicator color with undefined value.
+        /// </summary>
+        public static string ColorRatingSliderValueIndicatorUndefined {
+            get {
+                return ResourceManager.GetString("ColorRatingSliderValueIndicatorUndefined", resourceCulture);
             }
         }
         

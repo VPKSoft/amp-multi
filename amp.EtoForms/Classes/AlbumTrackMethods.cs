@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -124,8 +124,10 @@ internal static class AlbumTrackMethods
         {
             var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
             updateTrack.Rating = trackRating;
+            updateTrack.RatingSpecified = true;
             updateTrack.ModifiedAtUtc = DateTime.UtcNow;
             albumTrack.AudioTrack!.Rating = trackRating;
+            albumTrack.AudioTrack!.RatingSpecified = true;
             await context.SaveChangesAndUntrackAsync(updateTrack);
         });
     }

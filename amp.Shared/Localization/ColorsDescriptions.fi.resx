@@ -211,4 +211,10 @@
   <data name="ColorRatingPlaylist" xml:space="preserve">
     <value>Soittolistan pisteet-sarakkeen indikaattorin väri</value>
   </data>
+  <data name="ColorRatingPlaylistUndefined" xml:space="preserve">
+    <value>Soittolistan pisteet-sarakkeen indikaattorin väri, määrittelemätön arvo</value>
+  </data>
+  <data name="ColorRatingSliderValueIndicatorUndefined" xml:space="preserve">
+    <value>Pisteiden säätimen indikaattorin väri, määrittelemätön arvo</value>
+  </data>
 </root>

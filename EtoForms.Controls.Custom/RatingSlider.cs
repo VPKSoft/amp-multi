@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,10 @@ SOFTWARE.
 #endregion
 
 using System;
+using System.Linq;
 using Eto.Drawing;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
+using EtoForms.Controls.Custom.Properties;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 
@@ -45,7 +47,84 @@ public class RatingSlider : SliderBase
     public RatingSlider()
     {
         sliderImageSvg = Size16.ic_fluent_star_16_filled;
+        sliderImageUndefinedSvg = Size16.ic_fluent_star_16_filled;
         ColorSlider = Colors.Orange;
+    }
+
+    private bool isRatingDefined = true;
+    private byte[]? sliderImageUndefinedSvg;
+    private Image? sliderImageUndefined;
+    private Color colorSliderUndefined = Colors.LightGrey;
+
+
+    /// <summary>
+    /// Gets or sets the undefined value slider image color.
+    /// </summary>
+    /// <value>The undefined value slider image color.</value>
+    public Color ColorSliderUndefined
+    {
+        get => colorSliderUndefined;
+
+        set
+        {
+            if (value != colorSliderUndefined)
+            {
+                colorSliderUndefined = value;
+                sliderImageUndefined = null;
+                Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this instance is rating defined.
+    /// </summary>
+    /// <value><c>true</c> if this instance is rating defined; otherwise, <c>false</c>.</value>
+    public bool IsRatingDefined 
+    { 
+        get => isRatingDefined;
+        set
+        {
+            if (value != isRatingDefined)
+            {
+                isRatingDefined = value;
+                Invalidate();
+            }
+        }
+    }
+
+    internal Image SliderImageUndefined
+    {
+        get
+        {
+            if (sliderImageUndefined == null)
+            {
+                sliderImageUndefined = EtoHelpers.ImageFromSvg(colorSliderUndefined,
+                    SliderImageUndefinedSvg, RestAreaSize);
+            }
+
+            return sliderImageUndefined;
+        }
+    }
+
+
+    /// <summary>
+    /// Gets or sets the SVG image for the slider area when the value is indicated as <see cref="IsRatingDefined"/>=<c>false</c>.
+    /// </summary>
+    /// <value>The SVG image for the slide area when the value is undefined.</value>
+    public byte[] SliderImageUndefinedSvg
+    {
+        get => sliderImageUndefinedSvg ?? Size16.ic_fluent_star_16_filled;
+
+        set
+        {
+            if (sliderImageUndefinedSvg?.SequenceEqual(value) != true)
+            {
+                sliderImageUndefinedSvg = value;
+                sliderImageUndefined = null;
+                Invalidate();
+            }
+        }
     }
 
     /// <inheritdoc cref="SliderBase.PaintControl"/>
@@ -54,7 +133,10 @@ public class RatingSlider : SliderBase
         var wh = Math.Min(Width - sliderPadding.Size.Width, Height - sliderPadding.Size.Height);
         var drawRect = new Size(wh, wh);
 
-        using var drawImage = EtoHelpers.ImageFromSvg(ColorSlider, SliderImageSvg, drawRect);
+        var sliderColor = isRatingDefined ? ColorSlider : ColorSliderUndefined;
+        var imageSvg = isRatingDefined ? SliderImageSvg : SliderImageUndefinedSvg;
+
+        using var drawImage = EtoHelpers.ImageFromSvg(sliderColor, imageSvg, drawRect);
         graphics.FillRectangle(BackgroundColor, paintRectangle);
 
         var drawCount = (int)Math.Ceiling(((double)Width - sliderPadding.Size.Width) / wh);

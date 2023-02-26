@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ using Eto.Drawing;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
 using EtoForms.Controls.Custom.Properties;
+using FluentIcons.Resources.Filled;
 
 namespace EtoForms.Controls.Custom;
 

@@ -250,6 +250,24 @@ namespace amp.Shared.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Playlist rating column, undefined.
+        /// </summary>
+        public static string RatingPlaylistUndefined {
+            get {
+                return ResourceManager.GetString("RatingPlaylistUndefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating, undefined.
+        /// </summary>
+        public static string RatingUndefined {
+            get {
+                return ResourceManager.GetString("RatingUndefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repeat.
         /// </summary>
         public static string Repeat {

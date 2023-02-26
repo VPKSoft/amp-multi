@@ -24,25 +24,34 @@ SOFTWARE.
 */
 #endregion
 
-namespace amp.EtoForms.Enumerations;
+using amp.Database.DataModel;
+using amp.Shared.Interfaces;
+using FluentMigrator;
+
+namespace amp.Database.Migration;
 
 /// <summary>
-/// An enumeration for grid column sorting.
+/// Adds a RatingSpecified flag to the AudioTrack database table and updates its value depending on the default rating being exactly 500.
+/// Implements the <see cref="FluentMigrator.Migration" />
 /// </summary>
-internal enum ColumnSorting
+/// <seealso cref="Migration" />
+[Migration(4)]
+public class AddRatingSpecifiedFlag : FluentMigrator.Migration
 {
-    /// <summary>
-    /// The column has no sorting.
-    /// </summary>
-    None,
+    /// <inheritdoc />
+    public override void Up()
+    {
+        Alter.Table(nameof(AudioTrack))
+            .AddColumn(nameof(IAudioTrack.RatingSpecified))
+            .AsBoolean()
+            .WithDefaultValue(false);
 
-    /// <summary>
-    /// The column sorting is ascending.
-    /// </summary>
-    Ascending,
+        Execute.Sql($"UPDATE {nameof(AudioTrack)} SET {nameof(IAudioTrack.RatingSpecified)} = 1 WHERE {nameof(IAudioTrack.Rating)} <> 500");
+    }
 
-    /// <summary>
-    /// The column sorting is descending.
-    /// </summary>
-    Descending,
+    /// <inheritdoc />
+    public override void Down()
+    {
+        Delete.Column(nameof(AudioTrack.RatingSpecified)).FromTable(nameof(AudioTrack));
+    }
 }

@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -67,6 +67,9 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
 
     /// <inheritdoc cref="IAudioTrack.Rating"/>
     public int? Rating { get; set; }
+
+    /// <inheritdoc />
+    public bool RatingSpecified { get; set; }
 
     /// <inheritdoc cref="IPlayBackStatistics.PlayedByRandomize"/>
     public int? PlayedByRandomize { get; set; }

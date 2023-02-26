@@ -199,4 +199,10 @@
   <data name="RatingPlaylist" xml:space="preserve">
     <value>Playlist rating column</value>
   </data>
+  <data name="RatingUndefined" xml:space="preserve">
+    <value>Rating, undefined</value>
+  </data>
+  <data name="RatingPlaylistUndefined" xml:space="preserve">
+    <value>Playlist rating column, undefined</value>
+  </data>
 </root>

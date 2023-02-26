@@ -199,4 +199,10 @@
   <data name="RatingPlaylist" xml:space="preserve">
     <value>Soittolistan pisteet -sarake</value>
   </data>
+  <data name="RatingUndefined" xml:space="preserve">
+    <value>Pisteytys, määrittelemätön</value>
+  </data>
+  <data name="RatingPlaylistUndefined" xml:space="preserve">
+    <value>Soittolistan pisteet -sarake, määrittelemätön</value>
+  </data>
 </root>

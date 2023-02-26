@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ namespace EtoForms.Controls.Custom.Drawing;
 /// </summary>
 /// <typeparam name="T">The grid row data type.</typeparam>
 /// <seealso cref="EtoForms.Controls.Custom.Drawing.CellPainter{T, TValue}" />
-public class CellPainterRange<T> : CellPainter<T, int?>
+public class CellPainterRange<T> : CellPainter<T, (int, bool)?>
 {
     private readonly int maxValue;
 
@@ -48,7 +48,7 @@ public class CellPainterRange<T> : CellPainter<T, int?>
     /// <param name="column">The column which cell is to be custom painted.</param>
     /// <param name="maxValue">The maximum value of the cell range.</param>
     /// <param name="getValueFunc">An access func to get the value of the property required for painting the grid cell.</param>
-    public CellPainterRange(GridView gridView, GridColumn column, int maxValue, Func<T, int?> getValueFunc) : base(gridView, column, getValueFunc)
+    public CellPainterRange(GridView gridView, GridColumn column, int maxValue, Func<T, (int, bool)?> getValueFunc) : base(gridView, column, getValueFunc)
     {
         CellPaintHandler += CellPaintEventHandler;
         this.maxValue = maxValue;
@@ -60,7 +60,7 @@ public class CellPainterRange<T> : CellPainter<T, int?>
         {
             e.Graphics.FillRectangle(BackgroundColor ?? GridView.BackgroundColor, e.ClipRectangle);
 
-            if (SvgImageBytes == null)
+            if (SvgImageBytes == null || SvgImageBytesUndefined == null)
             {
                 return;
             }
@@ -68,12 +68,14 @@ public class CellPainterRange<T> : CellPainter<T, int?>
             var wh = (int)Math.Min(e.ClipRectangle.Width, e.ClipRectangle.Height);
             var drawRect = new Size(wh, wh);
 
+            var value = GetDrawableCellValue(e) ?? (0, false);
 
-            using var drawImage = EtoHelpers.ImageFromSvg(ForegroundColor, SvgImageBytes, drawRect);
+            using var drawImage = value.Item2
+                ? EtoHelpers.ImageFromSvg(ForegroundColor, SvgImageBytes, drawRect)
+                : EtoHelpers.ImageFromSvg(ForegroundColorUndefined, SvgImageBytesUndefined, drawRect);
+                
 
-            var value = GetDrawableCellValue(e) ?? 0;
-
-            var left = (float)value / maxValue * e.ClipRectangle.Width;
+            var left = (float)value.Item1 / maxValue * e.ClipRectangle.Width;
 
             var drawCount = (int)Math.Ceiling((double)e.ClipRectangle.Width / wh);
 
@@ -85,6 +87,19 @@ public class CellPainterRange<T> : CellPainter<T, int?>
             }
         }
     }
+
+    
+    /// <summary>
+    /// Gets or sets the foreground color for the custom painting of undefined rating.
+    /// </summary>
+    /// <value>The foreground color for the custom painting of undefined rating.</value>
+    public Color ForegroundColorUndefined { get; set; }
+
+    /// <summary>
+    /// Gets or sets the SVG image bytes of undefined rating.
+    /// </summary>
+    /// <value>The SVG image bytes of undefined rating.</value>
+    public byte[]? SvgImageBytesUndefined { get; set; }
 
     /// <inheritdoc />
     public override void Dispose()

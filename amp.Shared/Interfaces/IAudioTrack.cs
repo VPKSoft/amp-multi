@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright(c) 2022 Petteri Kautonen
+Copyright(c) 2023 Petteri Kautonen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -82,6 +82,12 @@ public interface IAudioTrack : IEntity, IPlayBackStatistics
     /// </summary>
     /// <value>The rating.</value>
     int? Rating { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the track rating is specified.
+    /// </summary>
+    /// <value><c>true</c> if the track rating is specified; otherwise, <c>false</c>.</value>
+    bool RatingSpecified { get; set; }
 
     /// <summary>
     /// Gets or sets the file size in bytes of the audio track.
