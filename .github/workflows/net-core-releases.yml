@@ -81,5 +81,5 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1        
       with:
-        files: ${{ github.workspace }}/Packaging/Windows/setup_amp.exe
+        files: ./Packaging/Windows/setup_amp.exe
         token: ${{ secrets.RELEASE_TOKEN }}
