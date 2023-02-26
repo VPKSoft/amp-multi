@@ -121,6 +121,9 @@
   <data name="line_horizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\line_horizontal.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="slider_line" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\slider_line.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="slider_mark" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\slider_mark.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
