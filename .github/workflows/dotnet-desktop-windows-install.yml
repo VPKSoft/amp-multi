@@ -1,9 +1,10 @@
 name: .NET Core Desktop Windows Installer
 
 on:
-  release:
-    types: created
-  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
 
