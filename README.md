@@ -1,7 +1,7 @@
 # amp#
 A music player for common audio formats with a simple and intuitive GUI.
 
-[![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml)
+[![Linux, Windows and macOS .NET Core](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/linux_windows_and_macos_dotnet.yml) [![Qodana](https://github.com/VPKSoft/amp-multi/actions/workflows/qodana.yml/badge.svg)](https://github.com/VPKSoft/amp-multi/actions/workflows/qodana.yml)
 
 ## Screenshots
 
