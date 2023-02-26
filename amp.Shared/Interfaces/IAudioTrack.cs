@@ -84,6 +84,12 @@ public interface IAudioTrack : IEntity, IPlayBackStatistics
     int? Rating { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the track rating is specified.
+    /// </summary>
+    /// <value><c>true</c> if the track rating is specified; otherwise, <c>false</c>.</value>
+    bool RatingSpecified { get; set; }
+
+    /// <summary>
     /// Gets or sets the file size in bytes of the audio track.
     /// </summary>
     /// <value>The file size in bytes.</value>

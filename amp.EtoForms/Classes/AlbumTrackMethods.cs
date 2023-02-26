@@ -124,8 +124,10 @@ internal static class AlbumTrackMethods
         {
             var updateTrack = await context.AudioTracks.FirstAsync(f => f.Id == albumTrack.AudioTrackId);
             updateTrack.Rating = trackRating;
+            updateTrack.RatingSpecified = true;
             updateTrack.ModifiedAtUtc = DateTime.UtcNow;
             albumTrack.AudioTrack!.Rating = trackRating;
+            albumTrack.AudioTrack!.RatingSpecified = true;
             await context.SaveChangesAndUntrackAsync(updateTrack);
         });
     }

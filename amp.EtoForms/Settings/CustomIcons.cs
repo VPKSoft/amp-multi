@@ -197,11 +197,25 @@ public class CustomIcons : ApplicationJsonSettings
     public CustomIcon? Rating { get; set; }
 
     /// <summary>
+    /// Gets or sets the rating icon image data for undefined rating.
+    /// </summary>
+    /// <value>The rating icon image data for undefined rating.</value>
+    [Settings(Default = null)]
+    public CustomIcon? RatingUndefined { get; set; }
+
+    /// <summary>
     /// Gets or sets the playlist rating column icon image data.
     /// </summary>
     /// <value>The playlist rating column icon image data.</value>
     [Settings(Default = null)]
     public CustomIcon? RatingPlaylist { get; set; }
+
+    /// <summary>
+    /// Gets or sets the playlist rating column icon image data when the rating is undefined.
+    /// </summary>
+    /// <value>The playlist rating column icon image data when the rating is undefined.</value>
+    [Settings(Default = null)]
+    public CustomIcon? RatingPlaylistUndefined { get; set; }
 
     /// <summary>
     /// Gets or sets the position slider icon image data.

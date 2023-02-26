@@ -54,6 +54,7 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
     private string? lyrics;
     private int? rating;
     private long? fileSizeBytes;
+    private bool ratingSpecified;
     private double playbackVolume;
     private string? overrideName;
     private string? tagFindString;
@@ -289,6 +290,21 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
             if (rating != value)
             {
                 rating = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    /// <inheritdoc  cref="IAudioTrack.FileSizeBytes" />
+    public bool RatingSpecified
+    {
+        get => ratingSpecified;
+
+        set
+        {
+            if (ratingSpecified != value)
+            {
+                ratingSpecified = value;
                 OnPropertyChanged();
             }
         }

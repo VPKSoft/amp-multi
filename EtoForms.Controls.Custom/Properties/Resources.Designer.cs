@@ -63,6 +63,16 @@ namespace EtoForms.Controls.Custom.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] line_horizontal {
+            get {
+                object obj = ResourceManager.GetObject("line_horizontal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] slider_line {
             get {
                 object obj = ResourceManager.GetObject("slider_line", resourceCulture);

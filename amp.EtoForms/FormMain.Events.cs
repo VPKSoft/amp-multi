@@ -365,6 +365,7 @@ partial class FormMain
             trackRatingSlider.SuspendEventInvocation = true;
             trackVolumeSlider.Value = track?.AudioTrack?.PlaybackVolume * 100 ?? 100;
             trackRatingSlider.Value = track?.AudioTrack?.Rating ?? 500;
+            trackRatingSlider.IsRatingDefined = track?.AudioTrack?.RatingSpecified == true;
             trackVolumeSlider.SuspendEventInvocation = false;
             trackRatingSlider.SuspendEventInvocation = false;
             lbTracksTitle.Text = track?.GetAudioTrackName() ?? string.Empty;
@@ -890,11 +891,14 @@ partial class FormMain
                 foreach (var albumTrack in albumTracks)
                 {
                     albumTrack.AudioTrack!.Rating = (int)e.Value;
+                    albumTrack.AudioTrack!.RatingSpecified = true;
                     var audioTrackEntity =
                         tracksEntity.FirstOrDefault(f => f.Id == albumTrack.AudioTrackId);
                     if (audioTrackEntity != null)
                     {
                         audioTrackEntity.Rating = (int)e.Value;
+                        audioTrackEntity.RatingSpecified = true;
+                        trackRatingSlider.IsRatingDefined = true;
                     }
                 }
 
@@ -915,6 +919,7 @@ partial class FormMain
         if (track != null)
         {
             await AlbumTrackMethods.UpdateTrackRating(track, context, e.TrackRating);
+            trackRatingSlider.IsRatingDefined = true;
         }
     }
 

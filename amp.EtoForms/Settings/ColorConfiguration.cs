@@ -206,11 +206,25 @@ public class ColorConfiguration : ApplicationJsonSettings
     public string ColorRatingPlaylist { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the color of the rating column image when the rating is undefined.
+    /// </summary>
+    /// <value>The color rating slider  when the rating is undefined.</value>
+    [Settings(Default = "#FFA500")] // Orange
+    public string ColorRatingPlaylistUndefined { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the color rating slider value indicator.
     /// </summary>
     /// <value>The color rating slider value indicator.</value>
     [Settings(Default = "#000080")] // Navy
     public string ColorRatingSliderValueIndicator { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color rating slider value indicator for undefined rating.
+    /// </summary>
+    /// <value>The color rating slider value indicator for undefined rating.</value>
+    [Settings(Default = "#FFA500")] // Orange
+    public string ColorTrackVolumeValueIndicatorUndefined { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the color of the music note.

@@ -68,6 +68,9 @@ public class AudioTrack : IAudioTrack, IRowVersionEntity
     /// <inheritdoc cref="IAudioTrack.Rating"/>
     public int? Rating { get; set; }
 
+    /// <inheritdoc />
+    public bool RatingSpecified { get; set; }
+
     /// <inheritdoc cref="IPlayBackStatistics.PlayedByRandomize"/>
     public int? PlayedByRandomize { get; set; }
 

@@ -121,6 +121,11 @@ partial class FormMain
         trackVolumeSlider.ColorSliderMarker = MakeColor(Globals.CustomIconSettings.TrackVolumeSlider,
             Globals.ColorConfiguration.ColorTrackVolumeValueIndicator);
 
+        trackRatingSlider.SliderImageUndefinedSvg = Globals.CustomIconSettings.RatingUndefined?.IconData ??
+                                                    Size20.ic_fluent_line_horizontal_1_20_filled;
+        trackRatingSlider.ColorSliderUndefined = MakeColor(Globals.CustomIconSettings.RatingUndefined,
+            Globals.ColorConfiguration.ColorTrackVolumeValueIndicatorUndefined);
+
         trackRatingSlider.SliderImageSvg =
             Globals.CustomIconSettings.Rating?.IconData ?? Size16.ic_fluent_star_16_filled;
         trackRatingSlider.ColorSlider = MakeColor(Globals.CustomIconSettings.Rating,
@@ -234,10 +239,12 @@ partial class FormMain
         if (Globals.Settings.DisplayRatingColumn)
         {
             painter = new CellPainterRange<AlbumTrack>(gvAudioTracks, columnTrackRating, 1000,
-                track => track.AudioTrack!.Rating)
+                track => (track.AudioTrack!.Rating ?? 500, track.AudioTrack!.RatingSpecified))
             {
                 SvgImageBytes = Globals.CustomIconSettings.RatingPlaylist?.IconData ?? Size16.ic_fluent_star_16_filled,
                 ForegroundColor = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylist),
+                ForegroundColorUndefined = Color.Parse(Globals.ColorConfiguration.ColorRatingPlaylistUndefined),
+                SvgImageBytesUndefined = Globals.CustomIconSettings.RatingPlaylistUndefined?.IconData ?? Size20.ic_fluent_line_horizontal_1_20_filled,
             };
         }
 
