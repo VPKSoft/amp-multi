@@ -282,7 +282,6 @@ SOFTWARE.
                 userIdleSelectedRow = -1;
             }
 
-            var text = tbSearch.Text;
             var queueOnly = btnShowQueue.Checked;
             var userIdle = idleChecker.IsUserIdle;
             if (queueOnly)

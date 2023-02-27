@@ -29,7 +29,6 @@ using Eto.Drawing;
 using EtoForms.Controls.Custom.EventArguments;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
 using EtoForms.Controls.Custom.Properties;
-using FluentIcons.Resources.Filled;
 
 namespace EtoForms.Controls.Custom;
 

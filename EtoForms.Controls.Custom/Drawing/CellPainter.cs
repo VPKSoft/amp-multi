@@ -52,7 +52,7 @@ public abstract class CellPainter<T, TValue> : IDisposable
     /// <exception cref="InvalidOperationException">The property name must exists within the type T.</exception>
     protected CellPainter(GridView gridView, GridColumn column, Func<T, TValue?> getValueFunc)
     {
-        this.GridView = gridView;
+        GridView = gridView;
         if (column.DataCell is DrawableCell drawableCell)
         {
             cell = drawableCell;
@@ -63,7 +63,7 @@ public abstract class CellPainter<T, TValue> : IDisposable
             column.DataCell = cell;
         }
 
-        this.GridView = gridView;
+        GridView = gridView;
         this.getValueFunc = getValueFunc;
         cell.Paint += DrawableCell_Paint;
     }
