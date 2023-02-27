@@ -187,6 +187,8 @@ partial class FormMain
         if (e.Key is Keys.Right or Keys.Left)
         {
             playbackManager.SeekSeconds(e.Key == Keys.Right ? 5 : -5);
+            e.Handled = true;
+            return;
         }
 
         if (e.Modifiers == Keys.None)
