@@ -59,7 +59,10 @@ partial class FormMain
     {
         using var dialog = new OpenFileDialog { MultiSelect = true, };
         dialog.Filters.Add(new FileFilter(UI.MusicFiles, MusicConstants.SupportedExtensionArray));
-        if (dialog.ShowDialog(this) == DialogResult.Ok)
+
+        var result = dialog.ShowDialog(this); 
+        
+        if (result is DialogResult.Ok or DialogResult.Ignore)
         {
             FormAddFilesProgress.Show(this, context, toAlbum ? CurrentAlbumId : 0, AddFilesAction, dialog.Filenames.ToArray());
         }
@@ -74,7 +77,9 @@ partial class FormMain
     private void AddDirectory(bool toAlbum)
     {
         using var dialog = new SelectFolderDialog { Title = UI.SelectMusicFolder, };
-        if (dialog.ShowDialog(this) == DialogResult.Ok)
+        var result = dialog.ShowDialog(this); 
+        
+        if (result is DialogResult.Ok or DialogResult.Ignore)
         {
             FormAddFilesProgress.Show(this, context, dialog.Directory, toAlbum ? CurrentAlbumId : 0, AddFilesAction);
         }
@@ -282,7 +287,6 @@ SOFTWARE.
                 userIdleSelectedRow = -1;
             }
 
-            var text = tbSearch.Text;
             var queueOnly = btnShowQueue.Checked;
             var userIdle = idleChecker.IsUserIdle;
             if (queueOnly)

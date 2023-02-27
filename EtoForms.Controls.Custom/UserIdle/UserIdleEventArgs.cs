@@ -48,5 +48,5 @@ public class UserIdleEventArgs : EventArgs
     /// Gets a value indicating whether the user is currently idle.
     /// </summary>
     /// <value><c>true</c> if the user is currently idle; otherwise, <c>false</c>.</value>
-    private bool IsUserIdle { get; }
+    public bool IsUserIdle { get; }
 }

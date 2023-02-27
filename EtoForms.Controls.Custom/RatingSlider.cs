@@ -28,7 +28,6 @@ using System;
 using System.Linq;
 using Eto.Drawing;
 using EtoForms.Controls.Custom.Interfaces.BaseClasses;
-using EtoForms.Controls.Custom.Properties;
 using EtoForms.Controls.Custom.Utilities;
 using FluentIcons.Resources.Filled;
 

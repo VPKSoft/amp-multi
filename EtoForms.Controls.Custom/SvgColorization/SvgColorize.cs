@@ -116,12 +116,12 @@ public class SvgColorize
     /// <summary>
     /// A regex to match the fill value of the style attribute.
     /// </summary>
-    private static readonly Regex FillRegex = new("fill:.*?;", RegexOptions.Compiled);
+    private static readonly Regex fillRegex = new("fill:.*?;", RegexOptions.Compiled);
 
     /// <summary>
     /// A regex to match the stroke value of the style attribute.
     /// </summary>
-    private static readonly Regex StrokeRegex = new("stroke:.*?;", RegexOptions.Compiled);
+    private static readonly Regex strokeRegex = new("stroke:.*?;", RegexOptions.Compiled);
 
     /// <summary>
     /// Colorizes the elements of the SVG document specified by the <see cref="SvgElement"/> element type.
@@ -133,7 +133,7 @@ public class SvgColorize
     {
         if (SvgDocument.Root != null)
         {
-            ProcessNodes(SvgDocument.Root, element, StrokeRegex, stroke, false);
+            ProcessNodes(SvgDocument.Root, element, strokeRegex, stroke, false);
         }
 
         return this;
@@ -207,7 +207,7 @@ public class SvgColorize
     {
         if (SvgDocument.Root != null)
         {
-            ProcessNodes(SvgDocument.Root, element, FillRegex, fill, true);
+            ProcessNodes(SvgDocument.Root, element, fillRegex, fill, true);
         }
 
         return this;

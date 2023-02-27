@@ -103,7 +103,7 @@ public static class UtilityOS
     /// <summary>
     /// The macOS operating system name in lower case ("macos").
     /// </summary>
-    public const string MacOSNameLowerCase = "macos";
+    public const string MacOsNameLowerCase = "macos";
 
     /// <summary>
     /// The Windows operating system name in lower case ("windows").
@@ -126,7 +126,7 @@ public static class UtilityOS
         {
             if (IsMacOS)
             {
-                return MacOSNameLowerCase;
+                return MacOsNameLowerCase;
             }
 
             if (IsLinuxOS)
