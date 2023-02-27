@@ -71,25 +71,25 @@ public abstract class CellPainter<T, TValue> : IDisposable
     /// <summary>
     /// The cell paint handler.
     /// </summary>
-    public EventHandler<CellPaintEventArgs>? CellPaintHandler;
+    protected EventHandler<CellPaintEventArgs>? CellPaintHandler;
 
     /// <summary>
     /// Gets or sets the foreground color for the custom painting.
     /// </summary>
     /// <value>The foreground color for the custom painting.</value>
-    public Color ForegroundColor { get; set; }
+    public Color ForegroundColor { get; init; }
 
     /// <summary>
     /// Gets or sets the background color for the custom painting.
     /// </summary>
     /// <value>The background color for the custom painting.</value>
-    public Color? BackgroundColor { get; set; }
+    protected Color? BackgroundColor { get; set; }
 
     /// <summary>
     /// Gets or sets the SVG image bytes.
     /// </summary>
     /// <value>The SVG image bytes.</value>
-    public byte[]? SvgImageBytes { get; set; }
+    public byte[]? SvgImageBytes { get; init; }
 
     /// <summary>
     /// Handles the Paint event of the DrawableCell control.

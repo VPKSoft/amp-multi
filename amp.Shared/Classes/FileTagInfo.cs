@@ -48,7 +48,7 @@ public static class FileTagInfoHelper
         foreach (var propertyInfo in propertyInfos)
         {
             if (!propertyInfo.PropertyType.IsPrimitive && propertyInfo.PropertyType != typeof(string) && !
-                    propertyInfo.PropertyType.GetGenericArguments().Any(t => t.IsValueType && t.IsPrimitive))
+                    propertyInfo.PropertyType.GetGenericArguments().Any(t => t is { IsValueType: true, IsPrimitive: true }))
             {
                 continue;
             }

@@ -89,17 +89,19 @@ internal class FormColorSettings : Dialog
             {
                 var info = colorConfig.GetType().GetProperty(row.DataObject!.ColorPropertyName);
 
-                if (info != null)
+                if (info == null)
                 {
-                    if (row.DataObject!.ColorPropertyName ==
-                        nameof(ColorConfiguration.ColorsSpectrumVisualizerChannels))
-                    {
-                        colorConfig.ColorsSpectrumVisualizerChannels[row.DataObject.ArrayIndex] = row.SelectedColor!.ToString()!;
-                    }
-                    else
-                    {
-                        info.SetValue(colorConfig, row.SelectedColor?.ToString());
-                    }
+                    continue;
+                }
+
+                if (row.DataObject!.ColorPropertyName ==
+                    nameof(ColorConfiguration.ColorsSpectrumVisualizerChannels))
+                {
+                    colorConfig.ColorsSpectrumVisualizerChannels[row.DataObject.ArrayIndex] = row.SelectedColor!.ToString()!;
+                }
+                else
+                {
+                    info.SetValue(colorConfig, row.SelectedColor?.ToString());
                 }
             }
         }
@@ -135,22 +137,21 @@ internal class FormColorSettings : Dialog
 
     private void Row_ColorValueChanged(object? sender, ColorChangedEventArgs e)
     {
-        if (sender is LabelColorPickerRow<ColorUiData> selectedRow)
+        if (sender is LabelColorPickerRow<ColorUiData> { DataObject.NoColorSynchronization: true })
         {
-            if (selectedRow.DataObject?.NoColorSynchronization == true)
-            {
-                return;
-            }
+            return;
         }
 
-        if (cbSynchronizeColors.Checked == true)
+        if (cbSynchronizeColors.Checked != true)
         {
-            foreach (var row in configRows)
+            return;
+        }
+
+        foreach (var row in configRows)
+        {
+            if (!Equals(sender, row) && row.DataObject?.NoColorSynchronization != true)
             {
-                if (!Equals(sender, row) && row.DataObject?.NoColorSynchronization != true)
-                {
-                    row.ColorPickerValue = e.Color;
-                }
+                row.ColorPickerValue = e.Color;
             }
         }
     }

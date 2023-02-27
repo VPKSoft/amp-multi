@@ -25,6 +25,7 @@ SOFTWARE.
 #endregion
 
 using CommandLine;
+// ReSharper disable UnusedAutoPropertyAccessor.Global, required by the NuGet package
 
 namespace amp.EtoForms.Classes;
 

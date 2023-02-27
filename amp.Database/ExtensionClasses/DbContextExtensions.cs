@@ -50,11 +50,13 @@ public static class DbContextExtensions
         foreach (var entity in toUpdate)
         {
             var update = await context.Set<TEntity>().FirstOrDefaultAsync(f => f.Id == entity.Id);
-            if (update != null)
+            if (update == null)
             {
-                UpdateEntity(update, entity);
-                await context.SaveChangesAsync();
+                continue;
             }
+
+            UpdateEntity(update, entity);
+            await context.SaveChangesAsync();
         }
 
         if (toInsert.Count > 0)

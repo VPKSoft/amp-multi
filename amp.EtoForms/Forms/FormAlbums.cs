@@ -164,7 +164,7 @@ public class FormAlbums : Dialog<bool>
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
             context.ChangeTracker.Clear();
-        }, async (_) => await transaction.RollbackAsync());
+        }, async _ => await transaction.RollbackAsync());
 
         Close(true);
     }
@@ -181,21 +181,23 @@ public class FormAlbums : Dialog<bool>
 
     private void DeleteClick(object? sender, EventArgs e)
     {
-        if (gvAlbums.SelectedItem != null)
+        if (gvAlbums.SelectedItem == null)
         {
-            var album = (Album)gvAlbums.SelectedItem;
-
-            if (album.Id == 1)
-            {
-                MessageBox.Show(this,
-                    Messages.TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible,
-                    Messages.Notification, MessageBoxButtons.OK);
-
-                return;
-            }
-
-            dataSource!.Remove(album);
+            return;
         }
+
+        var album = (Album)gvAlbums.SelectedItem;
+
+        if (album.Id == 1)
+        {
+            MessageBox.Show(this,
+                Messages.TheDefaultAlbumCanNotBeRemovedOnlyRenamingIsPossible,
+                Messages.Notification, MessageBoxButtons.OK);
+
+            return;
+        }
+
+        dataSource!.Remove(album);
     }
 
     private async void FormAlbums_Shown(object? sender, EventArgs e)

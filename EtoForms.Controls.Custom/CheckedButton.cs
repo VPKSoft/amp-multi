@@ -194,21 +194,23 @@ public class CheckedButton : Button
 
         set
         {
-            if (@checked != value)
+            if (@checked == value)
             {
-                var previousValue = @checked;
-                @checked = value;
-                var args = new CheckedChangeEventArguments { Checked = @checked, };
-                CheckedChange?.Invoke(this, args);
-
-                if (args.Cancel)
-                {
-                    @checked = previousValue;
-                    return;
-                }
-
-                Image = @checked ? checkedImage : uncheckedImage;
+                return;
             }
+
+            var previousValue = @checked;
+            @checked = value;
+            var args = new CheckedChangeEventArguments { Checked = @checked, };
+            CheckedChange?.Invoke(this, args);
+
+            if (args.Cancel)
+            {
+                @checked = previousValue;
+                return;
+            }
+
+            Image = @checked ? checkedImage : uncheckedImage;
         }
     }
 
@@ -222,11 +224,13 @@ public class CheckedButton : Button
 
         set
         {
-            if (value != imagePadding)
+            if (value == imagePadding)
             {
-                imagePadding = value;
-                PaintBothImages();
+                return;
             }
+
+            imagePadding = value;
+            PaintBothImages();
         }
     }
 
@@ -240,11 +244,13 @@ public class CheckedButton : Button
 
         set
         {
-            if (value != checkedImageColor)
+            if (value == checkedImageColor)
             {
-                checkedImageColor = value;
-                PaintCheckedImage();
+                return;
             }
+
+            checkedImageColor = value;
+            PaintCheckedImage();
         }
     }
 
@@ -258,11 +264,13 @@ public class CheckedButton : Button
 
         set
         {
-            if (value != uncheckedImageColor)
+            if (value == uncheckedImageColor)
             {
-                uncheckedImageColor = value;
-                PaintUncheckedImage();
+                return;
             }
+
+            uncheckedImageColor = value;
+            PaintUncheckedImage();
         }
     }
 
@@ -276,11 +284,13 @@ public class CheckedButton : Button
 
         set
         {
-            if (value != checkedSvgImage)
+            if (value == checkedSvgImage)
             {
-                checkedSvgImage = value;
-                PaintCheckedImage();
+                return;
             }
+
+            checkedSvgImage = value;
+            PaintCheckedImage();
         }
     }
 
@@ -294,11 +304,13 @@ public class CheckedButton : Button
 
         set
         {
-            if (value != uncheckedSvgImage)
+            if (value == uncheckedSvgImage)
             {
-                uncheckedSvgImage = value;
-                PaintUncheckedImage();
+                return;
             }
+
+            uncheckedSvgImage = value;
+            PaintUncheckedImage();
         }
     }
 }

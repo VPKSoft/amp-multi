@@ -65,11 +65,13 @@ public class FormAlbumImage : Form
 
     private void FormAlbumImage_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
-        if (!allowClose)
+        if (allowClose)
         {
-            e.Cancel = true;
-            Visible = false;
+            return;
         }
+
+        e.Cancel = true;
+        Visible = false;
     }
 
     /// <summary>

@@ -50,7 +50,7 @@ public class AudioTrackResult : IPlayBackStatistics
     /// Gets or sets the index of the next audio track.
     /// </summary>
     /// <value>The index of the next audio track.</value>
-    public int NextTrackIndex { get; set; }
+    public int NextTrackIndex { get; init; }
 
     /// <inheritdoc cref="IPlayBackStatistics.PlayedByRandomize"/>
     public int? PlayedByRandomize { get; set; }
@@ -65,5 +65,5 @@ public class AudioTrackResult : IPlayBackStatistics
     /// Gets or sets a value indicating whether track result was gotten from the queue.
     /// </summary>
     /// <value><c>true</c> if the track result was gotten from the queue; otherwise, <c>false</c>.</value>
-    public bool FromQueue { get; set; }
+    public bool FromQueue { get; init; }
 }

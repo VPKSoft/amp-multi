@@ -56,35 +56,37 @@ public class CellPainterRange<T> : CellPainter<T, (int, bool)?>
 
     private void CellPaintEventHandler(object? sender, CellPaintEventArgs e)
     {
-        if (e.Item is T)
+        if (e.Item is not T)
         {
-            e.Graphics.FillRectangle(BackgroundColor ?? GridView.BackgroundColor, e.ClipRectangle);
+            return;
+        }
 
-            if (SvgImageBytes == null || SvgImageBytesUndefined == null)
-            {
-                return;
-            }
+        e.Graphics.FillRectangle(BackgroundColor ?? GridView.BackgroundColor, e.ClipRectangle);
 
-            var wh = (int)Math.Min(e.ClipRectangle.Width, e.ClipRectangle.Height);
-            var drawRect = new Size(wh, wh);
+        if (SvgImageBytes == null || SvgImageBytesUndefined == null)
+        {
+            return;
+        }
 
-            var value = GetDrawableCellValue(e) ?? (0, false);
+        var wh = (int)Math.Min(e.ClipRectangle.Width, e.ClipRectangle.Height);
+        var drawRect = new Size(wh, wh);
 
-            using var drawImage = value.Item2
-                ? EtoHelpers.ImageFromSvg(ForegroundColor, SvgImageBytes, drawRect)
-                : EtoHelpers.ImageFromSvg(ForegroundColorUndefined, SvgImageBytesUndefined, drawRect);
+        var value = GetDrawableCellValue(e) ?? (0, false);
+
+        using var drawImage = value.Item2
+            ? EtoHelpers.ImageFromSvg(ForegroundColor, SvgImageBytes, drawRect)
+            : EtoHelpers.ImageFromSvg(ForegroundColorUndefined, SvgImageBytesUndefined, drawRect);
                 
 
-            var left = (float)value.Item1 / maxValue * e.ClipRectangle.Width;
+        var left = (float)value.Item1 / maxValue * e.ClipRectangle.Width;
 
-            var drawCount = (int)Math.Ceiling((double)e.ClipRectangle.Width / wh);
+        var drawCount = (int)Math.Ceiling((double)e.ClipRectangle.Width / wh);
 
-            e.Graphics.SetClip(new RectangleF(e.ClipRectangle.Left, e.ClipRectangle.Top, left + 1, e.ClipRectangle.Height));
+        e.Graphics.SetClip(new RectangleF(e.ClipRectangle.Left, e.ClipRectangle.Top, left + 1, e.ClipRectangle.Height));
 
-            for (var i = 0; i < drawCount; i++)
-            {
-                e.Graphics.DrawImage(drawImage, new PointF(i * wh + e.ClipRectangle.Left, e.ClipRectangle.Top));
-            }
+        for (var i = 0; i < drawCount; i++)
+        {
+            e.Graphics.DrawImage(drawImage, new PointF(i * wh + e.ClipRectangle.Left, e.ClipRectangle.Top));
         }
     }
 
@@ -93,13 +95,13 @@ public class CellPainterRange<T> : CellPainter<T, (int, bool)?>
     /// Gets or sets the foreground color for the custom painting of undefined rating.
     /// </summary>
     /// <value>The foreground color for the custom painting of undefined rating.</value>
-    public Color ForegroundColorUndefined { get; set; }
+    public Color ForegroundColorUndefined { get; init; }
 
     /// <summary>
     /// Gets or sets the SVG image bytes of undefined rating.
     /// </summary>
     /// <value>The SVG image bytes of undefined rating.</value>
-    public byte[]? SvgImageBytesUndefined { get; set; }
+    public byte[]? SvgImageBytesUndefined { get; init; }
 
     /// <inheritdoc />
     public override void Dispose()

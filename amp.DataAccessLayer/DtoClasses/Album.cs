@@ -53,11 +53,13 @@ public class Album : IAlbum, INotifyPropertyChanged
 
         set
         {
-            if (modifiedAtUtc != value)
+            if (modifiedAtUtc == value)
             {
-                modifiedAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            modifiedAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -68,11 +70,13 @@ public class Album : IAlbum, INotifyPropertyChanged
 
         set
         {
-            if (createdAtUtc != value)
+            if (createdAtUtc == value)
             {
-                createdAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            createdAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -83,11 +87,13 @@ public class Album : IAlbum, INotifyPropertyChanged
 
         set
         {
-            if (albumName != value)
+            if (albumName == value)
             {
-                albumName = value;
-                OnPropertyChanged();
+                return;
             }
+
+            albumName = value;
+            OnPropertyChanged();
         }
     }
 

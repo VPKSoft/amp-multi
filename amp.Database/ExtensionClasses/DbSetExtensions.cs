@@ -44,17 +44,10 @@ public static class DbSetExtensions
     /// <param name="topListItems">The top list item keys.</param>
     /// <param name="selectFunc">The optional selection filtering function.</param>
     /// <returns>List&lt;T&gt;.</returns>
-    public static async Task<List<T>> GetUnTrackedList<T, TKey>(this DbSet<T> entities, Func<T, TKey> orderFunc, long[] topListItems, Func<T, bool>? selectFunc = null) where T : class, IEntity
+    public static async Task<List<T?>> GetUnTrackedList<T, TKey>(this DbSet<T> entities, Func<T, TKey> orderFunc, long[] topListItems, Func<T, bool>? selectFunc = null) where T : class, IEntity
     {
-        var result = new List<T>();
-        foreach (var topListItem in topListItems)
-        {
-            var item = entities.FirstOrDefault(f => f.Id == topListItem);
-            if (item != null)
-            {
-                result.Add(item);
-            }
-        }
+        var result = topListItems.Select(topListItem => entities.FirstOrDefault(f => f.Id == topListItem))
+            .Where(item => item != null).ToList();
 
         var addItems = await entities.Where(f => !topListItems.Contains(f.Id)).AsNoTracking().AsQueryable().ToListAsync();
 
