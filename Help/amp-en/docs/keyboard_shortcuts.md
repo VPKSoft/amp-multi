@@ -21,6 +21,11 @@
 ## Display all the album tracks
 <kbd>F9</kbd> - This function clears all search filters.
 
+## Track seeking
+<kbd>&larr;</kbd> - Seek the track 5 seconds backwards.
+
+<kbd>&rarr;</kbd> - Seek the track 5 seconds forwards.
+
 ## Stash current queue
 <kbd>Ctrl</kbd>+<kbd>T</kbd> or <kbd>⌘</kbd>+<kbd>T</kbd> - Saves to current queue into the stash.
 

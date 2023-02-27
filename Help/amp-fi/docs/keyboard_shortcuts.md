@@ -21,6 +21,11 @@
 ## Näytä kaikki albumin kappaleet
 <kbd>F9</kbd> - Tämä toiminto tyhjentää hakusuodattimet.
 
+## Kappaleen kelaus
+<kbd>&larr;</kbd> - Kelaa kappaletta 5 sekuntia taaksepäin.
+
+<kbd>&rarr;</kbd> - Kelaa kappaletta 5 sekuntia eteenpäin.
+
 ## Varastoi nykyinen jono
 <kbd>Ctrl</kbd>+<kbd>T</kbd> tai <kbd>⌘</kbd>+<kbd>T</kbd> - Tallentaa nykyisen jonon väliaikaiseen varastoon.
 
