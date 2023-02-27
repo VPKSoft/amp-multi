@@ -157,11 +157,13 @@ public class DialogDatabaseConvertProgress : Dialog<bool>
 
     private void DialogDatabaseConvertProgress_Closing(object? sender, CancelEventArgs e)
     {
-        if (!aborted)
+        if (aborted)
         {
-            MigrateOld.AbortConversion();
-            e.Cancel = true;
+            return;
         }
+
+        MigrateOld.AbortConversion();
+        e.Cancel = true;
     }
 
     private bool aborted;

@@ -29,6 +29,7 @@ using amp.DataAccessLayer.DtoClasses;
 using amp.Database;
 using amp.Database.ExtensionClasses;
 using amp.EtoForms.Utilities;
+using amp.Shared.Interfaces;
 using amp.Shared.Localization;
 using Eto.Drawing;
 using Eto.Forms;
@@ -174,29 +175,31 @@ internal class DialogModifySavedQueue : Dialog<bool>
 
     private void DeleteClick(object? sender, EventArgs e)
     {
-        if (SelectedItem != null)
+        if (SelectedItem == null)
         {
-            var selectedRowIndex = gvAlbumQueueTracks.SelectedRow;
-            toDelete.Add(SelectedItem.Id);
-            var queueIndex = SelectedItem.QueueIndex;
-            queueTracks.Remove(SelectedItem);
-            foreach (var queueTrack in queueTracks)
-            {
-                if (queueTrack.QueueIndex >= queueIndex)
-                {
-                    queueTrack.QueueIndex--;
-                }
-            }
+            return;
+        }
 
-            if (queueTracks.Count > 0)
+        var selectedRowIndex = gvAlbumQueueTracks.SelectedRow;
+        toDelete.Add(SelectedItem.Id);
+        var queueIndex = SelectedItem.QueueIndex;
+        queueTracks.Remove(SelectedItem);
+        foreach (var queueTrack in queueTracks)
+        {
+            if (queueTrack.QueueIndex >= queueIndex)
             {
-                gvAlbumQueueTracks.ReloadData(new Range<int>(0, queueTracks.Count - 1));
+                queueTrack.QueueIndex--;
             }
+        }
 
-            if (selectedRowIndex < queueTracks.Count - 1)
-            {
-                gvAlbumQueueTracks.SelectedRow = selectedRowIndex;
-            }
+        if (queueTracks.Count > 0)
+        {
+            gvAlbumQueueTracks.ReloadData(new Range<int>(0, queueTracks.Count - 1));
+        }
+
+        if (selectedRowIndex < queueTracks.Count - 1)
+        {
+            gvAlbumQueueTracks.SelectedRow = selectedRowIndex;
         }
     }
 
@@ -204,7 +207,7 @@ internal class DialogModifySavedQueue : Dialog<bool>
     {
         get
         {
-            var selectedItem = ((QueueTrack?)gvAlbumQueueTracks.SelectedItem);
+            var selectedItem = (QueueTrack?)gvAlbumQueueTracks.SelectedItem;
             return selectedItem;
         }
     }
@@ -250,12 +253,12 @@ internal class DialogModifySavedQueue : Dialog<bool>
             await context.SaveChangesAsync();
             await transaction.CommitAsync();
             context.ChangeTracker.Clear();
-        }, async (_) => await transaction.RollbackAsync());
+        }, async _ => await transaction.RollbackAsync());
 
         Close(true);
     }
 
-    private static async Task UpdateTrack(AmpContext context, QueueTrack queueTrack)
+    private static async Task UpdateTrack(AmpContext context, IQueueTrack queueTrack)
     {
         var track = await context.QueueTracks.FirstAsync(f => f.Id == queueTrack.Id);
         track.AudioTrackId = queueTrack.AudioTrackId;

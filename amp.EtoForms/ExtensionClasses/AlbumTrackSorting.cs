@@ -54,82 +54,54 @@ internal static class AlbumTrackSorting
         {
             if (useFuzzy)
             {
-                if (ratingSorting == ColumnSorting.Ascending)
+                sortedTracks = ratingSorting switch
                 {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText)
-                                    >= Globals.Settings.FuzzyWuzzyTolerance)
+                    ColumnSorting.Ascending => albumTracks
+                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
                         .Take(Globals.Settings.FuzzyWuzzyMaxResults)
                         .OrderBy(f => f.AudioTrack!.Rating)
                         .ThenBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
-                else if (ratingSorting == ColumnSorting.Descending)
-                {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText)
-                                    >= Globals.Settings.FuzzyWuzzyTolerance)
+                        .ThenBy(f => f.DisplayName),
+                    ColumnSorting.Descending => albumTracks
+                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
                         .Take(Globals.Settings.FuzzyWuzzyMaxResults)
                         .OrderByDescending(f => f.AudioTrack!.Rating)
                         .ThenBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
-                else
-                {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) 
-                                    >= Globals.Settings.FuzzyWuzzyTolerance)
+                        .ThenBy(f => f.DisplayName),
+                    _ => albumTracks
+                        .Where(f => f.AudioTrack!.FuzzyMatchScore(searchText) >= Globals.Settings.FuzzyWuzzyTolerance)
                         .Take(Globals.Settings.FuzzyWuzzyMaxResults)
                         .OrderBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
+                        .ThenBy(f => f.DisplayName)
+                };
             }
             else
             {
-                if (ratingSorting == ColumnSorting.Ascending)
+                sortedTracks = ratingSorting switch
                 {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.Match(searchText))
+                    ColumnSorting.Ascending => albumTracks.Where(f => f.AudioTrack!.Match(searchText))
                         .OrderBy(f => f.AudioTrack!.Rating)
                         .ThenBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
-                else if (ratingSorting == ColumnSorting.Descending)
-                {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.Match(searchText))
+                        .ThenBy(f => f.DisplayName),
+                    ColumnSorting.Descending => albumTracks.Where(f => f.AudioTrack!.Match(searchText))
                         .OrderByDescending(f => f.AudioTrack!.Rating)
                         .ThenBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
-                else
-                {
-                    sortedTracks = albumTracks
-                        .Where(f => f.AudioTrack!.Match(searchText))
+                        .ThenBy(f => f.DisplayName),
+                    _ => albumTracks.Where(f => f.AudioTrack!.Match(searchText))
                         .OrderBy(f => f.AudioTrack!.FuzzyMatchScore(searchText))
-                        .ThenBy(f => f.DisplayName);
-                }
+                        .ThenBy(f => f.DisplayName)
+                };
             }
         }
         else
         {
-            if (ratingSorting == ColumnSorting.Ascending)
+            sortedTracks = ratingSorting switch
             {
-                sortedTracks = albumTracks
-                    .OrderBy(f => f.AudioTrack!.Rating)
-                    .ThenBy(f => f.DisplayName);
-            }
-            else if (ratingSorting == ColumnSorting.Descending)
-            {
-                sortedTracks = albumTracks
-                    .OrderByDescending(f => f.AudioTrack!.Rating)
-                    .ThenBy(f => f.DisplayName);
-            }
-            else
-            {
-                sortedTracks = albumTracks
-                    .OrderBy(f => f.DisplayName);
-            }
+                ColumnSorting.Ascending => albumTracks.OrderBy(f => f.AudioTrack!.Rating).ThenBy(f => f.DisplayName),
+                ColumnSorting.Descending => albumTracks.OrderByDescending(f => f.AudioTrack!.Rating)
+                    .ThenBy(f => f.DisplayName),
+                _ => albumTracks.OrderBy(f => f.DisplayName)
+            };
         }
 
         return new ObservableCollection<AlbumTrack>(sortedTracks.ToList());

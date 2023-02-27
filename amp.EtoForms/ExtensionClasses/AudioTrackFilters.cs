@@ -57,33 +57,35 @@ internal static class AudioTrackFilters
                 if (int.TryParse(audioTrack.Year, out var year))
                 {
                     var yearMatch = Regex.Matches(search, "\\d{4,}").FirstOrDefault()?.Value;
-                    if (int.TryParse(yearMatch, out var yearCompare))
+                    if (!int.TryParse(yearMatch, out var yearCompare))
                     {
-                        search = search.TrimStart('y', 'Y', ':');
-                        if (search.StartsWith(">="))
-                        {
-                            return yearCompare >= year;
-                        }
+                        return false;
+                    }
 
-                        if (search.StartsWith(">"))
-                        {
-                            return yearCompare > year;
-                        }
+                    search = search.TrimStart('y', 'Y', ':');
+                    if (search.StartsWith(">="))
+                    {
+                        return yearCompare >= year;
+                    }
 
-                        if (search.StartsWith("<="))
-                        {
-                            return yearCompare <= year;
-                        }
+                    if (search.StartsWith(">"))
+                    {
+                        return yearCompare > year;
+                    }
 
-                        if (search.StartsWith("<"))
-                        {
-                            return yearCompare < year;
-                        }
+                    if (search.StartsWith("<="))
+                    {
+                        return yearCompare <= year;
+                    }
 
-                        if (search.StartsWith("="))
-                        {
-                            return yearCompare == year;
-                        }
+                    if (search.StartsWith("<"))
+                    {
+                        return yearCompare < year;
+                    }
+
+                    if (search.StartsWith("="))
+                    {
+                        return yearCompare == year;
                     }
 
                     return false;
@@ -140,22 +142,25 @@ internal static class AudioTrackFilters
             return found1;
         }
 
-        var found2 = true;
-        foreach (var str in search2)
-        {
-            var tmpStr = str.ToUpper();
-            found2 &= audioTrack.Artist?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.Album?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.Title?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.Year?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.Track?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.FileNameFull().IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      audioTrack.OverrideName?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                      MatchTagFindString(audioTrack.TagFindString, tmpStr);
-        }
-
-        return found2;
+        return search2.Select(str => str.ToUpper()).Aggregate(true,
+            (current, tmpStr) => current &
+                                 (audioTrack.Artist?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) >
+                                  -1 ||
+                                  audioTrack.Album?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) >
+                                  -1 ||
+                                  audioTrack.Title?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) >
+                                  -1 ||
+                                  audioTrack.Year?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) >
+                                  -1 ||
+                                  audioTrack.Track?.IndexOf(tmpStr, StringComparison.InvariantCultureIgnoreCase) >
+                                  -1 ||
+                                  audioTrack.FileNameFull().IndexOf(tmpStr,
+                                      StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                  audioTrack.OverrideName?.IndexOf(tmpStr,
+                                      StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                  TrackDisplayNameGenerate.GetAudioTrackName(audioTrack).IndexOf(search,
+                                      StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                  MatchTagFindString(audioTrack.TagFindString, tmpStr)));
     }
 
     /// <summary>

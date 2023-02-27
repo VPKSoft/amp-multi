@@ -74,11 +74,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (modifiedAtUtc != value)
+            if (modifiedAtUtc == value)
             {
-                modifiedAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            modifiedAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -89,11 +91,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (createdAtUtc != value)
+            if (createdAtUtc == value)
             {
-                createdAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            createdAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -104,11 +108,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (albumId != value)
+            if (albumId == value)
             {
-                albumId = value;
-                OnPropertyChanged();
+                return;
             }
+
+            albumId = value;
+            OnPropertyChanged();
         }
 
     }
@@ -120,11 +126,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (trackId != value)
+            if (trackId == value)
             {
-                trackId = value;
-                OnPropertyChanged();
+                return;
             }
+
+            trackId = value;
+            OnPropertyChanged();
         }
     }
 
@@ -135,11 +143,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (queueIndex != value)
+            if (queueIndex == value)
             {
-                queueIndex = value;
-                OnPropertyChanged();
+                return;
             }
+
+            queueIndex = value;
+            OnPropertyChanged();
         }
 
     }
@@ -151,11 +161,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (queueIndexAlternate != value)
+            if (queueIndexAlternate == value)
             {
-                queueIndexAlternate = value;
-                OnPropertyChanged();
+                return;
             }
+
+            queueIndexAlternate = value;
+            OnPropertyChanged();
         }
 
     }
@@ -167,11 +179,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (track != value)
+            if (track == value)
             {
-                track = value;
-                OnPropertyChanged();
+                return;
             }
+
+            track = value;
+            OnPropertyChanged();
         }
     }
 
@@ -182,11 +196,13 @@ public sealed class AlbumTrack : IAlbumTrack<AudioTrack, Album>, INotifyProperty
 
         set
         {
-            if (album != value)
+            if (album == value)
             {
-                album = value;
-                OnPropertyChanged();
+                return;
             }
+
+            album = value;
+            OnPropertyChanged();
         }
     }
 

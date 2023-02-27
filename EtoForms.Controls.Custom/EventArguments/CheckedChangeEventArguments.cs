@@ -39,7 +39,7 @@ public class CheckedChangeEventArguments : EventArgs
     /// Gets or sets a value indicating whether the control is checked.
     /// </summary>
     /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
-    public bool Checked { get; set; }
+    public bool Checked { get; init; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to cancel the checked state change.

@@ -234,12 +234,14 @@ partial class FormDialogTrackInfo
     {
         using var dialog = new OpenFileDialog { MultiSelect = false, };
         dialog.Filters.Add(new FileFilter(UI.ImageFiles, ImageConstants.SupportedExtensionArray));
-        if (dialog.ShowDialog(this) == DialogResult.Ok)
+        if (dialog.ShowDialog(this) != DialogResult.Ok)
         {
-            copiedFromTag = new Bitmap(dialog.FileName);
-            AmpDataChanged = true;
-            imageViewAmp.Image = new Bitmap(copiedFromTag, 300, 300);
+            return;
         }
+
+        copiedFromTag = new Bitmap(dialog.FileName);
+        AmpDataChanged = true;
+        imageViewAmp.Image = new Bitmap(copiedFromTag, 300, 300);
     }
 
     private readonly TabControl tcTagTabs = new();

@@ -26,6 +26,7 @@ SOFTWARE.
 
 using amp.EtoForms.Settings.AttributeClasses;
 using VPKSoft.ApplicationSettingsJson;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global, the NuGet VPKSoft.ApplicationSettingsJson requires get<-->set-properties
 
 namespace amp.EtoForms.Settings;
 
@@ -34,6 +35,7 @@ namespace amp.EtoForms.Settings;
 /// Implements the <see cref="ApplicationJsonSettings" />
 /// </summary>
 /// <seealso cref="ApplicationJsonSettings" />
+// ReSharper disable once ClassNeverInstantiated.Global, this is instantiated by the VPKSoft.ApplicationSettingsJson 
 public class ColorConfiguration : ApplicationJsonSettings
 {
     ///// <summary>

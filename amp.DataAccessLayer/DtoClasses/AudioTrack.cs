@@ -107,11 +107,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (modifiedAtUtc != value)
+            if (modifiedAtUtc == value)
             {
-                modifiedAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            modifiedAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -122,11 +124,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (createdAtUtc != value)
+            if (createdAtUtc == value)
             {
-                createdAtUtc = value;
-                OnPropertyChanged();
+                return;
             }
+
+            createdAtUtc = value;
+            OnPropertyChanged();
         }
     }
 
@@ -137,11 +141,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (playedByRandomize != value)
+            if (playedByRandomize == value)
             {
-                playedByRandomize = value;
-                OnPropertyChanged();
+                return;
             }
+
+            playedByRandomize = value;
+            OnPropertyChanged();
         }
     }
 
@@ -152,11 +158,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (playedByUser != value)
+            if (playedByUser == value)
             {
-                playedByUser = value;
-                OnPropertyChanged();
+                return;
             }
+
+            playedByUser = value;
+            OnPropertyChanged();
         }
     }
 
@@ -167,11 +175,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (skippedEarlyCount != value)
+            if (skippedEarlyCount == value)
             {
-                skippedEarlyCount = value;
-                OnPropertyChanged();
+                return;
             }
+
+            skippedEarlyCount = value;
+            OnPropertyChanged();
         }
     }
 
@@ -182,11 +192,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (fileName != value)
+            if (fileName == value)
             {
-                fileName = value;
-                OnPropertyChanged();
+                return;
             }
+
+            fileName = value;
+            OnPropertyChanged();
         }
     }
 
@@ -196,11 +208,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
         get => filePath;
         set
         {
-            if (filePath != value)
+            if (filePath == value)
             {
-                filePath = value;
-                OnPropertyChanged();
+                return;
             }
+
+            filePath = value;
+            OnPropertyChanged();
         }
 
     }
@@ -212,11 +226,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (artist != value)
+            if (artist == value)
             {
-                artist = value;
-                OnPropertyChanged();
+                return;
             }
+
+            artist = value;
+            OnPropertyChanged();
         }
     }
 
@@ -227,11 +243,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (album != value)
+            if (album == value)
             {
-                album = value;
-                OnPropertyChanged();
+                return;
             }
+
+            album = value;
+            OnPropertyChanged();
         }
     }
 
@@ -242,11 +260,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (track != value)
+            if (track == value)
             {
-                track = value;
-                OnPropertyChanged();
+                return;
             }
+
+            track = value;
+            OnPropertyChanged();
         }
     }
 
@@ -257,11 +277,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (year != value)
+            if (year == value)
             {
-                year = value;
-                OnPropertyChanged();
+                return;
             }
+
+            year = value;
+            OnPropertyChanged();
         }
     }
 
@@ -272,11 +294,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (lyrics != value)
+            if (lyrics == value)
             {
-                lyrics = value;
-                OnPropertyChanged();
+                return;
             }
+
+            lyrics = value;
+            OnPropertyChanged();
         }
     }
 
@@ -287,11 +311,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (rating != value)
+            if (rating == value)
             {
-                rating = value;
-                OnPropertyChanged();
+                return;
             }
+
+            rating = value;
+            OnPropertyChanged();
         }
     }
 
@@ -302,11 +328,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (ratingSpecified != value)
+            if (ratingSpecified == value)
             {
-                ratingSpecified = value;
-                OnPropertyChanged();
+                return;
             }
+
+            ratingSpecified = value;
+            OnPropertyChanged();
         }
     }
 
@@ -317,11 +345,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (fileSizeBytes != value)
+            if (fileSizeBytes == value)
             {
-                fileSizeBytes = value;
-                OnPropertyChanged();
+                return;
             }
+
+            fileSizeBytes = value;
+            OnPropertyChanged();
         }
     }
 
@@ -332,11 +362,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (Math.Abs(playbackVolume - value) > Globals.FloatingPointTolerance)
+            if (!(Math.Abs(playbackVolume - value) > Globals.FloatingPointTolerance))
             {
-                playbackVolume = value;
-                OnPropertyChanged();
+                return;
             }
+
+            playbackVolume = value;
+            OnPropertyChanged();
         }
     }
 
@@ -347,11 +379,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (overrideName != value)
+            if (overrideName == value)
             {
-                overrideName = value;
-                OnPropertyChanged();
+                return;
             }
+
+            overrideName = value;
+            OnPropertyChanged();
         }
     }
 
@@ -362,11 +396,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (tagFindString != value)
+            if (tagFindString == value)
             {
-                tagFindString = value;
-                OnPropertyChanged();
+                return;
             }
+
+            tagFindString = value;
+            OnPropertyChanged();
         }
     }
 
@@ -377,11 +413,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (tagRead != value)
+            if (tagRead == value)
             {
-                tagRead = value;
-                OnPropertyChanged();
+                return;
             }
+
+            tagRead = value;
+            OnPropertyChanged();
         }
     }
 
@@ -392,11 +430,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (title != value)
+            if (title == value)
             {
-                title = value;
-                OnPropertyChanged();
+                return;
             }
+
+            title = value;
+            OnPropertyChanged();
         }
     }
 
@@ -407,11 +447,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (trackImageData != value)
+            if (trackImageData == value)
             {
-                trackImageData = value;
-                OnPropertyChanged();
+                return;
             }
+
+            trackImageData = value;
+            OnPropertyChanged();
         }
     }
 
@@ -422,11 +464,13 @@ public sealed class AudioTrack : IAudioTrack, INotifyPropertyChanged
 
         set
         {
-            if (musicFileType != value)
+            if (musicFileType == value)
             {
-                musicFileType = value;
-                OnPropertyChanged();
+                return;
             }
+
+            musicFileType = value;
+            OnPropertyChanged();
         }
     }
 

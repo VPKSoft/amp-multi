@@ -89,11 +89,13 @@ public partial class FormDialogTrackInfo : Dialog
     {
         set
         {
-            if (value != tagDataChanged)
+            if (value == tagDataChanged)
             {
-                tagDataChanged = value;
-                UpdateButtonsEnabled();
+                return;
             }
+
+            tagDataChanged = value;
+            UpdateButtonsEnabled();
         }
     }
 
@@ -101,11 +103,13 @@ public partial class FormDialogTrackInfo : Dialog
     {
         set
         {
-            if (value != ampDataChanged)
+            if (value == ampDataChanged)
             {
-                ampDataChanged = value;
-                UpdateButtonsEnabled();
+                return;
             }
+
+            ampDataChanged = value;
+            UpdateButtonsEnabled();
         }
     }
 

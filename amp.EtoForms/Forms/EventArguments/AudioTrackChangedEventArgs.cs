@@ -48,7 +48,7 @@ public class AudioTrackChangedEventArgs : EventArgs
     /// Gets or sets the audio track data with changes.
     /// </summary>
     /// <value>The audio track data.</value>
-    public AudioTrack AudioTrack { get; private set; }
+    public AudioTrack AudioTrack { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the data updated to entity was saved successfully into the database.

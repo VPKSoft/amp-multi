@@ -45,7 +45,7 @@ public class DefaultCancelButtonHandler : IDisposable
         this.window = window;
         window.KeyDown += Window_KeyDown;
 
-        foreach (Control control in window.Children)
+        foreach (var control in window.Children)
         {
             control.KeyDown += Window_KeyDown;
         }
@@ -53,17 +53,16 @@ public class DefaultCancelButtonHandler : IDisposable
 
     private void Window_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Key == Keys.Escape && e.Modifiers == Keys.None && cancelButton?.Enabled == true)
+        switch (e.Key)
         {
-            cancelButton.PerformClick();
-            e.Handled = true;
-            return;
-        }
-
-        if (e.Key == Keys.Enter && e.Modifiers == Keys.None && defaultButton?.Enabled == true)
-        {
-            defaultButton.PerformClick();
-            e.Handled = true;
+            case Keys.Escape when e.Modifiers == Keys.None && cancelButton?.Enabled == true:
+                cancelButton.PerformClick();
+                e.Handled = true;
+                return;
+            case Keys.Enter when e.Modifiers == Keys.None && defaultButton?.Enabled == true:
+                defaultButton.PerformClick();
+                e.Handled = true;
+                break;
         }
     }
 
@@ -120,7 +119,7 @@ public class DefaultCancelButtonHandler : IDisposable
         {
             window.KeyDown -= Window_KeyDown;
 
-            foreach (Control control in window.Children)
+            foreach (var control in window.Children)
             {
                 control.KeyDown -= Window_KeyDown;
             }

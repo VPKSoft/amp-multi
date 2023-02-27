@@ -48,7 +48,7 @@ public class DialogUpdateTagData : Dialog
     /// </summary>
     /// <param name="context">The <see cref="AmpContext"/> context.</param>
     /// <param name="tracks">The tracks which tag data to rescan.</param>
-    public DialogUpdateTagData(AmpContext context, List<AudioTrack> tracks)
+    public DialogUpdateTagData(AmpContext context, IEnumerable<AudioTrack> tracks)
     {
         this.context = context;
         trackIds = tracks.Select(f => f.Id).ToList();
@@ -60,7 +60,7 @@ public class DialogUpdateTagData : Dialog
     /// </summary>
     /// <param name="context">The <see cref="AmpContext"/> context.</param>
     /// <param name="tracks">The tracks which tag data to rescan.</param>
-    public DialogUpdateTagData(AmpContext context, List<Database.DataModel.AudioTrack> tracks)
+    public DialogUpdateTagData(AmpContext context, IEnumerable<Database.DataModel.AudioTrack> tracks)
     {
         this.context = context;
         trackIds = tracks.Select(f => f.Id).ToList();

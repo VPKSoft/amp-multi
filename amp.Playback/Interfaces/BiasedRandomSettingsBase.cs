@@ -108,7 +108,7 @@ public abstract class BiasedRandomSettingsBase : IBiasedRandomSettings
     /// Gets the random number generator.
     /// </summary>
     /// <value>The random number generator.</value>
-    public static Random Random { get; } = new();
+    protected static Random Random { get; } = new();
 
     /// <inheritdoc cref="IBiasedRandomSettings.BiasedRandomizedCount"/>
     public virtual double BiasedRandomizedCount { get; set; } = -1;
