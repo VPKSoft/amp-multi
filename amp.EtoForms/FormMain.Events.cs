@@ -64,7 +64,7 @@ partial class FormMain
         {
             if (e.Key is Keys.Up or Keys.Down or Keys.PageDown or Keys.PageUp or Keys.Equal or
                 Keys.F1 or Keys.F2 or Keys.F3 or Keys.F4 or Keys.F5 or Keys.F6 or Keys.F7 or Keys.F8 or Keys.F9 or
-                Keys.Escape or Keys.Enter or Keys.Add or Keys.Multiply)
+                Keys.Escape or Keys.Enter or Keys.Add or Keys.Multiply or Keys.Left or Keys.Right)
             {
                 if (gvAudioTracks.SelectedItem == null && gvAudioTracks.DataStore.Any())
                 {
@@ -182,6 +182,11 @@ partial class FormMain
 
             e.Handled = true;
             return;
+        }
+
+        if (e.Key is Keys.Right or Keys.Left)
+        {
+            playbackManager.SeekSeconds(e.Key == Keys.Right ? 5 : -5);
         }
 
         if (e.Modifiers == Keys.None)

@@ -623,6 +623,25 @@ public class PlaybackManager<TAudioTrack, TAlbumTrack, TAlbum> : IDisposable, IE
     }
 
     /// <summary>
+    /// Seeks the <see cref="PlaybackPosition"/> with the specified amount of seconds.
+    /// </summary>
+    /// <param name="value">The value in seconds to seek.</param>
+    public void SeekSeconds(int value)
+    {
+        var newPosition = PlaybackPosition + value;
+        if (newPosition < 0)
+        {
+            PlaybackPosition = 0;
+            return;
+        }
+
+        if (newPosition >= 0 && newPosition < PlaybackLength)
+        {
+            PlaybackPosition = newPosition;
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the playback position in seconds.
     /// </summary>
     /// <value>The playback position.</value>
