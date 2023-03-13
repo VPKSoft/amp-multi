@@ -76,7 +76,7 @@
 		<PackageReference Include="Svg.Skia" Version="0.5.18" />
 		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.1" />
 		<PackageReference Include="VPKSoft.RandomizationUtils" Version="1.0.1" />
-		<PackageReference Include="z440.atl.core" Version="4.21.0" />
+		<PackageReference Include="z440.atl.core" Version="4.23.0" />
 	</ItemGroup>
 
 	<ItemGroup>
