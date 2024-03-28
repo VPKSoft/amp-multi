@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentMigrator" Version="5.1.0" />
+		<PackageReference Include="FluentMigrator" Version="5.2.0" />
 		<PackageReference Include="FluentMigrator.Runner" Version="5.1.0" />
 		<PackageReference Include="FluentMigrator.Runner.SQLite" Version="5.1.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
