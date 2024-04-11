@@ -28,7 +28,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentIcons.Resources" Version="1.0.1" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 		<PackageReference Include="Svg.Skia" Version="1.0.0.18" />
 	</ItemGroup>
 
