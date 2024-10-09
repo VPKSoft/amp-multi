@@ -37,7 +37,7 @@
 		<PackageReference Include="FluentMigrator" Version="6.2.0" />
 		<PackageReference Include="FluentMigrator.Runner" Version="6.2.0" />
 		<PackageReference Include="FluentMigrator.Runner.SQLite" Version="6.2.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.20" />
 		<PackageReference Include="System.Text.Json" Version="8.0.4" />
