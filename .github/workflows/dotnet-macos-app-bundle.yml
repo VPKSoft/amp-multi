@@ -23,7 +23,7 @@ jobs:
         cd "$GITHUB_WORKSPACE/Packaging/MacOS/"
         ./make_app.sh
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: amp# application bundle
         path: ${{ github.workspace }}/Packaging/amp#.zip
