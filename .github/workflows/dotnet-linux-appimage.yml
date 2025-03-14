@@ -29,7 +29,7 @@ jobs:
           ./release.sh
         
       - name: Upload AppImage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: amp# AppImage image
           path: ${{ github.workspace }}/Packaging/Linux/AppImage/amp#-x86_64.AppImage
