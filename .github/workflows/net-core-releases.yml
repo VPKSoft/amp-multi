@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x      
+          dotnet-version: 9.0.x      
       - name: Restore dependencies
         run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"          
       - name: Install LibFuse2
@@ -27,7 +27,7 @@ jobs:
           cd "$GITHUB_WORKSPACE/Packaging/Linux/AppImage"
           ./release.sh
       - name: Release
-        uses: softprops/action-gh-release@v1        
+        uses: softprops/action-gh-release@v2        
         with:
           files: ${{ github.workspace }}/Packaging/Linux/AppImage/amp#-x86_64.AppImage
           token: ${{ secrets.RELEASE_TOKEN }}
@@ -37,11 +37,11 @@ jobs:
   runs-on: macos-latest
 
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
     - name: Restore dependencies
       run: dotnet restore "$GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Dotnet publish    
@@ -50,7 +50,7 @@ jobs:
         ./make_app.sh
         
     - name: Release
-      uses: softprops/action-gh-release@v1        
+      uses: softprops/action-gh-release@v2        
       with:
         files: ${{ github.workspace }}/Packaging/amp#.zip
         token: ${{ secrets.RELEASE_TOKEN }}
@@ -61,25 +61,25 @@ jobs:
 
   steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Install .NET Core
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
     - name: Restore dependencies
       run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
     - name: Publish
       run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
     - name: Create installer # Go give it a star(!): https://github.com/marketplace/actions/makensis
-      uses: joncloud/makensis-action@v3.7
+      uses: joncloud/makensis-action@v4.1
       with:
         arguments: "/V3"
         script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp.nsi
     - name: Release
-      uses: softprops/action-gh-release@v1        
+      uses: softprops/action-gh-release@v2        
       with:
         files: ./Packaging/Windows/setup_amp.exe
         token: ${{ secrets.RELEASE_TOKEN }}
