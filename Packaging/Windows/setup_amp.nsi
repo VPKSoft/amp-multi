@@ -71,7 +71,7 @@ Section -Main SEC0000
     
   
     SetOutPath $INSTDIR
-    File /r ..\..\amp.EtoForms\bin\Wpf\Release\net6.0-windows\publish\*.*
+    File /r ..\..\amp.EtoForms\bin\Wpf\Release\net9.0-windows\publish\*.*
 	
     SetOutPath $USERSMPROGRAMS\$StartMenuGroup
     CreateShortcut "$USERSMPROGRAMS\$StartMenuGroup\amp#.lnk" "$INSTDIR\amp.EtoForms.exe"
