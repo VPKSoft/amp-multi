@@ -23,6 +23,8 @@
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="VPKSoft.ApplicationSettingsJson" Version="1.0.1" />
+		<PackageReference Update="Eto.Forms" Version="2.9.0" />
+		<PackageReference Update="Eto.Platform.Wpf" Version="2.9.0" />
 	</ItemGroup>
 
 </Project>

@@ -13,12 +13,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install .NET Core
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
         
     - name: Restore dependencies
       run: dotnet restore "$Env:GITHUB_WORKSPACE/amp multiplatform.sln"
@@ -26,7 +26,7 @@ jobs:
       run: dotnet publish --no-restore "$Env:GITHUB_WORKSPACE/amp.EtoForms/amp.EtoForms.csproj" --configuration Release
 
     - name: Create installer # Go give it a star(!): https://github.com/marketplace/actions/makensis
-      uses: joncloud/makensis-action@v3.7
+      uses: joncloud/makensis-action@v4.1
       with:
         arguments: "/V3"
         script-file: ${{ github.workspace }}/Packaging/Windows/setup_amp.nsi
