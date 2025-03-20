@@ -35,9 +35,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentMigrator" Version="6.2.0" />
+		<PackageReference Include="FluentMigrator" Version="7.0.0" />
 		<PackageReference Include="FluentMigrator.Runner" Version="6.2.0" />
-		<PackageReference Include="FluentMigrator.Runner.SQLite" Version="6.2.0" />
+		<PackageReference Include="FluentMigrator.Runner.SQLite" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
