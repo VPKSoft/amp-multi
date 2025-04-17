@@ -30,7 +30,7 @@
 	<ItemGroup>
 		<PackageReference Include="FluentIcons.Resources" Version="1.0.1" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.116.1" />
-		<PackageReference Include="Svg.Skia" Version="2.0.0.4" />
+		<PackageReference Include="Svg.Skia" Version="3.0.0" />
 		<PackageReference Update="Eto.Forms" Version="2.9.0" />
 		<PackageReference Update="Eto.Platform.Wpf" Version="2.9.0" />
 	</ItemGroup>
